@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/main">
+        <file>splashscreen/splashscreen.png</file>
+        <file>icons/FileNew.ico</file>
+        <file>icons/FileClose.ico</file>
+        <file>icons/FileOpen.ico</file>
+        <file>icons/FileSave.ico</file>
+        <file>icons/Quit.ico</file>
+        <file>icons/Busstop.ico</file>
+        <file>icons/Line.ico</file>
+        <file>icons/Redo.ico</file>
+        <file>icons/Route.ico</file>
+        <file>icons/Schedule.ico</file>
+        <file>icons/Tour.ico</file>
+        <file>icons/Undo.ico</file>
+        <file>icons/BusstopSchedule.ico</file>
+        <file>icons/TourList.ico</file>
+        <file>splashscreen/splashscreen_halloween.png</file>
+        <file>icons/Add.ico</file>
+        <file>icons/Delete.ico</file>
+        <file>icons/Edit.ico</file>
+        <file>icons/Remove.ico</file>
+        <file>icons/Duplicate.ico</file>
+        <file>icons/Docks.ico</file>
+        <file>icons/Workspaces.ico</file>
+        <file>appIcon/Icon_16px.ico</file>
+        <file>appIcon/Icon_32px.ico</file>
+        <file>appIcon/Icon_64px.ico</file>
+        <file>appIcon/Icon_128px.ico</file>
+        <file>appIcon/Icon_256px.ico</file>
+        <file>appIcon/Icon_512px.ico</file>
+        <file>appIcon/Icon_1024px.ico</file>
+    </qresource>
+</RCC>

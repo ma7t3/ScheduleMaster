@@ -1,0 +1,66 @@
+#ifndef ROUTE_H
+#define ROUTE_H
+
+#include <QtCore>
+
+#include "busstop.h"
+#include "timeProfile.h"
+#include "linedirection.h"
+#include "abstractprojectdataitem.h"
+
+class Route : public AbstractProjectDataItem
+{
+private:
+    int m_code;
+    LineDirection *m_direction;
+    QString m_name;
+    QList<Busstop *> m_busstops;
+    QList<TimeProfile *> m_timeProfiles;
+
+public:
+    const bool directionForward = true;
+    const bool directionReverse = false;
+
+    Route(QString id, int code, QString name, LineDirection *direction);
+
+    void setCode(int);
+    void setDirection(LineDirection *);
+    void setName(QString);
+
+    int code();
+    LineDirection *direction();
+    QString name();
+
+    void addBusstop(Busstop *);
+    void insertBusstop(int, Busstop *);
+    void setBusstopList(QList<Busstop *>);
+
+    int busstopCount();
+    Busstop *busstopAt(int);
+    Busstop *firstBusstop();
+    Busstop *lastBusstop();
+    bool hasBusstop(Busstop *);
+    bool hasBusstop(QString);
+    QList<Busstop *> busstops();
+
+    void clearBusstopList();
+
+
+    int profileCount(); // old name -> alias for timeProfileCount()
+    int timeProfileCount();
+    TimeProfile* timeProfile(QString);
+    TimeProfile* timeProfileWithName(QString);
+    TimeProfile* timeProfileAt(int);
+    QList<TimeProfile *> timeProfiles();
+
+    void addTimeProfile(TimeProfile *);
+    void addTimeProfileList(QList<TimeProfile *>);
+    void setTimeProfileList(QList<TimeProfile *>);
+
+    void removeTimeProfile(TimeProfile *);
+    void removeTimeProfile(QString);
+
+    int indexOfTimeProfile(TimeProfile*);
+};
+
+#endif // ROUTE_H
