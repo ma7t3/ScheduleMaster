@@ -46,31 +46,36 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow),
     projectData(new ProjectData),
     undoStack(new QUndoStack),
-    fileHandler(new DlgFileHandler(this, projectData))
+    startupDialog(new StartupDialog(this)),
+    fileHandler(new DlgFileHandler(this, projectData)),
+    knownFile(true)
 {
-    QString splashScreenInfo = "loading ui...";
+    // init splashscreen
     QSplashScreen splashScreen;
     QString imagePath = ":/main/splashscreen/splashscreen.png";
+    QColor messageColor = QColor(0, 0, 0);
     QDate now = QDate::currentDate();
 
     if(now.dayOfYear() > 300 && now.dayOfYear() < 310)
         imagePath = ":/main/splashscreen/splashscreen_halloween.png";
 
+    if(now.dayOfYear() > 330 && now.dayOfYear() < 365) {
+        imagePath = ":/main/splashscreen/splashscreen_christmas.png";
+        messageColor = QColor(255, 255, 255);
+    }
+
     QPixmap pixmap(imagePath);
     splashScreen.setPixmap(pixmap);
-    splashScreen.showMessage(splashScreenInfo, Qt::AlignBottom);
-    splashScreen.finish(this);
+    splashScreen.showMessage("loading ui...", Qt::AlignBottom, messageColor);
+    splashScreen.finish(startupDialog);
     splashScreen.show();
-
     QObject().thread()->sleep(2);
 
+    // load ui
     ui->setupUi(this);
+    MainWindow::hide();
 
-    this->showMaximized();
-
-    knownFile = false;
-    saved = true;
-    //projectFilePath = "";
+    ui->centralwidget->setHidden(true);
 
     dwUndoView->setWidget(wdgUndoView);
     dwBusstops->setWidget(wdgBusstops);
@@ -82,13 +87,10 @@ MainWindow::MainWindow(QWidget *parent)
     dwTourEditor->setWidget(wdgTourEditor);
     dwPublishedLines->setWidget(wdgPublishedLines);
 
-    /*ui->statusbar->addPermanentWidget(statusProgressBar, -5);
-    statusProgressBar->setMaximum(1);
-    statusProgressBar->resize(QSize(5, 5));*/
-
     actionWorkspaceTrackLayout();
 
-    ui->centralwidget->setHidden(true);
+    // load menubar
+    splashScreen.showMessage("loading menubar...", Qt::AlignBottom, messageColor);
 
     QAction *actDockBusstops = dwBusstops->toggleViewAction();
     QAction *actDockLines= dwLines->toggleViewAction();
@@ -150,13 +152,6 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->actionRoutesDuplicate, SIGNAL(triggered()), wdgRoutes, SLOT(actionDuplicate()));
     QObject::connect(ui->actionRoutesDelete, SIGNAL(triggered()), wdgRoutes, SLOT(actionDelete()));
 
-    /*ui->menuNew->addAction(wdgRoutes->menubarActionNew());
-    ui->menuEdit_2->addAction(wdgRoutes->menubarActionEdit());
-    ui->menuDelete->addAction(wdgRoutes->menubarActionDelete());
-    ui->menuExport->addAction(wdgRoutes->menubarActionExportListCurrent());
-    ui->menuExport->addAction(wdgRoutes->menubarActionExportListAll());*/
-
-
     QToolBar *toolbar = new QToolBar("toolbar", this);
     toolbar->addAction(ui->actionFileNew);
     toolbar->addAction(ui->actionFileOpen);
@@ -186,6 +181,9 @@ MainWindow::MainWindow(QWidget *parent)
     setUndoEnabled(false);
     setSaved(true);
 
+    // load signals and slots
+    splashScreen.showMessage("loading signals and slots...", Qt::AlignBottom, messageColor);
+
     QObject::connect(ui->actionFileNew, SIGNAL(triggered()), this, SLOT(actionFileNew()));
     QObject::connect(ui->actionFileOpen, SIGNAL(triggered()), this, SLOT(actionFileOpen()));
     QObject::connect(ui->actionFileSave, SIGNAL(triggered()), this, SLOT(actionFileSave()));
@@ -214,9 +212,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject::connect(wdgTours, SIGNAL(currentTourChanged(Tour*)), wdgTourEditor, SLOT(setCurrentTour(Tour*)));
 
+    splashScreen.showMessage("loading startup dialog...", Qt::AlignBottom, messageColor);
 
-    splashScreenInfo = "loading startup dialog...";
-    StartupDialog dlg;
+    MainWindow::showMaximized();
+
+    StartupDialog dlg(startupDialog);
+    splashScreen.close();
     dlg.exec();
     if(dlg.result() == QDialog::Accepted) {
         int action = dlg.getAction();
