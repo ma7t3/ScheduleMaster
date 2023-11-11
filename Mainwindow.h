@@ -19,7 +19,9 @@
 #include "Widgets/wdgbusstopschedule.h"
 #include "Widgets/wdgundoview.h"
 #include "Widgets/Publications/WdgPublishedLines.h"
-#include "filehandler.h"
+
+#include "Dialogs/DlgStartupdialog.h"
+#include "Dialogs/DlgFilehandler.h"
 
 #include "ProjectData/projectdata.h"
 #include "qprogressbar.h"
@@ -88,6 +90,7 @@ private:
 
     ProjectData *projectData;
     QUndoStack *undoStack;
+    StartupDialog *startupDialog;
     DlgFileHandler *fileHandler;
 
     QProgressBar *statusProgressBar = new QProgressBar;
