@@ -2,6 +2,8 @@
 
 #include "Mainwindow.h"
 
+// this is a comment
+
 int main(int argc, char *argv[])
 {
     //qDebug() << "Opened File: " << argv[1];
