@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1546</width>
+    <height>664</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ScheduleMaster 2</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout"/>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1546</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionFileNew"/>
+    <addaction name="actionFileOpen"/>
+    <addaction name="actionFileSave"/>
+    <addaction name="actionFileSaveAs"/>
+    <addaction name="actionCleanup_and_troubleshooting"/>
+    <addaction name="actionView_As_Tree"/>
+    <addaction name="actionFileClose"/>
+    <addaction name="actionFileQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionEditProjectSettings"/>
+    <addaction name="separator"/>
+    <addaction name="actionEditPreferences"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <widget class="QMenu" name="menuDocks">
+     <property name="title">
+      <string>Docks</string>
+     </property>
+     <property name="icon">
+      <iconset resource="main.qrc">
+       <normaloff>:/main/icons/Docks.ico</normaloff>:/main/icons/Docks.ico</iconset>
+     </property>
+    </widget>
+    <widget class="QMenu" name="menuWorkspaces">
+     <property name="title">
+      <string>Workspaces</string>
+     </property>
+     <property name="icon">
+      <iconset resource="main.qrc">
+       <normaloff>:/main/icons/Workspaces.ico</normaloff>:/main/icons/Workspaces.ico</iconset>
+     </property>
+     <addaction name="actionWorkspaceTrackLayout"/>
+     <addaction name="actionWorkspaceBusstopSchedule"/>
+     <addaction name="actionWorkspaceScheduling"/>
+     <addaction name="actionWorkspaceTourPlanning"/>
+     <addaction name="actionWorkspacePublish"/>
+    </widget>
+    <addaction name="menuDocks"/>
+    <addaction name="menuWorkspaces"/>
+   </widget>
+   <widget class="QMenu" name="menuBusstops">
+    <property name="title">
+     <string>Busstops</string>
+    </property>
+    <addaction name="actionBusstopsNew"/>
+    <addaction name="actionBusstopsEdit"/>
+    <addaction name="actionBusstopsDelete"/>
+   </widget>
+   <widget class="QMenu" name="menuLines">
+    <property name="title">
+     <string>Lines</string>
+    </property>
+    <addaction name="actionLinesNew"/>
+    <addaction name="actionLinesEdit"/>
+    <addaction name="actionLinesDelete"/>
+   </widget>
+   <widget class="QMenu" name="menuRoutes">
+    <property name="title">
+     <string>Routes</string>
+    </property>
+    <addaction name="actionRoutesNew"/>
+    <addaction name="actionRoutesEdit"/>
+    <addaction name="actionRoutesDuplicate"/>
+    <addaction name="actionRoutesDelete"/>
+   </widget>
+   <widget class="QMenu" name="menuSchedule">
+    <property name="title">
+     <string>Schedule</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuTours">
+    <property name="title">
+     <string>Tours</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuPublish">
+    <property name="title">
+     <string>Publish</string>
+    </property>
+    <widget class="QMenu" name="menuConfiguration">
+     <property name="title">
+      <string>Configuration</string>
+     </property>
+     <addaction name="actionPublishManageFootnotes"/>
+    </widget>
+    <addaction name="actionPublishLineSchedule"/>
+    <addaction name="actionPublishBusstopSchedule"/>
+    <addaction name="actionPublishTourPlan"/>
+    <addaction name="menuConfiguration"/>
+    <addaction name="actionPublishTest"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionHelpManual"/>
+    <addaction name="actionHelpCheckForUpdates"/>
+    <addaction name="actionHelpAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
+   <addaction name="menuBusstops"/>
+   <addaction name="menuLines"/>
+   <addaction name="menuRoutes"/>
+   <addaction name="menuSchedule"/>
+   <addaction name="menuTours"/>
+   <addaction name="menuPublish"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionFileNew">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/FileNew.ico</normaloff>:/main/icons/FileNew.ico</iconset>
+   </property>
+   <property name="text">
+    <string>New Project</string>
+   </property>
+  </action>
+  <action name="actionFileOpen">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/FileOpen.ico</normaloff>:/main/icons/FileOpen.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Open Project</string>
+   </property>
+  </action>
+  <action name="actionFileSave">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/FileSave.ico</normaloff>:/main/icons/FileSave.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Save Project</string>
+   </property>
+  </action>
+  <action name="actionFileSaveAs">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/FileSave.ico</normaloff>:/main/icons/FileSave.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Save Project As</string>
+   </property>
+  </action>
+  <action name="actionFileClose">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/FileClose.ico</normaloff>:/main/icons/FileClose.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Close Project</string>
+   </property>
+  </action>
+  <action name="actionFileQuit">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Quit.ico</normaloff>:/main/icons/Quit.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionCleanup_and_troubleshooting">
+   <property name="text">
+    <string>Cleanup and troubleshooting</string>
+   </property>
+  </action>
+  <action name="actionView_As_Tree">
+   <property name="text">
+    <string>View As Tree</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Undo.ico</normaloff>:/main/icons/Undo.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Redo.ico</normaloff>:/main/icons/Redo.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionWorkspaceTrackLayout">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Track Layout</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+1</string>
+   </property>
+  </action>
+  <action name="actionWorkspaceScheduling">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Scheduling</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+3</string>
+   </property>
+  </action>
+  <action name="actionWorkspaceTourPlanning">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tour Planning</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+4</string>
+   </property>
+  </action>
+  <action name="actionWorkspaceBusstopSchedule">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Busstop Schedule</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+2</string>
+   </property>
+  </action>
+  <action name="actionBusstopsNew">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Add.ico</normaloff>:/main/icons/Add.ico</iconset>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionBusstopsEdit">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Edit.ico</normaloff>:/main/icons/Edit.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+B</string>
+   </property>
+  </action>
+  <action name="actionBusstopsDelete">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Delete.ico</normaloff>:/main/icons/Delete.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionLinesNew">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Add.ico</normaloff>:/main/icons/Add.ico</iconset>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionLinesEdit">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Edit.ico</normaloff>:/main/icons/Edit.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+L</string>
+   </property>
+  </action>
+  <action name="actionLinesDelete">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Delete.ico</normaloff>:/main/icons/Delete.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionRoutesNew">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Add.ico</normaloff>:/main/icons/Add.ico</iconset>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionRoutesEdit">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Edit.ico</normaloff>:/main/icons/Edit.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+R</string>
+   </property>
+  </action>
+  <action name="actionRoutesDelete">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Delete.ico</normaloff>:/main/icons/Delete.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionRoutesDuplicate">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/main/icons/Duplicate.ico</normaloff>:/main/icons/Duplicate.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Duplicate</string>
+   </property>
+  </action>
+  <action name="actionPublishLineSchedule">
+   <property name="text">
+    <string>Line Schedule</string>
+   </property>
+  </action>
+  <action name="actionPublishBusstopSchedule">
+   <property name="text">
+    <string>Busstop Schedule</string>
+   </property>
+  </action>
+  <action name="actionPublishTourPlan">
+   <property name="text">
+    <string>Tour Plan</string>
+   </property>
+  </action>
+  <action name="actionEditProjectSettings">
+   <property name="text">
+    <string>Project settings</string>
+   </property>
+  </action>
+  <action name="actionEditPreferences">
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionPublishManageFootnotes">
+   <property name="text">
+    <string>Manage footnotes</string>
+   </property>
+  </action>
+  <action name="actionHelpManual">
+   <property name="text">
+    <string>Manual</string>
+   </property>
+  </action>
+  <action name="actionHelpCheckForUpdates">
+   <property name="text">
+    <string>Check for updates</string>
+   </property>
+  </action>
+  <action name="actionHelpAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionPublishTest">
+   <property name="text">
+    <string>Test</string>
+   </property>
+  </action>
+  <action name="actionWorkspacePublish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Publish</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+F5</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="main.qrc"/>
+ </resources>
+ <connections/>
+</ui>
