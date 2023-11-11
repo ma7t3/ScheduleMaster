@@ -265,7 +265,7 @@ bool MainWindow::actionFileOpen() {
     if(!dir.exists())
         dir.mkpath(dir.path());
 
-    QString path = QFileDialog::getOpenFileName(this, "", dir.path(), "ScheduleMaster2 File (*.smp2)");
+    QString path = QFileDialog::getOpenFileName(this, "", dir.path(), "ScheduleMaster File (*.smp2)");
     if(path == "")
         return false;
 
@@ -285,7 +285,7 @@ bool MainWindow::actionFileSaveAs() {
     if(!dir.exists())
         dir.mkpath(dir.path());
 
-    QString path = QFileDialog::getSaveFileName(this, "", dir.path(), "ScheduleMaster2 File (*.smp2)");
+    QString path = QFileDialog::getSaveFileName(this, "", dir.path(), "ScheduleMaster File (*.smp2)");
     if(path == "")
         return false;
 
@@ -350,9 +350,9 @@ void MainWindow::actionRedo() {
 }
 
 /* Notiz an mich:
- * Am besten erst alle nicht-gewollten Docks schließen und dann die gewollten öffnen.
- * Sieht im Code zwar unübersichtlicher aus, aber sonst kann es passiern, dass im MainWindow nicht genug Platz ist.
- * Dann "explodiert" das Fenster, springt aus dem maximierten Modus und ist dann größer als der Bildschirm. ^^
+ * Am besten erst alle nicht-gewollten Docks schlie??en und dann die gewollten ??ffnen.
+ * Sieht im Code zwar un??bersichtlicher aus, aber sonst kann es passiern, dass im MainWindow nicht genug Platz ist.
+ * Dann "explodiert" das Fenster, springt aus dem maximierten Modus und ist dann gr????er als der Bildschirm. ^^
 */
 
 void MainWindow::actionWorkspaceTrackLayout() {
@@ -789,11 +789,11 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
 
 
 void MainWindow::on_actionPublishTest_triggered() {
-    /*QString fileName = QFileDialog::getSaveFileName(this, "", "D:/cpp_Projekte_Qt/ScheduleMaster2/build-ScheduleMaster2-Desktop_Qt_6_5_2_MinGW_64_bit-Release/Test.pdf", "Portable document format (*.pdf)");
+    /*QString fileName = QFileDialog::getSaveFileName(this, "", "D:/cpp_Projekte_Qt/ScheduleMaster/build-ScheduleMaster-Desktop_Qt_6_5_2_MinGW_64_bit-Release/Test.pdf", "Portable document format (*.pdf)");
     if(fileName.isEmpty())
         return;*/
 
-    QString fileName = "D:/cpp_Projekte_Qt/ScheduleMaster2/build-ScheduleMaster2-Desktop_Qt_6_5_2_MinGW_64_bit-Release/Test.pdf";
+    QString fileName = "D:/cpp_Projekte_Qt/ScheduleMaster/build-ScheduleMaster-Desktop_Qt_6_5_2_MinGW_64_bit-Release/Test.pdf";
     QFile f(fileName);
     if(!f.open(QFile::WriteOnly))
         return;
@@ -827,7 +827,7 @@ void MainWindow::on_actionPublishTest_triggered() {
     painter.drawRect(rect);
     painter.drawText(rect.adjusted(10, 10, -10, -10), Qt::AlignLeft|Qt::AlignVCenter, "21/22 Kaisersee - Grundorf - Einsteindorf - Hertz - Nordspitze - Kirchdorf");
     painter.setFont(normal);
-    painter.drawText(rect.adjusted(10, 10, -10, -10), Qt::AlignRight|Qt::AlignBottom, "Gütlig ab: 07.11.2023");
+    painter.drawText(rect.adjusted(10, 10, -10, -10), Qt::AlignRight|Qt::AlignBottom, "G??tlig ab: 07.11.2023");
 
 
     // table
