@@ -13,7 +13,9 @@ WdgPublishedLines::WdgPublishedLines(QWidget *parent, ProjectData *projectData, 
     QWidget(parent),
     ui(new Ui::WdgPublishedLines),
     projectData(projectData),
-    undoStack(undoStack)
+    undoStack(undoStack),
+    m_currentLine(nullptr),
+    m_currentLineDirection(nullptr)
 {
     ui->setupUi(this);
 
@@ -27,6 +29,10 @@ WdgPublishedLines::WdgPublishedLines(QWidget *parent, ProjectData *projectData, 
     QObject::connect(ui->pbDirectionDelete, SIGNAL(clicked()), this, SLOT(actionDirectionDelete()));
 
     QObject::connect(ui->leDirectionsName, SIGNAL(editingFinished()), this, SLOT(actionDirectionEdit()));
+
+    QObject::connect(ui->twRoutes, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(refreshRouteCheckBoxes(QTreeWidgetItem*)));
+
+    refreshRouteList();
 }
 
 WdgPublishedLines::~WdgPublishedLines()
@@ -144,16 +150,137 @@ void WdgPublishedLines::refreshCurrentLine() {
         PublishedLineDirection *ld = directions[i];
         ui->lwDirections->addItem(ld->name());
         m_directionsListReference << ld;
+        if(m_currentLineDirection == ld)
+            ui->lwDirections->setCurrentRow(i);
     }
+
+    refreshCurrentLineDirection();
+
+    refreshingCurrentLine = false;
+}
+
+void WdgPublishedLines::refreshCurrentLineDirection() {
+
+    // clear lists here before
 
     ui->leDirectionsName->clear();
 
-    if(!m_currentLineDirection)
+    if(!m_currentLine || !m_currentLineDirection)
         return;
 
     ui->leDirectionsName->setText(m_currentLineDirection->name());
+}
 
-    refreshingCurrentLine = false;
+
+void WdgPublishedLines::refreshRouteList() {
+    ui->twRoutes->clear();
+
+    m_routesReference.clear();
+    m_routesDirectionsReference.clear();
+    m_routesLinesReference.clear();
+
+    for(int i = 0; i < projectData->lineCount(); i++) {
+        Line *l = projectData->lineAt(i);
+        m_routesLinesReference << l;
+        QTreeWidgetItem *lineItm = new QTreeWidgetItem(ui->twRoutes, {l->name()});
+        lineItm->setCheckState(0, Qt::Unchecked);
+
+        QList<LineDirection *> directions = l->directions();
+        QList<QList<Route *>> routesParents;
+
+        for(int j = 0; j < directions.count(); j++) {
+            LineDirection *ld = directions[j];
+            QTreeWidgetItem *directionItm = new QTreeWidgetItem(lineItm, {"to " + ld->description()});
+            directionItm->setCheckState(0, Qt::Unchecked);
+
+            QList<Route *> routes = l->routesToDirection(ld);
+            routesParents << routes;
+
+            for(int k = 0; k < routes.count(); k++) {
+                Route *r = routes[k];
+                QTreeWidgetItem *routeItm = new QTreeWidgetItem(directionItm, {r->name()});
+                routeItm->setCheckState(0, Qt::Unchecked);
+            }
+        }
+
+        m_routesLinesReference << l;
+        m_routesDirectionsReference << directions;
+        m_routesReference << routesParents;
+    }
+}
+
+void WdgPublishedLines::refreshRouteCheckBoxes(QTreeWidgetItem *changedItm) {
+
+    if(refreshingRouteCheckBoxes)
+        return;
+
+    refreshingRouteCheckBoxes = true;
+
+    // for each line
+    for(int i = 0; i < ui->twRoutes->topLevelItemCount(); i++) {
+        QTreeWidgetItem *lineItm = ui->twRoutes->topLevelItem(i);
+        bool lineChanged = lineItm == changedItm;
+
+        bool checkedDirectionFound = false;
+        bool partiallyCheckedDirectionFound = false;
+        bool uncheckedDirectionFound = false;
+
+        // for each direction
+        for(int j = 0; j < lineItm->childCount(); j++) {
+            QTreeWidgetItem *directionItm = lineItm->child(j);
+            bool directionChanged = directionItm == changedItm;
+
+            if(lineChanged)
+                directionItm->setCheckState(0, lineItm->checkState(0));
+
+            bool checkedRouteFound = false;
+            bool uncheckedRouteFound = false;
+
+            // for each route
+            for(int k = 0; k < directionItm->childCount(); k++) {
+                QTreeWidgetItem *routeItm = directionItm->child(k);
+                if(lineChanged)
+                    routeItm->setCheckState(0, lineItm->checkState(0));
+                else if(directionChanged)
+                    routeItm->setCheckState(0, directionItm->checkState(0));
+                else {
+                    if(routeItm->checkState(0) == Qt::Checked)
+                        checkedRouteFound = true;
+                    if(routeItm->checkState(0) == Qt::Unchecked)
+                        uncheckedRouteFound = true;
+                }
+            }
+
+            if(!directionChanged && !lineChanged) {
+                if(checkedRouteFound && uncheckedRouteFound)
+                    directionItm->setCheckState(0, Qt::PartiallyChecked);
+                else if(checkedRouteFound && !uncheckedRouteFound)
+                    directionItm->setCheckState(0, Qt::Checked);
+                else if(!checkedRouteFound && uncheckedRouteFound)
+                    directionItm->setCheckState(0, Qt::Unchecked);
+            }
+
+            if(!lineChanged) {
+                if(directionItm->checkState(0) == Qt::Checked)
+                    checkedDirectionFound = true;
+                if(directionItm->checkState(0) == Qt::PartiallyChecked)
+                    partiallyCheckedDirectionFound = true;
+                if(directionItm->checkState(0) == Qt::Unchecked)
+                    uncheckedDirectionFound = true;
+            }
+        }
+
+        if(!lineChanged) {
+            if((checkedDirectionFound && uncheckedDirectionFound) || partiallyCheckedDirectionFound)
+                lineItm->setCheckState(0, Qt::PartiallyChecked);
+            else if(checkedDirectionFound && !uncheckedDirectionFound)
+                lineItm->setCheckState(0, Qt::Checked);
+            else if(!checkedDirectionFound && uncheckedDirectionFound)
+                lineItm->setCheckState(0, Qt::Unchecked);
+        }
+    }
+
+    refreshingRouteCheckBoxes = false;
 }
 
 void WdgPublishedLines::on_lwLines_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {
@@ -162,10 +289,19 @@ void WdgPublishedLines::on_lwLines_currentItemChanged(QListWidgetItem *current, 
     if(refreshing)
         return;
 
-    if(!current)
+    if(!current) {
         m_currentLine = nullptr;
+        m_currentLineDirection = nullptr;
+        return;
+    }
 
     m_currentLine = m_listReference[ui->lwLines->currentRow()];
+
+    if(m_currentLine->directionCount() == 0) {
+        m_currentLineDirection = nullptr;
+    } else {
+        m_currentLineDirection = m_currentLine->directionAt(0);
+    }
 
     emit currentLineChanged(m_currentLine);
     refreshCurrentLine();
@@ -179,11 +315,11 @@ void WdgPublishedLines::on_lwDirections_currentItemChanged(QListWidgetItem *curr
 
     if(!current)
         m_currentLineDirection = nullptr;
-
-    m_currentLineDirection = m_directionsListReference[ui->lwDirections->currentRow()];
+    else
+        m_currentLineDirection = m_directionsListReference[ui->lwDirections->currentRow()];
 
     //emit currentLineChanged(m_currentLineDirection);
-    refreshCurrentLine();
+    refreshCurrentLineDirection();
 }
 
 
@@ -192,7 +328,7 @@ void WdgPublishedLines::on_lwDirections_currentItemChanged(QListWidgetItem *curr
 
 
 void WdgPublishedLines::on_pbFilePathBrowse_clicked() {
-    if(m_currentLine)
+    if(!m_currentLine)
         return;
 
     QDir dir = QDir::homePath() + "/.ScheduleMaster/Publications/";

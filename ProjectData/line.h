@@ -43,23 +43,24 @@ public:
     void removeDirection(LineDirection *);
     void removeDirection(QString);
 
-    void addRoute(Route *);
-    void removeRoute(Route *);
-    void removeRoute(QString);
-    void setRouteList(QList<Route *>);
-
     int routeCount();
     Route *route(QString);
     Route *routeAt(int);
     QList<Route *> routes();
+    QList<Route *> routesToDirection(LineDirection *);
+
+    void addRoute(Route *);
+    void removeRoute(Route *);
+    void removeRoute(QString);
+    void setRouteList(QList<Route *>);    
 
     int tripCount();
     Trip *tripAt(int);
     Trip *trip(QString);
     QList<Trip *> trips();
     QList<Trip *> tripsToDirection(LineDirection *);
-    void setTripList(QList<Trip *>);
 
+    void setTripList(QList<Trip *>);
     void addTrip(Trip *);
     void removeTrip(Trip *);
     void removeTrip(QString);

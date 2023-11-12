@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QUndoStack>
 #include <QListWidgetItem>
+#include <QTreeWidgetItem>
 
 #include "ProjectData/projectdata.h"
 
@@ -34,6 +35,10 @@ public slots:
 
     void refreshLineList();
     void refreshCurrentLine();
+    void refreshCurrentLineDirection();
+
+    void refreshRouteList();
+    void refreshRouteCheckBoxes(QTreeWidgetItem *);
 
 signals:
     void currentLineChanged(PublishedLine *);
@@ -54,9 +59,13 @@ private:
     QList<PublishedLineDirection *> m_directionsListReference;
     PublishedLine *m_currentLine;
     PublishedLineDirection *m_currentLineDirection;
+    QList<QList<QList<Route *>>> m_routesReference;
+    QList<QList<LineDirection *>> m_routesDirectionsReference;
+    QList<Line *> m_routesLinesReference;
 
     bool refreshing = false;
     bool refreshingCurrentLine = false;
+    bool refreshingRouteCheckBoxes = false;
 };
 
 #endif // WDGPUBLISHEDLINES_H

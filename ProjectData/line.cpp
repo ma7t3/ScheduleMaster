@@ -63,6 +63,37 @@ void Line::removeDirection(QString id) {
     }
 }
 
+int Line::routeCount() { return m_routes.count(); }
+
+Route *Line::routeAt(int i)
+{
+    if(i < 0 || i >= m_routes.count())
+        return nullptr;
+    return m_routes[i];
+}
+
+Route *Line::route(QString id)
+{
+    for(int i = 0; i < m_routes.count(); i++)
+        if(m_routes[i]->id() == id)
+            return m_routes[i];
+
+    return nullptr;
+}
+
+QList<Route *> Line::routes() { return m_routes; }
+
+QList<Route *> Line::routesToDirection(LineDirection *ld) {
+    QList<Route *> resultList;
+    for(int i = 0; i < routeCount(); i++) {
+        Route *r = routeAt(i);
+        if(r->direction() == ld)
+            resultList << r;
+    }
+
+    return resultList;
+}
+
 void Line::addRoute(Route * r)               { m_routes << r; }
 
 void Line::removeRoute(Route *r) {
@@ -84,27 +115,6 @@ void Line::removeRoute(QString id) {
 }
 
 void Line::setRouteList(QList<Route *> list) { m_routes = list; }
-
-
-int Line::routeCount() { return m_routes.count(); }
-
-Route *Line::routeAt(int i)
-{
-    if(i < 0 || i >= m_routes.count())
-        return nullptr;
-    return m_routes[i];
-}
-
-Route *Line::route(QString id)
-{
-    for(int i = 0; i < m_routes.count(); i++)
-        if(m_routes[i]->id() == id)
-            return m_routes[i];
-
-    return nullptr;
-}
-
-QList<Route *> Line::routes() { return m_routes; }
 
 int Line::tripCount() { return m_trips.count(); }
 
