@@ -320,6 +320,7 @@ bool MainWindow::actionFileClose() {
     wdgSchedule->refreshSchedule();
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
+    wdgPublishedLines->refreshRouteList();
     return true;
 }
 
@@ -337,6 +338,7 @@ void MainWindow::actionUndo() {
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
     wdgSchedule->refreshDayTypes();
+    wdgPublishedLines->refreshRouteList();
 }
 
 void MainWindow::actionRedo() {
@@ -348,6 +350,7 @@ void MainWindow::actionRedo() {
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
     wdgSchedule->refreshDayTypes();
+    wdgPublishedLines->refreshRouteList();
 }
 
 /* Notiz an mich:
@@ -622,6 +625,8 @@ bool MainWindow::openFile(QString path) {
     wdgLines->refreshLineTable();
     wdgTours->refreshTourList();
     wdgSchedule->refreshDayTypes();
+
+    wdgPublishedLines->refreshRouteList();
 
     undoStack->clear();
     knownFile = true;
