@@ -12,9 +12,16 @@ public:
     PublishedLineDirection(const QString &id, const QString &name);
 
     QList<PublishedBusstop *> busstops() const;
+    PublishedBusstop *busstop(const QString &id);
+    PublishedBusstop *busstopAt(const int &index);
+    int busstopCount() const;
     void setBusstops(const QList<PublishedBusstop *> &newBusstops);
 
     QList<Route *> routes() const;
+    Route *routeAt(const int &index);
+    int routeCount();
+    bool hasRoute(Route *);
+
     void setRoutes(const QList<Route *> &newRoutes);
 
     QString name() const;
