@@ -9,8 +9,7 @@ FileHandler::FileHandler(ProjectData *d) :
     d(d)
 {}
 
-bool FileHandler::readFromFile(QString filePath)
-{
+bool FileHandler::readFromFile(QString filePath) {
     QFile f(filePath);
 
     if(!f.exists())
@@ -50,13 +49,15 @@ bool FileHandler::readFromFile(QString filePath)
     if(jMainObj.contains("tours") && jMainObj.find("tours")->isArray())
         loadTours(jMainObj.find("tours")->toArray());
 
+    if(jMainObj.contains("publications") && jMainObj.find("publications")->isObject())
+        loadPublications(jMainObj.find("publications")->toObject());
+
     f.close();
 
     return true;
 }
 
-void FileHandler::loadBusstops(QJsonArray jBusstops)
-{
+void FileHandler::loadBusstops(QJsonArray jBusstops) {
     for(int i = 0; i < jBusstops.count(); i++) {
         if(!jBusstops.at(i).isObject())
             continue;
@@ -83,8 +84,7 @@ void FileHandler::loadDirections(Line *l, QJsonArray jArr) {
     }
 }
 
-void FileHandler::loadLines(QJsonArray jLines)
-{
+void FileHandler::loadLines(QJsonArray jLines) {
     for(int i = 0; i < jLines.count(); i++) {
         if(!jLines.at(i).isObject())
             continue;
@@ -130,8 +130,7 @@ void FileHandler::loadLines(QJsonArray jLines)
     }
 }
 
-void FileHandler::loadRoutes(QJsonArray jRoutes, Line *l)
-{
+void FileHandler::loadRoutes(QJsonArray jRoutes, Line *l) {
     for(int i = 0; i < jRoutes.count(); i++) {
         if(!jRoutes.at(i).isObject())
             continue;
@@ -184,8 +183,7 @@ void FileHandler::loadRoutes(QJsonArray jRoutes, Line *l)
     }
 }
 
-void FileHandler::loadProfiles(QJsonArray jProfiles, Route *r)
-{
+void FileHandler::loadProfiles(QJsonArray jProfiles, Route *r) {
     for(int i = 0; i < jProfiles.count(); i++) {
         if(!jProfiles.at(i).isObject())
             continue;
@@ -227,8 +225,7 @@ void FileHandler::loadProfiles(QJsonArray jProfiles, Route *r)
     }
 }
 
-void FileHandler::loadTrip(QJsonObject jObj, Line *l)
-{
+void FileHandler::loadTrip(QJsonObject jObj, Line *l) {
     if(!jObj.contains("routeID"))
         return;
 
@@ -278,8 +275,7 @@ void FileHandler::loadTrip(QJsonObject jObj, Line *l)
     }
 }
 
-void FileHandler::loadTours(QJsonArray jArr)
-{
+void FileHandler::loadTours(QJsonArray jArr) {
     for(int i = 0; i < jArr.count(); i++) {
         QJsonObject jObj = jArr[i].toObject();
 
@@ -302,6 +298,10 @@ void FileHandler::loadTours(QJsonArray jArr)
             }
         }
     }
+}
+
+void FileHandler::loadPublications(QJsonObject) {
+
 }
 
 QJsonObject FileHandler::projectSettingsToJson(ProjectSettings *projectSettings) {
@@ -335,8 +335,53 @@ QJsonObject FileHandler::directionToJson(LineDirection *ld) {
     return jObj;
 }
 
-bool FileHandler::saveToFile(QString filePath)
-{
+QJsonObject FileHandler::publicationsToJson(Publications *publications) {
+    QJsonObject jObj;
+
+    QJsonArray jLineSchedules;
+
+    for(int i = 0; i < publications->lineCount(); i++) {
+        PublishedLine *l = publications->lineAt(i);
+        QJsonObject jCurrentLine;
+        jCurrentLine.insert("filePath", l->filePath());
+        jCurrentLine.insert("title", l->title());
+        jCurrentLine.insert("subTitle", l->subTitle());
+
+        for(int j = 0; j < l->directionCount(); j++) {
+            PublishedLineDirection *ld = l->directionAt(j);
+            QJsonObject jCurrentLineDirection;
+            jCurrentLineDirection.insert("name", ld->name());
+
+            QJsonArray jBusstops;
+            QJsonArray jRoutes;
+
+            for(int k = 0; k < ld->routeCount(); k++)
+                jRoutes.append(ld->routeAt(k)->id());
+
+            for(int k = 0; k < ld->busstopCount(); k++) {
+                PublishedBusstop *b = ld->busstopAt(k);
+
+                QJsonObject jCurrentBusstop;
+
+                jCurrentBusstop.insert("busstopID", b->linkedBusstop()->id());
+                jCurrentBusstop.insert("id", b->id());
+                jCurrentBusstop.insert("label", b->label());
+                jCurrentBusstop.insert("joinWithPrevious", b->isJoinedWithPrevious());
+                jCurrentBusstop.insert("showArrAndDep", b->showArrAndDep());
+
+                jBusstops.append(jCurrentBusstop);
+            }
+
+            jCurrentLine.insert("directions", jCurrentLineDirection);
+        }
+    }
+
+    jObj.insert("lineSchedules", jLineSchedules);
+
+    return jObj;
+}
+
+bool FileHandler::saveToFile(QString filePath) {
     QJsonObject jFileInfo;
 
     jFileInfo.insert("primaryVersion", global::primaryVersion);
@@ -409,11 +454,14 @@ bool FileHandler::saveToFile(QString filePath)
         jTours.append(tourToJson(o));
     }
 
+    QJsonObject jPublications = publicationsToJson(d->publications());
+
     QJsonObject jMainObj;
     jMainObj.insert("projectSettings", jProjectSettings);
     jMainObj.insert("busstops", jBusstops);
     jMainObj.insert("lines", jLines);
     jMainObj.insert("tours", jTours);
+    jMainObj.insert("publications", jPublications);
     jMainObj.insert("_fileInfo", jFileInfo);
 
     QJsonDocument jDoc;
@@ -465,8 +513,7 @@ void FileHandler::loadDayTypes(QJsonArray jArr) {
     }
 }
 
-QJsonObject FileHandler::routeToJson(Route *r)
-{
+QJsonObject FileHandler::routeToJson(Route *r) {
     QJsonObject jObj;
 
     QString id = r->id();
@@ -494,8 +541,7 @@ QJsonObject FileHandler::routeToJson(Route *r)
     return jObj;
 }
 
-QJsonObject FileHandler::timeProfileToJson(TimeProfile *p)
-{
+QJsonObject FileHandler::timeProfileToJson(TimeProfile *p) {
     QJsonObject jObj;
 
     QString id = p->id();
@@ -517,8 +563,7 @@ QJsonObject FileHandler::timeProfileToJson(TimeProfile *p)
     return jObj;
 }
 
-QJsonObject FileHandler::timeProfileItemToJson(TimeProfileItem *i)
-{
+QJsonObject FileHandler::timeProfileItemToJson(TimeProfileItem *i) {
     QJsonObject jObj;
     
     QString busstopID = i->busstopId();
@@ -537,8 +582,7 @@ QJsonObject FileHandler::timeProfileItemToJson(TimeProfileItem *i)
 }
 
 
-QJsonObject FileHandler::tripToJson(Trip *t)
-{
+QJsonObject FileHandler::tripToJson(Trip *t) {
     QJsonObject jObj;
 
     if(!t)
@@ -582,8 +626,7 @@ QJsonObject FileHandler::tripToJson(Trip *t)
     return jObj;
 }
 
-QJsonObject FileHandler::tourToJson(Tour *o)
-{
+QJsonObject FileHandler::tourToJson(Tour *o) {
     QJsonObject jObj;
 
     if(!o)

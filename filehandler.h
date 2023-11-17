@@ -33,6 +33,7 @@ private:
     void loadProfiles(QJsonArray, Route *);
     void loadTrip(QJsonObject, Line *);
     void loadTours(QJsonArray);
+    void loadPublications(QJsonObject);
 
     QJsonObject projectSettingsToJson(ProjectSettings *);
     QJsonObject dayTypeToJson(DayType *);
@@ -42,6 +43,7 @@ private:
     QJsonObject tripToJson(Trip *);
     QJsonObject tourToJson(Tour *);
     QJsonObject directionToJson(LineDirection *ld);
+    QJsonObject publicationsToJson(Publications *);
 
 };
 

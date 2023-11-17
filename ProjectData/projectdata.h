@@ -70,6 +70,8 @@ public:
 
     QList<Tour *> toursOfTrip(Trip *);
 
+    QList<Busstop *> combinedRoutes(const QList<Route *> &routes);
+
     static QList<Busstop *> sortBusstops(QList<Busstop *>);
     static QList<Line *> sortLines(QList<Line *>);
     static QList<Route *> sortRoutes(QList<Route *>);

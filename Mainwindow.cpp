@@ -34,7 +34,7 @@
 #include "Dialogs/DlgStartupdialog.h"
 #include "Dialogs/DlgProjecttreeviewer.h"
 #include "Dialogs/DlgTroubleshooter.h"
-#include "Dialogs/dlgprojectsettings.h"
+#include "Dialogs/DlgProjectsettings.h"
 
 
 //********************************************************************************************************************************************************************

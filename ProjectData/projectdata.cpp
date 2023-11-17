@@ -328,16 +328,62 @@ QList<Tour *> ProjectData::toursOfTrip(Trip *t)
     return resultList;
 }
 
-QList<Busstop *> ProjectData::sortBusstops(QList<Busstop *> list)
-{
-    bool ok = false;
-    while(!ok) {
-        ok = true;
-        for(int i = 0; i < list.count() - 1; i++) {
-            if(list[i]->name() <= list[i + 1]->name())
+QList<Busstop *> ProjectData::combinedRoutes(const QList<Route *> &routes) {
+    QList<Busstop *> result;
+
+    for(int i = 0; i < routes.count(); i++) {
+        Route *r = routes[i];
+        Busstop *lastBusstop = nullptr;
+        bool firstBusstopFound = false;
+
+        for(int j = 0; j < r->busstopCount(); j++) {
+            Busstop *b = r->busstopAt(j);
+
+            // determine, if busstop was already added
+            bool busstopAlreadyExists = false;
+            for(int k = 0; k < result.count(); k++) {
+                if(result[k] == b) {
+                    busstopAlreadyExists = true;
+                    firstBusstopFound = true;
+                    lastBusstop = b;
+                    break;
+                }
+            }
+
+            if(busstopAlreadyExists)
                 continue;
 
-            Busstop *tmp = list[i + 1];
+            int targetIndex;
+            if(firstBusstopFound) {
+                targetIndex = result.count();
+            } else {
+                targetIndex = 0;
+            }
+
+            for(int k = 0; k < result.count(); k++) {
+                if(result[k] == lastBusstop) {
+                    targetIndex = k + 1;
+                    break;
+                }
+            }
+
+            result.insert(targetIndex, b);
+            lastBusstop = b;
+        }
+    }
+
+    return result;
+}
+
+QList<Busstop *> ProjectData::sortBusstops(QList<Busstop *> list) {
+    bool ok = false; // prüfvariable, ob irgendwas geändert wurde
+    while(!ok) { // solange sich noch was ändert (sortierung nicht abgeschlossen) wiederholen
+        ok = true;
+        for(int i = 0; i < list.count() - 1; i++) { // einmal durch die ganze liste wandern und immer Element an i und i+1 betrachten
+            if(list[i]->name() <= list[i + 1]->name()) // wenn Reihenfolge schon stimmt, weiterwandern
+                continue;
+
+            Busstop *tmp = list[i + 1]; // i und i+1 tauschen und prüfvariable auf false setzen
             list[i + 1] = list[i];
             list[i] = tmp;
             ok = false;
@@ -346,8 +392,7 @@ QList<Busstop *> ProjectData::sortBusstops(QList<Busstop *> list)
     return list;
 }
 
-QList<Line *> ProjectData::sortLines(QList<Line *> list)
-{
+QList<Line *> ProjectData::sortLines(QList<Line *> list) {
     bool ok = false;
     while(!ok) {
         ok = true;
@@ -364,8 +409,7 @@ QList<Line *> ProjectData::sortLines(QList<Line *> list)
     return list;
 }
 
-QList<Route *> ProjectData::sortRoutes(QList<Route *> list)
-{
+QList<Route *> ProjectData::sortRoutes(QList<Route *> list) {
     bool ok = false;
     while(!ok) {
         ok = true;
@@ -382,8 +426,7 @@ QList<Route *> ProjectData::sortRoutes(QList<Route *> list)
     return list;
 }
 
-QList<Trip *> ProjectData::sortTrips(QList<Trip *> list)
-{
+QList<Trip *> ProjectData::sortTrips(QList<Trip *> list) {
     bool ok = false;
     while(!ok) {
         ok = true;
@@ -400,8 +443,7 @@ QList<Trip *> ProjectData::sortTrips(QList<Trip *> list)
     return list;
 }
 
-QList<Tour *> ProjectData::sortTours(QList<Tour *> list)
-{
+QList<Tour *> ProjectData::sortTours(QList<Tour *> list) {
     bool ok = false;
     while(!ok) {
         ok = true;
@@ -421,3 +463,24 @@ QList<Tour *> ProjectData::sortTours(QList<Tour *> list)
 Publications *ProjectData::publications() const {
     return m_publications;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

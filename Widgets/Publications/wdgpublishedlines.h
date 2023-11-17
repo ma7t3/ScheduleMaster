@@ -33,12 +33,15 @@ public slots:
     void actionDirectionEdit();
     void actionDirectionDelete();
 
+    void actionRoutesChange();
+
     void refreshLineList();
     void refreshCurrentLine();
     void refreshCurrentLineDirection();
 
     void refreshRouteList();
-    void refreshRouteCheckBoxes(QTreeWidgetItem *);
+    void refreshRouteCheckBoxes();
+    void refreshRouteCheckBoxRelations(QTreeWidgetItem *);
 
 signals:
     void currentLineChanged(PublishedLine *);
