@@ -10,7 +10,7 @@ TourEditor::TourEditor(QWidget *parent, bool createMode, QString name, WeekDays 
     setWeekDays(weekDays);
 
     if(createMode)
-        QDialog::setWindowTitle("create tour");
+        QDialog::setWindowTitle(tr("create tour"));
 }
 
 TourEditor::~TourEditor()

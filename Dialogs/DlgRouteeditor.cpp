@@ -25,7 +25,7 @@ routeEditor::routeEditor(QWidget *parent, bool createMode, Route * r, QList<Line
     ui->twRouteBusstops->header()->hide();
 
     if(createMode)
-        QDialog::setWindowTitle("Create route");
+        QDialog::setWindowTitle(tr("Create route"));
 
     for(int i = 0; i < ld.count(); i++) {
         ui->cbDirection->addItem(ld[i]->description());
@@ -309,7 +309,7 @@ void routeEditor::on_pbProfileDelete_clicked()
     if(!p)
         return;
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, "Delete profile", QString("<p>Do you really want to delete this profile?</p><table><tr><td><b>Name:</b></td><td>%1</td></tr><tr><td><b>Duration:</b></td><td>%2 min.</td></tr></table><p><b>You cannot undo this action!</b></p>").arg(p->name(), QString::number(p->duration())), QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete profile"), tr("<p>Do you really want to delete this profile?</p><table><tr><td><b>Name:</b></td><td>%1</td></tr><tr><td><b>Duration:</b></td><td>%2 min.</td></tr></table><p><b>You cannot undo this action!</b></p>").arg(p->name(), QString::number(p->duration())), QMessageBox::Yes|QMessageBox::No);
 
     if(msg != QMessageBox::Yes)
         return;

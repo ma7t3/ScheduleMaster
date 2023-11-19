@@ -79,7 +79,7 @@ void WdgTourEditor::actionTourRemoveTrip() {
     if(!m_currentTour || !m_currentTrip)
         return;
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, "remove trip from tour", "<p><b>Do you really want to remove this trip from this tour?</b><p><p>It will not be deleted from schedule.</p>", QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Remove trip from tour"), tr("<p><b>Do you really want to remove this trip from this tour?</b><p><p>It will not be deleted from schedule.</p>"), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
     
@@ -221,12 +221,12 @@ void WdgTourEditor::refreshTour() {
             QColor cColor;
 
             if(lastTrip->route()->lastBusstop()->id() == t->route()->firstBusstop()->id()) {
-                route = "break";
+                route = tr("break");
                 busstops = lastTrip->route()->lastBusstop()->name();
                 color = Qt::black;
                 cColor = Qt::white;
             } else {
-                route = "service trip";
+                route = tr("service trip");
                 busstops = lastTrip->route()->lastBusstop()->name() + "\r\n" + t->route()->firstBusstop()->name();
                 color = Qt::lightGray;
                 cColor = Qt::black;

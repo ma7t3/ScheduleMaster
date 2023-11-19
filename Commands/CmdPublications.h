@@ -6,11 +6,12 @@
 #include "ProjectData/projectdata.h"
 
 class cmdPublishedLineNew : public QUndoCommand {
+
 public:
     cmdPublishedLineNew(ProjectData *d, PublishedLine *l) :
         d(d),
         line(l) {
-        setText(QString("new published line (%1)").arg(line->title()));
+        setText(QObject::tr("new published line: %1").arg(line->title()));
     }
 
     void undo() override {
@@ -27,12 +28,13 @@ private:
 };
 
 class cmdPublishedLineEdit : public QUndoCommand {
+
 public:
     cmdPublishedLineEdit(PublishedLine *l, PublishedLine newL) :
         line(l),
         oldLine(*l),
         newLine(newL) {
-        setText(QString("published line edited (%1)").arg(newLine.title()));
+        setText(QObject::tr("published line edited: %1").arg(newLine.title()));
     }
 
     void undo() override {
@@ -49,11 +51,12 @@ private:
 };
 
 class cmdPublishedLineDelete: public QUndoCommand {
+
 public:
     cmdPublishedLineDelete(ProjectData *d, PublishedLine *l) :
         d(d),
         line(l) {
-        setText(QString("deleted published line (%1)").arg(line->title()));
+        setText(QObject::tr("deleted published line: %1").arg(line->title()));
     }
 
     void undo() override {
@@ -70,11 +73,12 @@ private:
 };
 
 class cmdPublishedLineDirectionNew : public QUndoCommand {
+
 public:
     cmdPublishedLineDirectionNew(PublishedLine *l, PublishedLineDirection *ld) :
         line(l),
         lineDirection(ld) {
-        setText(QString("new published line direction (%1)").arg(lineDirection->name()));
+        setText(QObject::tr("new published line direction: %1").arg(lineDirection->name()));
     }
 
     void undo() override {
@@ -91,12 +95,13 @@ private:
 };
 
 class cmdPublishedLineDirectionEdit : public QUndoCommand {
+
 public:
     cmdPublishedLineDirectionEdit(PublishedLineDirection *ld, PublishedLineDirection newLd) :
         direction(ld),
         oldDirection(*ld),
         newDirection(newLd) {
-        setText(QString("published line direction edited (%1)").arg(newDirection.name()));
+        setText(QObject::tr("published line direction edited: %1").arg(newDirection.name()));
     }
 
     void undo() override {
@@ -113,11 +118,12 @@ private:
 };
 
 class cmdPublishedLineDirectionDelete: public QUndoCommand {
+
 public:
     cmdPublishedLineDirectionDelete(PublishedLine *l, PublishedLineDirection *ld) :
         line(l),
         lineDirection(ld) {
-        setText(QString("deleted published line direction (%1)").arg(lineDirection->name()));
+        setText(QObject::tr("deleted published line direction: %1").arg(lineDirection->name()));
     }
 
     void undo() override {

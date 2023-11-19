@@ -115,9 +115,9 @@ void WdgSchedule::actionScheduleTripDelete() {
     QString endTime     = m_currentTrip->endTime().toString("hh:mm");
     QString firstStop   = m_currentTrip->route()->busstopAt(0)->name();
     QString lastStop    = m_currentTrip->route()->busstopAt(m_currentTrip->route()->busstopCount() - 1)->name();
-    QString repeat      = m_currentTrip->hasRepeat() ? "Yes" : "No";
+    QString repeat      = m_currentTrip->hasRepeat() ? tr("Yes") : tr("No");
 
-    QString msgStr = QString("<p><b>Do you really want do delete this trip?</b></p><table><tr><td><b>Name:</b></td><td colspan=\"2\">%1</td></tr><tr><td><b>Start:</b></td><td>%2</td><td>%3</td></tr><tr><td><b>End:</b></td><td>%4</td><td>%5</td></tr><tr><td><b>Repeat:</b></td><td colspan=\"2\">%6</td></tr></table>").arg(tripName, startTime, firstStop, endTime, lastStop, repeat);
+    QString msgStr = tr("<p><b>Do you really want do delete this trip?</b></p><table><tr><td><b>Name:</b></td><td colspan=\"2\">%1</td></tr><tr><td><b>Start:</b></td><td>%2</td><td>%3</td></tr><tr><td><b>End:</b></td><td>%4</td><td>%5</td></tr><tr><td><b>Repeat:</b></td><td colspan=\"2\">%6</td></tr></table>").arg(tripName, startTime, firstStop, endTime, lastStop, repeat);
 
     QMessageBox::StandardButton msg = QMessageBox::warning(this, "deleteTrip", msgStr, QMessageBox::Yes|QMessageBox::No);
 
@@ -317,7 +317,7 @@ void WdgSchedule::refreshRoutes() {
 
         if(r->profileCount() == 0) {
             itm->setHidden(true);
-            itm->setToolTip("You can't use this trip now, since it has no valid time profiles!");
+            itm->setToolTip(tr("You can't use this trip now, since it has no valid time profiles!"));
         }
         ui->lwRoutes->addItem(itm);
     }
@@ -470,7 +470,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
 
     QList<Tour *> tours = projectData->toursOfTrip(t);
     if(tours.isEmpty()) {
-        tour = "None";
+        tour = tr("None");
     } else {
         QStringList strList;
         QStringList strListToolTip;
@@ -500,7 +500,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
         } else if(overlap) {
             itmTour->setBackground(QColor("#ffa800"));
             itmTour->setForeground(Qt::black);
-            tourToolTip = "Multiple assignment at " + overlapStr + ":\r\n\r\n" + tourToolTip;
+            tourToolTip = tr("Multiple assignment at %1:\r\n\r\n%2").arg(overlapStr, tourToolTip);
         } else {
             itmTour->setBackground(Qt::blue);
             itmTour->setForeground(Qt::white);

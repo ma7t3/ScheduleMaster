@@ -14,12 +14,13 @@ protected:
 };
 
 class cmdEditProjectSettings : public QUndoCommand {
+
 public:
     cmdEditProjectSettings(ProjectSettings *s, ProjectSettings newS) :
         s(s),
         newS(newS),
         oldS(*s) {
-        setText(QString("project settings edited"));
+        setText(QObject::tr("project settings edited"));
     }
 
     void undo() override {

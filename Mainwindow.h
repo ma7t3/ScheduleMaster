@@ -84,7 +84,7 @@ private slots:
 
     void on_actionEditProjectSettings_triggered();
 
-    void on_actionPublishTest_triggered();
+    //void on_actionPublishTest_triggered();
 
     void on_actionPublishAll_triggered();
 

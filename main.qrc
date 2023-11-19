@@ -35,5 +35,6 @@
         <file>icons/info.ico</file>
         <file>icons/warning.ico</file>
         <file>icons/success.ico</file>
+        <file>Translations/german.qm</file>
     </qresource>
 </RCC>

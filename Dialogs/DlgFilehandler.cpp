@@ -66,9 +66,9 @@ bool DlgFileHandler::readFromFile(QString filePath) {
         loadProjectSettings(jMainObj.find("projectSettings")->toObject());
     else { // Version 0.9.0 and older
         logWarning(tr("no project settings found - loading defaults..."));
-        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), "Monday-Friday", DayType::MonFri));
-        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), "Saturday", DayType::Sat));
-        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), "Sunday & Holiday", DayType::Sun));
+        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), tr("Monday-Friday"), DayType::MonFri));
+        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), tr("Saturday"), DayType::Sat));
+        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), tr("Sunday & Holiday"), DayType::Sun));
     }
 
     if(jMainObj.contains("busstops") && jMainObj.find("busstops")->isArray()) {

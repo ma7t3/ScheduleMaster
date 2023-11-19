@@ -26,7 +26,7 @@ TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n
     ui->twProfile->setColumnWidth(5, 175);
 
     if(createMode)
-        this->setWindowTitle("Create Time Profile");
+        this->setWindowTitle(tr("Create Time Profile"));
 
     ui->leName->setText(n);
     ui->dsbDuration->setValue(d);
@@ -63,8 +63,8 @@ TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n
         QDoubleSpinBox *dsbArr = new QDoubleSpinBox;
         QDoubleSpinBox *dsbDep = new QDoubleSpinBox;
 
-        dsbArr->setSuffix(" min.");
-        dsbDep->setSuffix(" min.");
+        dsbArr->setSuffix(tr(" min."));
+        dsbDep->setSuffix(tr(" min."));
 
         dsbArr->setEnabled(false);
 
@@ -72,7 +72,7 @@ TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n
         ui->twProfile->setCellWidget(i, 4, dsbDep);
 
         QComboBox *cb = new QComboBox;
-        QStringList items = {"never", "normal", "always", "wait for dep. time", "always + wait for dep. time"};
+        QStringList items = {tr("never"), tr("normal"), tr("always"), tr("wait for dep. time"), tr("always + wait for dep. time")};
         cb->addItems(items);
         cb->setCurrentIndex(1);
 
@@ -247,13 +247,13 @@ void TimeProfileEditor::executeCopy()
     }
 
     if(itemList.count() == 0) {
-        QMessageBox::warning(this, "No profiles", "This trip has no profiles.<br>You can't use it now!");
+        QMessageBox::warning(this, tr("No profiles"), tr("This trip has no profiles.<br>You can't use it now!"));
         return;
     }
 
     bool ok;
 
-    QString result = QInputDialog::getItem(this, "select source profile", "Please select the source profile:", itemList, presetProfileIndex, false, &ok);
+    QString result = QInputDialog::getItem(this, tr("select source profile"), tr("Please select the source profile:"), itemList, presetProfileIndex, false, &ok);
 
     if(!ok)
         return;

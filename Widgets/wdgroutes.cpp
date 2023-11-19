@@ -130,7 +130,7 @@ void WdgRoutes::actionDelete() {
     }
     showList += "</ul>";
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, "delete route(s)", tr("<p><b>Do you really want to delete these %n route(s)?</b></p>", "", routes.count()) + showList, QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("delete route(s)"), tr("<p><b>Do you really want to delete these %n route(s)?</b></p>", "", routes.count()) + showList, QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
 

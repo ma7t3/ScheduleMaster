@@ -7,11 +7,12 @@
 #include "ProjectData/route.h"
 
 class cmdRouteNew : public QUndoCommand {
+
 public:
     cmdRouteNew(Line *l, Route *r) :
         line(l),
         route(r) {
-        setText(QString("new route (%1) in line (%2)").arg(route->name()).arg(line->name()));
+        setText(QObject::tr("new route %1 in line %2").arg(route->name()).arg(line->name()));
     }
 
     void undo() override {
@@ -28,13 +29,14 @@ private:
 };
 
 class cmdRouteEdit : public QUndoCommand {
+
 public:
     cmdRouteEdit(Route *r, Route newR
     ) :
         route(r),
         oldRoute(*r),
         newRoute(newR) {
-        setText(QString("edit route (%1)").arg(newR.name()));
+        setText(QObject::tr("edit route: %1").arg(newR.name()));
     }
 
     void undo() override {
@@ -59,11 +61,12 @@ private:
 };
 
 class cmdRouteDelete : public QUndoCommand {
+
 public:
     cmdRouteDelete(Line *l, Route *r) :
         line(l),
         route(r) {
-        setText(QString("new route (%1) from line (%2)").arg(route->name()).arg(line->name()));
+        setText(QObject::tr("delete route %1 from line %2").arg(route->name()).arg(line->name()));
     }
 
     void undo() override {
@@ -80,14 +83,15 @@ private:
 };
 
 class cmdRoutesDelete : public QUndoCommand {
+
 public:
     cmdRoutesDelete(Line *l, QList<Route *> list) :
         line(l),
         routes(list) {
         if(list.count() == 1)
-            setText(QObject::tr("deleted route \"%1\"").arg(list[0]->name()));
+            setText(QObject::tr("delete route %1 from line %2").arg(list[0]->name()).arg(line->name()));
         else
-            setText(QObject::tr("deleted %n routes", "", list.count()));
+            setText(QObject::tr("delete %n routes  from line %2", "", list.count()).arg(line->name()));
     }
 
     void undo() override {

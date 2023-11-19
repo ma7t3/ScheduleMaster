@@ -6,11 +6,12 @@
 #include "ProjectData/projectdata.h"
 
 class cmdLineNew : public QUndoCommand {
+
 public:
     cmdLineNew(ProjectData *d, Line *l) :
         d(d),
         line(l) {
-        setText(QString("new line (%1)").arg(line->name()));
+        setText(QObject::tr("new line: %1").arg(line->name()));
     }
 
     void undo() override {
@@ -27,12 +28,13 @@ private:
 };
 
 class cmdLineEdit: public QUndoCommand {
+
 public:
     cmdLineEdit(Line *l, Line newL) :
         line(l),
         oldL(*l),
         newL(newL) {
-        setText(QString("edit line (%1)").arg(newL.name()));
+        setText(QObject::tr("edit line: %1").arg(newL.name()));
     }
 
     void undo() override {
@@ -53,11 +55,12 @@ private:
 };
 
 class cmdLineDelete : public QUndoCommand {
+
 public:
     cmdLineDelete(ProjectData *d, Line *l) :
         d(d),
         line(l) {
-        setText(QString("delete line (%1)").arg(line->name()));
+        setText(QObject::tr("delete line: %1").arg(line->name()));
     }
 
     void undo() override {
@@ -75,12 +78,13 @@ private:
 
 
 class cmdLinesDelete : public QUndoCommand {
+
 public:
     cmdLinesDelete(ProjectData *d, QList<Line *> list) :
         d(d),
         lines(list) {
         if(list.count() == 1)
-            setText(QObject::tr("deleted line \"%1\"").arg(list[0]->name()));
+            setText(QObject::tr("deleted line: %1").arg(list[0]->name()));
         else
             setText(QObject::tr("deleted %n lines", "", list.count()));
     }
