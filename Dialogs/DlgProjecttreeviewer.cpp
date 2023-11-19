@@ -38,7 +38,7 @@ void ProjectTreeViewer::loadBusstops()
         QTreeWidgetItem *itm = new QTreeWidgetItem(mainItm);
         if(!b) {
             itm->setText(1, "/");
-            itm->setText(0, "invalid");
+            itm->setText(0, tr("invalid"));
             itm->setFont(0, italic);
             itm->setBackground(1, Qt::red);
             itm->setForeground(1, Qt::white);
@@ -50,7 +50,7 @@ void ProjectTreeViewer::loadBusstops()
         items << itm;
     }
     mainItm->addChildren(items);
-    mainItm->setText(0, QString("Busstops (%1)").arg(mainItm->childCount()));
+    mainItm->setText(0, tr("Busstops (%n)", "", mainItm->childCount()));
 }
 
 void ProjectTreeViewer::loadLines()
@@ -83,17 +83,17 @@ void ProjectTreeViewer::loadLines()
             QTreeWidgetItem *routesItm = new QTreeWidgetItem(itm);
             itm->addChild(routesItm);
             itm->addChildren(loadRoutes(l, routesItm));
-            routesItm->setText(0, QString("Routes (%1)").arg(routesItm->childCount()));
+            routesItm->setText(0, tr("Routes (%n)", "", routesItm->childCount()));
 
             QTreeWidgetItem *tripsItm = new QTreeWidgetItem(itm);
             itm->addChild(tripsItm);
             itm->addChildren(loadTrips(l->trips(), tripsItm));
-            tripsItm->setText(0, QString("Trips (%1)").arg(tripsItm->childCount()));
+            tripsItm->setText(0, tr("Trips (%1)", "", tripsItm->childCount()));
         }
         items << itm;
     }
     mainItm->addChildren(items);
-    mainItm->setText(0, QString("Lines (%1)").arg(mainItm->childCount()));
+    mainItm->setText(0, tr("Lines (%1)", "", mainItm->childCount()));
 }
 
 QList<QTreeWidgetItem*> ProjectTreeViewer::loadRoutes(Line *l, QTreeWidgetItem *parent)
@@ -111,7 +111,7 @@ QList<QTreeWidgetItem*> ProjectTreeViewer::loadRoutes(Line *l, QTreeWidgetItem *
         QTreeWidgetItem *itm = new QTreeWidgetItem(parent);
         if(!r) {
             itm->setText(1, "/");
-            itm->setText(0, "invalid");
+            itm->setText(0, tr("invalid"));
             itm->setFont(0, italic);
             itm->setBackground(1, Qt::red);
             itm->setForeground(1, Qt::white);
@@ -123,7 +123,7 @@ QList<QTreeWidgetItem*> ProjectTreeViewer::loadRoutes(Line *l, QTreeWidgetItem *
                 QTreeWidgetItem *subItm = new QTreeWidgetItem(itm);
                 if(!b) {
                     itm->setText(1, "/");
-                    itm->setText(0, "invalid");
+                    itm->setText(0, tr("invalid"));
                     itm->setFont(0, italic);
                     itm->setBackground(1, Qt::red);
                     itm->setForeground(1, Qt::white);
@@ -154,7 +154,7 @@ QList<QTreeWidgetItem*> ProjectTreeViewer::loadTrips(QList<Trip *> trips, QTreeW
         QTreeWidgetItem *itm = new QTreeWidgetItem(parent);
         if(!t) {
             itm->setText(1, "/");
-            itm->setText(0, "invalid");
+            itm->setText(0, tr("invalid"));
             itm->setFont(0, italic);
             itm->setBackground(1, Qt::red);
             itm->setForeground(1, Qt::white);
@@ -184,7 +184,7 @@ QList<QTreeWidgetItem*> ProjectTreeViewer::loadTripChilds(Trip *t, QTreeWidgetIt
         QTreeWidgetItem *itm = new QTreeWidgetItem(parent);
         if(!c) {
             itm->setText(1, "/");
-            itm->setText(0, "invalid");
+            itm->setText(0, tr("invalid"));
             itm->setFont(0, italic);
             itm->setBackground(1, Qt::red);
             itm->setForeground(1, Qt::white);

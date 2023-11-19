@@ -94,7 +94,7 @@ void WdgBusstops::actionDelete() {
     }
     showList += "</ul>";
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, "Delete busstop(s)", tr("<p><b>Do you really want to delete these %n busstop(s)?</b><p>%1", "", busstops.count()).arg(showList), QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete busstop(s)"), tr("<p><b>Do you really want to delete these %n busstop(s)?</b></p>%1", "", busstops.count()).arg(showList), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
     

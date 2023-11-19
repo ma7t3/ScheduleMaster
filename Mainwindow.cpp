@@ -66,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QPixmap pixmap(imagePath);
     splashScreen.setPixmap(pixmap);
-    splashScreen.showMessage("loading ui...", Qt::AlignBottom, messageColor);
+    splashScreen.showMessage(tr("loading ui..."), Qt::AlignBottom, messageColor);
     splashScreen.finish(startupDialog);
     splashScreen.show();
     QObject().thread()->sleep(2);
@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent)
     actionWorkspaceTrackLayout();
 
     // load menubar
-    splashScreen.showMessage("loading menubar...", Qt::AlignBottom, messageColor);
+    splashScreen.showMessage(tr("loading menubar..."), Qt::AlignBottom, messageColor);
 
     QAction *actDockBusstops = dwBusstops->toggleViewAction();
     QAction *actDockLines= dwLines->toggleViewAction();
@@ -152,7 +152,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->actionRoutesDuplicate, SIGNAL(triggered()), wdgRoutes, SLOT(actionDuplicate()));
     QObject::connect(ui->actionRoutesDelete, SIGNAL(triggered()), wdgRoutes, SLOT(actionDelete()));
 
-    QToolBar *toolbar = new QToolBar("toolbar", this);
+    QToolBar *toolbar = new QToolBar(tr("toolbar"), this);
     toolbar->addAction(ui->actionFileNew);
     toolbar->addAction(ui->actionFileOpen);
     toolbar->addAction(ui->actionFileSave);
@@ -182,7 +182,7 @@ MainWindow::MainWindow(QWidget *parent)
     setSaved(true);
 
     // load signals and slots
-    splashScreen.showMessage("loading signals and slots...", Qt::AlignBottom, messageColor);
+    splashScreen.showMessage(tr("loading signals and slots..."), Qt::AlignBottom, messageColor);
 
     QObject::connect(ui->actionFileNew, SIGNAL(triggered()), this, SLOT(actionFileNew()));
     QObject::connect(ui->actionFileOpen, SIGNAL(triggered()), this, SLOT(actionFileOpen()));
@@ -212,7 +212,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject::connect(wdgTours, SIGNAL(currentTourChanged(Tour*)), wdgTourEditor, SLOT(setCurrentTour(Tour*)));
 
-    splashScreen.showMessage("loading startup dialog...", Qt::AlignBottom, messageColor);
+    splashScreen.showMessage(tr("loading startup dialog..."), Qt::AlignBottom, messageColor);
 
     MainWindow::showMaximized();
 
@@ -266,7 +266,7 @@ bool MainWindow::actionFileOpen() {
     if(!dir.exists())
         dir.mkpath(dir.path());
 
-    QString path = QFileDialog::getOpenFileName(this, "", dir.path(), "ScheduleMaster File (*.smp2)");
+    QString path = QFileDialog::getOpenFileName(this, "", dir.path(), tr("ScheduleMaster File (*.smp2)"));
     if(path == "")
         return false;
 
@@ -286,7 +286,7 @@ bool MainWindow::actionFileSaveAs() {
     if(!dir.exists())
         dir.mkpath(dir.path());
 
-    QString path = QFileDialog::getSaveFileName(this, "", dir.path(), "ScheduleMaster File (*.smp2)");
+    QString path = QFileDialog::getSaveFileName(this, "", dir.path(), tr("ScheduleMaster File (*.smp2)"));
     if(path == "")
         return false;
 
@@ -301,7 +301,7 @@ bool MainWindow::actionFileSaveAs() {
 
 bool MainWindow::actionFileClose() {
     if(!undoStack->isClean()) {
-        QMessageBox::StandardButton msg = QMessageBox::warning(this, "Unsaved Changes", "<p><b>There are unsaved changes!</b></p><p>Do want to save them before closing this file?</p>", QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
+        QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved Changes"), tr("<p><b>There are unsaved changes!</b></p><p>Do want to save them before closing this file?</p>"), QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
 
         if(msg == QMessageBox::Yes) {
             if(!actionFileSave())
@@ -584,6 +584,7 @@ void MainWindow::setRedoEnabled(bool b) {
     ui->actionRedo->setEnabled(b);
 }
 
+// wird das überhaupt verwendet?
 void MainWindow::setSaved(bool b) {
     if(!b)
         QMainWindow::setWindowTitle("* ScheduleMaster");
@@ -594,13 +595,13 @@ void MainWindow::setSaved(bool b) {
 }
 
 bool MainWindow::openFile(QString path) {
-    ui->statusbar->showMessage("Opening project file...");
+    ui->statusbar->showMessage(tr("Opening project file..."));
 
     QFile f(path);
     QFileInfo fi(path);
 
     if(!f.exists()) {
-        QMessageBox::warning(this, "File not found", "<p>The given file was not found!</p>");
+        QMessageBox::warning(this, tr("File not found"), tr("<p>The given file was not found!</p>"));
         actionFileOpen();
         return false;
     }
@@ -608,7 +609,7 @@ bool MainWindow::openFile(QString path) {
     QTextStream s(&f);
 
     if(!f.open(QIODevice::ReadOnly)) {
-        QMessageBox::warning(this, "Failed reading file", "<p>Could not read file " + fi.fileName() + "</p>");
+        QMessageBox::warning(this, tr("Failed reading file"), tr("<p><b>Could not read file:</b></p><p>%1</p>").arg(fi.fileName()));
         actionFileOpen();
         return false;
     }
@@ -644,7 +645,7 @@ bool MainWindow::saveFile(QString path) {
 
 
     if(!f.open(QIODevice::ReadWrite)) {
-        QMessageBox::warning(this, "Failed reading file", "<p>Could not write to file " + fi.fileName() + "</p>");
+        QMessageBox::warning(this, tr("Failed reading file"), tr("<p><b>Could not write to file:</b></p><p>%1</p>").arg(fi.fileName()));
         actionFileSaveAs();
         return false;
     }
@@ -657,7 +658,7 @@ bool MainWindow::saveFile(QString path) {
 
     undoStack->setClean();
     knownFile = true;
-    ui->statusbar->showMessage("File saved!", 5000);
+    ui->statusbar->showMessage(tr("File saved!"), 5000);
     return true;
 }
 
@@ -753,11 +754,14 @@ void MainWindow::on_actionView_As_Tree_triggered() {
 
 void MainWindow::on_actionHelpAbout_triggered() {
     QString text;
-    text = "<h1>About ScheduleMaster 2</h1><table><tr><td><b>Version:</b></td><td>" + QString::number(global::primaryVersion) + "." + QString::number(global::secondaryVersion) + "." + QString::number(global::tertiaryVersion) + "</td></tr><tr><td><b>Release type:</b></td><td>Beta</td></tr></table>";
+    text = tr("<h1>About ScheduleMaster 2</h1><table><tr><td><b>Version:</b></td><td>%1.%2.%3</td></tr><tr><td><b>Release type:</b></td><td>Beta</td></tr></table>")
+               .arg(QString::number(global::primaryVersion))
+               .arg(QString::number(global::secondaryVersion))
+               .arg(QString::number(global::tertiaryVersion));
+
     QMessageBox msg;
-    msg.setWindowTitle("ScheduleMaster 2 - About");
+    msg.setWindowTitle(tr("ScheduleMaster 2 - About"));
     msg.setText(text);
-    //msg.setDetailedText("this is some detailed text");
     msg.setIconPixmap(QPixmap(":/main/appIcon/Icon_128px.ico"));
     msg.setStandardButtons(QMessageBox::Close);
     msg.exec();
@@ -791,11 +795,11 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
     wdgSchedule->refreshDayTypes();
 }
 
-
+/*
 void MainWindow::on_actionPublishTest_triggered() {
-    /*QString fileName = QFileDialog::getSaveFileName(this, "", "D:/cpp_Projekte_Qt/ScheduleMaster/build-ScheduleMaster-Desktop_Qt_6_5_2_MinGW_64_bit-Release/Test.pdf", "Portable document format (*.pdf)");
+    QString fileName = QFileDialog::getSaveFileName(this, "", "D:/cpp_Projekte_Qt/ScheduleMaster/build-ScheduleMaster-Desktop_Qt_6_5_2_MinGW_64_bit-Release/Test.pdf", "Portable document format (*.pdf)");
     if(fileName.isEmpty())
-        return;*/
+        return;
 
     QString fileName = "D:/cpp_Projekte_Qt/ScheduleMaster/build-ScheduleMaster-Desktop_Qt_6_5_2_MinGW_64_bit-Release/Test.pdf";
     QFile f(fileName);
@@ -863,7 +867,7 @@ void MainWindow::on_actionPublishTest_triggered() {
     painter.drawText(footer, Qt::AlignRight|Qt::AlignBottom, "Seite 1 von 1");
 
     QDesktopServices::openUrl(QUrl(fileName));
-}
+}*/
 
 
 

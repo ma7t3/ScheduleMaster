@@ -6,12 +6,13 @@
 #include "ProjectData/projectdata.h"
 
 class cmdScheduleTripNew : public QUndoCommand {
+
 public:
     cmdScheduleTripNew(Line *l, Trip *t, bool direction) :
         line(l),
         trip(t),
         direction(direction) {
-        setText(QString("new trip in line (%1)").arg(line->name()));
+        setText(QObject::tr("new trip in line %1").arg(line->name()));
     }
 
     void undo() override {
@@ -30,6 +31,7 @@ private:
 
 
 class cmdScheduleTripChangeRoute : public QUndoCommand {
+
 public:
     cmdScheduleTripChangeRoute(Trip *t, Route *newR, TimeProfile *newP) :
         trip(t),
@@ -37,7 +39,7 @@ public:
         newRoute(newR),
         oldProfile(t->timeProfile()),
         newProfile(newP) {
-        setText(QString("change route of trip (%1)").arg(newRoute->name()));
+        setText(QObject::tr("change route of trip %1").arg(newRoute->name()));
     }
 
     void undo() override {
@@ -58,12 +60,13 @@ private:
 
 
 class cmdScheduleTripChangeTimeProfile : public QUndoCommand {
+
 public:
     cmdScheduleTripChangeTimeProfile(Trip *t, TimeProfile *newP) :
         trip(t),
         oldProfile(t->timeProfile()),
         newProfile(newP) {
-        setText(QString("change time profile of trip"));
+        setText(QObject::tr("change time profile of trip"));
     }
 
     void undo() override {
@@ -81,12 +84,13 @@ private:
 
 
 class cmdScheduleTripChangeStartTime : public QUndoCommand {
+
 public:
     cmdScheduleTripChangeStartTime(Trip *t, QTime oldStartTime, QTime newStartTime) :
         trip(t),
         oldStartTime(oldStartTime),
         newStartTime(newStartTime) {
-        setText(QString("change start time of trip (%1)").arg(newStartTime.toString("hh:mm")));
+        setText(QObject::tr("change start time of trip %1").arg(newStartTime.toString("hh:mm")));
     }
 
     void undo() override {
@@ -104,12 +108,13 @@ private:
 
 
 class cmdScheduleTripChangeDays : public QUndoCommand {
+
 public:
     cmdScheduleTripChangeDays(Trip *t, WeekDays w) :
         trip(t),
         oldWeekDays(*t->weekDays()),
         newWeekDays(w) {
-        setText(QString("change days of trip (%1)").arg(newWeekDays.toString()));
+        setText(QObject::tr("change days of trip %1").arg(newWeekDays.toString()));
     }
 
     void undo() override {
@@ -129,12 +134,13 @@ private:
 
 
 class cmdScheduleTripEditRepeat : public QUndoCommand {
+
 public:
     cmdScheduleTripEditRepeat(Trip *t, Trip newT) :
         trip(t),
         oldTrip(*t),
         newTrip(newT) {
-        setText(QString("change repeat of trip"));
+        setText(QObject::tr("change repeat of trip"));
     }
 
     void undo() override {
@@ -160,11 +166,12 @@ private:
 
 
 class cmdScheduleTripDelete : public QUndoCommand {
+
 public:
     cmdScheduleTripDelete(Line *l, Trip *t) :
         line(l),
         trip(t) {
-        setText(QString("delete trip from line (%1)").arg(line->name()));
+        setText(QObject::tr("delete trip from line %1").arg(line->name()));
     }
 
     void undo() override {

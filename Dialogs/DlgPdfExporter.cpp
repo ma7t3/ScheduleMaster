@@ -69,7 +69,7 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
     currentDocument = new QPdfWriter(fileName);
     currentDocument->setResolution(254);
     currentDocument->setCreator("ScheduleMaster");
-    currentDocument->setTitle("Linienfahrplan - " + pdfTitle);
+    currentDocument->setTitle(tr("Linienfahrplan - %1").arg(pdfTitle));
     currentDocument->setPageLayout(QPageLayout(QPageSize::A4, QPageLayout::Landscape, QMargins(10, 10, 10, 10), QPageLayout::Millimeter));
 
     painter = new QPainter(currentDocument);
@@ -106,7 +106,7 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
     painter->end();
 
     QIcon icon(":/main/icons/success.ico");
-    QTreeWidgetItem *itm = new QTreeWidgetItem({"Line finished: " + m_currentLine->title()});
+    QTreeWidgetItem *itm = new QTreeWidgetItem({tr("Line finished: %1").arg(m_currentLine->title())});
     itm->setIcon(0, icon);
     ui->twLog->addTopLevelItem(itm);
     qApp->processEvents();
@@ -234,7 +234,7 @@ void DlgPdfExporter::writeNewPage() {
 
     // footer
     QRect footer(0, pageHeight - 45 + 25, pageWidth, 45);
-    painter->drawText(footer, Qt::AlignRight|Qt::AlignBottom, "Seite 1 von 1");
+    painter->drawText(footer, Qt::AlignRight|Qt::AlignBottom, tr("Page 1 of 1"));
 
     currentDocument->newPage();
 

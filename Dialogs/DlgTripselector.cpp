@@ -137,7 +137,7 @@ void TripSelector::loadTrips()
 
         itm->setText(0, t->selfChildId());
         itm->setText(1, t->startTime().toString("hh:mm"));
-        itm->setText(2, QString::number(breakTime) + " min.");
+        itm->setText(2, QString::number(breakTime) + tr(" min."));
         itm->setText(3, t->route()->firstBusstop()->name());
         itm->setText(4, t->route()->lastBusstop()->name());
         itm->setToolTip(3, t->route()->name());

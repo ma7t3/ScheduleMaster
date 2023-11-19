@@ -236,7 +236,7 @@ void WdgBusstopSchedule::showEvent(QShowEvent *e) {
 void WdgBusstopSchedule::setBusstop(Busstop *b) {
     busstop = b;
     if(!b)
-        ui->lBusstopName->setText("<unkown>");
+        ui->lBusstopName->setText(tr("<unkown>"));
     else
         ui->lBusstopName->setText(b->name());
 }

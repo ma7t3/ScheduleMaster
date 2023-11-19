@@ -58,7 +58,7 @@ PublishedLine *WdgPublishedLines::currentLine() const {
 
 void WdgPublishedLines::actionNew() {
     bool ok = false;
-    QString name = QInputDialog::getText(this, "New line", "Enter line name:", QLineEdit::Normal, "", &ok);
+    QString name = QInputDialog::getText(this, tr("New line"), tr("Enter line name:"), QLineEdit::Normal, "", &ok);
     if(!ok)
         return;
 
@@ -100,7 +100,7 @@ void WdgPublishedLines::actionDirectionNew() {
         return;
 
     bool ok = false;
-    QString name = QInputDialog::getText(this, "New direction", "Enter direction name:", QLineEdit::Normal, "", &ok);
+    QString name = QInputDialog::getText(this, tr("New direction"), tr("Enter direction name:"), QLineEdit::Normal, "", &ok);
     if(!ok)
         return;
 
@@ -347,7 +347,7 @@ void WdgPublishedLines::refreshRouteList() {
 
         for(int j = 0; j < directions.count(); j++) {
             LineDirection *ld = directions[j];
-            QTreeWidgetItem *directionItm = new QTreeWidgetItem(lineItm, {"to " + ld->description()});
+            QTreeWidgetItem *directionItm = new QTreeWidgetItem(lineItm, {tr("to ") + ld->description()});
             directionItm->setCheckState(0, Qt::Unchecked);
 
             QList<Route *> routes = l->routesToDirection(ld);
@@ -536,7 +536,7 @@ void WdgPublishedLines::on_pbFilePathBrowse_clicked() {
     if(!dir.exists())
         dir.mkpath(dir.path());
 
-    QString fileName = QFileDialog::getSaveFileName(this, "", dir.path(), "Portable document format (*.pdf)");
+    QString fileName = QFileDialog::getSaveFileName(this, "", dir.path(), tr("Portable document format (*.pdf)"));
     if(fileName == "")
         return;
 

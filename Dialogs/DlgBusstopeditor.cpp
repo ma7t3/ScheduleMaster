@@ -46,12 +46,12 @@ bool busstopEditor::isImportant()
 void busstopEditor::setCreateNewMode(bool createNewMode)
 {
     if(createNewMode)
-        this->setWindowTitle("Create busstop");
+        this->setWindowTitle(tr("Create busstop"));
 }
 
 void busstopEditor::on_busstopEditor_accepted()
 {
     if(ui->leName->text() == "")
-        QMessageBox::warning(this, "Error", "No name given. Busstop was not saved!");
+        QMessageBox::warning(this, tr("Error"), tr("No name given. Busstop was not saved!"));
 }
 

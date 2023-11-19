@@ -55,7 +55,7 @@ void lineEditor::actionRenameDirection() {
     LineDirection *ld = directionTableReference[ui->lwDirections->currentRow()];
 
     bool ok = false;
-    QString newName = QInputDialog::getText(this, "Rename direction", "Enter a new direction description:", QLineEdit::Normal, ld->description(), &ok);
+    QString newName = QInputDialog::getText(this, tr("Rename direction"), tr("Enter a new direction description:"), QLineEdit::Normal, ld->description(), &ok);
     if(!ok || newName.isEmpty())
         return;
 

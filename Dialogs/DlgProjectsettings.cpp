@@ -57,19 +57,19 @@ QFile DlgProjectSettings::icon()                { return QFile(m_icon.fileName()
 QList<DayType *> DlgProjectSettings::dayTypes() { return tableReference; }
 
 void DlgProjectSettings::actionSelectIcon() {
-    QString filename = QFileDialog::getOpenFileName(this, "", "", "Images (*.png *.jpg *.bmp *.ico)");
+    QString filename = QFileDialog::getOpenFileName(this, "", "", tr("Images (*.png *.jpg *.bmp *.ico)"));
     if(filename.isEmpty())
         return;
 
     QFile f(filename);
 
     if(!f.exists()) {
-        QMessageBox::critical(this, "File not found", "The requested file was not found!");
+        QMessageBox::critical(this, tr("File not found"), tr("The requested file was not found!"));
         return;
     }
 
     if(!f.open(QIODevice::ReadOnly)) {
-        QMessageBox::critical(this, "Couldn't open file", QString("<p><b>The requested file couldn't be opened:</b></p><p>%1</p>").arg(f.errorString()));
+        QMessageBox::critical(this, tr("Couldn't open file"), tr("<p><b>The requested file couldn't be opened:</b></p><p>%1</p>").arg(f.errorString()));
         return;
     }
     f.close();
@@ -207,7 +207,7 @@ void DlgProjectSettings::on_pbDaysDelete_clicked() {
     if(!m_currentDayType)
         return;
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, "Delete day type", tr("<p><b>Do you really want to delete this dayType?</b></p><p>%1</p>").arg(m_currentDayType->name()), QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete day type"), tr("<p><b>Do you really want to delete this dayType?</b></p><p>%1</p>").arg(m_currentDayType->name()), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
 

@@ -6,11 +6,12 @@
 #include "ProjectData/projectdata.h"
 
 class cmdBusstopNew : public QUndoCommand {
+
 public:
     cmdBusstopNew(ProjectData *d, Busstop *b) :
         d(d),
         busstop(b) {
-        setText(QString("new busstop (%1)").arg(busstop->name()));
+        setText(QObject::tr("new busstop: %1").arg(busstop->name()));
     }
 
     void undo() override {
@@ -27,12 +28,13 @@ private:
 };
 
 class cmdBusstopEdit : public QUndoCommand {
+
 public:
     cmdBusstopEdit(Busstop *b, Busstop newB) :
         busstop(b),
         oldB(*b),
         newB(newB) {
-        setText(QString("edit busstop (%1)").arg(newB.name()));
+        setText(QObject::tr("edit busstop (%1)").arg(newB.name()));
     }
 
     void undo() override {
@@ -51,11 +53,12 @@ private:
 };
 
 class cmdBusstopDelete : public QUndoCommand {
+
 public:
     cmdBusstopDelete(ProjectData *d, Busstop *b) :
         d(d),
         busstop(b) {
-        setText(QString("delete busstop (%1)").arg(busstop->name()));
+        setText(QObject::tr("delete busstop: %1").arg(busstop->name()));
     }
 
     void undo() override {
@@ -72,12 +75,13 @@ private:
 };
 
 class cmdBusstopsDelete : public QUndoCommand {
+
 public:
     cmdBusstopsDelete(ProjectData *d, QList<Busstop *> list) :
         d(d),
         busstops(list) {
         if(list.count() == 1)
-            setText(QObject::tr("deleted busstop \"%1\"").arg(list[0]->name()));
+            setText(QObject::tr("deleted busstop: %1").arg(list[0]->name()));
         else
             setText(QObject::tr("deleted %n busstops", "", list.count()));
     }

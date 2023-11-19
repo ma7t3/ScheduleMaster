@@ -91,7 +91,7 @@ void WdgTours::actionTourDelete() {
     if(!o)
         return;
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, "delete tour", "Do you really want to delete this tour?", QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete tour"), tr("Do you really want to delete this tour?"), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
 

@@ -96,7 +96,7 @@ void WdgLines::actionDelete() {
     }
     showList += "</table>";
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, "Delete line(s)", tr("<p><b>Do you really want to delete these %n line(s)?</b></p><p></p>", "", lines.count()) + showList, QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete line(s)"), tr("<p><b>Do you really want to delete these %n line(s)?</b></p><p></p>", "", lines.count()) + showList, QMessageBox::Yes|QMessageBox::No);
 
     if(msg != QMessageBox::Yes)
         return;
