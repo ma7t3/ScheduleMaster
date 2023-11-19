@@ -31,5 +31,9 @@
         <file>appIcon/Icon_512px.ico</file>
         <file>appIcon/Icon_1024px.ico</file>
         <file>splashscreen/splashscreen_christmas.png</file>
+        <file>icons/error.ico</file>
+        <file>icons/info.ico</file>
+        <file>icons/warning.ico</file>
+        <file>icons/success.ico</file>
     </qresource>
 </RCC>

@@ -22,6 +22,7 @@
 
 #include "Dialogs/DlgStartupdialog.h"
 #include "Dialogs/DlgFilehandler.h"
+#include "Dialogs/DlgPdfExporter.h"
 
 #include "ProjectData/projectdata.h"
 #include "qprogressbar.h"
@@ -85,6 +86,8 @@ private slots:
 
     void on_actionPublishTest_triggered();
 
+    void on_actionPublishAll_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -92,8 +95,7 @@ private:
     QUndoStack *undoStack;
     StartupDialog *startupDialog;
     DlgFileHandler *fileHandler;
-
-    QProgressBar *statusProgressBar = new QProgressBar;
+    DlgPdfExporter *pdfExporter;
 
     WdgUndoView *wdgUndoView = new WdgUndoView(this, undoStack);
     WdgBusstops *wdgBusstops = new WdgBusstops(this, projectData, undoStack);

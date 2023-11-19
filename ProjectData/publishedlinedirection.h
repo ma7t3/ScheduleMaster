@@ -15,7 +15,12 @@ public:
     PublishedBusstop *busstop(const QString &id);
     PublishedBusstop *busstopAt(const int &index);
     int busstopCount() const;
+
     void setBusstops(const QList<PublishedBusstop *> &newBusstops);
+    void addBusstop(PublishedBusstop *newBusstop);
+    void removeBusstopAt(const int &index);
+    void removeBusstop(const QString &id);
+    void removeBusstop(PublishedBusstop *b);
 
     QList<Route *> routes() const;
     Route *routeAt(const int &index);
@@ -23,6 +28,7 @@ public:
     bool hasRoute(Route *);
 
     void setRoutes(const QList<Route *> &newRoutes);
+    void addRoute(Route *newRoute);
 
     QString name() const;
     void setName(const QString &newName);

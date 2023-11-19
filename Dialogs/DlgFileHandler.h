@@ -21,8 +21,13 @@ public:
     bool saveToFile(QString filePath);
 
 
+private slots:
+    void on_buttonBox_accepted();
+
 private:
     Ui::DlgFileHandler *ui;
+
+    bool noErrors;
 
     ProjectData *projectData;
 
@@ -37,6 +42,7 @@ private:
     void loadProfiles(QJsonArray, Route *);
     void loadTrip(QJsonObject, Line *);
     void loadTours(QJsonArray);
+    void loadPublications(QJsonObject);
 
     QJsonObject projectSettingsToJson(ProjectSettings *);
     QJsonObject dayTypeToJson(DayType *);
@@ -46,6 +52,13 @@ private:
     QJsonObject tripToJson(Trip *);
     QJsonObject tourToJson(Tour *);
     QJsonObject directionToJson(LineDirection *ld);
+    QJsonObject publicationsToJson(Publications *);
+
+    void logInfo(const QString &text);
+    void logSuccess(const QString &text);
+    void logWarning(const QString &text);
+    void logError(const QString &text);
+    void logCritical(const QString &text);
 };
 
 #endif // DLGFILEHANDLER_H

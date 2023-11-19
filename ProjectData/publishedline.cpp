@@ -1,6 +1,6 @@
 #include "publishedline.h"
 
-PublishedLine::PublishedLine(const QString &id, const QString &title, const QString &description, const QString &subTitle) :
+PublishedLine::PublishedLine(const QString &id, const QString &title, const QString &subTitle) :
     AbstractProjectDataItem(id),
     m_title(title),
     m_subTitle(subTitle)

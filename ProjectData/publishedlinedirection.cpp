@@ -43,6 +43,38 @@ void PublishedLineDirection::setBusstops(const QList<PublishedBusstop *> &newBus
     m_busstops = newBusstops;
 }
 
+void PublishedLineDirection::addBusstop(PublishedBusstop *newBusstop) {
+    if(!newBusstop)
+        return;
+
+    m_busstops << newBusstop ;
+}
+
+void PublishedLineDirection::removeBusstopAt(const int &index) {
+    if(index < 0 || index >= busstopCount())
+        return;
+
+    m_busstops.remove(index);
+}
+
+void PublishedLineDirection::removeBusstop(const QString &id) {
+    for(int i = 0; i < busstopCount(); i++) {
+        if(busstopAt(i)->id() == id) {
+            m_busstops.remove(i);
+            return;
+        }
+    }
+}
+
+void PublishedLineDirection::removeBusstop(PublishedBusstop *b) {
+    for(int i = 0; i < busstopCount(); i++) {
+        if(busstopAt(i) == b) {
+            m_busstops.remove(i);
+            return;
+        }
+    }
+}
+
 QList<Route *> PublishedLineDirection::routes() const {
     return m_routes;
 }
@@ -60,6 +92,13 @@ int PublishedLineDirection::routeCount() {
 
 void PublishedLineDirection::setRoutes(const QList<Route *> &newRoutes) {
     m_routes = newRoutes;
+}
+
+void PublishedLineDirection::addRoute(Route *newRoute) {
+    if(!newRoute)
+        return;
+
+    m_routes << newRoute;
 }
 
 bool PublishedLineDirection::hasRoute(Route *r) {
