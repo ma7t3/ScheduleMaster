@@ -11,7 +11,7 @@
 
 class PublishedLine : public AbstractProjectDataItem {
 public:
-    PublishedLine(const QString &id, const QString &title = "", const QString &description = "", const QString &subTitle = "");
+    PublishedLine(const QString &id, const QString &title = "", const QString &subTitle = "");
 
     QString title() const;
     void setTitle(const QString &newTitle);

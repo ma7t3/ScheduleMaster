@@ -271,6 +271,17 @@ Route *ProjectData::routeOfTimeProfile(TimeProfile *p) {
     return nullptr;
 }
 
+QList<Trip *> ProjectData::tripsOfRoute(Route *route) {
+    QList<Trip *> resultList;
+
+    for(int i = 0; i < lineCount(); i++) {
+        Line *l = lineAt(i);
+        resultList << l->tripsOfRoute(route);
+    }
+
+    return resultList;
+}
+
 QList<Line *> ProjectData::linesAtBusstop(QString id) {
     
     Busstop *b = this->busstop(id);

@@ -65,6 +65,8 @@ public:
     Line *lineOfTrip(Trip *);
     Route *routeOfTimeProfile(TimeProfile *);
 
+    QList<Trip *> tripsOfRoute(Route *);
+
     QList<Line *> linesAtBusstop(Busstop *b);
     QList<Line *> linesAtBusstop(QString);
 

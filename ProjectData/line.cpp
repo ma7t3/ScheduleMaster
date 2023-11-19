@@ -160,6 +160,18 @@ QList<Trip *> Line::tripsToDirection(LineDirection *ld) {
     return resultList;
 }
 
+QList<Trip *> Line::tripsOfRoute(Route *route) {
+    QList<Trip *> resultList;
+
+    for(int i = 0; i < tripCount(); i++) {
+        Trip *t = tripAt(i);
+        if(t->route() == route)
+            resultList << t;
+    }
+
+    return resultList;
+}
+
 void Line::setTripList(QList<Trip *> list) { m_trips = list; }
 
 void Line::addTrip(Trip *t) {

@@ -124,9 +124,10 @@
      </property>
      <addaction name="actionPublishManageFootnotes"/>
     </widget>
-    <addaction name="actionPublishLineSchedule"/>
-    <addaction name="actionPublishBusstopSchedule"/>
-    <addaction name="actionPublishTourPlan"/>
+    <addaction name="actionPublishAll"/>
+    <addaction name="actionPublishLineSchedules"/>
+    <addaction name="actionPublishBusstopSchedules"/>
+    <addaction name="actionPublishTourPlans"/>
     <addaction name="menuConfiguration"/>
     <addaction name="actionPublishTest"/>
    </widget>
@@ -384,19 +385,25 @@
     <string>Duplicate</string>
    </property>
   </action>
-  <action name="actionPublishLineSchedule">
+  <action name="actionPublishLineSchedules">
    <property name="text">
-    <string>Line Schedule</string>
+    <string>Line Schedules</string>
    </property>
   </action>
-  <action name="actionPublishBusstopSchedule">
+  <action name="actionPublishBusstopSchedules">
    <property name="text">
-    <string>Busstop Schedule</string>
+    <string>Busstop Schedules</string>
+   </property>
+   <property name="toolTip">
+    <string>Busstop Schedules</string>
    </property>
   </action>
-  <action name="actionPublishTourPlan">
+  <action name="actionPublishTourPlans">
    <property name="text">
-    <string>Tour Plan</string>
+    <string>Tour Plans</string>
+   </property>
+   <property name="toolTip">
+    <string>Tour Plans</string>
    </property>
   </action>
   <action name="actionEditProjectSettings">
@@ -445,7 +452,15 @@
     <string>Publish</string>
    </property>
    <property name="shortcut">
-    <string>Alt+F5</string>
+    <string>Alt+5</string>
+   </property>
+  </action>
+  <action name="actionPublishAll">
+   <property name="text">
+    <string>All</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
    </property>
   </action>
  </widget>

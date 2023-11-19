@@ -35,6 +35,15 @@ public slots:
 
     void actionRoutesChange();
 
+    void actionBusstopAdd();
+    void actionBusstopsAddAll();
+
+    void actionBusstopRemove();
+    void actionBusstopRemoveAll();
+
+    void actionBusstopUp();
+    void actionBusstopDown();
+
     void refreshLineList();
     void refreshCurrentLine();
     void refreshCurrentLineDirection();
@@ -42,6 +51,9 @@ public slots:
     void refreshRouteList();
     void refreshRouteCheckBoxes();
     void refreshRouteCheckBoxRelations(QTreeWidgetItem *);
+
+    void refreshAllBusstops();
+    void refreshBusstopList();
 
 signals:
     void currentLineChanged(PublishedLine *);
@@ -53,6 +65,8 @@ private slots:
 
     void on_lwDirections_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
+    void on_lwBusstops_itemClicked(QListWidgetItem *item);
+
 private:
     Ui::WdgPublishedLines *ui;
 
@@ -62,9 +76,12 @@ private:
     QList<PublishedLineDirection *> m_directionsListReference;
     PublishedLine *m_currentLine;
     PublishedLineDirection *m_currentLineDirection;
+    PublishedBusstop *m_currentBusstop;
     QList<QList<QList<Route *>>> m_routesReference;
     QList<QList<LineDirection *>> m_routesDirectionsReference;
     QList<Line *> m_routesLinesReference;
+
+    QList<Busstop *> m_allBusstopsReference;
 
     bool refreshing = false;
     bool refreshingCurrentLine = false;

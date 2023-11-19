@@ -29,7 +29,6 @@
 #include "ui_Mainwindow.h"
 
 #include "Widgets/wdgschedule.h"
-//#include "filehandler.h"
 
 #include "Dialogs/DlgStartupdialog.h"
 #include "Dialogs/DlgProjecttreeviewer.h"
@@ -48,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     undoStack(new QUndoStack),
     startupDialog(new StartupDialog(this)),
     fileHandler(new DlgFileHandler(this, projectData)),
+    pdfExporter(new DlgPdfExporter(this, projectData)),
     knownFile(true)
 {
     // init splashscreen
@@ -615,9 +615,9 @@ bool MainWindow::openFile(QString path) {
 
     f.close();
 
-    statusProgressBar->setMaximum(0);
+    fileHandler->show();
+    qApp->processEvents();
     fileHandler->readFromFile(path);
-    statusProgressBar->setMaximum(1);
 
     projectData->cleanup();
 
@@ -625,7 +625,7 @@ bool MainWindow::openFile(QString path) {
     wdgLines->refreshLineTable();
     wdgTours->refreshTourList();
     wdgSchedule->refreshDayTypes();
-
+    wdgPublishedLines->refreshLineList();
     wdgPublishedLines->refreshRouteList();
 
     undoStack->clear();
@@ -653,9 +653,7 @@ bool MainWindow::saveFile(QString path) {
 
     projectData->cleanup();
 
-    statusProgressBar->setMaximum(0);
     fileHandler->saveToFile(path);
-    statusProgressBar->setMaximum(1);
 
     undoStack->setClean();
     knownFile = true;
@@ -869,30 +867,9 @@ void MainWindow::on_actionPublishTest_triggered() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::on_actionPublishAll_triggered() {
+    pdfExporter->show();
+    qApp->processEvents();
+    pdfExporter->exportAllLineSchedules();
+}
 

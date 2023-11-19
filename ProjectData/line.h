@@ -59,6 +59,8 @@ public:
     Trip *trip(QString);
     QList<Trip *> trips();
     QList<Trip *> tripsToDirection(LineDirection *);
+    QList<Trip *> tripsOfRoute(Route *);
+
 
     void setTripList(QList<Trip *>);
     void addTrip(Trip *);

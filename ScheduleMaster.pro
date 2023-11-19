@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     Dialogs/DlgFilehandler.cpp \
+    Dialogs/DlgPdfExporter.cpp \
     Dialogs/DlgProjectsettings.cpp \
     Mainwindow.cpp \
     ProjectData/daytype.cpp \
@@ -25,7 +26,6 @@ SOURCES += \
     Dialogs/DlgBusstopeditor.cpp \
     Dialogs/DlgDataexporter.cpp \
     Widgets/Publications/wdgpublishedlines.cpp \
-    filehandler.cpp \
     ProjectData/line.cpp \
     Dialogs/DlgLineeditor.cpp \
     Widgets/wdgbusstops.cpp \
@@ -59,7 +59,8 @@ HEADERS += \
     Commands/CmdRoutes.h \
     Commands/CmdSchedule.h \
     Commands/CmdTours.h \
-    Dialogs/DlgFilehandler.h \
+    Dialogs/DlgFileHandler.h \
+    Dialogs/DlgPdfExporter.h \
     Dialogs/DlgProjectsettings.h \
     Mainwindow.h \
     ProjectData/daytype.h \
@@ -74,7 +75,6 @@ HEADERS += \
     ProjectData/publishedline.h \
     ProjectData/publishedlinedirection.h \
     Widgets/Publications/wdgpublishedlines.h \
-    filehandler.h \
     Widgets/wdgbusstops.h \
     Widgets/wdglines.h \
     Widgets/wdgroutes.h \
@@ -100,7 +100,8 @@ HEADERS += \
     ProjectData/weekdays.h
 
 FORMS += \
-    Dialogs/DlgFilehandler.ui \
+    Dialogs/DlgFileHandler.ui \
+    Dialogs/DlgPdfExporter.ui \
     Dialogs/DlgProjectsettings.ui \
     Dialogs/DlgBusstopeditor.ui \
     Dialogs/DlgDataexporter.ui \

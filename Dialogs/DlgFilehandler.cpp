@@ -9,6 +9,8 @@ DlgFileHandler::DlgFileHandler(QWidget *parent, ProjectData *projectData) :
     projectData(projectData)
 {
     ui->setupUi(this);
+
+    setModal(true);
 }
 
 DlgFileHandler::~DlgFileHandler()
@@ -16,48 +18,100 @@ DlgFileHandler::~DlgFileHandler()
     delete ui;
 }
 
-bool DlgFileHandler::readFromFile(QString filePath)
-{
+bool DlgFileHandler::readFromFile(QString filePath) {
+    ui->buttonBox->setEnabled(false);
+
+    qApp->processEvents();
+
+    noErrors = true;
+
     QFile f(filePath);
 
-    if(!f.exists())
+    if(!f.exists()) {
+        noErrors = false;
+        logCritical(tr("couldn't load project - file not found: ") + filePath);
+        ui->buttonBox->setEnabled(true);
         return false;
+    }
 
-    if(!f.open(QIODevice::ReadOnly))
+    if(!f.open(QIODevice::ReadOnly)) {
+        noErrors = false;
+        logCritical(tr("couldn't load project - couldn't open file: ") + filePath);
+        ui->buttonBox->setEnabled(true);
         return false;
+    }
 
     QTextStream s(&f);
     s.setEncoding(QStringConverter::Utf8);
 
+    logInfo(tr("reading file..."));
     QString jsonStr = s.readAll();
     jsonStr = jsonStr.remove(fileHeader);
     QByteArray br = jsonStr.toUtf8();
     QJsonDocument jDoc = QJsonDocument::fromJson(br);
 
-    if(!jDoc.isObject())
+    if(!jDoc.isObject()) {
+        noErrors = false;
+        logCritical(tr("couldn't load project - file is not a valid json object"));
+        ui->buttonBox->setEnabled(true);
         return false;
+    }
 
+    logInfo(tr("read file - %1 characters").arg(jsonStr.length()));
 
     QJsonObject jMainObj = jDoc.object();
 
+    logInfo(tr("loading project settings..."));
     if(jMainObj.contains("projectSettings") && jMainObj.find("projectSettings")->isObject())
         loadProjectSettings(jMainObj.find("projectSettings")->toObject());
     else { // Version 0.9.0 and older
+        logWarning(tr("no project settings found - loading defaults..."));
         projectData->projectSettings()->addDayType(new DayType(global::getNewID(), "Monday-Friday", DayType::MonFri));
         projectData->projectSettings()->addDayType(new DayType(global::getNewID(), "Saturday", DayType::Sat));
         projectData->projectSettings()->addDayType(new DayType(global::getNewID(), "Sunday & Holiday", DayType::Sun));
     }
 
-    if(jMainObj.contains("busstops") && jMainObj.find("busstops")->isArray())
+    if(jMainObj.contains("busstops") && jMainObj.find("busstops")->isArray()) {
+        logInfo(tr("loading busstops..."));
         loadBusstops(jMainObj.find("busstops")->toArray());
+    } else {
+        noErrors = false;
+        logWarning(tr("no busstops found"));
+    }
 
-    if(jMainObj.contains("lines") && jMainObj.find("lines")->isArray())
+    if(jMainObj.contains("lines") && jMainObj.find("lines")->isArray()) {
+        logInfo(tr("loading lines..."));
         loadLines(jMainObj.find("lines")->toArray());
+    } else {
+        noErrors = false;
+        logWarning(tr("no lines found"));
+    }
 
-    if(jMainObj.contains("tours") && jMainObj.find("tours")->isArray())
+    if(jMainObj.contains("tours") && jMainObj.find("tours")->isArray()) {
+        logInfo(tr("loading tours..."));
         loadTours(jMainObj.find("tours")->toArray());
+    } else {
+        noErrors = false;
+        logWarning(tr("no tours found"));
+    }
+
+    if(jMainObj.contains("publications") && jMainObj.find("publications")->isObject()) {
+        logInfo(tr("loading publications..."));
+        loadPublications(jMainObj.find("publications")->toObject());
+    } else {
+        noErrors = false;
+        logWarning(tr("no publications found"));
+    }
 
     f.close();
+
+    logSuccess("finished loading project!");
+
+    if(noErrors)
+        close();
+
+    ui->buttonBox->setEnabled(true);
+    qApp->processEvents();
 
     return true;
 }
@@ -65,15 +119,26 @@ bool DlgFileHandler::readFromFile(QString filePath)
 void DlgFileHandler::loadBusstops(QJsonArray jBusstops)
 {
     for(int i = 0; i < jBusstops.count(); i++) {
-        if(!jBusstops.at(i).isObject())
+        if(!jBusstops.at(i).isObject()) {
+            noErrors = false;
+            logError(tr("busstop at index %1 is invalid - skipped").arg(i));
             continue;
+        }
 
         QJsonObject jObj = jBusstops.at(i).toObject();
+
+        if(!jObj.contains("id") || !jObj.find("id")->isString()) {
+            noErrors = false;
+            logWarning(tr("busstop no. %1 - no valid id found").arg(i));
+        }
+        if(!jObj.contains("name") || !jObj.find("name")->isString()) {
+            noErrors = false;
+            logWarning(tr("busstop no. %1 - no valid name found").arg(i));
+        }
 
         QString id = jObj.contains("id") ? jObj.find("id")->toString() : global::getNewID();
         QString name = jObj.contains("name") ? jObj.find("name")->toString() : "unnamed";
         bool important = jObj.contains("important") ? jObj.find("important")->toBool() : false;
-
 
         Busstop *b = new Busstop(id, name, important);
         projectData->addBusstop(b);
@@ -311,6 +376,75 @@ void DlgFileHandler::loadTours(QJsonArray jArr)
     }
 }
 
+void DlgFileHandler::loadPublications(QJsonObject jObj) {
+    if(jObj.contains("lineSchedules") && jObj.find("lineSchedules")->isArray()) {
+        QJsonArray jLineSchedules = jObj.find("lineSchedules")->toArray();
+
+        for(int i = 0; i < jLineSchedules.count(); i++) {
+            QJsonObject jCurrentLine = jLineSchedules.at(i).toObject();
+
+            QString id = jCurrentLine.contains("id") ? jCurrentLine.find("id")->toString() : global::getNewID();
+            QString title = jCurrentLine.contains("title") ? jCurrentLine.find("title")->toString() : "unnamed";
+            QString subTitle = jCurrentLine.contains("subTitle") ? jCurrentLine.find("subTitle")->toString() : "";
+            QString filePath = jCurrentLine.contains("filePath") ? jCurrentLine.find("filePath")->toString() : "";
+
+            PublishedLine *l = new PublishedLine(id, title, subTitle);
+            l->setFilePath(filePath);
+
+            QJsonArray jDirections = jCurrentLine.find("directions")->toArray();
+
+            for(int j = 0; j < jDirections.count(); j++) {
+                QJsonObject jCurrentDirection = jDirections.at(j).toObject();
+                QString id = jCurrentDirection.contains("id") ? jCurrentDirection.find("id")->toString() : global::getNewID();
+                QString name = jCurrentDirection.contains("name") ? jCurrentDirection.find("name")->toString() : "";
+
+                PublishedLineDirection *ld = new PublishedLineDirection(id, name);
+
+                QJsonArray jBusstops = jCurrentDirection.find("busstops")->toArray();
+                QJsonArray jRoutes = jCurrentDirection.find("routes")->toArray();
+
+                for(int k = 0; k < jBusstops.count(); k++) {
+                    QJsonObject jCurrentBusstop = jBusstops.at(k).toObject();
+
+                    if(!jCurrentBusstop.contains("busstopID"))
+                        continue;
+
+                    Busstop *referenceBusstop = projectData->busstop(jCurrentBusstop.find("busstopID")->toString());
+                    if(!referenceBusstop)
+                        continue;
+
+                    QString id = jCurrentBusstop.contains("id") ? jCurrentBusstop.find("id")->toString() : global::getNewID();
+                    QString label = jCurrentBusstop.contains("label") ? jCurrentBusstop.find("label")->toString() : "";
+                    bool joinWithPrevious = jCurrentBusstop.contains("joinWithPrevious") ? jCurrentBusstop.find("joinWithPrevious")->toBool() : false;
+                    bool showArrAndDep = jCurrentBusstop.contains("showArrAndDepevious") ? jCurrentBusstop.find("showArrAndDep")->toBool() : false;
+
+                    PublishedBusstop *b = new PublishedBusstop(id, referenceBusstop, label);
+                    b->joinWithPrevious(joinWithPrevious);
+                    b->setShowArrAndDep(showArrAndDep);
+
+                    ld->addBusstop(b);
+                }
+
+                for(int k = 0; k < jRoutes.count(); k++) {
+                    if(!jRoutes.at(k).isString())
+                        return;
+
+                    QString routeID = jRoutes.at(k).toString();
+                    Route *r = projectData->route(routeID);
+                    if(!r)
+                        return;
+
+                    ld->addRoute(r);
+                }
+
+                l->addDirection(ld);
+            }
+
+            projectData->publications()->addLine(l);
+        }
+    }
+}
+
 QJsonObject DlgFileHandler::projectSettingsToJson(ProjectSettings *projectSettings) {
     QJsonObject jObj;
     jObj.insert("displayName", projectSettings->displayName());
@@ -342,6 +476,110 @@ QJsonObject DlgFileHandler::directionToJson(LineDirection *ld) {
     return jObj;
 }
 
+QJsonObject DlgFileHandler::publicationsToJson(Publications *publications) {
+    QJsonObject jObj;
+
+    QJsonArray jLineSchedules;
+
+    for(int i = 0; i < publications->lineCount(); i++) {
+        PublishedLine *l = publications->lineAt(i);
+        QJsonObject jCurrentLine;
+        jCurrentLine.insert("filePath", l->filePath());
+        jCurrentLine.insert("title", l->title());
+        jCurrentLine.insert("subTitle", l->subTitle());
+
+        QJsonArray jDirections;
+
+        for(int j = 0; j < l->directionCount(); j++) {
+            PublishedLineDirection *ld = l->directionAt(j);
+            QJsonObject jCurrentLineDirection;
+            jCurrentLineDirection.insert("name", ld->name());
+
+            QJsonArray jBusstops;
+            QJsonArray jRoutes;
+
+            for(int k = 0; k < ld->routeCount(); k++)
+                jRoutes.append(ld->routeAt(k)->id());
+
+            for(int k = 0; k < ld->busstopCount(); k++) {
+                PublishedBusstop *b = ld->busstopAt(k);
+
+                QJsonObject jCurrentBusstop;
+
+                jCurrentBusstop.insert("busstopID", b->linkedBusstop()->id());
+                jCurrentBusstop.insert("id", b->id());
+                jCurrentBusstop.insert("label", b->label());
+                jCurrentBusstop.insert("joinWithPrevious", b->isJoinedWithPrevious());
+                jCurrentBusstop.insert("showArrAndDep", b->showArrAndDep());
+
+                jBusstops.append(jCurrentBusstop);
+            }
+
+            jCurrentLineDirection.insert("busstops", jBusstops);
+            jCurrentLineDirection.insert("routes", jRoutes);
+
+            jDirections.append(jCurrentLineDirection);
+        }
+
+        jCurrentLine.insert("directions", jDirections);
+        jLineSchedules.append(jCurrentLine);
+    }
+
+    jObj.insert("lineSchedules", jLineSchedules);
+
+    return jObj;
+}
+
+void DlgFileHandler::logInfo(const QString &text) {
+    QIcon icon(":/main/icons/info.ico");
+
+    QTreeWidgetItem *itm = new QTreeWidgetItem({text});
+    itm->setIcon(0, icon);
+
+    ui->log->addTopLevelItem(itm);
+    qApp->processEvents();
+}
+
+void DlgFileHandler::logSuccess(const QString &text) {
+    QIcon icon(":/main/icons/success.ico");
+
+    QTreeWidgetItem *itm = new QTreeWidgetItem({text});
+    itm->setIcon(0, icon);
+
+    ui->log->addTopLevelItem(itm);
+    qApp->processEvents();
+}
+
+void DlgFileHandler::logWarning(const QString &text) {
+    QIcon icon(":/main/icons/warning.ico");
+
+    QTreeWidgetItem *itm = new QTreeWidgetItem({text});
+    itm->setIcon(0, icon);
+
+    ui->log->addTopLevelItem(itm);
+    qApp->processEvents();
+}
+
+void DlgFileHandler::logError(const QString &text) {
+    QIcon icon(":/main/icons/error.ico");
+
+    QTreeWidgetItem *itm = new QTreeWidgetItem({text});
+    itm->setIcon(0, icon);
+
+    ui->log->addTopLevelItem(itm);
+    qApp->processEvents();
+}
+
+void DlgFileHandler::logCritical(const QString &text) {
+    QIcon icon(":/main/icons/error.ico");
+
+    QTreeWidgetItem *itm = new QTreeWidgetItem({text});
+    itm->setForeground(0, Qt::red);
+    itm->setIcon(0, icon);
+
+    ui->log->addTopLevelItem(itm);
+    qApp->processEvents();
+}
 bool DlgFileHandler::saveToFile(QString filePath)
 {
     QJsonObject jFileInfo;
@@ -416,11 +654,14 @@ bool DlgFileHandler::saveToFile(QString filePath)
         jTours.append(tourToJson(o));
     }
 
+    QJsonObject jPublications = publicationsToJson(projectData->publications());
+
     QJsonObject jMainObj;
     jMainObj.insert("projectSettings", jProjectSettings);
     jMainObj.insert("busstops", jBusstops);
     jMainObj.insert("lines", jLines);
     jMainObj.insert("tours", jTours);
+    jMainObj.insert("publications", jPublications);
     jMainObj.insert("_fileInfo", jFileInfo);
 
     QJsonDocument jDoc;
@@ -613,20 +854,7 @@ QJsonObject DlgFileHandler::tourToJson(Tour *o)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void DlgFileHandler::on_buttonBox_accepted() {
+    accept();
+}
 
