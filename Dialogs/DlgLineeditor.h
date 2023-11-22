@@ -8,16 +8,16 @@
 #include "ProjectData/line.h"
 
 namespace Ui {
-class lineEditor;
+class DlgLineEditor;
 }
 
-class lineEditor : public QDialog
+class DlgLineEditor : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit lineEditor(QWidget *parent = nullptr, Line l = Line(global::getNewID(), ""));
-    ~lineEditor();
+    explicit DlgLineEditor(QWidget *parent = nullptr, Line l = Line(global::getNewID(), ""));
+    ~DlgLineEditor();
 
     Line line();
 
@@ -28,9 +28,7 @@ private slots:
     void refreshDirections();
 
 private:
-    Ui::lineEditor *ui;
-
-    QList<LineDirection *> directionTableReference;
+    Ui::DlgLineEditor *ui;
     Line m_line;
 };
 

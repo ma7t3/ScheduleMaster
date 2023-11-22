@@ -49,9 +49,9 @@ void TripSelector::loadLines()
         QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twLines);
         itm->setText(0, l->id());
         itm->setText(1, l->name());
-        itm->setText(2, l->getDescription());
-
-        QColor color = l->getColor();
+        itm->setText(2, l->description());
+        
+        QColor color = l->color();
         QColor bColor = global::getContrastColor(color);
         itm->setBackground(1, color);
         itm->setForeground(1, bColor);

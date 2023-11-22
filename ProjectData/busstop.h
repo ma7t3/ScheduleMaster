@@ -20,6 +20,8 @@ public:
 
     void setName(QString);
     void setImportant(bool);
+
+    void operator=(Busstop &other);
 };
 
 #endif // BUSSTOP_H

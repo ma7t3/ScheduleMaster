@@ -19,8 +19,6 @@ private:
     QColor m_color;
     QList<LineDirection *> m_directions;
     QList<Route*> m_routes;
-    /*QList<Trip *> m_forwardTrips;
-    QList<Trip *> m_reverseTrips;*/
     QList<Trip *> m_trips;
 
 public:
@@ -31,14 +29,17 @@ public:
     void setColor(QColor);
 
     QString name();
-    QString getDescription();
-    QColor getColor();
+    QString description();
+    QColor color();
 
     int directionCount();
     LineDirection *directionAt(int i);
     LineDirection *direction(QString);
     QList<LineDirection *> directions();
+    bool hasDirection(const QString &id);
+    int indexOfDirection(const QString &id);
 
+    void setDirections(const QList<LineDirection *> &newDirections);
     void addDirection(LineDirection *);
     void removeDirection(LineDirection *);
     void removeDirection(QString);
@@ -69,31 +70,7 @@ public:
 
     LineDirection *directionOfTrip(Trip *);
 
-    /*int forwardTripCount();
-    Trip *forwardTripAt(int);
-    QList<Trip *> forwardTrips();
-
-    int reverseTripCount();
-    Trip * reverseTripAt(int);
-    QList<Trip *> reverseTrips();
-
-    int tripCount();
-    //Trip *TripAt(int);
-    QList<Trip *> trips();
-
-    Trip *trip(QString);
-    bool tripDirection(Trip *t);*/
-
-    /*void addForwardTrip(Trip *);
-    void addReverseTrip(Trip *);*/
-
-    //void addTrip(Trip *);
-
-    /*void removeTrip(Trip *);
-    void removeTrip(QString);
-
-    void setForwardTripList(QList<Trip *>);
-    void setReverseTripList(QList<Trip *>);*/
+    void operator=(Line &other);
 };
 
 #endif // LINE_H

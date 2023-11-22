@@ -162,8 +162,8 @@ void WdgBusstopSchedule::refreshSchedule()
         itm->setFont(f);
         itm->setToolTip(t->route()->name() + " (" + getShiftedWeekDays(t).toString() + ")");
         if(l) {
-            itm->setBackground(l->getColor());
-            itm->setForeground(global::getContrastColor(l->getColor()));
+            itm->setBackground(l->color());
+            itm->setForeground(global::getContrastColor(l->color()));
         }
 
         ui->twSchedule->setItem(hour, column, itm);
@@ -293,8 +293,8 @@ void WdgBusstopSchedule::refreshLinesAndDirections() {
                     QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twLines);
                     itm->setText(0, l->id());
                     itm->setText(1, l->name());
-                    itm->setBackground(1, l->getColor());
-                    itm->setForeground(1, global::getContrastColor(l->getColor()));
+                    itm->setBackground(1, l->color());
+                    itm->setForeground(1, global::getContrastColor(l->color()));
 
                     if(preselectedLines.empty())
                         itm->setCheckState(1, Qt::Checked);

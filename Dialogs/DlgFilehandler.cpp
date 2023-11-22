@@ -620,8 +620,8 @@ bool DlgFileHandler::saveToFile(QString filePath)
 
         QString id = l->id();
         QString name = l->name();
-        QString description = l->getDescription();
-        QString colorName = l->getColor().name(QColor::HexRgb);
+        QString description = l->description();
+        QString colorName = l->color().name(QColor::HexRgb);
 
         QJsonArray directions;
         QJsonArray routes;

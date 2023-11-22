@@ -19,3 +19,8 @@ bool Busstop::important() { return isImportant(); }
 void Busstop::setName(QString name) { m_name = name; }
 
 void Busstop::setImportant(bool important) { m_important = important; }
+
+void Busstop::operator=(Busstop &other) {
+    setName(other.name());
+    setImportant(other.important());
+}

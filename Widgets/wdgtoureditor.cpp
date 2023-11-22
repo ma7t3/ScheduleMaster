@@ -261,7 +261,7 @@ void WdgTourEditor::refreshTour() {
         targetRow = ui->twTour->rowCount();
         ui->twTour->insertRow(targetRow);
         
-        QColor color = projectData->lineOfRoute(t->route())->getColor();
+        QColor color = projectData->lineOfRoute(t->route())->color();
         QColor contrastColor = global::getContrastColor(color);
         
         int duration = t->duration().msecsSinceStartOfDay() / 60000;
