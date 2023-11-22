@@ -44,6 +44,8 @@ public slots:
     void actionBusstopUp();
     void actionBusstopDown();
 
+    void actionEditBusstop();
+
     void refreshLineList();
     void refreshCurrentLine();
     void refreshCurrentLineDirection();
@@ -66,6 +68,8 @@ private slots:
     void on_lwDirections_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
     void on_lwBusstops_itemClicked(QListWidgetItem *item);
+
+    void on_pbBusstopSearchAndReplace_clicked();
 
 private:
     Ui::WdgPublishedLines *ui;

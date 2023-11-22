@@ -24,12 +24,15 @@ public:
     ~DlgPdfExporter();
 
 public slots:
+    void exportAll();
     void exportAllLineSchedules();
+    void exportAllTours();
 
 private slots:
     void exportLineSchedule(PublishedLine *l);
-
     void writeNewPage();
+
+    void exportTour(Tour *o);
 
 private:
     Ui::DlgPdfExporter *ui;

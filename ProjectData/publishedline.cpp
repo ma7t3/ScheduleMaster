@@ -1,9 +1,9 @@
 #include "publishedline.h"
 
-PublishedLine::PublishedLine(const QString &id, const QString &title, const QString &subTitle) :
+PublishedLine::PublishedLine(const QString &id, const QString &title, const QString &footer) :
     AbstractProjectDataItem(id),
     m_title(title),
-    m_subTitle(subTitle)
+    m_footer(footer)
     //m_description(description)
 {
 }
@@ -24,12 +24,12 @@ void PublishedLine::setTitle(const QString &newTitle) {
     m_title = newTitle;
 }
 
-QString PublishedLine::subTitle() const {
-    return m_subTitle;
+QString PublishedLine::footer() const {
+    return m_footer;
 }
 
-void PublishedLine::setSubTitle(const QString &newSubTitle) {
-    m_subTitle = newSubTitle;
+void PublishedLine::setFooter(const QString &newSubTitle) {
+    m_footer = newSubTitle;
 }
 
 QList<PublishedLineDirection *> PublishedLine::directions() const {
@@ -73,7 +73,7 @@ void PublishedLine::removeDirection(const QString &id) {
 void PublishedLine::setNew(const PublishedLine newPublishedLine) {
     setFilePath(newPublishedLine.filePath());
     setTitle(newPublishedLine.title());
-    setSubTitle(newPublishedLine.subTitle());
+    setFooter(newPublishedLine.footer());
 }
 
 

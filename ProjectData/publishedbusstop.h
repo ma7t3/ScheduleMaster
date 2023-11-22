@@ -22,9 +22,15 @@ public:
     bool showArrAndDep() const;
     void setShowArrAndDep(bool newShowArrAndDep);
 
+    bool showDivider() const;
+    void setShowDivider(bool newShowDivider);
+
+    void setNew(const PublishedBusstop &newBusstop);
+
 private:
     Busstop *m_linkedBusstop;
     QString m_label;
+    bool m_showDivider;
     bool m_joinWithPrevious;
     bool m_showArrAndDep;
 };

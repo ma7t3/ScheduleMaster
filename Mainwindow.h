@@ -107,15 +107,15 @@ private:
     WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, projectData);
     WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, projectData, undoStack);
 
-    QDockWidget *dwUndoView = new QDockWidget("Undo View", this);
-    QDockWidget *dwBusstops = new QDockWidget("Busstops", this);
-    QDockWidget *dwLines = new QDockWidget("Lines", this);
-    QDockWidget *dwRoutes = new QDockWidget("Routes", this);
-    QDockWidget *dwSchedule = new QDockWidget("Schedule", this);
-    QDockWidget *dwTours = new QDockWidget("Tours", this);
-    QDockWidget *dwTourEditor = new QDockWidget("Current tour", this);
-    QDockWidget *dwBusstopSchedule = new QDockWidget("Busstop schedule", this);
-    QDockWidget *dwPublishedLines = new QDockWidget("Published lines", this);
+    QDockWidget *dwUndoView = new QDockWidget(tr("Undo View"), this);
+    QDockWidget *dwBusstops = new QDockWidget(tr("Busstops"), this);
+    QDockWidget *dwLines = new QDockWidget(tr("Lines"), this);
+    QDockWidget *dwRoutes = new QDockWidget(tr("Routes"), this);
+    QDockWidget *dwSchedule = new QDockWidget(tr("Schedule"), this);
+    QDockWidget *dwTours = new QDockWidget(tr("Tours"), this);
+    QDockWidget *dwTourEditor = new QDockWidget(tr("Current tour"), this);
+    QDockWidget *dwBusstopSchedule = new QDockWidget(tr("Busstop schedule"), this);
+    QDockWidget *dwPublishedLines = new QDockWidget(tr("Published lines"), this);
 
     bool saved;
     bool knownFile;

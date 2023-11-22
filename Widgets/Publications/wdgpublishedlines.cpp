@@ -25,7 +25,7 @@ WdgPublishedLines::WdgPublishedLines(QWidget *parent, ProjectData *projectData, 
     QObject::connect(ui->pbDelete, SIGNAL(clicked()), this, SLOT(actionDelete()));
 
     QObject::connect(ui->leTitle, SIGNAL(editingFinished()), this, SLOT(actionEdit()));
-    QObject::connect(ui->leSubTitle, SIGNAL(editingFinished()), this, SLOT(actionEdit()));
+    QObject::connect(ui->leFooter, SIGNAL(editingFinished()), this, SLOT(actionEdit()));
 
     QObject::connect(ui->pbDirectionNew, SIGNAL(clicked()), this, SLOT(actionDirectionNew()));
     QObject::connect(ui->pbDirectionDelete, SIGNAL(clicked()), this, SLOT(actionDirectionDelete()));
@@ -43,6 +43,9 @@ WdgPublishedLines::WdgPublishedLines(QWidget *parent, ProjectData *projectData, 
 
     QObject::connect(ui->pbBusstopsUp, SIGNAL(clicked()), this, SLOT(actionBusstopUp()));
     QObject::connect(ui->pbBusstopsDown, SIGNAL(clicked()), this, SLOT(actionBusstopDown()));
+
+    QObject::connect(ui->leBusstopsLabel, SIGNAL(textEdited(QString)), this, SLOT(actionEditBusstop()));
+    QObject::connect(ui->cbBusstopsShowDivider, SIGNAL(clicked()), this, SLOT(actionEditBusstop()));
 
     refreshRouteList();
 }
@@ -76,7 +79,7 @@ void WdgPublishedLines::actionEdit() {
     PublishedLine newL = *m_currentLine;
 
     newL.setTitle(ui->leTitle->text());
-    newL.setSubTitle(ui->leSubTitle->text());
+    newL.setFooter(ui->leFooter->text());
     newL.setFilePath(ui->leFilePath->text());
 
     undoStack->push(new cmdPublishedLineEdit(m_currentLine, newL));
@@ -261,6 +264,19 @@ void WdgPublishedLines::actionBusstopDown() {
     refreshBusstopList();
 }
 
+void WdgPublishedLines::actionEditBusstop() {
+    if(!m_currentLineDirection || !m_currentBusstop)
+        return;
+
+    PublishedBusstop newB = *m_currentBusstop;
+    newB.setLabel(ui->leBusstopsLabel->text());
+    newB.setShowDivider(ui->cbBusstopsShowDivider->isChecked());
+
+    undoStack->push(new cmdPublishedBusstopEdit(m_currentBusstop, newB));
+
+    refreshBusstopList();
+}
+
 void WdgPublishedLines::setCurrentLine(PublishedLine *newCurrentLine) {
     m_currentLine = newCurrentLine;
 }
@@ -294,7 +310,7 @@ void WdgPublishedLines::refreshCurrentLine() {
     refreshingCurrentLine = true;
 
     ui->leTitle->setText(m_currentLine->title());
-    ui->leSubTitle->setText(m_currentLine->subTitle());
+    ui->leFooter->setText(m_currentLine->footer());
     ui->leFilePath->setText(m_currentLine->filePath());
 
     QList<PublishedLineDirection *> directions = m_currentLine->directions();
@@ -479,6 +495,8 @@ void WdgPublishedLines::refreshBusstopList() {
         PublishedBusstop *b = m_currentLineDirection->busstopAt(i);
 
         QString text = b->label().isEmpty() ? b->linkedBusstop()->name() : b->label();
+        if(b->showDivider())
+            text += "\r\n--------------------------------------------------------------------------------";
         ui->lwBusstops->addItem(text);
 
         if(b == m_currentBusstop)
@@ -554,5 +572,56 @@ void WdgPublishedLines::on_lwBusstops_itemClicked(QListWidgetItem *item) {
         return;
 
     m_currentBusstop = m_currentLineDirection->busstopAt(ui->lwBusstops->currentRow());
+    ui->leBusstopsLabel->setPlaceholderText(m_currentBusstop->linkedBusstop()->name());
+    QString label = m_currentBusstop->label();
+    ui->leBusstopsLabel->setText(label.isEmpty() ? m_currentBusstop->linkedBusstop()->name() : label);
+    ui->cbBusstopsShowDivider->setChecked(m_currentBusstop->showDivider());
 }
+
+
+void WdgPublishedLines::on_pbBusstopSearchAndReplace_clicked() {
+    if(!m_currentLineDirection)
+        return;
+
+    bool ok1, ok2;
+    QString search = QInputDialog::getText(this, "Search and replace", "Enter search string:", QLineEdit::Normal, "", &ok1);
+    QString replace = QInputDialog::getText(this, "Search and replace", "Enter replace string:", QLineEdit::Normal, "", &ok2);
+
+    if(!ok1 || !ok2)
+        return;
+
+    for(int i = 0; i < m_currentLineDirection->busstopCount(); i++) {
+        PublishedBusstop *b = m_currentLineDirection->busstopAt(i);
+        QString input = b->label().isEmpty() ? b->linkedBusstop()->name() : b->label();
+        QString result = input;
+        result.replace(search, replace, Qt::CaseInsensitive);
+        if(result != input)
+            b->setLabel(result);
+    }
+
+    refreshBusstopList();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

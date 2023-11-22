@@ -11,7 +11,7 @@
 
 class PublishedLine : public AbstractProjectDataItem {
 public:
-    PublishedLine(const QString &id, const QString &title = "", const QString &subTitle = "");
+    PublishedLine(const QString &id, const QString &title = "", const QString &footer = "");
 
     QString title() const;
     void setTitle(const QString &newTitle);
@@ -19,8 +19,8 @@ public:
     QString filePath() const;
     void setFilePath(const QString &newFilePath);
 
-    QString subTitle() const;
-    void setSubTitle(const QString &newSubTitle);
+    QString footer() const;
+    void setFooter(const QString &newSubTitle);
 
     QList<PublishedLineDirection *> directions() const;
     int directionCount() const;
@@ -35,7 +35,7 @@ public:
 private:
     QString m_filePath;
     QString m_title;
-    QString m_subTitle;
+    QString m_footer;
 
     QList<PublishedLineDirection *> m_directions;
 };

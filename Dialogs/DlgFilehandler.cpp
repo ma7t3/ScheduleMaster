@@ -385,10 +385,10 @@ void DlgFileHandler::loadPublications(QJsonObject jObj) {
 
             QString id = jCurrentLine.contains("id") ? jCurrentLine.find("id")->toString() : global::getNewID();
             QString title = jCurrentLine.contains("title") ? jCurrentLine.find("title")->toString() : "unnamed";
-            QString subTitle = jCurrentLine.contains("subTitle") ? jCurrentLine.find("subTitle")->toString() : "";
+            QString footer = jCurrentLine.contains("footer") ? jCurrentLine.find("footer")->toString() : "";
             QString filePath = jCurrentLine.contains("filePath") ? jCurrentLine.find("filePath")->toString() : "";
 
-            PublishedLine *l = new PublishedLine(id, title, subTitle);
+            PublishedLine *l = new PublishedLine(id, title, footer);
             l->setFilePath(filePath);
 
             QJsonArray jDirections = jCurrentLine.find("directions")->toArray();
@@ -417,10 +417,12 @@ void DlgFileHandler::loadPublications(QJsonObject jObj) {
                     QString label = jCurrentBusstop.contains("label") ? jCurrentBusstop.find("label")->toString() : "";
                     bool joinWithPrevious = jCurrentBusstop.contains("joinWithPrevious") ? jCurrentBusstop.find("joinWithPrevious")->toBool() : false;
                     bool showArrAndDep = jCurrentBusstop.contains("showArrAndDepevious") ? jCurrentBusstop.find("showArrAndDep")->toBool() : false;
+                    bool showDivider = jCurrentBusstop.contains("showDivider") ? jCurrentBusstop.find("showDivider")->toBool() : false;
 
                     PublishedBusstop *b = new PublishedBusstop(id, referenceBusstop, label);
                     b->joinWithPrevious(joinWithPrevious);
                     b->setShowArrAndDep(showArrAndDep);
+                    b->setShowDivider(showDivider);
 
                     ld->addBusstop(b);
                 }
@@ -486,7 +488,7 @@ QJsonObject DlgFileHandler::publicationsToJson(Publications *publications) {
         QJsonObject jCurrentLine;
         jCurrentLine.insert("filePath", l->filePath());
         jCurrentLine.insert("title", l->title());
-        jCurrentLine.insert("subTitle", l->subTitle());
+        jCurrentLine.insert("footer", l->footer());
 
         QJsonArray jDirections;
 
@@ -511,6 +513,7 @@ QJsonObject DlgFileHandler::publicationsToJson(Publications *publications) {
                 jCurrentBusstop.insert("label", b->label());
                 jCurrentBusstop.insert("joinWithPrevious", b->isJoinedWithPrevious());
                 jCurrentBusstop.insert("showArrAndDep", b->showArrAndDep());
+                jCurrentBusstop.insert("showDivider", b->showDivider());
 
                 jBusstops.append(jCurrentBusstop);
             }

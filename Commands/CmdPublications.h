@@ -139,4 +139,27 @@ private:
     PublishedLineDirection *lineDirection;
 };
 
+class cmdPublishedBusstopEdit: public QUndoCommand {
+
+public:
+    cmdPublishedBusstopEdit(PublishedBusstop *b, PublishedBusstop newB) :
+        busstop(b),
+        oldB(*b),
+        newB(newB) {
+        setText(QObject::tr("edit published busstop: %1").arg(newB.linkedBusstop()->name()));
+    }
+
+    void undo() override {
+        busstop->setNew(oldB);
+    }
+
+    void redo() override {
+        busstop->setNew(newB);
+    }
+
+private:
+    PublishedBusstop *busstop;
+    PublishedBusstop oldB, newB;
+};
+
 #endif // CMDPUBLICATIONS_H
