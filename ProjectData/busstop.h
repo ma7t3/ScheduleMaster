@@ -22,6 +22,7 @@ public:
     void setImportant(bool);
 
     void operator=(Busstop &other);
+    bool operator<(Busstop &other);
 };
 
 #endif // BUSSTOP_H

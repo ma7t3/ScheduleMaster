@@ -183,7 +183,7 @@ WeekDays WdgBusstopSchedule::getShiftedWeekDays(Trip *t) {
         w = *t->weekDays();
     else
         if(t->busstopIsAfterMidnight(busstop))
-        w = t->weekDays()->shfitedToNextDay();
+        w = *new WeekDays(t->weekDays()->shfitedToNextDay());
         else
         w = *t->weekDays();
     return w;

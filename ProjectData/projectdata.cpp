@@ -387,87 +387,27 @@ QList<Busstop *> ProjectData::combinedRoutes(const QList<Route *> &routes) {
 }
 
 QList<Busstop *> ProjectData::sortBusstops(QList<Busstop *> list) {
-    bool ok = false; // prüfvariable, ob irgendwas geändert wurde
-    while(!ok) { // solange sich noch was ändert (sortierung nicht abgeschlossen) wiederholen
-        ok = true;
-        for(int i = 0; i < list.count() - 1; i++) { // einmal durch die ganze liste wandern und immer Element an i und i+1 betrachten
-            if(list[i]->name() <= list[i + 1]->name()) // wenn Reihenfolge schon stimmt, weiterwandern
-                continue;
-
-            Busstop *tmp = list[i + 1]; // i und i+1 tauschen und prüfvariable auf false setzen
-            list[i + 1] = list[i];
-            list[i] = tmp;
-            ok = false;
-        }
-    }
+    std::sort(list.begin(), list.end(), [](Busstop *a, Busstop *b) {return *a < *b;});
     return list;
 }
 
 QList<Line *> ProjectData::sortLines(QList<Line *> list) {
-    bool ok = false;
-    while(!ok) {
-        ok = true;
-        for(int i = 0; i < list.count() - 1; i++) {
-            if(list[i]->name() <= list[i + 1]->name())
-                continue;
-
-            Line *tmp = list[i + 1];
-            list[i + 1] = list[i];
-            list[i] = tmp;
-            ok = false;
-        }
-    }
+    std::sort(list.begin(), list.end(), [](Line *a, Line *b) {return *a < *b;});
     return list;
 }
 
 QList<Route *> ProjectData::sortRoutes(QList<Route *> list) {
-    bool ok = false;
-    while(!ok) {
-        ok = true;
-        for(int i = 0; i < list.count() - 1; i++) {
-            if(list[i]->code() <= list[i + 1]->code())
-                continue;
-
-            Route *tmp = list[i + 1];
-            list[i + 1] = list[i];
-            list[i] = tmp;
-            ok = false;
-        }
-    }
+    std::sort(list.begin(), list.end(), [](Route *a, Route *b) {return *a < *b;});
     return list;
 }
 
 QList<Trip *> ProjectData::sortTrips(QList<Trip *> list) {
-    bool ok = false;
-    while(!ok) {
-        ok = true;
-        for(int i = 0; i < list.count() - 1; i++) {
-            if(list[i]->startTime() <= list[i + 1]->startTime())
-                continue;
-
-            Trip *tmp = list[i + 1];
-            list[i + 1] = list[i];
-            list[i] = tmp;
-            ok = false;
-        }
-    }
+    std::sort(list.begin(), list.end(), [](Trip *a, Trip *b) {return *a < *b;});
     return list;
 }
 
 QList<Tour *> ProjectData::sortTours(QList<Tour *> list) {
-    bool ok = false;
-    while(!ok) {
-        ok = true;
-        for(int i = 0; i < list.count() - 1; i++) {
-            if(list[i]->name() <= list[i + 1]->name())
-                continue;
-
-            Tour *tmp = list[i + 1];
-            list[i + 1] = list[i];
-            list[i] = tmp;
-            ok = false;
-        }
-    }
+    std::sort(list.begin(), list.end(), [](Tour *a, Tour *b) {return *a < *b;});
     return list;
 }
 

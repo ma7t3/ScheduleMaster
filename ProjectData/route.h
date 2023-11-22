@@ -33,7 +33,7 @@ public:
 
     void addBusstop(Busstop *);
     void insertBusstop(int, Busstop *);
-    void setBusstopList(QList<Busstop *>);
+    void setBusstops(QList<Busstop *>);
 
     int busstopCount();
     Busstop *busstopAt(int);
@@ -54,13 +54,16 @@ public:
     QList<TimeProfile *> timeProfiles();
 
     void addTimeProfile(TimeProfile *);
-    void addTimeProfileList(QList<TimeProfile *>);
-    void setTimeProfileList(QList<TimeProfile *>);
+    void addTimeProfiles(QList<TimeProfile *>);
+    void setTimeProfiles(QList<TimeProfile *>);
 
     void removeTimeProfile(TimeProfile *);
     void removeTimeProfile(QString);
 
     int indexOfTimeProfile(TimeProfile*);
+
+    void operator=(Route &other);
+    bool operator<(Route &other);
 };
 
 #endif // ROUTE_H

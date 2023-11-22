@@ -25,7 +25,7 @@ void Route::insertBusstop(int i , Busstop * b) {
     m_busstops.insert(i, b);
 }
 
-void Route::setBusstopList(QList<Busstop *> list) { m_busstops = list; }
+void Route::setBusstops(QList<Busstop *> list) { m_busstops = list; }
 
 
 int Route::busstopCount() { return m_busstops.count(); }
@@ -105,12 +105,12 @@ void Route::addTimeProfile(TimeProfile *p) {
     m_timeProfiles << p;
 }
 
-void Route::addTimeProfileList(QList<TimeProfile *> list) {
+void Route::addTimeProfiles(QList<TimeProfile *> list) {
     for(int i = 0; i < list.count(); i++)
         m_timeProfiles << list[i];
 }
 
-void Route::setTimeProfileList(QList<TimeProfile *> list) { m_timeProfiles = list; }
+void Route::setTimeProfiles(QList<TimeProfile *> list) { m_timeProfiles = list; }
 
 
 
@@ -138,4 +138,16 @@ int Route::indexOfTimeProfile(TimeProfile* p)
             return i;
 
     return -1;
+}
+
+void Route::operator=(Route &other) {
+    setCode(other.code());
+    setDirection(other.direction());
+    setName(other.name());
+    setBusstops(other.busstops());
+    setTimeProfiles(other.timeProfiles());
+}
+
+bool Route::operator<(Route &other) {
+    return code() < other.code();
 }

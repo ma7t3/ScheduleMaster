@@ -48,6 +48,9 @@ public:
     QTime drivingTime();
     QTime breakTime();
     //QList <Line *> usedLines();
+
+    void operator=(Tour &other);
+    bool operator<(Tour &other);
 };
 
 #endif // TOUR_H
