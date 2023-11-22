@@ -4,9 +4,9 @@
 #include <QColorDialog>
 #include <QInputDialog>
 
-lineEditor::lineEditor(QWidget *parent, Line l) :
+DlgLineEditor::DlgLineEditor(QWidget *parent, Line l) :
     QDialog(parent),
-    ui(new Ui::lineEditor),
+    ui(new Ui::DlgLineEditor),
     m_line(l)
 {
     ui->setupUi(this);
@@ -14,29 +14,36 @@ lineEditor::lineEditor(QWidget *parent, Line l) :
     QObject::connect(ui->lwDirections, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(actionRenameDirection()));
     QObject::connect(ui->pbDirectionRename, SIGNAL(clicked()), this, SLOT(actionRenameDirection()));
 
+    QList<LineDirection *> directions;
+    for(int i = 0; i < m_line.directionCount(); i++) {
+        LineDirection *ld = new LineDirection(*m_line.directionAt(i));
+        directions << ld;
+    }
+
+    m_line.setDirections(directions);
+
     ui->leName->setText(l.name());
-    ui->leDescription->setText(l.getDescription());
-    QString hex = l.getColor().name(QColor::HexRgb);
+    ui->leDescription->setText(l.description());
+    QString hex = l.color().name(QColor::HexRgb);
     ui->lColor->setStyleSheet("background-color: " + hex + ";");
     ui->lColorName->setText(hex);
 
     refreshDirections();
 }
 
-lineEditor::~lineEditor()
+DlgLineEditor::~DlgLineEditor()
 {
     delete ui;
 }
 
-Line lineEditor::line() {
+Line DlgLineEditor::line() {
     m_line.setName(ui->leName->text());
     m_line.setDescription(ui->leDescription->text());
     m_line.setColor(QColor(ui->lColorName->text()));
-
     return m_line;
 }
 
-void lineEditor::on_pbColor_clicked() {
+void DlgLineEditor::on_pbColor_clicked() {
     QColor oldColor(ui->lColorName->text());
     QColor newColor(QColorDialog::getColor(oldColor, this));
 
@@ -48,11 +55,11 @@ void lineEditor::on_pbColor_clicked() {
     ui->lColor->setStyleSheet("background-color: " + hex + ";");
 }
 
-void lineEditor::actionRenameDirection() {
+void DlgLineEditor::actionRenameDirection() {
     if(!ui->lwDirections->currentItem())
         return;
 
-    LineDirection *ld = directionTableReference[ui->lwDirections->currentRow()];
+    LineDirection *ld = m_line.directionAt(ui->lwDirections->currentRow());
 
     bool ok = false;
     QString newName = QInputDialog::getText(this, tr("Rename direction"), tr("Enter a new direction description:"), QLineEdit::Normal, ld->description(), &ok);
@@ -63,9 +70,8 @@ void lineEditor::actionRenameDirection() {
     ui->lwDirections->currentItem()->setText(newName);
 }
 
-void lineEditor::refreshDirections() {
+void DlgLineEditor::refreshDirections() {
     for(int i = 0; i < m_line.directionCount(); i++) {
-        directionTableReference << m_line.directionAt(i);
         ui->lwDirections->addItem(m_line.directionAt(i)->description());
     }
 }

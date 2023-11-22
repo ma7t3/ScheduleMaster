@@ -47,7 +47,7 @@ WdgLines::~WdgLines()
 }
 
 void WdgLines::actionNew() {
-    lineEditor dlg(this);
+    DlgLineEditor dlg(this);
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -67,7 +67,7 @@ void WdgLines::actionEdit() {
     if(!l)
         return;
 
-    lineEditor dlg(this, *l);
+    DlgLineEditor dlg(this, *l);
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -90,9 +90,9 @@ void WdgLines::actionDelete() {
     for(int i = 0; i < selection.count(); i++) {
         Line *l = tableRefernce[selection[i].row()];
         lines << l;
-        QColor color = l->getColor();
+        QColor color = l->color();
         QColor contrastColor = global::getContrastColor(color);
-        showList += QString("<tr style=\"color: %1; background-color: %2\"><td style=\"padding: 5px;\">%3</td><td style=\"padding: 5px;\">%4</td>").arg(contrastColor.name(QColor::HexRgb), color.name(QColor::HexRgb), l->name(), l->getDescription());
+        showList += QString("<tr style=\"color: %1; background-color: %2\"><td style=\"padding: 5px;\">%3</td><td style=\"padding: 5px;\">%4</td>").arg(contrastColor.name(QColor::HexRgb), color.name(QColor::HexRgb), l->name(), l->description());
     }
     showList += "</table>";
 
@@ -117,9 +117,9 @@ void WdgLines::actionExportList() {
     for(int i = 0; i < projectData->lineCount(); i++) {
         Line *l = projectData->lineAt(i);
         QString name = l->name();
-        QColor color = l->getColor();
+        QColor color = l->color();
         QColor contrastColor = global::getContrastColor(color);
-        QString description = l->getDescription();
+        QString description = l->description();
 
         plainText += "[" + name + "] " + description + "\r\n";
         csvText += "\"" + name + "\";\"" + description + "\"\r\n";
@@ -149,9 +149,9 @@ void WdgLines::actionExportListAndRoutes() {
     for(int i = 0; i < projectData->lineCount(); i++) {
         Line *l = projectData->lineAt(i);
         QString name = l->name();
-        QColor color = l->getColor();
+        QColor color = l->color();
         QColor contrastColor = global::getContrastColor(color);
-        QString description = l->getDescription();
+        QString description = l->description();
 
         plainText += "[" + name + "] " + description + "\r\n";
         csvText += "\"" + name + "\";\"" + description + "\"\r\n";
@@ -234,8 +234,8 @@ void WdgLines::refreshLineTable() {
         tableRefernce << l;
 
         QString name = l->name();
-        QString description = l->getDescription();
-        QColor color = l->getColor();
+        QString description = l->description();
+        QColor color = l->color();
 
         int currentRow = ui->twLines->rowCount();
         ui->twLines->insertRow(currentRow);

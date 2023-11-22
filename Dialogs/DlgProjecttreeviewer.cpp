@@ -78,7 +78,7 @@ void ProjectTreeViewer::loadLines()
             itm->setForeground(1, Qt::white);
         } else {
             itm->setText(1, l->id());
-            itm->setText(0, "[" + l->name() + "] " + l->getDescription());
+            itm->setText(0, "[" + l->name() + "] " + l->description());
 
             QTreeWidgetItem *routesItm = new QTreeWidgetItem(itm);
             itm->addChild(routesItm);

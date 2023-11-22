@@ -11,6 +11,8 @@ public:
     void setDescription(QString);
     QString description();
 
+    LineDirection *operator=(LineDirection &other);
+
 private:
     QString m_description;
 };
