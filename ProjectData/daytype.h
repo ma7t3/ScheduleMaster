@@ -14,6 +14,7 @@ public:
     void setName(QString);
     QString name();
 
+    void operator=(DayType other);
 private:
     QString m_name;
 };

@@ -24,3 +24,7 @@ void Busstop::operator=(Busstop &other) {
     setName(other.name());
     setImportant(other.important());
 }
+
+bool Busstop::operator<(Busstop &other) {
+    return name() < other.name();
+}

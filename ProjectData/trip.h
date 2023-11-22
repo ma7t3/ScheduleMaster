@@ -70,6 +70,9 @@ public:
 
     void setSelfChildId(QString);
     QString selfChildId();
+
+    void operator=(Trip &other);
+    bool operator<(Trip &other);
 };
 
 #endif // TRIP_H

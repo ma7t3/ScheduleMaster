@@ -43,16 +43,16 @@ public:
         route->setCode(oldRoute.code());
         route->setDirection(oldRoute.direction());
         route->setName(oldRoute.name());
-        route->setBusstopList(oldRoute.busstops());
-        route->setTimeProfileList(oldRoute.timeProfiles());
+        route->setBusstops(oldRoute.busstops());
+        route->setTimeProfiles(oldRoute.timeProfiles());
     }
 
     void redo() override {
         route->setCode(newRoute.code());
         route->setDirection(newRoute.direction());
         route->setName(newRoute.name());
-        route->setBusstopList(newRoute.busstops());
-        route->setTimeProfileList(newRoute.timeProfiles());
+        route->setBusstops(newRoute.busstops());
+        route->setTimeProfiles(newRoute.timeProfiles());
     }
 
 private:

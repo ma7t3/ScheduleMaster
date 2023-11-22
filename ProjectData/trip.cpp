@@ -185,3 +185,14 @@ QString Trip::selfChildId()
     
     return m_selfChildId;
 }
+
+void Trip::operator=(Trip &other) {
+    setRoute(other.route());
+    setStartTime(other.startTime());
+    weekDays()->operator=(*other.weekDays());
+    setTimeProfile(other.timeProfile());
+}
+
+bool Trip::operator<(Trip &other) {
+    return startTime() < other.startTime();
+}

@@ -16,3 +16,18 @@ DayType::DayType(QString id, QString name, bool monday, bool tuesday, bool wedne
 
 void DayType::setName(QString name) { m_name = name; }
 QString DayType::name() { return m_name; }
+
+void DayType::operator=(DayType other) {
+    setName(other.name());
+
+    setMonday(other.monday());
+    setThursday(other.tuesday());
+    setWednesday(other.wednesday());
+    setThursday(other.thursday());
+    setFriday(other.friday());
+    setSaturday(other.saturday());
+    setSunday(other.sunday());
+    setHoliday(other.holiday());
+    setSchool(other.school());
+    setNoSchool(other.noSchool());
+}

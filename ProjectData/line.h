@@ -71,6 +71,7 @@ public:
     LineDirection *directionOfTrip(Trip *);
 
     void operator=(Line &other);
+    bool operator<(Line &other);
 };
 
 #endif // LINE_H

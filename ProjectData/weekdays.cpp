@@ -182,7 +182,7 @@ bool WeekDays::overlap(QList<WeekDays> list) {
         WeekDays w = list[i];
 
         if(!(sum.school() && w.school()) && !(sum.noSchool() && w.noSchool())) {
-            sum = combine({sum, w});
+            sum = *new WeekDays(combine({sum, w}));
             continue;
         }
 
@@ -199,7 +199,7 @@ bool WeekDays::overlap(QList<WeekDays> list) {
         if(result)
             return true;
 
-        sum = combine({sum, w});
+        sum = *new WeekDays(combine({sum, w}));
         continue;
     }
     return false;
@@ -230,7 +230,7 @@ WeekDays WeekDays::intersection(QList<WeekDays> list) {
             r.setHoliday(w1.holiday() && w2.holiday());
             r.setSchool(w1.school() && w2.school());
             r.setNoSchool(w1.noSchool() && w2.noSchool());
-            result = combine(result, r);
+            result = *new WeekDays(combine(result, r));
         }
     }
 
@@ -245,8 +245,23 @@ bool WeekDays::operator ==(WeekDays *w) { return toCode() == w->toCode(); }
 
 bool WeekDays::operator <=(WeekDays *w) { return isIn(*w); }
 
+
+
 bool WeekDays::operator ==(WeekDays w) { return toCode() == w.toCode(); }
 
 bool WeekDays::operator <=(WeekDays w) { return isIn(w); }
+
+void WeekDays::operator=(WeekDays other) {
+    setMonday(other.monday());
+    setThursday(other.tuesday());
+    setWednesday(other.wednesday());
+    setThursday(other.thursday());
+    setFriday(other.friday());
+    setSaturday(other.saturday());
+    setSunday(other.sunday());
+    setHoliday(other.holiday());
+    setSchool(other.school());
+    setNoSchool(other.noSchool());
+}
 
 

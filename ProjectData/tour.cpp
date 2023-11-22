@@ -132,14 +132,15 @@ QTime Tour::breakTime() {
     return time.addMSecs(duration().msecsSinceStartOfDay() - drivingTime().msecsSinceStartOfDay());
 }
 
-/*QList<Line *> Tour::usedLines() {
-    QList<Line *> result;
-    for(int i = 0; i < tripCount(); i++) {
-        Trip *t = tripAt(i);
-        Line *l =
-    }
-}*/
+void Tour::operator=(Tour &other) {
+    setName(other.name());
+    setWeekDays(*other.weekDays());
+    setTripList(other.trips());
+}
 
+bool Tour::operator<(Tour &other) {
+    return name() < other.name();
+}
 
 
 

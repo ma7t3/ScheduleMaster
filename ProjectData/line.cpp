@@ -242,6 +242,10 @@ void Line::operator=(Line &other) {
     }
 }
 
+bool Line::operator<(Line &other) {
+    return name() < other.name();
+}
+
 
 
 
