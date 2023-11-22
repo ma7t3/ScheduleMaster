@@ -9,8 +9,12 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QTranslator translator;
-    qDebug() << translator.load(":/main/Translations/german.qm");
+    translator.load(":/main/Translations/german.qm");
     a.installTranslator(&translator);
+
+    QTranslator uiTranslator;
+    uiTranslator.load(":/main/Translations/qtbase_de.qm");
+    a.installTranslator(&uiTranslator);
 
     MainWindow w;
     w.show();

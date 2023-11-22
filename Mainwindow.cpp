@@ -12,7 +12,6 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QToolBar>
-#include <QFileDialog>
 
 #include <QUuid>
 #include <QScrollBar>
@@ -872,8 +871,7 @@ void MainWindow::on_actionPublishTest_triggered() {
 
 
 void MainWindow::on_actionPublishAll_triggered() {
-    pdfExporter->show();
-    qApp->processEvents();
     pdfExporter->exportAllLineSchedules();
+    pdfExporter->exportAllTours();
 }
 
