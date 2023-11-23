@@ -319,6 +319,7 @@ bool MainWindow::actionFileClose() {
     wdgSchedule->refreshSchedule();
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
+    wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRouteList();
     return true;
 }
@@ -337,6 +338,7 @@ void MainWindow::actionUndo() {
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
     wdgSchedule->refreshDayTypes();
+    wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRouteList();
 }
 
@@ -349,6 +351,7 @@ void MainWindow::actionRedo() {
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
     wdgSchedule->refreshDayTypes();
+    wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRouteList();
 }
 
@@ -626,6 +629,7 @@ bool MainWindow::openFile(QString path) {
     wdgTours->refreshTourList();
     wdgSchedule->refreshDayTypes();
     wdgPublishedLines->refreshLineList();
+    wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRouteList();
 
     undoStack->clear();
@@ -771,8 +775,6 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
     QList<DayType> dayTypes;
     for(int i = 0; i < projectData->projectSettings()->dayTypeCount(); i++)
         dayTypes << *projectData->projectSettings()->dayTypeAt(i);
-
-    qDebug() << projectData->projectSettings()->icon().fileName();
 
     DlgProjectSettings *dlg = new DlgProjectSettings(this);
     dlg->setNames(projectData->projectSettings()->displayName(), projectData->projectSettings()->shortName());

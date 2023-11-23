@@ -9,18 +9,18 @@ ProjectSettings::~ProjectSettings()
 }
 
 void ProjectSettings::setDisplayName(QString name)  { m_displayName = name; }
-void ProjectSettings::setShortName(QString name)    { m_displayName = name; }
+void ProjectSettings::setShortName(QString name)    { m_shortName = name; }
 
 void ProjectSettings::setNames(QString displayName, QString shortName) {
     m_displayName = displayName;
     m_shortName = shortName;
 }
 
-void ProjectSettings::setIcon(QFile file)    { m_icon = file.fileName(); }
-QString ProjectSettings::displayName()       { return m_displayName; }
-QString ProjectSettings::shortName()         { return m_shortName; }
-QFile ProjectSettings::icon()                { return QFile(m_icon); }
-QList<DayType *> ProjectSettings::dayTypes() { return m_dayTypes; }
+void ProjectSettings::setIcon(QString fileName) { m_icon = fileName; }
+QString ProjectSettings::displayName()          { return m_displayName; }
+QString ProjectSettings::shortName()            { return m_shortName; }
+QString ProjectSettings::icon()                 { return m_icon; }
+QList<DayType *> ProjectSettings::dayTypes()    { return m_dayTypes; }
 
 int ProjectSettings::dayTypeCount() {return m_dayTypes.count(); }
 
@@ -39,6 +39,14 @@ DayType *ProjectSettings::dayTypeAt(int i) {
         return nullptr;
 
     return m_dayTypes[i];
+}
+
+bool ProjectSettings::hasDaytype(const QString &id) {
+    for(int i = 0; i < dayTypeCount(); i++)
+        if(dayTypeAt(i)->id() == id)
+            return true;
+
+    return false;
 }
 
 void ProjectSettings::setDayTypes(QList<DayType *> list) {
@@ -70,6 +78,50 @@ void ProjectSettings::removeDayType(QString id) {
 }
 
 void ProjectSettings::clearDayTypes() { m_dayTypes.clear(); }
+
+void ProjectSettings::overwrite(ProjectSettings &other) {
+    setNames(other.displayName(), other.shortName());
+    setIcon(other.icon());
+
+    QList<DayType *>  newDayTypes;
+    for(int i = 0; i < other.dayTypeCount(); i++) {
+        DayType dt = *other.dayTypeAt(i);
+
+        if(hasDaytype(dt.id())) {
+            // update
+            DayType *current = dayType(dt.id());
+
+            current->overwrite(dt);
+            newDayTypes << current;
+        } else {
+            // add
+            newDayTypes << &dt;
+        }
+    }
+
+    setDayTypes(newDayTypes);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

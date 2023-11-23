@@ -3,6 +3,7 @@
 
 #include <QtCore>
 
+#include "ProjectData/daytype.h"
 #include "publishedbusstop.h"
 #include "ProjectData/route.h"
 
@@ -30,7 +31,15 @@ public:
     void removeDirection(PublishedLineDirection * direction);
     void removeDirection(const QString &id);
 
-    void setNew(const PublishedLine newPublishedLine);
+    void overwrite(const PublishedLine &other);
+
+    QList<DayType *> dayTypes() const;
+    int dayTypeCount() const;
+    bool hasDayType(DayType *);
+
+    void setDayTypes(const QList<DayType *> &newDayTypes);
+    void addDayType(DayType *);
+    void removeDayType(DayType *);
 
 private:
     QString m_filePath;
@@ -38,6 +47,7 @@ private:
     QString m_footer;
 
     QList<PublishedLineDirection *> m_directions;
+    QList<DayType *> m_dayTypes;
 };
 
 #endif // PUBLISHEDLINE_H

@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_12">
+  <layout class="QHBoxLayout" name="horizontalLayout_11">
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -72,9 +72,9 @@
      <property name="title">
       <string>Current</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_6">
+     <layout class="QHBoxLayout" name="horizontalLayout_9">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
          <widget class="QGroupBox" name="groupBox_3">
           <property name="title">
@@ -130,6 +130,22 @@
          </widget>
         </item>
         <item>
+         <widget class="QGroupBox" name="groupBox_7">
+          <property name="title">
+           <string>Day Types</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QListWidget" name="lwDayTypes">
+             <property name="selectionMode">
+              <enum>QAbstractItemView::NoSelection</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
          <widget class="QGroupBox" name="groupBox_6">
           <property name="title">
            <string>Directions</string>
@@ -167,33 +183,18 @@
             </layout>
            </item>
            <item>
+            <widget class="QLineEdit" name="leDirectionsName"/>
+           </item>
+           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
               <widget class="QListWidget" name="lwDirections"/>
-             </item>
-             <item>
-              <layout class="QFormLayout" name="formLayout_2">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_6">
-                 <property name="text">
-                  <string>Name:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="leDirectionsName"/>
-               </item>
-              </layout>
              </item>
             </layout>
            </item>
           </layout>
          </widget>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_11">
         <item>
          <widget class="QGroupBox" name="groupBox_5">
           <property name="title">
@@ -218,184 +219,184 @@
           </layout>
          </widget>
         </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_4">
-          <property name="title">
-           <string>Busstops</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_10">
+       </layout>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="title">
+         <string>Busstops</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <item>
-                <widget class="QLabel" name="label_4">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Add:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="cmbAllBusstops"/>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pbBusstopsAddAll">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Add all</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label_4">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Add:</string>
+               </property>
+              </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="lwBusstops"/>
+              <widget class="QComboBox" name="cmbAllBusstops"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbBusstopsAddAll">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Add all</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <widget class="QListWidget" name="lwBusstops"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
-               <item>
-                <widget class="QPushButton" name="pbBusstopsRemove">
-                 <property name="text">
-                  <string>Remove</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pbBusstopsRemoveAll">
-                 <property name="text">
-                  <string>Remove All</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_3">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pbBusstopSearchAndReplace">
+              <widget class="QPushButton" name="pbBusstopsRemove">
                <property name="text">
-                <string>Search and replace</string>
+                <string>Remove</string>
                </property>
               </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
-               <item>
-                <widget class="QLabel" name="label_5">
-                 <property name="text">
-                  <string>Label:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="leBusstopsLabel"/>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="cbBusstopsShowDivider">
+              <widget class="QPushButton" name="pbBusstopsRemoveAll">
                <property name="text">
-                <string>show divider after this busstop</string>
+                <string>Remove All</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QCheckBox" name="cbBusstopsJoin">
-               <property name="text">
-                <string>Join with busstop before</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="cbBusstopsShowDouble">
-               <property name="text">
-                <string>Show arrival and departure</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer">
+              <spacer name="horizontalSpacer_3">
                <property name="orientation">
-                <enum>Qt::Vertical</enum>
+                <enum>Qt::Horizontal</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
-                 <width>20</width>
-                 <height>40</height>
+                 <width>40</width>
+                 <height>20</height>
                 </size>
                </property>
               </spacer>
              </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pbBusstopSearchAndReplace">
+             <property name="text">
+              <string>Search and replace</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_6">
-               <item>
-                <widget class="QPushButton" name="pbBusstopsUp">
-                 <property name="text">
-                  <string>Up</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pbBusstopsDown">
-                 <property name="text">
-                  <string>Down</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pbBusstopsReorder">
-                 <property name="text">
-                  <string>Reorder</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>Label:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="leBusstopsLabel"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbBusstopsShowDivider">
+             <property name="text">
+              <string>show divider after this busstop</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbBusstopsJoin">
+             <property name="text">
+              <string>Join with busstop before</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbBusstopsShowDouble">
+             <property name="text">
+              <string>Show arrival and departure</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QPushButton" name="pbBusstopsUp">
+               <property name="text">
+                <string>Up</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbBusstopsDown">
+               <property name="text">
+                <string>Down</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbBusstopsReorder">
+               <property name="text">
+                <string>Reorder</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </item>
           </layout>
-         </widget>
-        </item>
-       </layout>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </widget>

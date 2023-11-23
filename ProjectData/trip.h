@@ -71,7 +71,7 @@ public:
     void setSelfChildId(QString);
     QString selfChildId();
 
-    void operator=(Trip &other);
+    void overwrite(Trip &other);
     bool operator<(Trip &other);
 };
 

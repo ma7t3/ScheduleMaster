@@ -132,7 +132,7 @@ QTime Tour::breakTime() {
     return time.addMSecs(duration().msecsSinceStartOfDay() - drivingTime().msecsSinceStartOfDay());
 }
 
-void Tour::operator=(Tour &other) {
+void Tour::overwrite(Tour &other) {
     setName(other.name());
     setWeekDays(*other.weekDays());
     setTripList(other.trips());

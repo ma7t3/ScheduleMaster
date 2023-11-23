@@ -23,12 +23,12 @@ public:
     void setDisplayName(QString);
     void setShortName(QString);
     void setNames(QString, QString);
-    void setIcon(QFile);
+    void setIcon(QString);
     void setDayTypes(QList<DayType>);
 
     QString displayName();
     QString shortName();
-    QFile icon();
+    QString icon();
     QList<DayType *> dayTypes();
 
 private slots:

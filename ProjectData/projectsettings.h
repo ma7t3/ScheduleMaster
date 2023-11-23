@@ -14,22 +14,25 @@ public:
     void setDisplayName(QString);
     void setShortName(QString);
     void setNames(QString, QString);
-    void setIcon(QFile);
+    void setIcon(QString);
 
     QString displayName();
     QString shortName();
-    QFile icon();
+    QString icon();
 
     QList<DayType *> dayTypes();
     int dayTypeCount();
     DayType *dayType(QString);
     DayType *dayTypeAt(int);
+    bool hasDaytype(const QString &id);
 
     void setDayTypes(QList<DayType *>);
     void addDayType(DayType *);
     void removeDayType(DayType *);
     void removeDayType(QString);
     void clearDayTypes();
+
+    void overwrite(ProjectSettings &other);
 
 private:
     QString m_displayName;

@@ -70,7 +70,7 @@ public:
 
     LineDirection *directionOfTrip(Trip *);
 
-    void operator=(Line &other);
+    void overwrite(Line &other);
     bool operator<(Line &other);
 };
 

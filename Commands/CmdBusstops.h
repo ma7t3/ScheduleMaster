@@ -38,13 +38,11 @@ public:
     }
 
     void undo() override {
-        busstop->setName(oldB.name());
-        busstop->setImportant(oldB.isImportant());
+        busstop->overwrite(oldB);
     }
 
     void redo() override {
-        busstop->setName(newB.name());
-        busstop->setImportant(newB.isImportant());
+        busstop->overwrite(newB);
     }
 
 private:

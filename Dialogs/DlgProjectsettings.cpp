@@ -38,22 +38,22 @@ void DlgProjectSettings::setNames(QString displayName, QString shortName) {
     setDisplayName(displayName);
     setShortName(shortName);
 }
-void DlgProjectSettings::setIcon(QFile f) {
-    m_icon.setFileName(f.fileName());
-    ui->leIconPath->setText(f.fileName());
+void DlgProjectSettings::setIcon(QString fileName) {
+    m_icon.setFileName(fileName);
+    ui->leIconPath->setText(fileName);
     reloadIconPreview();
 }
 
 void DlgProjectSettings::setDayTypes(QList<DayType> dayTypes) {
-    for(int i = 0; i < dayTypes.count(); i++) {
+    for(int i = 0; i < dayTypes.count(); i++)
         tableReference << new DayType(dayTypes[i]);
-    }
+
     refreshDayTypesTable();
 }
 
 QString DlgProjectSettings::displayName()       { return ui->leDisplayName->text(); }
 QString DlgProjectSettings::shortName()         { return ui->leShortName->text(); }
-QFile DlgProjectSettings::icon()                { return QFile(m_icon.fileName()); }
+QString DlgProjectSettings::icon()              { return m_icon.fileName(); }
 QList<DayType *> DlgProjectSettings::dayTypes() { return tableReference; }
 
 void DlgProjectSettings::actionSelectIcon() {

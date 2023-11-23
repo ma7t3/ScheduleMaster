@@ -50,7 +50,7 @@ void PublishedBusstop::setShowDivider(bool newShowDivider) {
     m_showDivider = newShowDivider;
 }
 
-void PublishedBusstop::setNew(const PublishedBusstop &newBusstop) {
+void PublishedBusstop::overwrite(const PublishedBusstop &newBusstop) {
     setLinkedBusstop(newBusstop.linkedBusstop());
     setLabel(newBusstop.label());
     setShowDivider(newBusstop.showDivider());

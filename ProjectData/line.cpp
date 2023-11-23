@@ -223,7 +223,7 @@ LineDirection *Line::directionOfTrip(Trip *t) {
     return t->route()->direction();
 }
 
-void Line::operator=(Line &other) {
+void Line::overwrite(Line &other) {
     setName(other.name());
     setDescription(other.description());
     setColor(other.color());
@@ -233,7 +233,9 @@ void Line::operator=(Line &other) {
         LineDirection *ld = other.directionAt(i);
 
         if(hasDirection(ld->id())) {
-            newDirections << direction(ld->id())->operator=(*ld); // update
+            LineDirection *currentLd = direction(ld->id());
+            currentLd->overwrite(*ld); // update
+            newDirections << currentLd;
         } else {
             newDirections << ld; // add
         }

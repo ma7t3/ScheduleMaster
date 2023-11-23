@@ -451,7 +451,7 @@ QJsonObject DlgFileHandler::projectSettingsToJson(ProjectSettings *projectSettin
     QJsonObject jObj;
     jObj.insert("displayName", projectSettings->displayName());
     jObj.insert("shortName", projectSettings->shortName());
-    jObj.insert("icon", projectSettings->icon().fileName());
+    jObj.insert("icon", projectSettings->icon());
 
     QJsonArray jArrDayTypes;
     for(int i = 0; i < projectSettings->dayTypeCount(); i++)
@@ -696,7 +696,7 @@ void DlgFileHandler::loadProjectSettings(QJsonObject jObj) {
     QString iconPath = jObj.contains("icon") ? jObj.find("icon")->toString() : "";
 
     projectData->projectSettings()->setNames(displayName, shortName);
-    projectData->projectSettings()->setIcon(QFile(iconPath));
+    projectData->projectSettings()->setIcon(iconPath);
 
     if(jObj.contains("dayTypes"))
         loadDayTypes(jObj.find("dayTypes")->toArray());

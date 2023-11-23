@@ -117,6 +117,7 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
     QTreeWidgetItem *itm = new QTreeWidgetItem({tr("Line finished: %1").arg(m_currentLine->title())});
     itm->setIcon(0, icon);
     ui->twLog->addTopLevelItem(itm);
+    ui->twLog->scrollToBottom();
     qApp->processEvents();
 
     //QDesktopServices::openUrl(QUrl(fileName));
@@ -164,7 +165,7 @@ void DlgPdfExporter::writeNewPage() {
     painter->setFont(fontNormal);
 
     // icon
-    QPixmap icon(projectData->projectSettings()->icon().fileName());
+    QPixmap icon(projectData->projectSettings()->icon());
     int rectWidth = icon.scaledToHeight(headlineRectRight.height() - 10).width();
     int diff = headlineRectRight.width() - rectWidth;
     painter->drawPixmap(headlineRectRight.adjusted(diff / 2, 5, - (diff / 2), -5), icon);
@@ -445,6 +446,13 @@ void DlgPdfExporter::exportTour(Tour *o) {
     }
 
     painter->end();
+
+    QIcon icon(":/main/icons/success.ico");
+    QTreeWidgetItem *itm = new QTreeWidgetItem({tr("Tour finished finished: %1").arg(o->name())});
+    itm->setIcon(0, icon);
+    ui->twLog->addTopLevelItem(itm);
+    ui->twLog->scrollToBottom();
+    qApp->processEvents();
 }
 
 

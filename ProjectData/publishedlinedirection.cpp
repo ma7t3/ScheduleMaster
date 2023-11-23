@@ -110,8 +110,8 @@ bool PublishedLineDirection::hasRoute(Route *r) {
     return false;
 }
 
-void PublishedLineDirection::setNew(const PublishedLineDirection &newDirection) {
-    setName(newDirection.name());
-    setBusstops(newDirection.busstops());
-    setRoutes(newDirection.routes());
+void PublishedLineDirection::ovoverwrite(const PublishedLineDirection &other) {
+    setName(other.name());
+    setBusstops(other.busstops());
+    setRoutes(other.routes());
 }
