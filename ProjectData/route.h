@@ -62,7 +62,7 @@ public:
 
     int indexOfTimeProfile(TimeProfile*);
 
-    void operator=(Route &other);
+    void overwrite(Route &other);
     bool operator<(Route &other);
 };
 

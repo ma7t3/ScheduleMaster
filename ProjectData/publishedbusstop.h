@@ -25,7 +25,7 @@ public:
     bool showDivider() const;
     void setShowDivider(bool newShowDivider);
 
-    void setNew(const PublishedBusstop &newBusstop);
+    void overwrite(const PublishedBusstop &other);
 
 private:
     Busstop *m_linkedBusstop;

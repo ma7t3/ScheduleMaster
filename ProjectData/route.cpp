@@ -140,7 +140,7 @@ int Route::indexOfTimeProfile(TimeProfile* p)
     return -1;
 }
 
-void Route::operator=(Route &other) {
+void Route::overwrite(Route &other) {
     setCode(other.code());
     setDirection(other.direction());
     setName(other.name());

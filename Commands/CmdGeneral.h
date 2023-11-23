@@ -21,18 +21,20 @@ public:
         newS(newS),
         oldS(*s) {
         setText(QObject::tr("project settings edited"));
+
+        // copy day types
+        QList<DayType *> dayTypeCopies;
+        for(int i = 0; i < oldS.dayTypeCount(); i++)
+            dayTypeCopies << new DayType(*oldS.dayTypeAt(i));
+        oldS.setDayTypes(dayTypeCopies);
     }
 
     void undo() override {
-        s->setNames(oldS.displayName(), oldS.shortName());
-        s->setIcon(oldS.icon());
-        s->setDayTypes(oldS.dayTypes());
+        s->overwrite(oldS);
     }
 
     void redo() override {
-        s->setNames(newS.displayName(), newS.shortName());
-        s->setIcon(newS.icon());
-        s->setDayTypes(newS.dayTypes());
+        s->overwrite(newS);
     }
 
 private:

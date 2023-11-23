@@ -186,10 +186,10 @@ QString Trip::selfChildId()
     return m_selfChildId;
 }
 
-void Trip::operator=(Trip &other) {
+void Trip::overwrite(Trip &other) {
     setRoute(other.route());
     setStartTime(other.startTime());
-    weekDays()->operator=(*other.weekDays());
+    weekDays()->overwrite(*other.weekDays());
     setTimeProfile(other.timeProfile());
 }
 

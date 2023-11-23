@@ -21,7 +21,7 @@ public:
     void setName(QString);
     void setImportant(bool);
 
-    void operator=(Busstop &other);
+    void overwrite(Busstop &other);
     bool operator<(Busstop &other);
 };
 

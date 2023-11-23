@@ -50,6 +50,9 @@ public slots:
     void refreshCurrentLine();
     void refreshCurrentLineDirection();
 
+    void refreshDayTypes();
+    //void refreshDayCheckBoxes();
+
     void refreshRouteList();
     void refreshRouteCheckBoxes();
     void refreshRouteCheckBoxRelations(QTreeWidgetItem *);
@@ -71,6 +74,8 @@ private slots:
 
     void on_pbBusstopSearchAndReplace_clicked();
 
+    void on_lwDayTypes_itemChanged(QListWidgetItem *item);
+
 private:
     Ui::WdgPublishedLines *ui;
 
@@ -81,6 +86,7 @@ private:
     PublishedLine *m_currentLine;
     PublishedLineDirection *m_currentLineDirection;
     PublishedBusstop *m_currentBusstop;
+    QList<DayType *> m_dayTypesReference;
     QList<QList<QList<Route *>>> m_routesReference;
     QList<QList<LineDirection *>> m_routesDirectionsReference;
     QList<Line *> m_routesLinesReference;

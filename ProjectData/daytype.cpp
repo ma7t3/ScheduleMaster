@@ -17,7 +17,7 @@ DayType::DayType(QString id, QString name, bool monday, bool tuesday, bool wedne
 void DayType::setName(QString name) { m_name = name; }
 QString DayType::name() { return m_name; }
 
-void DayType::operator=(DayType other) {
+void DayType::overwrite(DayType &other) {
     setName(other.name());
 
     setMonday(other.monday());

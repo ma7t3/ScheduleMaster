@@ -33,7 +33,7 @@ public:
     QString name() const;
     void setName(const QString &newName);
 
-    void setNew(const PublishedLineDirection &newDirection);
+    void ovoverwrite(const PublishedLineDirection &other);
 
 private:
     QString m_name;

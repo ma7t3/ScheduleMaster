@@ -70,13 +70,50 @@ void PublishedLine::removeDirection(const QString &id) {
             m_directions.remove(i);
 }
 
-void PublishedLine::setNew(const PublishedLine newPublishedLine) {
-    setFilePath(newPublishedLine.filePath());
-    setTitle(newPublishedLine.title());
-    setFooter(newPublishedLine.footer());
+
+QList<DayType *> PublishedLine::dayTypes() const {
+    return m_dayTypes;
 }
 
+int PublishedLine::dayTypeCount() const {
+    return m_dayTypes.count();
+}
 
+bool PublishedLine::hasDayType(DayType *dt) {
+    for(int i = 0; i < dayTypeCount(); i++)
+        if(m_dayTypes[i] == dt)
+            return true;
+
+    return false;
+}
+
+void PublishedLine::setDayTypes(const QList<DayType *> &newDayTypes) {
+    m_dayTypes = newDayTypes;
+}
+
+void PublishedLine::addDayType(DayType *dt) {
+
+    bool alreadyAdded = false;
+    for(int i = 0; i < dayTypeCount(); i++)
+        if(m_dayTypes[i] == dt)
+            alreadyAdded = true;
+
+    if(!alreadyAdded)
+        m_dayTypes << dt;
+}
+
+void PublishedLine::removeDayType(DayType *dt) {
+    for(int i = 0; i < dayTypeCount(); i++)
+        if(m_dayTypes[i] == dt)
+            m_dayTypes.remove(i);
+}
+
+void PublishedLine::overwrite(const PublishedLine &other) {
+    setFilePath(other.filePath());
+    setTitle(other.title());
+    setFooter(other.footer());
+    setDayTypes(other.dayTypes());
+}
 
 
 

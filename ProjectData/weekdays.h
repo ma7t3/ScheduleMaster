@@ -61,7 +61,7 @@ public:
     bool operator ==(WeekDays w);
     bool operator <=(WeekDays w);
 
-    void operator=(WeekDays other);
+    void overwrite(WeekDays &other);
 };
 
 #endif // WEEKDAYS_H

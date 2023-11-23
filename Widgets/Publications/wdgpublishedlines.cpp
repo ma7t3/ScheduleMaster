@@ -322,6 +322,13 @@ void WdgPublishedLines::refreshCurrentLine() {
             ui->lwDirections->setCurrentRow(i);
     }
 
+    for(int i = 0; i < m_dayTypesReference.count(); i++) {
+        if(m_currentLine->hasDayType(m_dayTypesReference[i]))
+            ui->lwDayTypes->item(i)->setCheckState(Qt::Checked);
+        else
+            ui->lwDayTypes->item(i)->setCheckState(Qt::Unchecked);
+    }
+
     refreshCurrentLineDirection();
     refreshingCurrentLine = false;
 }
@@ -342,6 +349,21 @@ void WdgPublishedLines::refreshCurrentLineDirection() {
     refreshAllBusstops();
 
     refreshBusstopList();
+}
+
+void WdgPublishedLines::refreshDayTypes() {
+    ui->lwDayTypes->clear();
+
+    ProjectSettings *s = projectData->projectSettings();
+
+    for(int i = 0; i < s->dayTypeCount(); i++) {
+        DayType *dt = s->dayTypeAt(i);
+        m_dayTypesReference << dt;
+
+        QListWidgetItem *itm = new QListWidgetItem(dt->name());
+        itm->setCheckState(Qt::Unchecked);
+        ui->lwDayTypes->addItem(itm);
+    }
 }
 
 
@@ -603,25 +625,19 @@ void WdgPublishedLines::on_pbBusstopSearchAndReplace_clicked() {
 }
 
 
+void WdgPublishedLines::on_lwDayTypes_itemChanged(QListWidgetItem *item) {
+    if(!item || !m_currentLine)
+        return;
 
+    if(refreshingCurrentLine)
+        return;
 
+    int index = ui->lwDayTypes->row(item);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    Qt::CheckState checkState = item->checkState();
+    if(checkState == Qt::Checked)
+        m_currentLine->addDayType(m_dayTypesReference[index]);
+    else
+        m_currentLine->addDayType(m_dayTypesReference[index]);
+}
 

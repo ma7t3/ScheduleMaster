@@ -20,7 +20,7 @@ void Busstop::setName(QString name) { m_name = name; }
 
 void Busstop::setImportant(bool important) { m_important = important; }
 
-void Busstop::operator=(Busstop &other) {
+void Busstop::overwrite(Busstop &other) {
     setName(other.name());
     setImportant(other.important());
 }

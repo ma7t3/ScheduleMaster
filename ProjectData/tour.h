@@ -49,7 +49,7 @@ public:
     QTime breakTime();
     //QList <Line *> usedLines();
 
-    void operator=(Tour &other);
+    void overwrite(Tour &other);
     bool operator<(Tour &other);
 };
 
