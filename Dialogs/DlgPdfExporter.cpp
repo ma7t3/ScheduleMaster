@@ -98,13 +98,15 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
             if(!t->weekDays()->isIn(WeekDays(WeekDays::MonFri)))
                 continue;
 
-            if(!t->hasRepeat())
-                allTrips << t;
+            allTrips << t;
+
+            /*if(!t->hasRepeat())
+
             else {
                 for(int k = 0; k < t->childCount(); k++) {
                     allTrips << t->repetitionAt(k);
                 }
-            }
+            }*/
         }
         allTrips = ProjectData::sortTrips(allTrips);
         m_trips = allTrips;

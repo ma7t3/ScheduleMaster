@@ -112,11 +112,7 @@ void WdgBusstopSchedule::refreshSchedule()
     QList<Trip *> allTrips;
 
     for(int i = 0; i < mainTrips.count(); i++) {
-        if(mainTrips[i]->hasRepeat())
-            for(int j = 0; j < mainTrips[i]->childCount(); j++)
-                allTrips << mainTrips[i]->childAt(j);
-        else
-            allTrips << mainTrips[i];
+        allTrips << mainTrips[i];
     }
 
     // sort

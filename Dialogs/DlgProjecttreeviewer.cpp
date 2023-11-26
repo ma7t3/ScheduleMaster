@@ -160,37 +160,7 @@ QList<QTreeWidgetItem*> ProjectTreeViewer::loadTrips(QList<Trip *> trips, QTreeW
             itm->setForeground(1, Qt::white);
         } else {
             itm->setText(1, t->id());
-            itm->setText(0, "[" + t->startTime().toString("hh:mm") + "] " + t->route()->name() + " (" + t->weekDays()->toString() + ") (" + QString::number(t->childCount()) + " childs) (" + t->id() + ")");
-            itm->addChildren(loadTripChilds(t, itm));
-        }
-        items << itm;
-    }
-    return items;
-}
-
-QList<QTreeWidgetItem*> ProjectTreeViewer::loadTripChilds(Trip *t, QTreeWidgetItem *parent)
-{
-    QFont bold;
-    bold.setBold(true);
-
-    QFont italic;
-    italic.setItalic(true);
-
-    QList<QTreeWidgetItem *> items;
-    
-    for(int i = 0; i < t->repeatTimes(); i++) {
-        Trip *c = t->repetitionAt(i);
-        qDebug() << c;
-        QTreeWidgetItem *itm = new QTreeWidgetItem(parent);
-        if(!c) {
-            itm->setText(1, "/");
-            itm->setText(0, tr("invalid"));
-            itm->setFont(0, italic);
-            itm->setBackground(1, Qt::red);
-            itm->setForeground(1, Qt::white);
-        } else {
-            itm->setText(1, c->id());
-            itm->setText(0, "[" + c->startTime().toString("hh:mm") + "] " + c->route()->name());
+            itm->setText(0, "[" + t->startTime().toString("hh:mm") + "] " + t->route()->name() + " (" + t->weekDays()->toString() + ") (" + t->id() + ")");
         }
         items << itm;
     }

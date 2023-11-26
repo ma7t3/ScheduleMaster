@@ -322,14 +322,14 @@ QList<Line *> ProjectData::linesAtBusstop(Busstop *busstop) {
 
 QList<Tour *> ProjectData::toursOfTrip(Trip *t)
 {
-    QString tripID = t->selfChildId();
+    QString tripID = t->id();
     QList<Tour *> resultList;
     
     for(int i = 0; i < this->tourCount(); i++) {
         Tour *o = this->tourAt(i);
         for(int j = 0; j < o->tripCount(); j++) {
             Trip *c = o->tripAt(j);
-            if(c->selfChildId() == tripID) {
+            if(c->id() == tripID) {
                 resultList << o;
                 break;
             }

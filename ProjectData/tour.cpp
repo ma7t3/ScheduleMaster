@@ -26,7 +26,7 @@ void Tour::insertTripAt(Trip *t, int i) { m_trips.insert(i, t); }
 
 void Tour::insertTripAfter(Trip *lt, Trip *t) {
     for(int i = 0; i < m_trips.count(); i++) {
-        if(m_trips[i]->selfChildId() == lt->selfChildId()) {
+        if(m_trips[i]->id() == lt->id()) {
             m_trips.insert(i + 1, t);
             return;
         }
@@ -40,7 +40,7 @@ void Tour::setTripList(QList<Trip *> list) { m_trips = list; }
 void Tour::removeTrip(Trip *t)
 {
     for(int i = 0; i < m_trips.count(); i++) {
-        if(m_trips[i]->selfChildId() != t->selfChildId())
+        if(m_trips[i]->id() != t->id())
             continue;
 
         m_trips.remove(i);

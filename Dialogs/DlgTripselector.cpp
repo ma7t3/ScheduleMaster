@@ -95,12 +95,7 @@ void TripSelector::loadTrips()
         if(!weekDays->isIn(*t->weekDays()))
             continue;
 
-        if(!t->hasRepeat()) {
-            resultList << t;
-        } else {
-            for(int j = 0; j < t->childCount(); j++)
-                resultList << t->childAt(j);
-        }
+        resultList << t;
     }
     resultList = ProjectData::sortTrips(resultList);
 
@@ -115,12 +110,7 @@ void TripSelector::loadTrips()
             if(!weekDays->shfitedToNextDay().isIn(*t->weekDays()))
                 continue;
 
-            if(!t->hasRepeat()) {
-                resultListAdd << t;
-            } else {
-                for(int j = 0; j < t->childCount(); j++)
-                    resultListAdd << t->childAt(j);
-            }
+            resultListAdd << t;
         }
     }
 
@@ -135,7 +125,7 @@ void TripSelector::loadTrips()
         if(breakTime < 0)
             breakTime += 1440;
 
-        itm->setText(0, t->selfChildId());
+        itm->setText(0, t->id());
         itm->setText(1, t->startTime().toString("hh:mm"));
         itm->setText(2, QString::number(breakTime) + tr(" min."));
         itm->setText(3, t->route()->firstBusstop()->name());
@@ -223,22 +213,6 @@ void TripSelector::on_twLines_currentItemChanged(QTreeWidgetItem *current, QTree
 
     loadTrips();
 }
-
-
-/*void TripSelector::on_pbForward_clicked()
-{
-    this->currentDirection = true;
-    ui->pbForward->setDefault(true);
-    loadTrips();
-}
-
-
-void TripSelector::on_pbReverse_clicked()
-{
-    this->currentDirection = false;
-    ui->pbReverse->setDefault(true);
-    loadTrips();
-}*/
 
 
 void TripSelector::on_twTrips_itemDoubleClicked(QTreeWidgetItem *item, int column)

@@ -345,15 +345,8 @@ void WdgTourEditor::refreshTourNextTrips()
             if(t->route()->firstBusstop()->id() != m_currentTrip->route()->lastBusstop()->id())
                 continue;
 
-            if(!t->hasRepeat()) {
-                if(t->startTime() >= m_currentTrip->endTime())
-                    resultList << t;
-            } else {
-                for(int k = 0; k < t->repeatTimes(); k++) {
-                    if(t->repetitionAt(k)->startTime() >= m_currentTrip->endTime())
-                        resultList << t->repetitionAt(k);
-                }
-            }
+            if(t->startTime() >= m_currentTrip->endTime())
+                resultList << t;
         }
     }
 
@@ -378,14 +371,7 @@ void WdgTourEditor::refreshTourNextTrips()
                 if(t->route()->firstBusstop()->id() != m_currentTrip->route()->lastBusstop()->id())
                     continue;
 
-                if(!t->hasRepeat()) {
-                        resultListAdd << t;
-                } else {
-                    for(int k = 0; k < t->repeatTimes(); k++) {
-                        if(t->repetitionAt(k)->startTime() >= m_currentTrip->endTime())
-                            resultListAdd << t->repetitionAt(k);
-                    }
-                }
+                resultListAdd << t;
             }
         }
     }
