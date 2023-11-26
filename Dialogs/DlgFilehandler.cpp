@@ -310,6 +310,8 @@ void DlgFileHandler::loadTrip(QJsonObject jObj, Line *l)
     QTime startTime = jObj.contains("startTime") ? QTime::fromMSecsSinceStartOfDay(jObj.find("startTime")->toInt()) : QTime(0, 0, 0, 0);
     int weekDaysCode = jObj.contains("weekdays") ? jObj.find("weekdays")->toInt() : WeekDays::MonFri;
 
+    // old repeat system
+
     bool repeat = false;
     if(jObj.contains("repeat")) {
         if(jObj.find("repeat")->isObject())
@@ -324,11 +326,7 @@ void DlgFileHandler::loadTrip(QJsonObject jObj, Line *l)
     if(!p)
         return;
 
-    Trip *t = new Trip(id, r, startTime, p);
-    t->weekDays()->setCode(weekDaysCode);
-    l->addTrip(t);
-
-    if(repeat) {
+    if(repeat) {        
         QJsonObject jRepObj = jObj.find("repeat")->toObject();
         QStringList childIDs;
         if(jRepObj.contains("childIDs")) {
@@ -341,12 +339,20 @@ void DlgFileHandler::loadTrip(QJsonObject jObj, Line *l)
         QTime repeatInterval = jRepObj.contains("repeatInterval") ? QTime::fromMSecsSinceStartOfDay(jRepObj.find("repeatInterval")->toInt()) : QTime(0, 10, 0, 0);
         QTime repeatEnd = jRepObj.contains("repeatEnd") ? QTime::fromMSecsSinceStartOfDay(jRepObj.find("repeatEnd")->toInt()) : startTime;
 
-        t->setRepeat(true);
-        t->setChildIdList(childIDs);
-        t->setRepeatInterval(repeatInterval);
-        t->setRepeatEnd(repeatEnd);
+        QTime currentTime = startTime;
+        int i = 0;
+        while(currentTime <= repeatEnd && currentTime >= startTime) {
+            Trip *t = new Trip(childIDs[i], r, currentTime, p);
+            t->weekDays()->setCode(weekDaysCode);
+            l->addTrip(t);
+            currentTime = currentTime.addMSecs(repeatInterval.msecsSinceStartOfDay());
+
+            i++;
+        }
     } else {
-        t->setRepeat(false);
+        Trip *t = new Trip(id, r, startTime, p);
+        t->weekDays()->setCode(weekDaysCode);
+        l->addTrip(t);
     }
 }
 
@@ -800,35 +806,12 @@ QJsonObject DlgFileHandler::tripToJson(Trip *t)
     QString timeProfileID = t->timeProfile()->id();
     int startTime = t->startTime().msecsSinceStartOfDay();
     int weekdays = t->weekDays()->toCode();
-    bool repeat = t->hasRepeat();
-
 
     jObj.insert("id", id);
     jObj.insert("routeID", routeID);
     jObj.insert("timeProfileID", timeProfileID);
     jObj.insert("startTime", startTime);
     jObj.insert("weekdays", weekdays);
-
-
-    if(!repeat)
-        jObj.insert("repeat", false);
-    else {
-        QJsonObject jRepObj;
-        int repeatInterval = t->repeatInterval().msecsSinceStartOfDay();
-        int repeatEnd = t->repeatEnd().msecsSinceStartOfDay();
-
-        QJsonArray jArrChildIDs;
-
-        QStringList childIDs = t->childIDs();
-        for(int i = 0; i < childIDs.count(); i++)
-            jArrChildIDs.append(childIDs[i]);
-
-        jRepObj.insert("repeatInterval", repeatInterval);
-        jRepObj.insert("repeatEnd", repeatEnd);
-        jRepObj.insert("childIDs", jArrChildIDs);
-
-        jObj.insert("repeat", jRepObj);
-    }
 
     return jObj;
 }
@@ -846,7 +829,7 @@ QJsonObject DlgFileHandler::tourToJson(Tour *o)
 
     QJsonArray jArrTrips;
     for(int i = 0; i < o->tripCount(); i++)
-        jArrTrips.append(o->tripAt(i)->selfChildId());
+        jArrTrips.append(o->tripAt(i)->id());
 
     jObj.insert("id", id);
     jObj.insert("name", name);

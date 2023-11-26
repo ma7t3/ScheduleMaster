@@ -21,11 +21,6 @@ public:
     ~WdgSchedule();
 
 public slots:
-    void actionScheduleShowTripForward();
-    void actionScheduleShowTripReverse();
-    /*void actionScheduleShowDaysMonFri();
-    void actionScheduleShowDaysSat();
-    void actionScheduleShowDaysSun();*/
     void actionChangeDirection();
 
     void actionScheduleTripNew();
@@ -34,8 +29,6 @@ public slots:
     void actionScheduleTripChangeProfile();
     void actionScheduleTripChangeStartTime();
     void actionScheduleTripChangeDays();
-    void actionScheduleTripSwitchRepeat();
-    void actionScheduleTripChangeRepeat();
 
     void setCurrentLine(Line *);
     void refreshDirections();
@@ -52,7 +45,6 @@ private slots:
     void refreshTripDetails();
 
     bool scheduleCheckMatchingWeekdays(WeekDays *);
-    QList<Trip *> exectueTripRepetitions(QList<Trip *>);
 
     void on_twSchedule_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
     void on_twSchedule_itemPressed(QTableWidgetItem *item);

@@ -153,14 +153,6 @@ Trip *Line::trip(QString id) {
 
         if(t->id() == id)
             return t;
-
-        if(t->hasRepeat()) {
-            for(int j = 0; j < t->childCount(); j++) {
-                if(t->childAt(j)->selfChildId() == id) {
-                    return t->childAt(j);
-                }
-            }
-        }
     }
 
     return nullptr;

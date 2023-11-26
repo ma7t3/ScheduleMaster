@@ -40,9 +40,6 @@ WdgSchedule::WdgSchedule(QWidget *parent, ProjectData *projectData, QUndoStack *
     QObject::connect(ui->cbDaySco, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
     QObject::connect(ui->cbDayNsco, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
 
-    QObject::connect(ui->gbRepeat, SIGNAL(clicked()), this, SLOT(actionScheduleTripSwitchRepeat()));
-    QObject::connect(ui->pbRepeatApply, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeRepeat()));
-
     ui->twSchedule->setEditTriggers(QTableWidget::NoEditTriggers);
     ui->twSchedule->horizontalHeader()->setVisible(false);
     ui->twSchedule->setRowHidden(0, true);
@@ -51,22 +48,6 @@ WdgSchedule::WdgSchedule(QWidget *parent, ProjectData *projectData, QUndoStack *
 WdgSchedule::~WdgSchedule()
 {
     delete ui;
-}
-
-void WdgSchedule::actionScheduleShowTripForward() {
-    //scheduleCurrentDirection = true;
-    /*ui->pbForwardTrip->setDefault(true);
-    ui->pbReverseTrip->setDefault(false);*/
-    refreshRoutes();
-    refreshSchedule();
-}
-
-void WdgSchedule::actionScheduleShowTripReverse() {
-    //scheduleCurrentDirection = false;
-    /*ui->pbForwardTrip->setDefault(false);
-    ui->pbReverseTrip->setDefault(true);*/
-    refreshRoutes();
-    refreshSchedule();
 }
 
 void WdgSchedule::actionChangeDirection()
@@ -91,7 +72,6 @@ void WdgSchedule::actionScheduleTripNew() {
     Trip *t = new Trip(global::getNewID(), m_currentRoute, time, p);
 
     WeekDays *d = t->weekDays();
-    t->setRepeat(false);
 
     d->setCode(m_currentDayType ? m_currentDayType->toCode() : DayType::MonFri);
 
@@ -115,7 +95,7 @@ void WdgSchedule::actionScheduleTripDelete() {
     QString endTime     = m_currentTrip->endTime().toString("hh:mm");
     QString firstStop   = m_currentTrip->route()->busstopAt(0)->name();
     QString lastStop    = m_currentTrip->route()->busstopAt(m_currentTrip->route()->busstopCount() - 1)->name();
-    QString repeat      = m_currentTrip->hasRepeat() ? tr("Yes") : tr("No");
+    QString repeat      = tr("No");
 
     QString msgStr = tr("<p><b>Do you really want do delete this trip?</b></p><table><tr><td><b>Name:</b></td><td colspan=\"2\">%1</td></tr><tr><td><b>Start:</b></td><td>%2</td><td>%3</td></tr><tr><td><b>End:</b></td><td>%4</td><td>%5</td></tr><tr><td><b>Repeat:</b></td><td colspan=\"2\">%6</td></tr></table>").arg(tripName, startTime, firstStop, endTime, lastStop, repeat);
 
@@ -219,7 +199,7 @@ void WdgSchedule::actionScheduleTripChangeDays() {
     refreshSchedule();
 }
 
-void WdgSchedule::actionScheduleTripSwitchRepeat() {
+/*void WdgSchedule::actionScheduleTripSwitchRepeat() {
     if(!m_currentTrip)
         return;
 
@@ -246,7 +226,7 @@ void WdgSchedule::actionScheduleTripChangeRepeat() {
     undoStack->push(new cmdScheduleTripEditRepeat(m_currentTrip, newT));
 
     refreshSchedule();
-}
+}*/
 
 void WdgSchedule::setCurrentLine(Line *l) {
     m_currentLine = l;
@@ -357,7 +337,7 @@ void WdgSchedule::refreshSchedule() {
     refreshScheduleBusstopList(trips);
 
     // get all repetitions and sort trips
-    filteredTrips = exectueTripRepetitions(filteredTrips);
+    //filteredTrips = exectueTripRepetitions(filteredTrips);
     filteredTrips = ProjectData::sortTrips(filteredTrips);
 
     for(int i = 0; i < filteredTrips.count(); i++)
@@ -756,6 +736,8 @@ QPair<QString, QString> WdgSchedule::refreshScheduleGenerateInfo(WeekDays *w) {
 }
 
 void WdgSchedule::refreshScheduleSelection() {
+    return;
+    /*
     if(!m_currentTrip)
         return;
 
@@ -772,7 +754,7 @@ void WdgSchedule::refreshScheduleSelection() {
 
         if(scheduleTableTripsReference[i] == m_currentTrip)
             ui->twSchedule->setRangeSelected(QTableWidgetSelectionRange(0, i, rows - 1, i), true);
-    }
+    }*/
 }
 
 void WdgSchedule::refreshTripDetails() {
@@ -794,7 +776,6 @@ void WdgSchedule::refreshTripDetails() {
         ui->lArrivalTime->setDisabled(true);
         ui->lArrivalTime->setText("");
         ui->gbDays->setDisabled(true);
-        ui->gbRepeat->setDisabled(true);
          return;
     } else {
         ui->pbTripDelete->setEnabled(true);
@@ -802,7 +783,6 @@ void WdgSchedule::refreshTripDetails() {
         ui->teDepartureTime->setEnabled(true);
         ui->lArrivalTime->setEnabled(true);
         ui->gbDays->setEnabled(true);
-        ui->gbRepeat->setEnabled(true);
     }
 
     if(!m_currentLine)
@@ -814,7 +794,6 @@ void WdgSchedule::refreshTripDetails() {
     // select route
     for(int i = 0; i < ui->lwRoutes->count(); i++) {
         if(routeTableReference[i] == r) {
-        //if(ui->twRoutes->topLevelItem(i)->text(0) == r->id()) {
             ui->lwRoutes->item(i)->setSelected(true);
             break;
         }
@@ -842,7 +821,7 @@ void WdgSchedule::refreshTripDetails() {
     ui->cbDaySco->setChecked(d->school());
     ui->cbDayNsco->setChecked(d->noSchool());
 
-    if(m_currentTrip->hasRepeat()) {
+    /*if(m_currentTrip->hasRepeat()) {
         ui->gbRepeat->setChecked(true);
         ui->teRepeatInterval->setTime(m_currentTrip->repeatInterval());
         ui->teRepeatEnd->setTime(m_currentTrip->repeatEnd());
@@ -850,7 +829,7 @@ void WdgSchedule::refreshTripDetails() {
         ui->gbRepeat->setChecked(false);
         ui->teRepeatInterval->setTime(QTime(0, 10, 0, 0));
         ui->teRepeatEnd->setTime(m_currentTrip->startTime());
-    }
+    }*/
 }
 
 bool WdgSchedule::scheduleCheckMatchingWeekdays(WeekDays *d) {
@@ -878,15 +857,17 @@ bool WdgSchedule::scheduleCheckMatchingWeekdays(WeekDays *d) {
     return false;*/
 }
 
-QList<Trip *> WdgSchedule::exectueTripRepetitions(QList<Trip *> list) {
+/*QList<Trip *> WdgSchedule::exectueTripRepetitions(QList<Trip *> list) {
     QList<Trip *> resultList;
 
     for(int i = 0; i < list.count(); i++) {
         Trip *t = list[i];
 
+        resultList << t;
+        continue;
+
         if(!t->hasRepeat()) {
-            resultList << t;
-            continue;
+
         }
 
         // if the trip has repeats...
@@ -895,7 +876,7 @@ QList<Trip *> WdgSchedule::exectueTripRepetitions(QList<Trip *> list) {
     }
 
     return resultList;
-}
+}*/
 
 void WdgSchedule::on_twSchedule_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous) {
     Q_UNUSED(previous);
@@ -903,10 +884,10 @@ void WdgSchedule::on_twSchedule_currentItemChanged(QTableWidgetItem *current, QT
     if(!current)
         return;
 
-    if(current->row() != 0) {
+    /*if(current->row() != 0) {
         ui->twSchedule->setCurrentCell(0, current->column());
         return;
-    }
+    }*/
 
     m_currentTrip = nullptr;
     if(!current) {

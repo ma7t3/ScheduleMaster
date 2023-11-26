@@ -119,49 +119,15 @@ public:
 
     void undo() override {
         trip->weekDays()->setCode(oldWeekDays.toCode());
-        trip->refreshChilds();
     }
 
     void redo() override {
         trip->weekDays()->setCode(newWeekDays.toCode());
-        trip->refreshChilds();
     }
 
 private:
     Trip *trip;
     WeekDays oldWeekDays, newWeekDays;
-};
-
-
-class cmdScheduleTripEditRepeat : public QUndoCommand {
-
-public:
-    cmdScheduleTripEditRepeat(Trip *t, Trip newT) :
-        trip(t),
-        oldTrip(*t),
-        newTrip(newT) {
-        setText(QObject::tr("change repeat of trip"));
-    }
-
-    void undo() override {
-        trip->setRepeat(oldTrip.hasRepeat());
-        if(oldTrip.hasRepeat()) {
-            trip->setRepeatInterval(oldTrip.repeatInterval());
-            trip->setRepeatEnd(oldTrip.repeatEnd());
-        }
-    }
-
-    void redo() override {
-        trip->setRepeat(newTrip.hasRepeat());
-        if(newTrip.hasRepeat()) {
-            trip->setRepeatInterval(newTrip.repeatInterval());
-            trip->setRepeatEnd(newTrip.repeatEnd());
-        }
-    }
-
-private:
-    Trip *trip;
-    Trip oldTrip, newTrip;
 };
 
 

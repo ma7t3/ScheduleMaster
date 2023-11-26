@@ -25,7 +25,6 @@ private:
     void loadLines();
     QList<QTreeWidgetItem*> loadRoutes(Line *, QTreeWidgetItem *);
     QList<QTreeWidgetItem*> loadTrips(QList<Trip *>, QTreeWidgetItem *);
-    QList<QTreeWidgetItem*> loadTripChilds(Trip *, QTreeWidgetItem *);
 };
 
 #endif // PROJECTTREEVIEWER_H
