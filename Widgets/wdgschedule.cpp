@@ -23,7 +23,7 @@ WdgSchedule::WdgSchedule(QWidget *parent, ProjectData *projectData, QUndoStack *
     QObject::connect(ui->leSearchBusstop, SIGNAL(textChanged(QString)), this, SLOT(refreshSchedule()));
     QObject::connect(ui->cbOnlyImportantBusstops, SIGNAL(stateChanged(int)), this, SLOT(refreshSchedule()));
 
-    QObject::connect(ui->pbTripNew, SIGNAL(clicked()), this, SLOT(actionScheduleTripNew()));
+    /*QObject::connect(ui->pbTripNew, SIGNAL(clicked()), this, SLOT(actionScheduleTripNew()));
     QObject::connect(ui->pbTripDelete, SIGNAL(clicked()), this, SLOT(actionScheduleTripDelete()));
     QObject::connect(ui->lwRoutes, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(actionScheduleTripChangeRoute()));
     QObject::connect(ui->cbTimeProfiles, SIGNAL(activated(int)), this, SLOT(actionScheduleTripChangeProfile()));
@@ -38,10 +38,8 @@ WdgSchedule::WdgSchedule(QWidget *parent, ProjectData *projectData, QUndoStack *
     QObject::connect(ui->cbDaySun, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
     QObject::connect(ui->cbDayHol, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
     QObject::connect(ui->cbDaySco, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDayNsco, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
+    QObject::connect(ui->cbDayNsco, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));*/
 
-    ui->twSchedule->setEditTriggers(QTableWidget::NoEditTriggers);
-    ui->twSchedule->horizontalHeader()->setVisible(false);
     ui->twSchedule->setRowHidden(0, true);
 }
 
@@ -53,11 +51,13 @@ WdgSchedule::~WdgSchedule()
 void WdgSchedule::actionChangeDirection()
 {
     m_currentLineDirection = lineDirectionsReference[ui->cmbDirections->currentIndex()];
-    refreshRoutes();
+    m_currentTrips.clear();
     refreshSchedule();
+    emit currentLineChanged(m_currentLine, m_currentLineDirection);
+    emit currentTripsChanged(m_currentTrips);
 }
 
-void WdgSchedule::actionScheduleTripNew() {
+/*void WdgSchedule::actionScheduleTripNew() {
     if(!m_currentLine || !m_currentRoute)
         return;
 
@@ -75,79 +75,49 @@ void WdgSchedule::actionScheduleTripNew() {
 
     d->setCode(m_currentDayType ? m_currentDayType->toCode() : DayType::MonFri);
 
-    /*if(scheduleCurrentDaysShow == 1)
-        d->setCode(WeekDays::MonFri);
-    else if(scheduleCurrentDaysShow == 2)
-        d->setCode(WeekDays::Sat);
-    else if(scheduleCurrentDaysShow == 3)
-        d->setCode(WeekDays::Sun);*/
     undoStack->push(new cmdScheduleTripNew(m_currentLine, t, m_currentLineDirection));
-    m_currentTrip = t;
+    m_currentTrips = {t};
     refreshSchedule();
 }
 
 void WdgSchedule::actionScheduleTripDelete() {
-    if(!m_currentLine || !m_currentTrip)
+    if(!m_currentLine)
         return;
 
-    QString tripName    = m_currentTrip->route()->name();
-    QString startTime   = m_currentTrip->startTime().toString("hh:mm");
-    QString endTime     = m_currentTrip->endTime().toString("hh:mm");
-    QString firstStop   = m_currentTrip->route()->busstopAt(0)->name();
-    QString lastStop    = m_currentTrip->route()->busstopAt(m_currentTrip->route()->busstopCount() - 1)->name();
-    QString repeat      = tr("No");
-
-    QString msgStr = tr("<p><b>Do you really want do delete this trip?</b></p><table><tr><td><b>Name:</b></td><td colspan=\"2\">%1</td></tr><tr><td><b>Start:</b></td><td>%2</td><td>%3</td></tr><tr><td><b>End:</b></td><td>%4</td><td>%5</td></tr><tr><td><b>Repeat:</b></td><td colspan=\"2\">%6</td></tr></table>").arg(tripName, startTime, firstStop, endTime, lastStop, repeat);
-
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, "deleteTrip", msgStr, QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, "deleteTrip", tr("Do you really want to delete these %n trips?", "", m_currentTrips.count()), QMessageBox::Yes|QMessageBox::No);
 
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdScheduleTripDelete(m_currentLine, m_currentTrip));
-    m_currentTrip = nullptr;
+    undoStack->push(new cmdScheduleTripsDelete(m_currentLine, m_currentTrips));
+    m_currentTrips.clear();
     refreshSchedule();
 }
 
 void WdgSchedule::actionScheduleTripChangeRoute() {
-    if(!m_currentTrip || !m_currentRoute)
+    if(!m_currentRoute || m_currentTrips.empty())
         return;
 
     if(m_currentRoute->profileCount() == 0)
         return;
 
-    QString targetName = m_currentTrip->timeProfile()->name();
-
-    TimeProfile *newP = nullptr;
-    TimeProfile *p = m_currentRoute->timeProfileWithName(targetName);
-    if(p)
-        newP = p;
-    else
-        newP = m_currentRoute->timeProfileAt(0);
-
-    undoStack->push(new cmdScheduleTripChangeRoute(m_currentTrip, m_currentRoute, newP));
-
+    QString targetName = m_currentTrips[0]->timeProfile()->name();
+    undoStack->push(new cmdScheduleTripsChangeRoute(m_currentTrips, m_currentRoute));
     refreshSchedule();
 }
 
 void WdgSchedule::actionScheduleTripChangeProfile() {
-    if(!m_currentTrip)
+    if(!m_currentTrips.empty())
         return;
 
-    int index = ui->cbTimeProfiles->currentIndex();
-
-    Route *r = m_currentTrip->route();
-    TimeProfile *p = r->timeProfileAt(index);
-    if(!p)
-        return;
-
-    undoStack->push(new cmdScheduleTripChangeTimeProfile(m_currentTrip, p));
-
+    QString profileName = ui->cbTimeProfiles->currentText();
+    undoStack->push(new cmdScheduleTripsChangeTimeProfile(m_currentTrips, profileName));
     refreshSchedule();
 }
 
+// !!!!
 void WdgSchedule::actionScheduleTripChangeStartTime() {
-    if(!m_currentTrip)
+    if(m_currentTrips.empty())
         return;
 
     if(ui->twSchedule->hasFocus())
@@ -168,7 +138,7 @@ void WdgSchedule::actionScheduleTripChangeStartTime() {
 }
 
 void WdgSchedule::actionScheduleTripChangeDays() {
-    if(!m_currentTrip)
+    if(m_currentTrips.empty())
         return;
 
     bool monday = ui->cbDayMon->isChecked();
@@ -195,9 +165,9 @@ void WdgSchedule::actionScheduleTripChangeDays() {
         noSchool
         );
 
-    undoStack->push(new cmdScheduleTripChangeDays(m_currentTrip, w));
+    undoStack->push(new cmdScheduleTripsChangeDays(m_currentTrips, w));
     refreshSchedule();
-}
+}*/
 
 /*void WdgSchedule::actionScheduleTripSwitchRepeat() {
     if(!m_currentTrip)
@@ -230,10 +200,11 @@ void WdgSchedule::actionScheduleTripChangeRepeat() {
 
 void WdgSchedule::setCurrentLine(Line *l) {
     m_currentLine = l;
+    m_currentTrips.clear();
     refreshDirections();
-    refreshRoutes();
     refreshSchedule();
-    refreshTripDetails();
+    emit currentLineChanged(m_currentLine, m_currentLineDirection);
+    emit currentTripsChanged(m_currentTrips);
 }
 
 void WdgSchedule::refreshDirections() {
@@ -275,35 +246,16 @@ void WdgSchedule::refreshDayTypes() {
     }
 }
 
-void WdgSchedule::refreshRoutes() {
-    ui->lwRoutes->clear();
-    routeTableReference.clear();
-
-    if(!m_currentLine)
-        return;
-
-    QList<Route *> routes = m_currentLine->routes();
-    routes = ProjectData::sortRoutes(routes);
-
-    for(int i = 0; i < routes.count(); i++) {
-        Route *r = routes[i];
-
-        if(r->direction() != m_currentLineDirection)
-            continue;
-
-        routeTableReference << r;
-
-        QListWidgetItem *itm = new QListWidgetItem(r->name());
-
-        if(r->profileCount() == 0) {
-            itm->setHidden(true);
-            itm->setToolTip(tr("You can't use this trip now, since it has no valid time profiles!"));
-        }
-        ui->lwRoutes->addItem(itm);
-    }
+void WdgSchedule::refreshSchedule() {
+    refreshSchedule({});
 }
 
-void WdgSchedule::refreshSchedule() {
+void WdgSchedule::refreshSchedule(QList<Trip *> currentTrips) {
+    refreshingSchedule = true;
+
+    if(!currentTrips.empty())
+        m_currentTrips = currentTrips;
+
     int currentScrollValue = ui->twSchedule->horizontalScrollBar()->value();
 
     ui->twSchedule->clearContents();
@@ -312,17 +264,14 @@ void WdgSchedule::refreshSchedule() {
 
     scheduleTableTripsReference.clear();
 
-    if(!m_currentLine)
+    if(!m_currentLine) {
+        refreshingSchedule = false;
         return;
+    }
 
     QList<Trip *> trips, filteredTrips;
 
     trips = m_currentLine->tripsToDirection(m_currentLineDirection);
-
-    /*if(scheduleCurrentDirection)
-        trips = m_currentLine->forwardTrips();
-    else
-        trips = m_currentLine->reverseTrips();*/
 
     for(int i = 0; i < trips.count(); i++) {
         Trip *t = trips[i];
@@ -337,7 +286,6 @@ void WdgSchedule::refreshSchedule() {
     refreshScheduleBusstopList(trips);
 
     // get all repetitions and sort trips
-    //filteredTrips = exectueTripRepetitions(filteredTrips);
     filteredTrips = ProjectData::sortTrips(filteredTrips);
 
     for(int i = 0; i < filteredTrips.count(); i++)
@@ -345,7 +293,7 @@ void WdgSchedule::refreshSchedule() {
 
     // resize columns and rows
     for(int i = 0; i <= ui->twSchedule->rowCount(); i++)
-        ui->twSchedule->setRowHeight(i, 15);
+        ui->twSchedule->setRowHeight(i, 10);
 
     for(int i = 0; i <= ui->twSchedule->columnCount(); i++)
         ui->twSchedule->setColumnWidth(i, 50);
@@ -353,10 +301,12 @@ void WdgSchedule::refreshSchedule() {
     refreshScheduleSelection();
 
     if(ui->twSchedule->selectedItems().count() == 0) {
-        m_currentTrip = nullptr;
+        m_currentTrips = {};
     }
 
     ui->twSchedule->horizontalScrollBar()->setValue(currentScrollValue);
+
+    refreshingSchedule = false;
 }
 
 void WdgSchedule::refreshScheduleBusstopList(QList<Trip *> trips) {
@@ -579,8 +529,20 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
             itm->setBackground(QColor(224, 224, 224));
     }
 
-    if(m_currentTrip && t->id() == m_currentTrip->id() && !ui->twSchedule->currentItem()) {
-        ui->twSchedule->setCurrentCell(0, targetColumn);
+    // check if trip is current
+    bool current = false;
+    for(int i = 0; i < m_currentTrips.count(); i++) {
+        if(t == m_currentTrips[i]) {
+            current = true;
+            break;
+        }
+    }
+
+    if(current) {
+        if(!ui->twSchedule->currentItem())
+            ui->twSchedule->setCurrentCell(0, targetColumn);
+        else
+            ui->twSchedule->setRangeSelected(QTableWidgetSelectionRange(0, targetColumn, ui->twSchedule->rowCount() - 1, targetColumn), true);
     }
 }
 
@@ -757,7 +719,7 @@ void WdgSchedule::refreshScheduleSelection() {
     }*/
 }
 
-void WdgSchedule::refreshTripDetails() {
+/*void WdgSchedule::refreshTripDetails() {
     ui->cbTimeProfiles->clear();
     ui->lwRoutes->clearSelection();
 
@@ -769,14 +731,14 @@ void WdgSchedule::refreshTripDetails() {
         ui->pbTripDelete->setEnabled(true);
     }
 
-    if(!m_currentTrip) {
+    if(m_currentTrips.empty()) {
         ui->pbTripDelete->setDisabled(true);
         ui->cbTimeProfiles->setDisabled(true);
         ui->teDepartureTime->setDisabled(true);
         ui->lArrivalTime->setDisabled(true);
         ui->lArrivalTime->setText("");
         ui->gbDays->setDisabled(true);
-         return;
+        return;
     } else {
         ui->pbTripDelete->setEnabled(true);
         ui->cbTimeProfiles->setEnabled(true);
@@ -789,7 +751,7 @@ void WdgSchedule::refreshTripDetails() {
         return;
 
 
-    Route *r = m_currentTrip->route();
+    Route *r = m_currentTrips[0]->route();
 
     // select route
     for(int i = 0; i < ui->lwRoutes->count(); i++) {
@@ -820,17 +782,7 @@ void WdgSchedule::refreshTripDetails() {
     ui->cbDayHol->setChecked(d->holiday());
     ui->cbDaySco->setChecked(d->school());
     ui->cbDayNsco->setChecked(d->noSchool());
-
-    /*if(m_currentTrip->hasRepeat()) {
-        ui->gbRepeat->setChecked(true);
-        ui->teRepeatInterval->setTime(m_currentTrip->repeatInterval());
-        ui->teRepeatEnd->setTime(m_currentTrip->repeatEnd());
-    } else {
-        ui->gbRepeat->setChecked(false);
-        ui->teRepeatInterval->setTime(QTime(0, 10, 0, 0));
-        ui->teRepeatEnd->setTime(m_currentTrip->startTime());
-    }*/
-}
+}*/
 
 bool WdgSchedule::scheduleCheckMatchingWeekdays(WeekDays *d) {
     if(!m_currentDayType)
@@ -878,7 +830,7 @@ bool WdgSchedule::scheduleCheckMatchingWeekdays(WeekDays *d) {
     return resultList;
 }*/
 
-void WdgSchedule::on_twSchedule_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous) {
+/*void WdgSchedule::on_twSchedule_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous) {
     Q_UNUSED(previous);
 
     if(!current)
@@ -887,7 +839,7 @@ void WdgSchedule::on_twSchedule_currentItemChanged(QTableWidgetItem *current, QT
     /*if(current->row() != 0) {
         ui->twSchedule->setCurrentCell(0, current->column());
         return;
-    }*/
+    }
 
     m_currentTrip = nullptr;
     if(!current) {
@@ -907,10 +859,10 @@ void WdgSchedule::on_twSchedule_currentItemChanged(QTableWidgetItem *current, QT
 
 void WdgSchedule::on_twSchedule_itemPressed(QTableWidgetItem *item) {
     refreshScheduleSelection();
-}
+}*/
 
 
-void WdgSchedule::on_lwRoutes_itemClicked(QListWidgetItem *item)
+/*void WdgSchedule::on_lwRoutes_itemClicked(QListWidgetItem *item)
 {
     if(!item)
         m_currentRoute = nullptr;
@@ -923,12 +875,12 @@ void WdgSchedule::on_lwRoutes_itemClicked(QListWidgetItem *item)
 
 
 void WdgSchedule::on_teDepartureTime_editingFinished() {
-    if(!m_currentTrip)
+    if(m_currentTrips.empty())
         return;
 
     undoStack->push(new cmdScheduleTripChangeStartTime(m_currentTrip, ScheduleTmpOldStartTime, m_currentTrip->startTime()));
     scheduleStartTimeChanging = false;
-}
+}*/
 
 
 void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
@@ -946,11 +898,29 @@ void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
 
 void WdgSchedule::on_cmbDayTypes_activated(int index) {
     m_currentDayType = dayTypesReference[index];
+    m_currentTrips.clear();
     refreshSchedule();
+    emit currentDayTypeChanged(*m_currentDayType);
+    emit currentTripsChanged(m_currentTrips);
 }
 
 
 
+void WdgSchedule::on_twSchedule_itemSelectionChanged() {
+    if(refreshingSchedule)
+        return;
+
+    m_currentTrips.clear();
+
+    for(int i = 0; i < scheduleTableTripsReference.count(); i++) {
+
+        QTableWidgetItem *itm = ui->twSchedule->item(0, i);
+        if(itm->isSelected())
+            m_currentTrips << scheduleTableTripsReference[i];
+    }
+
+    emit currentTripsChanged(m_currentTrips);
+}
 
 
 

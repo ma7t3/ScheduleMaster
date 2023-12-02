@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Dialogs/DlgCopyTrip.cpp \
     Dialogs/DlgFilehandler.cpp \
     Dialogs/DlgPdfExporter.cpp \
     Dialogs/DlgProjectsettings.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
     Widgets/wdgschedule.cpp \
     Widgets/wdgtoureditor.cpp \
     Widgets/wdgtours.cpp \
+    Widgets/wdgtripeditor.cpp \
     Widgets/wdgundoview.cpp \
     Widgets/wdgbusstopschedule.cpp \
     main.cpp \
@@ -59,6 +61,7 @@ HEADERS += \
     Commands/CmdRoutes.h \
     Commands/CmdSchedule.h \
     Commands/CmdTours.h \
+    Dialogs/DlgCopyTrip.h \
     Dialogs/DlgFileHandler.h \
     Dialogs/DlgPdfExporter.h \
     Dialogs/DlgProjectsettings.h \
@@ -81,6 +84,7 @@ HEADERS += \
     Widgets/wdgschedule.h \
     Widgets/wdgtoureditor.h \
     Widgets/wdgtours.h \
+    Widgets/wdgtripeditor.h \
     Widgets/wdgundoview.h \
     Widgets/wdgbusstopschedule.h \
     ProjectData/line.h \
@@ -100,6 +104,7 @@ HEADERS += \
     ProjectData/weekdays.h
 
 FORMS += \
+    Dialogs/DlgCopyTrip.ui \
     Dialogs/DlgFileHandler.ui \
     Dialogs/DlgPdfExporter.ui \
     Dialogs/DlgProjectsettings.ui \
@@ -121,6 +126,7 @@ FORMS += \
     Widgets/wdgschedule.ui \
     Widgets/wdgtoureditor.ui \
     Widgets/wdgtours.ui \
+    Widgets/wdgtripeditor.ui \
     Widgets/wdgundoview.ui \
     Widgets/wdgbusstopschedule.ui \
 

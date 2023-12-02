@@ -81,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
     dwLines->setWidget(wdgLines);
     dwRoutes->setWidget(wdgRoutes);
     dwSchedule->setWidget(wdgSchedule);
+    dwTripEditor->setWidget(wdgTripEditor);
     dwBusstopSchedule->setWidget(wdgBusstopSchedule);
     dwTours->setWidget(wdgTours);
     dwTourEditor->setWidget(wdgTourEditor);
@@ -137,6 +138,12 @@ MainWindow::MainWindow(QWidget *parent)
     wdgBusstops->setMenubarActions(ui->actionBusstopsNew, ui->actionBusstopsEdit, ui->actionBusstopsDelete);
     wdgLines->setMenubarActions(ui->actionLinesNew, ui->actionLinesEdit, ui->actionLinesDelete);
     wdgRoutes->setMenubarActions(ui->actionRoutesNew, ui->actionRoutesEdit, ui->actionRoutesDuplicate, ui->actionRoutesDelete);
+
+    QObject::connect(wdgSchedule, SIGNAL(currentLineChanged(Line *, LineDirection *)), wdgTripEditor, SLOT(setCurrentLine(Line *, LineDirection *)));
+    QObject::connect(wdgSchedule, SIGNAL(currentDayTypeChanged(DayType)), wdgTripEditor, SLOT(setCurrentDayType(DayType)));
+    QObject::connect(wdgSchedule, SIGNAL(currentTripsChanged(QList<Trip *>)), wdgTripEditor, SLOT(setCurrentTrips(QList<Trip *>)));
+    QObject::connect(wdgTripEditor, SIGNAL(tripsChanged(QList<Trip *>)), wdgSchedule, SLOT(refreshSchedule(QList<Trip *>)));
+
 
     QObject::connect(ui->actionBusstopsNew, SIGNAL(triggered()), wdgBusstops, SLOT(actionNew()));
     QObject::connect(ui->actionBusstopsEdit, SIGNAL(triggered()), wdgBusstops, SLOT(actionEdit()));
@@ -373,6 +380,9 @@ void MainWindow::actionWorkspaceTrackLayout() {
     dwSchedule->close();
     dwSchedule->setFloating(true);
 
+    dwTripEditor->close();
+    dwTripEditor->setFloating(true);
+
     dwTours->close();
     dwTours->setFloating(false);
 
@@ -417,6 +427,9 @@ void MainWindow::actionWorkspaceBusstopSchedule() {
     dwSchedule->setFloating(true);
     dwSchedule->close();
 
+    dwTripEditor->close();
+    dwTripEditor->setFloating(true);
+
     dwTours->setFloating(false);
     dwTours->close();
 
@@ -447,10 +460,13 @@ void MainWindow::actionWorkspaceBusstopSchedule() {
 void MainWindow::actionWorkspaceScheduling() {
     this->addDockWidget(Qt::LeftDockWidgetArea, dwLines);
     this->addDockWidget(Qt::RightDockWidgetArea, dwSchedule);
+    this->addDockWidget(Qt::RightDockWidgetArea, dwTripEditor);
     this->addDockWidget(Qt::LeftDockWidgetArea, dwUndoView);
+    this->splitDockWidget(dwSchedule, dwTripEditor, Qt::Horizontal);
     this->tabifyDockWidget(dwLines, dwBusstops);
     this->tabifyDockWidget(dwBusstops, dwTours);
     this->tabifyDockWidget(dwSchedule, dwRoutes);
+
 
     dwBusstops->setFloating(false);
     dwBusstops->close();
@@ -476,10 +492,14 @@ void MainWindow::actionWorkspaceScheduling() {
     dwSchedule->show();
     dwSchedule->setFloating(false);
 
+    dwTripEditor->show();
+    dwTripEditor->setFloating(false);
+
     dwUndoView->show();
     dwUndoView->setFloating(false);
 
     this->resizeDocks({dwLines, dwSchedule}, {static_cast<int>(this->width() * 0.01), static_cast<int>(this->width() * 0.99)}, Qt::Horizontal);
+    this->resizeDocks({dwSchedule, dwTripEditor}, {static_cast<int>(this->width() * 0.9), static_cast<int>(this->width() * 0.1)}, Qt::Horizontal);
     this->resizeDocks({dwLines, dwUndoView}, {static_cast<int>(this->width() * 0.8), static_cast<int>(this->width() * 0.2)}, Qt::Vertical);
 
     ui->actionWorkspaceTrackLayout->setChecked(false);
@@ -511,6 +531,9 @@ void MainWindow::actionWorkspaceTourPlanning() {
 
     dwSchedule->setFloating(false);
     dwSchedule->close();
+
+    dwTripEditor->close();
+    dwTripEditor->setFloating(true);
 
     dwPublishedLines->setFloating(true);
     dwPublishedLines->close();
@@ -547,6 +570,9 @@ void MainWindow::actionWorkspacePublish() {
 
     dwSchedule->setFloating(true);
     dwSchedule->close();
+
+    dwTripEditor->close();
+    dwTripEditor->setFloating(true);
 
     dwTours->setFloating(true);
     dwTours->close();
