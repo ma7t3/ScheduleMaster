@@ -14,6 +14,7 @@
 #include "Widgets/wdglines.h"
 #include "Widgets/wdgroutes.h"
 #include "Widgets/wdgschedule.h"
+#include "Widgets/wdgtripeditor.h"
 #include "Widgets/wdgtours.h"
 #include "Widgets/wdgtoureditor.h"
 #include "Widgets/wdgbusstopschedule.h"
@@ -102,6 +103,7 @@ private:
     WdgLines *wdgLines = new WdgLines(this, projectData, undoStack);
     WdgRoutes *wdgRoutes = new WdgRoutes(this, projectData, undoStack);
     WdgSchedule *wdgSchedule = new WdgSchedule(this, projectData, undoStack);
+    WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, projectData, undoStack);
     WdgTours *wdgTours = new WdgTours(this, projectData, undoStack);
     WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, projectData, undoStack);
     WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, projectData);
@@ -112,6 +114,7 @@ private:
     QDockWidget *dwLines = new QDockWidget(tr("Lines"), this);
     QDockWidget *dwRoutes = new QDockWidget(tr("Routes"), this);
     QDockWidget *dwSchedule = new QDockWidget(tr("Schedule"), this);
+    QDockWidget *dwTripEditor = new QDockWidget(tr("Current trips"), this);
     QDockWidget *dwTours = new QDockWidget(tr("Tours"), this);
     QDockWidget *dwTourEditor = new QDockWidget(tr("Current tour"), this);
     QDockWidget *dwBusstopSchedule = new QDockWidget(tr("Busstop schedule"), this);

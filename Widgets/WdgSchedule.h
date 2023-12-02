@@ -23,41 +23,48 @@ public:
 public slots:
     void actionChangeDirection();
 
-    void actionScheduleTripNew();
+    /*void actionScheduleTripNew();
     void actionScheduleTripDelete();
     void actionScheduleTripChangeRoute();
     void actionScheduleTripChangeProfile();
     void actionScheduleTripChangeStartTime();
-    void actionScheduleTripChangeDays();
+    void actionScheduleTripChangeDays();*/
 
     void setCurrentLine(Line *);
     void refreshDirections();
     void refreshDayTypes();
 
-    void refreshRoutes();
+    //void refreshRoutes();
     void refreshSchedule();
+    void refreshSchedule(QList<Trip *>);
 
 private slots:
     void refreshScheduleBusstopList(QList<Trip *>);
     void refreshScheduleAddTrip(Trip *);
     QPair<QString, QString> refreshScheduleGenerateInfo(WeekDays *);
     void refreshScheduleSelection();
-    void refreshTripDetails();
+    //void refreshTripDetails();
 
     bool scheduleCheckMatchingWeekdays(WeekDays *);
 
-    void on_twSchedule_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
-    void on_twSchedule_itemPressed(QTableWidgetItem *item);
+    /*void on_twSchedule_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
+    void on_twSchedule_itemPressed(QTableWidgetItem *item);*/
 
-    void on_lwRoutes_itemClicked(QListWidgetItem *item);
+    /*void on_lwRoutes_itemClicked(QListWidgetItem *item);
 
-    void on_teDepartureTime_editingFinished();
+    void on_teDepartureTime_editingFinished();*/
 
     void on_twSchedule_itemDoubleClicked(QTableWidgetItem *item);
 
     void on_cmbDayTypes_activated(int index);
 
+    void on_twSchedule_itemSelectionChanged();
+
 signals:
+    void currentLineChanged(Line *, LineDirection *);
+    void currentDirectionChanged(LineDirection *);
+    void currentTripsChanged(QList<Trip *>);
+    void currentDayTypeChanged(DayType);
     void busstopScheduleRequested(Busstop *, QList<Busstop *>, QList<Line *>, int);
 
 private:
@@ -68,7 +75,8 @@ private:
     int headerRowCount = 6;
 
     Line *m_currentLine = nullptr;
-    Trip *m_currentTrip = nullptr;
+    QList<Trip *> m_currentTrips;
+    //Trip *m_currentTrip;
     Route *m_currentRoute = nullptr;
     QList<Trip *> scheduleTableTripsReference;
     QList<Busstop *> scheduleTableBusstopsReference;
@@ -80,15 +88,10 @@ private:
     DayType *m_currentDayType;
     QList<DayType *> dayTypesReference;
 
-    //LineDirection *scheduleCurrentDirection = nullptr;
-
     bool scheduleStartTimeChanging = false;
     QTime ScheduleTmpOldStartTime;
 
-    /*const int scheduleCurrentDaysMonFri = 1;
-    const int scheduleCurrentDaysSat = 2;
-    const int scheduleCurrentDaysSun = 3;
-    int scheduleCurrentDaysShow = scheduleCurrentDaysMonFri;*/
+    bool refreshingSchedule = false;
 
     void scheduleSaveProfile();
     void scheduleSaveStartTime();
