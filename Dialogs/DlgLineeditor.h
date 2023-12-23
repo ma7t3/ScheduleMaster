@@ -23,7 +23,12 @@ public:
 
 private slots:
     void on_pbColor_clicked();
+
+    void actionNewDirection();
     void actionRenameDirection();
+    void actionDeleteDirection();
+    void actionDirectionUp();
+    void actionDirectionDown();
 
     void refreshDirections();
 
