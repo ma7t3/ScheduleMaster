@@ -37,5 +37,6 @@
         <file>icons/success.ico</file>
         <file>Translations/german.qm</file>
         <file>Translations/qtbase_de.qm</file>
+        <file>icons/PublishedLines.ico</file>
     </qresource>
 </RCC>
