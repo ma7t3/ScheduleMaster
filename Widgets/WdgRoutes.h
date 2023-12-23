@@ -47,6 +47,8 @@ public slots:
 private slots:
     void on_twRoutes_itemSelectionChanged();
 
+    void omsiExport();
+
 signals:
     void currentRouteChanged(Route *);
 
