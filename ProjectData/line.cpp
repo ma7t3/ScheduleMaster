@@ -231,9 +231,8 @@ void Line::overwrite(Line &other) {
         } else {
             newDirections << ld; // add
         }
-
-        setDirections(newDirections);
     }
+    setDirections(newDirections);
 }
 
 bool Line::operator<(Line &other) {
