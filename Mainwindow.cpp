@@ -108,6 +108,7 @@ MainWindow::MainWindow(QWidget *parent)
     actDockBusstopSchedule->setIcon(QIcon(":/main/icons/BusstopSchedule.ico"));
     actDockTours->setIcon(QIcon(":/main/icons/TourList.ico"));
     actDockTourEditor->setIcon(QIcon(":/main/icons/Tour.ico"));
+    actDockPublishedLines->setIcon(QIcon(":/main/icons/PublishedLines.ico"));
 
     actDockBusstops->setShortcut(QKeySequence(Qt::ALT|Qt::Key_B));
     actDockLines->setShortcut(QKeySequence(Qt::ALT|Qt::Key_L));
