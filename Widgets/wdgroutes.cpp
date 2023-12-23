@@ -4,6 +4,8 @@
 #include <QUndoStack>
 #include <QMessageBox>
 
+#include <QFileDialog>
+
 #include "App/global.h"
 #include "Dialogs/DlgRouteeditor.h"
 #include "Dialogs/DlgDataexporter.h"
@@ -23,6 +25,8 @@ WdgRoutes::WdgRoutes(QWidget *parent, ProjectData *projectData, QUndoStack *undo
     QObject::connect(ui->twRoutes, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(actionEdit()));
     QObject::connect(ui->pbDelete, SIGNAL(clicked()), this, SLOT(actionDelete()));
     QObject::connect(ui->pbExportProfiles, SIGNAL(clicked()), this, SLOT(actionExportProfiles()));
+
+    QObject::connect(ui->pbExportProfilesOMSITrips, SIGNAL(clicked()), this, SLOT(omsiExport()));
 
     m_actionNew->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_R));
     m_actionEdit->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_R));
@@ -307,4 +311,74 @@ void WdgRoutes::on_twRoutes_itemSelectionChanged() {
 
     emit currentRouteChanged(m_currentRoute);
 }
+
+void WdgRoutes::omsiExport() {
+    QString path = QFileDialog::getExistingDirectory(this, "", "C:/Program Files (x86)/Steam/steamapps/common/OMSI 2/maps/Region Grundorf V5/TTData", QFileDialog::ShowDirsOnly);
+    if(path == "")
+        return;
+
+    QDir dir(path);
+    if(!dir.exists())
+        return;
+
+    for(int i = 0; i < tableReference.count(); i++) {
+        Route *r = tableReference[i];
+        QFile f(dir.path() + "/" + r->name() + ".ttp");
+        if(!f.exists()) {
+            qDebug() << "not found: " << r->name();
+            continue;
+        }
+
+        f.open(QIODevice::ReadOnly);
+        QTextStream s(&f);
+        s.setEncoding(QStringConverter::Latin1);
+
+        QString resultStr;
+        while(!s.atEnd()) {
+            QString line = s.readLine();
+            if(line != "[profile]")
+                resultStr += line + "\r\n";
+            else
+                break;
+        }
+
+        // export
+        QString result = "";
+
+        QList<TimeProfile *> profiles = r->timeProfiles();
+        for(int i = 0; i < profiles.count(); i++) {
+            TimeProfile *p = profiles[i];
+            result += "[profile]\r\n" + p->name() + "\r\n" + QString::number(p->duration()) + "\r\n\r\n";
+
+            for(int j = 0; j < r->busstopCount(); j++) {
+                Busstop *b = r->busstopAt(j);
+                TimeProfileItem *itm = p->busstop(b);
+                if(!itm)
+                    continue;
+
+                result += "[profile_man_arr_time]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->depValue()) + "\r\n";
+                if(itm->busstopMode() != TimeProfileItem::busstopModeNormal) {
+                    result += "[profile_otherstopping]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->busstopMode()) + "\r\n";
+                }
+            }
+        }
+
+        resultStr += result;
+
+        QFile f2(dir.path() + "/" + r->name() + ".ttp");
+        f2.open(QIODevice::WriteOnly);
+        QTextStream s2(&f2);
+        s2.setEncoding(QStringConverter::Latin1);
+        s2 << resultStr;
+        f2.close();
+        f.close();
+    }
+}
+
+
+
+
+
+
+
 
