@@ -23,6 +23,7 @@ WdgTours::WdgTours(QWidget *parent, ProjectData *projectData, QUndoStack *undoSt
     QObject::connect(ui->pbTourDuplicate, SIGNAL(clicked()), this, SLOT(actionTourDuplicate()));
     QObject::connect(ui->pbTourDelete, SIGNAL(clicked()), this, SLOT(actionTourDelete()));
     QObject::connect(ui->pbExport, SIGNAL(clicked()), this, SLOT(actionExport()));
+    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(refreshTourList()));
 
     ui->twTours->setEditTriggers(QTableWidget::NoEditTriggers);
     ui->twTours->verticalHeader()->setVisible(false);
@@ -142,6 +143,7 @@ Tour * WdgTours::currentTour() {
 void WdgTours::refreshTourList()
 {
     ui->twTours->clearContents();
+    ui->twTours->setRowCount(0);
     tableReference.clear();
 
     QFont bold;
@@ -150,16 +152,25 @@ void WdgTours::refreshTourList()
     QList<Tour *> tours = projectData->tours();
     tours = ProjectData::sortTours(tours);
 
-    ui->twTours->setRowCount(tours.count());
+    QRegularExpression regex(ui->leSearch->text());
+    regex.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     
     for(int i = 0; i < tours.count(); i++) {
         Tour *o = tours[i];
+
+        if(!regex.match(o->name()).hasMatch())
+            continue;
+
+        int row = ui->twTours->rowCount();
+
+        ui->twTours->insertRow(row);
+
         tableReference << o;
-        ui->twTours->setItem(i, 0, new QTableWidgetItem(o->name()));
-        ui->twTours->setItem(i, 1, new QTableWidgetItem(o->startTime().toString("hh:mm") + " - " + o->endTime().toString("hh:mm")));
-        ui->twTours->setItem(i, 2, new QTableWidgetItem(o->duration().toString("hh:mm")));
-        ui->twTours->setItem(i, 3, new QTableWidgetItem(o->weekDays()->toString()));
-        ui->twTours->item(i, 0)->setFont(bold);
+        ui->twTours->setItem(row, 0, new QTableWidgetItem(o->name()));
+        ui->twTours->setItem(row, 1, new QTableWidgetItem(o->startTime().toString("hh:mm") + " - " + o->endTime().toString("hh:mm")));
+        ui->twTours->setItem(row, 2, new QTableWidgetItem(o->duration().toString("hh:mm")));
+        ui->twTours->setItem(row, 3, new QTableWidgetItem(o->weekDays()->toString()));
+        ui->twTours->item(row, 0)->setFont(bold);
 
         int startTime = o->startTime().msecsSinceStartOfDay(), endTime = o->endTime().msecsSinceStartOfDay(), diff = 0, time = 0;
 
@@ -175,8 +186,8 @@ void WdgTours::refreshTourList()
         int timeColorCode = 360 - (time / 240000);
         QColor timeColor;
         timeColor.setHsv(timeColorCode, 128, 255);
-        ui->twTours->item(i, 1)->setBackground(timeColor);
-        ui->twTours->setRowHeight(i, 20);
+        ui->twTours->item(row, 1)->setBackground(timeColor);
+        ui->twTours->setRowHeight(row, 20);
 
         int durationColorCode = 255 - o->duration().msecsSinceStartOfDay() / 168750;
         if(durationColorCode > 255)
@@ -184,9 +195,9 @@ void WdgTours::refreshTourList()
 
         QColor durationColor;
         durationColor.setHsv(0, 0, durationColorCode);
-        ui->twTours->item(i, 2)->setBackground(durationColor);
+        ui->twTours->item(row, 2)->setBackground(durationColor);
         if(durationColorCode < 128)
-            ui->twTours->item(i, 2)->setForeground(Qt::white);
+            ui->twTours->item(row, 2)->setForeground(Qt::white);
 
         QStringList lines;
 
@@ -222,29 +233,3 @@ void WdgTours::on_twTours_currentItemChanged(QTableWidgetItem *current, QTableWi
     m_currentTour = tableReference[current->row()];
     emit currentTourChanged(m_currentTour);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

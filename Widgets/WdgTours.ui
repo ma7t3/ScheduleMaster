@@ -60,6 +60,16 @@
     </layout>
    </item>
    <item>
+    <widget class="QLineEdit" name="leSearch">
+     <property name="placeholderText">
+      <string>Search tours... (regular expressions are allowed)</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTableWidget" name="twTours">
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
