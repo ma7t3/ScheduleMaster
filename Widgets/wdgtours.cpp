@@ -189,9 +189,10 @@ void WdgTours::refreshTourList()
         ui->twTours->item(row, 1)->setBackground(timeColor);
         ui->twTours->setRowHeight(row, 20);
 
+
         int durationColorCode = 255 - o->duration().msecsSinceStartOfDay() / 168750;
-        if(durationColorCode > 255)
-            durationColorCode = 255;
+        if(durationColorCode < 0)
+            durationColorCode = 0;
 
         QColor durationColor;
         durationColor.setHsv(0, 0, durationColorCode);
@@ -209,12 +210,6 @@ void WdgTours::refreshTourList()
 
         ui->twTours->setItem(i, 4, new QTableWidgetItem(lines.join(", ")));
     }
-
-    /*ui->twTours->resizeColumnToContents(0);
-    ui->twTours->resizeColumnToContents(1);
-    ui->twTours->resizeColumnToContents(2);
-    ui->twTours->resizeColumnToContents(3);
-    ui->twTours->resizeColumnToContents(4);*/
 }
 
 void WdgTours::on_twTours_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous) {
