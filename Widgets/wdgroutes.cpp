@@ -28,8 +28,8 @@ WdgRoutes::WdgRoutes(QWidget *parent, ProjectData *projectData, QUndoStack *undo
 
     QObject::connect(ui->pbExportProfilesOMSITrips, SIGNAL(clicked()), this, SLOT(omsiExport()));
 
-    m_actionNew->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_R));
-    m_actionEdit->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_R));
+    _actionNew->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_R));
+    _actionEdit->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_R));
 
     ui->twRoutes->verticalHeader()->setVisible(false);
     ui->twRoutes->setEditTriggers(QTableWidget::NoEditTriggers);
@@ -44,11 +44,11 @@ WdgRoutes::~WdgRoutes()
 }
 
 void WdgRoutes::actionNew() {
-    if(!m_currentLine)
+    if(!_currentLine)
         return;
 
-    Route * r = new Route(global::getNewID(), 1, "", m_currentLine->directionAt(0));
-    routeEditor dlg(this, true, r, m_currentLine->directions(), projectData->busstops());
+    Route * r = new Route(global::getNewID(), 1, "", _currentLine->directionAt(0));
+    routeEditor dlg(this, true, r, _currentLine->directions(), projectData->busstops());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -65,23 +65,23 @@ void WdgRoutes::actionNew() {
         r->addBusstop(b);
     }
 
-    undoStack->push(new cmdRouteNew(m_currentLine, r));
+    undoStack->push(new cmdRouteNew(_currentLine, r));
     refreshRouteTable();
 }
 
 void WdgRoutes::actionEdit() {
-    if(!m_currentLine || !m_currentRoute)
+    if(!_currentLine || !_currentRoute)
         return;
     
-    QList<Route *> matchingRoutes = projectData->matchingRoutes(m_currentRoute);
+    QList<Route *> matchingRoutes = projectData->matchingRoutes(_currentRoute);
     
-    routeEditor dlg(this, false, m_currentRoute, m_currentLine->directions(), projectData->busstops(), matchingRoutes);
+    routeEditor dlg(this, false, _currentRoute, _currentLine->directions(), projectData->busstops(), matchingRoutes);
 
     dlg.exec();
     if(dlg.result() != QDialog::Accepted)
         return;
 
-    Route newR = *m_currentRoute;
+    Route newR = *_currentRoute;
 
     newR.setName(dlg.name());
     newR.setCode(dlg.getCode());
@@ -95,17 +95,17 @@ void WdgRoutes::actionEdit() {
         newR.addBusstop(b);
     }
 
-    undoStack->push(new cmdRouteEdit(m_currentRoute, newR));
+    undoStack->push(new cmdRouteEdit(_currentRoute, newR));
     refreshRouteTable();
 }
 
 void WdgRoutes::actionDuplicate() {
-    if(!m_currentLine || !m_currentRoute)
+    if(!_currentLine || !_currentRoute)
         return;
     
-    QList<Route *> matchingRoutes = projectData->matchingRoutes(m_currentRoute);
+    QList<Route *> matchingRoutes = projectData->matchingRoutes(_currentRoute);
     
-    routeEditor dlg(this, false, m_currentRoute, m_currentLine->directions(), projectData->busstops(), matchingRoutes);
+    routeEditor dlg(this, false, _currentRoute, _currentLine->directions(), projectData->busstops(), matchingRoutes);
     dlg.exec();
     if(dlg.result() != QDialog::Accepted)
         return;
@@ -118,7 +118,7 @@ void WdgRoutes::actionDuplicate() {
         n->addBusstop(b);
     }
 
-    undoStack->push(new cmdRouteNew(m_currentLine, n));
+    undoStack->push(new cmdRouteNew(_currentLine, n));
     refreshRouteTable();
 }
 
@@ -138,15 +138,15 @@ void WdgRoutes::actionDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdRoutesDelete(m_currentLine, routes));
+    undoStack->push(new cmdRoutesDelete(_currentLine, routes));
     refreshRouteTable();
 }
 
 void WdgRoutes::actionExportProfiles() {
-    if(!m_currentRoute)
+    if(!_currentRoute)
         return;
 
-    Route *r = m_currentRoute;
+    Route *r = _currentRoute;
 
     QString result = "";
 
@@ -175,10 +175,10 @@ void WdgRoutes::actionExportProfiles() {
 }
 
 void WdgRoutes::setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDuplicate, QAction *actionDelete) {
-    m_actionNew = actionNew;
-    m_actionEdit = actionEdit;
-    m_actionDuplicate = actionDuplicate;
-    m_actionDelete = actionDelete;
+    _actionNew = actionNew;
+    _actionEdit = actionEdit;
+    _actionDuplicate = actionDuplicate;
+    _actionDelete = actionDelete;
 
     refreshUI();
 }
@@ -191,66 +191,66 @@ void WdgRoutes::refreshUI() {
         ui->pbEdit->setEnabled(false);
         ui->pbDuplicate->setEnabled(false);
         ui->pbDelete->setEnabled(false);
-        m_actionEdit->setEnabled(false);
-        m_actionDuplicate->setEnabled(false);
-        m_actionDelete->setEnabled(false);
+        _actionEdit->setEnabled(false);
+        _actionDuplicate->setEnabled(false);
+        _actionDelete->setEnabled(false);
     } else if(selectionCount == 1) {
         ui->pbEdit->setEnabled(true);
         ui->pbDuplicate->setEnabled(true);
         ui->pbDelete->setEnabled(true);
-        m_actionEdit->setEnabled(true);
-        m_actionDuplicate->setEnabled(true);
-        m_actionDelete->setEnabled(true);
+        _actionEdit->setEnabled(true);
+        _actionDuplicate->setEnabled(true);
+        _actionDelete->setEnabled(true);
     } else {
         ui->pbEdit->setEnabled(false);
         ui->pbDuplicate->setEnabled(false);
         ui->pbDelete->setEnabled(true);
-        m_actionEdit->setEnabled(false);
-        m_actionDuplicate->setEnabled(false);
-        m_actionDelete->setEnabled(true);
+        _actionEdit->setEnabled(false);
+        _actionDuplicate->setEnabled(false);
+        _actionDelete->setEnabled(true);
     }
 }
 
 void WdgRoutes::setCurrentLine(Line *l) {
     if(!l) {
         ui->pbNew->setEnabled(false);
-        m_actionNew->setEnabled(false);
-        m_currentLine = nullptr;
+        _actionNew->setEnabled(false);
+        _currentLine = nullptr;
     }
 
     ui->pbNew->setEnabled(true);
-    m_actionNew->setEnabled(true);
+    _actionNew->setEnabled(true);
 
-    m_currentLine = l;
+    _currentLine = l;
     refreshRouteTable();
 }
 
 Route * WdgRoutes::currentRoute() {
-    return m_currentRoute;
+    return _currentRoute;
 }
 
 QAction *WdgRoutes::menubarActionNew() {
-    return m_actionNew;
+    return _actionNew;
 }
 
 QAction *WdgRoutes::menubarActionEdit() {
-    return m_actionEdit;
+    return _actionEdit;
 }
 
 QAction *WdgRoutes::menubarActionDuplicate() {
-    return m_actionDuplicate;
+    return _actionDuplicate;
 }
 
 QAction *WdgRoutes::menubarActionDelete() {
-    return m_actionDelete;
+    return _actionDelete;
 }
 
 QAction *WdgRoutes::menubarActionExportListCurrent() {
-    return m_actionExportListCurrent;
+    return _actionExportListCurrent;
 }
 
 QAction *WdgRoutes::menubarActionExportListAll() {
-    return m_actionExportListCurrent;
+    return _actionExportListCurrent;
 }
 
 
@@ -260,10 +260,10 @@ void WdgRoutes::refreshRouteTable() {
     ui->twRoutes->setRowCount(0);
     tableReference.clear();
 
-    if(!m_currentLine)
+    if(!_currentLine)
         return;
 
-    QList<Route *> routes = m_currentLine->routes();
+    QList<Route *> routes = _currentLine->routes();
     routes = ProjectData::sortRoutes(routes);
     ui->twRoutes->setRowCount(routes.count());
 
@@ -283,7 +283,7 @@ void WdgRoutes::refreshRouteTable() {
         ui->twRoutes->setItem(i, 1, new QTableWidgetItem(code));
         ui->twRoutes->setItem(i, 2, new QTableWidgetItem(name));
 
-        if(m_currentRoute == r)
+        if(_currentRoute == r)
             ui->twRoutes->setCurrentCell(i, 2);
     }
 
@@ -303,13 +303,13 @@ void WdgRoutes::on_twRoutes_itemSelectionChanged() {
     int selectionCount = ui->twRoutes->selectionModel()->selectedRows().count();
 
     if(!current || selectionCount == 0 || selectionCount > 1)
-        m_currentRoute = nullptr;
+        _currentRoute = nullptr;
     else
-        m_currentRoute = tableReference[current->row()];
+        _currentRoute = tableReference[current->row()];
 
     refreshUI();
 
-    emit currentRouteChanged(m_currentRoute);
+    emit currentRouteChanged(_currentRoute);
 }
 
 void WdgRoutes::omsiExport() {

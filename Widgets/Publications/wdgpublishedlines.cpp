@@ -15,9 +15,9 @@ WdgPublishedLines::WdgPublishedLines(QWidget *parent, ProjectData *projectData, 
     ui(new Ui::WdgPublishedLines),
     projectData(projectData),
     undoStack(undoStack),
-    m_currentLine(nullptr),
-    m_currentLineDirection(nullptr),
-    m_currentBusstop(nullptr)
+    _currentLine(nullptr),
+    _currentLineDirection(nullptr),
+    _currentBusstop(nullptr)
 {
     ui->setupUi(this);
 
@@ -56,7 +56,7 @@ WdgPublishedLines::~WdgPublishedLines()
 }
 
 PublishedLine *WdgPublishedLines::currentLine() const {
-    return m_currentLine;
+    return _currentLine;
 }
 
 void WdgPublishedLines::actionNew() {
@@ -67,39 +67,39 @@ void WdgPublishedLines::actionNew() {
 
     PublishedLine *l = new PublishedLine(global::getNewID(), name);
     undoStack->push(new cmdPublishedLineNew(projectData, l));
-    m_currentLine = l;
+    _currentLine = l;
     refreshLineList();
     refreshCurrentLine();
 }
 
 void WdgPublishedLines::actionEdit() {
-    if(!m_currentLine)
+    if(!_currentLine)
         return;
 
-    PublishedLine newL = *m_currentLine;
+    PublishedLine newL = *_currentLine;
 
     newL.setTitle(ui->leTitle->text());
     newL.setFooter(ui->leFooter->text());
     newL.setFilePath(ui->leFilePath->text());
 
-    undoStack->push(new cmdPublishedLineEdit(m_currentLine, newL));
+    undoStack->push(new cmdPublishedLineEdit(_currentLine, newL));
     refreshLineList();
 }
 
 void WdgPublishedLines::actionDelete() {
-    if(!m_currentLine)
+    if(!_currentLine)
         return;
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete published line"), tr("<p><b>Do you really want to delete this published line?</b></p><p>%1</p>").arg(m_currentLine->title()), QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete published line"), tr("<p><b>Do you really want to delete this published line?</b></p><p>%1</p>").arg(_currentLine->title()), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdPublishedLineDelete(projectData, m_currentLine));
+    undoStack->push(new cmdPublishedLineDelete(projectData, _currentLine));
     refreshLineList();
 }
 
 void WdgPublishedLines::actionDirectionNew() {
-    if(!m_currentLine)
+    if(!_currentLine)
         return;
 
     bool ok = false;
@@ -108,18 +108,18 @@ void WdgPublishedLines::actionDirectionNew() {
         return;
 
     PublishedLineDirection *ld = new PublishedLineDirection(global::getNewID(), name);
-    undoStack->push(new cmdPublishedLineDirectionNew(m_currentLine, ld));
-    m_currentLineDirection = ld;
+    undoStack->push(new cmdPublishedLineDirectionNew(_currentLine, ld));
+    _currentLineDirection = ld;
     refreshCurrentLine();
 }
 
 void WdgPublishedLines::actionDirectionEdit() {
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
-    PublishedLineDirection newLd = *m_currentLineDirection;
+    PublishedLineDirection newLd = *_currentLineDirection;
 
-    undoStack->push(new cmdPublishedLineDirectionEdit(m_currentLineDirection, newLd));
+    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
     refreshCurrentLine();
 }
 
@@ -128,7 +128,7 @@ void WdgPublishedLines::actionDirectionDelete() {
 }
 
 void WdgPublishedLines::actionRoutesChange() {
-    if(!m_currentLine || !m_currentLineDirection)
+    if(!_currentLine || !_currentLineDirection)
         return;
 
     QList<Route *> routes;
@@ -138,30 +138,30 @@ void WdgPublishedLines::actionRoutesChange() {
             for(int k = 0; k < ui->twRoutes->topLevelItem(i)->child(j)->childCount(); k++) {
                 Qt::CheckState checked = ui->twRoutes->topLevelItem(i)->child(j)->child(k)->checkState(0);
                 if(checked == Qt::Checked)
-                    routes << m_routesReference[i][j][k];
+                    routes << _routesReference[i][j][k];
             }
         }
     }
 
-    PublishedLineDirection newLd = *m_currentLineDirection;
+    PublishedLineDirection newLd = *_currentLineDirection;
     newLd.setRoutes(routes);
 
-    undoStack->push(new cmdPublishedLineDirectionEdit(m_currentLineDirection, newLd));
+    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 }
 
 void WdgPublishedLines::actionBusstopAdd() {
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
     int busstopIndex = ui->cmbAllBusstops->currentIndex();
 
-    Busstop *b = m_allBusstopsReference[busstopIndex];
+    Busstop *b = _allBusstopsReference[busstopIndex];
     if(!b)
         return;
 
     bool busstopFound = false;
-    for(int i = 0; i < m_currentLineDirection->busstopCount(); i++) {
-        if(m_currentLineDirection->busstopAt(i)->linkedBusstop() == b)
+    for(int i = 0; i < _currentLineDirection->busstopCount(); i++) {
+        if(_currentLineDirection->busstopAt(i)->linkedBusstop() == b)
             busstopFound = true;
     }
     if(busstopFound)
@@ -169,19 +169,19 @@ void WdgPublishedLines::actionBusstopAdd() {
 
     PublishedBusstop *pb = new PublishedBusstop(global::getNewID(), b, "");
 
-    PublishedLineDirection newLd = *m_currentLineDirection;
+    PublishedLineDirection newLd = *_currentLineDirection;
     newLd.addBusstop(pb);
 
-    undoStack->push(new cmdPublishedLineDirectionEdit(m_currentLineDirection, newLd));
+    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
 
 void WdgPublishedLines::actionBusstopsAddAll() {
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
-    for(int i = 0; i < m_allBusstopsReference.count(); i++) {
+    for(int i = 0; i < _allBusstopsReference.count(); i++) {
         ui->cmbAllBusstops->setCurrentIndex(i);
         actionBusstopAdd();
         qApp->processEvents();
@@ -189,44 +189,44 @@ void WdgPublishedLines::actionBusstopsAddAll() {
 }
 
 void WdgPublishedLines::actionBusstopRemove() {
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
     if(!ui->lwBusstops->currentItem())
         return;
 
-    PublishedBusstop *b = m_currentLineDirection->busstopAt(ui->lwBusstops->currentRow());
+    PublishedBusstop *b = _currentLineDirection->busstopAt(ui->lwBusstops->currentRow());
     if(!b)
         return;
 
-    PublishedLineDirection newLd = *m_currentLineDirection;
+    PublishedLineDirection newLd = *_currentLineDirection;
     newLd.removeBusstop(b);
 
-    undoStack->push(new cmdPublishedLineDirectionEdit(m_currentLineDirection, newLd));
+    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
 
 void WdgPublishedLines::actionBusstopRemoveAll() {
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
     QMessageBox::StandardButton msg = QMessageBox::warning(this, "Remove all busstops", "Do you really want to remove all busstops?", QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
 
-    PublishedLineDirection newLd = *m_currentLineDirection;
+    PublishedLineDirection newLd = *_currentLineDirection;
     newLd.setBusstops({});
-    undoStack->push(new cmdPublishedLineDirectionEdit(m_currentLineDirection, newLd));
+    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
 
 void WdgPublishedLines::actionBusstopUp() {
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
-    QList<PublishedBusstop *> busstops = m_currentLineDirection->busstops();
+    QList<PublishedBusstop *> busstops = _currentLineDirection->busstops();
     int index = ui->lwBusstops->currentRow();
 
     if(index == 0)
@@ -236,18 +236,18 @@ void WdgPublishedLines::actionBusstopUp() {
     busstops.remove(index);
     busstops.insert(index - 1, b);
 
-    PublishedLineDirection newLd = *m_currentLineDirection;
+    PublishedLineDirection newLd = *_currentLineDirection;
     newLd.setBusstops(busstops);
-    undoStack->push(new cmdPublishedLineDirectionEdit(m_currentLineDirection, newLd));
+    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
 
 void WdgPublishedLines::actionBusstopDown() {
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
-    QList<PublishedBusstop *> busstops = m_currentLineDirection->busstops();
+    QList<PublishedBusstop *> busstops = _currentLineDirection->busstops();
     int index = ui->lwBusstops->currentRow();
 
     if(index == ui->lwBusstops->count() - 1)
@@ -257,43 +257,43 @@ void WdgPublishedLines::actionBusstopDown() {
     busstops.remove(index);
     busstops.insert(index + 1, b);
 
-    PublishedLineDirection newLd = *m_currentLineDirection;
+    PublishedLineDirection newLd = *_currentLineDirection;
     newLd.setBusstops(busstops);
-    undoStack->push(new cmdPublishedLineDirectionEdit(m_currentLineDirection, newLd));
+    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
 
 void WdgPublishedLines::actionEditBusstop() {
-    if(!m_currentLineDirection || !m_currentBusstop)
+    if(!_currentLineDirection || !_currentBusstop)
         return;
 
-    PublishedBusstop newB = *m_currentBusstop;
+    PublishedBusstop newB = *_currentBusstop;
     newB.setLabel(ui->leBusstopsLabel->text());
     newB.setShowDivider(ui->cbBusstopsShowDivider->isChecked());
 
-    undoStack->push(new cmdPublishedBusstopEdit(m_currentBusstop, newB));
+    undoStack->push(new cmdPublishedBusstopEdit(_currentBusstop, newB));
 
     refreshBusstopList();
 }
 
 void WdgPublishedLines::setCurrentLine(PublishedLine *newCurrentLine) {
-    m_currentLine = newCurrentLine;
+    _currentLine = newCurrentLine;
 }
 
 void WdgPublishedLines::refreshLineList() {
     refreshing = true;
     ui->lwLines->clear();
-    m_listReference.clear();
+    _listReference.clear();
 
     QList<PublishedLine *> publishedLines = projectData->publications()->lines();
 
     for(int i = 0; i < publishedLines.count(); i++) {
         PublishedLine *l = publishedLines[i];
-        m_listReference << l;
+        _listReference << l;
         ui->lwLines->addItem(l->title());
 
-        if(m_currentLine == l)
+        if(_currentLine == l)
             ui->lwLines->setCurrentRow(i);
     }
 
@@ -302,28 +302,28 @@ void WdgPublishedLines::refreshLineList() {
 
 void WdgPublishedLines::refreshCurrentLine() {
     ui->lwDirections->clear();
-    m_directionsListReference.clear();
+    _directionsListReference.clear();
 
-    if(!m_currentLine)
+    if(!_currentLine)
         return;
 
     refreshingCurrentLine = true;
 
-    ui->leTitle->setText(m_currentLine->title());
-    ui->leFooter->setText(m_currentLine->footer());
-    ui->leFilePath->setText(m_currentLine->filePath());
+    ui->leTitle->setText(_currentLine->title());
+    ui->leFooter->setText(_currentLine->footer());
+    ui->leFilePath->setText(_currentLine->filePath());
 
-    QList<PublishedLineDirection *> directions = m_currentLine->directions();
+    QList<PublishedLineDirection *> directions = _currentLine->directions();
     for(int i = 0; i < directions.count(); i++) {
         PublishedLineDirection *ld = directions[i];
         ui->lwDirections->addItem(ld->name());
-        m_directionsListReference << ld;
-        if(m_currentLineDirection == ld)
+        _directionsListReference << ld;
+        if(_currentLineDirection == ld)
             ui->lwDirections->setCurrentRow(i);
     }
 
-    for(int i = 0; i < m_dayTypesReference.count(); i++) {
-        if(m_currentLine->hasDayType(m_dayTypesReference[i]))
+    for(int i = 0; i < _dayTypesReference.count(); i++) {
+        if(_currentLine->hasDayType(_dayTypesReference[i]))
             ui->lwDayTypes->item(i)->setCheckState(Qt::Checked);
         else
             ui->lwDayTypes->item(i)->setCheckState(Qt::Unchecked);
@@ -339,10 +339,10 @@ void WdgPublishedLines::refreshCurrentLineDirection() {
 
     ui->leDirectionsName->clear();
 
-    if(!m_currentLine || !m_currentLineDirection)
+    if(!_currentLine || !_currentLineDirection)
         return;
 
-    ui->leDirectionsName->setText(m_currentLineDirection->name());
+    ui->leDirectionsName->setText(_currentLineDirection->name());
 
     refreshRouteCheckBoxes();
 
@@ -358,7 +358,7 @@ void WdgPublishedLines::refreshDayTypes() {
 
     for(int i = 0; i < s->dayTypeCount(); i++) {
         DayType *dt = s->dayTypeAt(i);
-        m_dayTypesReference << dt;
+        _dayTypesReference << dt;
 
         QListWidgetItem *itm = new QListWidgetItem(dt->name());
         itm->setCheckState(Qt::Unchecked);
@@ -370,13 +370,13 @@ void WdgPublishedLines::refreshDayTypes() {
 void WdgPublishedLines::refreshRouteList() {
     ui->twRoutes->clear();
 
-    m_routesReference.clear();
-    m_routesDirectionsReference.clear();
-    m_routesLinesReference.clear();
+    _routesReference.clear();
+    _routesDirectionsReference.clear();
+    _routesLinesReference.clear();
 
     for(int i = 0; i < projectData->lineCount(); i++) {
         Line *l = projectData->lineAt(i);
-        m_routesLinesReference << l;
+        _routesLinesReference << l;
         QTreeWidgetItem *lineItm = new QTreeWidgetItem(ui->twRoutes, {l->name()});
         lineItm->setCheckState(0, Qt::Unchecked);
 
@@ -398,20 +398,20 @@ void WdgPublishedLines::refreshRouteList() {
             }
         }
 
-        m_routesLinesReference << l;
-        m_routesDirectionsReference << directions;
-        m_routesReference << routesParents;
+        _routesLinesReference << l;
+        _routesDirectionsReference << directions;
+        _routesReference << routesParents;
     }
 }
 
 void WdgPublishedLines::refreshRouteCheckBoxes() {
-    if(!m_currentLine || !m_currentLineDirection)
+    if(!_currentLine || !_currentLineDirection)
         return;
 
     for(int i = 0; i < ui->twRoutes->topLevelItemCount(); i++) {
         for(int j = 0; j < ui->twRoutes->topLevelItem(i)->childCount(); j++) {
             for(int k = 0; k < ui->twRoutes->topLevelItem(i)->child(j)->childCount(); k++) {
-                if(m_currentLineDirection->hasRoute(m_routesReference[i][j][k]))
+                if(_currentLineDirection->hasRoute(_routesReference[i][j][k]))
                     ui->twRoutes->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Checked);
                 else
                     ui->twRoutes->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Unchecked);
@@ -497,31 +497,31 @@ void WdgPublishedLines::refreshRouteCheckBoxRelations(QTreeWidgetItem *changedIt
 void WdgPublishedLines::refreshAllBusstops() {
     ui->cmbAllBusstops->clear();
 
-    QList<Busstop *> allBusstops = projectData->combinedRoutes(m_currentLineDirection->routes());
+    QList<Busstop *> allBusstops = projectData->combinedRoutes(_currentLineDirection->routes());
     for(int i = 0; i < allBusstops.count(); i++) {
         ui->cmbAllBusstops->addItem(allBusstops[i]->name());
     }
 
-    m_allBusstopsReference = allBusstops;
+    _allBusstopsReference = allBusstops;
 }
 
 void WdgPublishedLines::refreshBusstopList() {
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
     int scrollValue = ui->lwBusstops->verticalScrollBar()->value();
 
     ui->lwBusstops->clear();
 
-    for(int i = 0; i < m_currentLineDirection->busstopCount(); i++) {
-        PublishedBusstop *b = m_currentLineDirection->busstopAt(i);
+    for(int i = 0; i < _currentLineDirection->busstopCount(); i++) {
+        PublishedBusstop *b = _currentLineDirection->busstopAt(i);
 
         QString text = b->label().isEmpty() ? b->linkedBusstop()->name() : b->label();
         if(b->showDivider())
             text += "\r\n--------------------------------------------------------------------------------";
         ui->lwBusstops->addItem(text);
 
-        if(b == m_currentBusstop)
+        if(b == _currentBusstop)
             ui->lwBusstops->setCurrentRow(i);
     }
 
@@ -535,20 +535,20 @@ void WdgPublishedLines::on_lwLines_currentItemChanged(QListWidgetItem *current, 
         return;
 
     if(!current) {
-        m_currentLine = nullptr;
-        m_currentLineDirection = nullptr;
+        _currentLine = nullptr;
+        _currentLineDirection = nullptr;
         return;
     }
 
-    m_currentLine = m_listReference[ui->lwLines->currentRow()];
+    _currentLine = _listReference[ui->lwLines->currentRow()];
 
-    if(m_currentLine->directionCount() == 0) {
-        m_currentLineDirection = nullptr;
+    if(_currentLine->directionCount() == 0) {
+        _currentLineDirection = nullptr;
     } else {
-        m_currentLineDirection = m_currentLine->directionAt(0);
+        _currentLineDirection = _currentLine->directionAt(0);
     }
 
-    emit currentLineChanged(m_currentLine);
+    emit currentLineChanged(_currentLine);
     refreshCurrentLine();
 }
 
@@ -559,17 +559,17 @@ void WdgPublishedLines::on_lwDirections_currentItemChanged(QListWidgetItem *curr
         return;
 
     if(!current)
-        m_currentLineDirection = nullptr;
+        _currentLineDirection = nullptr;
     else
-        m_currentLineDirection = m_directionsListReference[ui->lwDirections->currentRow()];
+        _currentLineDirection = _directionsListReference[ui->lwDirections->currentRow()];
 
-    //emit currentLineChanged(m_currentLineDirection);
+    //emit currentLineChanged(_currentLineDirection);
     refreshCurrentLineDirection();
 }
 
 
 void WdgPublishedLines::on_pbFilePathBrowse_clicked() {
-    if(!m_currentLine)
+    if(!_currentLine)
         return;
 
     QDir dir = QDir::homePath() + "/.ScheduleMaster/Publications/";
@@ -590,19 +590,19 @@ void WdgPublishedLines::on_pbFilePathBrowse_clicked() {
 void WdgPublishedLines::on_lwBusstops_itemClicked(QListWidgetItem *item) {
     Q_UNUSED(item);
 
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
-    m_currentBusstop = m_currentLineDirection->busstopAt(ui->lwBusstops->currentRow());
-    ui->leBusstopsLabel->setPlaceholderText(m_currentBusstop->linkedBusstop()->name());
-    QString label = m_currentBusstop->label();
-    ui->leBusstopsLabel->setText(label.isEmpty() ? m_currentBusstop->linkedBusstop()->name() : label);
-    ui->cbBusstopsShowDivider->setChecked(m_currentBusstop->showDivider());
+    _currentBusstop = _currentLineDirection->busstopAt(ui->lwBusstops->currentRow());
+    ui->leBusstopsLabel->setPlaceholderText(_currentBusstop->linkedBusstop()->name());
+    QString label = _currentBusstop->label();
+    ui->leBusstopsLabel->setText(label.isEmpty() ? _currentBusstop->linkedBusstop()->name() : label);
+    ui->cbBusstopsShowDivider->setChecked(_currentBusstop->showDivider());
 }
 
 
 void WdgPublishedLines::on_pbBusstopSearchAndReplace_clicked() {
-    if(!m_currentLineDirection)
+    if(!_currentLineDirection)
         return;
 
     bool ok1, ok2;
@@ -612,8 +612,8 @@ void WdgPublishedLines::on_pbBusstopSearchAndReplace_clicked() {
     if(!ok1 || !ok2)
         return;
 
-    for(int i = 0; i < m_currentLineDirection->busstopCount(); i++) {
-        PublishedBusstop *b = m_currentLineDirection->busstopAt(i);
+    for(int i = 0; i < _currentLineDirection->busstopCount(); i++) {
+        PublishedBusstop *b = _currentLineDirection->busstopAt(i);
         QString input = b->label().isEmpty() ? b->linkedBusstop()->name() : b->label();
         QString result = input;
         result.replace(search, replace, Qt::CaseInsensitive);
@@ -626,7 +626,7 @@ void WdgPublishedLines::on_pbBusstopSearchAndReplace_clicked() {
 
 
 void WdgPublishedLines::on_lwDayTypes_itemChanged(QListWidgetItem *item) {
-    if(!item || !m_currentLine)
+    if(!item || !_currentLine)
         return;
 
     if(refreshingCurrentLine)
@@ -636,8 +636,8 @@ void WdgPublishedLines::on_lwDayTypes_itemChanged(QListWidgetItem *item) {
 
     Qt::CheckState checkState = item->checkState();
     if(checkState == Qt::Checked)
-        m_currentLine->addDayType(m_dayTypesReference[index]);
+        _currentLine->addDayType(_dayTypesReference[index]);
     else
-        m_currentLine->addDayType(m_dayTypesReference[index]);
+        _currentLine->addDayType(_dayTypesReference[index]);
 }
 

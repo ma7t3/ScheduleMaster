@@ -81,17 +81,17 @@ private:
 
     ProjectData *projectData;
     QUndoStack *undoStack;
-    QList<PublishedLine *> m_listReference;
-    QList<PublishedLineDirection *> m_directionsListReference;
-    PublishedLine *m_currentLine;
-    PublishedLineDirection *m_currentLineDirection;
-    PublishedBusstop *m_currentBusstop;
-    QList<DayType *> m_dayTypesReference;
-    QList<QList<QList<Route *>>> m_routesReference;
-    QList<QList<LineDirection *>> m_routesDirectionsReference;
-    QList<Line *> m_routesLinesReference;
+    QList<PublishedLine *> _listReference;
+    QList<PublishedLineDirection *> _directionsListReference;
+    PublishedLine *_currentLine;
+    PublishedLineDirection *_currentLineDirection;
+    PublishedBusstop *_currentBusstop;
+    QList<DayType *> _dayTypesReference;
+    QList<QList<QList<Route *>>> _routesReference;
+    QList<QList<LineDirection *>> _routesDirectionsReference;
+    QList<Line *> _routesLinesReference;
 
-    QList<Busstop *> m_allBusstopsReference;
+    QList<Busstop *> _allBusstopsReference;
 
     bool refreshing = false;
     bool refreshingCurrentLine = false;
