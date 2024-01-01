@@ -452,7 +452,7 @@ void MainWindow::actionWorkspaceBusstopSchedule() {
     dwBusstopSchedule->show();
     dwBusstopSchedule->setFloating(false);
 
-    this->resizeDocks({dwBusstops, dwBusstopSchedule}, {static_cast<int>(this->width() * 0.5), static_cast<int>(this->width() * 0.5)}, Qt::Horizontal);
+    this->resizeDocks({dwBusstops, dwBusstopSchedule}, {static_cast<int>(this->width() * 0.4), static_cast<int>(this->width() * 0.6)}, Qt::Horizontal);
 
     ui->actionWorkspaceTrackLayout->setChecked(false);
     ui->actionWorkspaceBusstopSchedule->setChecked(true);
