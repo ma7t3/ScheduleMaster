@@ -28,11 +28,11 @@ public:
     void overwrite(const PublishedBusstop &other);
 
 private:
-    Busstop *m_linkedBusstop;
-    QString m_label;
-    bool m_showDivider;
-    bool m_joinWithPrevious;
-    bool m_showArrAndDep;
+    Busstop *_linkedBusstop;
+    QString _label;
+    bool _showDivider;
+    bool _joinWithPrevious;
+    bool _showArrAndDep;
 };
 
 #endif // PUBLISHEDBUSSTOP_H

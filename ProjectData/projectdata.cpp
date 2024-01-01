@@ -2,49 +2,49 @@
 #include "ProjectData\projectdata.h"
 
 ProjectData::ProjectData() :
-    m_projectSettings(new ProjectSettings),
-    m_publications(new Publications)
+    _projectSettings(new ProjectSettings),
+    _publications(new Publications)
 {}
 
-ProjectSettings *ProjectData::projectSettings() { return m_projectSettings; }
+ProjectSettings *ProjectData::projectSettings() { return _projectSettings; }
 
 void ProjectData::reset() {
-    m_lines.clear();
-    m_busstops.clear();
-    m_tours.clear();
-    m_projectSettings = new ProjectSettings;
+    _lines.clear();
+    _busstops.clear();
+    _tours.clear();
+    _projectSettings = new ProjectSettings;
 }
 
 void ProjectData::cleanup() {
-    m_busstops = sortBusstops(m_busstops);
-    m_lines = sortLines(m_lines);
-    m_tours = sortTours(m_tours);
+    _busstops = sortBusstops(_busstops);
+    _lines = sortLines(_lines);
+    _tours = sortTours(_tours);
     
-    for(int i = 0; i < m_lines.count(); i++) {
-        Line *l = m_lines[i];
+    for(int i = 0; i < _lines.count(); i++) {
+        Line *l = _lines[i];
         l->setRouteList(sortRoutes(l->routes()));
         l->setTripList(sortTrips(l->trips()));
     }
 }
 
 void ProjectData::clearLines() {
-    m_lines.clear();
+    _lines.clear();
 }
 
 void ProjectData::setFilePath(QString str) {
-    m_filePath = str;
+    _filePath = str;
 }
 
 QString ProjectData::filePath() {
-    return m_filePath;
+    return _filePath;
 }
 
-void ProjectData::addBusstop(Busstop *b) { m_busstops << b; }
-void ProjectData::addLine(Line *l)       { m_lines << l; }
-void ProjectData::addTour(Tour *o)       { m_tours << o; }
+void ProjectData::addBusstop(Busstop *b) { _busstops << b; }
+void ProjectData::addLine(Line *l)       { _lines << l; }
+void ProjectData::addTour(Tour *o)       { _tours << o; }
 
 
-int ProjectData::busstopCount() { return m_busstops.count(); }
+int ProjectData::busstopCount() { return _busstops.count(); }
 
 Busstop *ProjectData::busstop(QString id) {
     for (int i = 0; i < busstopCount(); ++i)
@@ -55,17 +55,17 @@ Busstop *ProjectData::busstop(QString id) {
 }
 
 Busstop *ProjectData::busstopAt(int i) {
-    if(m_busstops.count() < i)
+    if(_busstops.count() < i)
         return nullptr;
     
-    return m_busstops[i];
+    return _busstops[i];
 }
 
-QList <Busstop *> ProjectData::busstops() { return m_busstops; }
+QList <Busstop *> ProjectData::busstops() { return _busstops; }
 
 
 
-int ProjectData::lineCount() { return m_lines.count(); }
+int ProjectData::lineCount() { return _lines.count(); }
 
 Line *ProjectData::line(QString id) {
     for(int i = 0; i < lineCount(); i++)
@@ -76,13 +76,13 @@ Line *ProjectData::line(QString id) {
 }
 
 Line *ProjectData::lineAt(int i) {
-    if(m_lines.count() < i)
+    if(_lines.count() < i)
         return nullptr;
     
-    return m_lines[i];
+    return _lines[i];
 }
 
-QList<Line *> ProjectData::lines() { return m_lines; }
+QList<Line *> ProjectData::lines() { return _lines; }
 
 Route *ProjectData::route(QString id) {
     for(int i = 0; i < lineCount(); i++) {
@@ -109,7 +109,7 @@ Trip *ProjectData::trip(QString id) {
 }
 
 
-int ProjectData::tourCount() { return m_tours.count(); }
+int ProjectData::tourCount() { return _tours.count(); }
 
 Tour *ProjectData::tour(QString id) {
     for(int i = 0; i < tourCount(); i++)
@@ -120,13 +120,13 @@ Tour *ProjectData::tour(QString id) {
 }
 
 Tour *ProjectData::tourAt(int i) {
-    if(i < 0 || i >= m_tours.count())
+    if(i < 0 || i >= _tours.count())
         return nullptr;
     
-    return m_tours[i];
+    return _tours[i];
 }
 
-QList<Tour *> ProjectData::tours() { return m_tours; }
+QList<Tour *> ProjectData::tours() { return _tours; }
 
 
 bool ProjectData::removeBusstop(Busstop *b) {
@@ -134,7 +134,7 @@ bool ProjectData::removeBusstop(Busstop *b) {
         if(busstopAt(i) != b)
             continue;
         
-        m_busstops.remove(i);
+        _busstops.remove(i);
         return true;
     }
 
@@ -146,7 +146,7 @@ bool ProjectData::removeBusstop(QString id) {
         if(busstopAt(i)->id() != id)
             continue;
         
-        m_busstops.remove(i);
+        _busstops.remove(i);
         return true;
     }
 
@@ -158,7 +158,7 @@ bool ProjectData::removeLine(Line *l) {
         if(lineAt(i) != l)
             continue;
         
-        m_lines.remove(i);
+        _lines.remove(i);
         return true;
     }
 
@@ -170,7 +170,7 @@ bool ProjectData::removeLine(QString id) {
         if(lineAt(i)->id() != id)
             continue;
         
-        m_lines.remove(i);
+        _lines.remove(i);
         return true;
     }
 
@@ -182,7 +182,7 @@ bool ProjectData::removeTour(Tour *o) {
         if(tourAt(i) != o)
             continue;
         
-        m_tours.remove(i);
+        _tours.remove(i);
         return true;
     }
 
@@ -194,7 +194,7 @@ bool ProjectData::removeTour(QString id) {
         if(tourAt(i)->id() != id)
             continue;
         
-        m_tours.remove(i);
+        _tours.remove(i);
         return true;
     }
 
@@ -412,7 +412,7 @@ QList<Tour *> ProjectData::sortTours(QList<Tour *> list) {
 }
 
 Publications *ProjectData::publications() const {
-    return m_publications;
+    return _publications;
 }
 
 

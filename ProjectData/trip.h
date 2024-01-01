@@ -12,10 +12,10 @@
 class Trip : public AbstractProjectDataItem
 {
 private:
-    Route *m_route;
-    QTime m_startTime;
-    WeekDays *m_weekDays;
-    TimeProfile *m_timeProfile;
+    Route *_route;
+    QTime _startTime;
+    WeekDays *_weekDays;
+    TimeProfile *_timeProfile;
 
 public:
     Trip(QString id, Route* route, QTime startTime, TimeProfile *timeProfile, WeekDays weekDays = WeekDays());

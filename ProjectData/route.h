@@ -11,11 +11,11 @@
 class Route : public AbstractProjectDataItem
 {
 private:
-    int m_code;
-    LineDirection *m_direction;
-    QString m_name;
-    QList<Busstop *> m_busstops;
-    QList<TimeProfile *> m_timeProfiles;
+    int _code;
+    LineDirection *_direction;
+    QString _name;
+    QList<Busstop *> _busstops;
+    QList<TimeProfile *> _timeProfiles;
 
 public:
     const bool directionForward = true;

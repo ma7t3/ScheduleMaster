@@ -1,42 +1,42 @@
 #include "ProjectData\timeProfile.h"
 
 TimeProfileItem::TimeProfileItem(QString id) :
-    m_busstopId(id) {
-    m_seperateTimes = false;
+    _busstopId(id) {
+    _seperateTimes = false;
 }
 
 TimeProfileItem::TimeProfileItem(Busstop *b) :
-    m_busstopId(b->id()) {
-    m_seperateTimes = false;
+    _busstopId(b->id()) {
+    _seperateTimes = false;
 }
 
 
 void TimeProfileItem::setArrValue(float v) {
-    m_arrValue = v;
-    m_seperateTimes = true;
+    _arrValue = v;
+    _seperateTimes = true;
 }
 
 void TimeProfileItem::setDepValue(float v) {
-    m_depValue = v;
+    _depValue = v;
 }
 
 void TimeProfileItem::removeArrValue() {
-    m_arrValue = 0;
-    m_seperateTimes = false;
+    _arrValue = 0;
+    _seperateTimes = false;
 }
 
 void TimeProfileItem::setBusstopMode(int m) {
     if(m >= 0 && m <= 4)
-        m_busstopMode = m;
+        _busstopMode = m;
     else
-        m_busstopMode = busstopModeNormal;
+        _busstopMode = busstopModeNormal;
 }
 
-QString TimeProfileItem::busstopId()  { return m_busstopId; }
-float TimeProfileItem::arrValue()     { return m_seperateTimes ? m_arrValue : m_depValue; }
-float TimeProfileItem::depValue()     { return m_depValue; }
-bool TimeProfileItem::hasSeperateTimes() { return m_seperateTimes; }
-int TimeProfileItem::busstopMode()    { return m_busstopMode; }
+QString TimeProfileItem::busstopId()  { return _busstopId; }
+float TimeProfileItem::arrValue()     { return _seperateTimes ? _arrValue : _depValue; }
+float TimeProfileItem::depValue()     { return _depValue; }
+bool TimeProfileItem::hasSeperateTimes() { return _seperateTimes; }
+int TimeProfileItem::busstopMode()    { return _busstopMode; }
 
 
 
@@ -44,26 +44,26 @@ int TimeProfileItem::busstopMode()    { return m_busstopMode; }
 
 TimeProfile::TimeProfile(QString id, QString name) :
     AbstractProjectDataItem(id),
-    m_name(name)
+    _name(name)
 {}
 
-void TimeProfile::setName(QString n)                            { m_name = n; }
-void TimeProfile::setDuration(float d)                          { m_duration = d; }
-void TimeProfile::addBusstop(TimeProfileItem * itm)             { m_items << itm; }
-void TimeProfile::setBusstopList(QList<TimeProfileItem *> list) { m_items = list; }
+void TimeProfile::setName(QString n)                            { _name = n; }
+void TimeProfile::setDuration(float d)                          { _duration = d; }
+void TimeProfile::addBusstop(TimeProfileItem * itm)             { _items << itm; }
+void TimeProfile::setBusstopList(QList<TimeProfileItem *> list) { _items = list; }
 void TimeProfile::addBusstopList(QList<TimeProfileItem *> list) {
     for(int i = 0; i < list.count(); i++)
         this->addBusstop(list[i]);
 }
 
-QString TimeProfile::name() { return m_name; }
-float TimeProfile::duration() { return m_duration; }
-QList<TimeProfileItem *> TimeProfile::busstops() { return m_items; }
+QString TimeProfile::name() { return _name; }
+float TimeProfile::duration() { return _duration; }
+QList<TimeProfileItem *> TimeProfile::busstops() { return _items; }
 
 TimeProfileItem *TimeProfile::busstop(QString id) {
-    for(int i = 0; i < m_items.count(); i++)
-        if(m_items[i]->busstopId() == id)
-            return m_items[i];
+    for(int i = 0; i < _items.count(); i++)
+        if(_items[i]->busstopId() == id)
+            return _items[i];
 
     return nullptr;
 }
@@ -77,7 +77,7 @@ TimeProfileItem *TimeProfile::busstop(Busstop *b) {
 
 
 void TimeProfile::removeBusstop(QString) {
-    for(int i = 0; i < m_items.count(); i++)
-        if(m_items[i]->busstopId() == id())
-            m_items.remove(i);
+    for(int i = 0; i < _items.count(); i++)
+        if(_items[i]->busstopId() == id())
+            _items.remove(i);
 }

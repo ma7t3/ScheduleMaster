@@ -11,9 +11,9 @@
 class Tour : public AbstractProjectDataItem
 {
 private:
-    QString m_name;
-    WeekDays *m_weekDays;
-    QList<Trip *> m_trips;
+    QString _name;
+    WeekDays *_weekDays;
+    QList<Trip *> _trips;
 
 public:
     Tour(QString id, QString name, WeekDays weekDays = WeekDays());

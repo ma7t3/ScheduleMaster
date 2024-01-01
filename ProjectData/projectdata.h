@@ -83,12 +83,12 @@ public:
     Publications *publications() const;
 
 private:
-    QString m_filePath;
-    ProjectSettings *m_projectSettings;
-    QList<Busstop *> m_busstops;
-    QList<Line *> m_lines;
-    QList<Tour *> m_tours;
-    Publications *m_publications;
+    QString _filePath;
+    ProjectSettings *_projectSettings;
+    QList<Busstop *> _busstops;
+    QList<Line *> _lines;
+    QList<Tour *> _tours;
+    Publications *_publications;
 };
 
 #endif // PROJECTDATA_H

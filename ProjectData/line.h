@@ -14,12 +14,12 @@
 class Line : public AbstractProjectDataItem
 {
 private:
-    QString m_name;
-    QString m_description;
-    QColor m_color;
-    QList<LineDirection *> m_directions;
-    QList<Route*> m_routes;
-    QList<Trip *> m_trips;
+    QString _name;
+    QString _description;
+    QColor _color;
+    QList<LineDirection *> _directions;
+    QList<Route*> _routes;
+    QList<Trip *> _trips;
 
 public:
     Line(QString id, QString name, QString description = "", QColor color = QColor(0, 0, 0));

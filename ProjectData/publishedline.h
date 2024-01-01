@@ -42,12 +42,12 @@ public:
     void removeDayType(DayType *);
 
 private:
-    QString m_filePath;
-    QString m_title;
-    QString m_footer;
+    QString _filePath;
+    QString _title;
+    QString _footer;
 
-    QList<PublishedLineDirection *> m_directions;
-    QList<DayType *> m_dayTypes;
+    QList<PublishedLineDirection *> _directions;
+    QList<DayType *> _dayTypes;
 };
 
 #endif // PUBLISHEDLINE_H
