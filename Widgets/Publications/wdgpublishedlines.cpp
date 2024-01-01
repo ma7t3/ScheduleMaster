@@ -318,8 +318,10 @@ void WdgPublishedLines::refreshCurrentLine() {
         PublishedLineDirection *ld = directions[i];
         ui->lwDirections->addItem(ld->name());
         _directionsListReference << ld;
-        if(_currentLineDirection == ld)
-            ui->lwDirections->setCurrentRow(i);
+        if(i == 0) {
+            ui->lwDirections->setCurrentRow(0);
+            _currentLineDirection = _currentLine->directionAt(0);
+        }
     }
 
     for(int i = 0; i < _dayTypesReference.count(); i++) {
@@ -339,15 +341,11 @@ void WdgPublishedLines::refreshCurrentLineDirection() {
 
     ui->leDirectionsName->clear();
 
-    if(!_currentLine || !_currentLineDirection)
-        return;
-
-    ui->leDirectionsName->setText(_currentLineDirection->name());
+    if(_currentLine && _currentLineDirection)
+        ui->leDirectionsName->setText(_currentLineDirection->name());
 
     refreshRouteCheckBoxes();
-
     refreshAllBusstops();
-
     refreshBusstopList();
 }
 
@@ -405,6 +403,15 @@ void WdgPublishedLines::refreshRouteList() {
 }
 
 void WdgPublishedLines::refreshRouteCheckBoxes() {
+    // clear
+    for(int i = 0; i < ui->twRoutes->topLevelItemCount(); i++) {
+        for(int j = 0; j < ui->twRoutes->topLevelItem(i)->childCount(); j++) {
+            for(int k = 0; k < ui->twRoutes->topLevelItem(i)->child(j)->childCount(); k++) {
+                ui->twRoutes->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Unchecked);
+            }
+        }
+    }
+
     if(!_currentLine || !_currentLineDirection)
         return;
 
@@ -413,8 +420,6 @@ void WdgPublishedLines::refreshRouteCheckBoxes() {
             for(int k = 0; k < ui->twRoutes->topLevelItem(i)->child(j)->childCount(); k++) {
                 if(_currentLineDirection->hasRoute(_routesReference[i][j][k]))
                     ui->twRoutes->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Checked);
-                else
-                    ui->twRoutes->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Unchecked);
             }
         }
     }
@@ -497,6 +502,9 @@ void WdgPublishedLines::refreshRouteCheckBoxRelations(QTreeWidgetItem *changedIt
 void WdgPublishedLines::refreshAllBusstops() {
     ui->cmbAllBusstops->clear();
 
+    if(!_currentLine || !_currentLineDirection)
+        return;
+
     QList<Busstop *> allBusstops = projectData->combinedRoutes(_currentLineDirection->routes());
     for(int i = 0; i < allBusstops.count(); i++) {
         ui->cmbAllBusstops->addItem(allBusstops[i]->name());
@@ -506,7 +514,9 @@ void WdgPublishedLines::refreshAllBusstops() {
 }
 
 void WdgPublishedLines::refreshBusstopList() {
-    if(!_currentLineDirection)
+    ui->lwBusstops->clear();
+
+    if(!_currentLine || !_currentLineDirection)
         return;
 
     int scrollValue = ui->lwBusstops->verticalScrollBar()->value();
