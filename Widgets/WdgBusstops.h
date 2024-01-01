@@ -43,15 +43,15 @@ private:
     Ui::WdgBusstops *ui;
     ProjectData *projectData;
     QUndoStack *undoStack;
-    Busstop *m_currentBusstop = nullptr;
+    Busstop *_currentBusstop = nullptr;
     QList<Busstop *> tableReference;
 
     bool refreshing = false;
 
-    QAction *m_actionNew = nullptr;
-    QAction *m_actionEdit = nullptr;
-    QAction *m_actionDelete = nullptr;
-    QAction *m_actionExportList = nullptr;
+    QAction *_actionNew = nullptr;
+    QAction *_actionEdit = nullptr;
+    QAction *_actionDelete = nullptr;
+    QAction *_actionExportList = nullptr;
 };
 
 #endif // WDGBUSSTOPS_H

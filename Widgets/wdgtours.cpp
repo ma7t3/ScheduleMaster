@@ -137,7 +137,7 @@ void WdgTours::actionExport() {
 }
 
 Tour * WdgTours::currentTour() {
-    return m_currentTour;
+    return _currentTour;
 }
 
 void WdgTours::refreshTourList()
@@ -216,7 +216,7 @@ void WdgTours::on_twTours_currentItemChanged(QTableWidgetItem *current, QTableWi
     Q_UNUSED(previous);
 
     if(!current) {
-        m_currentTour = nullptr;
+        _currentTour = nullptr;
         return;
     }
 
@@ -225,6 +225,6 @@ void WdgTours::on_twTours_currentItemChanged(QTableWidgetItem *current, QTableWi
         return;
     }
 
-    m_currentTour = tableReference[current->row()];
-    emit currentTourChanged(m_currentTour);
+    _currentTour = tableReference[current->row()];
+    emit currentTourChanged(_currentTour);
 }

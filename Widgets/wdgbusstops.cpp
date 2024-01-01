@@ -55,11 +55,11 @@ void WdgBusstops::actionNew() {
 }
 
 void WdgBusstops::actionEdit() {
-    if(!m_currentBusstop)
+    if(!_currentBusstop)
         return;
     
-    QString name = m_currentBusstop->name();
-    bool important = m_currentBusstop->isImportant();
+    QString name = _currentBusstop->name();
+    bool important = _currentBusstop->isImportant();
 
     busstopEditor dlg(this, false, name, important);
     dlg.exec();
@@ -73,12 +73,12 @@ void WdgBusstops::actionEdit() {
     if(newName == "")
         return;
     
-    Busstop newB = *m_currentBusstop;
+    Busstop newB = *_currentBusstop;
 
     newB.setName(newName);
     newB.setImportant(newImportant);
     
-    undoStack->push(new cmdBusstopEdit(m_currentBusstop, newB));
+    undoStack->push(new cmdBusstopEdit(_currentBusstop, newB));
     refreshBusstopTable();
 }
 
@@ -107,9 +107,9 @@ void WdgBusstops::actionSearch() {
 }
 
 void WdgBusstops::setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDelete) {
-    m_actionNew = actionNew;
-    m_actionEdit = actionEdit;
-    m_actionDelete = actionDelete;
+    _actionNew = actionNew;
+    _actionEdit = actionEdit;
+    _actionDelete = actionDelete;
 
     refreshUI();
 }
@@ -121,18 +121,18 @@ void WdgBusstops::refreshUI() {
         ui->twBusstops->setCurrentItem(nullptr);
         ui->pbBusstopEdit->setEnabled(false);
         ui->pbBusstopDelete->setEnabled(false);
-        m_actionEdit->setEnabled(false);
-        m_actionDelete->setEnabled(false);
+        _actionEdit->setEnabled(false);
+        _actionDelete->setEnabled(false);
     } else if(selectionCount == 1) {
         ui->pbBusstopEdit->setEnabled(true);
         ui->pbBusstopDelete->setEnabled(true);
-        m_actionEdit->setEnabled(true);
-        m_actionDelete->setEnabled(true);
+        _actionEdit->setEnabled(true);
+        _actionDelete->setEnabled(true);
     } else {
         ui->pbBusstopEdit->setEnabled(false);
         ui->pbBusstopDelete->setEnabled(true);
-        m_actionEdit->setEnabled(false);
-        m_actionDelete->setEnabled(true);
+        _actionEdit->setEnabled(false);
+        _actionDelete->setEnabled(true);
     }
 }
 
@@ -177,7 +177,7 @@ void WdgBusstops::actionExportList() {
 
 Busstop *WdgBusstops::currentBusstop()
 {
-    return m_currentBusstop;
+    return _currentBusstop;
 }
 
 void WdgBusstops::refreshBusstopTable()
@@ -224,7 +224,7 @@ void WdgBusstops::refreshBusstopTable()
 
         tableReference << b;
         
-        if(b == m_currentBusstop)
+        if(b == _currentBusstop)
             ui->twBusstops->setCurrentItem(nameItm);
     }
 
@@ -248,12 +248,12 @@ void WdgBusstops::on_twBusstops_itemSelectionChanged() {
     int selectionCount = ui->twBusstops->selectionModel()->selectedRows().count();
 
     if(!current || selectionCount == 0 || selectionCount > 1)
-        m_currentBusstop = nullptr;
+        _currentBusstop = nullptr;
     else
-        m_currentBusstop = tableReference[current->row()];
+        _currentBusstop = tableReference[current->row()];
 
     refreshUI();
 
-    emit currentBusstopChanged(m_currentBusstop);
+    emit currentBusstopChanged(_currentBusstop);
 }
 

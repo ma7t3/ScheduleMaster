@@ -57,17 +57,17 @@ private:
 
     ProjectData *projectData;
     QUndoStack *undoStack;
-    Line *m_currentLine = nullptr;
-    Route *m_currentRoute = nullptr;
+    Line *_currentLine = nullptr;
+    Route *_currentRoute = nullptr;
     QList<Route *> tableReference;
     bool refreshing = false;
 
-    QAction *m_actionNew = new QAction("Route");
-    QAction *m_actionEdit = new QAction("Route");
-    QAction *m_actionDuplicate = new QAction("Route");
-    QAction *m_actionDelete = new QAction("Route");
-    QAction *m_actionExportListCurrent = new QAction("Current route list");
-    QAction *m_actionExportListAll = new QAction("All route list");
+    QAction *_actionNew = new QAction("Route");
+    QAction *_actionEdit = new QAction("Route");
+    QAction *_actionDuplicate = new QAction("Route");
+    QAction *_actionDelete = new QAction("Route");
+    QAction *_actionExportListCurrent = new QAction("Current route list");
+    QAction *_actionExportListAll = new QAction("All route list");
 };
 
 #endif // WDGROUTES_H

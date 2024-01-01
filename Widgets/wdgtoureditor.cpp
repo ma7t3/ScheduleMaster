@@ -61,65 +61,65 @@ void WdgTourEditor::actionTourChangeScale() {
 }
 
 void WdgTourEditor::actionTourAddTrip() {
-    if(!m_currentTour || !m_currentNextTrip)
+    if(!_currentTour || !_currentNextTrip)
         return;
 
     int index;
-    if(!m_currentTrip)
-        index = m_currentTour->tripCount();
+    if(!_currentTrip)
+        index = _currentTour->tripCount();
     else
-        index = m_currentTour->indexOfTrip(m_currentTrip) + 1;
+        index = _currentTour->indexOfTrip(_currentTrip) + 1;
 
-    undoStack->push(new cmdTourTripAdd(m_currentTour, m_currentNextTrip, index));
-    m_currentTrip = m_currentNextTrip;
+    undoStack->push(new cmdTourTripAdd(_currentTour, _currentNextTrip, index));
+    _currentTrip = _currentNextTrip;
     refreshTour();
 }
 
 void WdgTourEditor::actionTourRemoveTrip() {
-    if(!m_currentTour || !m_currentTrip)
+    if(!_currentTour || !_currentTrip)
         return;
 
     QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Remove trip from tour"), tr("<p><b>Do you really want to remove this trip from this tour?</b><p><p>It will not be deleted from schedule.</p>"), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
     
-    undoStack->push(new cmdTourTripRemove(m_currentTour, m_currentTrip, m_currentTour->indexOfTrip(m_currentTrip)));
+    undoStack->push(new cmdTourTripRemove(_currentTour, _currentTrip, _currentTour->indexOfTrip(_currentTrip)));
     refreshTour();
 }
 
 void WdgTourEditor::actionTourAddMoreTrips() {
     /*Trip *lt = currentTrip();
-    Tour *o = m_currentTrip;*/
-    if(!m_currentTour)
+    Tour *o = _currentTrip;*/
+    if(!_currentTour)
         return;
     
-    TripSelector dlg(this, projectData, m_currentTrip, m_currentTour->weekDays());
+    TripSelector dlg(this, projectData, _currentTrip, _currentTour->weekDays());
     dlg.exec();
     Trip *t = dlg.getTrip();
     if(!t)
         return;
 
     int index;
-    if(!m_currentTrip)
-        index = m_currentTour->tripCount();
+    if(!_currentTrip)
+        index = _currentTour->tripCount();
     else
-        index = m_currentTour->indexOfTrip(m_currentTrip) + 1;
+        index = _currentTour->indexOfTrip(_currentTrip) + 1;
 
-    undoStack->push(new cmdTourTripAdd(m_currentTour, t, index));
-    m_currentTrip = t;
+    undoStack->push(new cmdTourTripAdd(_currentTour, t, index));
+    _currentTrip = t;
     refreshTour();
 }
 
 void WdgTourEditor::actionReorderTrips() {
-    if(!m_currentTour)
+    if(!_currentTour)
         return;
 
-    undoStack->push(new cmdTourReorderTrips(m_currentTour));
+    undoStack->push(new cmdTourReorderTrips(_currentTour));
     refreshTour();
 }
 
 void WdgTourEditor::actionExport() {
-    if(!m_currentTour)
+    if(!_currentTour)
         return;
 
     bool ok = false;
@@ -129,9 +129,9 @@ void WdgTourEditor::actionExport() {
 
     QString result;
 
-    result = "[newtour]\r\n" + m_currentTour->name() + "\r\n" + aiGroupName + "\r\n799\r\n\r\n";
+    result = "[newtour]\r\n" + _currentTour->name() + "\r\n" + aiGroupName + "\r\n799\r\n\r\n";
 
-    QList<Trip *> trips = m_currentTour->trips();
+    QList<Trip *> trips = _currentTour->trips();
     for(int i = 0; i < trips.count(); i++) {
         Trip *t = trips[i];
         int timeProfileIndex = 0;
@@ -149,7 +149,7 @@ void WdgTourEditor::actionExport() {
     }
 
     DataExporter dlg;
-    dlg.setFileName(m_currentTour->name());
+    dlg.setFileName(_currentTour->name());
     dlg.setFolderName("tours");
     dlg.setText(result, "", "");
     dlg.exec();
@@ -178,7 +178,7 @@ Trip * WdgTourEditor::currentTrip()
 }
 
 void WdgTourEditor::refreshTour() {
-    Trip *lastCurrentTrip = m_currentTrip;
+    Trip *lastCurrentTrip = _currentTrip;
     QFont bold;
     bold.setBold(true);
 
@@ -192,16 +192,16 @@ void WdgTourEditor::refreshTour() {
 
     tourTableReference.clear();
 
-    if(!m_currentTour)
+    if(!_currentTour)
         return;
 
     Trip *lastTrip = nullptr;
     QStringList lines;
 
-    for(int i = 0; i < m_currentTour->tripCount(); i++) {
+    for(int i = 0; i < _currentTour->tripCount(); i++) {
         int targetRow = ui->twTour->rowCount();
 
-        Trip *t = m_currentTour->tripAt(i);
+        Trip *t = _currentTour->tripAt(i);
 
         int breakDuration = 0;
         if(lastTrip)
@@ -293,11 +293,11 @@ void WdgTourEditor::refreshTour() {
     lines.removeDuplicates();
 
     ui->lLines->setText(lines.join(", "));
-    ui->lStartTime->setText(m_currentTour->startTime().toString("hh:mm"));
-    ui->lEndTime->setText(m_currentTour->endTime().toString("hh:mm"));
-    ui->lTotalTime->setText(m_currentTour->duration().toString("hh:mm"));
-    ui->lDrivingTime->setText(m_currentTour->drivingTime().toString("hh:mm"));
-    ui->lBreakTime->setText(m_currentTour->breakTime().toString("hh:mm"));
+    ui->lStartTime->setText(_currentTour->startTime().toString("hh:mm"));
+    ui->lEndTime->setText(_currentTour->endTime().toString("hh:mm"));
+    ui->lTotalTime->setText(_currentTour->duration().toString("hh:mm"));
+    ui->lDrivingTime->setText(_currentTour->drivingTime().toString("hh:mm"));
+    ui->lBreakTime->setText(_currentTour->breakTime().toString("hh:mm"));
 }
 
 /*void WdgTourEditor::refreshTour(Tour *t) {
@@ -309,7 +309,7 @@ void WdgTourEditor::on_twTour_currentItemChanged(QTableWidgetItem *current, QTab
     Q_UNUSED(previous);
 
     if(!current) {
-        m_currentTrip = nullptr;
+        _currentTrip = nullptr;
         return;
     }
 
@@ -317,7 +317,7 @@ void WdgTourEditor::on_twTour_currentItemChanged(QTableWidgetItem *current, QTab
         ui->twTour->setCurrentCell(current->row(), 2);
     }
 
-    m_currentTrip = tourTableReference[current->row()];
+    _currentTrip = tourTableReference[current->row()];
     refreshTourNextTrips();
 }
 
@@ -327,7 +327,7 @@ void WdgTourEditor::refreshTourNextTrips()
     ui->twNextTrips->clear();
     nextTripsListReference.clear();
 
-    if(!m_currentTour || !m_currentTrip)
+    if(!_currentTour || !_currentTrip)
         return;
 
     QList<Trip *> resultList;
@@ -339,13 +339,13 @@ void WdgTourEditor::refreshTourNextTrips()
         for(int j = 0; j < trips.count(); j++) {
             Trip *t = trips[j];
 
-            if(!m_currentTour->weekDays()->isIn(*t->weekDays()))
+            if(!_currentTour->weekDays()->isIn(*t->weekDays()))
                 continue;
 
-            if(t->route()->firstBusstop()->id() != m_currentTrip->route()->lastBusstop()->id())
+            if(t->route()->firstBusstop()->id() != _currentTrip->route()->lastBusstop()->id())
                 continue;
 
-            if(t->startTime() >= m_currentTrip->endTime())
+            if(t->startTime() >= _currentTrip->endTime())
                 resultList << t;
         }
     }
@@ -354,7 +354,7 @@ void WdgTourEditor::refreshTourNextTrips()
 
     QList<Trip *> resultListAdd;
 
-    if(m_currentTrip->startTime() >= QTime(12, 0, 0, 0)) {
+    if(_currentTrip->startTime() >= QTime(12, 0, 0, 0)) {
         for(int i = 0; i < projectData->lineCount(); i++) {
             Line *l = projectData->lineAt(i);
             QList<Trip *> trips = l->trips();
@@ -364,11 +364,11 @@ void WdgTourEditor::refreshTourNextTrips()
                 if(t->startTime() >= QTime(12, 0, 0, 0))
                     continue;
 
-                if(!m_currentTour->weekDays()->shfitedToNextDay().isIn(*t->weekDays())) {
+                if(!_currentTour->weekDays()->shfitedToNextDay().isIn(*t->weekDays())) {
                     continue;
                 }
 
-                if(t->route()->firstBusstop()->id() != m_currentTrip->route()->lastBusstop()->id())
+                if(t->route()->firstBusstop()->id() != _currentTrip->route()->lastBusstop()->id())
                     continue;
 
                 resultListAdd << t;
@@ -381,7 +381,7 @@ void WdgTourEditor::refreshTourNextTrips()
 
     for(int i = 0; i < resultList.count(); i++) {
         Trip *t = resultList[i];
-        int minutes = (t->startTime().msecsSinceStartOfDay() - m_currentTrip->endTime().msecsSinceStartOfDay()) / 60000;
+        int minutes = (t->startTime().msecsSinceStartOfDay() - _currentTrip->endTime().msecsSinceStartOfDay()) / 60000;
 
         if(minutes > 300)
             break;
@@ -413,7 +413,7 @@ void WdgTourEditor::refreshTourNextTrips()
 }
 
 void WdgTourEditor::setCurrentTour(Tour *t) {
-    m_currentTour = t;
+    _currentTour = t;
     refreshTour();
 }
 
@@ -438,11 +438,11 @@ void WdgTourEditor::on_twNextTrips_currentItemChanged(QTreeWidgetItem *current, 
     Q_UNUSED(previous);
 
     if(!current) {
-        m_currentNextTrip = nullptr;
+        _currentNextTrip = nullptr;
         return;
     }
 
-    m_currentNextTrip = nextTripsListReference[ui->twNextTrips->indexOfTopLevelItem(current)];
+    _currentNextTrip = nextTripsListReference[ui->twNextTrips->indexOfTopLevelItem(current)];
 }
 
 

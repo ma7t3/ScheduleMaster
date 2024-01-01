@@ -51,9 +51,9 @@ private:
     QList<Trip *> tourTableReference;
     QList<Trip *> nextTripsListReference;
 
-    Tour *m_currentTour = nullptr;
-    Trip *m_currentTrip = nullptr;
-    Trip *m_currentNextTrip = nullptr;
+    Tour *_currentTour = nullptr;
+    Trip *_currentTrip = nullptr;
+    Trip *_currentNextTrip = nullptr;
 
     //QString tourCurrentTrip;
 };

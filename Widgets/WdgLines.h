@@ -47,15 +47,15 @@ private:
 
     ProjectData *projectData;
     QUndoStack *undoStack;
-    Line *m_currentLine = nullptr;
+    Line *_currentLine = nullptr;
     QList<Line *> tableRefernce;
     bool refreshing = false;
 
-    QAction *m_actionNew = new QAction("Line");
-    QAction *m_actionEdit = new QAction("Line");
-    QAction *m_actionDelete = new QAction("Line");
-    QAction *m_actionExportList = new QAction("Line list");
-    QAction *m_actionExportListAndRoutes = new QAction("Line list (with routes)");
+    QAction *_actionNew = new QAction("Line");
+    QAction *_actionEdit = new QAction("Line");
+    QAction *_actionDelete = new QAction("Line");
+    QAction *_actionExportList = new QAction("Line list");
+    QAction *_actionExportListAndRoutes = new QAction("Line list (with routes)");
 };
 
 #endif // WDGLINES_H

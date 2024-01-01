@@ -26,14 +26,14 @@ WdgLines::WdgLines(QWidget *parent, ProjectData *projectData, QUndoStack *undoSt
     QObject::connect(ui->pbLineDelete, SIGNAL(clicked()), this, SLOT(actionDelete()));
     QObject::connect(ui->pbExportList, SIGNAL(clicked()), this, SLOT(actionExportList()));
 
-    QObject::connect(m_actionNew, SIGNAL(triggered()), this, SLOT(actionNew()));
-    QObject::connect(m_actionEdit, SIGNAL(triggered()), this, SLOT(actionEdit()));
-    QObject::connect(m_actionDelete, SIGNAL(triggered()), this, SLOT(actionDelete()));
-    QObject::connect(m_actionExportList, SIGNAL(triggered()), this, SLOT(actionExportList()));
-    QObject::connect(m_actionExportListAndRoutes, SIGNAL(triggered()), this, SLOT(actionExportListAndRoutes()));
+    QObject::connect(_actionNew, SIGNAL(triggered()), this, SLOT(actionNew()));
+    QObject::connect(_actionEdit, SIGNAL(triggered()), this, SLOT(actionEdit()));
+    QObject::connect(_actionDelete, SIGNAL(triggered()), this, SLOT(actionDelete()));
+    QObject::connect(_actionExportList, SIGNAL(triggered()), this, SLOT(actionExportList()));
+    QObject::connect(_actionExportListAndRoutes, SIGNAL(triggered()), this, SLOT(actionExportListAndRoutes()));
 
-    m_actionNew->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_L));
-    m_actionEdit->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_L));
+    _actionNew->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_L));
+    _actionEdit->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_L));
 
     ui->twLines->verticalHeader()->setVisible(false);
     ui->twLines->setEditTriggers(QTableWidget::NoEditTriggers);
@@ -182,9 +182,9 @@ void WdgLines::actionExportListAndRoutes() {
 }
 
 void WdgLines::setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDelete) {
-    m_actionNew = actionNew;
-    m_actionEdit = actionEdit;
-    m_actionDelete = actionDelete;
+    _actionNew = actionNew;
+    _actionEdit = actionEdit;
+    _actionDelete = actionDelete;
 
     refreshUI();
 }
@@ -196,24 +196,24 @@ void WdgLines::refreshUI() {
         ui->twLines->setCurrentItem(nullptr);
         ui->pbLineEdit->setEnabled(false);
         ui->pbLineDelete->setEnabled(false);
-        m_actionEdit->setEnabled(false);
-        m_actionDelete->setEnabled(false);
+        _actionEdit->setEnabled(false);
+        _actionDelete->setEnabled(false);
     } else if(selectionCount == 1) {
         ui->pbLineEdit->setEnabled(true);
         ui->pbLineDelete->setEnabled(true);
-        m_actionEdit->setEnabled(true);
-        m_actionDelete->setEnabled(true);
+        _actionEdit->setEnabled(true);
+        _actionDelete->setEnabled(true);
     } else {
         ui->pbLineEdit->setEnabled(false);
         ui->pbLineDelete->setEnabled(true);
-        m_actionEdit->setEnabled(false);
-        m_actionDelete->setEnabled(true);
+        _actionEdit->setEnabled(false);
+        _actionDelete->setEnabled(true);
     }
 }
 
 
 Line * WdgLines::currentLine() {
-    return m_currentLine;
+    return _currentLine;
 }
 
 void WdgLines::refreshLineTable() {
@@ -250,7 +250,7 @@ void WdgLines::refreshLineTable() {
         ui->twLines->setItem(currentRow, 0, nameItm);
         ui->twLines->setItem(currentRow, 1, descriptionItm);
 
-        if(l == m_currentLine)
+        if(l == _currentLine)
             ui->twLines->setCurrentCell(i, 0);
     }
 
@@ -274,13 +274,13 @@ void WdgLines::on_twLines_itemSelectionChanged() {
     int selectionCount = ui->twLines->selectionModel()->selectedRows().count();
 
     if(!current || selectionCount == 0 || selectionCount > 1)
-        m_currentLine = nullptr;
+        _currentLine = nullptr;
     else
-        m_currentLine = tableRefernce[current->row()];
+        _currentLine = tableRefernce[current->row()];
 
     refreshUI();
 
-    emit currentLineChanged(m_currentLine);
+    emit currentLineChanged(_currentLine);
 }
 
 

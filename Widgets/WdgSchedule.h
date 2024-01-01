@@ -74,18 +74,18 @@ private:
 
     int headerRowCount = 6;
 
-    Line *m_currentLine = nullptr;
-    QList<Trip *> m_currentTrips;
-    //Trip *m_currentTrip;
-    Route *m_currentRoute = nullptr;
+    Line *_currentLine = nullptr;
+    QList<Trip *> _currentTrips;
+    //Trip *_currentTrip;
+    Route *_currentRoute = nullptr;
     QList<Trip *> scheduleTableTripsReference;
     QList<Busstop *> scheduleTableBusstopsReference;
     QList<Route *> routeTableReference;
 
-    LineDirection *m_currentLineDirection = nullptr;
+    LineDirection *_currentLineDirection = nullptr;
     QList<LineDirection *> lineDirectionsReference;
 
-    DayType *m_currentDayType;
+    DayType *_currentDayType;
     QList<DayType *> dayTypesReference;
 
     bool scheduleStartTimeChanging = false;

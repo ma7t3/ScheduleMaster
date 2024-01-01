@@ -42,7 +42,7 @@ private:
     ProjectData *projectData;
     QUndoStack *undoStack;
     QList<Tour *> tableReference;
-    Tour *m_currentTour = nullptr;
+    Tour *_currentTour = nullptr;
 
     //QString currentTourId;
 };
