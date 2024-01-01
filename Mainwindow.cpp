@@ -409,6 +409,7 @@ void MainWindow::actionWorkspaceTrackLayout() {
 
     this->resizeDocks({dwUndoView, dwBusstops}, {static_cast<int>(this->width() * 0.1), static_cast<int>(this->width() * 0.4)}, Qt::Horizontal);
     this->resizeDocks({dwBusstops, dwLines}, {static_cast<int>(this->width() * 0.4), static_cast<int>(this->width() * 0.5)}, Qt::Horizontal);
+    this->resizeDocks({dwLines, dwRoutes}, {static_cast<int>(this->width() * 0.5), static_cast<int>(this->width() * 0.5)}, Qt::Vertical);
 
     ui->actionWorkspaceTrackLayout->setChecked(true);
     ui->actionWorkspaceBusstopSchedule->setChecked(false);
