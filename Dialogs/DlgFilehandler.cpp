@@ -20,6 +20,7 @@ DlgFileHandler::~DlgFileHandler()
 
 bool DlgFileHandler::readFromFile(QString filePath) {
     ui->buttonBox->setEnabled(false);
+    ui->log->clear();
 
     qApp->processEvents();
 
