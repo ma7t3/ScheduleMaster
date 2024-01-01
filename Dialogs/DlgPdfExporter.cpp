@@ -10,8 +10,8 @@ DlgPdfExporter::DlgPdfExporter(QWidget *parent, ProjectData *projectData) :
     ui(new Ui::DlgPdfExporter),
     projectData(projectData),
     currentDocument(nullptr),
-    m_currentLine(nullptr),
-    m_currentDirection(nullptr)
+    _currentLine(nullptr),
+    _currentDirection(nullptr)
 {
     ui->setupUi(this);
 
@@ -63,9 +63,9 @@ void DlgPdfExporter::exportAllLineSchedules() {
 }
 
 void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
-    m_currentLine = l;
+    _currentLine = l;
     
-    QString fileName = m_currentLine->filePath();
+    QString fileName = _currentLine->filePath();
     QFile f(fileName);
     if(!f.open(QFile::WriteOnly))
         return;
@@ -82,14 +82,14 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
 
     painter = new QPainter(currentDocument);
 
-    for(int i = 0; i < m_currentLine->directionCount(); i++) {
-        m_currentDirection = m_currentLine->directionAt(i);
+    for(int i = 0; i < _currentLine->directionCount(); i++) {
+        _currentDirection = _currentLine->directionAt(i);
 
         // collect trips
         QList<Trip *> parentTrips;
         QList<Trip *> allTrips;
-        for(int j = 0; j < m_currentDirection->routeCount(); j++) {
-            Route *r = m_currentDirection->routeAt(j);
+        for(int j = 0; j < _currentDirection->routeCount(); j++) {
+            Route *r = _currentDirection->routeAt(j);
             parentTrips << projectData->lineOfRoute(r)->tripsOfRoute(r);
         }
         for(int j = 0; j < parentTrips.count(); j++) {
@@ -109,14 +109,14 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
             }*/
         }
         allTrips = ProjectData::sortTrips(allTrips);
-        m_trips = allTrips;
+        _trips = allTrips;
         writeNewPage();
     }
 
     painter->end();
 
     QIcon icon(":/main/icons/success.ico");
-    QTreeWidgetItem *itm = new QTreeWidgetItem({tr("Line finished: %1").arg(m_currentLine->title())});
+    QTreeWidgetItem *itm = new QTreeWidgetItem({tr("Line finished: %1").arg(_currentLine->title())});
     itm->setIcon(0, icon);
     ui->twLog->addTopLevelItem(itm);
     ui->twLog->scrollToBottom();
@@ -144,10 +144,10 @@ void DlgPdfExporter::exportAllTours() {
 
 void DlgPdfExporter::writeNewPage() {
 
-    if(m_trips.isEmpty())
+    if(_trips.isEmpty())
         return;
 
-    //qDebug() << m_currentLine->title() + " " + m_currentDirection->name() + " " << m_trips.count();
+    //qDebug() << _currentLine->title() + " " + _currentDirection->name() + " " << _trips.count();
     int pageWidth = 2770;
     int pageHeight = 1900;
 
@@ -162,8 +162,8 @@ void DlgPdfExporter::writeNewPage() {
     painter->drawRect(headlineRectLeft);
     painter->drawRect(headlineRectCenter);
     painter->drawRect(headlineRectRight);
-    painter->drawText(headlineRectLeft.adjusted(10, 0, -10, 0), Qt::AlignCenter|Qt::AlignVCenter, m_currentLine->title());
-    painter->drawText(headlineRectCenter.adjusted(10, 0, -10, 0), Qt::AlignCenter|Qt::AlignVCenter, m_currentDirection->name());
+    painter->drawText(headlineRectLeft.adjusted(10, 0, -10, 0), Qt::AlignCenter|Qt::AlignVCenter, _currentLine->title());
+    painter->drawText(headlineRectCenter.adjusted(10, 0, -10, 0), Qt::AlignCenter|Qt::AlignVCenter, _currentDirection->name());
     painter->setFont(fontNormal);
 
     // icon
@@ -183,7 +183,7 @@ void DlgPdfExporter::writeNewPage() {
     int maxColumnCount = 21; // 25 - firstColumnWidthFactor sozusagen
     int rowHeight = 40;
 
-    int busstopCount = m_currentDirection->busstopCount();
+    int busstopCount = _currentDirection->busstopCount();
     if(busstopCount > maxBusstopCount)
         busstopCount = maxBusstopCount;
 
@@ -237,7 +237,7 @@ void DlgPdfExporter::writeNewPage() {
         painter->setPen(penDefault);
 
 
-        PublishedBusstop *b =  m_currentDirection->busstopAt(i);
+        PublishedBusstop *b =  _currentDirection->busstopAt(i);
         QString text = b->label().isEmpty() ? b->linkedBusstop()->name() : b->label();
         if(b->linkedBusstop()->isImportant())
             painter->setFont(fontNormalBold);
@@ -258,8 +258,8 @@ void DlgPdfExporter::writeNewPage() {
 
     // trips
 
-    QList<Trip *> trips = m_trips.sliced(0, m_trips.count() >= maxColumnCount ? maxColumnCount : m_trips.count());
-    m_trips.remove(0, m_trips.count() >= maxColumnCount ? maxColumnCount : m_trips.count());
+    QList<Trip *> trips = _trips.sliced(0, _trips.count() >= maxColumnCount ? maxColumnCount : _trips.count());
+    _trips.remove(0, _trips.count() >= maxColumnCount ? maxColumnCount : _trips.count());
 
     painter->setPen(penMedium);
 
@@ -293,12 +293,12 @@ void DlgPdfExporter::writeNewPage() {
 
         for(int j = 0; j < busstopCount; j++) { // for each busstop
             QRect field(i * columnWidth + 10 + firstColumnWidth, tableBodyStart + (j * rowHeight), columnWidth - 10, rowHeight);
-            if(m_currentDirection->busstopAt(j)->linkedBusstop()->isImportant())
+            if(_currentDirection->busstopAt(j)->linkedBusstop()->isImportant())
                 painter->setFont(fontNormalBold);
             else
                 painter->setFont(fontNormal);
 
-            if(!trips[i]->route()->hasBusstop(m_currentDirection->busstopAt(j)->linkedBusstop()))
+            if(!trips[i]->route()->hasBusstop(_currentDirection->busstopAt(j)->linkedBusstop()))
                 continue;
 
             // draw line
@@ -308,13 +308,13 @@ void DlgPdfExporter::writeNewPage() {
 
             lastBusstopIndex = j;
 
-            QString time = trips[i]->busstopTime(m_currentDirection->busstopAt(j)->linkedBusstop()).toString("hh:mm");
+            QString time = trips[i]->busstopTime(_currentDirection->busstopAt(j)->linkedBusstop()).toString("hh:mm");
 
             painter->drawText(field, Qt::AlignCenter|Qt::AlignVCenter, time);
 
             painter->setPen(penThin);
             // draw horizontal divider
-            if(m_currentDirection->busstopAt(j)->showDivider())
+            if(_currentDirection->busstopAt(j)->showDivider())
                 painter->drawLine(0, tableBodyStart + (j + 1) * rowHeight, pageWidth, tableBodyStart + (j + 1) * rowHeight);
 
             painter->setPen(penMedium);
@@ -334,7 +334,7 @@ void DlgPdfExporter::writeNewPage() {
 
     // footer
     QRect footer(0, pageHeight - 45 + 25, pageWidth, 45);
-    painter->drawText(footer, Qt::AlignLeft|Qt::AlignBottom, m_currentLine->footer());
+    painter->drawText(footer, Qt::AlignLeft|Qt::AlignBottom, _currentLine->footer());
     painter->drawText(footer, Qt::AlignRight|Qt::AlignBottom, tr("Page %1 of %2").arg("1", "1"));
 
     currentDocument->newPage();

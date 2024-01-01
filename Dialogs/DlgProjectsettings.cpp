@@ -9,7 +9,7 @@
 DlgProjectSettings::DlgProjectSettings(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DlgProjectSettings),
-    m_icon("")
+    _icon("")
 {
     ui->setupUi(this);
 
@@ -39,7 +39,7 @@ void DlgProjectSettings::setNames(QString displayName, QString shortName) {
     setShortName(shortName);
 }
 void DlgProjectSettings::setIcon(QString fileName) {
-    m_icon.setFileName(fileName);
+    _icon.setFileName(fileName);
     ui->leIconPath->setText(fileName);
     reloadIconPreview();
 }
@@ -53,7 +53,7 @@ void DlgProjectSettings::setDayTypes(QList<DayType> dayTypes) {
 
 QString DlgProjectSettings::displayName()       { return ui->leDisplayName->text(); }
 QString DlgProjectSettings::shortName()         { return ui->leShortName->text(); }
-QString DlgProjectSettings::icon()              { return m_icon.fileName(); }
+QString DlgProjectSettings::icon()              { return _icon.fileName(); }
 QList<DayType *> DlgProjectSettings::dayTypes() { return tableReference; }
 
 void DlgProjectSettings::actionSelectIcon() {
@@ -76,12 +76,12 @@ void DlgProjectSettings::actionSelectIcon() {
 
     ui->leIconPath->setText(f.fileName());
 
-    m_icon.setFileName(f.fileName());
+    _icon.setFileName(f.fileName());
     reloadIconPreview();
 }
 
 void DlgProjectSettings::reloadIconPreview() {
-    QPixmap pixmap(m_icon.fileName());
+    QPixmap pixmap(_icon.fileName());
     pixmap = pixmap.scaled(92, 92, Qt::KeepAspectRatio);
     ui->lIcon->setGeometry(ui->lIcon->x(), ui->lIcon->y(), pixmap.width(), pixmap.height());
     ui->lIcon->setPixmap(pixmap);
@@ -94,7 +94,7 @@ void DlgProjectSettings::refreshDayTypesTable() {
         DayType *d = tableReference[i];
         ui->lwDays->insertItem(i, new QListWidgetItem(d->name()));
 
-        if(d == m_currentDayType)
+        if(d == _currentDayType)
             ui->lwDays->setCurrentRow(i);
     }
 
@@ -102,7 +102,7 @@ void DlgProjectSettings::refreshDayTypesTable() {
 }
 
 void DlgProjectSettings::refreshTayTypesDetails() {
-    if(!m_currentDayType) {
+    if(!_currentDayType) {
         ui->leDayTypesName->setText("");
         ui->cbMonday->setChecked(false);
         ui->cbTuesday->setChecked(false);
@@ -129,17 +129,17 @@ void DlgProjectSettings::refreshTayTypesDetails() {
         return;
     }
 
-    ui->leDayTypesName->setText(m_currentDayType->name());
-    ui->cbMonday->setChecked(m_currentDayType->monday());
-    ui->cbTuesday->setChecked(m_currentDayType->tuesday());
-    ui->cbWednesday->setChecked(m_currentDayType->wednesday());
-    ui->cbThursday->setChecked(m_currentDayType->thursday());
-    ui->cbFriday->setChecked(m_currentDayType->friday());
-    ui->cbSaturday->setChecked(m_currentDayType->saturday());
-    ui->cbSunday->setChecked(m_currentDayType->sunday());
-    ui->cbHoliday->setChecked(m_currentDayType->holiday());
-    ui->cbSchool->setChecked(m_currentDayType->school());
-    ui->cbNoSchool->setChecked(m_currentDayType->noSchool());
+    ui->leDayTypesName->setText(_currentDayType->name());
+    ui->cbMonday->setChecked(_currentDayType->monday());
+    ui->cbTuesday->setChecked(_currentDayType->tuesday());
+    ui->cbWednesday->setChecked(_currentDayType->wednesday());
+    ui->cbThursday->setChecked(_currentDayType->thursday());
+    ui->cbFriday->setChecked(_currentDayType->friday());
+    ui->cbSaturday->setChecked(_currentDayType->saturday());
+    ui->cbSunday->setChecked(_currentDayType->sunday());
+    ui->cbHoliday->setChecked(_currentDayType->holiday());
+    ui->cbSchool->setChecked(_currentDayType->school());
+    ui->cbNoSchool->setChecked(_currentDayType->noSchool());
 
     ui->leDayTypesName->setEnabled(true);
     ui->cbMonday->setEnabled(true);
@@ -160,35 +160,35 @@ void DlgProjectSettings::on_lwDays_currentItemChanged(QListWidgetItem *current, 
         return;
 
     if(!current)
-        m_currentDayType = nullptr;
+        _currentDayType = nullptr;
     else
-        m_currentDayType = tableReference[ui->lwDays->row(current)];
+        _currentDayType = tableReference[ui->lwDays->row(current)];
 
     refreshTayTypesDetails();
 }
 
 void DlgProjectSettings::on_leDayTypesName_textEdited(const QString &arg1) {
-    if(m_currentDayType) {
-        m_currentDayType->setName(arg1);
+    if(_currentDayType) {
+        _currentDayType->setName(arg1);
         refreshDayTypesTable();
     }
 }
 
 
 void DlgProjectSettings::saveDays() {
-    if(!m_currentDayType)
+    if(!_currentDayType)
         return;
 
-    m_currentDayType->setMonday(ui->cbMonday->isChecked());
-    m_currentDayType->setTuesday(ui->cbTuesday->isChecked());
-    m_currentDayType->setWednesday(ui->cbWednesday->isChecked());
-    m_currentDayType->setThursday(ui->cbThursday->isChecked());
-    m_currentDayType->setFriday(ui->cbFriday->isChecked());
-    m_currentDayType->setSaturday(ui->cbSaturday->isChecked());
-    m_currentDayType->setSunday(ui->cbSunday->isChecked());
-    m_currentDayType->setHoliday(ui->cbHoliday->isChecked());
-    m_currentDayType->setSchool(ui->cbSchool->isChecked());
-    m_currentDayType->setNoSchool(ui->cbNoSchool->isChecked());
+    _currentDayType->setMonday(ui->cbMonday->isChecked());
+    _currentDayType->setTuesday(ui->cbTuesday->isChecked());
+    _currentDayType->setWednesday(ui->cbWednesday->isChecked());
+    _currentDayType->setThursday(ui->cbThursday->isChecked());
+    _currentDayType->setFriday(ui->cbFriday->isChecked());
+    _currentDayType->setSaturday(ui->cbSaturday->isChecked());
+    _currentDayType->setSunday(ui->cbSunday->isChecked());
+    _currentDayType->setHoliday(ui->cbHoliday->isChecked());
+    _currentDayType->setSchool(ui->cbSchool->isChecked());
+    _currentDayType->setNoSchool(ui->cbNoSchool->isChecked());
 
     refreshDayTypesTable();
 }
@@ -197,24 +197,24 @@ void DlgProjectSettings::saveDays() {
 void DlgProjectSettings::on_pbDayNew_clicked() {
     DayType *d = new DayType(global::getNewID(), "", 0);
     tableReference << d;
-    m_currentDayType = d;
+    _currentDayType = d;
     refreshDayTypesTable();
     refreshTayTypesDetails();
 }
 
 
 void DlgProjectSettings::on_pbDaysDelete_clicked() {
-    if(!m_currentDayType)
+    if(!_currentDayType)
         return;
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete day type"), tr("<p><b>Do you really want to delete this dayType?</b></p><p>%1</p>").arg(m_currentDayType->name()), QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete day type"), tr("<p><b>Do you really want to delete this dayType?</b></p><p>%1</p>").arg(_currentDayType->name()), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
 
     for(int i = 0; i < tableReference.count(); i++) {
-        if(tableReference[i] == m_currentDayType) {
+        if(tableReference[i] == _currentDayType) {
             tableReference.remove(i);
-            m_currentDayType = nullptr;
+            _currentDayType = nullptr;
             refreshDayTypesTable();
             refreshTayTypesDetails();
             return;
@@ -227,7 +227,7 @@ void DlgProjectSettings::on_pbDaysUp_clicked() {
     int index = -1;
 
     for(int i = 0; i < tableReference.count(); i++) {
-        if(tableReference[i] == m_currentDayType) {
+        if(tableReference[i] == _currentDayType) {
             index = i - 1;
         }
     }
@@ -236,7 +236,7 @@ void DlgProjectSettings::on_pbDaysUp_clicked() {
         return;
 
     tableReference.remove(index + 1);
-    tableReference.insert(index, m_currentDayType);
+    tableReference.insert(index, _currentDayType);
 
     refreshDayTypesTable();
 }
@@ -246,7 +246,7 @@ void DlgProjectSettings::on_pbDaysDown_clicked() {
     int index = -1;
 
     for(int i = 0; i < tableReference.count(); i++) {
-        if(tableReference[i] == m_currentDayType) {
+        if(tableReference[i] == _currentDayType) {
             index = i + 1;
         }
     }
@@ -255,7 +255,7 @@ void DlgProjectSettings::on_pbDaysDown_clicked() {
         return;
 
     tableReference.remove(index - 1);
-    tableReference.insert(index, m_currentDayType);
+    tableReference.insert(index, _currentDayType);
 
     refreshDayTypesTable();
 }

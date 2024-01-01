@@ -54,9 +54,9 @@ private:
     Ui::DlgProjectSettings *ui;
 
     QList<DayType *> tableReference;
-    DayType *m_currentDayType = nullptr;
+    DayType *_currentDayType = nullptr;
     bool refreshingDayTypes = false;
-    QFile m_icon;
+    QFile _icon;
 };
 
 #endif // DLGPROJECTSETTINGS_H
