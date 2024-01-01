@@ -41,9 +41,9 @@ private:
     QPdfWriter *currentDocument;
     QPainter *painter;
 
-    PublishedLine *m_currentLine;
-    PublishedLineDirection *m_currentDirection;
-    QList<Trip *> m_trips;
+    PublishedLine *_currentLine;
+    PublishedLineDirection *_currentDirection;
+    QList<Trip *> _trips;
 
 
     QPen penDefault;

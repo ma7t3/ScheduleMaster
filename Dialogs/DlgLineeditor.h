@@ -34,7 +34,7 @@ private slots:
 
 private:
     Ui::DlgLineEditor *ui;
-    Line m_line;
+    Line _line;
 };
 
 #endif // LINEEDITOR_H
