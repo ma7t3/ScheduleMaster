@@ -370,7 +370,9 @@ void MainWindow::actionRedo() {
 */
 
 void MainWindow::actionWorkspaceTrackLayout() {
+    this->addDockWidget(Qt::LeftDockWidgetArea, dwUndoView);
     this->addDockWidget(Qt::LeftDockWidgetArea, dwBusstops);
+    this->splitDockWidget(dwUndoView, dwBusstops, Qt::Horizontal);
     this->tabifyDockWidget(dwBusstops, dwTours);
     this->addDockWidget(Qt::RightDockWidgetArea, dwLines);
     this->addDockWidget(Qt::RightDockWidgetArea, dwRoutes);
@@ -390,9 +392,6 @@ void MainWindow::actionWorkspaceTrackLayout() {
     dwTourEditor->close();
     dwTourEditor->setFloating(true);
 
-    dwUndoView->close();
-    dwUndoView->setFloating(true);
-
     dwPublishedLines->close();
     dwPublishedLines->setFloating(true);
 
@@ -405,7 +404,11 @@ void MainWindow::actionWorkspaceTrackLayout() {
     dwRoutes->show();
     dwRoutes->setFloating(false);
 
-    this->resizeDocks({dwBusstops, dwLines}, {static_cast<int>(this->width() * 0.5), static_cast<int>(this->width() * 0.5)}, Qt::Horizontal);
+    dwUndoView->show();
+    dwUndoView->setFloating(false);
+
+    this->resizeDocks({dwUndoView, dwBusstops}, {static_cast<int>(this->width() * 0.1), static_cast<int>(this->width() * 0.4)}, Qt::Horizontal);
+    this->resizeDocks({dwBusstops, dwLines}, {static_cast<int>(this->width() * 0.4), static_cast<int>(this->width() * 0.5)}, Qt::Horizontal);
 
     ui->actionWorkspaceTrackLayout->setChecked(true);
     ui->actionWorkspaceBusstopSchedule->setChecked(false);
