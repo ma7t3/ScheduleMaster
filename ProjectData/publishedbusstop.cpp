@@ -3,7 +3,8 @@
 PublishedBusstop::PublishedBusstop(const QString &id, Busstop *linkedBusstop, const QString &label) :
     AbstractProjectDataItem(id),
     m_linkedBusstop(linkedBusstop),
-    m_label(label) {
+    m_label(label),
+    m_showDivider(false) {
 }
 
 Busstop *PublishedBusstop::linkedBusstop() const {
