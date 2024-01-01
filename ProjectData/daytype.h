@@ -16,7 +16,7 @@ public:
 
     void overwrite(DayType &other);
 private:
-    QString m_name;
+    QString _name;
 };
 
 #endif // DAYTYPE_H

@@ -8,21 +8,21 @@ ProjectSettings::~ProjectSettings()
 
 }
 
-void ProjectSettings::setDisplayName(QString name)  { m_displayName = name; }
-void ProjectSettings::setShortName(QString name)    { m_shortName = name; }
+void ProjectSettings::setDisplayName(QString name)  { _displayName = name; }
+void ProjectSettings::setShortName(QString name)    { _shortName = name; }
 
 void ProjectSettings::setNames(QString displayName, QString shortName) {
-    m_displayName = displayName;
-    m_shortName = shortName;
+    _displayName = displayName;
+    _shortName = shortName;
 }
 
-void ProjectSettings::setIcon(QString fileName) { m_icon = fileName; }
-QString ProjectSettings::displayName()          { return m_displayName; }
-QString ProjectSettings::shortName()            { return m_shortName; }
-QString ProjectSettings::icon()                 { return m_icon; }
-QList<DayType *> ProjectSettings::dayTypes()    { return m_dayTypes; }
+void ProjectSettings::setIcon(QString fileName) { _icon = fileName; }
+QString ProjectSettings::displayName()          { return _displayName; }
+QString ProjectSettings::shortName()            { return _shortName; }
+QString ProjectSettings::icon()                 { return _icon; }
+QList<DayType *> ProjectSettings::dayTypes()    { return _dayTypes; }
 
-int ProjectSettings::dayTypeCount() {return m_dayTypes.count(); }
+int ProjectSettings::dayTypeCount() {return _dayTypes.count(); }
 
 DayType *ProjectSettings::dayType(QString id) {
     for(int i = 0; i < dayTypeCount(); i++) {
@@ -38,7 +38,7 @@ DayType *ProjectSettings::dayTypeAt(int i) {
     if(i < 0 || i >= dayTypeCount())
         return nullptr;
 
-    return m_dayTypes[i];
+    return _dayTypes[i];
 }
 
 bool ProjectSettings::hasDaytype(const QString &id) {
@@ -50,18 +50,18 @@ bool ProjectSettings::hasDaytype(const QString &id) {
 }
 
 void ProjectSettings::setDayTypes(QList<DayType *> list) {
-    m_dayTypes = list;
+    _dayTypes = list;
 }
 
 void ProjectSettings::addDayType(DayType *dayType) {
-    m_dayTypes << dayType;
+    _dayTypes << dayType;
 }
 
 void ProjectSettings::removeDayType(DayType *dayType) {
     for(int i = 0; i < dayTypeCount(); i++) {
         DayType *d = dayTypeAt(i);
         if(d == dayType) {
-            m_dayTypes.remove(i);
+            _dayTypes.remove(i);
             return;
         }
     }
@@ -71,13 +71,13 @@ void ProjectSettings::removeDayType(QString id) {
     for(int i = 0; i < dayTypeCount(); i++) {
         DayType *d = dayTypeAt(i);
         if(d->id() == id) {
-            m_dayTypes.remove(i);
+            _dayTypes.remove(i);
             return;
         }
     }
 }
 
-void ProjectSettings::clearDayTypes() { m_dayTypes.clear(); }
+void ProjectSettings::clearDayTypes() { _dayTypes.clear(); }
 
 void ProjectSettings::overwrite(ProjectSettings &other) {
     setNames(other.displayName(), other.shortName());

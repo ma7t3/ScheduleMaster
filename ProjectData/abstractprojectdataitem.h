@@ -9,15 +9,15 @@ class AbstractProjectDataItem
 
 public:
     AbstractProjectDataItem(QString id) {
-        this->m_id = id;
+        this->_id = id;
     }
 
     QString id() {
-        return m_id;
+        return _id;
     }
 
 protected:
-    QString m_id;
+    QString _id;
 };
 
 #endif // ABSTRACTPROJECTDATAITEM_H

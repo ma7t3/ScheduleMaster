@@ -14,7 +14,7 @@ public:
     void overwrite(LineDirection &other);
 
 private:
-    QString m_description;
+    QString _description;
 };
 
 #endif // LINEDIRECTION_H

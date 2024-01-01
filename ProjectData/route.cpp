@@ -3,52 +3,52 @@
 
 Route::Route(QString id, int code, QString name, LineDirection *direction) :
     AbstractProjectDataItem(id),
-    m_code(code),
-    m_direction(direction),
-    m_name(name)
+    _code(code),
+    _direction(direction),
+    _name(name)
 {}
 
-void Route::setCode(int c) { m_code = c; }
-void Route::setDirection(LineDirection *ld) { m_direction = ld; }
-void Route::setName(QString n) { m_name = n; }
+void Route::setCode(int c) { _code = c; }
+void Route::setDirection(LineDirection *ld) { _direction = ld; }
+void Route::setName(QString n) { _name = n; }
 
-int Route::code() { return m_code; }
-LineDirection *Route::direction() { return m_direction; }
-QString Route::name() { return m_name; }
+int Route::code() { return _code; }
+LineDirection *Route::direction() { return _direction; }
+QString Route::name() { return _name; }
 
-void Route::addBusstop(Busstop * b) { m_busstops << b; }
+void Route::addBusstop(Busstop * b) { _busstops << b; }
 
 void Route::insertBusstop(int i , Busstop * b) {
-    if(!b || i < 0 || i >= m_busstops.count())
+    if(!b || i < 0 || i >= _busstops.count())
         return;
     
-    m_busstops.insert(i, b);
+    _busstops.insert(i, b);
 }
 
-void Route::setBusstops(QList<Busstop *> list) { m_busstops = list; }
+void Route::setBusstops(QList<Busstop *> list) { _busstops = list; }
 
 
-int Route::busstopCount() { return m_busstops.count(); }
+int Route::busstopCount() { return _busstops.count(); }
 
 Busstop * Route::busstopAt(int i) {
-    if(i < 0 || i >= m_busstops.count())
+    if(i < 0 || i >= _busstops.count())
         return nullptr;
     
-    return m_busstops[i];
+    return _busstops[i];
 }
 
 Busstop * Route::firstBusstop() {
-    if(m_busstops.count() == 0)
+    if(_busstops.count() == 0)
         return nullptr;
     
-    return m_busstops[0];
+    return _busstops[0];
 }
 
 Busstop * Route::lastBusstop() {
-    if(m_busstops.count() == 0)
+    if(_busstops.count() == 0)
         return nullptr;
     
-    return m_busstops[m_busstops.count() - 1];
+    return _busstops[_busstops.count() - 1];
 }
 
 bool Route::hasBusstop(Busstop *b) {
@@ -67,13 +67,13 @@ bool Route::hasBusstop(QString id) {
     return false;
 }
 
-QList<Busstop *> Route::busstops() { return m_busstops; }
+QList<Busstop *> Route::busstops() { return _busstops; }
 
 
-void Route::clearBusstopList() { m_busstops.clear(); }
+void Route::clearBusstopList() { _busstops.clear(); }
 
 
-int Route::timeProfileCount() { return m_timeProfiles.count(); }
+int Route::timeProfileCount() { return _timeProfiles.count(); }
 int Route::profileCount() { return timeProfileCount(); }
 
 TimeProfile* Route::timeProfile(QString id) {
@@ -93,24 +93,24 @@ TimeProfile *Route::timeProfileWithName(QString name) {
 }
 
 TimeProfile* Route::timeProfileAt(int i) {
-    if(i + 1 > m_timeProfiles.count())
+    if(i + 1 > _timeProfiles.count())
         return nullptr;
     
-    return m_timeProfiles[i];
+    return _timeProfiles[i];
 }
 
-QList<TimeProfile *> Route::timeProfiles() { return m_timeProfiles; }
+QList<TimeProfile *> Route::timeProfiles() { return _timeProfiles; }
 
 void Route::addTimeProfile(TimeProfile *p) {
-    m_timeProfiles << p;
+    _timeProfiles << p;
 }
 
 void Route::addTimeProfiles(QList<TimeProfile *> list) {
     for(int i = 0; i < list.count(); i++)
-        m_timeProfiles << list[i];
+        _timeProfiles << list[i];
 }
 
-void Route::setTimeProfiles(QList<TimeProfile *> list) { m_timeProfiles = list; }
+void Route::setTimeProfiles(QList<TimeProfile *> list) { _timeProfiles = list; }
 
 
 
@@ -121,20 +121,20 @@ void Route::removeTimeProfile(TimeProfile *p)
     
     for(int i = 0; i < timeProfileCount(); i++)
         if(timeProfileAt(i) == p)
-            m_timeProfiles.removeAt(i);
+            _timeProfiles.removeAt(i);
 }
 
 void Route::removeTimeProfile(QString id)
 {
     for(int i = 0; i < timeProfileCount(); i++)
         if(timeProfileAt(i)->id() == id)
-            m_timeProfiles.removeAt(i);
+            _timeProfiles.removeAt(i);
 }
 
 int Route::indexOfTimeProfile(TimeProfile* p)
 {
-    for(int i = 0; i < m_timeProfiles.count(); i++)
-        if(m_timeProfiles[i] == p)
+    for(int i = 0; i < _timeProfiles.count(); i++)
+        if(_timeProfiles[i] == p)
             return i;
 
     return -1;

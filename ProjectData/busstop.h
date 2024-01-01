@@ -9,8 +9,8 @@
 class Busstop : public AbstractProjectDataItem
 {
 private:
-    QString m_name;
-    bool m_important;
+    QString _name;
+    bool _important;
 
 public:
     Busstop(QString id, QString name, bool important);

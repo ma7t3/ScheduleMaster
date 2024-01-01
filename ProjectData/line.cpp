@@ -2,26 +2,26 @@
 
 Line::Line(QString id, QString name, QString description, QColor color) :
     AbstractProjectDataItem(id),
-    m_name(name),
-    m_description(description),
-    m_color(color)
+    _name(name),
+    _description(description),
+    _color(color)
 {}
 
-void Line::setName(QString n)        { m_name = n; }
-void Line::setDescription(QString d) { m_description = d; }
-void Line::setColor(QColor c)        { m_color = c; }
+void Line::setName(QString n)        { _name = n; }
+void Line::setDescription(QString d) { _description = d; }
+void Line::setColor(QColor c)        { _color = c; }
 
-QString Line::name()           { return m_name; }
-QString Line::description() { return m_description; }
-QColor Line::color()        { return m_color; }
+QString Line::name()           { return _name; }
+QString Line::description() { return _description; }
+QColor Line::color()        { return _color; }
 
-int Line::directionCount() { return m_directions.count(); }
+int Line::directionCount() { return _directions.count(); }
 
 LineDirection *Line::directionAt(int i) {
     if(i < 0 || i >= directionCount())
         return nullptr;
 
-    return m_directions[i];
+    return _directions[i];
 }
 
 LineDirection *Line::direction(QString id) {
@@ -34,7 +34,7 @@ LineDirection *Line::direction(QString id) {
     return nullptr;
 }
 
-QList<LineDirection *> Line::directions() { return m_directions; }
+QList<LineDirection *> Line::directions() { return _directions; }
 
 bool Line::hasDirection(const QString &id) {
     for(int i = 0; i < directionCount(); i++)
@@ -53,21 +53,21 @@ int Line::indexOfDirection(const QString &id) {
 }
 
 void Line::setDirections(const QList<LineDirection *> &newDirections) {
-    m_directions = newDirections;
+    _directions = newDirections;
 }
 
 void Line::addDirection(LineDirection *ld) {
     if(!ld)
         return;
 
-    m_directions << ld;
+    _directions << ld;
 }
 
 void Line::removeDirection(LineDirection *direction) {
     for(int i = 0; i < directionCount(); i++) {
         LineDirection *ld = directionAt(i);
         if(ld == direction) {
-            m_directions.remove(i);
+            _directions.remove(i);
             return;
         }
     }
@@ -77,31 +77,31 @@ void Line::removeDirection(QString id) {
     for(int i = 0; i < directionCount(); i++) {
         LineDirection *ld = directionAt(i);
         if(ld->id() == id) {
-            m_directions.remove(i);
+            _directions.remove(i);
             return;
         }
     }
 }
 
-int Line::routeCount() { return m_routes.count(); }
+int Line::routeCount() { return _routes.count(); }
 
 Route *Line::routeAt(int i)
 {
-    if(i < 0 || i >= m_routes.count())
+    if(i < 0 || i >= _routes.count())
         return nullptr;
-    return m_routes[i];
+    return _routes[i];
 }
 
 Route *Line::route(QString id)
 {
-    for(int i = 0; i < m_routes.count(); i++)
-        if(m_routes[i]->id() == id)
-            return m_routes[i];
+    for(int i = 0; i < _routes.count(); i++)
+        if(_routes[i]->id() == id)
+            return _routes[i];
 
     return nullptr;
 }
 
-QList<Route *> Line::routes() { return m_routes; }
+QList<Route *> Line::routes() { return _routes; }
 
 QList<Route *> Line::routesToDirection(LineDirection *ld) {
     QList<Route *> resultList;
@@ -114,12 +114,12 @@ QList<Route *> Line::routesToDirection(LineDirection *ld) {
     return resultList;
 }
 
-void Line::addRoute(Route * r)               { m_routes << r; }
+void Line::addRoute(Route * r)               { _routes << r; }
 
 void Line::removeRoute(Route *r) {
     for(int i = 0; i < routeCount(); i++) {
         if(routeAt(i) == r) {
-            m_routes.remove(i);
+            _routes.remove(i);
             return;
         }
     }
@@ -128,21 +128,21 @@ void Line::removeRoute(Route *r) {
 void Line::removeRoute(QString id) {
     for(int i = 0; i < routeCount(); i++) {
         if(routeAt(i)->id() == id) {
-            m_routes.remove(i);
+            _routes.remove(i);
             return;
         }
     }
 }
 
-void Line::setRouteList(QList<Route *> list) { m_routes = list; }
+void Line::setRouteList(QList<Route *> list) { _routes = list; }
 
-int Line::tripCount() { return m_trips.count(); }
+int Line::tripCount() { return _trips.count(); }
 
 Trip *Line::tripAt(int i) {
     if(i < 0 || i >= tripCount())
         return nullptr;
-
-    return m_trips[i];
+    
+    return _trips[i];
 }
 
 Trip *Line::trip(QString id) {
@@ -158,7 +158,7 @@ Trip *Line::trip(QString id) {
     return nullptr;
 }
 
-QList<Trip *> Line::trips() { return m_trips; }
+QList<Trip *> Line::trips() { return _trips; }
 
 QList<Trip *> Line::tripsToDirection(LineDirection *ld) {
     QList<Trip *> resultList;
@@ -184,16 +184,16 @@ QList<Trip *> Line::tripsOfRoute(Route *route) {
     return resultList;
 }
 
-void Line::setTripList(QList<Trip *> list) { m_trips = list; }
+void Line::setTripList(QList<Trip *> list) { _trips = list; }
 
 void Line::addTrip(Trip *t) {
-    m_trips << t;
+    _trips << t;
 }
 
 void Line::removeTrip(Trip *t) {
     for(int i = 0; i < tripCount(); i++) {
         if(tripAt(i) == t) {
-            m_trips.remove(i);
+            _trips.remove(i);
             return;
         }
     }
@@ -202,7 +202,7 @@ void Line::removeTrip(Trip *t) {
 void Line::removeTrip(QString id) {
     for(int i = 0; i < tripCount(); i++) {
         if(tripAt(i)->id() == id) {
-            m_trips.remove(i);
+            _trips.remove(i);
             return;
         }
     }

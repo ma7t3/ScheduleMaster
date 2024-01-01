@@ -2,25 +2,25 @@
 
 PublishedBusstop::PublishedBusstop(const QString &id, Busstop *linkedBusstop, const QString &label) :
     AbstractProjectDataItem(id),
-    m_linkedBusstop(linkedBusstop),
-    m_label(label),
-    m_showDivider(false) {
+    _linkedBusstop(linkedBusstop),
+    _label(label),
+    _showDivider(false) {
 }
 
 Busstop *PublishedBusstop::linkedBusstop() const {
-    return m_linkedBusstop;
+    return _linkedBusstop;
 }
 
 void PublishedBusstop::setLinkedBusstop(Busstop *newLinkedBusstop) {
-    m_linkedBusstop = newLinkedBusstop;
+    _linkedBusstop = newLinkedBusstop;
 }
 
 QString PublishedBusstop::label() const {
-    return m_label;
+    return _label;
 }
 
 void PublishedBusstop::setLabel(const QString &newLabel) {
-    m_label = newLabel;
+    _label = newLabel;
 }
 
 void PublishedBusstop::removeCustomLabel() {
@@ -28,27 +28,27 @@ void PublishedBusstop::removeCustomLabel() {
 }
 
 bool PublishedBusstop::isJoinedWithPrevious() const {
-    return m_joinWithPrevious;
+    return _joinWithPrevious;
 }
 
 void PublishedBusstop::joinWithPrevious(bool b) {
-    m_joinWithPrevious = b;
+    _joinWithPrevious = b;
 }
 
 bool PublishedBusstop::showArrAndDep() const {
-    return m_showArrAndDep;
+    return _showArrAndDep;
 }
 
 void PublishedBusstop::setShowArrAndDep(bool newShowArrAndDep) {
-    m_showArrAndDep = newShowArrAndDep;
+    _showArrAndDep = newShowArrAndDep;
 }
 
 bool PublishedBusstop::showDivider() const {
-    return m_showDivider;
+    return _showDivider;
 }
 
 void PublishedBusstop::setShowDivider(bool newShowDivider) {
-    m_showDivider = newShowDivider;
+    _showDivider = newShowDivider;
 }
 
 void PublishedBusstop::overwrite(const PublishedBusstop &newBusstop) {

@@ -36,9 +36,9 @@ public:
     void ovoverwrite(const PublishedLineDirection &other);
 
 private:
-    QString m_name;
-    QList<PublishedBusstop *> m_busstops;
-    QList<Route *> m_routes;
+    QString _name;
+    QList<PublishedBusstop *> _busstops;
+    QList<Route *> _routes;
 };
 
 #endif // PUBLISHEDLINEDIRECTION_H

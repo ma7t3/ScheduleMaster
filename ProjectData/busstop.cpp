@@ -2,23 +2,23 @@
 
 Busstop::Busstop(QString id, QString name, bool important) :
     AbstractProjectDataItem(id),
-    m_name(name),
-    m_important(important)
+    _name(name),
+    _important(important)
 
 {}
 
-QString Busstop::name() { return m_name; }
+QString Busstop::name() { return _name; }
 
 bool Busstop::isImportant()
 {
-    return m_important;
+    return _important;
 }
 
 bool Busstop::important() { return isImportant(); }
 
-void Busstop::setName(QString name) { m_name = name; }
+void Busstop::setName(QString name) { _name = name; }
 
-void Busstop::setImportant(bool important) { m_important = important; }
+void Busstop::setImportant(bool important) { _important = important; }
 
 void Busstop::overwrite(Busstop &other) {
     setName(other.name());

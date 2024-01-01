@@ -11,11 +11,11 @@
 class TimeProfileItem
 {
 private:
-    float m_arrValue;
-    float m_depValue;
-    bool m_seperateTimes;
-    int m_busstopMode;
-    QString m_busstopId;
+    float _arrValue;
+    float _depValue;
+    bool _seperateTimes;
+    int _busstopMode;
+    QString _busstopId;
 
 public:
     TimeProfileItem(QString busstopId);
@@ -44,9 +44,9 @@ public:
 class TimeProfile : public AbstractProjectDataItem
 {
 private:
-    QString m_name;
-    float m_duration;
-    QList<TimeProfileItem*> m_items;
+    QString _name;
+    float _duration;
+    QList<TimeProfileItem*> _items;
 
 public:
     TimeProfile(QString id, QString name);

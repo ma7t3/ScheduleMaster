@@ -22,7 +22,7 @@ public:
     void removeLine(const QString &id);
 
 private:
-    QList<PublishedLine *> m_lines;
+    QList<PublishedLine *> _lines;
 };
 
 #endif // PUBLICATIONS_H

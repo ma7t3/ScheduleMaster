@@ -5,38 +5,38 @@ WeekDays::WeekDays() { setCode(MonFri); }
 WeekDays::WeekDays(int code) { setCode(code); }
 
 WeekDays::WeekDays(bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday, bool holiday, bool school, bool noSchool) :
-    m_monday(monday),
-    m_tuesday(tuesday),
-    m_wednesday(wednesday),
-    m_thursday(thursday),
-    m_friday(friday),
-    m_saturday(saturday),
-    m_sunday(sunday),
-    m_holiday(holiday),
-    m_school(school),
-    m_noSchool(noSchool)
+    _monday(monday),
+    _tuesday(tuesday),
+    _wednesday(wednesday),
+    _thursday(thursday),
+    _friday(friday),
+    _saturday(saturday),
+    _sunday(sunday),
+    _holiday(holiday),
+    _school(school),
+    _noSchool(noSchool)
 {}
 
-void WeekDays::setMonday(bool b)      {m_monday = b;}
-void WeekDays::setTuesday(bool b)     {m_tuesday = b;}
-void WeekDays::setWednesday(bool b)   {m_wednesday = b;}
-void WeekDays::setThursday(bool b)    {m_thursday = b;}
-void WeekDays::setFriday(bool b)      {m_friday = b;}
-void WeekDays::setSaturday(bool b)    {m_saturday = b;}
-void WeekDays::setSunday(bool b)      {m_sunday = b;}
-void WeekDays::setHoliday(bool b)     {m_holiday = b;}
-void WeekDays::setSchool(bool b)      {m_school = b;}
-void WeekDays::setNoSchool(bool b)    {m_noSchool = b;}
-bool WeekDays::monday()            {return m_monday;}
-bool WeekDays::tuesday()           {return m_tuesday;}
-bool WeekDays::wednesday()         {return m_wednesday;}
-bool WeekDays::thursday()          {return m_thursday;}
-bool WeekDays::friday()            {return m_friday;}
-bool WeekDays::saturday()          {return m_saturday;}
-bool WeekDays::sunday()            {return m_sunday;}
-bool WeekDays::holiday()           {return m_holiday;}
-bool WeekDays::school()            {return m_school;}
-bool WeekDays::noSchool()          {return m_noSchool;}
+void WeekDays::setMonday(bool b)      {_monday = b;}
+void WeekDays::setTuesday(bool b)     {_tuesday = b;}
+void WeekDays::setWednesday(bool b)   {_wednesday = b;}
+void WeekDays::setThursday(bool b)    {_thursday = b;}
+void WeekDays::setFriday(bool b)      {_friday = b;}
+void WeekDays::setSaturday(bool b)    {_saturday = b;}
+void WeekDays::setSunday(bool b)      {_sunday = b;}
+void WeekDays::setHoliday(bool b)     {_holiday = b;}
+void WeekDays::setSchool(bool b)      {_school = b;}
+void WeekDays::setNoSchool(bool b)    {_noSchool = b;}
+bool WeekDays::monday()            {return _monday;}
+bool WeekDays::tuesday()           {return _tuesday;}
+bool WeekDays::wednesday()         {return _wednesday;}
+bool WeekDays::thursday()          {return _thursday;}
+bool WeekDays::friday()            {return _friday;}
+bool WeekDays::saturday()          {return _saturday;}
+bool WeekDays::sunday()            {return _sunday;}
+bool WeekDays::holiday()           {return _holiday;}
+bool WeekDays::school()            {return _school;}
+bool WeekDays::noSchool()          {return _noSchool;}
 
 void WeekDays::setCode(int code) {
     QString bin = QString::number(code, 2);
@@ -44,31 +44,31 @@ void WeekDays::setCode(int code) {
     while(bin.length() < 10)
         bin = "0" + bin;
 
-    m_monday    = bin[0] == '1' ? true : false;
-    m_tuesday   = bin[1] == '1' ? true : false;
-    m_wednesday = bin[2] == '1' ? true : false;
-    m_thursday  = bin[3] == '1' ? true : false;
-    m_friday    = bin[4] == '1' ? true : false;
-    m_saturday  = bin[5] == '1' ? true : false;
-    m_sunday    = bin[6] == '1' ? true : false;
-    m_holiday   = bin[7] == '1' ? true : false;
-    m_school    = bin[8] == '1' ? true : false;
-    m_noSchool  = bin[9] == '1' ? true : false;
+    _monday    = bin[0] == '1' ? true : false;
+    _tuesday   = bin[1] == '1' ? true : false;
+    _wednesday = bin[2] == '1' ? true : false;
+    _thursday  = bin[3] == '1' ? true : false;
+    _friday    = bin[4] == '1' ? true : false;
+    _saturday  = bin[5] == '1' ? true : false;
+    _sunday    = bin[6] == '1' ? true : false;
+    _holiday   = bin[7] == '1' ? true : false;
+    _school    = bin[8] == '1' ? true : false;
+    _noSchool  = bin[9] == '1' ? true : false;
 }
 
 int WeekDays::toCode() {
     QString bin = "";
 
-    bin += m_monday       ? "1" : "0";
-    bin += m_tuesday      ? "1" : "0";
-    bin += m_wednesday    ? "1" : "0";
-    bin += m_thursday     ? "1" : "0";
-    bin += m_friday       ? "1" : "0";
-    bin += m_saturday     ? "1" : "0";
-    bin += m_sunday       ? "1" : "0";
-    bin += m_holiday      ? "1" : "0";
-    bin += m_school       ? "1" : "0";
-    bin += m_noSchool     ? "1" : "0";
+    bin += _monday       ? "1" : "0";
+    bin += _tuesday      ? "1" : "0";
+    bin += _wednesday    ? "1" : "0";
+    bin += _thursday     ? "1" : "0";
+    bin += _friday       ? "1" : "0";
+    bin += _saturday     ? "1" : "0";
+    bin += _sunday       ? "1" : "0";
+    bin += _holiday      ? "1" : "0";
+    bin += _school       ? "1" : "0";
+    bin += _noSchool     ? "1" : "0";
 
     bool ok;
     int r = bin.toInt(&ok, 2);
@@ -78,7 +78,7 @@ int WeekDays::toCode() {
 QString WeekDays::toString() {
     QString result = "";
 
-    QList<bool> list = {m_monday, m_tuesday, m_wednesday, m_thursday, m_friday, m_saturday, m_sunday};
+    QList<bool> list = {_monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _sunday};
     //QStringList names = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
     QStringList names = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 
@@ -106,10 +106,10 @@ QString WeekDays::toString() {
 }
 
 WeekDays WeekDays::shfitedToNextDay() {
-    if(m_sunday != m_holiday)
-        return WeekDays(m_sunday, m_monday, m_tuesday, m_wednesday, m_thursday, m_friday, m_saturday, m_holiday, m_school, m_noSchool);
+    if(_sunday != _holiday)
+        return WeekDays(_sunday, _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _holiday, _school, _noSchool);
     else
-        return WeekDays(m_sunday, m_monday, m_tuesday, m_wednesday, m_thursday, m_friday, m_saturday, m_saturday, m_school, m_noSchool);
+        return WeekDays(_sunday, _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _saturday, _school, _noSchool);
 }
 
 

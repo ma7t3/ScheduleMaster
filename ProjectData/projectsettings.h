@@ -35,11 +35,11 @@ public:
     void overwrite(ProjectSettings &other);
 
 private:
-    QString m_displayName;
-    QString m_shortName;
-    QString m_icon;
+    QString _displayName;
+    QString _shortName;
+    QString _icon;
 
-    QList<DayType *> m_dayTypes;
+    QList<DayType *> _dayTypes;
 };
 
 #endif // PROJECTSETTINGS_H

@@ -6,7 +6,7 @@
 
 class WeekDays {
 private:
-    bool m_monday, m_tuesday, m_wednesday, m_thursday, m_friday, m_saturday, m_sunday, m_holiday, m_school, m_noSchool;
+    bool _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _sunday, _holiday, _school, _noSchool;
 
 public:
     WeekDays();
