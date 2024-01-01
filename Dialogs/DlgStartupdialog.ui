@@ -69,10 +69,10 @@
          <widget class="QListWidget" name="lwRecentFiles">
           <item>
            <property name="text">
-            <string>Region_Grundorf_V5.smp2</string>
+            <string>Region_Suedniedersachsen.smp2</string>
            </property>
            <property name="toolTip">
-            <string>G://OMSI/Projekte/Region Grundorf V5/Fahrplan/ScheduleMaster/Region_Grundorf_V5.smp2</string>
+            <string>G://OMSI/Projekte/Region Südniedersachsen/Fahrplan/ScheduleMaster/Region_Suedniedersachsen.smp2</string>
            </property>
           </item>
          </widget>
