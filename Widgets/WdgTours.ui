@@ -25,6 +25,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pbTourEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Edit</string>
        </property>
@@ -32,6 +35,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pbTourDuplicate">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Duplicate</string>
        </property>
@@ -71,9 +77,6 @@
    </item>
    <item>
     <widget class="QTableWidget" name="twTours">
-     <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
-     </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>

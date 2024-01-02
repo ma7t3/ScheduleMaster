@@ -26,12 +26,16 @@ public slots:
     void actionTourDelete();
     void actionExport();
 
+    void setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDuplicate, QAction *actionDelete);
+
+    void refreshUI();
+
     void refreshTourList();
 
     Tour * currentTour();
 
 private slots:
-    void on_twTours_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
+    void on_twTours_itemSelectionChanged();
 
 signals:
     void currentTourChanged(Tour *);
@@ -43,6 +47,13 @@ private:
     QUndoStack *undoStack;
     QList<Tour *> tableReference;
     Tour *_currentTour = nullptr;
+
+    bool refreshing = false;
+
+    QAction *_actionNew = new QAction;
+    QAction *_actionEdit = new QAction;
+    QAction *_actionDuplicate = new QAction;
+    QAction *_actionDelete = new QAction;
 
     //QString currentTourId;
 };

@@ -88,7 +88,7 @@ void WdgLines::actionDelete() {
     QString showList ="<table style=\"border-collapse: collapse;\">";
     QList<Line *> lines;
     for(int i = 0; i < selection.count(); i++) {
-        Line *l = tableRefernce[selection[i].row()];
+        Line *l = tableReference[selection[i].row()];
         lines << l;
         QColor color = l->color();
         QColor contrastColor = global::getContrastColor(color);
@@ -220,7 +220,7 @@ void WdgLines::refreshLineTable() {
     refreshing = true;
 
     ui->twLines->setRowCount(0);
-    tableRefernce.clear();
+    tableReference.clear();
 
     QFont bold;
     bold.setBold(true);
@@ -231,7 +231,7 @@ void WdgLines::refreshLineTable() {
     for(int i = 0; i < lines.count(); i++) {
         Line * l = lines[i];
 
-        tableRefernce << l;
+        tableReference << l;
 
         QString name = l->name();
         QString description = l->description();
@@ -276,10 +276,9 @@ void WdgLines::on_twLines_itemSelectionChanged() {
     if(!current || selectionCount == 0 || selectionCount > 1)
         _currentLine = nullptr;
     else
-        _currentLine = tableRefernce[current->row()];
+        _currentLine = tableReference[current->row()];
 
     refreshUI();
-
     emit currentLineChanged(_currentLine);
 }
 
