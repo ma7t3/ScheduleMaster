@@ -88,15 +88,23 @@ void WdgTours::actionTourDuplicate() {
 }
 
 void WdgTours::actionTourDelete() {
-    Tour *o = currentTour();
-    if(!o)
-        return;
+    QModelIndexList selection = ui->twTours->selectionModel()->selectedRows(0);
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete tour"), tr("Do you really want to delete this tour?"), QMessageBox::Yes|QMessageBox::No);
+    QString showList ="<ul>";
+    QList<Tour *> tours;
+    for(int i = 0; i < selection.count(); i++) {
+        Tour *o = tableReference[selection[i].row()];
+        tours << o;
+        showList += QString("<li>%1</li>").arg(o->name());
+    }
+    showList += "</ul>";
+
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete tour(s)"), tr("<p><b>Do you really want to delete these %n tour(s)?</b></p><p></p>", "", tours.count()) + showList, QMessageBox::Yes|QMessageBox::No);
+
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdTourDelete(projectData, o));
+    undoStack->push(new cmdToursDelete(projectData, tours));
     refreshTourList();
 }
 
@@ -108,12 +116,14 @@ void WdgTours::actionExport() {
 
     QString result = "";
 
-    for(int i = 0; i < tableReference.count(); i++) {
-        Tour *t = tableReference[i];
+    QModelIndexList selection = ui->twTours->selectionModel()->selectedRows(0);
 
-        result += "[newtour]\r\n" + t->name() + "\r\n" + aiGroupName + "\r\n799\r\n\r\n";
+    for(int i = 0; i < selection.count(); i++) {
+        Tour *o = tableReference[selection[i].row()];
 
-        QList<Trip *> trips = t->trips();
+        result += "[newtour]\r\n" + o->name() + "\r\n" + aiGroupName + "\r\n799\r\n\r\n";
+
+        QList<Trip *> trips = o->trips();
         for(int j = 0; j < trips.count(); j++) {
             Trip *t = trips[j];
             int timeProfileIndex = 0;
@@ -136,12 +146,48 @@ void WdgTours::actionExport() {
     dlg.exec();
 }
 
+void WdgTours::setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDuplicate, QAction *actionDelete) {
+    _actionNew = actionNew;
+    _actionEdit = actionEdit;
+    _actionDuplicate = actionDuplicate;
+    _actionDelete = actionDelete;
+}
+
+void WdgTours::refreshUI() {
+    int selectionCount = ui->twTours->selectionModel()->selectedRows(0).count();
+
+    if(selectionCount == 0) {
+        ui->twTours->setCurrentItem(nullptr);
+        ui->pbTourEdit->setEnabled(false);
+        ui->pbTourDuplicate->setEnabled(false);
+        ui->pbTourDelete->setEnabled(false);
+        _actionEdit->setEnabled(false);
+        _actionDuplicate->setEnabled(false);
+        _actionDelete->setEnabled(false);
+    } else if(selectionCount == 1) {
+        ui->pbTourEdit->setEnabled(true);
+        ui->pbTourDuplicate->setEnabled(true);
+        ui->pbTourDelete->setEnabled(true);
+        _actionEdit->setEnabled(true);
+        _actionDuplicate->setEnabled(true);
+        _actionDelete->setEnabled(true);
+    } else {
+        ui->pbTourEdit->setEnabled(false);
+        ui->pbTourDuplicate->setEnabled(false);
+        ui->pbTourDelete->setEnabled(true);
+        _actionEdit->setEnabled(false);
+        _actionDuplicate->setEnabled(false);
+        _actionDelete->setEnabled(true);
+    }
+}
+
 Tour * WdgTours::currentTour() {
     return _currentTour;
 }
 
-void WdgTours::refreshTourList()
-{
+void WdgTours::refreshTourList() {
+    refreshing = true;
+
     ui->twTours->clearContents();
     ui->twTours->setRowCount(0);
     tableReference.clear();
@@ -210,21 +256,37 @@ void WdgTours::refreshTourList()
 
         ui->twTours->setItem(i, 4, new QTableWidgetItem(lines.join(", ")));
     }
+
+    refreshing = false;
 }
 
-void WdgTours::on_twTours_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous) {
-    Q_UNUSED(previous);
+void WdgTours::on_twTours_itemSelectionChanged() {
+    if(refreshing)
+        return;
 
-    if(!current) {
+    QTableWidgetItem *current = ui->twTours->currentItem();
+
+    int selectionCount = ui->twTours->selectionModel()->selectedRows().count();
+
+    if(!current || selectionCount == 0 || selectionCount > 1)
         _currentTour = nullptr;
-        return;
-    }
+    else
+        _currentTour = tableReference[current->row()];
 
-    if(current->column() != 0) {
-        ui->twTours->setCurrentCell(current->row(), 0);
-        return;
-    }
-
-    _currentTour = tableReference[current->row()];
+    refreshUI();
     emit currentTourChanged(_currentTour);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

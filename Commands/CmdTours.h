@@ -122,6 +122,33 @@ private:
     Tour *tour;
 };
 
+class cmdToursDelete : public QUndoCommand {
+
+public:
+    cmdToursDelete(ProjectData *d, QList<Tour *> list) :
+        d(d),
+        tours(list) {
+        if(list.count() == 1)
+            setText(QObject::tr("deleted tour: %1").arg(list[0]->name()));
+        else
+            setText(QObject::tr("deleted %n tours", "", list.count()));
+    }
+
+    void undo() override {
+        for(int i = 0; i < tours.count(); i++)
+            d->addTour(tours[i]);
+    }
+
+    void redo() override {
+        for(int i = 0; i < tours.count(); i++)
+            d->removeTour(tours[i]);
+    }
+
+private:
+    ProjectData *d;
+    QList<Tour *> tours;
+};
+
 class cmdTourReorderTrips : public QUndoCommand {
 
 public:

@@ -48,14 +48,14 @@ private:
     ProjectData *projectData;
     QUndoStack *undoStack;
     Line *_currentLine = nullptr;
-    QList<Line *> tableRefernce;
+    QList<Line *> tableReference;
     bool refreshing = false;
 
-    QAction *_actionNew = new QAction("Line");
-    QAction *_actionEdit = new QAction("Line");
-    QAction *_actionDelete = new QAction("Line");
-    QAction *_actionExportList = new QAction("Line list");
-    QAction *_actionExportListAndRoutes = new QAction("Line list (with routes)");
+    QAction *_actionNew = new QAction;
+    QAction *_actionEdit = new QAction;
+    QAction *_actionDelete = new QAction;
+    QAction *_actionExportList = new QAction;
+    QAction *_actionExportListAndRoutes = new QAction;
 };
 
 #endif // WDGLINES_H
