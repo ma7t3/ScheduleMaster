@@ -51,8 +51,8 @@ private slots:
     bool actionFileClose();
     bool actionQuit();
 
-    void actionUndo();
-    void actionRedo();
+    void actionEditUndo();
+    void actionEditRedo();
 
     void actionWorkspaceTrackLayout();
     void actionWorkspaceBusstopSchedule();
@@ -83,11 +83,14 @@ private slots:
 
     void on_actionHelpAbout_triggered();
 
+
     void on_actionEditProjectSettings_triggered();
 
     //void on_actionPublishTest_triggered();
 
     void on_actionPublishAll_triggered();
+
+    void on_actionEditPreferences_triggered();
 
 private:
     Ui::MainWindow *ui;

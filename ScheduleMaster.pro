@@ -12,6 +12,7 @@ SOURCES += \
     Dialogs/DlgCopyTrip.cpp \
     Dialogs/DlgFilehandler.cpp \
     Dialogs/DlgPdfExporter.cpp \
+    Dialogs/DlgPreferences.cpp \
     Dialogs/DlgProjectsettings.cpp \
     Mainwindow.cpp \
     ProjectData/daytype.cpp \
@@ -50,7 +51,8 @@ SOURCES += \
     Dialogs/DlgToureditor.cpp \
     ProjectData/trip.cpp \
     Dialogs/DlgTripselector.cpp \
-    Dialogs/DlgTroubleshooter.cpp
+    Dialogs/DlgTroubleshooter.cpp \
+    preferences.cpp
 
 HEADERS += \
     App/global.h \
@@ -64,6 +66,7 @@ HEADERS += \
     Dialogs/DlgCopyTrip.h \
     Dialogs/DlgFileHandler.h \
     Dialogs/DlgPdfExporter.h \
+    Dialogs/DlgPreferences.h \
     Dialogs/DlgProjectsettings.h \
     Mainwindow.h \
     ProjectData/daytype.h \
@@ -101,12 +104,14 @@ HEADERS += \
     ProjectData/trip.h \
     Dialogs/DlgTripselector.h \
     Dialogs/DlgTroubleshooter.h \
-    ProjectData/weekdays.h
+    ProjectData/weekdays.h \
+    preferences.h
 
 FORMS += \
     Dialogs/DlgCopyTrip.ui \
     Dialogs/DlgFileHandler.ui \
     Dialogs/DlgPdfExporter.ui \
+    Dialogs/DlgPreferences.ui \
     Dialogs/DlgProjectsettings.ui \
     Dialogs/DlgBusstopeditor.ui \
     Dialogs/DlgDataexporter.ui \

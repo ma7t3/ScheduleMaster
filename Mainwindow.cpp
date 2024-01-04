@@ -33,6 +33,7 @@
 #include "Dialogs/DlgProjecttreeviewer.h"
 #include "Dialogs/DlgTroubleshooter.h"
 #include "Dialogs/DlgProjectsettings.h"
+#include "Dialogs/DlgPreferences.h"
 
 
 //********************************************************************************************************************************************************************
@@ -201,8 +202,8 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(undoStack, SIGNAL(cleanChanged(bool)), this, SLOT(setSaved(bool)));
     QObject::connect(undoStack, SIGNAL(canUndoChanged(bool)), this, SLOT(setUndoEnabled(bool)));
     QObject::connect(undoStack, SIGNAL(canRedoChanged(bool)), this, SLOT(setRedoEnabled(bool)));
-    QObject::connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(actionUndo()));
-    QObject::connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(actionRedo()));
+    QObject::connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(actionEditUndo()));
+    QObject::connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(actionEditRedo()));
 
     QObject::connect(ui->actionWorkspaceTrackLayout, SIGNAL(triggered()), this, SLOT(actionWorkspaceTrackLayout()));
     QObject::connect(ui->actionWorkspaceBusstopSchedule, SIGNAL(triggered()), this, SLOT(actionWorkspaceBusstopSchedule()));
@@ -337,7 +338,7 @@ bool MainWindow::actionQuit() {
     return true;
 }
 
-void MainWindow::actionUndo() {
+void MainWindow::actionEditUndo() {
     undoStack->undo();
     wdgBusstops->refreshBusstopTable();
     wdgLines->refreshLineTable();
@@ -350,7 +351,7 @@ void MainWindow::actionUndo() {
     wdgPublishedLines->refreshRouteList();
 }
 
-void MainWindow::actionRedo() {
+void MainWindow::actionEditRedo() {
     undoStack->redo();
     wdgBusstops->refreshBusstopTable();
     wdgLines->refreshLineTable();
@@ -825,6 +826,12 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
     undoStack->push(new cmdEditProjectSettings(projectData->projectSettings(), newS));
 
     wdgSchedule->refreshDayTypes();
+}
+
+
+void MainWindow::on_actionEditPreferences_triggered() {
+    DlgPreferences* dlg = new DlgPreferences(this);
+    dlg->exec();
 }
 
 /*

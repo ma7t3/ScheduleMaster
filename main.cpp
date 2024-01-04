@@ -1,6 +1,8 @@
 #include <QApplication>
 #include <QTranslator>
 
+#include "preferences.h"
+
 #include "Mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -8,13 +10,18 @@ int main(int argc, char *argv[])
     //qDebug() << "Opened File: " << argv[1];
     QApplication a(argc, argv);
 
-    QTranslator translator;
-    translator.load(":/main/Translations/german.qm");
-    a.installTranslator(&translator);
+    if(Preferences::instance().language() == Preferences::LanguageGerman) {
+        QTranslator *translator = new QTranslator;
+        bool ok;
+        ok = translator->load(":/main/Translations/german.qm");
+        if(ok)
+            a.installTranslator(translator);
 
-    QTranslator uiTranslator;
-    uiTranslator.load(":/main/Translations/qtbase_de.qm");
-    a.installTranslator(&uiTranslator);
+        QTranslator *uiTranslator = new QTranslator;
+        ok = uiTranslator->load(":/main/Translations/qtbase_de.qm");
+        if(ok)
+            a.installTranslator(uiTranslator);
+    }
 
     MainWindow w;
     w.show();

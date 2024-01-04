@@ -407,13 +407,24 @@
    </property>
   </action>
   <action name="actionEditProjectSettings">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/ProjectSettings.ico</normaloff>:/icons/ProjectSettings.ico</iconset>
+   </property>
    <property name="text">
     <string>Project settings</string>
    </property>
   </action>
   <action name="actionEditPreferences">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Preferences.ico</normaloff>:/icons/Preferences.ico</iconset>
+   </property>
    <property name="text">
     <string>Preferences</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+,</string>
    </property>
   </action>
   <action name="actionPublishManageFootnotes">
