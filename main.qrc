@@ -39,4 +39,8 @@
         <file>Translations/qtbase_de.qm</file>
         <file>icons/PublishedLines.ico</file>
     </qresource>
+    <qresource prefix="/">
+        <file>icons/Preferences.ico</file>
+        <file>icons/ProjectSettings.ico</file>
+    </qresource>
 </RCC>
