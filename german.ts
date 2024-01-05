@@ -47,10 +47,6 @@
 <context>
     <name>DlgCopyTrip</name>
     <message>
-        <source>Dialog</source>
-        <translation type="obsolete">Dialog</translation>
-    </message>
-    <message>
         <location filename="Dialogs/DlgCopyTrip.ui" line="14"/>
         <source>Copy Trip</source>
         <translation>Trip kopieren</translation>
@@ -308,11 +304,6 @@
 <context>
     <name>DlgPdfExporter</name>
     <message>
-        <location filename="Dialogs/DlgPdfExporter.ui" line="14"/>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
-    <message>
         <location filename="Dialogs/DlgPdfExporter.cpp" line="80"/>
         <source>Linienfahrplan - %1</source>
         <translation>Linienfahrplan - %1</translation>
@@ -363,8 +354,47 @@
         <translation>Dienst abgeschlossen: %1</translation>
     </message>
     <message>
-        <source>Page 1 of 1</source>
-        <translation type="vanished">Seite 1 von 1</translation>
+        <location filename="Dialogs/DlgPdfExporter.ui" line="14"/>
+        <source>Export PDF</source>
+        <translation>PDF exportieren</translation>
+    </message>
+</context>
+<context>
+    <name>DlgPreferences</name>
+    <message>
+        <location filename="Dialogs/DlgPreferences.ui" line="14"/>
+        <source>Preferences</source>
+        <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgPreferences.ui" line="24"/>
+        <source>General</source>
+        <translation>Allgemein</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgPreferences.ui" line="30"/>
+        <source>Language:</source>
+        <translation>Sprache:</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgPreferences.ui" line="38"/>
+        <source>English</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgPreferences.ui" line="43"/>
+        <source>Deutsch</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgPreferences.cpp" line="28"/>
+        <source>Restart required</source>
+        <translation>Neustart erforderlich</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgPreferences.cpp" line="28"/>
+        <source>You&apos;ll need torestarted the application for all settings to be applied</source>
+        <translation>Ein Neustart des Programms ist erforderlich, damit alle Einstellungen wirksam werden</translation>
     </message>
 </context>
 <context>
@@ -568,37 +598,37 @@
     </message>
     <message>
         <location filename="Mainwindow.ui" line="84"/>
-        <location filename="Mainwindow.h" line="113"/>
+        <location filename="Mainwindow.h" line="116"/>
         <source>Busstops</source>
         <translation>Bushaltestellen</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="92"/>
-        <location filename="Mainwindow.h" line="114"/>
+        <location filename="Mainwindow.h" line="117"/>
         <source>Lines</source>
         <translation>Linien</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="100"/>
-        <location filename="Mainwindow.h" line="115"/>
+        <location filename="Mainwindow.h" line="118"/>
         <source>Routes</source>
         <translation>Routen</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="109"/>
-        <location filename="Mainwindow.h" line="116"/>
+        <location filename="Mainwindow.h" line="119"/>
         <source>Schedule</source>
         <translation>Fahrplan</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="114"/>
-        <location filename="Mainwindow.h" line="118"/>
+        <location filename="Mainwindow.h" line="121"/>
         <source>Tours</source>
         <translation>Dienste</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="119"/>
-        <location filename="Mainwindow.ui" line="452"/>
+        <location filename="Mainwindow.ui" line="463"/>
         <source>Publish</source>
         <translation>Veröffentlichen</translation>
     </message>
@@ -769,169 +799,174 @@
         <translation>Dienstpläne</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="411"/>
+        <location filename="Mainwindow.ui" line="415"/>
         <source>Project settings</source>
         <translation>Projekteinstellungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="416"/>
+        <location filename="Mainwindow.ui" line="424"/>
         <source>Preferences</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="421"/>
+        <location filename="Mainwindow.ui" line="427"/>
+        <source>Ctrl+,</source>
+        <translation>Strg + ,</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.ui" line="432"/>
         <source>Manage footnotes</source>
         <translation>Fußnoten verwalten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="426"/>
+        <location filename="Mainwindow.ui" line="437"/>
         <source>Manual</source>
         <translation>Handbuch</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="431"/>
+        <location filename="Mainwindow.ui" line="442"/>
         <source>Check for updates</source>
         <translation>Auf Updates überprüfen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="436"/>
+        <location filename="Mainwindow.ui" line="447"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="439"/>
+        <location filename="Mainwindow.ui" line="450"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="444"/>
+        <location filename="Mainwindow.ui" line="455"/>
         <source>Test</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="455"/>
+        <location filename="Mainwindow.ui" line="466"/>
         <source>Alt+5</source>
         <translation>Alt+5</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="460"/>
+        <location filename="Mainwindow.ui" line="471"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="463"/>
+        <location filename="Mainwindow.ui" line="474"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="68"/>
+        <location filename="Mainwindow.cpp" line="69"/>
         <source>loading ui...</source>
         <translation>Benutzeroberflächen wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="93"/>
+        <location filename="Mainwindow.cpp" line="94"/>
         <source>loading menubar...</source>
         <translation>Menüleiste wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="162"/>
+        <location filename="Mainwindow.cpp" line="163"/>
         <source>toolbar</source>
         <translation>Werkzeugleiste</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="192"/>
+        <location filename="Mainwindow.cpp" line="193"/>
         <source>loading signals and slots...</source>
         <translation>Signale und Slots werden geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="222"/>
+        <location filename="Mainwindow.cpp" line="223"/>
         <source>loading startup dialog...</source>
         <translation>Willkommensdialog wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="276"/>
-        <location filename="Mainwindow.cpp" line="296"/>
+        <location filename="Mainwindow.cpp" line="277"/>
+        <location filename="Mainwindow.cpp" line="297"/>
         <source>ScheduleMaster File (*.smp2)</source>
         <translation>ScheduleMaster-Datei (*.smp2)</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="311"/>
+        <location filename="Mainwindow.cpp" line="312"/>
         <source>Unsaved Changes</source>
         <translation>Ungespeicherte Änderungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="311"/>
+        <location filename="Mainwindow.cpp" line="312"/>
         <source>&lt;p&gt;&lt;b&gt;There are unsaved changes!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Do want to save them before closing this file?&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Es gibt ungespeicherte Änderungen!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Sollen diese vor dem schließen der Datei gespeichert werden?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="631"/>
+        <location filename="Mainwindow.cpp" line="632"/>
         <source>Opening project file...</source>
         <translation>Projektdatei wird geöffnet...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="637"/>
+        <location filename="Mainwindow.cpp" line="638"/>
         <source>File not found</source>
         <translation>Datei nicht gefunden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="637"/>
+        <location filename="Mainwindow.cpp" line="638"/>
         <source>&lt;p&gt;The given file was not found!&lt;/p&gt;</source>
         <translation>&lt;p&gt;Die angeforderte Datei wurde nicht gefunden!&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="645"/>
-        <location filename="Mainwindow.cpp" line="682"/>
+        <location filename="Mainwindow.cpp" line="646"/>
+        <location filename="Mainwindow.cpp" line="683"/>
         <source>Failed reading file</source>
         <translation>Einlesen der Datei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="645"/>
+        <location filename="Mainwindow.cpp" line="646"/>
         <source>&lt;p&gt;&lt;b&gt;Could not read file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht gelesen werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="682"/>
+        <location filename="Mainwindow.cpp" line="683"/>
         <source>&lt;p&gt;&lt;b&gt;Could not write to file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht geschrieben werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="695"/>
+        <location filename="Mainwindow.cpp" line="696"/>
         <source>File saved!</source>
         <translation>Datei gespeichert!</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="791"/>
+        <location filename="Mainwindow.cpp" line="792"/>
         <source>&lt;h1&gt;About ScheduleMaster 2&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1.%2.%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Release type:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Beta&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
         <translation>&lt;h1&gt;Über ScheduleMaster&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1.%2.%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Veröffentlichungstyp:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Beta&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="797"/>
+        <location filename="Mainwindow.cpp" line="798"/>
         <source>ScheduleMaster 2 - About</source>
         <translation>ScheduleMaster - Über</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="112"/>
+        <location filename="Mainwindow.h" line="115"/>
         <source>Undo View</source>
         <translation>Rückgängig-Ansicht</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="117"/>
+        <location filename="Mainwindow.h" line="120"/>
         <source>Current trips</source>
         <translation>Aktuelle Fahrten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="119"/>
+        <location filename="Mainwindow.h" line="122"/>
         <source>Current tour</source>
         <translation>Aktueller Dienst</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="120"/>
+        <location filename="Mainwindow.h" line="123"/>
         <source>Busstop schedule</source>
         <translation>Haltestellenfahrplan</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="121"/>
+        <location filename="Mainwindow.h" line="124"/>
         <source>Published lines</source>
         <translation>Veröffentlichte Linien</translation>
     </message>
@@ -1150,30 +1185,6 @@
         <location filename="Commands/CmdSchedule.h" line="200"/>
         <source>delete trips from line %1</source>
         <translation>Fahrt von Linie %1 löschen</translation>
-    </message>
-    <message>
-        <source>change route of trip %1</source>
-        <translation type="vanished">Route von Fahrt %1 ändern</translation>
-    </message>
-    <message>
-        <source>change time profile of trip</source>
-        <translation type="vanished">Fahrtzeitprofil von Fahrt ändern</translation>
-    </message>
-    <message>
-        <source>change start time of trip %1</source>
-        <translation type="vanished">Startzeit von Fahrt %1 ändern</translation>
-    </message>
-    <message>
-        <source>change days of trip %1</source>
-        <translation type="vanished">Fahrrtage von Fahrt %1 ändern</translation>
-    </message>
-    <message>
-        <source>change repeat of trip</source>
-        <translation type="vanished">Wiederholung von Fahrt ändern</translation>
-    </message>
-    <message>
-        <source>delete trip from line %1</source>
-        <translation type="vanished">Fahrt von Linie löschen: %1</translation>
     </message>
     <message>
         <location filename="Commands/CmdTours.h" line="14"/>
@@ -1401,69 +1412,12 @@
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="34"/>
+        <location filename="Dialogs/DlgToureditor.ui" line="40"/>
         <source>Days</source>
         <translation>Fahrttage</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="42"/>
-        <source>Mon-Fri</source>
-        <translation>Mo-Fr</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="49"/>
-        <location filename="Dialogs/DlgToureditor.ui" line="74"/>
-        <source>Sat</source>
-        <translation>Sa</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="56"/>
-        <location filename="Dialogs/DlgToureditor.ui" line="88"/>
-        <source>Sun</source>
-        <translation>So</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="67"/>
-        <source>Mon</source>
-        <translation>Mo</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="81"/>
-        <source>Tue</source>
-        <translation>Di</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="95"/>
-        <source>Wed</source>
-        <translation>Mi</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="102"/>
-        <source>Holiday</source>
-        <translation>Feiertag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="109"/>
-        <source>Thu</source>
-        <translation>Do</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="116"/>
-        <source>School</source>
-        <translation>Schultag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="123"/>
-        <source>Fri</source>
-        <translation>Fr</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.ui" line="130"/>
-        <source>No school</source>
-        <translation>Ferientag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgToureditor.cpp" line="13"/>
+        <location filename="Dialogs/DlgToureditor.cpp" line="12"/>
         <source>create tour</source>
         <translation>Dienst erstellen</translation>
     </message>
@@ -1685,12 +1639,111 @@
             <numerusform>&lt;p&gt;&lt;b&gt;Sollen diese %n Haltestellen wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;%1</numerusform>
         </translation>
     </message>
-    <message numerus="yes">
-        <source>&lt;p&gt;&lt;b&gt;Do you really want to delete these %n busstop(s)?&lt;/b&gt;&lt;p&gt;%1</source>
-        <translation type="vanished">
-            <numerusform>&lt;p&gt;&lt;b&gt;Soll diese Bushaltestelle wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;%1</numerusform>
-            <numerusform>&lt;p&gt;&lt;b&gt;Sollen diese %n Bushaltestellen wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;%1</numerusform>
-        </translation>
+</context>
+<context>
+    <name>WdgDaySelector</name>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="14"/>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="20"/>
+        <location filename="Widgets/WdgDaySelector.cpp" line="36"/>
+        <source>Monday</source>
+        <translation>Montag</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="27"/>
+        <location filename="Widgets/WdgDaySelector.cpp" line="41"/>
+        <source>Saturday</source>
+        <translation>Samstag</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="34"/>
+        <location filename="Widgets/WdgDaySelector.cpp" line="37"/>
+        <source>Tuesday</source>
+        <translation>Dienstag</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="41"/>
+        <location filename="Widgets/WdgDaySelector.cpp" line="42"/>
+        <source>Sunday</source>
+        <translation>Sonntag</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="48"/>
+        <location filename="Widgets/WdgDaySelector.cpp" line="38"/>
+        <source>Wednesday</source>
+        <translation>Mittwoch</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="55"/>
+        <location filename="Widgets/WdgDaySelector.cpp" line="43"/>
+        <source>Holiday</source>
+        <translation>Feiertag</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="62"/>
+        <location filename="Widgets/WdgDaySelector.cpp" line="39"/>
+        <source>Thursday</source>
+        <translation>Donnerstag</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="69"/>
+        <source>School</source>
+        <translation>Schultag</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="76"/>
+        <location filename="Widgets/WdgDaySelector.cpp" line="40"/>
+        <source>Friday</source>
+        <translation>Freitag</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.ui" line="83"/>
+        <source>Vacation</source>
+        <translation>Ferientag</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.cpp" line="27"/>
+        <source>Mon</source>
+        <translation>Mo</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.cpp" line="28"/>
+        <source>Tue</source>
+        <translation>Di</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.cpp" line="29"/>
+        <source>Wed</source>
+        <translation>Mi</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.cpp" line="30"/>
+        <source>Thu</source>
+        <translation>Do</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.cpp" line="31"/>
+        <source>Fri</source>
+        <translation>Fr</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.cpp" line="32"/>
+        <source>Sat</source>
+        <translation>Sa</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.cpp" line="33"/>
+        <source>Sun</source>
+        <translation>So</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgDaySelector.cpp" line="34"/>
+        <source>Hol</source>
+        <translation>Feiertag</translation>
     </message>
 </context>
 <context>
@@ -1794,10 +1847,6 @@
         <translation>Titel:</translation>
     </message>
     <message>
-        <source>Subtitle:</source>
-        <translation type="vanished">Untertitel:</translation>
-    </message>
-    <message>
         <location filename="Widgets/Publications/wdgpublishedlines.ui" line="122"/>
         <source>Footer:</source>
         <translation>Fußzeile:</translation>
@@ -1811,10 +1860,6 @@
         <location filename="Widgets/Publications/wdgpublishedlines.ui" line="151"/>
         <source>Directions</source>
         <translation>Fahrtrichtungen</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">Name:</translation>
     </message>
     <message>
         <location filename="Widgets/Publications/wdgpublishedlines.ui" line="201"/>
@@ -2056,114 +2101,6 @@
         <translation>Startzeit</translation>
     </message>
     <message>
-        <source>Current Item</source>
-        <translation type="vanished">Aktuelle Fahrt</translation>
-    </message>
-    <message>
-        <source>New</source>
-        <translation type="vanished">Neu</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Löschen</translation>
-    </message>
-    <message>
-        <source>Profile:</source>
-        <translation type="vanished">Fahrtzeitprofil:</translation>
-    </message>
-    <message>
-        <source>Dep:</source>
-        <translation type="vanished">Abfahrt:</translation>
-    </message>
-    <message>
-        <source>HH:mm:ss</source>
-        <translation type="vanished">HH:mm:ss</translation>
-    </message>
-    <message>
-        <source>Arr:</source>
-        <translation type="vanished">Ankunft:</translation>
-    </message>
-    <message>
-        <source>&lt;unknown&gt;</source>
-        <translation type="vanished">&lt;unbekannt&gt;</translation>
-    </message>
-    <message>
-        <source>Days</source>
-        <translation type="vanished">Verkehrstage</translation>
-    </message>
-    <message>
-        <source>Fri</source>
-        <translation type="vanished">Freitag</translation>
-    </message>
-    <message>
-        <source>School</source>
-        <translation type="vanished">Schultag</translation>
-    </message>
-    <message>
-        <source>No school</source>
-        <translation type="vanished">Ferientag</translation>
-    </message>
-    <message>
-        <source>Holidays</source>
-        <translation type="vanished">Feiertag</translation>
-    </message>
-    <message>
-        <source>Wed</source>
-        <translation type="vanished">Mittwoch</translation>
-    </message>
-    <message>
-        <source>Thu</source>
-        <translation type="vanished">Donnerstag</translation>
-    </message>
-    <message>
-        <source>Tue</source>
-        <translation type="vanished">Dienstag</translation>
-    </message>
-    <message>
-        <source>Sun</source>
-        <translation type="vanished">Sonntag</translation>
-    </message>
-    <message>
-        <source>Sat</source>
-        <translation type="vanished">Samstag</translation>
-    </message>
-    <message>
-        <source>Mon</source>
-        <translation type="vanished">Montag</translation>
-    </message>
-    <message>
-        <source>Repeat</source>
-        <translation type="vanished">Wiederholen</translation>
-    </message>
-    <message>
-        <source>Interval:</source>
-        <translation type="vanished">Inverval:</translation>
-    </message>
-    <message>
-        <source>End:</source>
-        <translation type="vanished">Ende:</translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation type="vanished">Übernehmen</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="vanished">Ja</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="vanished">Nein</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;&lt;b&gt;Do you really want do delete this trip?&lt;/b&gt;&lt;/p&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Start:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;End:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;td&gt;%5&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Repeat:&lt;/b&gt;&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;%6&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="vanished">&lt;p&gt;&lt;b&gt;Soll diese Fahrt wirklich gelöschtg werden?&lt;/b&gt;&lt;/p&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Startzeit:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;td&gt;%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Endzeit:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%4&lt;/td&gt;&lt;td&gt;%5&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Wiederholen:&lt;/b&gt;&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;%6&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
-    </message>
-    <message>
-        <source>You can&apos;t use this trip now, since it has no valid time profiles!</source>
-        <translation type="vanished">Diese Fahrt kann nicht verwendet werden, weil sie keine gültige Fahrtzeitprofile hat!</translation>
-    </message>
-    <message>
         <location filename="Widgets/wdgschedule.cpp" line="403"/>
         <source>None</source>
         <translation>Keine</translation>
@@ -2395,14 +2332,6 @@
         <translation>Löschen</translation>
     </message>
     <message>
-        <source>Delete tour</source>
-        <translation type="vanished">Dienst löschen</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete this tour?</source>
-        <translation type="vanished">Soll dieser Dienst wirklich gelöscht werden`?</translation>
-    </message>
-    <message>
         <location filename="Widgets/wdgtours.cpp" line="102"/>
         <source>Delete tour(s)</source>
         <translation>Dienst(e) löschen</translation>
@@ -2469,87 +2398,32 @@
         <translation>Abfahrt:</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="110"/>
+        <location filename="Widgets/wdgtripeditor.ui" line="122"/>
         <source>HH:mm:ss</source>
         <translation>HH:mm:ss</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="117"/>
-        <source>Shift...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="126"/>
+        <location filename="Widgets/wdgtripeditor.ui" line="108"/>
         <source>Arr:</source>
         <translation>Ankunft:</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="133"/>
+        <location filename="Widgets/wdgtripeditor.ui" line="115"/>
         <source>&lt;unknown&gt;</source>
         <translation>&lt;unbekannt&gt;</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="143"/>
+        <location filename="Widgets/wdgtripeditor.ui" line="132"/>
         <source>Days</source>
         <translation>Tage</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="149"/>
-        <source>Wed</source>
-        <translation>Mittwoch</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="156"/>
-        <source>Fri</source>
-        <translation>Freitag</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="163"/>
-        <source>Mon</source>
-        <translation>Montag</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="170"/>
-        <source>Tue</source>
-        <translation>Dienstag</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="177"/>
-        <source>Sat</source>
-        <translation>Samstag</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="184"/>
-        <source>Holidays</source>
-        <translation>Feiertag</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="191"/>
-        <source>No school</source>
-        <translation>Ferientag</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="198"/>
-        <source>Thu</source>
-        <translation>Donnerstag</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="205"/>
-        <source>Sun</source>
-        <translation>Sonntag</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="212"/>
-        <source>School</source>
-        <translation>Schultag</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgtripeditor.ui" line="236"/>
+        <location filename="Widgets/wdgtripeditor.ui" line="158"/>
         <source>Annotations and footnotes</source>
         <translation>Annmerkungen und Fußnoten</translation>
     </message>
     <message numerus="yes">
-        <location filename="Widgets/wdgtripeditor.cpp" line="127"/>
+        <location filename="Widgets/wdgtripeditor.cpp" line="118"/>
         <source>Do you really want to delete these %n trips?</source>
         <translation>
             <numerusform>Soll diese Fahrt wirklich gelöscht werden?</numerusform>
@@ -2557,7 +2431,7 @@
         </translation>
     </message>
     <message>
-        <location filename="Widgets/wdgtripeditor.cpp" line="274"/>
+        <location filename="Widgets/wdgtripeditor.cpp" line="243"/>
         <source>You can&apos;t use this trip now, since it has no valid time profiles!</source>
         <translation>Diese Fahrt kann nicht verwendet werden, weil sie keine gültige Fahrtzeitprofile hat!</translation>
     </message>
@@ -2606,318 +2480,6 @@
         <location filename="Dialogs/DlgBusstopeditor.cpp" line="55"/>
         <source>No name given. Busstop was not saved!</source>
         <translation>Kein namen angegeben. Haltestelle wurde nicht gespeichert!</translation>
-    </message>
-</context>
-<context>
-    <name>cmdBusstopDelete</name>
-    <message>
-        <source>delete busstop: %1</source>
-        <translation type="vanished">Haltestelle löschen: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdBusstopEdit</name>
-    <message>
-        <source>edit busstop (%1)</source>
-        <translation type="vanished">Haltestelle bearbeiten: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdBusstopNew</name>
-    <message>
-        <source>new busstop: %1</source>
-        <translation type="vanished">Neue Haltestelle: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdBusstopsDelete</name>
-    <message>
-        <source>deleted busstop: %1</source>
-        <translation type="vanished">Haltestelle löschen: %1</translation>
-    </message>
-    <message numerus="yes">
-        <source>deleted %n busstops</source>
-        <translation type="vanished">
-            <numerusform>Haltestelle löschen</numerusform>
-            <numerusform>%n Haltestellen löschen</numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>cmdEditProjectSettings</name>
-    <message>
-        <source>project settings edited</source>
-        <translation type="vanished">Projekteinstellungen bearbeiten</translation>
-    </message>
-</context>
-<context>
-    <name>cmdLineDelete</name>
-    <message>
-        <source>delete line: %1</source>
-        <translation type="vanished">Linie löschen: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdLineEdit</name>
-    <message>
-        <source>edit line: %1</source>
-        <translation type="vanished">Linie bearbeiten: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdLineNew</name>
-    <message>
-        <source>new line: %1</source>
-        <translation type="vanished">Neue Linie: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdLinesDelete</name>
-    <message>
-        <source>deleted line: %1</source>
-        <translation type="vanished">Linie löschen: %1</translation>
-    </message>
-    <message numerus="yes">
-        <source>deleted %n lines</source>
-        <translation type="vanished">
-            <numerusform>Linie löschen</numerusform>
-            <numerusform>%n Linien löschen</numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>cmdPublishedLineDelete</name>
-    <message>
-        <source>deleted published line: %1</source>
-        <translation type="vanished">Veröffentlichte Linie löschen: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdPublishedLineDirectionDelete</name>
-    <message>
-        <source>deleted published line direction: %1</source>
-        <translation type="vanished">Veröffentlichte Linienfahrtrichtung löschen: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdPublishedLineDirectionEdit</name>
-    <message>
-        <source>published line direction edited: %1</source>
-        <translation type="vanished">Veröffentlichte Linienfahrtrichtung bearbeiten: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdPublishedLineDirectionNew</name>
-    <message>
-        <source>new published line direction: %1</source>
-        <translation type="vanished">Neue veröffentlichte Linienfahrtrichtung: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdPublishedLineEdit</name>
-    <message>
-        <source>published line edited: %1</source>
-        <translation type="vanished">Veröffentlichte Linie bearbeiten: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdPublishedLineNew</name>
-    <message>
-        <source>new published line: %1</source>
-        <translation type="vanished">Neue veröffentlichte Linie: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdRouteDelete</name>
-    <message>
-        <source>delete route %1 from line %2</source>
-        <translation type="vanished">Route %1 von Linie %2 löschen</translation>
-    </message>
-</context>
-<context>
-    <name>cmdRouteEdit</name>
-    <message>
-        <source>edit route: %1</source>
-        <translation type="vanished">Route bearbeiten: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdRouteNew</name>
-    <message>
-        <source>new route %1 in line %2</source>
-        <translation type="vanished">Neue Route %1 in Linie %2</translation>
-    </message>
-</context>
-<context>
-    <name>cmdRoutesDelete</name>
-    <message>
-        <source>delete route %1 from line %2</source>
-        <translation type="vanished">Route %1 aus Linie %2 löschen</translation>
-    </message>
-    <message numerus="yes">
-        <source>delete %n routes  from line %2</source>
-        <translation type="vanished">
-            <numerusform>Route aus Linie %2 löschen</numerusform>
-            <numerusform>%n Routen aus Linie %2 löschen</numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>cmdScheduleTripChangeDays</name>
-    <message>
-        <source>change days of trip %1</source>
-        <translation type="vanished">Fahrrtage von Fahrt %1 ändern</translation>
-    </message>
-</context>
-<context>
-    <name>cmdScheduleTripChangeRoute</name>
-    <message>
-        <source>change route of trip %1</source>
-        <translation type="vanished">Route von Fahrt %1 ändern</translation>
-    </message>
-</context>
-<context>
-    <name>cmdScheduleTripChangeStartTime</name>
-    <message>
-        <source>change start time of trip %1</source>
-        <translation type="vanished">Startzeit von Fahrt %1 ändern</translation>
-    </message>
-</context>
-<context>
-    <name>cmdScheduleTripChangeTimeProfile</name>
-    <message>
-        <source>change time profile of trip</source>
-        <translation type="vanished">Fahrtzeitprofil von Fahrt ändern</translation>
-    </message>
-</context>
-<context>
-    <name>cmdScheduleTripDelete</name>
-    <message>
-        <source>delete trip from line %1</source>
-        <translation type="vanished">Fahrt von Linie löschen: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdScheduleTripEditRepeat</name>
-    <message>
-        <source>change repeat of trip</source>
-        <translation type="vanished">Wiederholung von Fahrt ändern</translation>
-    </message>
-</context>
-<context>
-    <name>cmdScheduleTripNew</name>
-    <message>
-        <source>new trip in line %1</source>
-        <translation type="vanished">Neue Fahrt in Linie %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdTourDelete</name>
-    <message>
-        <source>delete tour: %1</source>
-        <translation type="vanished">Dienst löschen: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdTourEdit</name>
-    <message>
-        <source>edit tour: %1</source>
-        <translation type="vanished">Dienst bearbeiten: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdTourNew</name>
-    <message>
-        <source>new tour: %1</source>
-        <translation type="vanished">Neuer Dienst: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdTourReorderTrips</name>
-    <message>
-        <source>reorder trips of tour: %1</source>
-        <translation type="vanished">Fahrten im Dienst sortieren: %1</translation>
-    </message>
-</context>
-<context>
-    <name>cmdTourTripAdd</name>
-    <message>
-        <source>Add trip %1 to tour %2</source>
-        <translation type="vanished">Fahrt %1 zum Dienst %2 hinzufügen</translation>
-    </message>
-</context>
-<context>
-    <name>cmdTourTripRemove</name>
-    <message>
-        <source>Remove trip %1 from tour %2</source>
-        <translation type="vanished">Fahrt %1 vom Dienst %2 entfernen</translation>
-    </message>
-</context>
-<context>
-    <name>lineEditor</name>
-    <message>
-        <source>Edit Line</source>
-        <translation type="vanished">Linie bearbeiten</translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="vanished">Allgemein</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">Name:</translation>
-    </message>
-    <message>
-        <source>Enter line name...</source>
-        <translation type="vanished">Linienname eingeben...</translation>
-    </message>
-    <message>
-        <source>Description:</source>
-        <translation type="vanished">Beschreibung:</translation>
-    </message>
-    <message>
-        <source>Enter description...</source>
-        <translation type="vanished">Beschreibung eingeben...</translation>
-    </message>
-    <message>
-        <source>Color:</source>
-        <translation type="vanished">Farbe:</translation>
-    </message>
-    <message>
-        <source>Choose...</source>
-        <translation type="vanished">Wählen...</translation>
-    </message>
-    <message>
-        <source>Directions</source>
-        <translation type="vanished">Fahrtrichtungen</translation>
-    </message>
-    <message>
-        <source>Up</source>
-        <translation type="vanished">Hoch</translation>
-    </message>
-    <message>
-        <source>Down</source>
-        <translation type="vanished">Runter</translation>
-    </message>
-    <message>
-        <source>New</source>
-        <translation type="vanished">Neu</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="vanished">Umbenennen</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Löschen</translation>
-    </message>
-    <message>
-        <source>Rename direction</source>
-        <translation type="vanished">Fahrtrichtung umbenennen</translation>
-    </message>
-    <message>
-        <source>Enter a new direction description:</source>
-        <translation type="vanished">Neue Fahrtrichtungsbezeichnung eineben:</translation>
     </message>
 </context>
 <context>
