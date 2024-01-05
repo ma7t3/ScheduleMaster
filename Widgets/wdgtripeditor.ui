@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>299</width>
+    <width>344</width>
     <height>664</height>
    </rect>
   </property>
@@ -102,35 +102,24 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QTimeEdit" name="teDepartureTime">
-              <property name="displayFormat">
-               <string>HH:mm:ss</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pbDepartureShift">
-              <property name="text">
-               <string>Shift...</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="0">
+          <item row="3" column="0">
            <widget class="QLabel" name="label_3">
             <property name="text">
              <string>Arr:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QLabel" name="lArrivalTime">
             <property name="text">
              <string>&lt;unknown&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QTimeEdit" name="teDepartureTime">
+            <property name="displayFormat">
+             <string>HH:mm:ss</string>
             </property>
            </widget>
           </item>
@@ -142,76 +131,9 @@
          <property name="title">
           <string>Days</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="2" column="0">
-           <widget class="QCheckBox" name="cbDayWed">
-            <property name="text">
-             <string>Wed</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QCheckBox" name="cbDayFri">
-            <property name="text">
-             <string>Fri</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="cbDayMon">
-            <property name="text">
-             <string>Mon</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="cbDayTue">
-            <property name="text">
-             <string>Tue</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QCheckBox" name="cbDaySat">
-            <property name="text">
-             <string>Sat</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QCheckBox" name="cbDayHol">
-            <property name="text">
-             <string>Holidays</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QCheckBox" name="cbDayNsco">
-            <property name="text">
-             <string>No school</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="cbDayThu">
-            <property name="text">
-             <string>Thu</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="cbDaySun">
-            <property name="text">
-             <string>Sun</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QCheckBox" name="cbDaySco">
-            <property name="text">
-             <string>School</string>
-            </property>
-           </widget>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="WdgDaySelector" name="daySelector" native="true"/>
           </item>
          </layout>
         </widget>
@@ -240,6 +162,17 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WdgDaySelector</class>
+   <extends>QWidget</extends>
+   <header>Widgets/WdgDaySelector.h</header>
+   <container>1</container>
+   <slots>
+    <signal>weekDaysChanged()</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

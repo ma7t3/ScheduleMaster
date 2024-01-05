@@ -6,16 +6,16 @@ WdgDaySelector::WdgDaySelector(QWidget *parent) :
     ui(new Ui::WdgDaySelector) {
     ui->setupUi(this);
 
-    QObject::connect(ui->cbMonday, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
-    QObject::connect(ui->cbTuesday, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
-    QObject::connect(ui->cbWednesday, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
-    QObject::connect(ui->cbThursday, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
-    QObject::connect(ui->cbFriday, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
-    QObject::connect(ui->cbSaturday, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
-    QObject::connect(ui->cbSunday, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
-    QObject::connect(ui->cbHoliday, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
-    QObject::connect(ui->cbSchool, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
-    QObject::connect(ui->cbVacation, SIGNAL(statChanged(int)), this, SLOT(emitChangedSigna()));
+    QObject::connect(ui->cbMonday, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
+    QObject::connect(ui->cbTuesday, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
+    QObject::connect(ui->cbWednesday, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
+    QObject::connect(ui->cbThursday, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
+    QObject::connect(ui->cbFriday, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
+    QObject::connect(ui->cbSaturday, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
+    QObject::connect(ui->cbSunday, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
+    QObject::connect(ui->cbHoliday, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
+    QObject::connect(ui->cbSchool, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
+    QObject::connect(ui->cbVacation, SIGNAL(stateChanged(int)), this, SLOT(emitChangedSignal()));
 }
 
 WdgDaySelector::~WdgDaySelector() {
