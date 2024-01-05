@@ -28,16 +28,7 @@ WdgTripEditor::WdgTripEditor(QWidget *parent, ProjectData *projectData, QUndoSta
     QObject::connect(ui->teDepartureTime, SIGNAL(timeChanged(QTime)), this, SLOT(actionChangeStartTime()));
     QObject::connect(ui->teDepartureTime, SIGNAL(editingFinished()), this, SLOT(saveStartTime()));
 
-    QObject::connect(ui->cbDayMon, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
-    QObject::connect(ui->cbDayTue, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
-    QObject::connect(ui->cbDayWed, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
-    QObject::connect(ui->cbDayThu, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
-    QObject::connect(ui->cbDayFri, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
-    QObject::connect(ui->cbDaySat, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
-    QObject::connect(ui->cbDaySun, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
-    QObject::connect(ui->cbDayHol, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
-    QObject::connect(ui->cbDaySco, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
-    QObject::connect(ui->cbDayNsco, SIGNAL(clicked()), this, SLOT(actionChangeDays()));
+    QObject::connect(ui->daySelector, SIGNAL(weekDaysChanged()), this, SLOT(actionChangeDays()));
 }
 
 WdgTripEditor::~WdgTripEditor()
@@ -142,7 +133,6 @@ void WdgTripEditor::actionChangeRoute() {
     if(_currentRoute->profileCount() == 0)
         return;
 
-    QString targetName = _currentTrips[0]->timeProfile()->name();
     undoStack->push(new cmdScheduleTripsChangeRoute(_currentTrips, _currentRoute));
     emit tripsChanged(_currentTrips);
 }
@@ -203,31 +193,10 @@ void WdgTripEditor::actionChangeDays() {
     if(_currentTrips.empty())
         return;
 
-    bool monday = ui->cbDayMon->isChecked();
-    bool tuesday = ui->cbDayTue->isChecked();
-    bool wednesday = ui->cbDayWed->isChecked();
-    bool thursday = ui->cbDayThu->isChecked();
-    bool friday = ui->cbDayFri->isChecked();
-    bool saturday = ui->cbDaySat->isChecked();
-    bool sunday = ui->cbDaySun->isChecked();
-    bool holiday = ui->cbDayHol->isChecked();
-    bool school = ui->cbDaySco->isChecked();
-    bool noSchool = ui->cbDayNsco->isChecked();
+    if(changingTrips)
+        return;
 
-    WeekDays w(
-        monday,
-        tuesday,
-        wednesday,
-        thursday,
-        friday,
-        saturday,
-        sunday,
-        holiday,
-        school,
-        noSchool
-        );
-
-    undoStack->push(new cmdScheduleTripsChangeDays(_currentTrips, w));
+    undoStack->push(new cmdScheduleTripsChangeDays(_currentTrips, ui->daySelector->weekDays()));
     emit tripsChanged(_currentTrips);
 }
 
@@ -356,33 +325,19 @@ void WdgTripEditor::refreshUI() {
         ui->pbDelete->setEnabled(false);
         ui->gbTiming->setEnabled(false);
         ui->gbDays->setEnabled(false);
-        /*ui->teDepartureTime->setVisible(true);
-        ui->pbDepartureShift->setVisible(false);*/
+        ui->daySelector->setWeekDays(WeekDays(0));
     } else if(tripCount == 1) {
         ui->pbCopy->setEnabled(true);
         ui->pbDelete->setEnabled(true);
         ui->gbTiming->setEnabled(true);
         ui->gbDays->setEnabled(true);
-        /*ui->teDepartureTime->setVisible(true);
-        ui->pbDepartureShift->setVisible(false);*/
 
-        ui->cbDayMon->setChecked(weekDays.monday());
-        ui->cbDayTue->setChecked(weekDays.tuesday());
-        ui->cbDayWed->setChecked(weekDays.wednesday());
-        ui->cbDayThu->setChecked(weekDays.thursday());
-        ui->cbDayFri->setChecked(weekDays.friday());
-        ui->cbDaySat->setChecked(weekDays.saturday());
-        ui->cbDaySun->setChecked(weekDays.sunday());
-        ui->cbDayHol->setChecked(weekDays.holiday());
-        ui->cbDaySco->setChecked(weekDays.school());
-        ui->cbDayNsco->setChecked(weekDays.vacation());
+        ui->daySelector->setWeekDays(weekDays);
     } else {
         ui->pbCopy->setEnabled(false);
         ui->pbDelete->setEnabled(true);
         ui->gbTiming->setEnabled(true);
         ui->gbDays->setEnabled(false);
-        /*ui->teDepartureTime->setVisible(false);
-        ui->pbDepartureShift->setVisible(true);*/
     }
 }
 
