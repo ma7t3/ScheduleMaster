@@ -14,12 +14,6 @@ WdgBusstopSchedule::WdgBusstopSchedule(QWidget *parent, ProjectData *projectData
 {
     ui->setupUi(this);
 
-    ui->twLines->setColumnHidden(0, true);
-    ui->twLines->setHeaderHidden(true);
-
-    ui->twDirections->setColumnHidden(0, true);
-    ui->twDirections->setHeaderHidden(true);
-
     ui->twSchedule->horizontalHeader()->setVisible(false);
 
     ui->progressBar->setHidden(true);
@@ -28,17 +22,16 @@ WdgBusstopSchedule::WdgBusstopSchedule(QWidget *parent, ProjectData *projectData
     QFont bold;
     bold.setBold(true);
     ui->lBusstopName->setFont(bold);
+
+    ui->routeSelector->setProjectData(projectData);
+
+    QObject::connect(ui->routeSelector, SIGNAL(routesChanged(QList<Route*>)), this, SLOT(refreshSchedule()));
 }
 
 WdgBusstopSchedule::~WdgBusstopSchedule()
 {
     delete ui;
 }
-
-void WdgBusstopSchedule::on_twDirections_itemChanged() { refreshSchedule(); }
-
-
-void WdgBusstopSchedule::on_twLines_itemChanged() { refreshSchedule(); }
 
 void WdgBusstopSchedule::refreshSchedule()
 {
@@ -56,89 +49,35 @@ void WdgBusstopSchedule::refreshSchedule()
 
     refreshing = true;
 
-    QList<Trip *> mainTrips;
+    QList<Route *> routes = ui->routeSelector->routes();
+    QList<Trip *> trips;
 
-    ui->progressBar->setValue(0);
-    ui->progressBar->setMaximum(ui->twLines->topLevelItemCount());
-    //ui->progressBar->setHidden(false);
-    ui->lLoading->setHidden(false);
-    qApp->processEvents();
+    foreach(Line *l, projectData->lines()) {
+        foreach(Trip *t, l->trips()) {
 
-    for(int i = 0; i < ui->twLines->topLevelItemCount(); i++) { // alle selektierten Linien durchlaufen
-
-        if(ui->twLines->topLevelItem(i)->checkState(1) != Qt::Checked)
-            continue;
-        
-        Line *l = projectData->line(ui->twLines->topLevelItem(i)->text(0));
-        if(!l)
-            continue;
-
-        int count = l->tripCount();
-        QList<Trip *> trips = l->trips();
-
-        for(int j = 0; j < count; j++) { // alle Trips durchlaufen
-            Trip *t = trips[j];
-            Route *r = t->route();
-
-            for(int k = 0; k < r->busstopCount(); k++) { // Bushaltestellen der Route des Trips durchlaufen
-                Busstop *cBusstop = r->busstopAt(k);
-                Busstop *dirBusstop;
-                if(cBusstop == busstop) { // wenn die busstop ids identisch sind, ...
-                    if(r->busstopCount() > k + 1) {
-                        dirBusstop = r->busstopAt(k + 1); // setze die ID der Fahrtrichtung auf die ID der nächsten Haltestelle
-                    } else {
-                        continue;
-                    }
-
-                    for(int n = 0; n < ui->twDirections->topLevelItemCount(); n++) { // alle Richtungen durchlaufen
-                        if(ui->twDirections->topLevelItem(n)->text(0) == dirBusstop->id()) { // wenn die IDs übereinstimmen und das ganze angehakt ist, hinzufügen
-                            if(ui->twDirections->topLevelItem(n)->checkState(1) == Qt::Checked) {
-                                WeekDays w = getShiftedWeekDays(t);
-                                if(checkMatchingWeekDays(w))
-                                    mainTrips << t;
-                            }
-                        }
-                    }
+            bool matchingRoute = false;
+            foreach(Route *r, routes) {
+                if(t->route() == r) {
+                    matchingRoute = true;
+                    break;
                 }
-                qApp->processEvents();
             }
-            qApp->processEvents();
+
+            if(!matchingRoute)
+                continue;
+
+            WeekDays w = getShiftedWeekDays(t);
+            if(checkMatchingWeekDays(w))
+                trips << t;
         }
-
-        ui->progressBar->setValue(i + 1);
-        qApp->processEvents();
     }
 
-    QList<Trip *> allTrips;
-
-    for(int i = 0; i < mainTrips.count(); i++) {
-        allTrips << mainTrips[i];
-    }
-
-    // sort
-    ui->progressBar->setMaximum(0);
-    while(true) {
-        bool ok = true;
-        for(int i = 0; i < allTrips.count() - 1; i++) {
-            if(allTrips[i]->busstopTime(busstop) > allTrips[i + 1]->busstopTime(busstop)) {
-                Trip *tmp = allTrips[i];
-                allTrips[i] = allTrips[i + 1];
-                allTrips[i + 1] = tmp;
-                ok = false;
-            }
-            qApp->processEvents();
-        }
-
-        qApp->processEvents();
-
-        if(ok)
-            break;
-    }
+    trips = ProjectData::sortTrips(trips);
 
     int hour = 0;
     int column = 0;
-    for(int i = 0; i < allTrips.count(); i++) {
-        Trip *t = allTrips[i];
+    for(int i = 0; i < trips.count(); i++) {
+        Trip *t = trips[i];
         QTime time = t->busstopTime(busstop);
 
         if(time.hour() != hour) {
@@ -225,7 +164,6 @@ void WdgBusstopSchedule::on_rbSun_clicked()
 
 void WdgBusstopSchedule::showEvent(QShowEvent *e) {
     QWidget::showEvent(e);
-    refreshLinesAndDirections();
     refreshSchedule();
 }
 
@@ -235,6 +173,10 @@ void WdgBusstopSchedule::setBusstop(Busstop *b) {
         ui->lBusstopName->setText(tr("<unkown>"));
     else
         ui->lBusstopName->setText(b->name());
+
+    ui->routeSelector->setFilterBusstop(b);
+    ui->routeSelector->refresh();
+    ui->routeSelector->expandAll();
 }
 
 void WdgBusstopSchedule::setDirections(QList<Busstop *> list) {
@@ -268,85 +210,7 @@ void WdgBusstopSchedule::setAll(Busstop *b, QList<Busstop *> directions, QList<L
     setDays(days);
     setBusstop(b);
 
-    if(this->isVisible()) {
-        refreshLinesAndDirections();
+    if(this->isVisible())
         refreshSchedule();
-    }
-}
-
-void WdgBusstopSchedule::refreshLinesAndDirections() {
-
-    ui->twDirections->clear();
-    ui->twLines->clear();
-    
-    for(int i = 0; i < projectData->lineCount(); i++) {
-        Line *l = projectData->lineAt(i);
-        for(int j = 0; j < l->routeCount(); j++) {
-            Route *r = l->routeAt(j);
-            for(int k = 0; k < r->busstopCount(); k++) {
-                Busstop *c = r->busstopAt(k);
-                if(c == busstop) {
-                    QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twLines);
-                    itm->setText(0, l->id());
-                    itm->setText(1, l->name());
-                    itm->setBackground(1, l->color());
-                    itm->setForeground(1, global::getContrastColor(l->color()));
-
-                    if(preselectedLines.empty())
-                        itm->setCheckState(1, Qt::Checked);
-                    else
-                        if(preselectedLines.contains(l))
-                            itm->setCheckState(1, Qt::Checked);
-                        else
-                            itm->setCheckState(1, Qt::Unchecked);
-
-                    ui->twLines->addTopLevelItem(itm);
-                    goto nextLine;
-                }
-            }
-        }
-    nextLine:
-        true;
-    }
-
-    QList<Busstop *> directions;
-    
-    for(int i = 0; i < projectData->lineCount(); i++) {
-        Line *l = projectData->lineAt(i);
-        for(int j = 0; j < l->routeCount(); j++) {
-            Route *r = l->routeAt(j);
-            for(int k = 0; k < r->busstopCount(); k++) {
-                Busstop *c = r->busstopAt(k);
-                if(c == busstop) {
-                    if(r->busstopCount() > k + 1)
-                            directions << r->busstopAt(k + 1);
-                }
-            }
-        }
-    }
-
-    QList<Busstop *> directionsFiltered;
-    for(int i = 0; i < directions.count(); i++) {
-        Busstop *c = directions[i];
-
-        bool found = false;
-        for(int j = 0; j < directionsFiltered.count(); j++)
-            if(directionsFiltered[j]->id() == c->id())
-                found = true;
-
-        if(found)
-            continue;
-
-        directionsFiltered << c;
-
-        QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twDirections);
-        itm->setText(0, c->id());
-        itm->setText(1, c->name());
-        if(preselectedDirections.contains(c))
-            itm->setCheckState(1, Qt::Checked);
-        else
-            itm->setCheckState(1, Qt::Unchecked);
-        ui->twDirections->addTopLevelItem(itm);
-    }
 }
 
