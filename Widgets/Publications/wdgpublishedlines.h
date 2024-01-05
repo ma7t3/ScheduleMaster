@@ -54,8 +54,6 @@ public slots:
     //void refreshDayCheckBoxes();
 
     void refreshRouteList();
-    void refreshRouteCheckBoxes();
-    void refreshRouteCheckBoxRelations(QTreeWidgetItem *);
 
     void refreshAllBusstops();
     void refreshBusstopList();
