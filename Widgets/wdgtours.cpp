@@ -46,8 +46,8 @@ void WdgTours::actionTourNew() {
 
     if(dlg.result() != QDialog::Accepted)
         return;
-
-    Tour *o = new Tour(global::getNewID(), dlg.name(), dlg.getWeekDays());
+    
+    Tour *o = new Tour(global::getNewID(), dlg.name(), dlg.weekDays());
     undoStack->push(new cmdTourNew(projectData, o));
     refreshTourList();
 }
@@ -66,7 +66,7 @@ void WdgTours::actionTourEdit() {
     Tour newO = *o;
 
     newO.setName(dlg.name());
-    newO.setWeekDays(dlg.getWeekDays());
+    newO.setWeekDays(dlg.weekDays());
     undoStack->push(new cmdTourEdit(o, newO));
     refreshTourList();
 }
@@ -81,8 +81,8 @@ void WdgTours::actionTourDuplicate() {
 
     if(dlg.result() != QDialog::Accepted)
         return;
-
-    Tour *nO = new Tour(global::getNewID(), dlg.name(), dlg.getWeekDays());
+    
+    Tour *nO = new Tour(global::getNewID(), dlg.name(), dlg.weekDays());
     undoStack->push(new cmdTourNew(projectData, nO));
     refreshTourList();
 }

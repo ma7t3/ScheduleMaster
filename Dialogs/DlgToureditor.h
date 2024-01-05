@@ -21,14 +21,14 @@ public:
     void setWeekDays(WeekDays);
 
     QString name();
-    WeekDays getWeekDays();
+    WeekDays weekDays();
 
 private slots:
-    void on_pbMonFri_clicked();
+    /*void on_pbMonFri_clicked();
 
     void on_pbSat_clicked();
 
-    void on_pbSun_clicked();
+    void on_pbSun_clicked();*/
 
 private:
     Ui::TourEditor *ui;
