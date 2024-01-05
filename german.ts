@@ -1552,34 +1552,17 @@
         <translation>Fahrtrichtungen</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="119"/>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="157"/>
-        <source>id</source>
-        <translation>ID</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="124"/>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="162"/>
-        <source>name</source>
-        <translation>Name</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="141"/>
-        <source>Lines</source>
-        <translation>Linien</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="181"/>
+        <location filename="Widgets/wdgbusstopschedule.ui" line="123"/>
         <source>Schedule</source>
         <translation>Fahrplan</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="194"/>
+        <location filename="Widgets/wdgbusstopschedule.ui" line="136"/>
         <source>Loading...</source>
         <translation>wird geladen...</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstopschedule.cpp" line="235"/>
+        <location filename="Widgets/wdgbusstopschedule.cpp" line="173"/>
         <source>&lt;unkown&gt;</source>
         <translation>&lt;unbekannt&gt;</translation>
     </message>
@@ -1867,114 +1850,117 @@
         <translation>Routen</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="214"/>
-        <source>Name</source>
-        <translation>Name</translation>
-    </message>
-    <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="227"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="215"/>
         <source>Busstops</source>
         <translation>Bushaltestellen</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="243"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="231"/>
         <source>Add:</source>
         <translation>Hinzufügen:</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="259"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="247"/>
         <source>Add all</source>
         <translation>Alle hinzufügen</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="277"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="265"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="284"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="272"/>
         <source>Remove All</source>
         <translation>Alle entfernen</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="306"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="294"/>
         <source>Search and replace</source>
         <translation>Suche und ersetzen</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="315"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="303"/>
         <source>Label:</source>
         <translation>Bezeichnung:</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="327"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="315"/>
         <source>show divider after this busstop</source>
         <translation>Trennlinie nach dieser Haltestelle</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="334"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="322"/>
         <source>Join with busstop before</source>
         <translation>Mit vorheriger Haltestelle zusammenfassen</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="341"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="329"/>
         <source>Show arrival and departure</source>
         <translation>An- und Abfahrtszeit anzeigen</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="363"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="351"/>
         <source>Up</source>
         <translation>Hoch</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="370"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="358"/>
         <source>Down</source>
         <translation>Runter</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="377"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.ui" line="365"/>
         <source>Reorder</source>
         <translation>Sortieren</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="64"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="65"/>
         <source>New line</source>
         <translation>Neue Linie</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="64"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="65"/>
         <source>Enter line name:</source>
         <translation>Liniennamen eingeben:</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="93"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="94"/>
         <source>Delete published line</source>
         <translation>Veröffentliche Linie löschen</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="93"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="94"/>
         <source>&lt;p&gt;&lt;b&gt;Do you really want to delete this published line?&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Soll diese veröffentlichte Linie wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="106"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="107"/>
         <source>New direction</source>
         <translation>Neue Fahrtrichtung</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="106"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="107"/>
         <source>Enter direction name:</source>
         <translation>Fahrtrichtungsbezeichnung eingeben:</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="386"/>
-        <source>to </source>
-        <translation>r. </translation>
-    </message>
-    <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="589"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="449"/>
         <source>Portable document format (*.pdf)</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>WdgRouteSelector</name>
+    <message>
+        <location filename="Widgets/WdgRouteSelector.ui" line="14"/>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <location filename="Widgets/WdgRouteSelector.cpp" line="58"/>
+        <source>to </source>
+        <translation>r. </translation>
     </message>
 </context>
 <context>
