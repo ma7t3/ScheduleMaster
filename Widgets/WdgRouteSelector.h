@@ -26,6 +26,8 @@ public:
 public slots:
     void refresh();
     void setSelectedRoutes(QList<Route *>);
+    void setFilterBusstop(Busstop *b);
+    void expandAll();
 
 private slots:
     void refreshCheckBoxRelations(QTreeWidgetItem *);
@@ -38,6 +40,7 @@ private:
     Ui::WdgRouteSelector *ui;
 
     ProjectData *_projectData;
+    Busstop *_filterBusstop;
 
     QList<QList<QList<Route *>>> _routesReference;
     QList<QList<LineDirection *>> _routesDirectionsReference;

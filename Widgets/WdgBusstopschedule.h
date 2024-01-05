@@ -29,10 +29,6 @@ public slots:
     void setAll(Busstop *, QList<Busstop *> directions = {}, QList<Line *> lines = {}, int days = 1);
 
 private slots:
-    void on_twDirections_itemChanged();
-
-    void on_twLines_itemChanged();
-
     void on_rbMonFri_clicked();
 
     void on_rbSat_clicked();
@@ -40,14 +36,13 @@ private slots:
     void on_rbSun_clicked();
 
 
+private slots:
+    void refreshSchedule();
 
 private:
     Ui::WdgBusstopSchedule *ui;
 
     void showEvent(QShowEvent *e) override;
-
-    void refreshLinesAndDirections();
-    void refreshSchedule();
     WeekDays getShiftedWeekDays(Trip *);
     bool checkMatchingWeekDays(WeekDays);
 

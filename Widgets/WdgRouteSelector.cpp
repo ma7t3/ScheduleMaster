@@ -46,31 +46,45 @@ void WdgRouteSelector::refresh() {
 
     for(int i = 0; i < _projectData->lineCount(); i++) {
         Line *l = _projectData->lineAt(i);
-        _routesLinesReference << l;
-        QTreeWidgetItem *lineItm = new QTreeWidgetItem(ui->treeWidget, {l->name()});
+        QTreeWidgetItem *lineItm = new QTreeWidgetItem({l->name()});
         lineItm->setCheckState(0, Qt::Unchecked);
 
         QList<LineDirection *> directions = l->directions();
-        QList<QList<Route *>> routesParents;
+        QList<LineDirection *> resultDirections;
+        QList<QList<Route *>> resultRoutesParent;
 
         for(int j = 0; j < directions.count(); j++) {
             LineDirection *ld = directions[j];
-            QTreeWidgetItem *directionItm = new QTreeWidgetItem(lineItm, {tr("to ") + ld->description()});
+            QTreeWidgetItem *directionItm = new QTreeWidgetItem({tr("to ") + ld->description()});
             directionItm->setCheckState(0, Qt::Unchecked);
 
             QList<Route *> routes = l->routesToDirection(ld);
-            routesParents << routes;
+            QList<Route *> resultRoutes;
 
             for(int k = 0; k < routes.count(); k++) {
                 Route *r = routes[k];
+                if(_filterBusstop && !r->hasBusstop(_filterBusstop))
+                    continue;
+
                 QTreeWidgetItem *routeItm = new QTreeWidgetItem(directionItm, {r->name()});
                 routeItm->setCheckState(0, Qt::Unchecked);
+                resultRoutes << r;
+            }
+
+            if(directionItm->childCount() != 0) {
+                lineItm->addChild(directionItm);
+
+                resultDirections << ld;
+                resultRoutesParent << resultRoutes;
             }
         }
 
-        _routesLinesReference << l;
-        _routesDirectionsReference << directions;
-        _routesReference << routesParents;
+        if(lineItm->childCount() != 0) {
+            ui->treeWidget->addTopLevelItem(lineItm);
+            _routesLinesReference << l;
+            _routesDirectionsReference << resultDirections;
+            _routesReference << resultRoutesParent;
+        }
     }
 }
 
@@ -92,6 +106,18 @@ void WdgRouteSelector::setSelectedRoutes(QList<Route *> routeList) {
                         ui->treeWidget->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Checked);
                         break;
                     }
+}
+
+void WdgRouteSelector::setFilterBusstop(Busstop *b) {
+    _filterBusstop = b;
+}
+
+void WdgRouteSelector::expandAll() {
+    for(int i = 0; i < ui->treeWidget->topLevelItemCount(); i++) {
+        ui->treeWidget->topLevelItem(i)->setExpanded(true);
+        for(int j = 0; j < ui->treeWidget->topLevelItem(i)->childCount(); j++)
+            ui->treeWidget->topLevelItem(i)->child(j)->setExpanded(true);
+    }
 }
 
 void WdgRouteSelector::refreshCheckBoxRelations(QTreeWidgetItem *changedItm) {
