@@ -3,8 +3,7 @@
 
 TourEditor::TourEditor(QWidget *parent, bool createMode, QString name, WeekDays weekDays) :
     QDialog(parent),
-    ui(new Ui::TourEditor)
-{
+    ui(new Ui::TourEditor) {
     ui->setupUi(this);
     setName(name);
     setWeekDays(weekDays);
@@ -13,56 +12,28 @@ TourEditor::TourEditor(QWidget *parent, bool createMode, QString name, WeekDays 
         QDialog::setWindowTitle(tr("create tour"));
 }
 
-TourEditor::~TourEditor()
-{
+TourEditor::~TourEditor() {
     delete ui;
 }
 
-void TourEditor::setName(QString name)
-{
+void TourEditor::setName(QString name) {
     ui->leName->setText(name);
 }
 
-void TourEditor::setWeekDays(WeekDays weekDays)
-{
-    ui->cbMon->setChecked(weekDays.monday());
-    ui->cbTue->setChecked(weekDays.tuesday());
-    ui->cbWed->setChecked(weekDays.wednesday());
-    ui->cbThu->setChecked(weekDays.thursday());
-    ui->cbFri->setChecked(weekDays.friday());
-    ui->cbSat->setChecked(weekDays.saturday());
-    ui->cbSun->setChecked(weekDays.sunday());
-    ui->cbHol->setChecked(weekDays.holiday());
-    ui->cbSchool->setChecked(weekDays.school());
-    ui->cbNoSchool->setChecked(weekDays.vacation());
+void TourEditor::setWeekDays(WeekDays weekDays) {
+    ui->daySelector->setWeekDays(weekDays);
 }
 
-QString TourEditor::name()
-{
+QString TourEditor::name() {
     return ui->leName->text();
 }
 
-WeekDays TourEditor::getWeekDays()
-{
-    WeekDays w;
-
-    w.setMonday(ui->cbMon->isChecked());
-    w.setTuesday(ui->cbTue->isChecked());
-    w.setWednesday(ui->cbWed->isChecked());
-    w.setThursday(ui->cbThu->isChecked());
-    w.setFriday(ui->cbFri->isChecked());
-    w.setSaturday(ui->cbSat->isChecked());
-    w.setSunday(ui->cbSun->isChecked());
-    w.setHoliday(ui->cbHol->isChecked());
-    w.setSchool(ui->cbSchool->isChecked());
-    w.setVacation(ui->cbNoSchool->isChecked());
-
-    return w;
+WeekDays TourEditor::weekDays() {
+    return ui->daySelector->weekDays();
 }
 
 
-void TourEditor::on_pbMonFri_clicked()
-{
+/*void TourEditor::on_pbMonFri_clicked() {
     ui->cbMon->setChecked(true);
     ui->cbTue->setChecked(true);
     ui->cbWed->setChecked(true);
@@ -73,8 +44,7 @@ void TourEditor::on_pbMonFri_clicked()
     ui->cbHol->setChecked(false);
 }
 
-void TourEditor::on_pbSat_clicked()
-{
+void TourEditor::on_pbSat_clicked() {
     ui->cbMon->setChecked(false);
     ui->cbTue->setChecked(false);
     ui->cbWed->setChecked(false);
@@ -86,8 +56,7 @@ void TourEditor::on_pbSat_clicked()
 }
 
 
-void TourEditor::on_pbSun_clicked()
-{
+void TourEditor::on_pbSun_clicked() {
     ui->cbMon->setChecked(false);
     ui->cbTue->setChecked(false);
     ui->cbWed->setChecked(false);
@@ -96,7 +65,7 @@ void TourEditor::on_pbSun_clicked()
     ui->cbSat->setChecked(false);
     ui->cbSun->setChecked(true);
     ui->cbHol->setChecked(true);
-}
+}*/
 
 
 
