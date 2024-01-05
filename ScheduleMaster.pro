@@ -31,6 +31,7 @@ SOURCES += \
     ProjectData/line.cpp \
     Dialogs/DlgLineeditor.cpp \
     Widgets/WdgDaySelector.cpp \
+    Widgets/WdgRouteSelector.cpp \
     Widgets/wdgbusstops.cpp \
     Widgets/wdglines.cpp \
     Widgets/wdgroutes.cpp \
@@ -83,6 +84,7 @@ HEADERS += \
     ProjectData/publishedlinedirection.h \
     Widgets/Publications/wdgpublishedlines.h \
     Widgets/WdgDaySelector.h \
+    Widgets/WdgRouteSelector.h \
     Widgets/wdgbusstops.h \
     Widgets/wdglines.h \
     Widgets/wdgroutes.h \
@@ -128,6 +130,7 @@ FORMS += \
     Mainwindow.ui \
     Widgets/Publications/wdgpublishedlines.ui \
     Widgets/WdgDaySelector.ui \
+    Widgets/WdgRouteSelector.ui \
     Widgets/wdgbusstops.ui \
     Widgets/wdglines.ui \
     Widgets/wdgroutes.ui \
