@@ -32,8 +32,8 @@ WdgPublishedLines::WdgPublishedLines(QWidget *parent, ProjectData *projectData, 
 
     QObject::connect(ui->leDirectionsName, SIGNAL(editingFinished()), this, SLOT(actionDirectionEdit()));
 
-    QObject::connect(ui->twRoutes, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(refreshRouteCheckBoxRelations(QTreeWidgetItem*)));
-    QObject::connect(ui->twRoutes, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(actionRoutesChange()));
+    //QObject::connect(ui->twRoutes, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(refreshRouteCheckBoxRelations(QTreeWidgetItem*)));
+    QObject::connect(ui->routeSelector, SIGNAL(routesChanged(QList<Route*>)), this, SLOT(actionRoutesChange()));
 
     QObject::connect(ui->cmbAllBusstops, SIGNAL(activated(int)), this, SLOT(actionBusstopAdd()));
     QObject::connect(ui->pbBusstopsAddAll, SIGNAL(clicked()), this, SLOT(actionBusstopsAddAll()));
@@ -47,7 +47,8 @@ WdgPublishedLines::WdgPublishedLines(QWidget *parent, ProjectData *projectData, 
     QObject::connect(ui->leBusstopsLabel, SIGNAL(textEdited(QString)), this, SLOT(actionEditBusstop()));
     QObject::connect(ui->cbBusstopsShowDivider, SIGNAL(clicked()), this, SLOT(actionEditBusstop()));
 
-    refreshRouteList();
+    ui->routeSelector->setProjectData(projectData);
+    ui->routeSelector->refresh();
 }
 
 WdgPublishedLines::~WdgPublishedLines()
@@ -131,20 +132,8 @@ void WdgPublishedLines::actionRoutesChange() {
     if(!_currentLine || !_currentLineDirection)
         return;
 
-    QList<Route *> routes;
-
-    for(int i = 0; i < ui->twRoutes->topLevelItemCount(); i++) {
-        for(int j = 0; j < ui->twRoutes->topLevelItem(i)->childCount(); j++) {
-            for(int k = 0; k < ui->twRoutes->topLevelItem(i)->child(j)->childCount(); k++) {
-                Qt::CheckState checked = ui->twRoutes->topLevelItem(i)->child(j)->child(k)->checkState(0);
-                if(checked == Qt::Checked)
-                    routes << _routesReference[i][j][k];
-            }
-        }
-    }
-
     PublishedLineDirection newLd = *_currentLineDirection;
-    newLd.setRoutes(routes);
+    newLd.setRoutes(ui->routeSelector->routes());
 
     undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 }
@@ -341,10 +330,11 @@ void WdgPublishedLines::refreshCurrentLineDirection() {
 
     ui->leDirectionsName->clear();
 
-    if(_currentLine && _currentLineDirection)
+    if(_currentLine && _currentLineDirection) {
         ui->leDirectionsName->setText(_currentLineDirection->name());
+        ui->routeSelector->setSelectedRoutes(_currentLineDirection->routes());
+    }
 
-    refreshRouteCheckBoxes();
     refreshAllBusstops();
     refreshBusstopList();
 }
@@ -366,137 +356,7 @@ void WdgPublishedLines::refreshDayTypes() {
 
 
 void WdgPublishedLines::refreshRouteList() {
-    ui->twRoutes->clear();
-
-    _routesReference.clear();
-    _routesDirectionsReference.clear();
-    _routesLinesReference.clear();
-
-    for(int i = 0; i < projectData->lineCount(); i++) {
-        Line *l = projectData->lineAt(i);
-        _routesLinesReference << l;
-        QTreeWidgetItem *lineItm = new QTreeWidgetItem(ui->twRoutes, {l->name()});
-        lineItm->setCheckState(0, Qt::Unchecked);
-
-        QList<LineDirection *> directions = l->directions();
-        QList<QList<Route *>> routesParents;
-
-        for(int j = 0; j < directions.count(); j++) {
-            LineDirection *ld = directions[j];
-            QTreeWidgetItem *directionItm = new QTreeWidgetItem(lineItm, {tr("to ") + ld->description()});
-            directionItm->setCheckState(0, Qt::Unchecked);
-
-            QList<Route *> routes = l->routesToDirection(ld);
-            routesParents << routes;
-
-            for(int k = 0; k < routes.count(); k++) {
-                Route *r = routes[k];
-                QTreeWidgetItem *routeItm = new QTreeWidgetItem(directionItm, {r->name()});
-                routeItm->setCheckState(0, Qt::Unchecked);
-            }
-        }
-
-        _routesLinesReference << l;
-        _routesDirectionsReference << directions;
-        _routesReference << routesParents;
-    }
-}
-
-void WdgPublishedLines::refreshRouteCheckBoxes() {
-    // clear
-    for(int i = 0; i < ui->twRoutes->topLevelItemCount(); i++) {
-        for(int j = 0; j < ui->twRoutes->topLevelItem(i)->childCount(); j++) {
-            for(int k = 0; k < ui->twRoutes->topLevelItem(i)->child(j)->childCount(); k++) {
-                ui->twRoutes->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Unchecked);
-            }
-        }
-    }
-
-    if(!_currentLine || !_currentLineDirection)
-        return;
-
-    for(int i = 0; i < ui->twRoutes->topLevelItemCount(); i++) {
-        for(int j = 0; j < ui->twRoutes->topLevelItem(i)->childCount(); j++) {
-            for(int k = 0; k < ui->twRoutes->topLevelItem(i)->child(j)->childCount(); k++) {
-                if(_currentLineDirection->hasRoute(_routesReference[i][j][k]))
-                    ui->twRoutes->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Checked);
-            }
-        }
-    }
-}
-
-void WdgPublishedLines::refreshRouteCheckBoxRelations(QTreeWidgetItem *changedItm) {
-
-    if(refreshingRouteCheckBoxes)
-        return;
-
-    refreshingRouteCheckBoxes = true;
-
-    // for each line
-    for(int i = 0; i < ui->twRoutes->topLevelItemCount(); i++) {
-        QTreeWidgetItem *lineItm = ui->twRoutes->topLevelItem(i);
-        bool lineChanged = lineItm == changedItm;
-
-        bool checkedDirectionFound = false;
-        bool partiallyCheckedDirectionFound = false;
-        bool uncheckedDirectionFound = false;
-
-        // for each direction
-        for(int j = 0; j < lineItm->childCount(); j++) {
-            QTreeWidgetItem *directionItm = lineItm->child(j);
-            bool directionChanged = directionItm == changedItm;
-
-            if(lineChanged)
-                directionItm->setCheckState(0, lineItm->checkState(0));
-
-            bool checkedRouteFound = false;
-            bool uncheckedRouteFound = false;
-
-            // for each route
-            for(int k = 0; k < directionItm->childCount(); k++) {
-                QTreeWidgetItem *routeItm = directionItm->child(k);
-                if(lineChanged)
-                    routeItm->setCheckState(0, lineItm->checkState(0));
-                else if(directionChanged)
-                    routeItm->setCheckState(0, directionItm->checkState(0));
-                else {
-                    if(routeItm->checkState(0) == Qt::Checked)
-                        checkedRouteFound = true;
-                    if(routeItm->checkState(0) == Qt::Unchecked)
-                        uncheckedRouteFound = true;
-                }
-            }
-
-            if(!directionChanged && !lineChanged) {
-                if(checkedRouteFound && uncheckedRouteFound)
-                    directionItm->setCheckState(0, Qt::PartiallyChecked);
-                else if(checkedRouteFound && !uncheckedRouteFound)
-                    directionItm->setCheckState(0, Qt::Checked);
-                else if(!checkedRouteFound && uncheckedRouteFound)
-                    directionItm->setCheckState(0, Qt::Unchecked);
-            }
-
-            if(!lineChanged) {
-                if(directionItm->checkState(0) == Qt::Checked)
-                    checkedDirectionFound = true;
-                if(directionItm->checkState(0) == Qt::PartiallyChecked)
-                    partiallyCheckedDirectionFound = true;
-                if(directionItm->checkState(0) == Qt::Unchecked)
-                    uncheckedDirectionFound = true;
-            }
-        }
-
-        if(!lineChanged) {
-            if((checkedDirectionFound && uncheckedDirectionFound) || partiallyCheckedDirectionFound)
-                lineItm->setCheckState(0, Qt::PartiallyChecked);
-            else if(checkedDirectionFound && !uncheckedDirectionFound)
-                lineItm->setCheckState(0, Qt::Checked);
-            else if(!checkedDirectionFound && uncheckedDirectionFound)
-                lineItm->setCheckState(0, Qt::Unchecked);
-        }
-    }
-
-    refreshingRouteCheckBoxes = false;
+    ui->routeSelector->refresh();
 }
 
 void WdgPublishedLines::refreshAllBusstops() {

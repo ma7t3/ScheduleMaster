@@ -20,6 +20,23 @@ void WdgRouteSelector::setProjectData(ProjectData *projectData) {
     _projectData = projectData;
 }
 
+QList<Route *> WdgRouteSelector::routes() {
+    QList<Route *> list;
+
+    for(int i = 0; i < ui->treeWidget->topLevelItemCount(); i++) {
+        QTreeWidgetItem *itm = ui->treeWidget->topLevelItem(i);
+        for(int j = 0; j < itm->childCount(); j++) {
+            QTreeWidgetItem *subItm = itm->child(j);
+            for(int k = 0; k < subItm->childCount(); k++) {
+                QTreeWidgetItem *subSubItm = subItm->child(k);
+                if(subSubItm->checkState(0) == Qt::Checked)
+                    list << _routesReference[i][j][k];
+            }
+        }
+    }
+    return list;
+}
+
 void WdgRouteSelector::refresh() {
     ui->treeWidget->clear();
 
@@ -151,12 +168,5 @@ void WdgRouteSelector::refreshCheckBoxRelations(QTreeWidgetItem *changedItm) {
 }
 
 void WdgRouteSelector::emitRoutesChangedSignal() {
-    QList<Route *> list;
-
-    foreach(QList<QList<Route *>> subList, _routesReference)
-        foreach(QList<Route *> subSubList, subList)
-            foreach(Route *r, subSubList)
-                list << r;
-
-    emit routesChanged(list);
+    emit routesChanged(routes());
 }

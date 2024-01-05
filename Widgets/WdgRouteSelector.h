@@ -21,6 +21,8 @@ public:
 
     void setProjectData(ProjectData *projectData);
 
+    QList<Route *> routes();
+
 public slots:
     void refresh();
     void setSelectedRoutes(QList<Route *>);
