@@ -29,5 +29,5 @@ void DayType::overwrite(DayType &other) {
     setSunday(other.sunday());
     setHoliday(other.holiday());
     setSchool(other.school());
-    setNoSchool(other.noSchool());
+    setVacation(other.vacation());
 }
