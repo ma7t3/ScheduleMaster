@@ -139,7 +139,7 @@ void DlgProjectSettings::refreshTayTypesDetails() {
     ui->cbSunday->setChecked(_currentDayType->sunday());
     ui->cbHoliday->setChecked(_currentDayType->holiday());
     ui->cbSchool->setChecked(_currentDayType->school());
-    ui->cbNoSchool->setChecked(_currentDayType->noSchool());
+    ui->cbNoSchool->setChecked(_currentDayType->vacation());
 
     ui->leDayTypesName->setEnabled(true);
     ui->cbMonday->setEnabled(true);
@@ -188,7 +188,7 @@ void DlgProjectSettings::saveDays() {
     _currentDayType->setSunday(ui->cbSunday->isChecked());
     _currentDayType->setHoliday(ui->cbHoliday->isChecked());
     _currentDayType->setSchool(ui->cbSchool->isChecked());
-    _currentDayType->setNoSchool(ui->cbNoSchool->isChecked());
+    _currentDayType->setVacation(ui->cbNoSchool->isChecked());
 
     refreshDayTypesTable();
 }

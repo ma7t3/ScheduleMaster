@@ -34,7 +34,7 @@ void TourEditor::setWeekDays(WeekDays weekDays)
     ui->cbSun->setChecked(weekDays.sunday());
     ui->cbHol->setChecked(weekDays.holiday());
     ui->cbSchool->setChecked(weekDays.school());
-    ui->cbNoSchool->setChecked(weekDays.noSchool());
+    ui->cbNoSchool->setChecked(weekDays.vacation());
 }
 
 QString TourEditor::name()
@@ -55,7 +55,7 @@ WeekDays TourEditor::getWeekDays()
     w.setSunday(ui->cbSun->isChecked());
     w.setHoliday(ui->cbHol->isChecked());
     w.setSchool(ui->cbSchool->isChecked());
-    w.setNoSchool(ui->cbNoSchool->isChecked());
+    w.setVacation(ui->cbNoSchool->isChecked());
 
     return w;
 }

@@ -6,12 +6,12 @@
 
 class WeekDays {
 private:
-    bool _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _sunday, _holiday, _school, _noSchool;
+    bool _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _sunday, _holiday, _school, _vacation;
 
 public:
     WeekDays();
     WeekDays(int code);
-    WeekDays(bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday, bool holiday, bool school, bool noSchool);
+    WeekDays(bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday, bool holiday, bool school, bool vacation);
 
     static const int MonFri = 995;
     static const int Sat = 19;
@@ -26,7 +26,7 @@ public:
     void setSunday(bool b);
     void setHoliday(bool b);
     void setSchool(bool b);
-    void setNoSchool(bool b);
+    void setVacation(bool b);
 
     bool monday();
     bool tuesday();
@@ -37,7 +37,7 @@ public:
     bool sunday();
     bool holiday();
     bool school();
-    bool noSchool();
+    bool vacation();
 
     void setCode(int code);
     int toCode();

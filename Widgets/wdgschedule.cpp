@@ -561,7 +561,7 @@ QPair<QString, QString> WdgSchedule::refreshScheduleGenerateInfo(WeekDays *w) {
     bool sunday = w->sunday();       // 6
     bool holiday = w->holiday();     // 7
     bool school = w->school();       // 8
-    bool noSchool = w->noSchool();   // 9
+    bool noSchool = w->vacation();   // 9
 
     QList<int> addList;
     QList<int> onlyList;

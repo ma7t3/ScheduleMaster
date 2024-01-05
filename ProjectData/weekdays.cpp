@@ -4,7 +4,7 @@ WeekDays::WeekDays() { setCode(MonFri); }
 
 WeekDays::WeekDays(int code) { setCode(code); }
 
-WeekDays::WeekDays(bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday, bool holiday, bool school, bool noSchool) :
+WeekDays::WeekDays(bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday, bool holiday, bool school, bool vacation) :
     _monday(monday),
     _tuesday(tuesday),
     _wednesday(wednesday),
@@ -14,7 +14,7 @@ WeekDays::WeekDays(bool monday, bool tuesday, bool wednesday, bool thursday, boo
     _sunday(sunday),
     _holiday(holiday),
     _school(school),
-    _noSchool(noSchool)
+    _vacation(vacation)
 {}
 
 void WeekDays::setMonday(bool b)      {_monday = b;}
@@ -26,7 +26,7 @@ void WeekDays::setSaturday(bool b)    {_saturday = b;}
 void WeekDays::setSunday(bool b)      {_sunday = b;}
 void WeekDays::setHoliday(bool b)     {_holiday = b;}
 void WeekDays::setSchool(bool b)      {_school = b;}
-void WeekDays::setNoSchool(bool b)    {_noSchool = b;}
+void WeekDays::setVacation(bool b)    {_vacation = b;}
 bool WeekDays::monday()            {return _monday;}
 bool WeekDays::tuesday()           {return _tuesday;}
 bool WeekDays::wednesday()         {return _wednesday;}
@@ -36,7 +36,7 @@ bool WeekDays::saturday()          {return _saturday;}
 bool WeekDays::sunday()            {return _sunday;}
 bool WeekDays::holiday()           {return _holiday;}
 bool WeekDays::school()            {return _school;}
-bool WeekDays::noSchool()          {return _noSchool;}
+bool WeekDays::vacation()          {return _vacation;}
 
 void WeekDays::setCode(int code) {
     QString bin = QString::number(code, 2);
@@ -53,7 +53,7 @@ void WeekDays::setCode(int code) {
     _sunday    = bin[6] == '1' ? true : false;
     _holiday   = bin[7] == '1' ? true : false;
     _school    = bin[8] == '1' ? true : false;
-    _noSchool  = bin[9] == '1' ? true : false;
+    _vacation  = bin[9] == '1' ? true : false;
 }
 
 int WeekDays::toCode() {
@@ -68,7 +68,7 @@ int WeekDays::toCode() {
     bin += _sunday       ? "1" : "0";
     bin += _holiday      ? "1" : "0";
     bin += _school       ? "1" : "0";
-    bin += _noSchool     ? "1" : "0";
+    bin += _vacation     ? "1" : "0";
 
     bool ok;
     int r = bin.toInt(&ok, 2);
@@ -107,9 +107,9 @@ QString WeekDays::toString() {
 
 WeekDays WeekDays::shfitedToNextDay() {
     if(_sunday != _holiday)
-        return WeekDays(_sunday, _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _holiday, _school, _noSchool);
+        return WeekDays(_sunday, _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _holiday, _school, _vacation);
     else
-        return WeekDays(_sunday, _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _saturday, _school, _noSchool);
+        return WeekDays(_sunday, _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _saturday, _school, _vacation);
 }
 
 
@@ -141,7 +141,7 @@ bool WeekDays::isIn(WeekDays w) {
     if(school() && !w.school())
         return false;
 
-    if(noSchool() && !w.noSchool())
+    if(vacation() && !w.vacation())
         return false;
 
     return true;
@@ -166,7 +166,7 @@ WeekDays WeekDays::combine(QList<WeekDays> list) {
         result.setSunday    (result.sunday()    || w.sunday());
         result.setHoliday   (result.holiday()   || w.holiday());
         result.setSchool    (result.school()    || w.school());
-        result.setNoSchool  (result.noSchool()  || w.noSchool());
+        result.setVacation  (result.vacation()  || w.vacation());
     }
 
     return result;
@@ -181,7 +181,7 @@ bool WeekDays::overlap(QList<WeekDays> list) {
     for(int i = 1; i < list.count(); i++) {
         WeekDays w = list[i];
 
-        if(!(sum.school() && w.school()) && !(sum.noSchool() && w.noSchool())) {
+        if(!(sum.school() && w.school()) && !(sum.vacation() && w.vacation())) {
             sum = combine({sum, w});
             continue;
         }
@@ -229,7 +229,7 @@ WeekDays WeekDays::intersection(QList<WeekDays> list) {
             r.setSunday(w1.sunday() && w2.sunday());
             r.setHoliday(w1.holiday() && w2.holiday());
             r.setSchool(w1.school() && w2.school());
-            r.setNoSchool(w1.noSchool() && w2.noSchool());
+            r.setVacation(w1.vacation() && w2.vacation());
             result = combine(result, r);
         }
     }
@@ -261,7 +261,7 @@ void WeekDays::overwrite(WeekDays &other) {
     setSunday(other.sunday());
     setHoliday(other.holiday());
     setSchool(other.school());
-    setNoSchool(other.noSchool());
+    setVacation(other.vacation());
 }
 
 

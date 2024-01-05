@@ -375,7 +375,7 @@ void WdgTripEditor::refreshUI() {
         ui->cbDaySun->setChecked(weekDays.sunday());
         ui->cbDayHol->setChecked(weekDays.holiday());
         ui->cbDaySco->setChecked(weekDays.school());
-        ui->cbDayNsco->setChecked(weekDays.noSchool());
+        ui->cbDayNsco->setChecked(weekDays.vacation());
     } else {
         ui->pbCopy->setEnabled(false);
         ui->pbDelete->setEnabled(true);
