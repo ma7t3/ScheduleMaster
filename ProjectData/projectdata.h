@@ -12,6 +12,7 @@
 #include "tour.h"
 #include "projectsettings.h"
 #include "publications.h"
+#include "footnote.h"
 
 class ProjectData {
 public:
@@ -58,6 +59,14 @@ public:
     bool removeTour(Tour *);
     bool removeTour(QString);
 
+    QList<Footnote *> footnotes() const;
+    void setFootnotes(const QList<Footnote *> &newFootnotes);
+    void addFootnote(Footnote *);
+    void removeFootnote(Footnote *);
+    void removeFootnote(const QString &);
+    Footnote *footnoteAt(int);
+    int footnoteCount() const;
+
 
     QList<Route *> matchingRoutes(Route *);
 
@@ -88,6 +97,7 @@ private:
     QList<Busstop *> _busstops;
     QList<Line *> _lines;
     QList<Tour *> _tours;
+    QList<Footnote *> _footnotes;
     Publications *_publications;
 };
 

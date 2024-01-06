@@ -201,6 +201,45 @@ bool ProjectData::removeTour(QString id) {
     return false;
 }
 
+QList<Footnote *> ProjectData::footnotes() const {
+    return _footnotes;
+}
+
+void ProjectData::setFootnotes(const QList<Footnote *> &newFootnotes) {
+    _footnotes = newFootnotes;
+}
+
+void ProjectData::addFootnote(Footnote *f) {
+    _footnotes << f;
+}
+
+void ProjectData::removeFootnote(Footnote *f) {
+    for (int i = 0; i < footnoteCount(); ++i)
+        if(footnoteAt(i) == f) {
+            _footnotes.remove(i);
+            return;
+        }
+}
+
+void ProjectData::removeFootnote(const QString &id) {
+    for (int i = 0; i < footnoteCount(); ++i)
+        if(footnoteAt(i)->id() == id) {
+            _footnotes.remove(i);
+            return;
+        }
+}
+
+Footnote *ProjectData::footnoteAt(int index) {
+    if(index < 0 || index > footnoteCount())
+        return nullptr;
+
+    return _footnotes[index];
+}
+
+int ProjectData::footnoteCount() const {
+    return _footnotes.count();
+}
+
 QList<Route *> ProjectData::matchingRoutes(Route *inputR) {
     QList<Route *> result;
     
@@ -414,24 +453,3 @@ QList<Tour *> ProjectData::sortTours(QList<Tour *> list) {
 Publications *ProjectData::publications() const {
     return _publications;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
