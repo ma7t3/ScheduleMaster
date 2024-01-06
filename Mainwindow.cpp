@@ -34,6 +34,7 @@
 #include "Dialogs/DlgTroubleshooter.h"
 #include "Dialogs/DlgProjectsettings.h"
 #include "Dialogs/DlgPreferences.h"
+#include "Dialogs/DlgManageFootnotes.h"
 
 
 //********************************************************************************************************************************************************************
@@ -913,5 +914,11 @@ void MainWindow::on_actionPublishTest_triggered() {
 void MainWindow::on_actionPublishAll_triggered() {
     pdfExporter->exportAllLineSchedules();
     pdfExporter->exportAllTours();
+}
+
+
+void MainWindow::on_actionPublishManageFootnotes_triggered() {
+    DlgManageFootnotes *dlg = new DlgManageFootnotes(this, projectData);
+    dlg->exec();
 }
 

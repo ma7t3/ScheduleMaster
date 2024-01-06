@@ -92,6 +92,8 @@ private slots:
 
     void on_actionEditPreferences_triggered();
 
+    void on_actionPublishManageFootnotes_triggered();
+
 private:
     Ui::MainWindow *ui;
 
