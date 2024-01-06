@@ -11,11 +11,14 @@ CONFIG += c++11
 SOURCES += \
     Dialogs/DlgCopyTrip.cpp \
     Dialogs/DlgFilehandler.cpp \
+    Dialogs/DlgFootnoteEditor.cpp \
+    Dialogs/DlgManageFootnotes.cpp \
     Dialogs/DlgPdfExporter.cpp \
     Dialogs/DlgPreferences.cpp \
     Dialogs/DlgProjectsettings.cpp \
     Mainwindow.cpp \
     ProjectData/daytype.cpp \
+    ProjectData/footnote.cpp \
     ProjectData/linedirection.cpp \
     ProjectData/projectsettings.cpp \
     ProjectData/publications.cpp \
@@ -59,6 +62,7 @@ SOURCES += \
 HEADERS += \
     App/global.h \
     Commands/CmdBusstops.h \
+    Commands/CmdFootnotes.h \
     Commands/CmdGeneral.h \
     Commands/CmdLines.h \
     Commands/CmdPublications.h \
@@ -67,11 +71,14 @@ HEADERS += \
     Commands/CmdTours.h \
     Dialogs/DlgCopyTrip.h \
     Dialogs/DlgFileHandler.h \
+    Dialogs/DlgFootnoteEditor.h \
+    Dialogs/DlgManageFootnotes.h \
     Dialogs/DlgPdfExporter.h \
     Dialogs/DlgPreferences.h \
     Dialogs/DlgProjectsettings.h \
     Mainwindow.h \
     ProjectData/daytype.h \
+    ProjectData/footnote.h \
     ProjectData/linedirection.h \
     ProjectData/projectsettings.h \
     ProjectData/abstractprojectdataitem.h \
@@ -114,6 +121,8 @@ HEADERS += \
 FORMS += \
     Dialogs/DlgCopyTrip.ui \
     Dialogs/DlgFileHandler.ui \
+    Dialogs/DlgFootnoteEditor.ui \
+    Dialogs/DlgManageFootnotes.ui \
     Dialogs/DlgPdfExporter.ui \
     Dialogs/DlgPreferences.ui \
     Dialogs/DlgProjectsettings.ui \
