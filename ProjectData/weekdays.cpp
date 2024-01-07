@@ -58,6 +58,7 @@ WeekDays WeekDays::operator=(const WeekDays &other) {
 }
 
 void WeekDays::copy(const WeekDays &other) {
+    ProjectDataItem::copy(other);
     setDay(WeekDay::monday,    other.day(WeekDay::monday));
     setDay(WeekDay::tuesday,   other.day(WeekDay::tuesday));
     setDay(WeekDay::wednesday, other.day(WeekDay::wednesday));
