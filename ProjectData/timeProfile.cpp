@@ -19,13 +19,14 @@ TimeProfileItem TimeProfileItem::operator=(const TimeProfileItem &other) {
     return *this;
 }
 
-
 void TimeProfileItem::copy(const TimeProfileItem &other) {
+    ProjectDataItem::copy(other);
     if(other.hasSeperateTimes())
         setArrValue(other.arrValue());
 
     setDepValue(other.depValue());
     setArrValue(other.busstopMode());
+    setBusstopMode(other.busstopMode());
 }
 
 float TimeProfileItem::arrValue() const {
@@ -82,8 +83,10 @@ TimeProfile TimeProfile::operator=(const TimeProfile &other) {
 }
 
 void TimeProfile::copy(const TimeProfile &other) {
+    ProjectDataItem::copy(other);
     setName(other.name());
     setDuration(other.duration());
+    setBusstops(other.busstops());
 }
 
 QString TimeProfile::name() const {
