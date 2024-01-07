@@ -45,6 +45,7 @@ public:
     TimeProfile* timeProfile(const QString &) const;
     TimeProfile* timeProfileAt(const int &) const;
     TimeProfile* timeProfileWithName(const QString &) const;
+    bool hasTimeProfile(const QString &id) const;
 
     void setTimeProfiles(QList<TimeProfile *>);
     void addTimeProfile(TimeProfile *);
