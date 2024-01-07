@@ -15,11 +15,28 @@ Publications Publications::operator=(const Publications &other) {
 
 
 void Publications::copy(const Publications &other) {
-    setLines(other.lines());
+    ProjectDataItem::copy(other);
+
+    QList<PublishedLine *> newLines;
+    for(int i = 0; i < other.lineCount(); i++) {
+        PublishedLine *l = other.lineAt(i);
+        if(hasLine(l->id())) {
+            PublishedLine *currentL = line(l->id());
+            *currentL = *l;
+            newLines << currentL;
+        } else {
+            newLines << l;
+        }
+    }
+    setLines(newLines);
 }
 
 QList<PublishedLine *> Publications::lines() const {
     return _lines;
+}
+
+int Publications::lineCount() const {
+    return _lines.count();
 }
 
 PublishedLine *Publications::line(const QString &id) const {
@@ -36,8 +53,11 @@ PublishedLine *Publications::lineAt(const int &index) const {
     return _lines[index];
 }
 
-int Publications::lineCount() const {
-    return _lines.count();
+bool Publications::hasLine(const QString &id) const {
+    for (int i = 0; i < lineCount(); ++i)
+        if(lineAt(i)->id() ==id)
+            return true;
+    return false;
 }
 
 void Publications::setLines(const QList<PublishedLine *> &newLines) {

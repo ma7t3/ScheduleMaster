@@ -14,9 +14,10 @@ public:
     Publications operator=(const Publications &);
 
     QList<PublishedLine *> lines() const;
+    int lineCount() const;
     PublishedLine *line(const QString &id) const;
     PublishedLine *lineAt(const int &index) const;
-    int lineCount() const;
+    bool hasLine(const QString &id) const;
 
     void setLines(const QList<PublishedLine *> &newLines);
     void addLine(PublishedLine *newLine);
