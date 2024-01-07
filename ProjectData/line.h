@@ -46,6 +46,7 @@ public:
     int routeCount() const;
     Route *route(const QString &id) const;
     Route *routeAt(const int &index) const;
+    bool hasRoute(const QString &id) const;
     QList<Route *> routesToDirection(LineDirection *) const;
 
     void setRoutes(const QList<Route *> &newRoutes);
@@ -57,6 +58,7 @@ public:
     int tripCount() const;
     Trip *trip(const QString &id) const;
     Trip *tripAt(const int &index) const;
+    bool hasTrip(const QString &id) const;
     QList<Trip *> tripsToDirection(LineDirection *) const;
     QList<Trip *> tripsOfRoute(Route *) const;
 

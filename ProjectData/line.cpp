@@ -26,16 +26,41 @@ void Line::copy(const Line &other) {
     QList<LineDirection *> newDirections;
     for(int i = 0; i < other.directionCount(); i++) {
         LineDirection *ld = other.directionAt(i);
-
         if(hasDirection(ld->id())) {
             LineDirection *currentLd = direction(ld->id());
-            *currentLd = *ld; // update
+            *currentLd = *ld;
             newDirections << currentLd;
         } else {
-            newDirections << ld; // add
+            newDirections << ld;
         }
     }
     setDirections(newDirections);
+
+    QList<Route *> newRoutes;
+    for(int i = 0; i < other.routeCount(); i++) {
+        Route *r = other.routeAt(i);
+        if(hasRoute(r->id())) {
+            Route *currentRoute = route(r->id());
+            *currentRoute = *r;
+            newRoutes << currentRoute;
+        } else {
+            newRoutes << r;
+        }
+    }
+    setRoutes(newRoutes);
+
+    QList<Trip *> newTrips;
+    for(int i = 0; i < other.tripCount(); i++) {
+        Trip *t = other.tripAt(i);
+        if(hasTrip(t->id())) {
+            Trip *currentTrip = trip(t->id());
+            *currentTrip = *t;
+            newTrips << currentTrip;
+        } else {
+            newTrips << t;
+        }
+    }
+    setTrips(newTrips);
 }
 
 QString Line::name() const {
@@ -157,6 +182,14 @@ Route *Line::routeAt(const int &index) const {
     return _routes[index];
 }
 
+bool Line::hasRoute(const QString &id) const {
+    for (int i = 0; i < routeCount(); ++i)
+        if(routeAt(i)->id() == id)
+            return true;
+
+    return false;
+}
+
 QList<Route *> Line::routesToDirection(LineDirection *ld) const {
     QList<Route *> resultList;
     for(int i = 0; i < routeCount(); i++) {
@@ -222,6 +255,13 @@ Trip *Line::tripAt(const int &index) const {
         return nullptr;
 
     return _trips[index];
+}
+
+bool Line::hasTrip(const QString &id) const {
+    for (int i = 0; i < tripCount(); ++i)
+        if(tripAt(i)->id() == id)
+            return true;
+    return false;
 }
 
 QList<Trip *> Line::tripsToDirection(LineDirection *ld) const {
