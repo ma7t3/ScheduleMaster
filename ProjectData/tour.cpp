@@ -20,6 +20,7 @@ bool Tour::operator<(Tour &other) {
 }
 
 void Tour::copy(const Tour &other) {
+    ProjectDataItem::copy(other);
     setName(other.name());
     setWeekDays(*other.weekDays());
     setTrips(other.trips());
