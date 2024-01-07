@@ -130,7 +130,7 @@ void WdgTripEditor::actionChangeRoute() {
     if(!_currentRoute || _currentTrips.empty())
         return;
 
-    if(_currentRoute->profileCount() == 0)
+    if(_currentRoute->timeProfileCount() == 0)
         return;
 
     undoStack->push(new cmdScheduleTripsChangeRoute(_currentTrips, _currentRoute));
@@ -238,7 +238,7 @@ void WdgTripEditor::refreshRoutes() {
 
         QListWidgetItem *itm = new QListWidgetItem(r->name());
 
-        if(r->profileCount() == 0) {
+        if(r->timeProfileCount() == 0) {
             itm->setHidden(true);
             itm->setToolTip(tr("You can't use this trip now, since it has no valid time profiles!"));
         }

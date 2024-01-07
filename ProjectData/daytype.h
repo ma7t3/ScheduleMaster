@@ -1,20 +1,26 @@
 #ifndef DAYTYPE_H
 #define DAYTYPE_H
 
-#include "ProjectData/abstractprojectdataitem.h"
-#include "ProjectData/weekdays.h"
+#include "ProjectDataItem.h"
+#include "weekdays.h"
 
-class DayType : public AbstractProjectDataItem, public WeekDays
-{
+// ABGESCHLOSSEN!
+
+class DayType : public virtual ProjectDataItem, public WeekDays {
+    Q_OBJECT
 public:
-    DayType(QString id);
-    DayType(QString id, QString name, int code);
-    DayType(QString id, QString name, bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday, bool holiday, bool school, bool noSchool);
+    DayType(const QString &id);
+    DayType(const QString &id, const QString &name, const int &code);
+    DayType(const QString &id, const QString &name, const bool &monday, const bool &tuesday, const bool &wednesday, const bool &thursday, const bool &friday, const bool &saturday, const bool &sunday, const bool &holiday, const bool &school, const bool &noSchool);
+    DayType(const DayType &);
+    DayType operator=(const DayType &);
 
-    void setName(QString);
-    QString name();
+    void setName(const QString &);
+    QString name() const;
 
-    void overwrite(DayType &other);
+protected:
+    void copy(const DayType &);
+
 private:
     QString _name;
 };

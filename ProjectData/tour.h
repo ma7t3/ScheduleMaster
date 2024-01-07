@@ -3,54 +3,58 @@
 
 #include <QtCore>
 
-#include "ProjectData/line.h"
-#include "abstractprojectdataitem.h"
+#include "ProjectDataItem.h"
 #include "trip.h"
 #include "weekdays.h"
 
-class Tour : public AbstractProjectDataItem
-{
+// ABGESCHLOSSEN!
+
+class Tour : public virtual ProjectDataItem {
+    Q_OBJECT
+public:
+    Tour(const QString &id, const QString &name, const WeekDays &weekDays = WeekDays());
+    Tour(const Tour &);
+    Tour operator=(const Tour &);
+    bool operator<(Tour &other);
+
+    QString name() const;
+    void setName(const QString &);
+
+    void setWeekDays(const WeekDays &);
+    WeekDays *weekDays() const;
+
+
+    QList<Trip *> trips() const;
+    int tripCount() const;
+    Trip *trip(const QString &id) const;
+    Trip *tripAt(const int &index) const;
+    bool hasTrip(Trip *) const;
+    int indexOfTrip(Trip *) const;
+
+    void setTrips(const QList<Trip *> &);
+    void addTrip(Trip *);
+    void insertTripAt(Trip *, const int &index);
+    void insertTripAfter(Trip *, Trip *);
+    void removeTrip(Trip *);
+
+    bool goesPastMidnight() const;
+    bool tripIsAfterMidnight(Trip *) const;
+    bool tripIsAfterMidnight(const QString &id) const;
+
+    QTime startTime() const;
+    QTime endTime() const;
+    QTime duration() const;
+    QTime drivingTime() const;
+    QTime breakTime() const;
+
+protected:
+    void copy(const Tour &);
+
 private:
     QString _name;
     WeekDays *_weekDays;
     QList<Trip *> _trips;
 
-public:
-    Tour(QString id, QString name, WeekDays weekDays = WeekDays());
-
-    void setName(QString);
-    void setWeekDays(WeekDays);
-
-    QString name();
-    WeekDays *weekDays();
-
-    int indexOfTrip(Trip *);
-
-    void addTrip(Trip *);
-    void insertTripAt(Trip *, int);
-    void insertTripAfter(Trip *, Trip *);
-    void setTripList(QList<Trip *>);
-    void removeTrip(Trip *);
-
-    int tripCount();
-    QList<Trip *> trips();
-    Trip *trip(QString);
-    Trip *tripAt(int);
-    bool hasTrip(Trip *);
-
-    bool goesPastMidnight();
-    bool tripIsAfterMidnight(Trip *);
-    bool tripIsAfterMidnight(QString);
-
-    QTime startTime();
-    QTime endTime();
-    QTime duration();
-    QTime drivingTime();
-    QTime breakTime();
-    //QList <Line *> usedLines();
-
-    void overwrite(Tour &other);
-    bool operator<(Tour &other);
 };
 
 #endif // TOUR_H

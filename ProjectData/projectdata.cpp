@@ -2,6 +2,7 @@
 #include "ProjectData\projectdata.h"
 
 ProjectData::ProjectData() :
+    QObject(nullptr),
     _projectSettings(new ProjectSettings),
     _publications(new Publications)
 {}
@@ -22,8 +23,8 @@ void ProjectData::cleanup() {
     
     for(int i = 0; i < _lines.count(); i++) {
         Line *l = _lines[i];
-        l->setRouteList(sortRoutes(l->routes()));
-        l->setTripList(sortTrips(l->trips()));
+        l->setRoutes(sortRoutes(l->routes()));
+        l->setTrips(sortTrips(l->trips()));
     }
 }
 
@@ -300,7 +301,7 @@ Route *ProjectData::routeOfTimeProfile(TimeProfile *p) {
         Line *l = this->lineAt(i);
         for(int j = 0; j < l->routeCount(); j++) {
             Route *r = l->routeAt(j);
-            for(int k = 0; k < r->profileCount(); k++) {
+            for(int k = 0; k < r->timeProfileCount(); k++) {
                 if(r->timeProfileAt(k)->id() == p->id())
                     return r;
             }

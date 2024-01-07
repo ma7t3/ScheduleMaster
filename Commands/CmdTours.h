@@ -159,11 +159,11 @@ public:
     }
 
     void undo() override {
-        tour->setTripList(trips);
+        tour->setTrips(trips);
     }
 
     void redo() override {
-        tour->setTripList(ProjectData::sortTrips(tour->trips()));
+        tour->setTrips(ProjectData::sortTrips(tour->trips()));
     }
 
 private:

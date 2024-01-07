@@ -1,30 +1,45 @@
 #include "ProjectData/busstop.h"
 
-Busstop::Busstop(QString id, QString name, bool important) :
-    AbstractProjectDataItem(id),
-    _name(name),
-    _important(important)
+Busstop::Busstop(const QString &id, const QString &name, const bool &important) :
+    ProjectDataItem(id), _name(name), _important(important) {}
 
-{}
 
-QString Busstop::name() { return _name; }
-
-bool Busstop::isImportant()
-{
-    return _important;
+Busstop::Busstop(const Busstop &other) {
+    copy(other);
 }
 
-bool Busstop::important() { return isImportant(); }
+Busstop Busstop::operator=(const Busstop &other) {
+    copy(other);
+    return *this;
+}
 
-void Busstop::setName(QString name) { _name = name; }
 
-void Busstop::setImportant(bool important) { _important = important; }
+bool Busstop::operator<(const Busstop &other) {
+    return name() < other.name();
+}
 
-void Busstop::overwrite(Busstop &other) {
+void Busstop::copy(const Busstop &other) {
+    ProjectDataItem::copy(other);
     setName(other.name());
     setImportant(other.important());
 }
 
-bool Busstop::operator<(Busstop &other) {
-    return name() < other.name();
+QString Busstop::name() const {
+    return _name;
+}
+
+void Busstop::setName(const QString &name) {
+    _name = name;
+}
+
+bool Busstop::isImportant() const {
+    return _important;
+}
+
+bool Busstop::important() const {
+    return isImportant();
+}
+
+void Busstop::setImportant(const bool &important) {
+    _important = important;
 }

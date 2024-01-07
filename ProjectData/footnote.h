@@ -1,14 +1,18 @@
 #ifndef FOOTNOTE_H
 #define FOOTNOTE_H
 
-#include "ProjectData/abstractprojectdataitem.h"
-
 #include <QObject>
 
-class Footnote : public AbstractProjectDataItem {
-    //Q_OBJECT
+#include "ProjectDataItem.h"
+
+// ABGESCHLOSSEN!
+
+class Footnote : public virtual ProjectDataItem {
+    Q_OBJECT
 public:
-    Footnote(QString id, QString identifier = "", QString description = "");
+    Footnote(const QString &id, const QString &identifier, const QString &description = "");
+    Footnote(const Footnote &);
+    Footnote operator=(const Footnote &);
 
     QString identifier() const;
     void setIdentifier(const QString &newIdentifier);
@@ -16,7 +20,8 @@ public:
     QString description() const;
     void setDescription(const QString &newDescription);
 
-    void overwrite(Footnote);
+protected:
+    void copy(const Footnote &);
 
 private:
     QString _identifier, _description;
