@@ -13,11 +13,15 @@ class PublishedLineDirection : public virtual ProjectDataItem {
     Q_OBJECT
 public:
     PublishedLineDirection(const QString &id, const QString &name);
+    PublishedLineDirection(const PublishedLineDirection &);
+    PublishedLineDirection operator=(const PublishedLineDirection &);
+
 
     QList<PublishedBusstop *> busstops() const;
-    PublishedBusstop *busstop(const QString &id);
-    PublishedBusstop *busstopAt(const int &index);
     int busstopCount() const;
+    PublishedBusstop *busstop(const QString &id) const;
+    PublishedBusstop *busstopAt(const int &index) const;
+    bool hasBusstop(const QString &id) const;
 
     void setBusstops(const QList<PublishedBusstop *> &newBusstops);
     void addBusstop(PublishedBusstop *newBusstop);
@@ -36,7 +40,10 @@ public:
     QString name() const;
     void setName(const QString &newName);
 
-    void ovoverwrite(const PublishedLineDirection &other);
+protected:
+    void copy(const PublishedLineDirection &);
+
+    //void ovoverwrite(const PublishedLineDirection &other);
 
 private:
     QString _name;

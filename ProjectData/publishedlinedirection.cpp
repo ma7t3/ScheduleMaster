@@ -1,9 +1,34 @@
 #include "publishedlinedirection.h"
 
 PublishedLineDirection::PublishedLineDirection(const QString &id, const QString &name) :
-    ProjectDataItem(id),
-    _name(name) {
+    ProjectDataItem(id), _name(name) {
+}
 
+PublishedLineDirection::PublishedLineDirection(const PublishedLineDirection &other) {
+    copy(other);
+}
+
+PublishedLineDirection PublishedLineDirection::operator=(const PublishedLineDirection &other) {
+    copy(other);
+    return *this;
+}
+
+void PublishedLineDirection::copy(const PublishedLineDirection &other) {
+    setName(other.name());
+    setRoutes(other.routes());
+
+    QList<PublishedBusstop *> newBusstops;
+    for(int i = 0; i < other.busstopCount(); i++) {
+        PublishedBusstop *ld = other.busstopAt(i);
+        if(hasBusstop(ld->id())) {
+            PublishedBusstop *currentLd = busstop(ld->id());
+            *currentLd = *ld;
+            newBusstops << currentLd;
+        } else {
+            newBusstops << ld;
+        }
+    }
+    setBusstops(newBusstops);
 }
 
 QString PublishedLineDirection::name() const {
@@ -18,7 +43,11 @@ QList<PublishedBusstop *> PublishedLineDirection::busstops() const {
     return _busstops;
 }
 
-PublishedBusstop *PublishedLineDirection::busstop(const QString &id) {
+int PublishedLineDirection::busstopCount() const {
+    return _busstops.count();
+}
+
+PublishedBusstop *PublishedLineDirection::busstop(const QString &id) const {
     for(int i = 0; i < busstopCount(); i++) {
         PublishedBusstop *b = busstopAt(i);
         if(b->id() == id || b->linkedBusstop()->id() == id)
@@ -28,15 +57,18 @@ PublishedBusstop *PublishedLineDirection::busstop(const QString &id) {
     return nullptr;
 }
 
-PublishedBusstop *PublishedLineDirection::busstopAt(const int &index) {
+PublishedBusstop *PublishedLineDirection::busstopAt(const int &index) const {
     if(index < 0 || index >= busstopCount())
         return nullptr;
 
     return _busstops[index];
 }
 
-int PublishedLineDirection::busstopCount() const {
-    return _busstops.count();
+bool PublishedLineDirection::hasBusstop(const QString &id) const {
+    for (int i = 0; i < busstopCount(); ++i)
+        if(busstopAt(i)->id() == id)
+            return true;
+    return false;
 }
 
 void PublishedLineDirection::setBusstops(const QList<PublishedBusstop *> &newBusstops) {
