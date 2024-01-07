@@ -128,18 +128,18 @@ bool WdgBusstopSchedule::checkMatchingWeekDays(WeekDays w)
 {
     if(ui->rbMonFri->isChecked())
         return (
-            w.monday() ||
-            w.tuesday() ||
-            w.wednesday() ||
-            w.thursday() ||
-            w.friday()
+            w.day(WeekDay::monday) ||
+            w.day(WeekDay::tuesday) ||
+            w.day(WeekDay::wednesday) ||
+            w.day(WeekDay::thursday) ||
+            w.day(WeekDay::friday)
         );
 
     else if(ui->rbSat->isChecked())
-        return w.saturday();
+        return w.day(WeekDay::saturday);
 
     else if(ui->rbSun->isChecked())
-        return (w.sunday() || w.holiday());
+        return (w.day(WeekDay::sunday) || w.day(WeekDay::holiday));
 
     return false;
 }

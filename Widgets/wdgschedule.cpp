@@ -552,7 +552,7 @@ QPair<QString, QString> WdgSchedule::refreshScheduleGenerateInfo(WeekDays *w) {
     p.second = "";
     return p;
 
-    bool monday = w->monday();       // 0
+    /*bool monday = w->monday();       // 0
     bool tuesday = w->tuesday();     // 1
     bool wednesday = w->wednesday(); // 2
     bool thursday = w->thursday();   // 3
@@ -565,7 +565,7 @@ QPair<QString, QString> WdgSchedule::refreshScheduleGenerateInfo(WeekDays *w) {
 
     QList<int> addList;
     QList<int> onlyList;
-    QList<int> notList;
+    QList<int> notList;*/
 
     /*if(scheduleCurrentDaysShow == scheduleCurrentDaysMonFri) {
         if(saturday) addList << 5;

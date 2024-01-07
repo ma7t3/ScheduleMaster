@@ -2,7 +2,7 @@
 
 DayType::DayType(const QString &id) :
     ProjectDataItem(id),
-    WeekDays(MonFri) {
+    WeekDays(995) {
 }
 
 DayType::DayType(const QString &id, const QString &name, const int &code) :
@@ -34,6 +34,11 @@ DayType::DayType(const DayType &other) {
 
 DayType DayType::operator=(const DayType &other) {
     copy(other);
+    return *this;
+}
+
+DayType DayType::operator=(const WeekDays &other) {
+    WeekDays::copy(other);
     return *this;
 }
 

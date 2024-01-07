@@ -4,7 +4,9 @@ WeekDays::WeekDays() : ProjectDataItem("") {
     setCode(995);
 }
 
-WeekDays::WeekDays(const int &code) : ProjectDataItem("") { setCode(code); }
+WeekDays::WeekDays(const int &code) : ProjectDataItem("") {
+    setCode(code);
+}
 
 WeekDays::WeekDays(const bool &monday,
                    const bool &tuesday,
@@ -16,19 +18,18 @@ WeekDays::WeekDays(const bool &monday,
                    const bool &holiday,
                    const bool &school,
                    const bool &vacation) :
-    ProjectDataItem(""),
-    _days({
-        {WeekDay::monday, monday},
-        {WeekDay::tuesday, tuesday},
-        {WeekDay::wednesday, wednesday},
-        {WeekDay::thursday, thursday},
-        {WeekDay::friday, friday},
-        {WeekDay::saturday, saturday},
-        {WeekDay::sunday, sunday},
-        {WeekDay::holiday, holiday},
-        {WeekDay::school, school},
-        {WeekDay::vacation, vacation}
-    }) {
+    ProjectDataItem("") {
+
+    setDay(WeekDay::monday, monday);
+    setDay(WeekDay::tuesday, tuesday);
+    setDay(WeekDay::wednesday, wednesday);
+    setDay(WeekDay::thursday, thursday);
+    setDay(WeekDay::friday, friday);
+    setDay(WeekDay::saturday, saturday);
+    setDay(WeekDay::sunday, sunday);
+    setDay(WeekDay::holiday, holiday);
+    setDay(WeekDay::school, school);
+    setDay(WeekDay::vacation, vacation);
 }
 
 WeekDays::WeekDays(const WeekDays &other) {
@@ -71,10 +72,9 @@ void WeekDays::copy(const WeekDays &other) {
 
 
 bool WeekDays::day(const WeekDay &day) const {
-    auto it = _days.find(day);
-    if(it != _days.end())
-        return it->second;
-    return false;
+    /*qDebug() << _days.at(day);
+    qDebug() << _days.count(WeekDay::monday);*/
+    return _days.at(day);
 }
 
 void WeekDays::setDay(const WeekDay &day, const bool &value) {
@@ -87,16 +87,16 @@ void WeekDays::setCode(const int &code) {
     while(bin.length() < 10)
         bin = "0" + bin;
 
-    setDay(WeekDay::monday,  bin[0] == '1' ? true : false);
-    setDay(WeekDay::tuesday,  bin[0] == '1' ? true : false);
-    setDay(WeekDay::wednesday,  bin[0] == '1' ? true : false);
-    setDay(WeekDay::thursday,  bin[0] == '1' ? true : false);
-    setDay(WeekDay::friday,  bin[0] == '1' ? true : false);
-    setDay(WeekDay::saturday,  bin[0] == '1' ? true : false);
-    setDay(WeekDay::sunday,  bin[0] == '1' ? true : false);
-    setDay(WeekDay::holiday,  bin[0] == '1' ? true : false);
-    setDay(WeekDay::school,  bin[0] == '1' ? true : false);
-    setDay(WeekDay::vacation,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::monday,    bin[0] == '1' ? true : false);
+    setDay(WeekDay::tuesday,   bin[1] == '1' ? true : false);
+    setDay(WeekDay::wednesday, bin[2] == '1' ? true : false);
+    setDay(WeekDay::thursday,  bin[3] == '1' ? true : false);
+    setDay(WeekDay::friday,    bin[4] == '1' ? true : false);
+    setDay(WeekDay::saturday,  bin[5] == '1' ? true : false);
+    setDay(WeekDay::sunday,    bin[6] == '1' ? true : false);
+    setDay(WeekDay::holiday,   bin[7] == '1' ? true : false);
+    setDay(WeekDay::school,    bin[8] == '1' ? true : false);
+    setDay(WeekDay::vacation,  bin[9] == '1' ? true : false);
 }
 
 int WeekDays::toCode() const {
