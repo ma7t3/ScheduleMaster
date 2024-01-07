@@ -99,7 +99,7 @@ void WdgTripEditor::actionCopy() {
     QList<Trip *> trips;
     for(int i = 0; i < count; i++) {
         Trip *t = new Trip(global::getNewID(), currentTrip->route(), currentTrip->startTime(), currentTrip->timeProfile());
-        t->overwrite(*currentTrip);
+        *t = *currentTrip;
         t->setStartTime(QTime::fromMSecsSinceStartOfDay(currentTrip->startTime().msecsSinceStartOfDay() + ((i + 1) * interval.msecsSinceStartOfDay())));
         trips << t;
     }
