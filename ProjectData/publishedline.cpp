@@ -1,19 +1,25 @@
 #include "publishedline.h"
 
 PublishedLine::PublishedLine(const QString &id, const QString &title, const QString &footer) :
-    AbstractProjectDataItem(id),
-    _title(title),
-    _footer(footer)
-    //_description(description)
-{
+    ProjectDataItem(id), _title(title), _footer(footer){
 }
 
-QString PublishedLine::filePath() const {
-    return _filePath;
+PublishedLine::PublishedLine(const PublishedLine &other) {
+    copy(other);
 }
 
-void PublishedLine::setFilePath(const QString &newFilePath) {
-    _filePath = newFilePath;
+PublishedLine PublishedLine::operator=(const PublishedLine &other) {
+    copy(other);
+    return *this;
+}
+
+void PublishedLine::copy(const PublishedLine &other) {
+    ProjectDataItem::copy(other);
+    setFilePath(other.filePath());
+    setTitle(other.title());
+    setFooter(other.footer());
+    setDayTypes(other.dayTypes());
+    setDirections(other.directions());
 }
 
 QString PublishedLine::title() const {
@@ -22,6 +28,14 @@ QString PublishedLine::title() const {
 
 void PublishedLine::setTitle(const QString &newTitle) {
     _title = newTitle;
+}
+
+QString PublishedLine::filePath() const {
+    return _filePath;
+}
+
+void PublishedLine::setFilePath(const QString &newFilePath) {
+    _filePath = newFilePath;
 }
 
 QString PublishedLine::footer() const {
@@ -38,6 +52,14 @@ QList<PublishedLineDirection *> PublishedLine::directions() const {
 
 int PublishedLine::directionCount() const {
     return _directions.count();
+}
+
+PublishedLineDirection *PublishedLine::direction(const QString &id) {
+    for (int i = 0; i < directionCount(); ++i)
+        if(directionAt(i)->id() == id)
+            return directionAt(i);
+
+    return nullptr;
 }
 
 PublishedLineDirection *PublishedLine::directionAt(const int &index) {
@@ -108,12 +130,6 @@ void PublishedLine::removeDayType(DayType *dt) {
             _dayTypes.remove(i);
 }
 
-void PublishedLine::overwrite(const PublishedLine &other) {
-    setFilePath(other.filePath());
-    setTitle(other.title());
-    setFooter(other.footer());
-    setDayTypes(other.dayTypes());
-}
 
 
 

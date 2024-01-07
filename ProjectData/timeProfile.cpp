@@ -1,7 +1,7 @@
 #include "ProjectData\timeProfile.h"
 
-TimeProfileItem::TimeProfileItem(QString id) :
-    _busstopId(id) {
+TimeProfileItem::TimeProfileItem(const QString &busstopId) :
+    _busstopId(busstopId) {
     _seperateTimes = false;
 }
 
@@ -10,14 +10,31 @@ TimeProfileItem::TimeProfileItem(Busstop *b) :
     _seperateTimes = false;
 }
 
-
-void TimeProfileItem::setArrValue(float v) {
-    _arrValue = v;
-    _seperateTimes = true;
+TimeProfileItem::TimeProfileItem(const TimeProfileItem &other) {
+    copy(other);
 }
 
-void TimeProfileItem::setDepValue(float v) {
-    _depValue = v;
+TimeProfileItem TimeProfileItem::operator=(const TimeProfileItem &other) {
+    copy(other);
+    return *this;
+}
+
+
+void TimeProfileItem::copy(const TimeProfileItem &other) {
+    if(other.hasSeperateTimes())
+        setArrValue(other.arrValue());
+
+    setDepValue(other.depValue());
+    setArrValue(other.busstopMode());
+}
+
+float TimeProfileItem::arrValue() const {
+    return _seperateTimes ? _arrValue : _depValue;
+}
+
+void TimeProfileItem::setArrValue(const float &newArrValue) {
+    _arrValue = newArrValue;
+    _seperateTimes = true;
 }
 
 void TimeProfileItem::removeArrValue() {
@@ -25,42 +42,78 @@ void TimeProfileItem::removeArrValue() {
     _seperateTimes = false;
 }
 
-void TimeProfileItem::setBusstopMode(int m) {
-    if(m >= 0 && m <= 4)
-        _busstopMode = m;
+float TimeProfileItem::depValue() const {
+    return _depValue;
+}
+void TimeProfileItem::setDepValue(const float &newDepValue) {
+    _depValue = newDepValue;
+}
+
+int TimeProfileItem::busstopMode() const {
+    return _busstopMode;
+}
+
+void TimeProfileItem::setBusstopMode(const int &newBusstopMode) {
+    if(newBusstopMode >= 0 && newBusstopMode <= 4)
+        _busstopMode = newBusstopMode;
     else
-        _busstopMode = busstopModeNormal;
+        _busstopMode = BusstopModeNormal;
 }
 
-QString TimeProfileItem::busstopId()  { return _busstopId; }
-float TimeProfileItem::arrValue()     { return _seperateTimes ? _arrValue : _depValue; }
-float TimeProfileItem::depValue()     { return _depValue; }
-bool TimeProfileItem::hasSeperateTimes() { return _seperateTimes; }
-int TimeProfileItem::busstopMode()    { return _busstopMode; }
-
-
-
-
-
-TimeProfile::TimeProfile(QString id, QString name) :
-    AbstractProjectDataItem(id),
-    _name(name)
-{}
-
-void TimeProfile::setName(QString n)                            { _name = n; }
-void TimeProfile::setDuration(float d)                          { _duration = d; }
-void TimeProfile::addBusstop(TimeProfileItem * itm)             { _items << itm; }
-void TimeProfile::setBusstopList(QList<TimeProfileItem *> list) { _items = list; }
-void TimeProfile::addBusstopList(QList<TimeProfileItem *> list) {
-    for(int i = 0; i < list.count(); i++)
-        this->addBusstop(list[i]);
+QString TimeProfileItem::busstopId() const {
+    return _busstopId;
 }
 
-QString TimeProfile::name() { return _name; }
-float TimeProfile::duration() { return _duration; }
-QList<TimeProfileItem *> TimeProfile::busstops() { return _items; }
+bool TimeProfileItem::hasSeperateTimes() const {
+    return _seperateTimes;
+}
 
-TimeProfileItem *TimeProfile::busstop(QString id) {
+TimeProfile::TimeProfile(const QString &id, const QString &name) :
+    ProjectDataItem(id), _name(name) {
+}
+
+TimeProfile::TimeProfile(const TimeProfile &other) {
+    copy(other);
+}
+
+TimeProfile TimeProfile::operator=(const TimeProfile &other) {
+    copy(other);
+    return *this;
+}
+
+void TimeProfile::copy(const TimeProfile &other) {
+    setName(other.name());
+    setDuration(other.duration());
+}
+
+QString TimeProfile::name() const {
+    return _name;
+}
+
+void TimeProfile::setName(const QString &newName) {
+    _name = newName;
+}
+
+float TimeProfile::duration() const {
+    return _duration;
+}
+
+void TimeProfile::setDuration(const float &newDuration) {
+    _duration = newDuration;
+}
+
+QList<TimeProfileItem *> TimeProfile::busstops() const {
+    return _items;
+}
+
+TimeProfileItem *TimeProfile::busstop(Busstop *b) const {
+    if(!b)
+        return nullptr;
+
+    return busstop(b->id());
+}
+
+TimeProfileItem *TimeProfile::busstop(const QString &id) const {
     for(int i = 0; i < _items.count(); i++)
         if(_items[i]->busstopId() == id)
             return _items[i];
@@ -68,16 +121,22 @@ TimeProfileItem *TimeProfile::busstop(QString id) {
     return nullptr;
 }
 
-TimeProfileItem *TimeProfile::busstop(Busstop *b) {
-    if(!b)
-        return nullptr;
-
-    return busstop(b->id());
+void TimeProfile::setBusstops(const QList<TimeProfileItem *> &newBusstops) {
+    _items = newBusstops;
 }
 
+void TimeProfile::addBusstop(TimeProfileItem * itm) {
+    _items << itm;
+}
 
-void TimeProfile::removeBusstop(QString) {
+void TimeProfile::addBusstops(const QList<TimeProfileItem *> &busstops) {
+    for(int i = 0; i < busstops.count(); i++)
+        this->addBusstop(busstops[i]);
+}
+
+void TimeProfile::removeBusstop(const QString &id) {
     for(int i = 0; i < _items.count(); i++)
-        if(_items[i]->busstopId() == id())
+        if(_items[i]->busstopId() == id)
             _items.remove(i);
 }
+

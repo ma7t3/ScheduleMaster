@@ -1,7 +1,21 @@
 #include "publications.h"
 
 Publications::Publications() {
+}
 
+Publications::Publications(const Publications &other) {
+    copy(other);
+}
+
+
+Publications Publications::operator=(const Publications &other) {
+    copy(other);
+    return *this;
+}
+
+
+void Publications::copy(const Publications &other) {
+    setLines(other.lines());
 }
 
 QList<PublishedLine *> Publications::lines() const {

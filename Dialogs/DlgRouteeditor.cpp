@@ -88,7 +88,7 @@ void routeEditor::refreshAllBusstops(QString filter)
 void routeEditor::refreshProfiles()
 {
     ui->twProfiles->clear();
-    for(int i = 0; i < routeData->profileCount(); i++) {
+    for(int i = 0; i < routeData->timeProfileCount(); i++) {
         TimeProfile *p = routeData->timeProfileAt(i);
 
         QString id = p->id();
@@ -248,7 +248,7 @@ void routeEditor::on_pbProfileNew_clicked()
 
     TimeProfile *t = new TimeProfile(global::getNewID(), name);
     t->setDuration(duration);
-    t->addBusstopList(itemList);
+    t->addBusstops(itemList);
 
     routeData->addTimeProfile(t);
 
@@ -291,7 +291,7 @@ void routeEditor::on_pbProfileEdit_clicked()
 
     p->setName(newName);
     p->setDuration(newDuration);
-    p->setBusstopList(newItemList);
+    p->setBusstops(newItemList);
 
     refreshProfiles();
 }

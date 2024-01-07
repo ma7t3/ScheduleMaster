@@ -26,7 +26,7 @@ SOURCES += \
     ProjectData/publishedline.cpp \
     ProjectData/publishedlinedirection.cpp \
     ProjectData/weekdays.cpp \
-    ProjectData/abstractprojectdataitem.cpp \
+    ProjectData/ProjectDataItem.cpp \
     ProjectData/busstop.cpp \
     Dialogs/DlgBusstopeditor.cpp \
     Dialogs/DlgDataexporter.cpp \
@@ -81,7 +81,7 @@ HEADERS += \
     ProjectData/footnote.h \
     ProjectData/linedirection.h \
     ProjectData/projectsettings.h \
-    ProjectData/abstractprojectdataitem.h \
+    ProjectData/ProjectDataItem.h \
     ProjectData/busstop.h \
     Dialogs/DlgBusstopeditor.h \
     Dialogs/DlgDataexporter.h \

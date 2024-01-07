@@ -1,153 +1,183 @@
 #include "ProjectData\weekdays.h"
 
-WeekDays::WeekDays() { setCode(MonFri); }
+WeekDays::WeekDays() : ProjectDataItem("") {
+    setCode(995);
+}
 
-WeekDays::WeekDays(int code) { setCode(code); }
+WeekDays::WeekDays(const int &code) : ProjectDataItem("") { setCode(code); }
 
-WeekDays::WeekDays(bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday, bool holiday, bool school, bool vacation) :
-    _monday(monday),
-    _tuesday(tuesday),
-    _wednesday(wednesday),
-    _thursday(thursday),
-    _friday(friday),
-    _saturday(saturday),
-    _sunday(sunday),
-    _holiday(holiday),
-    _school(school),
-    _vacation(vacation)
-{}
+WeekDays::WeekDays(const bool &monday,
+                   const bool &tuesday,
+                   const bool &wednesday,
+                   const bool &thursday,
+                   const bool &friday,
+                   const bool &saturday,
+                   const bool &sunday,
+                   const bool &holiday,
+                   const bool &school,
+                   const bool &vacation) :
+    ProjectDataItem(""),
+    _days({
+        {WeekDay::monday, monday},
+        {WeekDay::tuesday, tuesday},
+        {WeekDay::wednesday, wednesday},
+        {WeekDay::thursday, thursday},
+        {WeekDay::friday, friday},
+        {WeekDay::saturday, saturday},
+        {WeekDay::sunday, sunday},
+        {WeekDay::holiday, holiday},
+        {WeekDay::school, school},
+        {WeekDay::vacation, vacation}
+    }) {
+}
 
-void WeekDays::setMonday(bool b)      {_monday = b;}
-void WeekDays::setTuesday(bool b)     {_tuesday = b;}
-void WeekDays::setWednesday(bool b)   {_wednesday = b;}
-void WeekDays::setThursday(bool b)    {_thursday = b;}
-void WeekDays::setFriday(bool b)      {_friday = b;}
-void WeekDays::setSaturday(bool b)    {_saturday = b;}
-void WeekDays::setSunday(bool b)      {_sunday = b;}
-void WeekDays::setHoliday(bool b)     {_holiday = b;}
-void WeekDays::setSchool(bool b)      {_school = b;}
-void WeekDays::setVacation(bool b)    {_vacation = b;}
-bool WeekDays::monday()            {return _monday;}
-bool WeekDays::tuesday()           {return _tuesday;}
-bool WeekDays::wednesday()         {return _wednesday;}
-bool WeekDays::thursday()          {return _thursday;}
-bool WeekDays::friday()            {return _friday;}
-bool WeekDays::saturday()          {return _saturday;}
-bool WeekDays::sunday()            {return _sunday;}
-bool WeekDays::holiday()           {return _holiday;}
-bool WeekDays::school()            {return _school;}
-bool WeekDays::vacation()          {return _vacation;}
+WeekDays::WeekDays(const WeekDays &other) {
+    copy(other);
+}
 
-void WeekDays::setCode(int code) {
+bool WeekDays::operator ==(const WeekDays &w) const {
+    return toCode() == w.toCode();
+}
+
+bool WeekDays::operator ==(WeekDays *w) const {
+    return toCode() == w->toCode();
+}
+
+bool WeekDays::operator <=(const WeekDays &w) const {
+    return isIn(w);
+}
+
+bool WeekDays::operator <=(WeekDays *w) const {
+    return isIn(*w);
+}
+
+WeekDays WeekDays::operator=(const WeekDays &other) {
+    copy(other);
+    return *this;
+}
+
+void WeekDays::copy(const WeekDays &other) {
+    setDay(WeekDay::monday,    other.day(WeekDay::monday));
+    setDay(WeekDay::tuesday,   other.day(WeekDay::tuesday));
+    setDay(WeekDay::wednesday, other.day(WeekDay::wednesday));
+    setDay(WeekDay::thursday,  other.day(WeekDay::thursday));
+    setDay(WeekDay::friday,    other.day(WeekDay::friday));
+    setDay(WeekDay::saturday,  other.day(WeekDay::saturday));
+    setDay(WeekDay::sunday,    other.day(WeekDay::sunday));
+    setDay(WeekDay::holiday,   other.day(WeekDay::holiday));
+    setDay(WeekDay::school,    other.day(WeekDay::school));
+    setDay(WeekDay::vacation,  other.day(WeekDay::vacation));
+}
+
+
+bool WeekDays::day(const WeekDay &day) const {
+    auto it = _days.find(day);
+    if(it != _days.end())
+        return it->second;
+    return false;
+}
+
+void WeekDays::setDay(const WeekDay &day, const bool &value) {
+    _days[day] = value;
+}
+
+void WeekDays::setCode(const int &code) {
     QString bin = QString::number(code, 2);
 
     while(bin.length() < 10)
         bin = "0" + bin;
 
-    _monday    = bin[0] == '1' ? true : false;
-    _tuesday   = bin[1] == '1' ? true : false;
-    _wednesday = bin[2] == '1' ? true : false;
-    _thursday  = bin[3] == '1' ? true : false;
-    _friday    = bin[4] == '1' ? true : false;
-    _saturday  = bin[5] == '1' ? true : false;
-    _sunday    = bin[6] == '1' ? true : false;
-    _holiday   = bin[7] == '1' ? true : false;
-    _school    = bin[8] == '1' ? true : false;
-    _vacation  = bin[9] == '1' ? true : false;
+    setDay(WeekDay::monday,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::tuesday,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::wednesday,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::thursday,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::friday,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::saturday,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::sunday,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::holiday,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::school,  bin[0] == '1' ? true : false);
+    setDay(WeekDay::vacation,  bin[0] == '1' ? true : false);
 }
 
-int WeekDays::toCode() {
+int WeekDays::toCode() const {
     QString bin = "";
 
-    bin += _monday       ? "1" : "0";
-    bin += _tuesday      ? "1" : "0";
-    bin += _wednesday    ? "1" : "0";
-    bin += _thursday     ? "1" : "0";
-    bin += _friday       ? "1" : "0";
-    bin += _saturday     ? "1" : "0";
-    bin += _sunday       ? "1" : "0";
-    bin += _holiday      ? "1" : "0";
-    bin += _school       ? "1" : "0";
-    bin += _vacation     ? "1" : "0";
+    bin += day(WeekDay::monday)    ? "1" : "0";
+    bin += day(WeekDay::tuesday)   ? "1" : "0";
+    bin += day(WeekDay::wednesday) ? "1" : "0";
+    bin += day(WeekDay::thursday)  ? "1" : "0";
+    bin += day(WeekDay::friday)    ? "1" : "0";
+    bin += day(WeekDay::saturday)  ? "1" : "0";
+    bin += day(WeekDay::sunday)    ? "1" : "0";
+    bin += day(WeekDay::holiday)   ? "1" : "0";
+    bin += day(WeekDay::school)    ? "1" : "0";
+    bin += day(WeekDay::vacation)  ? "1" : "0";
 
     bool ok;
     int r = bin.toInt(&ok, 2);
     return r;
 }
 
-QString WeekDays::toString() {
-    QString result = "";
-
-    QList<bool> list = {_monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _sunday};
-    //QStringList names = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
-    QStringList names = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-
-    bool lastTrue;
-    bool firstTrue = false;
-    for(int i = 0; i < list.count(); i++) {
-        if(list[i]) {
-            if(!firstTrue || i + 1 == list.count() || !list[i + 1]) {
-                QString prefix;
-                if(!firstTrue)
-                    prefix = "";
-                else if(lastTrue)
-                    prefix = "-";
-                else
-                    prefix = ", ";
-
-                result += (prefix + names[i]);
-            }
-        }
-        lastTrue = list[i];
-        firstTrue = lastTrue ? true : firstTrue;
-    }
-
-    return result;
+QString WeekDays::toString() const {
+    return "";
 }
 
-WeekDays WeekDays::shfitedToNextDay() {
-    if(_sunday != _holiday)
-        return WeekDays(_sunday, _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _holiday, _school, _vacation);
+WeekDays WeekDays::shfitedToNextDay() const {
+    if(day(WeekDay::sunday) != day(WeekDay::holiday))
+        return WeekDays(
+            day(WeekDay::sunday),
+            day(WeekDay::monday),
+            day(WeekDay::tuesday),
+            day(WeekDay::wednesday),
+            day(WeekDay::thursday),
+            day(WeekDay::friday),
+            day(WeekDay::saturday),
+            day(WeekDay::holiday),
+            day(WeekDay::school),
+            day(WeekDay::vacation)
+        );
     else
-        return WeekDays(_sunday, _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _saturday, _school, _vacation);
+        return WeekDays(
+            day(WeekDay::sunday),
+            day(WeekDay::monday),
+            day(WeekDay::tuesday),
+            day(WeekDay::wednesday),
+            day(WeekDay::thursday),
+            day(WeekDay::friday),
+            day(WeekDay::saturday),
+            day(WeekDay::saturday),
+            day(WeekDay::school),
+            day(WeekDay::vacation)
+        );
 }
 
 
-bool WeekDays::isIn(WeekDays w) {
-    if(monday() && !w.monday())
+bool WeekDays::isIn(const WeekDays &w) const {
+    if(day(WeekDay::monday) && !w.day(WeekDay::monday))
         return false;
-
-    if(tuesday() && !w.tuesday())
+    if(day(WeekDay::tuesday) && !w.day(WeekDay::tuesday))
         return false;
-
-    if(wednesday() && !w.wednesday())
+    if(day(WeekDay::wednesday) && !w.day(WeekDay::wednesday))
         return false;
-
-    if(thursday() && !w.thursday())
+    if(day(WeekDay::thursday) && !w.day(WeekDay::thursday))
         return false;
-
-    if(friday() && !w.friday())
+    if(day(WeekDay::friday) && !w.day(WeekDay::friday))
         return false;
-
-    if(saturday() && !w.saturday())
+    if(day(WeekDay::saturday) && !w.day(WeekDay::saturday))
         return false;
-
-    if(sunday() && !w.sunday())
+    if(day(WeekDay::sunday) && !w.day(WeekDay::sunday))
         return false;
-
-    if(holiday() && !w.holiday())
+    if(day(WeekDay::holiday) && !w.day(WeekDay::holiday))
         return false;
-
-    if(school() && !w.school())
+    if(day(WeekDay::school) && !w.day(WeekDay::school))
         return false;
-
-    if(vacation() && !w.vacation())
+    if(day(WeekDay::vacation) && !w.day(WeekDay::vacation))
         return false;
 
     return true;
 }
 
-WeekDays WeekDays::combine(QList<WeekDays> list) {
+WeekDays WeekDays::combine(const QList<WeekDays> &list) {
 
     if(list.count() == 0)
         return WeekDays(0);
@@ -157,22 +187,22 @@ WeekDays WeekDays::combine(QList<WeekDays> list) {
     for(int i = 1; i < list.count(); i++) {
         WeekDays w = list[i];
 
-        result.setMonday    (result.monday()    || w.monday());
-        result.setTuesday   (result.tuesday()   || w.tuesday());
-        result.setWednesday (result.wednesday() || w.wednesday());
-        result.setThursday  (result.thursday()  || w.thursday());
-        result.setFriday    (result.friday()    || w.friday());
-        result.setSaturday  (result.saturday()  || w.saturday());
-        result.setSunday    (result.sunday()    || w.sunday());
-        result.setHoliday   (result.holiday()   || w.holiday());
-        result.setSchool    (result.school()    || w.school());
-        result.setVacation  (result.vacation()  || w.vacation());
+        result.setDay(WeekDay::monday,    (result.day(WeekDay::monday)    || w.day(WeekDay::monday)));
+        result.setDay(WeekDay::tuesday,    (result.day(WeekDay::tuesday)   || w.day(WeekDay::tuesday)));
+        result.setDay(WeekDay::wednesday,   (result.day(WeekDay::wednesday) || w.day(WeekDay::wednesday)));
+        result.setDay(WeekDay::thursday, (result.day(WeekDay::thursday)  || w.day(WeekDay::thursday)));
+        result.setDay(WeekDay::friday,  (result.day(WeekDay::friday)    || w.day(WeekDay::friday)));
+        result.setDay(WeekDay::saturday,    (result.day(WeekDay::saturday)  || w.day(WeekDay::saturday)));
+        result.setDay(WeekDay::sunday,  (result.day(WeekDay::sunday)    || w.day(WeekDay::sunday)));
+        result.setDay(WeekDay::holiday,   (result.day(WeekDay::holiday)   || w.day(WeekDay::holiday)));
+        result.setDay(WeekDay::school,    (result.day(WeekDay::school)    || w.day(WeekDay::school)));
+        result.setDay(WeekDay::vacation,  (result.day(WeekDay::vacation)  || w.day(WeekDay::vacation)));
     }
 
     return result;
 }
 
-bool WeekDays::overlap(QList<WeekDays> list) {
+bool WeekDays::overlap(const QList<WeekDays> &list) {
     if(list.count() == 0)
         return false;
 
@@ -181,20 +211,20 @@ bool WeekDays::overlap(QList<WeekDays> list) {
     for(int i = 1; i < list.count(); i++) {
         WeekDays w = list[i];
 
-        if(!(sum.school() && w.school()) && !(sum.vacation() && w.vacation())) {
+        if(!(sum.day(WeekDay::school) && w.day(WeekDay::school)) && !(sum.day(WeekDay::vacation) && w.day(WeekDay::vacation))) {
             sum = combine({sum, w});
             continue;
         }
 
         bool result = false;
-        result = !result && (sum.monday()    && w.monday())    ? true : result;
-        result = !result && (sum.tuesday()   && w.tuesday())   ? true : result;
-        result = !result && (sum.wednesday() && w.wednesday()) ? true : result;
-        result = !result && (sum.thursday()  && w.thursday())  ? true : result;
-        result = !result && (sum.friday()    && w.friday())    ? true : result;
-        result = !result && (sum.saturday()  && w.saturday())  ? true : result;
-        result = !result && (sum.sunday()    && w.sunday())    ? true : result;
-        result = !result && (sum.holiday()   && w.holiday())   ? true : result;
+        result = !result && (sum.day(WeekDay::monday)    && w.day(WeekDay::monday))    ? true : result;
+        result = !result && (sum.day(WeekDay::tuesday)   && w.day(WeekDay::tuesday))   ? true : result;
+        result = !result && (sum.day(WeekDay::wednesday) && w.day(WeekDay::wednesday)) ? true : result;
+        result = !result && (sum.day(WeekDay::thursday)  && w.day(WeekDay::thursday))  ? true : result;
+        result = !result && (sum.day(WeekDay::friday)    && w.day(WeekDay::friday))    ? true : result;
+        result = !result && (sum.day(WeekDay::saturday)  && w.day(WeekDay::saturday))  ? true : result;
+        result = !result && (sum.day(WeekDay::sunday)    && w.day(WeekDay::sunday))    ? true : result;
+        result = !result && (sum.day(WeekDay::holiday)   && w.day(WeekDay::holiday))   ? true : result;
 
         if(result)
             return true;
@@ -205,7 +235,7 @@ bool WeekDays::overlap(QList<WeekDays> list) {
     return false;
 }
 
-WeekDays WeekDays::intersection(QList<WeekDays> list) {
+WeekDays WeekDays::intersection(const QList<WeekDays> &list) {
     if(list.count() == 0)
         return WeekDays(0);
 
@@ -220,16 +250,17 @@ WeekDays WeekDays::intersection(QList<WeekDays> list) {
             WeekDays w2 = list[j];
             WeekDays r(0);
 
-            r.setMonday(w1.monday() && w2.monday());
-            r.setTuesday(w1.tuesday() && w2.tuesday());
-            r.setWednesday(w1.wednesday() && w2.wednesday());
-            r.setThursday(w1.thursday() && w2.thursday());
-            r.setFriday(w1.friday() && w2.friday());
-            r.setSaturday(w1.saturday() && w2.saturday());
-            r.setSunday(w1.sunday() && w2.sunday());
-            r.setHoliday(w1.holiday() && w2.holiday());
-            r.setSchool(w1.school() && w2.school());
-            r.setVacation(w1.vacation() && w2.vacation());
+            r.setDay(WeekDay::monday,    w1.day(WeekDay::monday)    && w2.day(WeekDay::monday));
+            r.setDay(WeekDay::tuesday,   w1.day(WeekDay::tuesday)   && w2.day(WeekDay::tuesday));
+            r.setDay(WeekDay::wednesday, w1.day(WeekDay::wednesday) && w2.day(WeekDay::wednesday));
+            r.setDay(WeekDay::thursday,  w1.day(WeekDay::thursday)  && w2.day(WeekDay::thursday));
+            r.setDay(WeekDay::friday,    w1.day(WeekDay::friday)    && w2.day(WeekDay::friday));
+            r.setDay(WeekDay::saturday,  w1.day(WeekDay::saturday)  && w2.day(WeekDay::saturday));
+            r.setDay(WeekDay::sunday,    w1.day(WeekDay::sunday)    && w2.day(WeekDay::sunday));
+            r.setDay(WeekDay::holiday,   w1.day(WeekDay::holiday)   && w2.day(WeekDay::holiday));
+            r.setDay(WeekDay::school,    w1.day(WeekDay::school)    && w2.day(WeekDay::school));
+            r.setDay(WeekDay::vacation,  w1.day(WeekDay::vacation)  && w2.day(WeekDay::vacation));
+
             result = combine(result, r);
         }
     }
@@ -237,31 +268,14 @@ WeekDays WeekDays::intersection(QList<WeekDays> list) {
     return result;
 }
 
-WeekDays WeekDays::combine(WeekDays w1, WeekDays w2)      { return combine({w1, w2}); }
-bool WeekDays::overlap(WeekDays w1, WeekDays w2)          { return overlap({w1, w2}); }
-WeekDays WeekDays::intersection(WeekDays w1, WeekDays w2) { return intersection({w1, w2}); }
-
-bool WeekDays::operator ==(WeekDays *w) { return toCode() == w->toCode(); }
-
-bool WeekDays::operator <=(WeekDays *w) { return isIn(*w); }
-
-
-
-bool WeekDays::operator ==(WeekDays w) { return toCode() == w.toCode(); }
-
-bool WeekDays::operator <=(WeekDays w) { return isIn(w); }
-
-void WeekDays::overwrite(WeekDays &other) {
-    setMonday(other.monday());
-    setThursday(other.tuesday());
-    setWednesday(other.wednesday());
-    setThursday(other.thursday());
-    setFriday(other.friday());
-    setSaturday(other.saturday());
-    setSunday(other.sunday());
-    setHoliday(other.holiday());
-    setSchool(other.school());
-    setVacation(other.vacation());
+WeekDays WeekDays::combine(const WeekDays &w1, const WeekDays  &w2) {
+    return combine({w1, w2});
 }
 
+bool WeekDays::overlap(const WeekDays &w1, const WeekDays  &w2) {
+    return overlap({w1, w2});
+}
 
+WeekDays WeekDays::intersection(const WeekDays &w1, const WeekDays  &w2) {
+    return intersection({w1, w2});
+}

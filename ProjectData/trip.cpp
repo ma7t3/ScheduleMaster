@@ -3,7 +3,7 @@
 #include "App/global.h"
 
 Trip::Trip(QString id, Route *route, QTime startTime, TimeProfile *timeProfile, WeekDays weekDays) :
-    AbstractProjectDataItem(id),
+    ProjectDataItem(id),
     _route(route),
     _startTime(startTime),
     _weekDays(new WeekDays(weekDays)),

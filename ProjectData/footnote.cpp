@@ -1,11 +1,25 @@
 #include "footnote.h"
 
-Footnote::Footnote(QString id, QString identifier, QString description) :
-    AbstractProjectDataItem(id),
+Footnote::Footnote(const QString &id, const QString &identifier, const QString &description) :
+    ProjectDataItem(id),
     _identifier(identifier),
     _description(description) {
 }
 
+Footnote::Footnote(const Footnote &other) {
+    copy(other);
+}
+
+Footnote Footnote::operator=(const Footnote &other) {
+    copy(other);
+    return *this;
+}
+
+void Footnote::copy(const Footnote &other) {
+    ProjectDataItem::copy(other);
+    setIdentifier(other.identifier());
+    setDescription(other.description());
+}
 
 QString Footnote::identifier() const {
     return _identifier;
@@ -23,7 +37,4 @@ void Footnote::setDescription(const QString &newDescription) {
     _description = newDescription;
 }
 
-void Footnote::overwrite(Footnote newF) {
-    setIdentifier(newF.identifier());
-    setDescription(newF.description());
-}
+

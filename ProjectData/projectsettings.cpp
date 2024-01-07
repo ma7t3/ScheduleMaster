@@ -1,30 +1,80 @@
 #include "projectsettings.h"
 
-ProjectSettings::ProjectSettings()
-{}
-
-ProjectSettings::~ProjectSettings()
-{
-
+ProjectSettings::ProjectSettings() {
 }
 
-void ProjectSettings::setDisplayName(QString name)  { _displayName = name; }
-void ProjectSettings::setShortName(QString name)    { _shortName = name; }
+ProjectSettings::~ProjectSettings() {}
 
-void ProjectSettings::setNames(QString displayName, QString shortName) {
-    _displayName = displayName;
-    _shortName = shortName;
+ProjectSettings::ProjectSettings(const ProjectSettings &other) {
+    copy(other);
 }
 
-void ProjectSettings::setIcon(QString fileName) { _icon = fileName; }
-QString ProjectSettings::displayName()          { return _displayName; }
-QString ProjectSettings::shortName()            { return _shortName; }
-QString ProjectSettings::icon()                 { return _icon; }
-QList<DayType *> ProjectSettings::dayTypes()    { return _dayTypes; }
+ProjectSettings ProjectSettings::operator=(const ProjectSettings &other) {
+    copy(other);
+    return *this;
+}
 
-int ProjectSettings::dayTypeCount() {return _dayTypes.count(); }
+void ProjectSettings::copy(const ProjectSettings &other) {
+    ProjectDataItem::copy(other);
+    setNames(other.displayName(), other.shortName());
+    setIcon(other.icon());
 
-DayType *ProjectSettings::dayType(QString id) {
+    QList<DayType *>  newDayTypes;
+    for(int i = 0; i < other.dayTypeCount(); i++) {
+        DayType dt = *other.dayTypeAt(i);
+
+        if(hasDaytype(dt.id())) {
+            // update
+            DayType *current = dayType(dt.id());
+
+            *current = dt;
+            newDayTypes << current;
+        } else {
+            // add
+            newDayTypes << &dt;
+        }
+    }
+    setDayTypes(newDayTypes);
+}
+
+QString ProjectSettings::displayName() const {
+    return _displayName;
+}
+
+void ProjectSettings::setDisplayName(const QString &newName) {
+    _displayName = newName;
+}
+
+QString ProjectSettings::shortName() const {
+    return _shortName;
+}
+
+void ProjectSettings::setShortName(const QString &newName) {
+    _shortName = newName;
+}
+
+void ProjectSettings::setNames(const QString &newDisplayName, const QString &newShortName) {
+    _displayName = newDisplayName;
+    _shortName = newShortName;
+}
+
+QString ProjectSettings::icon() const {
+    return _icon;
+}
+
+void ProjectSettings::setIcon(const QString &fileName) {
+    _icon = fileName;
+}
+
+QList<DayType *> ProjectSettings::dayTypes() const {
+    return _dayTypes;
+}
+
+int ProjectSettings::dayTypeCount() const {
+    return _dayTypes.count();
+}
+
+DayType *ProjectSettings::dayType(const QString &id) const {
     for(int i = 0; i < dayTypeCount(); i++) {
         DayType *d = dayTypeAt(i);
         if(d->id() == id)
@@ -34,14 +84,14 @@ DayType *ProjectSettings::dayType(QString id) {
     return nullptr;
 }
 
-DayType *ProjectSettings::dayTypeAt(int i) {
-    if(i < 0 || i >= dayTypeCount())
+DayType *ProjectSettings::dayTypeAt(const int &index) const {
+    if(index < 0 || index >= dayTypeCount())
         return nullptr;
 
-    return _dayTypes[i];
+    return _dayTypes[index];
 }
 
-bool ProjectSettings::hasDaytype(const QString &id) {
+bool ProjectSettings::hasDaytype(const QString &id) const {
     for(int i = 0; i < dayTypeCount(); i++)
         if(dayTypeAt(i)->id() == id)
             return true;
@@ -49,7 +99,7 @@ bool ProjectSettings::hasDaytype(const QString &id) {
     return false;
 }
 
-void ProjectSettings::setDayTypes(QList<DayType *> list) {
+void ProjectSettings::setDayTypes(const QList<DayType *> &list) {
     _dayTypes = list;
 }
 
@@ -67,7 +117,7 @@ void ProjectSettings::removeDayType(DayType *dayType) {
     }
 }
 
-void ProjectSettings::removeDayType(QString id) {
+void ProjectSettings::removeDayType(const QString &id) {
     for(int i = 0; i < dayTypeCount(); i++) {
         DayType *d = dayTypeAt(i);
         if(d->id() == id) {
@@ -77,32 +127,9 @@ void ProjectSettings::removeDayType(QString id) {
     }
 }
 
-void ProjectSettings::clearDayTypes() { _dayTypes.clear(); }
-
-void ProjectSettings::overwrite(ProjectSettings &other) {
-    setNames(other.displayName(), other.shortName());
-    setIcon(other.icon());
-
-    QList<DayType *>  newDayTypes;
-    for(int i = 0; i < other.dayTypeCount(); i++) {
-        DayType dt = *other.dayTypeAt(i);
-
-        if(hasDaytype(dt.id())) {
-            // update
-            DayType *current = dayType(dt.id());
-
-            current->overwrite(dt);
-            newDayTypes << current;
-        } else {
-            // add
-            newDayTypes << &dt;
-        }
-    }
-
-    setDayTypes(newDayTypes);
+void ProjectSettings::clearDayTypes() {
+    _dayTypes.clear();
 }
-
-
 
 
 

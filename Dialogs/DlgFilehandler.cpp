@@ -2,6 +2,7 @@
 #include "ui_DlgFileHandler.h"
 
 #include "App/global.h"
+#include "../ProjectData/weekdays.h"
 
 DlgFileHandler::DlgFileHandler(QWidget *parent, ProjectData *projectData) :
     QDialog(parent),
@@ -67,9 +68,9 @@ bool DlgFileHandler::readFromFile(QString filePath) {
         loadProjectSettings(jMainObj.find("projectSettings")->toObject());
     else { // Version 0.9.0 and older
         logWarning(tr("no project settings found - loading defaults..."));
-        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), tr("Monday-Friday"), DayType::MonFri));
-        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), tr("Saturday"), DayType::Sat));
-        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), tr("Sunday & Holiday"), DayType::Sun));
+        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), tr("Monday-Friday"), 995));
+        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), tr("Saturday"), 19));
+        projectData->projectSettings()->addDayType(new DayType(global::getNewID(), tr("Sunday & Holiday"), 15));
     }
 
     if(jMainObj.contains("busstops") && jMainObj.find("busstops")->isArray()) {
@@ -738,7 +739,7 @@ QJsonObject DlgFileHandler::routeToJson(Route *r)
     for(int i = 0; i < r->busstopCount(); i++)
         busstopList << r->busstopAt(i)->id();
 
-    for(int i = 0; i < r->profileCount(); i++) {
+    for(int i = 0; i < r->timeProfileCount(); i++) {
         timeProfileList << timeProfileToJson(r->timeProfileAt(i));
     }
 

@@ -38,11 +38,11 @@ public:
     }
 
     void undo() override {
-        line->overwrite(oldLine);
+        *line = oldLine;
     }
 
     void redo() override {
-        line->overwrite(newLine);
+        *line = newLine;
     }
 
 private:
@@ -150,11 +150,11 @@ public:
     }
 
     void undo() override {
-        busstop->overwrite(oldB);
+        *busstop = oldB;
     }
 
     void redo() override {
-        busstop->overwrite(newB);
+        * busstop = newB;
     }
 
 private:

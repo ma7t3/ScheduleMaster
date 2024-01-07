@@ -1,28 +1,33 @@
 #ifndef BUSSTOP_H
 #define BUSSTOP_H
 
-#pragma once
-
 #include <QtCore>
-#include "abstractprojectdataitem.h"
 
-class Busstop : public AbstractProjectDataItem
-{
+#include "ProjectDataItem.h"
+
+// ABGESCHLOSSEN!
+
+class Busstop : public virtual ProjectDataItem {
+    Q_OBJECT
+public:
+    Busstop(const QString &id, const QString &name, const bool &important = false);
+    Busstop(const Busstop &);
+    Busstop operator=(const Busstop &other);
+    bool operator<(const Busstop &other);
+
+    void setName(const QString &);
+    QString name() const;
+
+    void setImportant(const bool &);
+    bool isImportant() const;
+    bool important() const;
+
+protected:
+    void copy(const Busstop &other);
+
 private:
     QString _name;
     bool _important;
-
-public:
-    Busstop(QString id, QString name, bool important);
-    QString name();
-    bool isImportant();
-    bool important();
-
-    void setName(QString);
-    void setImportant(bool);
-
-    void overwrite(Busstop &other);
-    bool operator<(Busstop &other);
 };
 
 #endif // BUSSTOP_H
