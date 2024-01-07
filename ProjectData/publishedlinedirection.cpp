@@ -14,6 +14,7 @@ PublishedLineDirection PublishedLineDirection::operator=(const PublishedLineDire
 }
 
 void PublishedLineDirection::copy(const PublishedLineDirection &other) {
+    ProjectDataItem::copy(other);
     setName(other.name());
     setRoutes(other.routes());
 
