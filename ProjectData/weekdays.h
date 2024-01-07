@@ -7,7 +7,7 @@
 
 // ABGESCHLOSSEN!
 
-enum class WeekDay {
+enum WeekDay {
     monday,
     tuesday,
     wednesday,

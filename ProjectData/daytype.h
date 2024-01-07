@@ -14,6 +14,7 @@ public:
     DayType(const QString &id, const QString &name, const bool &monday, const bool &tuesday, const bool &wednesday, const bool &thursday, const bool &friday, const bool &saturday, const bool &sunday, const bool &holiday, const bool &school, const bool &noSchool);
     DayType(const DayType &);
     DayType operator=(const DayType &);
+    DayType operator=(const WeekDays &);
 
     void setName(const QString &);
     QString name() const;

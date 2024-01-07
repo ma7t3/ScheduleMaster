@@ -76,7 +76,7 @@ bool Trip::busstopIsAfterMidnight(QString id) {
 void Trip::overwrite(Trip &other) {
     setRoute(other.route());
     setStartTime(other.startTime());
-    weekDays()->overwrite(*other.weekDays());
+    *weekDays() = *other.weekDays();
     setTimeProfile(other.timeProfile());
 }
 

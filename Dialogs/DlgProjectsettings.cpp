@@ -15,7 +15,8 @@ DlgProjectSettings::DlgProjectSettings(QWidget *parent) :
 
     QObject::connect(ui->pbSelectIcon, SIGNAL(clicked()), this, SLOT(actionSelectIcon()));
 
-    QObject::connect(ui->cbMonday, SIGNAL(clicked()), this, SLOT(saveDays()));
+    QObject::connect(ui->daySelector, SIGNAL(weekDaysChanged()), this, SLOT(saveDays()));
+    /*QObject::connect(ui->cbMonday, SIGNAL(clicked()), this, SLOT(saveDays()));
     QObject::connect(ui->cbTuesday, SIGNAL(clicked()), this, SLOT(saveDays()));
     QObject::connect(ui->cbWednesday, SIGNAL(clicked()), this, SLOT(saveDays()));
     QObject::connect(ui->cbThursday, SIGNAL(clicked()), this, SLOT(saveDays()));
@@ -24,7 +25,7 @@ DlgProjectSettings::DlgProjectSettings(QWidget *parent) :
     QObject::connect(ui->cbSunday, SIGNAL(clicked()), this, SLOT(saveDays()));
     QObject::connect(ui->cbHoliday, SIGNAL(clicked()), this, SLOT(saveDays()));
     QObject::connect(ui->cbSchool, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbNoSchool, SIGNAL(clicked()), this, SLOT(saveDays()));
+    QObject::connect(ui->cbNoSchool, SIGNAL(clicked()), this, SLOT(saveDays()));*/
 }
 
 DlgProjectSettings::~DlgProjectSettings()
@@ -104,54 +105,19 @@ void DlgProjectSettings::refreshDayTypesTable() {
 void DlgProjectSettings::refreshTayTypesDetails() {
     if(!_currentDayType) {
         ui->leDayTypesName->setText("");
-        ui->cbMonday->setChecked(false);
-        ui->cbTuesday->setChecked(false);
-        ui->cbWednesday->setChecked(false);
-        ui->cbThursday->setChecked(false);
-        ui->cbFriday->setChecked(false);
-        ui->cbSaturday->setChecked(false);
-        ui->cbSunday->setChecked(false);
-        ui->cbHoliday->setChecked(false);
-        ui->cbSchool->setChecked(false);
-        ui->cbNoSchool->setChecked(false);
+        ui->daySelector->setWeekDays(WeekDays(0));
 
         ui->leDayTypesName->setEnabled(false);
-        ui->cbMonday->setEnabled(false);
-        ui->cbTuesday->setEnabled(false);
-        ui->cbWednesday->setEnabled(false);
-        ui->cbThursday->setEnabled(false);
-        ui->cbFriday->setEnabled(false);
-        ui->cbSaturday->setEnabled(false);
-        ui->cbSunday->setEnabled(false);
-        ui->cbHoliday->setEnabled(false);
-        ui->cbSchool->setEnabled(false);
-        ui->cbNoSchool->setEnabled(false);
+        ui->daySelector->setEnabled(false);
+
         return;
     }
 
     ui->leDayTypesName->setText(_currentDayType->name());
-    ui->cbMonday->setChecked(_currentDayType->monday());
-    ui->cbTuesday->setChecked(_currentDayType->tuesday());
-    ui->cbWednesday->setChecked(_currentDayType->wednesday());
-    ui->cbThursday->setChecked(_currentDayType->thursday());
-    ui->cbFriday->setChecked(_currentDayType->friday());
-    ui->cbSaturday->setChecked(_currentDayType->saturday());
-    ui->cbSunday->setChecked(_currentDayType->sunday());
-    ui->cbHoliday->setChecked(_currentDayType->holiday());
-    ui->cbSchool->setChecked(_currentDayType->school());
-    ui->cbNoSchool->setChecked(_currentDayType->vacation());
+    ui->daySelector->setWeekDays(*_currentDayType);
 
     ui->leDayTypesName->setEnabled(true);
-    ui->cbMonday->setEnabled(true);
-    ui->cbTuesday->setEnabled(true);
-    ui->cbWednesday->setEnabled(true);
-    ui->cbThursday->setEnabled(true);
-    ui->cbFriday->setEnabled(true);
-    ui->cbSaturday->setEnabled(true);
-    ui->cbSunday->setEnabled(true);
-    ui->cbHoliday->setEnabled(true);
-    ui->cbSchool->setEnabled(true);
-    ui->cbNoSchool->setEnabled(true);
+    ui->daySelector->setEnabled(true);
 }
 
 void DlgProjectSettings::on_lwDays_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {
@@ -179,7 +145,7 @@ void DlgProjectSettings::saveDays() {
     if(!_currentDayType)
         return;
 
-    _currentDayType->setMonday(ui->cbMonday->isChecked());
+    /*_currentDayType->setMonday(ui->cbMonday->isChecked());
     _currentDayType->setTuesday(ui->cbTuesday->isChecked());
     _currentDayType->setWednesday(ui->cbWednesday->isChecked());
     _currentDayType->setThursday(ui->cbThursday->isChecked());
@@ -188,7 +154,9 @@ void DlgProjectSettings::saveDays() {
     _currentDayType->setSunday(ui->cbSunday->isChecked());
     _currentDayType->setHoliday(ui->cbHoliday->isChecked());
     _currentDayType->setSchool(ui->cbSchool->isChecked());
-    _currentDayType->setVacation(ui->cbNoSchool->isChecked());
+    _currentDayType->setVacation(ui->cbNoSchool->isChecked());*/
+
+    *_currentDayType = ui->daySelector->weekDays();
 
     refreshDayTypesTable();
 }
