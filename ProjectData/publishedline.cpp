@@ -19,7 +19,19 @@ void PublishedLine::copy(const PublishedLine &other) {
     setTitle(other.title());
     setFooter(other.footer());
     setDayTypes(other.dayTypes());
-    setDirections(other.directions());
+
+    QList<PublishedLineDirection *> newDirections;
+    for(int i = 0; i < other.directionCount(); i++) {
+        PublishedLineDirection *ld = other.directionAt(i);
+        if(hasDirection(ld->id())) {
+            PublishedLineDirection *currentLd = direction(ld->id());
+            *currentLd = *ld;
+            newDirections << currentLd;
+        } else {
+            newDirections << ld;
+        }
+    }
+    setDirections(newDirections);
 }
 
 QString PublishedLine::title() const {
@@ -54,7 +66,7 @@ int PublishedLine::directionCount() const {
     return _directions.count();
 }
 
-PublishedLineDirection *PublishedLine::direction(const QString &id) {
+PublishedLineDirection *PublishedLine::direction(const QString &id) const {
     for (int i = 0; i < directionCount(); ++i)
         if(directionAt(i)->id() == id)
             return directionAt(i);
@@ -62,11 +74,19 @@ PublishedLineDirection *PublishedLine::direction(const QString &id) {
     return nullptr;
 }
 
-PublishedLineDirection *PublishedLine::directionAt(const int &index) {
+PublishedLineDirection *PublishedLine::directionAt(const int &index) const {
     if(index < 0 || index >= directionCount())
         return nullptr;
 
     return _directions[index];
+}
+
+bool PublishedLine::hasDirection(const QString &id) const {
+    for (int i = 0; i < directionCount(); ++i)
+        if(directionAt(i)->id() == id)
+            return true;
+
+    return false;
 }
 
 void PublishedLine::setDirections(const QList<PublishedLineDirection *> &newDirections) {
