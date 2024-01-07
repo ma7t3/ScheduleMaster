@@ -23,11 +23,25 @@ Route Route::operator=(const Route &other) {
 }
 
 void Route::copy(const Route &other) {
+    ProjectDataItem::copy(other);
     setCode(other.code());
     setDirection(other.direction());
     setName(other.name());
     setBusstops(other.busstops());
     setTimeProfiles(other.timeProfiles());
+
+    QList<TimeProfile *> newTimeProfiles;
+    for(int i = 0; i < other.timeProfileCount(); i++) {
+        TimeProfile *p = other.timeProfileAt(i);
+        if(hasTimeProfile(p->id())) {
+            TimeProfile *currentP = timeProfile(p->id());
+            *currentP = *p;
+            newTimeProfiles << currentP;
+        } else {
+            newTimeProfiles << p;
+        }
+    }
+    setTimeProfiles(newTimeProfiles);
 }
 
 int Route::code() const {
@@ -148,6 +162,14 @@ TimeProfile *Route::timeProfileWithName(const QString &name) const {
             return timeProfileAt(i);
 
     return nullptr;
+}
+
+bool Route::hasTimeProfile(const QString &id) const {
+    for (int i = 0; i < timeProfileCount(); ++i)
+        if(timeProfileAt(i)->id() == id)
+            return true;
+
+    return false;
 }
 
 void Route::setTimeProfiles(QList<TimeProfile *> list) {
