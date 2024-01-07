@@ -21,17 +21,13 @@ void ProjectSettings::copy(const ProjectSettings &other) {
 
     QList<DayType *>  newDayTypes;
     for(int i = 0; i < other.dayTypeCount(); i++) {
-        DayType dt = *other.dayTypeAt(i);
-
-        if(hasDaytype(dt.id())) {
-            // update
-            DayType *current = dayType(dt.id());
-
-            *current = dt;
+        DayType *dt = other.dayTypeAt(i);
+        if(hasDaytype(dt->id())) {
+            DayType *current = dayType(dt->id());
+            *current = *dt;
             newDayTypes << current;
         } else {
-            // add
-            newDayTypes << &dt;
+            newDayTypes << dt;
         }
     }
     setDayTypes(newDayTypes);
