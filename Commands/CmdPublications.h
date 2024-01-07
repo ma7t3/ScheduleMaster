@@ -105,11 +105,11 @@ public:
     }
 
     void undo() override {
-        direction->ovoverwrite(oldDirection);
+        *direction = oldDirection;
     }
 
     void redo() override {
-        direction->ovoverwrite(newDirection);
+        *direction = newDirection;
     }
 
 private:
