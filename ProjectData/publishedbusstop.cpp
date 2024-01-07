@@ -1,10 +1,24 @@
 #include "publishedbusstop.h"
 
 PublishedBusstop::PublishedBusstop(const QString &id, Busstop *linkedBusstop, const QString &label) :
-    AbstractProjectDataItem(id),
-    _linkedBusstop(linkedBusstop),
-    _label(label),
-    _showDivider(false) {
+    ProjectDataItem(id), _linkedBusstop(linkedBusstop), _label(label), _showDivider(false) {}
+
+PublishedBusstop::PublishedBusstop(const PublishedBusstop &other) {
+    copy(other);
+}
+
+PublishedBusstop PublishedBusstop::operator=(const PublishedBusstop &other) {
+    copy(other);
+    return *this;
+}
+
+void PublishedBusstop::copy(const PublishedBusstop &other) {
+    ProjectDataItem::copy(other);
+    setLinkedBusstop(other.linkedBusstop());
+    setLabel(other.label());
+    setShowDivider(other.showDivider());
+    joinWithPrevious(other.isJoinedWithPrevious());
+    setShowArrAndDep(other.showArrAndDep());
 }
 
 Busstop *PublishedBusstop::linkedBusstop() const {
@@ -50,30 +64,3 @@ bool PublishedBusstop::showDivider() const {
 void PublishedBusstop::setShowDivider(bool newShowDivider) {
     _showDivider = newShowDivider;
 }
-
-void PublishedBusstop::overwrite(const PublishedBusstop &newBusstop) {
-    setLinkedBusstop(newBusstop.linkedBusstop());
-    setLabel(newBusstop.label());
-    setShowDivider(newBusstop.showDivider());
-    joinWithPrevious(newBusstop.isJoinedWithPrevious());
-    setShowArrAndDep(newBusstop.showArrAndDep());
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

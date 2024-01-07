@@ -3,14 +3,14 @@
 
 #include <QTime>
 #include "timeProfile.h"
-#include "abstractprojectdataitem.h"
+#include "ProjectDataItem.h"
 #include "busstop.h"
 #include "weekdays.h"
 #include "route.h"
 
 
-class Trip : public AbstractProjectDataItem
-{
+class Trip : public virtual ProjectDataItem {
+    Q_OBJECT
 private:
     Route *_route;
     QTime _startTime;

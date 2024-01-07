@@ -3,16 +3,17 @@
 
 #include <QtCore>
 
-#include "ProjectData/daytype.h"
-#include "publishedbusstop.h"
-#include "ProjectData/route.h"
+#include "daytype.h"
+#include "publishedlinedirection.h"
 
-#include "ProjectData/publishedlinedirection.h"
+// ABGESCHLOSSEN!
 
-
-class PublishedLine : public AbstractProjectDataItem {
+class PublishedLine : public virtual ProjectDataItem {
+    Q_OBJECT
 public:
-    PublishedLine(const QString &id, const QString &title = "", const QString &footer = "");
+    PublishedLine(const QString &id, const QString &title, const QString &footer = "");
+    PublishedLine(const PublishedLine &);
+    PublishedLine operator=(const PublishedLine &);
 
     QString title() const;
     void setTitle(const QString &newTitle);
@@ -25,13 +26,12 @@ public:
 
     QList<PublishedLineDirection *> directions() const;
     int directionCount() const;
+    PublishedLineDirection *direction(const QString &id);
     PublishedLineDirection *directionAt(const int &index);
     void setDirections(const QList<PublishedLineDirection *> &newDirections);
     void addDirection(PublishedLineDirection *direction);
     void removeDirection(PublishedLineDirection * direction);
     void removeDirection(const QString &id);
-
-    void overwrite(const PublishedLine &other);
 
     QList<DayType *> dayTypes() const;
     int dayTypeCount() const;
@@ -40,6 +40,9 @@ public:
     void setDayTypes(const QList<DayType *> &newDayTypes);
     void addDayType(DayType *);
     void removeDayType(DayType *);
+
+protected:
+    void copy(const PublishedLine &);
 
 private:
     QString _filePath;

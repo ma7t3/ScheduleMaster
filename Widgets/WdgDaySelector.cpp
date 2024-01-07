@@ -45,30 +45,30 @@ void WdgDaySelector::setSmallMode(bool b) {
 }
 
 void WdgDaySelector::setWeekDays(WeekDays w) {
-    ui->cbMonday->setChecked(w.monday());
-    ui->cbTuesday->setChecked(w.tuesday());
-    ui->cbWednesday->setChecked(w.wednesday());
-    ui->cbThursday->setChecked(w.thursday());
-    ui->cbFriday->setChecked(w.friday());
-    ui->cbSaturday->setChecked(w.saturday());
-    ui->cbSunday->setChecked(w.sunday());
-    ui->cbHoliday->setChecked(w.holiday());
-    ui->cbSchool->setChecked(w.school());
-    ui->cbVacation->setChecked(w.vacation());
+    ui->cbMonday    ->setChecked(w.day(WeekDay::monday));
+    ui->cbTuesday   ->setChecked(w.day(WeekDay::tuesday));
+    ui->cbWednesday ->setChecked(w.day(WeekDay::wednesday));
+    ui->cbThursday  ->setChecked(w.day(WeekDay::thursday));
+    ui->cbFriday    ->setChecked(w.day(WeekDay::friday));
+    ui->cbSaturday  ->setChecked(w.day(WeekDay::saturday));
+    ui->cbSunday    ->setChecked(w.day(WeekDay::sunday));
+    ui->cbHoliday   ->setChecked(w.day(WeekDay::holiday));
+    ui->cbSchool    ->setChecked(w.day(WeekDay::school));
+    ui->cbVacation  ->setChecked(w.day(WeekDay::vacation));
 }
 
 WeekDays WdgDaySelector::weekDays() {
     WeekDays w;
-    w.setMonday(ui->cbMonday->isChecked());
-    w.setTuesday(ui->cbTuesday->isChecked());
-    w.setWednesday(ui->cbWednesday->isChecked());
-    w.setTuesday(ui->cbThursday->isChecked());
-    w.setFriday(ui->cbFriday->isChecked());
-    w.setSaturday(ui->cbSaturday->isChecked());
-    w.setSunday(ui->cbSunday->isChecked());
-    w.setHoliday(ui->cbHoliday->isChecked());
-    w.setSchool(ui->cbSchool->isChecked());
-    w.setVacation(ui->cbVacation->isChecked());
+    w.setDay(WeekDay::monday,    ui->cbMonday->isChecked());
+    w.setDay(WeekDay::tuesday,   ui->cbTuesday->isChecked());
+    w.setDay(WeekDay::wednesday, ui->cbWednesday->isChecked());
+    w.setDay(WeekDay::tuesday,   ui->cbThursday->isChecked());
+    w.setDay(WeekDay::friday,    ui->cbFriday->isChecked());
+    w.setDay(WeekDay::saturday,  ui->cbSaturday->isChecked());
+    w.setDay(WeekDay::sunday,    ui->cbSunday->isChecked());
+    w.setDay(WeekDay::holiday,   ui->cbHoliday->isChecked());
+    w.setDay(WeekDay::school,    ui->cbSchool->isChecked());
+    w.setDay(WeekDay::vacation,  ui->cbVacation->isChecked());
 
     return w;
 }
