@@ -1,17 +1,22 @@
 #ifndef LINEDIRECTION_H
 #define LINEDIRECTION_H
 
-#include "ProjectData/abstractprojectdataitem.h"
+#include "ProjectData/ProjectDataItem.h"
 
-class LineDirection : public AbstractProjectDataItem
-{
+// ABGESCHLOSSEN!
+
+class LineDirection : public virtual ProjectDataItem {
+    Q_OBJECT
 public:
-    LineDirection(QString id, QString description = "");
+    LineDirection(const QString &id, const QString &description);
+    LineDirection(const LineDirection &);
+    LineDirection operator=(const LineDirection &);
 
-    void setDescription(QString);
-    QString description();
+    QString description() const;
+    void setDescription(const QString &);
 
-    void overwrite(LineDirection &other);
+protected:
+    void copy(const LineDirection &);
 
 private:
     QString _description;

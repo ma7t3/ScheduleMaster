@@ -38,17 +38,11 @@ public:
     }
 
     void undo() override {
-        line->overwrite(oldL);
-        /*line->setName(oldL.name());
-        line->setDescription(oldL.getDescription());
-        line->setColor(oldL.getColor());*/
+        *line = oldL;
     }
 
     void redo() override {
-        line->overwrite(newL);
-        /*line->setName(newL.name());
-        line->setDescription(newL.getDescription());
-        line->setColor(newL.getColor());*/
+        *line = newL;
     }
 
 private:

@@ -1,13 +1,18 @@
 #ifndef PUBLISHEDBUSSTOP_H
 #define PUBLISHEDBUSSTOP_H
 
-#include "ProjectData/busstop.h"
 #include <QtCore>
 
-class PublishedBusstop : public AbstractProjectDataItem
-{
+#include "busstop.h"
+
+// ABGESCHLOSSEN!
+
+class PublishedBusstop : public virtual ProjectDataItem {
+    Q_OBJECT
 public:
     PublishedBusstop(const QString &id, Busstop *linkedBusstop, const QString &label = "");
+    PublishedBusstop(const PublishedBusstop &);
+    PublishedBusstop operator=(const PublishedBusstop &);
 
     Busstop *linkedBusstop() const;
     void setLinkedBusstop(Busstop *newLinkedBusstop);
@@ -25,7 +30,8 @@ public:
     bool showDivider() const;
     void setShowDivider(bool newShowDivider);
 
-    void overwrite(const PublishedBusstop &other);
+protected:
+    void copy(const PublishedBusstop &);
 
 private:
     Busstop *_linkedBusstop;

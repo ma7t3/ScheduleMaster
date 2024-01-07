@@ -14,7 +14,8 @@
 #include "publications.h"
 #include "footnote.h"
 
-class ProjectData {
+class ProjectData : public QObject {
+    Q_OBJECT
 public:
     ProjectData();
 

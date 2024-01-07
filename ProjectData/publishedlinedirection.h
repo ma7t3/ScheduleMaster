@@ -5,9 +5,12 @@
 #include <QtCore>
 
 #include "publishedbusstop.h"
-#include "ProjectData/route.h"
+#include "route.h"
 
-class PublishedLineDirection : public AbstractProjectDataItem {
+// ABGESCHLOSSEN!
+
+class PublishedLineDirection : public virtual ProjectDataItem {
+    Q_OBJECT
 public:
     PublishedLineDirection(const QString &id, const QString &name);
 

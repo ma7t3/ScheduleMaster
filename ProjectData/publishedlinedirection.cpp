@@ -1,7 +1,7 @@
 #include "publishedlinedirection.h"
 
 PublishedLineDirection::PublishedLineDirection(const QString &id, const QString &name) :
-    AbstractProjectDataItem(id),
+    ProjectDataItem(id),
     _name(name) {
 
 }

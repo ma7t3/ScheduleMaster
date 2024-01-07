@@ -86,7 +86,7 @@ void WdgRoutes::actionEdit() {
     newR.setName(dlg.name());
     newR.setCode(dlg.getCode());
     newR.setDirection(dlg.getDirection());
-    newR.clearBusstopList();
+    newR.clearBusstops();
 
     QStringList busstopList = dlg.getBusstopList();
 
@@ -162,7 +162,7 @@ void WdgRoutes::actionExportProfiles() {
                 continue;
 
             result += "[profile_man_arr_time]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->depValue()) + "\r\n";
-            if(itm->busstopMode() != TimeProfileItem::busstopModeNormal) {
+            if(itm->busstopMode() != TimeProfileItem::BusstopModeNormal) {
                 result += "[profile_otherstopping]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->busstopMode()) + "\r\n";
             }
         }
@@ -357,7 +357,7 @@ void WdgRoutes::omsiExport() {
                     continue;
 
                 result += "[profile_man_arr_time]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->depValue()) + "\r\n";
-                if(itm->busstopMode() != TimeProfileItem::busstopModeNormal) {
+                if(itm->busstopMode() != TimeProfileItem::BusstopModeNormal) {
                     result += "[profile_otherstopping]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->busstopMode()) + "\r\n";
                 }
             }

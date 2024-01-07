@@ -30,11 +30,11 @@ public:
     }
 
     void undo() override {
-        s->overwrite(oldS);
+        *s = oldS;
     }
 
     void redo() override {
-        s->overwrite(newS);
+        *s = newS;
     }
 
 private:

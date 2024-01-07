@@ -103,7 +103,7 @@ TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n
 
     QList<Route *> matchingRoutesFiltered;
     for(int i = 0; i < matchingRoutes.count(); i++)
-        if(matchingRoutes[i]->profileCount() > 0)
+        if(matchingRoutes[i]->timeProfileCount() > 0)
             matchingRoutesFiltered << matchingRoutes[i];
 
     matchingRoutes = matchingRoutesFiltered;
@@ -240,7 +240,7 @@ void TimeProfileEditor::executeCopy()
 
     int presetProfileIndex = 0;
     
-    for(int i = 0; i < r->profileCount(); i++) {
+    for(int i = 0; i < r->timeProfileCount(); i++) {
         itemList << r->timeProfileAt(i)->name();
         if(r->timeProfileAt(i)->name() == ui->leName->text())
             presetProfileIndex = i;
@@ -269,7 +269,7 @@ void TimeProfileEditor::executeCopy()
     QString result = dlg.textValue();*/
     TimeProfile *p = nullptr;
     
-    for(int i = 0; i < r->profileCount(); i++)
+    for(int i = 0; i < r->timeProfileCount(); i++)
         if(r->timeProfileAt(i)->name() == result) {
             p = r->timeProfileAt(i);
             break;

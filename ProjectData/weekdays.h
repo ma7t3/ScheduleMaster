@@ -3,65 +3,67 @@
 
 #include <QtCore>
 
+#include "ProjectDataItem.h"
 
-class WeekDays {
-private:
-    bool _monday, _tuesday, _wednesday, _thursday, _friday, _saturday, _sunday, _holiday, _school, _vacation;
+// ABGESCHLOSSEN!
 
+enum class WeekDay {
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+    sunday,
+    holiday,
+    school,
+    vacation
+};
+
+class WeekDays : public virtual ProjectDataItem {
+    Q_OBJECT
 public:
     WeekDays();
-    WeekDays(int code);
-    WeekDays(bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday, bool holiday, bool school, bool vacation);
+    WeekDays(const int &code);
+    WeekDays(const bool & monday, const bool & tuesday, const bool & wednesday, const bool & thursday, const bool & friday, const bool & saturday, const bool & sunday, const bool & holiday, const bool & school, const bool & vacation);
+    WeekDays(const WeekDays &);
+
+    bool operator==(const WeekDays &w) const;
+    bool operator==(WeekDays *w) const;
+
+    bool operator<=(const WeekDays &w) const;
+    bool operator<=(WeekDays *w) const;
+
+    WeekDays operator=(const WeekDays &);
 
     static const int MonFri = 995;
     static const int Sat = 19;
     static const int Sun = 15;
 
-    void setMonday(bool b);
-    void setTuesday(bool b);
-    void setWednesday(bool b);
-    void setThursday(bool b);
-    void setFriday(bool b);
-    void setSaturday(bool b);
-    void setSunday(bool b);
-    void setHoliday(bool b);
-    void setSchool(bool b);
-    void setVacation(bool b);
+    bool day(const WeekDay &) const;
+    void setDay(const WeekDay &, const bool &);
 
-    bool monday();
-    bool tuesday();
-    bool wednesday();
-    bool thursday();
-    bool friday();
-    bool saturday();
-    bool sunday();
-    bool holiday();
-    bool school();
-    bool vacation();
+    void setCode(const int &code);
+    int toCode() const;
 
-    void setCode(int code);
-    int toCode();
+    QString toString() const;
 
-    QString toString();
+    WeekDays shfitedToNextDay() const;
 
-    WeekDays shfitedToNextDay();
+    bool isIn(const WeekDays &w) const;
+    static WeekDays combine(const QList<WeekDays> &);
+    static bool overlap(const QList<WeekDays> &);
+    static WeekDays intersection(const QList<WeekDays> &);
 
-    bool isIn(WeekDays w);
-    static WeekDays combine(QList<WeekDays>);
-    static bool overlap(QList<WeekDays>);
-    static WeekDays intersection(QList<WeekDays>);
+    static WeekDays combine(const WeekDays &w1, const WeekDays &w2);
+    static bool overlap(const WeekDays &w1, const WeekDays &w2);
+    static WeekDays intersection(const WeekDays &w1, const WeekDays &w2);
 
-    static WeekDays combine(WeekDays w1, WeekDays w2);
-    static bool overlap(WeekDays w1, WeekDays w2);
-    static WeekDays intersection(WeekDays w1, WeekDays w2);
+protected:
+    void copy(const WeekDays &);
 
-    bool operator ==(WeekDays *w);
-    bool operator <=(WeekDays *w);
-
-    bool operator ==(WeekDays w);
-    bool operator <=(WeekDays w);
-
-    void overwrite(WeekDays &other);
+private:
+    std::unordered_map<WeekDay, bool> _days;
 };
 
 #endif // WEEKDAYS_H

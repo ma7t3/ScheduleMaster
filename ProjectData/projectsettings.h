@@ -1,44 +1,48 @@
 #ifndef PROJECTSETTINGS_H
 #define PROJECTSETTINGS_H
 
-#include "ProjectData/daytype.h"
+#include "daytype.h"
 
-#pragma once
+// ABGESCHLOSSEN!
 
-class ProjectSettings
-{
+class ProjectSettings : public virtual ProjectDataItem {
+    Q_OBJECT
 public:
     explicit ProjectSettings();
     ~ProjectSettings();
+    ProjectSettings(const ProjectSettings&);
+    ProjectSettings operator=(const ProjectSettings &);
 
-    void setDisplayName(QString);
-    void setShortName(QString);
-    void setNames(QString, QString);
-    void setIcon(QString);
+    QString displayName() const;
+    void setDisplayName(const QString &newDisplayName);
 
-    QString displayName();
-    QString shortName();
-    QString icon();
+    QString shortName() const;
+    void setShortName(const QString &newShortname);
+    void setNames(const QString &newDisplayName, const QString &newShortName);
 
-    QList<DayType *> dayTypes();
-    int dayTypeCount();
-    DayType *dayType(QString);
-    DayType *dayTypeAt(int);
-    bool hasDaytype(const QString &id);
+    QString icon() const;
+    void setIcon(const QString &newIcon);
 
-    void setDayTypes(QList<DayType *>);
+
+    QList<DayType *> dayTypes() const;
+    int dayTypeCount() const;
+    DayType *dayType(const QString &id) const;
+    DayType *dayTypeAt(const int &index) const;
+    bool hasDaytype(const QString &id) const;
+
+    void setDayTypes(const QList<DayType *> &newDayTypes);
     void addDayType(DayType *);
     void removeDayType(DayType *);
-    void removeDayType(QString);
+    void removeDayType(const QString &id);
     void clearDayTypes();
 
-    void overwrite(ProjectSettings &other);
+protected:
+    void copy(const ProjectSettings &);
 
 private:
     QString _displayName;
     QString _shortName;
     QString _icon;
-
     QList<DayType *> _dayTypes;
 };
 
