@@ -22,6 +22,10 @@ ProjectDataItem ProjectDataItem::operator=(const ProjectDataItem &other) {
     return *this;
 }
 
+void ProjectDataItem::copy(const ProjectDataItem &other) {
+    _id = other.id();
+}
+
 QString ProjectDataItem::id() const {
     return _id;
 }
@@ -39,8 +43,4 @@ QJsonObject ProjectDataItem::toJson() const {
     QJsonObject jsonObject;
     jsonObject.insert("id", _id);
     return jsonObject;
-}
-
-void ProjectDataItem::copy(const ProjectDataItem &other) {
-    _id = other.id();
 }
