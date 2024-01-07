@@ -23,7 +23,7 @@ ProjectDataItem ProjectDataItem::operator=(const ProjectDataItem &other) {
 }
 
 void ProjectDataItem::copy(const ProjectDataItem &other) {
-    _id = other.id();
+
 }
 
 QString ProjectDataItem::id() const {
