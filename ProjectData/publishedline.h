@@ -26,8 +26,10 @@ public:
 
     QList<PublishedLineDirection *> directions() const;
     int directionCount() const;
-    PublishedLineDirection *direction(const QString &id);
-    PublishedLineDirection *directionAt(const int &index);
+    PublishedLineDirection *direction(const QString &id) const;
+    PublishedLineDirection *directionAt(const int &index) const;
+    bool hasDirection(const QString &id) const;
+
     void setDirections(const QList<PublishedLineDirection *> &newDirections);
     void addDirection(PublishedLineDirection *direction);
     void removeDirection(PublishedLineDirection * direction);
