@@ -13,12 +13,12 @@ int main(int argc, char *argv[])
     if(Preferences::instance().language() == Preferences::LanguageGerman) {
         QTranslator *translator = new QTranslator;
         bool ok;
-        ok = translator->load(":/main/Translations/german.qm");
+        ok = translator->load(":/Translations/german.qm");
         if(ok)
             a.installTranslator(translator);
 
         QTranslator *uiTranslator = new QTranslator;
-        ok = uiTranslator->load(":/main/Translations/qtbase_de.qm");
+        ok = uiTranslator->load(":/Translations/qtbase_de.qm");
         if(ok)
             a.installTranslator(uiTranslator);
     }
