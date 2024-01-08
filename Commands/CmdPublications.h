@@ -5,10 +5,10 @@
 
 #include "ProjectData/projectdata.h"
 
-class cmdPublishedLineNew : public QUndoCommand {
+class CmdPublishedLineNew : public QUndoCommand {
 
 public:
-    cmdPublishedLineNew(ProjectData *d, PublishedLine *l) :
+    CmdPublishedLineNew(ProjectData *d, PublishedLine *l) :
         d(d),
         line(l) {
         setText(QObject::tr("new published line: %1").arg(line->title()));
@@ -27,10 +27,10 @@ private:
     PublishedLine *line;
 };
 
-class cmdPublishedLineEdit : public QUndoCommand {
+class CmdPublishedLineEdit : public QUndoCommand {
 
 public:
-    cmdPublishedLineEdit(PublishedLine *l, PublishedLine newL) :
+    CmdPublishedLineEdit(PublishedLine *l, PublishedLine newL) :
         line(l),
         oldLine(*l),
         newLine(newL) {
@@ -50,10 +50,10 @@ private:
     PublishedLine oldLine, newLine;
 };
 
-class cmdPublishedLineDelete: public QUndoCommand {
+class CmdPublishedLineDelete: public QUndoCommand {
 
 public:
-    cmdPublishedLineDelete(ProjectData *d, PublishedLine *l) :
+    CmdPublishedLineDelete(ProjectData *d, PublishedLine *l) :
         d(d),
         line(l) {
         setText(QObject::tr("deleted published line: %1").arg(line->title()));
@@ -72,10 +72,10 @@ private:
     PublishedLine *line;
 };
 
-class cmdPublishedLineDirectionNew : public QUndoCommand {
+class CmdPublishedLineDirectionNew : public QUndoCommand {
 
 public:
-    cmdPublishedLineDirectionNew(PublishedLine *l, PublishedLineDirection *ld) :
+    CmdPublishedLineDirectionNew(PublishedLine *l, PublishedLineDirection *ld) :
         line(l),
         lineDirection(ld) {
         setText(QObject::tr("new published line direction: %1").arg(lineDirection->name()));
@@ -94,10 +94,10 @@ private:
     PublishedLineDirection *lineDirection;
 };
 
-class cmdPublishedLineDirectionEdit : public QUndoCommand {
+class CmdPublishedLineDirectionEdit : public QUndoCommand {
 
 public:
-    cmdPublishedLineDirectionEdit(PublishedLineDirection *ld, PublishedLineDirection newLd) :
+    CmdPublishedLineDirectionEdit(PublishedLineDirection *ld, PublishedLineDirection newLd) :
         direction(ld),
         oldDirection(*ld),
         newDirection(newLd) {
@@ -117,10 +117,10 @@ private:
     PublishedLineDirection oldDirection, newDirection;
 };
 
-class cmdPublishedLineDirectionDelete: public QUndoCommand {
+class CmdPublishedLineDirectionDelete: public QUndoCommand {
 
 public:
-    cmdPublishedLineDirectionDelete(PublishedLine *l, PublishedLineDirection *ld) :
+    CmdPublishedLineDirectionDelete(PublishedLine *l, PublishedLineDirection *ld) :
         line(l),
         lineDirection(ld) {
         setText(QObject::tr("deleted published line direction: %1").arg(lineDirection->name()));
@@ -139,10 +139,10 @@ private:
     PublishedLineDirection *lineDirection;
 };
 
-class cmdPublishedBusstopEdit: public QUndoCommand {
+class CmdPublishedBusstopEdit: public QUndoCommand {
 
 public:
-    cmdPublishedBusstopEdit(PublishedBusstop *b, PublishedBusstop newB) :
+    CmdPublishedBusstopEdit(PublishedBusstop *b, PublishedBusstop newB) :
         busstop(b),
         oldB(*b),
         newB(newB) {

@@ -5,7 +5,7 @@
 #include <QUndoStack>
 #include <QToolBar>
 
-#include "Commands/cmdBusstops.h"
+#include "Commands/CmdBusstops.h"
 
 #include "Dialogs/DlgBusstopeditor.h"
 #include "Dialogs/DlgDataexporter.h"
@@ -50,7 +50,7 @@ void WdgBusstops::actionNew() {
         return;
 
     Busstop *b = new Busstop(global::getNewID(), name, important);
-    undoStack->push(new cmdBusstopNew(projectData, b));
+    undoStack->push(new CmdBusstopNew(projectData, b));
     refreshBusstopTable();
 }
 
@@ -78,7 +78,7 @@ void WdgBusstops::actionEdit() {
     newB.setName(newName);
     newB.setImportant(newImportant);
     
-    undoStack->push(new cmdBusstopEdit(_currentBusstop, newB));
+    undoStack->push(new CmdBusstopEdit(_currentBusstop, newB));
     refreshBusstopTable();
 }
 
@@ -98,7 +98,7 @@ void WdgBusstops::actionDelete() {
     if(msg != QMessageBox::Yes)
         return;
     
-    undoStack->push(new cmdBusstopsDelete(projectData, busstops));
+    undoStack->push(new CmdBusstopsDelete(projectData, busstops));
     refreshBusstopTable();
 }
 

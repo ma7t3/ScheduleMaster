@@ -5,10 +5,10 @@
 
 #include "ProjectData/projectdata.h"
 
-class cmdFootnoteNew : public QUndoCommand {
+class CmdFootnoteNew : public QUndoCommand {
 
 public:
-    cmdFootnoteNew(ProjectData *d, Footnote *f) :
+    CmdFootnoteNew(ProjectData *d, Footnote *f) :
         d(d),
         footnote(f) {
         setText(QObject::tr("new footnote: %1").arg(footnote->identifier()));
@@ -28,10 +28,10 @@ private:
 };
 
 
-class cmdFootnoteEdit : public QUndoCommand {
+class CmdFootnoteEdit : public QUndoCommand {
 
 public:
-    cmdFootnoteEdit(Footnote *f, Footnote newF) :
+    CmdFootnoteEdit(Footnote *f, Footnote newF) :
         footnote(f),
         oldF(*f),
         newF(newF) {
@@ -52,10 +52,10 @@ private:
 };
 
 
-class cmdFootnoteDelete : public QUndoCommand {
+class CmdFootnoteDelete : public QUndoCommand {
 
 public:
-    cmdFootnoteDelete(ProjectData *d, Footnote *f) :
+    CmdFootnoteDelete(ProjectData *d, Footnote *f) :
         d(d),
         footnote(f) {
         setText(QObject::tr("delete footnote: %1").arg(footnote->identifier()));

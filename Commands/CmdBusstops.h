@@ -5,10 +5,10 @@
 
 #include "ProjectData/projectdata.h"
 
-class cmdBusstopNew : public QUndoCommand {
+class CmdBusstopNew : public QUndoCommand {
 
 public:
-    cmdBusstopNew(ProjectData *d, Busstop *b) :
+    CmdBusstopNew(ProjectData *d, Busstop *b) :
         d(d),
         busstop(b) {
         setText(QObject::tr("new busstop: %1").arg(busstop->name()));
@@ -27,10 +27,10 @@ private:
     Busstop *busstop;
 };
 
-class cmdBusstopEdit : public QUndoCommand {
+class CmdBusstopEdit : public QUndoCommand {
 
 public:
-    cmdBusstopEdit(Busstop *b, Busstop newB) :
+    CmdBusstopEdit(Busstop *b, Busstop newB) :
         busstop(b),
         oldB(*b),
         newB(newB) {
@@ -50,10 +50,10 @@ private:
     Busstop oldB, newB;
 };
 
-class cmdBusstopDelete : public QUndoCommand {
+class CmdBusstopDelete : public QUndoCommand {
 
 public:
-    cmdBusstopDelete(ProjectData *d, Busstop *b) :
+    CmdBusstopDelete(ProjectData *d, Busstop *b) :
         d(d),
         busstop(b) {
         setText(QObject::tr("delete busstop: %1").arg(busstop->name()));
@@ -72,10 +72,10 @@ private:
     Busstop *busstop;
 };
 
-class cmdBusstopsDelete : public QUndoCommand {
+class CmdBusstopsDelete : public QUndoCommand {
 
 public:
-    cmdBusstopsDelete(ProjectData *d, QList<Busstop *> list) :
+    CmdBusstopsDelete(ProjectData *d, QList<Busstop *> list) :
         d(d),
         busstops(list) {
         if(list.count() == 1)

@@ -76,7 +76,7 @@ void WdgTripEditor::actionNew() {
         startTime.setHMS(0, 0, 0, 0);
 
     Trip *t = new Trip(global::getNewID(), _currentRoute, startTime, p, _currentDayType);
-    undoStack->push(new cmdScheduleTripNew(_currentLine, t));
+    undoStack->push(new CmdScheduleTripNew(_currentLine, t));
     _currentTrips = {t};
     emit tripsChanged(_currentTrips);
     refreshUI();
@@ -104,7 +104,7 @@ void WdgTripEditor::actionCopy() {
         trips << t;
     }
 
-    undoStack->push(new cmdScheduleTripsNew(_currentLine, trips));
+    undoStack->push(new CmdScheduleTripsNew(_currentLine, trips));
     _currentTrips = {currentTrip};
     _currentTrips << trips;
 
@@ -120,7 +120,7 @@ void WdgTripEditor::actionDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdScheduleTripsDelete(_currentLine, _currentTrips));
+    undoStack->push(new CmdScheduleTripsDelete(_currentLine, _currentTrips));
     _currentTrips.clear();
     emit tripsChanged(_currentTrips);
     refreshUI();
@@ -133,7 +133,7 @@ void WdgTripEditor::actionChangeRoute() {
     if(_currentRoute->timeProfileCount() == 0)
         return;
 
-    undoStack->push(new cmdScheduleTripsChangeRoute(_currentTrips, _currentRoute));
+    undoStack->push(new CmdScheduleTripsChangeRoute(_currentTrips, _currentRoute));
     emit tripsChanged(_currentTrips);
 }
 
@@ -142,7 +142,7 @@ void WdgTripEditor::actionChangeTimeProfile() {
         return;
 
     QString profileName = ui->cbTimeProfiles->currentText();
-    undoStack->push(new cmdScheduleTripsChangeTimeProfile(_currentTrips, profileName));
+    undoStack->push(new CmdScheduleTripsChangeTimeProfile(_currentTrips, profileName));
     emit tripsChanged(_currentTrips);
 }
 
@@ -196,7 +196,7 @@ void WdgTripEditor::actionChangeDays() {
     if(changingTrips)
         return;
 
-    undoStack->push(new cmdScheduleTripsChangeDays(_currentTrips, ui->daySelector->weekDays()));
+    undoStack->push(new CmdScheduleTripsChangeDays(_currentTrips, ui->daySelector->weekDays()));
     emit tripsChanged(_currentTrips);
 }
 
@@ -210,7 +210,7 @@ void WdgTripEditor::saveStartTime() {
         newStartTimes << _currentTrips[i]->startTime();
 
     startTimeChanging = false;
-    undoStack->push(new cmdScheduleTripChangeStartTime(_currentTrips, oldStartTimes, newStartTimes));
+    undoStack->push(new CmdScheduleTripChangeStartTime(_currentTrips, oldStartTimes, newStartTimes));
 }
 
 void WdgTripEditor::refreshRoutes() {

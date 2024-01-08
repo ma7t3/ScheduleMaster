@@ -9,7 +9,7 @@
 #include "App/global.h"
 #include "Dialogs/DlgRouteeditor.h"
 #include "Dialogs/DlgDataexporter.h"
-#include "Commands/cmdRoutes.h"
+#include "Commands/CmdRoutes.h"
 
 WdgRoutes::WdgRoutes(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
     QWidget(parent),
@@ -65,7 +65,7 @@ void WdgRoutes::actionNew() {
         r->addBusstop(b);
     }
 
-    undoStack->push(new cmdRouteNew(_currentLine, r));
+    undoStack->push(new CmdRouteNew(_currentLine, r));
     refreshRouteTable();
 }
 
@@ -95,7 +95,7 @@ void WdgRoutes::actionEdit() {
         newR.addBusstop(b);
     }
 
-    undoStack->push(new cmdRouteEdit(_currentRoute, newR));
+    undoStack->push(new CmdRouteEdit(_currentRoute, newR));
     refreshRouteTable();
 }
 
@@ -118,7 +118,7 @@ void WdgRoutes::actionDuplicate() {
         n->addBusstop(b);
     }
 
-    undoStack->push(new cmdRouteNew(_currentLine, n));
+    undoStack->push(new CmdRouteNew(_currentLine, n));
     refreshRouteTable();
 }
 
@@ -138,7 +138,7 @@ void WdgRoutes::actionDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdRoutesDelete(_currentLine, routes));
+    undoStack->push(new CmdRoutesDelete(_currentLine, routes));
     refreshRouteTable();
 }
 

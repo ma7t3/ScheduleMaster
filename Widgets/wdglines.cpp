@@ -3,7 +3,7 @@
 
 #include "Dialogs/DlgLineeditor.h"
 #include "Dialogs/DlgDataexporter.h"
-#include "Commands/cmdLines.h"
+#include "Commands/CmdLines.h"
 #include "ProjectData/projectdata.h"
 #include "App/global.h"
 
@@ -57,7 +57,7 @@ void WdgLines::actionNew() {
     if(l->name() == "")
         return;
 
-    undoStack->push(new cmdLineNew(projectData, l));
+    undoStack->push(new CmdLineNew(projectData, l));
     refreshLineTable();
 }
 
@@ -78,7 +78,7 @@ void WdgLines::actionEdit() {
     if(newL.name() == "")
         return;
 
-    undoStack->push(new cmdLineEdit(l, newL));
+    undoStack->push(new CmdLineEdit(l, newL));
     refreshLineTable();
 }
 
@@ -101,7 +101,7 @@ void WdgLines::actionDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdLinesDelete(projectData, lines));
+    undoStack->push(new CmdLinesDelete(projectData, lines));
     refreshLineTable();
 }
 

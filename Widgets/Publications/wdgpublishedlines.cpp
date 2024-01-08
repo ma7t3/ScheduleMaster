@@ -67,7 +67,7 @@ void WdgPublishedLines::actionNew() {
         return;
 
     PublishedLine *l = new PublishedLine(global::getNewID(), name);
-    undoStack->push(new cmdPublishedLineNew(projectData, l));
+    undoStack->push(new CmdPublishedLineNew(projectData, l));
     _currentLine = l;
     refreshLineList();
     refreshCurrentLine();
@@ -83,7 +83,7 @@ void WdgPublishedLines::actionEdit() {
     newL.setFooter(ui->leFooter->text());
     newL.setFilePath(ui->leFilePath->text());
 
-    undoStack->push(new cmdPublishedLineEdit(_currentLine, newL));
+    undoStack->push(new CmdPublishedLineEdit(_currentLine, newL));
     refreshLineList();
 }
 
@@ -95,7 +95,7 @@ void WdgPublishedLines::actionDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdPublishedLineDelete(projectData, _currentLine));
+    undoStack->push(new CmdPublishedLineDelete(projectData, _currentLine));
     refreshLineList();
 }
 
@@ -109,7 +109,7 @@ void WdgPublishedLines::actionDirectionNew() {
         return;
 
     PublishedLineDirection *ld = new PublishedLineDirection(global::getNewID(), name);
-    undoStack->push(new cmdPublishedLineDirectionNew(_currentLine, ld));
+    undoStack->push(new CmdPublishedLineDirectionNew(_currentLine, ld));
     _currentLineDirection = ld;
     refreshCurrentLine();
 }
@@ -120,7 +120,7 @@ void WdgPublishedLines::actionDirectionEdit() {
 
     PublishedLineDirection newLd = *_currentLineDirection;
 
-    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
+    undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
     refreshCurrentLine();
 }
 
@@ -135,7 +135,7 @@ void WdgPublishedLines::actionRoutesChange() {
     PublishedLineDirection newLd = *_currentLineDirection;
     newLd.setRoutes(ui->routeSelector->routes());
 
-    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
+    undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 }
 
 void WdgPublishedLines::actionBusstopAdd() {
@@ -161,7 +161,7 @@ void WdgPublishedLines::actionBusstopAdd() {
     PublishedLineDirection newLd = *_currentLineDirection;
     newLd.addBusstop(pb);
 
-    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
+    undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
@@ -191,7 +191,7 @@ void WdgPublishedLines::actionBusstopRemove() {
     PublishedLineDirection newLd = *_currentLineDirection;
     newLd.removeBusstop(b);
 
-    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
+    undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
@@ -206,7 +206,7 @@ void WdgPublishedLines::actionBusstopRemoveAll() {
 
     PublishedLineDirection newLd = *_currentLineDirection;
     newLd.setBusstops({});
-    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
+    undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
@@ -227,7 +227,7 @@ void WdgPublishedLines::actionBusstopUp() {
 
     PublishedLineDirection newLd = *_currentLineDirection;
     newLd.setBusstops(busstops);
-    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
+    undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
@@ -248,7 +248,7 @@ void WdgPublishedLines::actionBusstopDown() {
 
     PublishedLineDirection newLd = *_currentLineDirection;
     newLd.setBusstops(busstops);
-    undoStack->push(new cmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
+    undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
     refreshBusstopList();
 }
@@ -261,7 +261,7 @@ void WdgPublishedLines::actionEditBusstop() {
     newB.setLabel(ui->leBusstopsLabel->text());
     newB.setShowDivider(ui->cbBusstopsShowDivider->isChecked());
 
-    undoStack->push(new cmdPublishedBusstopEdit(_currentBusstop, newB));
+    undoStack->push(new CmdPublishedBusstopEdit(_currentBusstop, newB));
 
     refreshBusstopList();
 }
