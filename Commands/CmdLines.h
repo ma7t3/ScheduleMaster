@@ -5,10 +5,10 @@
 
 #include "ProjectData/projectdata.h"
 
-class cmdLineNew : public QUndoCommand {
+class CmdLineNew : public QUndoCommand {
 
 public:
-    cmdLineNew(ProjectData *d, Line *l) :
+    CmdLineNew(ProjectData *d, Line *l) :
         d(d),
         line(l) {
         setText(QObject::tr("new line: %1").arg(line->name()));
@@ -27,10 +27,10 @@ private:
     Line *line;
 };
 
-class cmdLineEdit: public QUndoCommand {
+class CmdLineEdit: public QUndoCommand {
 
 public:
-    cmdLineEdit(Line *l, Line newL) :
+    CmdLineEdit(Line *l, Line newL) :
         line(l),
         oldL(*l),
         newL(newL) {
@@ -50,10 +50,10 @@ private:
     Line oldL, newL;
 };
 
-class cmdLineDelete : public QUndoCommand {
+class CmdLineDelete : public QUndoCommand {
 
 public:
-    cmdLineDelete(ProjectData *d, Line *l) :
+    CmdLineDelete(ProjectData *d, Line *l) :
         d(d),
         line(l) {
         setText(QObject::tr("delete line: %1").arg(line->name()));
@@ -73,10 +73,10 @@ private:
 };
 
 
-class cmdLinesDelete : public QUndoCommand {
+class CmdLinesDelete : public QUndoCommand {
 
 public:
-    cmdLinesDelete(ProjectData *d, QList<Line *> list) :
+    CmdLinesDelete(ProjectData *d, QList<Line *> list) :
         d(d),
         lines(list) {
         if(list.count() == 1)

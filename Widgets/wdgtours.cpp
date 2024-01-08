@@ -6,7 +6,7 @@
 
 #include "App/global.h"
 #include "Dialogs/DlgToureditor.h"
-#include "Commands/cmdTours.h"
+#include "Commands/CmdTours.h"
 #include "Dialogs/DlgDataexporter.h"
 
 WdgTours::WdgTours(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
@@ -48,7 +48,7 @@ void WdgTours::actionTourNew() {
         return;
     
     Tour *o = new Tour(global::getNewID(), dlg.name(), dlg.weekDays());
-    undoStack->push(new cmdTourNew(projectData, o));
+    undoStack->push(new CmdTourNew(projectData, o));
     refreshTourList();
 }
 
@@ -67,7 +67,7 @@ void WdgTours::actionTourEdit() {
 
     newO.setName(dlg.name());
     newO.setWeekDays(dlg.weekDays());
-    undoStack->push(new cmdTourEdit(o, newO));
+    undoStack->push(new CmdTourEdit(o, newO));
     refreshTourList();
 }
 
@@ -83,7 +83,7 @@ void WdgTours::actionTourDuplicate() {
         return;
     
     Tour *nO = new Tour(global::getNewID(), dlg.name(), dlg.weekDays());
-    undoStack->push(new cmdTourNew(projectData, nO));
+    undoStack->push(new CmdTourNew(projectData, nO));
     refreshTourList();
 }
 
@@ -104,7 +104,7 @@ void WdgTours::actionTourDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdToursDelete(projectData, tours));
+    undoStack->push(new CmdToursDelete(projectData, tours));
     refreshTourList();
 }
 

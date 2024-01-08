@@ -6,10 +6,10 @@
 #include "ProjectData/line.h"
 #include "ProjectData/route.h"
 
-class cmdRouteNew : public QUndoCommand {
+class CmdRouteNew : public QUndoCommand {
 
 public:
-    cmdRouteNew(Line *l, Route *r) :
+    CmdRouteNew(Line *l, Route *r) :
         line(l),
         route(r) {
         setText(QObject::tr("new route %1 in line %2").arg(route->name()).arg(line->name()));
@@ -28,10 +28,10 @@ private:
     Route *route;
 };
 
-class cmdRouteEdit : public QUndoCommand {
+class CmdRouteEdit : public QUndoCommand {
 
 public:
-    cmdRouteEdit(Route *r, Route newR
+    CmdRouteEdit(Route *r, Route newR
     ) :
         route(r),
         oldRoute(*r),
@@ -60,10 +60,10 @@ private:
     Route oldRoute, newRoute;
 };
 
-class cmdRouteDelete : public QUndoCommand {
+class CmdRouteDelete : public QUndoCommand {
 
 public:
-    cmdRouteDelete(Line *l, Route *r) :
+    CmdRouteDelete(Line *l, Route *r) :
         line(l),
         route(r) {
         setText(QObject::tr("delete route %1 from line %2").arg(route->name()).arg(line->name()));
@@ -82,10 +82,10 @@ private:
     Route *route;
 };
 
-class cmdRoutesDelete : public QUndoCommand {
+class CmdRoutesDelete : public QUndoCommand {
 
 public:
-    cmdRoutesDelete(Line *l, QList<Route *> list) :
+    CmdRoutesDelete(Line *l, QList<Route *> list) :
         line(l),
         routes(list) {
         if(list.count() == 1)

@@ -5,10 +5,10 @@
 
 #include "ProjectData/projectdata.h"
 
-class cmdScheduleTripNew : public QUndoCommand {
+class CmdScheduleTripNew : public QUndoCommand {
 
 public:
-    cmdScheduleTripNew(Line *l, Trip *t) :
+    CmdScheduleTripNew(Line *l, Trip *t) :
         line(l),
         trip(t) {
         setText(QObject::tr("new trip in line %1").arg(line->name()));
@@ -27,10 +27,10 @@ private:
     Trip *trip;
 };
 
-class cmdScheduleTripsNew : public QUndoCommand {
+class CmdScheduleTripsNew : public QUndoCommand {
 
 public:
-    cmdScheduleTripsNew(Line *l, QList<Trip *> list) :
+    CmdScheduleTripsNew(Line *l, QList<Trip *> list) :
         line(l),
         trips(list) {
         setText(QObject::tr("new trips in line %1").arg(line->name()));
@@ -53,10 +53,10 @@ private:
 
 
 
-class cmdScheduleTripsChangeRoute : public QUndoCommand {
+class CmdScheduleTripsChangeRoute : public QUndoCommand {
 
 public:
-    cmdScheduleTripsChangeRoute(QList<Trip *> list, Route *newRoute) :
+    CmdScheduleTripsChangeRoute(QList<Trip *> list, Route *newRoute) :
         trips(list),
         newRoute(newRoute) {
         setText(QObject::tr("change route of trips"));
@@ -95,10 +95,10 @@ private:
 };
 
 
-class cmdScheduleTripsChangeTimeProfile : public QUndoCommand {
+class CmdScheduleTripsChangeTimeProfile : public QUndoCommand {
 
 public:
-    cmdScheduleTripsChangeTimeProfile(QList<Trip *> list, QString profileName) :
+    CmdScheduleTripsChangeTimeProfile(QList<Trip *> list, QString profileName) :
         trips(list),
         newProfileName(profileName) {
         setText(QObject::tr("change time profiles of trips"));
@@ -131,10 +131,10 @@ private:
 };
 
 
-class cmdScheduleTripChangeStartTime : public QUndoCommand {
+class CmdScheduleTripChangeStartTime : public QUndoCommand {
 
 public:
-    cmdScheduleTripChangeStartTime(QList<Trip *> list, QList<QTime> oldStartTimes, QList<QTime> newStartTimes) :
+    CmdScheduleTripChangeStartTime(QList<Trip *> list, QList<QTime> oldStartTimes, QList<QTime> newStartTimes) :
         trips(list),
         oldStartTimes(oldStartTimes),
         newStartTimes(newStartTimes) {
@@ -159,10 +159,10 @@ private:
 };
 
 
-class cmdScheduleTripsChangeDays : public QUndoCommand {
+class CmdScheduleTripsChangeDays : public QUndoCommand {
 
 public:
-    cmdScheduleTripsChangeDays(QList<Trip *> trips, WeekDays w) :
+    CmdScheduleTripsChangeDays(QList<Trip *> trips, WeekDays w) :
         trips(trips),
         newWeekDays(w) {
         setText(QObject::tr("change days of trips"));
@@ -191,10 +191,10 @@ private:
 };
 
 
-class cmdScheduleTripsDelete : public QUndoCommand {
+class CmdScheduleTripsDelete : public QUndoCommand {
 
 public:
-    cmdScheduleTripsDelete(Line *l, QList<Trip *> list) :
+    CmdScheduleTripsDelete(Line *l, QList<Trip *> list) :
         line(l),
         trips(list) {
         setText(QObject::tr("delete trips from line %1").arg(line->name()));

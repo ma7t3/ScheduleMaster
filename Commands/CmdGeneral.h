@@ -5,18 +5,18 @@
 
 #include "ProjectData/projectdata.h"
 
-class cmdAbstract : QUndoCommand {
+class CmdAbstract : QUndoCommand {
 public:
-    cmdAbstract(ProjectData *d) : d(d) {}
+    CmdAbstract(ProjectData *d) : d(d) {}
 
 protected:
     ProjectData *d;
 };
 
-class cmdEditProjectSettings : public QUndoCommand {
+class CmdEditProjectSettings : public QUndoCommand {
 
 public:
-    cmdEditProjectSettings(ProjectSettings *s, ProjectSettings newS) :
+    CmdEditProjectSettings(ProjectSettings *s, ProjectSettings newS) :
         s(s),
         newS(newS),
         oldS(*s) {

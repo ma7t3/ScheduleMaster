@@ -5,10 +5,10 @@
 
 #include "ProjectData/projectdata.h"
 
-class cmdTourNew : public QUndoCommand {
+class CmdTourNew : public QUndoCommand {
 
 public:
-    cmdTourNew(ProjectData *d, Tour *o) :
+    CmdTourNew(ProjectData *d, Tour *o) :
         d(d),
         tour(o) {
         setText(QObject::tr("new tour: %1").arg(tour->name()));
@@ -27,10 +27,10 @@ private:
     Tour *tour;
 };
 
-class cmdTourEdit : public QUndoCommand {
+class CmdTourEdit : public QUndoCommand {
 
 public:
-    cmdTourEdit(Tour *o, Tour newO) :
+    CmdTourEdit(Tour *o, Tour newO) :
         tour(o),
         oldTour(*o),
         newTour(newO) {
@@ -52,10 +52,10 @@ private:
     Tour oldTour, newTour;
 };
 
-class cmdTourTripAdd : public QUndoCommand {
+class CmdTourTripAdd : public QUndoCommand {
 
 public:
-    cmdTourTripAdd(Tour *o, Trip *t, int i) :
+    CmdTourTripAdd(Tour *o, Trip *t, int i) :
         tour(o),
         trip(t),
         index(i) {
@@ -76,10 +76,10 @@ private:
     int index;
 };
 
-class cmdTourTripRemove : public QUndoCommand {
+class CmdTourTripRemove : public QUndoCommand {
 
 public:
-    cmdTourTripRemove(Tour *o, Trip *t, int i) :
+    CmdTourTripRemove(Tour *o, Trip *t, int i) :
         tour(o),
         trip(t),
         index(i) {
@@ -100,10 +100,10 @@ private:
     int index;
 };
 
-class cmdTourDelete : public QUndoCommand {
+class CmdTourDelete : public QUndoCommand {
 
 public:
-    cmdTourDelete(ProjectData *d, Tour *o) :
+    CmdTourDelete(ProjectData *d, Tour *o) :
         d(d),
         tour(o) {
         setText(QObject::tr("delete tour: %1").arg(tour->name()));
@@ -122,10 +122,10 @@ private:
     Tour *tour;
 };
 
-class cmdToursDelete : public QUndoCommand {
+class CmdToursDelete : public QUndoCommand {
 
 public:
-    cmdToursDelete(ProjectData *d, QList<Tour *> list) :
+    CmdToursDelete(ProjectData *d, QList<Tour *> list) :
         d(d),
         tours(list) {
         if(list.count() == 1)
@@ -149,10 +149,10 @@ private:
     QList<Tour *> tours;
 };
 
-class cmdTourReorderTrips : public QUndoCommand {
+class CmdTourReorderTrips : public QUndoCommand {
 
 public:
-    cmdTourReorderTrips(Tour *o) :
+    CmdTourReorderTrips(Tour *o) :
         tour(o) {
         setText(QObject::tr("reorder trips of tour: %1").arg(tour->name()));
         trips = tour->trips();

@@ -7,7 +7,7 @@
 
 #include "Dialogs/DlgTripselector.h"
 #include "Dialogs/DlgDataexporter.h"
-#include "Commands/cmdtours.h"
+#include "Commands/Cmdtours.h"
 
 #include "App/global.h"
 
@@ -70,7 +70,7 @@ void WdgTourEditor::actionTourAddTrip() {
     else
         index = _currentTour->indexOfTrip(_currentTrip) + 1;
 
-    undoStack->push(new cmdTourTripAdd(_currentTour, _currentNextTrip, index));
+    undoStack->push(new CmdTourTripAdd(_currentTour, _currentNextTrip, index));
     _currentTrip = _currentNextTrip;
     refreshTour();
 }
@@ -83,7 +83,7 @@ void WdgTourEditor::actionTourRemoveTrip() {
     if(msg != QMessageBox::Yes)
         return;
     
-    undoStack->push(new cmdTourTripRemove(_currentTour, _currentTrip, _currentTour->indexOfTrip(_currentTrip)));
+    undoStack->push(new CmdTourTripRemove(_currentTour, _currentTrip, _currentTour->indexOfTrip(_currentTrip)));
     refreshTour();
 }
 
@@ -105,7 +105,7 @@ void WdgTourEditor::actionTourAddMoreTrips() {
     else
         index = _currentTour->indexOfTrip(_currentTrip) + 1;
 
-    undoStack->push(new cmdTourTripAdd(_currentTour, t, index));
+    undoStack->push(new CmdTourTripAdd(_currentTour, t, index));
     _currentTrip = t;
     refreshTour();
 }
@@ -114,7 +114,7 @@ void WdgTourEditor::actionReorderTrips() {
     if(!_currentTour)
         return;
 
-    undoStack->push(new cmdTourReorderTrips(_currentTour));
+    undoStack->push(new CmdTourReorderTrips(_currentTour));
     refreshTour();
 }
 

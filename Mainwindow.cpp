@@ -21,7 +21,7 @@
 #include <QDesktopServices>
 
 
-#include "Commands/cmdgeneral.h"
+#include "Commands/Cmdgeneral.h"
 #include "Mainwindow.h"
 
 #include "App/global.h"
@@ -619,7 +619,7 @@ void MainWindow::setRedoEnabled(bool b) {
     ui->actionRedo->setEnabled(b);
 }
 
-// wird das überhaupt verwendet?
+// wird das ??berhaupt verwendet?
 void MainWindow::setSaved(bool b) {
     if(!b)
         QMainWindow::setWindowTitle("* ScheduleMaster");
@@ -824,7 +824,7 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
     newS.setIcon(dlg->icon());
     newS.setDayTypes(dlg->dayTypes());
 
-    undoStack->push(new cmdEditProjectSettings(projectData->projectSettings(), newS));
+    undoStack->push(new CmdEditProjectSettings(projectData->projectSettings(), newS));
 
     wdgSchedule->refreshDayTypes();
 }

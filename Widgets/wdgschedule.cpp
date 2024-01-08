@@ -6,7 +6,7 @@
 
 #include "App/global.h"
 #include "ProjectData/projectdata.h"
-#include "Commands/cmdschedule.h"
+#include "Commands/Cmdschedule.h"
 
 WdgSchedule::WdgSchedule(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
     QWidget(parent),
@@ -75,7 +75,7 @@ void WdgSchedule::actionChangeDirection()
 
     d->setCode(_currentDayType ? _currentDayType->toCode() : DayType::MonFri);
 
-    undoStack->push(new cmdScheduleTripNew(_currentLine, t, _currentLineDirection));
+    undoStack->push(new CmdScheduleTripNew(_currentLine, t, _currentLineDirection));
     _currentTrips = {t};
     refreshSchedule();
 }
@@ -89,7 +89,7 @@ void WdgSchedule::actionScheduleTripDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new cmdScheduleTripsDelete(_currentLine, _currentTrips));
+    undoStack->push(new CmdScheduleTripsDelete(_currentLine, _currentTrips));
     _currentTrips.clear();
     refreshSchedule();
 }
@@ -102,7 +102,7 @@ void WdgSchedule::actionScheduleTripChangeRoute() {
         return;
 
     QString targetName = _currentTrips[0]->timeProfile()->name();
-    undoStack->push(new cmdScheduleTripsChangeRoute(_currentTrips, _currentRoute));
+    undoStack->push(new CmdScheduleTripsChangeRoute(_currentTrips, _currentRoute));
     refreshSchedule();
 }
 
@@ -111,7 +111,7 @@ void WdgSchedule::actionScheduleTripChangeProfile() {
         return;
 
     QString profileName = ui->cbTimeProfiles->currentText();
-    undoStack->push(new cmdScheduleTripsChangeTimeProfile(_currentTrips, profileName));
+    undoStack->push(new CmdScheduleTripsChangeTimeProfile(_currentTrips, profileName));
     refreshSchedule();
 }
 
@@ -134,7 +134,7 @@ void WdgSchedule::actionScheduleTripChangeStartTime() {
     scheduleStartTimeChanging = true;
     refreshSchedule();
 
-    //undoStack->push(new cmdScheduleTripChangeStartTime(currentTrip, currentTrip->startTime(),time));
+    //undoStack->push(new CmdScheduleTripChangeStartTime(currentTrip, currentTrip->startTime(),time));
 }
 
 void WdgSchedule::actionScheduleTripChangeDays() {
@@ -165,7 +165,7 @@ void WdgSchedule::actionScheduleTripChangeDays() {
         noSchool
         );
 
-    undoStack->push(new cmdScheduleTripsChangeDays(_currentTrips, w));
+    undoStack->push(new CmdScheduleTripsChangeDays(_currentTrips, w));
     refreshSchedule();
 }*/
 
@@ -180,7 +180,7 @@ void WdgSchedule::actionScheduleTripChangeDays() {
     if(repeatEnabled)
         newT.setRepeatEnd(_currentTrip->startTime());
 
-    undoStack->push(new cmdScheduleTripEditRepeat(_currentTrip, newT));
+    undoStack->push(new CmdScheduleTripEditRepeat(_currentTrip, newT));
 
     refreshSchedule();
 }
@@ -193,7 +193,7 @@ void WdgSchedule::actionScheduleTripChangeRepeat() {
     newT.setRepeatInterval(ui->teRepeatInterval->time());
     newT.setRepeatEnd(ui->teRepeatEnd->time());
 
-    undoStack->push(new cmdScheduleTripEditRepeat(_currentTrip, newT));
+    undoStack->push(new CmdScheduleTripEditRepeat(_currentTrip, newT));
 
     refreshSchedule();
 }*/
@@ -878,7 +878,7 @@ void WdgSchedule::on_teDepartureTime_editingFinished() {
     if(_currentTrips.empty())
         return;
 
-    undoStack->push(new cmdScheduleTripChangeStartTime(_currentTrip, ScheduleTmpOldStartTime, _currentTrip->startTime()));
+    undoStack->push(new CmdScheduleTripChangeStartTime(_currentTrip, ScheduleTmpOldStartTime, _currentTrip->startTime()));
     scheduleStartTimeChanging = false;
 }*/
 
