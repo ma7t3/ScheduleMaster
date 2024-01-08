@@ -115,7 +115,7 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
 
     painter->end();
 
-    QIcon icon(":/main/icons/success.ico");
+    QIcon icon(":/icons/success.ico");
     QTreeWidgetItem *itm = new QTreeWidgetItem({tr("Line finished: %1").arg(_currentLine->title())});
     itm->setIcon(0, icon);
     ui->twLog->addTopLevelItem(itm);
@@ -449,7 +449,7 @@ void DlgPdfExporter::exportTour(Tour *o) {
 
     painter->end();
 
-    QIcon icon(":/main/icons/success.ico");
+    QIcon icon(":/icons/success.ico");
     QTreeWidgetItem *itm = new QTreeWidgetItem({tr("Tour finished finished: %1").arg(o->name())});
     itm->setIcon(0, icon);
     ui->twLog->addTopLevelItem(itm);

@@ -59,7 +59,7 @@
      </property>
      <property name="icon">
       <iconset resource="main.qrc">
-       <normaloff>:/main/icons/Docks.ico</normaloff>:/main/icons/Docks.ico</iconset>
+       <normaloff>:/icons/Docks.ico</normaloff>:/icons/Docks.ico</iconset>
      </property>
     </widget>
     <widget class="QMenu" name="menuWorkspaces">
@@ -68,7 +68,7 @@
      </property>
      <property name="icon">
       <iconset resource="main.qrc">
-       <normaloff>:/main/icons/Workspaces.ico</normaloff>:/main/icons/Workspaces.ico</iconset>
+       <normaloff>:/icons/Workspaces.ico</normaloff>:/icons/Workspaces.ico</iconset>
      </property>
      <addaction name="actionWorkspaceTrackLayout"/>
      <addaction name="actionWorkspaceBusstopSchedule"/>
@@ -154,7 +154,7 @@
   <action name="actionFileNew">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/FileNew.ico</normaloff>:/main/icons/FileNew.ico</iconset>
+     <normaloff>:/icons/FileNew.ico</normaloff>:/icons/FileNew.ico</iconset>
    </property>
    <property name="text">
     <string>New Project</string>
@@ -163,7 +163,7 @@
   <action name="actionFileOpen">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/FileOpen.ico</normaloff>:/main/icons/FileOpen.ico</iconset>
+     <normaloff>:/icons/FileOpen.ico</normaloff>:/icons/FileOpen.ico</iconset>
    </property>
    <property name="text">
     <string>Open Project</string>
@@ -172,7 +172,7 @@
   <action name="actionFileSave">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/FileSave.ico</normaloff>:/main/icons/FileSave.ico</iconset>
+     <normaloff>:/icons/FileSave.ico</normaloff>:/icons/FileSave.ico</iconset>
    </property>
    <property name="text">
     <string>Save Project</string>
@@ -181,7 +181,7 @@
   <action name="actionFileSaveAs">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/FileSave.ico</normaloff>:/main/icons/FileSave.ico</iconset>
+     <normaloff>:/icons/FileSave.ico</normaloff>:/icons/FileSave.ico</iconset>
    </property>
    <property name="text">
     <string>Save Project As</string>
@@ -190,7 +190,7 @@
   <action name="actionFileClose">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/FileClose.ico</normaloff>:/main/icons/FileClose.ico</iconset>
+     <normaloff>:/icons/FileClose.ico</normaloff>:/icons/FileClose.ico</iconset>
    </property>
    <property name="text">
     <string>Close Project</string>
@@ -199,7 +199,7 @@
   <action name="actionFileQuit">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Quit.ico</normaloff>:/main/icons/Quit.ico</iconset>
+     <normaloff>:/icons/Quit.ico</normaloff>:/icons/Quit.ico</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -218,7 +218,7 @@
   <action name="actionUndo">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Undo.ico</normaloff>:/main/icons/Undo.ico</iconset>
+     <normaloff>:/icons/Undo.ico</normaloff>:/icons/Undo.ico</iconset>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -227,7 +227,7 @@
   <action name="actionRedo">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Redo.ico</normaloff>:/main/icons/Redo.ico</iconset>
+     <normaloff>:/icons/Redo.ico</normaloff>:/icons/Redo.ico</iconset>
    </property>
    <property name="text">
     <string>Redo</string>
@@ -280,7 +280,7 @@
   <action name="actionBusstopsNew">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Add.ico</normaloff>:/main/icons/Add.ico</iconset>
+     <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -292,7 +292,7 @@
   <action name="actionBusstopsEdit">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Edit.ico</normaloff>:/main/icons/Edit.ico</iconset>
+     <normaloff>:/icons/Edit.ico</normaloff>:/icons/Edit.ico</iconset>
    </property>
    <property name="text">
     <string>Edit</string>
@@ -304,7 +304,7 @@
   <action name="actionBusstopsDelete">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Delete.ico</normaloff>:/main/icons/Delete.ico</iconset>
+     <normaloff>:/icons/Delete.ico</normaloff>:/icons/Delete.ico</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -313,7 +313,7 @@
   <action name="actionLinesNew">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Add.ico</normaloff>:/main/icons/Add.ico</iconset>
+     <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -325,7 +325,7 @@
   <action name="actionLinesEdit">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Edit.ico</normaloff>:/main/icons/Edit.ico</iconset>
+     <normaloff>:/icons/Edit.ico</normaloff>:/icons/Edit.ico</iconset>
    </property>
    <property name="text">
     <string>Edit</string>
@@ -337,7 +337,7 @@
   <action name="actionLinesDelete">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Delete.ico</normaloff>:/main/icons/Delete.ico</iconset>
+     <normaloff>:/icons/Delete.ico</normaloff>:/icons/Delete.ico</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -346,7 +346,7 @@
   <action name="actionRoutesNew">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Add.ico</normaloff>:/main/icons/Add.ico</iconset>
+     <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -358,7 +358,7 @@
   <action name="actionRoutesEdit">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Edit.ico</normaloff>:/main/icons/Edit.ico</iconset>
+     <normaloff>:/icons/Edit.ico</normaloff>:/icons/Edit.ico</iconset>
    </property>
    <property name="text">
     <string>Edit</string>
@@ -370,7 +370,7 @@
   <action name="actionRoutesDelete">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Delete.ico</normaloff>:/main/icons/Delete.ico</iconset>
+     <normaloff>:/icons/Delete.ico</normaloff>:/icons/Delete.ico</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -379,7 +379,7 @@
   <action name="actionRoutesDuplicate">
    <property name="icon">
     <iconset resource="main.qrc">
-     <normaloff>:/main/icons/Duplicate.ico</normaloff>:/main/icons/Duplicate.ico</iconset>
+     <normaloff>:/icons/Duplicate.ico</normaloff>:/icons/Duplicate.ico</iconset>
    </property>
    <property name="text">
     <string>Duplicate</string>

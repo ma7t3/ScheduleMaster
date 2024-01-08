@@ -53,15 +53,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     // init splashscreen
     QSplashScreen splashScreen;
-    QString imagePath = ":/main/splashscreen/splashscreen.png";
+    QString imagePath = ":/splashscreen/splashscreen.png";
     QColor messageColor = QColor(0, 0, 0);
     QDate now = QDate::currentDate();
 
     if(now.dayOfYear() > 300 && now.dayOfYear() < 310)
-        imagePath = ":/main/splashscreen/splashscreen_halloween.png";
+        imagePath = ":/splashscreen/splashscreen_halloween.png";
 
     if(now.dayOfYear() > 330 && now.dayOfYear() < 365) {
-        imagePath = ":/main/splashscreen/splashscreen_christmas.png";
+        imagePath = ":/splashscreen/splashscreen_christmas.png";
         messageColor = QColor(255, 255, 255);
     }
 
@@ -103,14 +103,14 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *actDockTourEditor = dwTourEditor->toggleViewAction();
     QAction *actDockPublishedLines = dwPublishedLines->toggleViewAction();
 
-    actDockBusstops->setIcon(QIcon(":/main/icons/Busstop.ico"));
-    actDockLines->setIcon(QIcon(":/main/icons/Line.ico"));
-    actDockRoutes->setIcon(QIcon(":/main/icons/Route.ico"));
-    actDockSchedule->setIcon(QIcon(":/main/icons/Schedule.ico"));
-    actDockBusstopSchedule->setIcon(QIcon(":/main/icons/BusstopSchedule.ico"));
-    actDockTours->setIcon(QIcon(":/main/icons/TourList.ico"));
-    actDockTourEditor->setIcon(QIcon(":/main/icons/Tour.ico"));
-    actDockPublishedLines->setIcon(QIcon(":/main/icons/PublishedLines.ico"));
+    actDockBusstops->setIcon(QIcon(":/icons/Busstop.ico"));
+    actDockLines->setIcon(QIcon(":/icons/Line.ico"));
+    actDockRoutes->setIcon(QIcon(":/icons/Route.ico"));
+    actDockSchedule->setIcon(QIcon(":/icons/Schedule.ico"));
+    actDockBusstopSchedule->setIcon(QIcon(":/icons/BusstopSchedule.ico"));
+    actDockTours->setIcon(QIcon(":/icons/TourList.ico"));
+    actDockTourEditor->setIcon(QIcon(":/icons/Tour.ico"));
+    actDockPublishedLines->setIcon(QIcon(":/icons/PublishedLines.ico"));
 
     actDockBusstops->setShortcut(QKeySequence(Qt::ALT|Qt::Key_B));
     actDockLines->setShortcut(QKeySequence(Qt::ALT|Qt::Key_L));
@@ -798,7 +798,7 @@ void MainWindow::on_actionHelpAbout_triggered() {
     QMessageBox msg;
     msg.setWindowTitle(tr("ScheduleMaster 2 - About"));
     msg.setText(text);
-    msg.setIconPixmap(QPixmap(":/main/appIcon/Icon_128px.ico"));
+    msg.setIconPixmap(QPixmap(":/appIcon/Icon_128px.ico"));
     msg.setStandardButtons(QMessageBox::Close);
     msg.exec();
 }

@@ -542,7 +542,7 @@ QJsonObject DlgFileHandler::publicationsToJson(Publications *publications) {
 }
 
 void DlgFileHandler::logInfo(const QString &text) {
-    QIcon icon(":/main/icons/info.ico");
+    QIcon icon(":/icons/info.ico");
 
     QTreeWidgetItem *itm = new QTreeWidgetItem({text});
     itm->setIcon(0, icon);
@@ -552,7 +552,7 @@ void DlgFileHandler::logInfo(const QString &text) {
 }
 
 void DlgFileHandler::logSuccess(const QString &text) {
-    QIcon icon(":/main/icons/success.ico");
+    QIcon icon(":/icons/success.ico");
 
     QTreeWidgetItem *itm = new QTreeWidgetItem({text});
     itm->setIcon(0, icon);
@@ -562,7 +562,7 @@ void DlgFileHandler::logSuccess(const QString &text) {
 }
 
 void DlgFileHandler::logWarning(const QString &text) {
-    QIcon icon(":/main/icons/warning.ico");
+    QIcon icon(":/icons/warning.ico");
 
     QTreeWidgetItem *itm = new QTreeWidgetItem({text});
     itm->setIcon(0, icon);
@@ -572,7 +572,7 @@ void DlgFileHandler::logWarning(const QString &text) {
 }
 
 void DlgFileHandler::logError(const QString &text) {
-    QIcon icon(":/main/icons/error.ico");
+    QIcon icon(":/icons/error.ico");
 
     QTreeWidgetItem *itm = new QTreeWidgetItem({text});
     itm->setIcon(0, icon);
@@ -582,7 +582,7 @@ void DlgFileHandler::logError(const QString &text) {
 }
 
 void DlgFileHandler::logCritical(const QString &text) {
-    QIcon icon(":/main/icons/error.ico");
+    QIcon icon(":/icons/error.ico");
 
     QTreeWidgetItem *itm = new QTreeWidgetItem({text});
     itm->setForeground(0, Qt::red);
