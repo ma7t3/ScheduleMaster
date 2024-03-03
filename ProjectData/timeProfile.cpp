@@ -1,16 +1,26 @@
 #include "ProjectData\timeProfile.h"
+#include "projectdata.h"
 
-TimeProfileItem::TimeProfileItem(const QString &busstopId) :
+TimeProfileItem::TimeProfileItem(QObject *parent, const QString &busstopId) :
+    ProjectDataItem(parent),
+    _seperateTimes(false),
     _busstopId(busstopId) {
-    _seperateTimes = false;
 }
 
-TimeProfileItem::TimeProfileItem(Busstop *b) :
+TimeProfileItem::TimeProfileItem(QObject *parent, Busstop *b) :
+    ProjectDataItem(parent),
+    _seperateTimes(false),
     _busstopId(b->id()) {
-    _seperateTimes = false;
 }
 
-TimeProfileItem::TimeProfileItem(const TimeProfileItem &other) {
+TimeProfileItem::TimeProfileItem(QObject *parent, const QJsonObject  &jsonObject) :
+    ProjectDataItem(parent),
+    _seperateTimes(false) {
+    fromJson(jsonObject);
+}
+
+TimeProfileItem::TimeProfileItem(const TimeProfileItem &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -21,12 +31,43 @@ TimeProfileItem TimeProfileItem::operator=(const TimeProfileItem &other) {
 
 void TimeProfileItem::copy(const TimeProfileItem &other) {
     ProjectDataItem::copy(other);
+    _busstopId = other.busstopId();
+
     if(other.hasSeperateTimes())
         setArrValue(other.arrValue());
 
     setDepValue(other.depValue());
-    setArrValue(other.busstopMode());
     setBusstopMode(other.busstopMode());
+}
+
+void TimeProfileItem::fromJson(const QJsonObject &jsonObject) {
+    _busstopId = jsonObject.value("busstopID").toString();
+
+    if(jsonObject.contains("arr"))
+        setArrValue(jsonObject.value("arr").toDouble(0));
+
+    setDepValue(jsonObject.value("dep").toDouble(0));
+    setBusstopMode(jsonObject.value("busstopMode").toInt(1));
+}
+
+QJsonObject TimeProfileItem::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.remove("id");
+    jsonObject.insert("busstopID", busstopId());
+    jsonObject.insert("busstopMode", busstopMode());
+
+
+    //qDebug() << dynamic_cast<ProjectData *>(parent()->parent()->parent()->parent())->busstop(busstopId())->name() << ": " << hasSeperateTimes() << " - " << arrValue();
+    //qDebug() << hasSeperateTimes() << " - " << arrValue();
+
+    if(hasSeperateTimes()) {
+        qDebug() << arrValue();
+        jsonObject.insert("arr", arrValue());
+    }
+
+    jsonObject.insert("dep", depValue());
+
+    return jsonObject;
 }
 
 float TimeProfileItem::arrValue() const {
@@ -69,11 +110,18 @@ bool TimeProfileItem::hasSeperateTimes() const {
     return _seperateTimes;
 }
 
-TimeProfile::TimeProfile(const QString &id, const QString &name) :
-    ProjectDataItem(id), _name(name) {
+TimeProfile::TimeProfile(QObject *parent, const QString &id, const QString &name) :
+    ProjectDataItem(parent, id), _name(name) {
+
 }
 
-TimeProfile::TimeProfile(const TimeProfile &other) {
+TimeProfile::TimeProfile(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent) {
+    fromJson(jsonObject);
+}
+
+TimeProfile::TimeProfile(const TimeProfile &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -87,6 +135,33 @@ void TimeProfile::copy(const TimeProfile &other) {
     setName(other.name());
     setDuration(other.duration());
     setBusstops(other.busstops());
+}
+
+
+void TimeProfile::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+    setDuration(jsonObject.value("duration").toDouble(0));
+    setName(jsonObject.value("name").toString(tr("unnamed time profile")));
+
+    QJsonArray jItems = jsonObject.value("items").toArray();
+    for(int i = 0; i < jItems.count(); ++i)
+        if(jItems[i].isObject())
+            addBusstop(new TimeProfileItem(this, jItems[i].toObject()));
+}
+
+QJsonObject TimeProfile::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.insert("name", name());
+    jsonObject.insert("duration", duration());
+    QList<TimeProfileItem *> items = busstops();
+
+    QJsonArray jItems;
+    for (int i = 0; i < items.count(); ++i)
+        jItems.append(items[i]->toJson());
+
+    jsonObject.insert("items", jItems);
+
+    return jsonObject;
 }
 
 QString TimeProfile::name() const {
@@ -129,12 +204,19 @@ void TimeProfile::setBusstops(const QList<TimeProfileItem *> &newBusstops) {
 }
 
 void TimeProfile::addBusstop(TimeProfileItem * itm) {
+    if(!itm)
+        return;
+
+    itm->setParent(this);
     _items << itm;
 }
 
 void TimeProfile::addBusstops(const QList<TimeProfileItem *> &busstops) {
     for(int i = 0; i < busstops.count(); i++)
-        this->addBusstop(busstops[i]);
+        if(busstops[i]) {
+            busstops[i]->setParent(this);
+            this->addBusstop(busstops[i]);
+        }
 }
 
 void TimeProfile::removeBusstop(const QString &id) {

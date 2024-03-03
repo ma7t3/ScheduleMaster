@@ -16,7 +16,7 @@ class DlgLineEditor : public QDialog
     Q_OBJECT
 
 public:
-    explicit DlgLineEditor(QWidget *parent = nullptr, Line l = Line(global::getNewID(), ""));
+    explicit DlgLineEditor(QWidget *parent = nullptr, Line l = Line(nullptr, global::getNewID(), ""));
     ~DlgLineEditor();
 
     Line line();

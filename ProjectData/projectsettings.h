@@ -3,13 +3,12 @@
 
 #include "daytype.h"
 
-// ABGESCHLOSSEN!
-
 class ProjectSettings : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    explicit ProjectSettings();
+    explicit ProjectSettings(QObject *parent);
     ~ProjectSettings();
+    ProjectSettings(QObject *parent, const QJsonObject &);
     ProjectSettings(const ProjectSettings&);
     ProjectSettings operator=(const ProjectSettings &);
 
@@ -35,6 +34,9 @@ public:
     void removeDayType(DayType *);
     void removeDayType(const QString &id);
     void clearDayTypes();
+
+    QJsonObject toJson() const;
+    void setJson(const QJsonObject &);
 
 protected:
     void copy(const ProjectSettings &);

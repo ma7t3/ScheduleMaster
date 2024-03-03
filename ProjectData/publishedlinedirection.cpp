@@ -1,10 +1,20 @@
 #include "publishedlinedirection.h"
 
-PublishedLineDirection::PublishedLineDirection(const QString &id, const QString &name) :
-    ProjectDataItem(id), _name(name) {
+#include "ProjectData.h"
+
+PublishedLineDirection::PublishedLineDirection(QObject *parent,
+                                               const QString &id,
+                                               const QString &name) :
+    ProjectDataItem(parent, id),
+    _name(name) {}
+
+PublishedLineDirection::PublishedLineDirection(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent) {
+    fromJson(jsonObject);
 }
 
-PublishedLineDirection::PublishedLineDirection(const PublishedLineDirection &other) {
+PublishedLineDirection::PublishedLineDirection(const PublishedLineDirection &other) :
+    ProjectDataItem(other.parent()){
     copy(other);
 }
 
@@ -31,6 +41,44 @@ void PublishedLineDirection::copy(const PublishedLineDirection &other) {
     }
     setBusstops(newBusstops);
 }
+
+void PublishedLineDirection::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+    setName(jsonObject.value("name").toString(tr("Unnamed Direction")));
+
+    QJsonArray jBusstops = jsonObject.value("busstops").toArray();
+    QJsonArray jRoutes = jsonObject.value("routes").toArray();
+
+    for(int i = 0; i < jBusstops.count(); ++i)
+        addBusstop(new PublishedBusstop(this, jBusstops.at(i).toObject()));
+
+    for(int i = 0; i < jRoutes.count(); ++i) {
+        Route *r = static_cast<ProjectData *>(parent()->parent()->parent())->route(jRoutes.at(i).toString(""));
+        if(r)
+            addRoute(r);
+    }
+}
+
+
+QJsonObject PublishedLineDirection::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.remove("id");
+    jsonObject.insert("name", name());
+
+    QJsonArray jBusstops, jRoutes;
+
+    for (int i = 0; i < busstopCount(); ++i)
+        jBusstops.append(busstopAt(i)->toJson());
+
+    for (int i = 0; i < routeCount(); ++i)
+        jRoutes.append(routeAt(i)->id());
+
+    jsonObject.insert("busstops", jBusstops);
+    jsonObject.insert("routes", jRoutes);
+
+    return jsonObject;
+}
+
 
 QString PublishedLineDirection::name() const {
     return _name;
@@ -80,6 +128,7 @@ void PublishedLineDirection::addBusstop(PublishedBusstop *newBusstop) {
     if(!newBusstop)
         return;
 
+    newBusstop->setParent(this);
     _busstops << newBusstop ;
 }
 
@@ -112,14 +161,14 @@ QList<Route *> PublishedLineDirection::routes() const {
     return _routes;
 }
 
-Route *PublishedLineDirection::routeAt(const int &index) {
+Route *PublishedLineDirection::routeAt(const int &index) const {
     if(index < 0 || index >= routeCount())
         return nullptr;
 
     return _routes[index];
 }
 
-int PublishedLineDirection::routeCount() {
+int PublishedLineDirection::routeCount() const {
     return _routes.count();
 }
 
@@ -131,6 +180,7 @@ void PublishedLineDirection::addRoute(Route *newRoute) {
     if(!newRoute)
         return;
 
+    newRoute->setParent(this);
     _routes << newRoute;
 }
 

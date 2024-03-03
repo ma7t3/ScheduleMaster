@@ -3,8 +3,8 @@
 
 ProjectData::ProjectData() :
     QObject(nullptr),
-    _projectSettings(new ProjectSettings),
-    _publications(new Publications)
+    _projectSettings(new ProjectSettings(this)),
+    _publications(new Publications(this))
 {}
 
 ProjectSettings *ProjectData::projectSettings() { return _projectSettings; }
@@ -13,7 +13,7 @@ void ProjectData::reset() {
     _lines.clear();
     _busstops.clear();
     _tours.clear();
-    _projectSettings = new ProjectSettings;
+    _projectSettings = new ProjectSettings(this);
 }
 
 void ProjectData::cleanup() {
@@ -40,9 +40,28 @@ QString ProjectData::filePath() {
     return _filePath;
 }
 
-void ProjectData::addBusstop(Busstop *b) { _busstops << b; }
-void ProjectData::addLine(Line *l)       { _lines << l; }
-void ProjectData::addTour(Tour *o)       { _tours << o; }
+void ProjectData::addBusstop(Busstop *b) {
+    if(!b)
+        return;
+
+    b->setParent(this);
+    _busstops << b;
+}
+void ProjectData::addLine(Line *l) {
+    if(!l)
+        return;
+
+    l->setParent(this);
+    _lines << l;
+}
+
+void ProjectData::addTour(Tour *o) {
+    if(!o)
+        return;
+
+    o->setParent(this);
+    _tours << o;
+}
 
 
 int ProjectData::busstopCount() { return _busstops.count(); }
@@ -211,6 +230,10 @@ void ProjectData::setFootnotes(const QList<Footnote *> &newFootnotes) {
 }
 
 void ProjectData::addFootnote(Footnote *f) {
+    if(!f)
+        return;
+
+    f->setParent(this);
     _footnotes << f;
 }
 
@@ -454,3 +477,61 @@ QList<Tour *> ProjectData::sortTours(QList<Tour *> list) {
 Publications *ProjectData::publications() const {
     return _publications;
 }
+
+QJsonObject ProjectData::toJson() {
+    QJsonObject jsonObject;
+
+    QJsonArray jBusstops, jLines, jTours, jFootnotes;
+
+    for(int i = 0; i < busstopCount(); ++i)
+        jBusstops.append(busstopAt(i)->toJson());
+
+    for(int i = 0; i < lineCount(); ++i)
+        jLines.append(lineAt(i)->toJson());
+
+    for(int i = 0; i < tourCount(); ++i)
+        jTours.append(tourAt(i)->toJson());
+
+    jsonObject.insert("busstops", jBusstops);
+    jsonObject.insert("lines", jLines);
+    jsonObject.insert("tours", jTours);
+    qDebug() << "a";
+    jsonObject.insert("projectSettings", projectSettings()->toJson());
+    qDebug() << "projectSettings saved.";
+    jsonObject.insert("publications", publications()->toJson());
+    qDebug() << "publications saved.";
+
+    return jsonObject;
+}
+
+void ProjectData::setJson(const QJsonObject &jsonObject) {
+    QJsonArray jBusstops, jLines, jTours, jFootnotes;
+
+    jBusstops = jsonObject.value("busstops").toArray();
+    jLines = jsonObject.value("lines").toArray();
+    jTours = jsonObject.value("tours").toArray();
+
+    for(int i = 0; i < jBusstops.count(); ++i)
+        if(jBusstops[i].isObject())
+            addBusstop(new Busstop(this, jBusstops[i].toObject()));
+
+    for(int i = 0; i < jLines.count(); ++i)
+        if(jLines[i].isObject())
+            addLine(new Line(this, jLines[i].toObject()));
+
+    for(int i = 0; i < jTours.count(); ++i)
+        if(jTours[i].isObject())
+            addTour(new Tour(this, jTours[i].toObject()));
+
+    projectSettings()->setJson(jsonObject.value("projectSettings").toObject());
+    publications()->setJson(jsonObject.value("publications").toObject());
+}
+
+
+
+
+
+
+
+
+

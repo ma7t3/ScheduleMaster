@@ -1,12 +1,13 @@
 #include "footnote.h"
 
-Footnote::Footnote(const QString &id, const QString &identifier, const QString &description) :
-    ProjectDataItem(id),
+Footnote::Footnote(QObject *parent, const QString &id, const QString &identifier, const QString &description) :
+    ProjectDataItem(parent, id),
     _identifier(identifier),
     _description(description) {
 }
 
-Footnote::Footnote(const Footnote &other) {
+Footnote::Footnote(const Footnote &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 

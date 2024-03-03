@@ -6,13 +6,12 @@
 #include "ProjectDataItem.h"
 #include "busstop.h"
 
-// ABGESCHLOSSEN!
-
 class TimeProfileItem : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    TimeProfileItem(const QString &busstopId);
-    TimeProfileItem(Busstop *busstop);
+    TimeProfileItem(QObject *parent, const QString &busstopId);
+    TimeProfileItem(QObject *parent, Busstop *busstop);
+    TimeProfileItem(QObject *parent, const QJsonObject &);
     TimeProfileItem(const TimeProfileItem &);
     TimeProfileItem operator=(const TimeProfileItem &);
 
@@ -35,8 +34,11 @@ public:
     QString busstopId() const;
     bool hasSeperateTimes() const;
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const TimeProfileItem &);
+    void fromJson(const QJsonObject &);
 
 private:
     float _arrValue;
@@ -50,7 +52,8 @@ class TimeProfile : public ProjectDataItem
 {
     Q_OBJECT
 public:
-    TimeProfile(const QString &id, const QString &name);
+    TimeProfile(QObject *parent, const QString &id, const QString &name);
+    TimeProfile(QObject *parent, const QJsonObject &);
     TimeProfile(const TimeProfile &);
     TimeProfile operator=(const TimeProfile &);
 
@@ -69,8 +72,11 @@ public:
     void addBusstops(const QList<TimeProfileItem *> &);
     void removeBusstop(const QString &);
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const TimeProfile &);
+    void fromJson(const QJsonObject &);
 
 private:
     QString _name;

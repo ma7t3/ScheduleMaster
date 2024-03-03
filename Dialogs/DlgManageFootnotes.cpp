@@ -23,6 +23,6 @@ void DlgManageFootnotes::on_pbNew_clicked() {
     if(dlg->result() != QDialog::Accepted)
         return;
 
-    Footnote *f = new Footnote(global::getNewID(), dlg->identifier(), dlg->description());
+    Footnote *f = new Footnote(nullptr, global::getNewID(), dlg->identifier(), dlg->description());
 }
 

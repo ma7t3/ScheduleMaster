@@ -7,12 +7,11 @@
 #include "publishedbusstop.h"
 #include "route.h"
 
-// ABGESCHLOSSEN!
-
 class PublishedLineDirection : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    PublishedLineDirection(const QString &id, const QString &name);
+    PublishedLineDirection(QObject *parent, const QString &id, const QString &name);
+    PublishedLineDirection(QObject *parent, const QJsonObject &);
     PublishedLineDirection(const PublishedLineDirection &);
     PublishedLineDirection operator=(const PublishedLineDirection &);
 
@@ -30,8 +29,8 @@ public:
     void removeBusstop(PublishedBusstop *b);
 
     QList<Route *> routes() const;
-    Route *routeAt(const int &index);
-    int routeCount();
+    Route *routeAt(const int &index) const;
+    int routeCount() const;
     bool hasRoute(Route *);
 
     void setRoutes(const QList<Route *> &newRoutes);
@@ -40,8 +39,11 @@ public:
     QString name() const;
     void setName(const QString &newName);
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const PublishedLineDirection &);
+    void fromJson(const QJsonObject &);
 
     //void ovoverwrite(const PublishedLineDirection &other);
 

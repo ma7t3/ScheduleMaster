@@ -58,7 +58,7 @@ void WdgDaySelector::setWeekDays(WeekDays w) {
 }
 
 WeekDays WdgDaySelector::weekDays() {
-    WeekDays w;
+    WeekDays w(nullptr);
     w.setDay(WeekDay::monday,    ui->cbMonday->isChecked());
     w.setDay(WeekDay::tuesday,   ui->cbTuesday->isChecked());
     w.setDay(WeekDay::wednesday, ui->cbWednesday->isChecked());

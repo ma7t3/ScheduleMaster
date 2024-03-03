@@ -5,12 +5,11 @@
 
 #include "busstop.h"
 
-// ABGESCHLOSSEN!
-
 class PublishedBusstop : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    PublishedBusstop(const QString &id, Busstop *linkedBusstop, const QString &label = "");
+    PublishedBusstop(QObject *parent, const QString &id, Busstop *linkedBusstop, const QString &label = "");
+    PublishedBusstop(QObject *parent, const QJsonObject &);
     PublishedBusstop(const PublishedBusstop &);
     PublishedBusstop operator=(const PublishedBusstop &);
 
@@ -30,8 +29,11 @@ public:
     bool showDivider() const;
     void setShowDivider(bool newShowDivider);
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const PublishedBusstop &);
+    void fromJson(const QJsonObject &);
 
 private:
     Busstop *_linkedBusstop;

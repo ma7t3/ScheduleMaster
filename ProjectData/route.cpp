@@ -1,17 +1,25 @@
-#include "ProjectData\route.h"
+#include "line.h"
+#include "route.h"
 #include "ProjectDataItem.h"
+#include "projectdata.h"
 
-Route::Route(const QString &id, const int &code, const QString &name, LineDirection *direction) :
-    ProjectDataItem(id),
-    _code(code),
-    _direction(direction),
-    _name(name) {
+Route::Route(QObject *parent,
+             const QString &id,
+             const int &code,
+             const QString &name,
+             LineDirection *direction) :
+    ProjectDataItem(parent, id),
+    _code(code), _direction(direction), _name(name) {}
+
+Route::Route(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent) {
+    fromJson(jsonObject);
 }
 
-Route::Route(const Route &other) {
+Route::Route(const Route &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
-
 
 bool Route::operator<(const Route &other) {
     return code() < other.code();
@@ -42,6 +50,45 @@ void Route::copy(const Route &other) {
         }
     }
     setTimeProfiles(newTimeProfiles);
+}
+
+void Route::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+
+    setCode(jsonObject.value("code").toInt(0));
+    setName(jsonObject.value("name").toString(tr("unnamed route")));
+    setDirection(dynamic_cast<Line *>(parent())->direction(jsonObject.value("direction").toString()));
+    QJsonArray jBusstops, jTimeProfiles;
+    jBusstops = jsonObject.value("busstops").toArray({});
+    jTimeProfiles = jsonObject.value("timeProfiles").toArray({});
+
+    for(int i = 0; i < jBusstops.count(); ++i)
+        if(jBusstops[i].isString())
+            //addBusstop(new Busstop(this, jBusstops[i].toObject()));
+            addBusstop(static_cast<ProjectData *>(parent()->parent())->busstop(jBusstops[i].toString()));
+
+    for(int i = 0; i < jTimeProfiles.count(); ++i)
+        if(jTimeProfiles[i].isObject())
+            addTimeProfile(new TimeProfile(this, jTimeProfiles[i].toObject()));
+}
+
+QJsonObject Route::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.insert("code", code());
+    jsonObject.insert("name", name());
+    jsonObject.insert("direction", direction()->id());
+
+    QJsonArray jBusstops, jTimeProfiles;
+    for(int i = 0; i < busstopCount(); ++i)
+        jBusstops.append(busstopAt(i)->id());
+
+    for(int i = 0; i < timeProfileCount(); ++i)
+        jTimeProfiles.append(timeProfileAt(i)->toJson());
+
+    jsonObject.insert("busstops", jBusstops);
+    jsonObject.insert("timeProfiles", jTimeProfiles);
+
+    return jsonObject;
 }
 
 int Route::code() const {
@@ -119,6 +166,10 @@ void Route::setBusstops(const QList<Busstop *> &newBusstops) {
 }
 
 void Route::addBusstop(Busstop * b) {
+    if(!b)
+        return;
+
+    b->setParent(this);
     _busstops << b;
 }
 
@@ -177,12 +228,19 @@ void Route::setTimeProfiles(QList<TimeProfile *> list) {
 }
 
 void Route::addTimeProfile(TimeProfile *p) {
+    if(!p)
+        return;
+
+    p->setParent(this);
     _timeProfiles << p;
 }
 
 void Route::addTimeProfiles(QList<TimeProfile *> list) {
     for(int i = 0; i < list.count(); i++)
-        _timeProfiles << list[i];
+        if(list[i]) {
+            list[i]->setParent(this);
+            _timeProfiles << list[i];
+        }
 }
 
 void Route::removeTimeProfile(TimeProfile *p)

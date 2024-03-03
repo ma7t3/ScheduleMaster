@@ -15,7 +15,7 @@ WdgTripEditor::WdgTripEditor(QWidget *parent, ProjectData *projectData, QUndoSta
     undoStack(undoStack),
     _currentLine(nullptr),
     _currentDirection(nullptr),
-    _currentDayType(global::getNewID()),
+    _currentDayType(nullptr, global::getNewID()),
     _currentRoute(nullptr)
 {
     ui->setupUi(this);
@@ -75,7 +75,7 @@ void WdgTripEditor::actionNew() {
     if(!startTime.isValid())
         startTime.setHMS(0, 0, 0, 0);
 
-    Trip *t = new Trip(global::getNewID(), _currentRoute, startTime, p, _currentDayType);
+    Trip *t = new Trip(nullptr, global::getNewID(), _currentRoute, startTime, p, _currentDayType);
     undoStack->push(new CmdScheduleTripNew(_currentLine, t));
     _currentTrips = {t};
     emit tripsChanged(_currentTrips);
@@ -98,7 +98,7 @@ void WdgTripEditor::actionCopy() {
 
     QList<Trip *> trips;
     for(int i = 0; i < count; i++) {
-        Trip *t = new Trip(global::getNewID(), currentTrip->route(), currentTrip->startTime(), currentTrip->timeProfile());
+        Trip *t = new Trip(nullptr, global::getNewID(), currentTrip->route(), currentTrip->startTime(), currentTrip->timeProfile());
         *t = *currentTrip;
         t->setStartTime(QTime::fromMSecsSinceStartOfDay(currentTrip->startTime().msecsSinceStartOfDay() + ((i + 1) * interval.msecsSinceStartOfDay())));
         trips << t;
@@ -261,7 +261,7 @@ void WdgTripEditor::refreshUI() {
     QStringList profileNames;
 
     QTime startTime, endTime;
-    WeekDays weekDays;
+    WeekDays weekDays(nullptr);
 
     for(int i = 0; i < _currentTrips.count(); i++) {
         Trip *t = _currentTrips[i];

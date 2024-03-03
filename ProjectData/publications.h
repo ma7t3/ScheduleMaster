@@ -4,12 +4,11 @@
 #include <QtCore>
 #include "publishedline.h"
 
-// ABGESCHLOSSEN!
-
 class Publications : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Publications();
+    Publications(QObject *parent);
+    Publications(QObject *parent, const QJsonObject &);
     Publications(const Publications &);
     Publications operator=(const Publications &);
 
@@ -23,6 +22,9 @@ public:
     void addLine(PublishedLine *newLine);
     void removeLine(PublishedLine *line);
     void removeLine(const QString &id);
+
+    QJsonObject toJson() const;
+    void setJson(const QJsonObject &);
 
 protected:
     void copy(const Publications &);

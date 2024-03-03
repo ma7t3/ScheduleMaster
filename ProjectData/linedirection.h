@@ -3,20 +3,22 @@
 
 #include "ProjectData/ProjectDataItem.h"
 
-// ABGESCHLOSSEN!
-
 class LineDirection : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    LineDirection(const QString &id, const QString &description);
+    LineDirection(QObject *parent, const QString &id, const QString &description);
+    LineDirection(QObject *parent, const QJsonObject &);
     LineDirection(const LineDirection &);
     LineDirection operator=(const LineDirection &);
 
     QString description() const;
     void setDescription(const QString &);
 
+    QJsonObject toJson()  const;
+
 protected:
     void copy(const LineDirection &);
+    void fromJson(const QJsonObject &);
 
 private:
     QString _description;

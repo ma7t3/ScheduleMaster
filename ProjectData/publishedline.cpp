@@ -1,10 +1,15 @@
 #include "publishedline.h"
 
-PublishedLine::PublishedLine(const QString &id, const QString &title, const QString &footer) :
-    ProjectDataItem(id), _title(title), _footer(footer){
+PublishedLine::PublishedLine(QObject *parent, const QString &id, const QString &title, const QString &footer) :
+    ProjectDataItem(parent, id), _title(title), _footer(footer) {}
+
+PublishedLine::PublishedLine(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent) {
+    fromJson(jsonObject);
 }
 
-PublishedLine::PublishedLine(const PublishedLine &other) {
+PublishedLine::PublishedLine(const PublishedLine &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -15,6 +20,7 @@ PublishedLine PublishedLine::operator=(const PublishedLine &other) {
 
 void PublishedLine::copy(const PublishedLine &other) {
     ProjectDataItem::copy(other);
+
     setFilePath(other.filePath());
     setTitle(other.title());
     setFooter(other.footer());
@@ -33,6 +39,37 @@ void PublishedLine::copy(const PublishedLine &other) {
     }
     setDirections(newDirections);
 }
+
+void PublishedLine::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+    setFilePath(jsonObject.value("filePath").toString(""));
+    setTitle(jsonObject.value("title").toString(tr("Unnamed Published Line")));
+    setFooter(jsonObject.value("footer").toString(""));
+
+    QJsonArray jDirections = jsonObject.value("directions").toArray();
+    for(int i = 0; i < jDirections.count(); ++i)
+        addDirection(new PublishedLineDirection(this, jDirections.at(i).toObject()));
+}
+
+
+QJsonObject PublishedLine::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.remove("id");
+    jsonObject.insert("filePath", filePath());
+    jsonObject.insert("title", title());
+    jsonObject.insert("footer", footer());
+
+    QJsonArray jDirections;
+    //QJsonArray jDayTypes;
+
+    for (int i = 0; i < directionCount(); ++i)
+        jDirections.append(directionAt(i)->toJson());
+
+    jsonObject.insert("directions", jDirections);
+
+    return jsonObject;
+}
+
 
 QString PublishedLine::title() const {
     return _title;
@@ -149,13 +186,3 @@ void PublishedLine::removeDayType(DayType *dt) {
         if(_dayTypes[i] == dt)
             _dayTypes.remove(i);
 }
-
-
-
-
-
-
-
-
-
-

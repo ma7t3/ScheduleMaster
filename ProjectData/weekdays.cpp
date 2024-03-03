@@ -1,14 +1,15 @@
 #include "ProjectData\weekdays.h"
 
-WeekDays::WeekDays() : ProjectDataItem("") {
+WeekDays::WeekDays(QObject *parent) : ProjectDataItem(parent) {
     setCode(995);
 }
 
-WeekDays::WeekDays(const int &code) : ProjectDataItem("") {
+WeekDays::WeekDays(QObject *parent, const int &code) : ProjectDataItem(parent) {
     setCode(code);
 }
 
-WeekDays::WeekDays(const bool &monday,
+WeekDays::WeekDays(QObject *parent,
+                   const bool &monday,
                    const bool &tuesday,
                    const bool &wednesday,
                    const bool &thursday,
@@ -18,7 +19,7 @@ WeekDays::WeekDays(const bool &monday,
                    const bool &holiday,
                    const bool &school,
                    const bool &vacation) :
-    ProjectDataItem("") {
+    ProjectDataItem(parent) {
 
     setDay(WeekDay::monday, monday);
     setDay(WeekDay::tuesday, tuesday);
@@ -32,7 +33,8 @@ WeekDays::WeekDays(const bool &monday,
     setDay(WeekDay::vacation, vacation);
 }
 
-WeekDays::WeekDays(const WeekDays &other) {
+WeekDays::WeekDays(const WeekDays &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -71,10 +73,17 @@ void WeekDays::copy(const WeekDays &other) {
     setDay(WeekDay::vacation,  other.day(WeekDay::vacation));
 }
 
+void WeekDays::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+}
+
+QJsonObject WeekDays::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.insert("code", toCode());
+    return jsonObject;
+}
 
 bool WeekDays::day(const WeekDay &day) const {
-    /*qDebug() << _days.at(day);
-    qDebug() << _days.count(WeekDay::monday);*/
     return _days.at(day);
 }
 
@@ -125,7 +134,7 @@ QString WeekDays::toString() const {
 
 WeekDays WeekDays::shfitedToNextDay() const {
     if(day(WeekDay::sunday) != day(WeekDay::holiday))
-        return WeekDays(
+        return WeekDays(parent(),
             day(WeekDay::sunday),
             day(WeekDay::monday),
             day(WeekDay::tuesday),
@@ -138,7 +147,7 @@ WeekDays WeekDays::shfitedToNextDay() const {
             day(WeekDay::vacation)
         );
     else
-        return WeekDays(
+        return WeekDays(parent(),
             day(WeekDay::sunday),
             day(WeekDay::monday),
             day(WeekDay::tuesday),

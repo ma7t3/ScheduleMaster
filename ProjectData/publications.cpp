@@ -1,9 +1,15 @@
 #include "publications.h"
 
-Publications::Publications() {
+Publications::Publications(QObject *parent) :
+    ProjectDataItem(parent) {}
+
+Publications::Publications(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent) {
+    fromJson(jsonObject);
 }
 
-Publications::Publications(const Publications &other) {
+Publications::Publications(const Publications &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -29,6 +35,30 @@ void Publications::copy(const Publications &other) {
         }
     }
     setLines(newLines);
+}
+
+void Publications::setJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+
+    QJsonArray jLineSchedules = jsonObject.value("lineSchedules").isArray() ? jsonObject.value("lineSchedules").toArray() : QJsonArray();
+
+    for(int i = 0; i < jLineSchedules.count(); ++i)
+        if(jLineSchedules.at(i).isObject())
+            addLine(new PublishedLine(this, jLineSchedules.at(i).toObject()));
+}
+
+QJsonObject Publications::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.remove("id");
+
+    QJsonArray jLineSchedules;
+
+    for(int i = 0; i < lineCount(); ++i)
+        jLineSchedules << lineAt(i)->toJson();
+
+    jsonObject.insert("lineSchedules", jLineSchedules);
+
+    return jsonObject;
 }
 
 QList<PublishedLine *> Publications::lines() const {
@@ -68,6 +98,7 @@ void Publications::addLine(PublishedLine *newLine) {
     if(!newLine)
         return;
 
+    newLine->setParent(this);
     _lines << newLine;
 }
 

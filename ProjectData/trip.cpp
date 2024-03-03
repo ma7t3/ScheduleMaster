@@ -1,12 +1,25 @@
 #include "trip.h"
 #include "timeProfile.h"
+#include "line.h"
 
-Trip::Trip(QString id, Route *route, QTime startTime, TimeProfile *timeProfile, WeekDays weekDays) :
-    ProjectDataItem(id), _route(route), _startTime(startTime), _weekDays(new WeekDays(weekDays)),
-    _timeProfile(timeProfile) {
+Trip::Trip(QObject *parent,
+           const QString &id,
+           Route *route,
+           const QTime &startTime,
+           TimeProfile *timeProfile,
+           const WeekDays &weekDays) :
+    ProjectDataItem(parent, id),
+    _route(route), _startTime(startTime), _weekDays(new WeekDays(weekDays)),
+    _timeProfile(timeProfile) {}
+
+Trip::Trip(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent),
+    _weekDays(new WeekDays(this)) {
+    fromJson(jsonObject);
 }
 
-Trip::Trip(const Trip &other) {
+Trip::Trip(const Trip &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -26,6 +39,28 @@ void Trip::copy(const Trip &other) {
     *weekDays() = *other.weekDays();
     setTimeProfile(other.timeProfile());
 }
+
+void Trip::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+
+    setStartTime(QTime::fromMSecsSinceStartOfDay(jsonObject.value("startTime").toInt()));
+    setRoute(dynamic_cast<Line *>(parent())->route(jsonObject.value("routeID").toString()));
+    setTimeProfile(route()->timeProfile(jsonObject.value("timeProfileID").toString()));
+    weekDays()->setCode(jsonObject.value("weekdays").toInt());
+}
+
+
+QJsonObject Trip::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+
+    jsonObject.insert("startTime", startTime().msecsSinceStartOfDay());
+    jsonObject.insert("weekdays", weekDays()->toCode());
+    jsonObject.insert("routeID", route()->id());
+    jsonObject.insert("timeProfileID", timeProfile()->id());
+
+    return jsonObject;
+}
+
 
 Route *Trip::route() const {
     return _route;
@@ -99,5 +134,3 @@ bool Trip::busstopIsAfterMidnight(const QString &id) const {
     
     return _startTime > busstopTime(id);
 }
-
-

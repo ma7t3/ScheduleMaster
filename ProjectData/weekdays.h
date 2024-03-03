@@ -5,8 +5,6 @@
 
 #include "ProjectDataItem.h"
 
-// ABGESCHLOSSEN!
-
 enum WeekDay {
     monday,
     tuesday,
@@ -23,9 +21,9 @@ enum WeekDay {
 class WeekDays : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    WeekDays();
-    WeekDays(const int &code);
-    WeekDays(const bool & monday, const bool & tuesday, const bool & wednesday, const bool & thursday, const bool & friday, const bool & saturday, const bool & sunday, const bool & holiday, const bool & school, const bool & vacation);
+    WeekDays(QObject *parent);
+    WeekDays(QObject *parent, const int &code);
+    WeekDays(QObject *parent, const bool & monday, const bool & tuesday, const bool & wednesday, const bool & thursday, const bool & friday, const bool & saturday, const bool & sunday, const bool & holiday, const bool & school, const bool & vacation);
     WeekDays(const WeekDays &);
 
     bool operator==(const WeekDays &w) const;
@@ -59,8 +57,11 @@ public:
     static bool overlap(const WeekDays &w1, const WeekDays &w2);
     static WeekDays intersection(const WeekDays &w1, const WeekDays &w2);
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const WeekDays &);
+    void fromJson(QJsonObject const &);
 
 private:
     std::unordered_map<WeekDay, bool> _days;

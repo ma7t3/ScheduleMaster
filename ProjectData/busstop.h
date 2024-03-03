@@ -5,12 +5,11 @@
 
 #include "ProjectDataItem.h"
 
-// ABGESCHLOSSEN!
-
 class Busstop : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Busstop(const QString &id, const QString &name, const bool &important = false);
+    Busstop(QObject *parent, const QString &id, const QString &name, const bool &important = false);
+    Busstop(QObject *parent, const QJsonObject &);
     Busstop(const Busstop &);
     Busstop operator=(const Busstop &other);
     bool operator<(const Busstop &other);
@@ -22,8 +21,11 @@ public:
     bool isImportant() const;
     bool important() const;
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const Busstop &other);
+    void fromJson(const QJsonObject &);
 
 private:
     QString _name;

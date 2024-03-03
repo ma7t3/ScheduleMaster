@@ -7,12 +7,11 @@
 #include "trip.h"
 #include "weekdays.h"
 
-// ABGESCHLOSSEN!
-
 class Tour : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Tour(const QString &id, const QString &name, const WeekDays &weekDays = WeekDays());
+    Tour(QObject *parent, const QString &id, const QString &name, const WeekDays &weekDays = WeekDays(nullptr));
+    Tour(QObject *parent, const QJsonObject &);
     Tour(const Tour &);
     Tour operator=(const Tour &);
     bool operator<(Tour &other);
@@ -47,8 +46,11 @@ public:
     QTime drivingTime() const;
     QTime breakTime() const;
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const Tour &);
+    void fromJson(const QJsonObject &);
 
 private:
     QString _name;
