@@ -71,11 +71,10 @@ void routeEditor::refreshAllBusstops(QString filter)
     ui->twAllBusstops->clear();
 
     for(int i = 0; i < allBusstops.count(); i++) {
-        QTreeWidgetItem *itm = new QTreeWidgetItem;
-
         if(!allBusstops[i]->name().contains(filter, Qt::CaseInsensitive))
             continue;
 
+        QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twAllBusstops);
         itm->setText(0, allBusstops[i]->id());
         itm->setText(1, allBusstops[i]->name());
 

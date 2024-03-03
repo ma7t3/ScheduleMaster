@@ -169,7 +169,6 @@ void Route::addBusstop(Busstop * b) {
     if(!b)
         return;
 
-    b->setParent(this);
     _busstops << b;
 }
 

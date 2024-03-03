@@ -893,7 +893,7 @@ void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
     QList<Busstop *> busstops;
     if(scheduleTableBusstopsReference.count() > index + 1)
         busstops << scheduleTableBusstopsReference[index + 1];
-    emit busstopScheduleRequested(b, busstops, lines, WeekDays::MonFri);
+    emit busstopScheduleRequested(b, busstops, lines, 995);
 }
 
 void WdgSchedule::on_cmbDayTypes_activated(int index) {
