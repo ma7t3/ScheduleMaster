@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
+    <name>Busstop</name>
+    <message>
+        <location filename="ProjectData/busstop.cpp" line="34"/>
+        <source>Unnamed Busstop</source>
+        <translation>Unbenannte Haltestelle</translation>
+    </message>
+</context>
+<context>
     <name>DataExporter</name>
     <message>
         <location filename="Dialogs/DlgDataexporter.ui" line="14"/>
@@ -42,6 +50,14 @@
         <location filename="Dialogs/DlgDataexporter.ui" line="73"/>
         <source>Copy to clipboard</source>
         <translation>In die Zwischenablage kopieren</translation>
+    </message>
+</context>
+<context>
+    <name>DayType</name>
+    <message>
+        <location filename="ProjectData/daytype.cpp" line="61"/>
+        <source>Unnamed DayType</source>
+        <translation>Unbenannte Tagesart</translation>
     </message>
 </context>
 <context>
@@ -96,109 +112,73 @@
         <translation>Nachricht</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="33"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="34"/>
         <source>couldn&apos;t load project - file not found: </source>
         <translation>Projekt konnte nicht geladen werden - Datei nicht gefunden: </translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="40"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="41"/>
         <source>couldn&apos;t load project - couldn&apos;t open file: </source>
         <translation>Projekt konnte nicht geladen werden - Datei konnte nicht geöffnet werden: </translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="48"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="49"/>
         <source>reading file...</source>
         <translation>Datei wird eingelesen...</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="56"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="57"/>
         <source>couldn&apos;t load project - file is not a valid json object</source>
         <translation>Projekt konnte nicht geladen werden - Datei ist kein gültiges JSON-Objekt</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="61"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="62"/>
         <source>read file - %1 characters</source>
         <translation>Datei eingelesen - %1 Zeichen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="65"/>
-        <source>loading project settings...</source>
-        <translation>Projekteinstellungen werden geladen...</translation>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="66"/>
+        <source>reading data...</source>
+        <translation>Daten einlesen...</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="69"/>
-        <source>no project settings found - loading defaults...</source>
-        <translation>Keine Projekteinstellungen gefunden - Standardeinstellungen werden laden...</translation>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="68"/>
+        <source>project loaded!</source>
+        <translation>Projekt geladen!</translation>
+    </message>
+</context>
+<context>
+    <name>DlgFootnoteEditor</name>
+    <message>
+        <location filename="Dialogs/DlgFootnoteEditor.ui" line="14"/>
+        <location filename="Dialogs/DlgFootnoteEditor.cpp" line="15"/>
+        <source>Edit Footnote</source>
+        <translation>Fußnote bearbeiten</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="70"/>
-        <source>Monday-Friday</source>
-        <translation>Montag-Freitag</translation>
+        <location filename="Dialogs/DlgFootnoteEditor.ui" line="20"/>
+        <source>General</source>
+        <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="71"/>
-        <source>Saturday</source>
-        <translation>Samstag</translation>
+        <location filename="Dialogs/DlgFootnoteEditor.ui" line="26"/>
+        <source>Identifier:</source>
+        <translation>Kennzeichnung:</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="72"/>
-        <source>Sunday &amp; Holiday</source>
-        <translation>Son- und Feiertag</translation>
+        <location filename="Dialogs/DlgFootnoteEditor.ui" line="36"/>
+        <source>Description:</source>
+        <translation>Beschreibung:</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="76"/>
-        <source>loading busstops...</source>
-        <translation>Bushaltestellen werden geladen...</translation>
+        <location filename="Dialogs/DlgFootnoteEditor.ui" line="52"/>
+        <source>Auto-Assign</source>
+        <translation>Automatische Zuweisung</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="80"/>
-        <source>no busstops found</source>
-        <translation>Keine Bushaltestellen gefunden</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="84"/>
-        <source>loading lines...</source>
-        <translation>Linien werden geladen...</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="88"/>
-        <source>no lines found</source>
-        <translation>Keine Linien gefunden</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="92"/>
-        <source>loading tours...</source>
-        <translation>Dienste werden geladen...</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="96"/>
-        <source>no tours found</source>
-        <translation>Keine Dienste gefunden</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="100"/>
-        <source>loading publications...</source>
-        <translation>Veröffentlichungen werden geladen...</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="104"/>
-        <source>no publications found</source>
-        <translation>Keine Veröffentlichungen gefunden</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="125"/>
-        <source>busstop at index %1 is invalid - skipped</source>
-        <translation>Bushaltestelle am Index %1 ist ungültig - übersprungen</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="133"/>
-        <source>busstop no. %1 - no valid id found</source>
-        <translation>Haltestelle Nr. %1 - keine gültige ID gefunden</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="137"/>
-        <source>busstop no. %1 - no valid name found</source>
-        <translation>Haltestelle Nr. %1 - kein gültiger Name gefunden</translation>
+        <location filename="Dialogs/DlgFootnoteEditor.cpp" line="15"/>
+        <source>Create Footnote</source>
+        <translation>Fußnote erstellen</translation>
     </message>
 </context>
 <context>
@@ -299,6 +279,39 @@
         <location filename="Dialogs/DlgLineeditor.cpp" line="97"/>
         <source>&lt;p&gt;&lt;b&gt;Do you really want to delete this direction?&lt;/b&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Soll diese Fahrtrichtung wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>DlgManageFootnotes</name>
+    <message>
+        <location filename="Dialogs/DlgManageFootnotes.ui" line="14"/>
+        <source>Manage Footnotes</source>
+        <translation>Fußnoten verwalten</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgManageFootnotes.ui" line="22"/>
+        <source>New</source>
+        <translation>Neu</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgManageFootnotes.ui" line="29"/>
+        <source>Edit</source>
+        <translation>Bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgManageFootnotes.ui" line="52"/>
+        <source>Identifier</source>
+        <translation>Kennzeichnung</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgManageFootnotes.ui" line="57"/>
+        <source>Description</source>
+        <translation>Beschreibung</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgManageFootnotes.ui" line="80"/>
+        <source>Delete</source>
+        <translation>Löschen</translation>
     </message>
 </context>
 <context>
@@ -475,89 +488,55 @@
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="184"/>
-        <source>Monday</source>
-        <translation>Montag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="191"/>
-        <source>Saturday</source>
-        <translation>Samstag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="198"/>
-        <source>Tuesday</source>
-        <translation>Dienstag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="205"/>
-        <source>Sunday</source>
-        <translation>Sonntag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="212"/>
-        <source>Wednesday</source>
-        <translation>Mittwoch</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="219"/>
-        <source>Holiday</source>
-        <translation>Feiertag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="226"/>
-        <source>Thursday</source>
-        <translation>Donnerstag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="233"/>
-        <source>School</source>
-        <translation>Schultage</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="240"/>
-        <source>Friday</source>
-        <translation>Freitag</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.ui" line="247"/>
-        <source>NoSchool</source>
-        <translation>Ferientage</translation>
-    </message>
-    <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="60"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="61"/>
         <source>Images (*.png *.jpg *.bmp *.ico)</source>
         <translation>Grafiken (*.png *.jpg *.bmp *.ico)</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="67"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="68"/>
         <source>File not found</source>
         <translation>Datei nicht gefunden</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="67"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="68"/>
         <source>The requested file was not found!</source>
         <translation>Die angeforderte Datei wurde nicht gefunden!</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="72"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="73"/>
         <source>Couldn&apos;t open file</source>
         <translation>Datei konnte nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="72"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="73"/>
         <source>&lt;p&gt;&lt;b&gt;The requested file couldn&apos;t be opened:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Die angeforderte Datei konnte nicht geöffnet werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="210"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="178"/>
         <source>Delete day type</source>
         <translation>Tagesart löschen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="210"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="178"/>
         <source>&lt;p&gt;&lt;b&gt;Do you really want to delete this dayType?&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Soll diese Tagesart wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Line</name>
+    <message>
+        <location filename="ProjectData/line.cpp" line="74"/>
+        <source>Unnamed Line</source>
+        <translation>Unbenannte Linie</translation>
+    </message>
+</context>
+<context>
+    <name>LineDirection</name>
+    <message>
+        <location filename="ProjectData/linedirection.cpp" line="28"/>
+        <source>Unnamed Direction</source>
+        <translation>Unbenannte Fahrtrichtung</translation>
     </message>
 </context>
 <context>
@@ -598,31 +577,31 @@
     </message>
     <message>
         <location filename="Mainwindow.ui" line="84"/>
-        <location filename="Mainwindow.h" line="116"/>
+        <location filename="Mainwindow.h" line="118"/>
         <source>Busstops</source>
         <translation>Bushaltestellen</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="92"/>
-        <location filename="Mainwindow.h" line="117"/>
+        <location filename="Mainwindow.h" line="119"/>
         <source>Lines</source>
         <translation>Linien</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="100"/>
-        <location filename="Mainwindow.h" line="118"/>
+        <location filename="Mainwindow.h" line="120"/>
         <source>Routes</source>
         <translation>Routen</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="109"/>
-        <location filename="Mainwindow.h" line="119"/>
+        <location filename="Mainwindow.h" line="121"/>
         <source>Schedule</source>
         <translation>Fahrplan</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="114"/>
-        <location filename="Mainwindow.h" line="121"/>
+        <location filename="Mainwindow.h" line="123"/>
         <source>Tours</source>
         <translation>Dienste</translation>
     </message>
@@ -859,114 +838,114 @@
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="69"/>
+        <location filename="Mainwindow.cpp" line="70"/>
         <source>loading ui...</source>
         <translation>Benutzeroberflächen wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="94"/>
+        <location filename="Mainwindow.cpp" line="95"/>
         <source>loading menubar...</source>
         <translation>Menüleiste wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="163"/>
+        <location filename="Mainwindow.cpp" line="164"/>
         <source>toolbar</source>
         <translation>Werkzeugleiste</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="193"/>
+        <location filename="Mainwindow.cpp" line="194"/>
         <source>loading signals and slots...</source>
         <translation>Signale und Slots werden geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="223"/>
+        <location filename="Mainwindow.cpp" line="224"/>
         <source>loading startup dialog...</source>
         <translation>Willkommensdialog wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="277"/>
-        <location filename="Mainwindow.cpp" line="297"/>
+        <location filename="Mainwindow.cpp" line="278"/>
+        <location filename="Mainwindow.cpp" line="298"/>
         <source>ScheduleMaster File (*.smp2)</source>
         <translation>ScheduleMaster-Datei (*.smp2)</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="312"/>
+        <location filename="Mainwindow.cpp" line="313"/>
         <source>Unsaved Changes</source>
         <translation>Ungespeicherte Änderungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="312"/>
+        <location filename="Mainwindow.cpp" line="313"/>
         <source>&lt;p&gt;&lt;b&gt;There are unsaved changes!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Do want to save them before closing this file?&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Es gibt ungespeicherte Änderungen!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Sollen diese vor dem schließen der Datei gespeichert werden?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="632"/>
+        <location filename="Mainwindow.cpp" line="633"/>
         <source>Opening project file...</source>
         <translation>Projektdatei wird geöffnet...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="638"/>
+        <location filename="Mainwindow.cpp" line="639"/>
         <source>File not found</source>
         <translation>Datei nicht gefunden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="638"/>
+        <location filename="Mainwindow.cpp" line="639"/>
         <source>&lt;p&gt;The given file was not found!&lt;/p&gt;</source>
         <translation>&lt;p&gt;Die angeforderte Datei wurde nicht gefunden!&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="646"/>
-        <location filename="Mainwindow.cpp" line="683"/>
+        <location filename="Mainwindow.cpp" line="647"/>
+        <location filename="Mainwindow.cpp" line="684"/>
         <source>Failed reading file</source>
         <translation>Einlesen der Datei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="646"/>
+        <location filename="Mainwindow.cpp" line="647"/>
         <source>&lt;p&gt;&lt;b&gt;Could not read file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht gelesen werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="683"/>
+        <location filename="Mainwindow.cpp" line="684"/>
         <source>&lt;p&gt;&lt;b&gt;Could not write to file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht geschrieben werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="696"/>
+        <location filename="Mainwindow.cpp" line="697"/>
         <source>File saved!</source>
         <translation>Datei gespeichert!</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="792"/>
+        <location filename="Mainwindow.cpp" line="793"/>
         <source>&lt;h1&gt;About ScheduleMaster 2&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1.%2.%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Release type:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Beta&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
         <translation>&lt;h1&gt;Über ScheduleMaster&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1.%2.%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Veröffentlichungstyp:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Beta&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="798"/>
+        <location filename="Mainwindow.cpp" line="799"/>
         <source>ScheduleMaster 2 - About</source>
         <translation>ScheduleMaster - Über</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="115"/>
+        <location filename="Mainwindow.h" line="117"/>
         <source>Undo View</source>
         <translation>Rückgängig-Ansicht</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="120"/>
+        <location filename="Mainwindow.h" line="122"/>
         <source>Current trips</source>
         <translation>Aktuelle Fahrten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="122"/>
+        <location filename="Mainwindow.h" line="124"/>
         <source>Current tour</source>
         <translation>Aktueller Dienst</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="123"/>
+        <location filename="Mainwindow.h" line="125"/>
         <source>Busstop schedule</source>
         <translation>Haltestellenfahrplan</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="124"/>
+        <location filename="Mainwindow.h" line="126"/>
         <source>Published lines</source>
         <translation>Veröffentlichte Linien</translation>
     </message>
@@ -1017,7 +996,7 @@
         <source>Trips (%1)</source>
         <translation>
             <numerusform>Fahrten (%1)</numerusform>
-            <numerusform>Linien (%1)</numerusform>
+            <numerusform>Fahrten (%1)</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -1027,6 +1006,22 @@
             <numerusform>Linien (%1)</numerusform>
             <numerusform>Linien (%1)</numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>PublishedLine</name>
+    <message>
+        <location filename="ProjectData/publishedline.cpp" line="46"/>
+        <source>Unnamed Published Line</source>
+        <translation>Unbenanne, veröffentlichte Linie</translation>
+    </message>
+</context>
+<context>
+    <name>PublishedLineDirection</name>
+    <message>
+        <location filename="ProjectData/publishedlinedirection.cpp" line="47"/>
+        <source>Unnamed Direction</source>
+        <translation>Unbenannte Fahrtrichtung</translation>
     </message>
 </context>
 <context>
@@ -1075,17 +1070,17 @@
         <translation>Linie bearbeiten: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdLines.h" line="65"/>
+        <location filename="Commands/CmdLines.h" line="59"/>
         <source>delete line: %1</source>
         <translation>Linie löschen: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdLines.h" line="89"/>
+        <location filename="Commands/CmdLines.h" line="83"/>
         <source>deleted line: %1</source>
         <translation>Linie löschen: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="Commands/CmdLines.h" line="91"/>
+        <location filename="Commands/CmdLines.h" line="85"/>
         <source>deleted %n lines</source>
         <translation>
             <numerusform>Linie löschen</numerusform>
@@ -1229,6 +1224,29 @@
         <source>reorder trips of tour: %1</source>
         <translation>Fahrten im Dienst sortieren: %1</translation>
     </message>
+    <message>
+        <location filename="Commands/CmdFootnotes.h" line="14"/>
+        <source>new footnote: %1</source>
+        <translation>Neue Fußnote: %1</translation>
+    </message>
+    <message>
+        <location filename="Commands/CmdFootnotes.h" line="38"/>
+        <source>edit footnote: %1</source>
+        <translation>Fußnote bearbeiten :%1</translation>
+    </message>
+    <message>
+        <location filename="Commands/CmdFootnotes.h" line="61"/>
+        <source>delete footnote: %1</source>
+        <translation>Fußnote löschen: %1</translation>
+    </message>
+</context>
+<context>
+    <name>Route</name>
+    <message>
+        <location filename="ProjectData/route.cpp" line="59"/>
+        <source>unnamed route</source>
+        <translation>Unbenannte Route</translation>
+    </message>
 </context>
 <context>
     <name>StartupDialog</name>
@@ -1278,6 +1296,14 @@
         <location filename="Dialogs/DlgStartupdialog.ui" line="98"/>
         <source>Open File</source>
         <translation>Datei öffnen</translation>
+    </message>
+</context>
+<context>
+    <name>TimeProfile</name>
+    <message>
+        <location filename="ProjectData/timeProfile.cpp" line="144"/>
+        <source>unnamed time profile</source>
+        <translation>Unbenanntes Fahrtzeitprofil</translation>
     </message>
 </context>
 <context>
@@ -1397,6 +1423,14 @@
         <location filename="Dialogs/DlgTimeprofileeditor.cpp" line="256"/>
         <source>Please select the source profile:</source>
         <translation>Bitte Quellprofil auswählen:</translation>
+    </message>
+</context>
+<context>
+    <name>Tour</name>
+    <message>
+        <location filename="ProjectData/tour.cpp" line="38"/>
+        <source>unnamed tour</source>
+        <translation>Unbenannter Dienst</translation>
     </message>
 </context>
 <context>
@@ -1562,7 +1596,7 @@
         <translation>wird geladen...</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstopschedule.cpp" line="173"/>
+        <location filename="Widgets/wdgbusstopschedule.cpp" line="176"/>
         <source>&lt;unkown&gt;</source>
         <translation>&lt;unbekannt&gt;</translation>
     </message>
