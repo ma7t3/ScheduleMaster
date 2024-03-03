@@ -34,10 +34,6 @@ public:
 
     WeekDays operator=(const WeekDays &);
 
-    static const int MonFri = 995;
-    static const int Sat = 19;
-    static const int Sun = 15;
-
     bool day(const WeekDay &) const;
     void setDay(const WeekDay &, const bool &);
 

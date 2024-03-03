@@ -40,19 +40,11 @@ public:
     }
 
     void undo() override {
-        route->setCode(oldRoute.code());
-        route->setDirection(oldRoute.direction());
-        route->setName(oldRoute.name());
-        route->setBusstops(oldRoute.busstops());
-        route->setTimeProfiles(oldRoute.timeProfiles());
+        *route = oldRoute;
     }
 
     void redo() override {
-        route->setCode(newRoute.code());
-        route->setDirection(newRoute.direction());
-        route->setName(newRoute.name());
-        route->setBusstops(newRoute.busstops());
-        route->setTimeProfiles(newRoute.timeProfiles());
+        *route = newRoute;
     }
 
 private:

@@ -36,7 +36,9 @@ void Trip::copy(const Trip &other) {
     ProjectDataItem::copy(other);
     setRoute(other.route());
     setStartTime(other.startTime());
-    *weekDays() = *other.weekDays();
+    // *weekDays() = *other.weekDays();
+    // Das darüber musste ich auskommentieren, weil das Programm sonst immer abgestüzt ist, sollte es ein Problem mit den WeekDays geben, muss man sich da nochmal ransetzen.
+    // Aber es ist jetzt grade 22:49 Uhr, ich kann mir den Absturz nicht erklären und bin der Meinung, dass der Befehl unnötig ist, weil beim Ändern der WeekDays über den Fahrplan dies eh "zu Fuß" und nicht per Copy Constructor gemacht wird.
     setTimeProfile(other.timeProfile());
 }
 

@@ -91,7 +91,7 @@ void WdgRoutes::actionEdit() {
     QStringList busstopList = dlg.getBusstopList();
 
     for(int i = 0; i < busstopList.count(); i++) {
-        Busstop * b = projectData->busstop(busstopList[i]);
+        Busstop *b = projectData->busstop(busstopList[i]);
         newR.addBusstop(b);
     }
 
