@@ -8,12 +8,11 @@
 #include "linedirection.h"
 #include "ProjectDataItem.h"
 
-// ABGESCHLOSSEN!
-
 class Route : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Route(const QString &id, const int &code, const QString &name, LineDirection *direction);
+    Route(QObject *parent, const QString &id, const int &code, const QString &name, LineDirection *direction);
+    Route(QObject *parent, const QJsonObject &);
     Route(const Route &);
     bool operator<(const Route &);
     Route operator=(const Route &);
@@ -54,8 +53,11 @@ public:
     void removeTimeProfile(const QString &);
     int indexOfTimeProfile(TimeProfile*) const;
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const Route &);
+    void fromJson(const QJsonObject &);
 
 private:
     int _code;

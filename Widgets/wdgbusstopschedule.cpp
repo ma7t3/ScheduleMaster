@@ -79,6 +79,7 @@ void WdgBusstopSchedule::refreshSchedule()
     for(int i = 0; i < trips.count(); i++) {
         Trip *t = trips[i];
         QTime time = t->busstopTime(busstop);
+        qDebug() << time;
 
         if(time.hour() != hour) {
             hour = time.hour();
@@ -105,6 +106,8 @@ void WdgBusstopSchedule::refreshSchedule()
         column++;
     }
 
+    qDebug() << " _________________";
+
     ui->progressBar->setHidden(true);
 
     ui->progressBar->setValue(0);
@@ -113,7 +116,7 @@ void WdgBusstopSchedule::refreshSchedule()
 }
 
 WeekDays WdgBusstopSchedule::getShiftedWeekDays(Trip *t) {
-    WeekDays w;
+    WeekDays w(nullptr);
     if(!t->goesPastMidnight())
         w = *t->weekDays();
     else

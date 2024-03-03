@@ -1,10 +1,15 @@
 #include "ProjectData\line.h"
 
-Line::Line(const QString &id, const QString &name, const QString &description, const QColor &color) :
-    ProjectDataItem(id), _name(name), _description(description), _color(color) {
+Line::Line(QObject *parent, const QString &id, const QString &name, const QString &description, const QColor &color) :
+    ProjectDataItem(parent, id), _name(name), _description(description), _color(color) {}
+
+Line::Line(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent) {
+    fromJson(jsonObject);
 }
 
-Line::Line(const Line &other) {
+Line::Line(const Line &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -62,6 +67,59 @@ void Line::copy(const Line &other) {
     }
     setTrips(newTrips);
 }
+
+void Line::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+
+    setName(jsonObject.value("name").isString() ? jsonObject.value("name").toString() : tr("Unnamed Line"));
+    setDescription(jsonObject.value("description").isString() ? jsonObject.value("description").toString() : "");
+    setColor(jsonObject.value("color").isString() ? QColor(jsonObject.value("color").toString()) : QColor(0, 0, 0));
+
+    QJsonArray jDirections = jsonObject.value("directions").isArray() ? jsonObject.value("directions").toArray() : QJsonArray();
+    QJsonArray jRoutes = jsonObject.value("routes").isArray() ? jsonObject.value("routes").toArray() : QJsonArray();
+    QJsonArray jTrips = jsonObject.value("trips").isArray() ? jsonObject.value("trips").toArray() : QJsonArray();
+
+    for(int i = 0; i < jDirections.count(); ++i)
+        if(jDirections[i].isObject())
+            addDirection(new LineDirection(this, jDirections[i].toObject()));
+
+    for(int i = 0; i < jRoutes.count(); ++i)
+        if(jRoutes[i].isObject())
+            addRoute(new Route(this, jRoutes[i].toObject()));
+
+    for(int i = 0; i < jTrips.count(); ++i)
+        if(jTrips[i].isObject())
+            addTrip(new Trip(this, jTrips[i].toObject()));
+}
+
+
+QJsonObject Line::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+
+    jsonObject.insert("name", name());
+    jsonObject.insert("description", description());
+    jsonObject.insert("color", color().name(QColor::HexRgb));
+
+    QJsonArray jDirections;
+    QJsonArray jRoutes;
+    QJsonArray jTrips;
+
+    for(int i = 0; i < directionCount(); ++i)
+        jDirections.append(directionAt(i)->toJson());
+
+    for(int i = 0; i < routeCount(); ++i)
+        jRoutes.append(routeAt(i)->toJson());
+
+    for(int i = 0; i < tripCount(); ++i)
+        jTrips.append(tripAt(i)->toJson());
+
+    jsonObject.insert("directions", jDirections);
+    jsonObject.insert("routes", jRoutes);
+    jsonObject.insert("trips", jTrips);
+
+    return jsonObject;
+}
+
 
 QString Line::name() const {
     return _name;
@@ -137,6 +195,7 @@ void Line::addDirection(LineDirection *ld) {
     if(!ld)
         return;
 
+    ld->setParent(this);
     _directions << ld;
 }
 
@@ -205,7 +264,11 @@ void Line::setRoutes(const QList<Route *> &newRoutes) {
     _routes = newRoutes;
 }
 
-void Line::addRoute(Route * r) {
+void Line::addRoute(Route *r) {
+    if(!r)
+        return;
+
+    r->setParent(this);
     _routes << r;
 }
 
@@ -293,6 +356,10 @@ void Line::setTrips(const QList<Trip *> &newTrips) {
 }
 
 void Line::addTrip(Trip *t) {
+    if(!t)
+        return;
+
+    t->setParent(this);
     _trips << t;
 }
 

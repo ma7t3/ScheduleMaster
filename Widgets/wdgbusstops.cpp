@@ -49,7 +49,7 @@ void WdgBusstops::actionNew() {
     if(name == "")
         return;
 
-    Busstop *b = new Busstop(global::getNewID(), name, important);
+    Busstop *b = new Busstop(nullptr, global::getNewID(), name, important);
     undoStack->push(new CmdBusstopNew(projectData, b));
     refreshBusstopTable();
 }

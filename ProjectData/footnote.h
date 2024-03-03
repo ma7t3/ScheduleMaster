@@ -5,12 +5,10 @@
 
 #include "ProjectDataItem.h"
 
-// ABGESCHLOSSEN!
-
 class Footnote : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Footnote(const QString &id, const QString &identifier, const QString &description = "");
+    Footnote(QObject *parent, const QString &id, const QString &identifier, const QString &description = "");
     Footnote(const Footnote &);
     Footnote operator=(const Footnote &);
 

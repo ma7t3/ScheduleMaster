@@ -1,12 +1,18 @@
 #include "ProjectData\tour.h"
+#include "projectdata.h"
 
-Tour::Tour(const QString &id, const QString &name, const WeekDays &weekDays) :
-    ProjectDataItem(id),
-    _name(name),
-    _weekDays(new WeekDays(weekDays)) {
+Tour::Tour(QObject *parent, const QString &id, const QString &name, const WeekDays &weekDays) :
+    ProjectDataItem(parent, id), _name(name), _weekDays(new WeekDays(weekDays)) {
 }
 
-Tour::Tour(const Tour &other) {
+Tour::Tour(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent),
+    _weekDays(new WeekDays(this)) {
+    fromJson(jsonObject);
+}
+
+Tour::Tour(const Tour &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -24,6 +30,32 @@ void Tour::copy(const Tour &other) {
     setName(other.name());
     setWeekDays(*other.weekDays());
     setTrips(other.trips());
+}
+
+void Tour::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+
+    setName(jsonObject.value("name").toString(tr("unnamed tour")));
+    weekDays()->setCode(jsonObject.value("weekdays").toInt());
+
+    QJsonArray jTrips = jsonObject.value("trips").toArray();
+    for (int i = 0; i < jTrips.count(); ++i)
+        if(jTrips[i].isString())
+            addTrip(static_cast<ProjectData *>(parent())->trip(jTrips[i].toString()));
+}
+
+QJsonObject Tour::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.insert("name", name());
+    jsonObject.insert("weekdays", weekDays()->toCode());
+
+    QJsonArray jTrips;
+    for (int i = 0; i < tripCount(); ++i)
+        jTrips << tripAt(i)->id();
+
+    jsonObject.insert("trips", jTrips);
+
+    return jsonObject;
 }
 
 void Tour::setName(const QString &newName) {
@@ -51,6 +83,10 @@ int Tour::indexOfTrip(Trip *t) const {
 }
 
 void Tour::addTrip(Trip *t) {
+    if(!t)
+        return;
+
+    t->setParent(this);
     _trips << t;
 }
 
@@ -171,18 +207,3 @@ QTime Tour::breakTime() const {
     QTime time(0, 0, 0, 0);
     return time.addMSecs(duration().msecsSinceStartOfDay() - drivingTime().msecsSinceStartOfDay());
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

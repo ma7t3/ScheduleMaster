@@ -6,12 +6,11 @@
 #include "daytype.h"
 #include "publishedlinedirection.h"
 
-// ABGESCHLOSSEN!
-
 class PublishedLine : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    PublishedLine(const QString &id, const QString &title, const QString &footer = "");
+    PublishedLine(QObject *parent, const QString &id, const QString &title, const QString &footer = "");
+    PublishedLine(QObject *parent, const QJsonObject &);
     PublishedLine(const PublishedLine &);
     PublishedLine operator=(const PublishedLine &);
 
@@ -43,8 +42,11 @@ public:
     void addDayType(DayType *);
     void removeDayType(DayType *);
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const PublishedLine &);
+    void fromJson(const QJsonObject &);
 
 private:
     QString _filePath;

@@ -191,7 +191,7 @@ QList<TimeProfileItem *> TimeProfileEditor::getTimeProfileItemList()
         float depTime = qobject_cast<QDoubleSpinBox *>(depTimeW)->value();
         int busstopMode = qobject_cast<QComboBox *>(busstopModeW)->currentIndex();
 
-        TimeProfileItem *itm = new TimeProfileItem(busstopID);
+        TimeProfileItem *itm = new TimeProfileItem(nullptr, busstopID);
         itm->setDepValue(depTime);
 
         if(sepTimes)

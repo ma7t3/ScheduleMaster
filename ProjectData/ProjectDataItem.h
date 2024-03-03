@@ -3,21 +3,20 @@
 
 #include <QtCore>
 
-
 class ProjectDataItem : public QObject {
 public:
-    ProjectDataItem(const QString &id = "");
-    ProjectDataItem(const QJsonObject &);
+    ProjectDataItem(QObject *parent, const QString &id = "");
+    ProjectDataItem(QObject *parent, const QJsonObject &);
     ProjectDataItem(const ProjectDataItem &);
     ProjectDataItem operator=(const ProjectDataItem &);
 
     QString id() const;
 
-    ProjectDataItem fromJson(const QJsonObject &);
     QJsonObject toJson() const;
 
 protected:
     void copy(const ProjectDataItem &);
+    void fromJson(const QJsonObject &);
 
     QString _id;
 };

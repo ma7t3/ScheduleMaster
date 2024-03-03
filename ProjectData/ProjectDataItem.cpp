@@ -2,18 +2,19 @@
 
 #include "App/global.h"
 
-ProjectDataItem::ProjectDataItem(const QString &id) :
-    QObject(nullptr),
+ProjectDataItem::ProjectDataItem(QObject *parent, const QString &id) :
+    QObject(parent),
     _id(id) {
+    if(this->id() == "")
+        _id = global::getNewID();
 }
 
-
-ProjectDataItem::ProjectDataItem(const QJsonObject &jsonObject) :
-    QObject(nullptr) {
+ProjectDataItem::ProjectDataItem(QObject *parent, const QJsonObject &jsonObject) :
+    QObject(parent) {
     fromJson(jsonObject);
 }
 
-ProjectDataItem::ProjectDataItem(const ProjectDataItem &other) : QObject(nullptr) {
+ProjectDataItem::ProjectDataItem(const ProjectDataItem &other) : QObject(other.parent()) {
     copy(other);
 }
 
@@ -23,6 +24,7 @@ ProjectDataItem ProjectDataItem::operator=(const ProjectDataItem &other) {
 }
 
 void ProjectDataItem::copy(const ProjectDataItem &other) {
+    setParent(other.parent());
     _id = other.id();
 }
 
@@ -30,13 +32,11 @@ QString ProjectDataItem::id() const {
     return _id;
 }
 
-ProjectDataItem ProjectDataItem::fromJson(const QJsonObject &jsonObject) {
+void ProjectDataItem::fromJson(const QJsonObject &jsonObject) {
     if(!jsonObject.contains("id") || !jsonObject.find("id")->isString())
         _id = global::getNewID();
     else
-        _id = jsonObject.value("id").toString();
-
-    return *this;
+        _id = jsonObject.value("id").toString(global::getNewID());
 }
 
 QJsonObject ProjectDataItem::toJson() const {

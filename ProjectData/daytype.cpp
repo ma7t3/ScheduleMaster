@@ -1,17 +1,18 @@
 #include "daytype.h"
 
-DayType::DayType(const QString &id) :
-    ProjectDataItem(id),
-    WeekDays(995) {
+DayType::DayType(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id),
+    WeekDays(parent, 995) {
 }
 
-DayType::DayType(const QString &id, const QString &name, const int &code) :
-    ProjectDataItem(id),
-    WeekDays(code),
+DayType::DayType(QObject *parent, const QString &id, const QString &name, const int &code) :
+    ProjectDataItem(parent, id),
+    WeekDays(parent, code),
     _name(name)
 {}
 
-DayType::DayType(const QString &id,
+DayType::DayType(QObject *parent,
+                 const QString &id,
                  const QString &name,
                  const bool &monday,
                  const bool &tuesday,
@@ -23,12 +24,20 @@ DayType::DayType(const QString &id,
                  const bool &holiday,
                  const bool &school,
                  const bool &noSchool) :
-    ProjectDataItem(id),
+    ProjectDataItem(parent, id),
     WeekDays(
-        monday, tuesday, wednesday, thursday, friday, saturday, sunday, holiday, school, noSchool),
+        parent, monday, tuesday, wednesday, thursday, friday, saturday, sunday, holiday, school, noSchool),
     _name(name) {}
 
-DayType::DayType(const DayType &other) {
+DayType::DayType(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent),
+    WeekDays(parent, jsonObject.value("code").toInt(995)) {
+    fromJson(jsonObject);
+}
+
+DayType::DayType(const DayType &other) :
+    ProjectDataItem(other.parent()),
+    WeekDays(other.parent()) {
     copy(other);
 }
 
@@ -47,6 +56,17 @@ void DayType::copy(const DayType &other) {
     setName(other.name());
 }
 
+void DayType::fromJson(const QJsonObject &jsonObject) {
+    WeekDays::fromJson(jsonObject);
+    setName(jsonObject.value("name").isString() ? jsonObject.value("name").toString() : tr("Unnamed DayType"));
+}
+
+QJsonObject DayType::toJson() const {
+    QJsonObject jsonObject = WeekDays::toJson();
+    jsonObject.insert("name", name());
+    return jsonObject;
+}
+
 void DayType::setName(const QString &name) {
     _name = name;
 }
@@ -54,6 +74,7 @@ void DayType::setName(const QString &name) {
 QString DayType::name() const {
     return _name;
 }
+
 
 
 

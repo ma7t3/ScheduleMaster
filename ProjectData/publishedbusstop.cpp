@@ -1,9 +1,17 @@
 #include "publishedbusstop.h"
 
-PublishedBusstop::PublishedBusstop(const QString &id, Busstop *linkedBusstop, const QString &label) :
-    ProjectDataItem(id), _linkedBusstop(linkedBusstop), _label(label), _showDivider(false) {}
+#include "ProjectData.h"
 
-PublishedBusstop::PublishedBusstop(const PublishedBusstop &other) {
+PublishedBusstop::PublishedBusstop(QObject *parent, const QString &id, Busstop *linkedBusstop, const QString &label) :
+    ProjectDataItem(parent, id), _linkedBusstop(linkedBusstop), _label(label), _showDivider(false) {}
+
+PublishedBusstop::PublishedBusstop(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent) {
+    fromJson(jsonObject);
+}
+
+PublishedBusstop::PublishedBusstop(const PublishedBusstop &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -19,6 +27,27 @@ void PublishedBusstop::copy(const PublishedBusstop &other) {
     setShowDivider(other.showDivider());
     joinWithPrevious(other.isJoinedWithPrevious());
     setShowArrAndDep(other.showArrAndDep());
+}
+
+void PublishedBusstop::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+
+    setLinkedBusstop(static_cast<ProjectData *>(parent()->parent()->parent()->parent())->busstop(jsonObject.value("busstopID").toString("")));
+    setLabel(jsonObject.value("label").toString(""));
+    setShowDivider(jsonObject.value("showDivider").toBool(false));
+    joinWithPrevious(jsonObject.value("joinWithPrevious").toBool(false));
+    setShowArrAndDep(jsonObject.value("showArrAndDep").toBool(false));
+}
+
+QJsonObject PublishedBusstop::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.insert("busstopID", linkedBusstop()->id());
+    jsonObject.insert("label", label());
+    jsonObject.insert("showDivider", showDivider());
+    jsonObject.insert("joinWithPrevious", isJoinedWithPrevious());
+    jsonObject.insert("showArrAndDep", showArrAndDep());
+
+    return jsonObject;
 }
 
 Busstop *PublishedBusstop::linkedBusstop() const {

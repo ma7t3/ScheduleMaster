@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef PROJECTDATA_H
 #define PROJECTDATA_H
 
@@ -91,6 +89,9 @@ public:
     static QList<Tour *> sortTours(QList<Tour *>);
 
     Publications *publications() const;
+
+    QJsonObject toJson();
+    void setJson(const QJsonObject &);
 
 private:
     QString _filePath;

@@ -1,11 +1,18 @@
 #include "projectsettings.h"
 
-ProjectSettings::ProjectSettings() {
+ProjectSettings::ProjectSettings(QObject *parent) :
+    ProjectDataItem(parent) {
 }
 
 ProjectSettings::~ProjectSettings() {}
 
-ProjectSettings::ProjectSettings(const ProjectSettings &other) {
+ProjectSettings::ProjectSettings(QObject *parent, const QJsonObject &jsonObject) :
+    ProjectDataItem(parent) {
+    fromJson(jsonObject);
+}
+
+ProjectSettings::ProjectSettings(const ProjectSettings &other) :
+    ProjectDataItem(other.parent()) {
     copy(other);
 }
 
@@ -32,6 +39,42 @@ void ProjectSettings::copy(const ProjectSettings &other) {
     }
     setDayTypes(newDayTypes);
 }
+
+void ProjectSettings::setJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+
+    setDisplayName(jsonObject.value("displayName").isString() ? jsonObject.value("displayName").toString() : "");
+    setShortName(jsonObject.value("shortName").isString() ? jsonObject.value("shortName").toString() : "");
+    setIcon(jsonObject.value("icon").isString() ? jsonObject.value("icon").toString() : "");
+
+    QJsonArray jDayTypes = jsonObject.value("dayTypes").isArray() ? jsonObject.value("dayTypes").toArray() : QJsonArray();
+
+    for(int i = 0; i < jDayTypes.count(); ++i)
+        if(jDayTypes.at(i).isObject())
+            addDayType(new DayType(this, jDayTypes.at(i).toObject()));
+}
+
+
+QJsonObject ProjectSettings::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.remove("id");
+
+    jsonObject.insert("displayName", displayName());
+    jsonObject.insert("shortName", shortName());
+    jsonObject.insert("icon", icon());
+
+    QJsonArray jDayTypes;
+
+    qDebug() << "lol";
+
+    for(int i = 0; i < dayTypeCount(); ++i)
+        jDayTypes.append(dayTypeAt(i)->toJson());
+
+    jsonObject.insert("dayTypes", jDayTypes);
+
+    return jsonObject;
+}
+
 
 QString ProjectSettings::displayName() const {
     return _displayName;
@@ -100,6 +143,10 @@ void ProjectSettings::setDayTypes(const QList<DayType *> &list) {
 }
 
 void ProjectSettings::addDayType(DayType *dayType) {
+    if(!dayType)
+        return;
+
+    dayType->setParent(this);
     _dayTypes << dayType;
 }
 
@@ -126,26 +173,3 @@ void ProjectSettings::removeDayType(const QString &id) {
 void ProjectSettings::clearDayTypes() {
     _dayTypes.clear();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

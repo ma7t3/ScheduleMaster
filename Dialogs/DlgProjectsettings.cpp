@@ -163,7 +163,7 @@ void DlgProjectSettings::saveDays() {
 
 
 void DlgProjectSettings::on_pbDayNew_clicked() {
-    DayType *d = new DayType(global::getNewID(), "", 0);
+    DayType *d = new DayType(nullptr, global::getNewID(), "", 0);
     tableReference << d;
     _currentDayType = d;
     refreshDayTypesTable();

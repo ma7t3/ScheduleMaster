@@ -819,7 +819,7 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
     if(dlg->result() != QDialog::Accepted)
         return;
 
-    ProjectSettings newS;
+    ProjectSettings newS(nullptr);
     newS.setNames(dlg->displayName(), dlg->shortName());
     newS.setIcon(dlg->icon());
     newS.setDayTypes(dlg->dayTypes());

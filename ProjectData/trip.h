@@ -8,13 +8,11 @@
 #include "weekdays.h"
 #include "route.h"
 
-
 class Trip : public virtual ProjectDataItem {
     Q_OBJECT
-
-
 public:
-    Trip(QString id, Route* route, QTime startTime, TimeProfile *timeProfile, WeekDays weekDays = WeekDays());
+    Trip(QObject *parent, const QString &id, Route* route, const QTime &startTime, TimeProfile *timeProfile, const WeekDays &weekDays = WeekDays(nullptr));
+    Trip(QObject *parent, const QJsonObject &);
     Trip(const Trip &);
     bool operator<(const Trip &);
     Trip operator=(const Trip &);
@@ -39,8 +37,11 @@ public:
     bool busstopIsAfterMidnight(Busstop *b) const;
     bool busstopIsAfterMidnight(const QString &id) const;
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const Trip &);
+    void fromJson(const QJsonObject &);
 
 private:
     Route *_route;

@@ -14,7 +14,7 @@ class TourEditor : public QDialog
     Q_OBJECT
 
 public:
-    explicit TourEditor(QWidget *parent = nullptr, bool = false, QString = "", WeekDays = WeekDays());
+    explicit TourEditor(QWidget *parent = nullptr, bool = false, QString = "", WeekDays = WeekDays(nullptr));
     ~TourEditor();
 
     void setName(QString);

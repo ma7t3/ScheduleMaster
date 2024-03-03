@@ -11,12 +11,11 @@
 
 #include <QObject>
 
-// ABGESCHLOSSEN!
-
 class Line : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Line(const QString &id, const QString &name, const QString &description = "", const QColor &color = QColor(0, 0, 0));
+    Line(QObject *parent, const QString &id, const QString &name, const QString &description = "", const QColor &color = QColor(0, 0, 0));
+    Line(QObject *parent, const QJsonObject &);
     Line(const Line &);
     Line operator=(const Line &);
     bool operator<(const Line &);
@@ -62,15 +61,17 @@ public:
     QList<Trip *> tripsToDirection(LineDirection *) const;
     QList<Trip *> tripsOfRoute(Route *) const;
 
-
     void setTrips(const QList<Trip *> &newTrips);
     void addTrip(Trip *);
     void removeTrip(Trip *);
     void removeTrip(const QString &id);
     LineDirection *directionOfTrip(Trip *) const;
 
+    QJsonObject toJson() const;
+
 protected:
     void copy(const Line &);
+    void fromJson(const QJsonObject &);
 
 private:
     QString _name;
