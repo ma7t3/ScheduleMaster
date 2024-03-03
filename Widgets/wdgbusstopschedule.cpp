@@ -54,7 +54,6 @@ void WdgBusstopSchedule::refreshSchedule()
 
     foreach(Line *l, projectData->lines()) {
         foreach(Trip *t, l->trips()) {
-
             bool matchingRoute = false;
             foreach(Route *r, routes) {
                 if(t->route() == r) {
@@ -72,14 +71,13 @@ void WdgBusstopSchedule::refreshSchedule()
         }
     }
 
-    trips = ProjectData::sortTrips(trips);
+    std::sort(trips.begin(), trips.end(), [this](Trip *a, Trip *b) {return a->busstopTime(this->busstop) < b->busstopTime(this->busstop);});
 
     int hour = 0;
     int column = 0;
     for(int i = 0; i < trips.count(); i++) {
         Trip *t = trips[i];
         QTime time = t->busstopTime(busstop);
-        qDebug() << time;
 
         if(time.hour() != hour) {
             hour = time.hour();
@@ -121,9 +119,9 @@ WeekDays WdgBusstopSchedule::getShiftedWeekDays(Trip *t) {
         w = *t->weekDays();
     else
         if(t->busstopIsAfterMidnight(busstop))
-        w = *new WeekDays(t->weekDays()->shfitedToNextDay());
+            w = t->weekDays()->shfitedToNextDay();
         else
-        w = *t->weekDays();
+            w = *t->weekDays();
     return w;
 }
 
