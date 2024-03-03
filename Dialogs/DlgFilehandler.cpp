@@ -67,7 +67,8 @@ bool DlgFileHandler::readFromFile(QString filePath) {
     projectData->setJson(jMainObj);
     logSuccess(tr("project loaded!"));
 
-    //close();
+    if(noErrors)
+        close();
 
     return true;
 }
@@ -98,6 +99,8 @@ void DlgFileHandler::logWarning(const QString &text) {
     QTreeWidgetItem *itm = new QTreeWidgetItem({text});
     itm->setIcon(0, icon);
 
+    noErrors = false;
+
     ui->log->addTopLevelItem(itm);
     qApp->processEvents();
 }
@@ -107,6 +110,8 @@ void DlgFileHandler::logError(const QString &text) {
 
     QTreeWidgetItem *itm = new QTreeWidgetItem({text});
     itm->setIcon(0, icon);
+
+    noErrors = false;
 
     ui->log->addTopLevelItem(itm);
     qApp->processEvents();
@@ -118,6 +123,8 @@ void DlgFileHandler::logCritical(const QString &text) {
     QTreeWidgetItem *itm = new QTreeWidgetItem({text});
     itm->setForeground(0, Qt::red);
     itm->setIcon(0, icon);
+
+    noErrors = false;
 
     ui->log->addTopLevelItem(itm);
     qApp->processEvents();
