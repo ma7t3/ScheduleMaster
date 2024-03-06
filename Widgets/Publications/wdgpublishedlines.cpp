@@ -119,6 +119,7 @@ void WdgPublishedLines::actionDirectionEdit() {
         return;
 
     PublishedLineDirection newLd = *_currentLineDirection;
+    newLd.setName(ui->leDirectionsName->text());
 
     undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
     refreshCurrentLine();
