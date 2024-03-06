@@ -159,7 +159,7 @@ void WdgPublishedLines::actionBusstopAdd() {
     PublishedBusstop *pb = new PublishedBusstop(nullptr, global::getNewID(), b, "");
 
     PublishedLineDirection newLd = *_currentLineDirection;
-    newLd.addBusstop(pb);
+    newLd.addBusstopAt(ui->lwBusstops->currentRow() + 1, pb);
 
     undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
