@@ -24,6 +24,7 @@ public:
 
     void setBusstops(const QList<PublishedBusstop *> &newBusstops);
     void addBusstop(PublishedBusstop *newBusstop);
+    void addBusstopAt(const int &index, PublishedBusstop *newBusstop);
     void removeBusstopAt(const int &index);
     void removeBusstop(const QString &id);
     void removeBusstop(PublishedBusstop *b);

@@ -131,6 +131,16 @@ void PublishedLineDirection::addBusstop(PublishedBusstop *newBusstop) {
     _busstops << newBusstop ;
 }
 
+void PublishedLineDirection::addBusstopAt(const int &index, PublishedBusstop *newBusstop) {
+    if(!newBusstop)
+        return;
+
+    if(index < 0 || index >= busstopCount())
+        _busstops << newBusstop;
+    else
+        _busstops.insert(index, newBusstop);
+}
+
 void PublishedLineDirection::removeBusstopAt(const int &index) {
     if(index < 0 || index >= busstopCount())
         return;
