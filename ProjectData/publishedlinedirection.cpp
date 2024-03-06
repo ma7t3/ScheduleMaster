@@ -128,7 +128,6 @@ void PublishedLineDirection::addBusstop(PublishedBusstop *newBusstop) {
     if(!newBusstop)
         return;
 
-    newBusstop->setParent(this);
     _busstops << newBusstop ;
 }
 
