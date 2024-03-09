@@ -180,14 +180,8 @@ void WdgBusstopSchedule::setBusstop(Busstop *b) {
     ui->routeSelector->expandAll();
 }
 
-void WdgBusstopSchedule::setDirections(QList<Busstop *> list) {
-    if(!refreshing)
-        preselectedDirections = list;
-}
-
-void WdgBusstopSchedule::setLines(QList<Line *> list) {
-    if(!refreshing)
-        preselectedLines = list;
+void WdgBusstopSchedule::setRoutes(QList<Route *> routes) {
+    ui->routeSelector->setSelectedRoutes(routes);
 }
 
 void WdgBusstopSchedule::setDays(int i) {
@@ -202,14 +196,13 @@ void WdgBusstopSchedule::setDays(int i) {
         ui->rbSun->setChecked(true);
 }
 
-void WdgBusstopSchedule::setAll(Busstop *b, QList<Busstop *> directions, QList<Line *> lines, int days) {
+void WdgBusstopSchedule::setAll(Busstop *b, QList<Route *> routes, int days) {
     if(refreshing)
         return;
 
-    setDirections(directions);
-    setLines(lines);
-    setDays(days);
     setBusstop(b);
+    setRoutes(routes);
+    setDays(days);
 
     if(this->isVisible())
         refreshSchedule();

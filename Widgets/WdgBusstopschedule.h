@@ -18,15 +18,12 @@ public:
     explicit WdgBusstopSchedule(QWidget *parent = nullptr, ProjectData* = nullptr);
     ~WdgBusstopSchedule();
 
-    //void setProjectData(ProjectData *);
-
 public slots:
     void setBusstop(Busstop *);
-    void setDirections(QList<Busstop *>);
-    void setLines(QList<Line *>);
+    void setRoutes(QList<Route *>);
     void setDays(int);
 
-    void setAll(Busstop *, QList<Busstop *> directions = {}, QList<Line *> lines = {}, int days = 1);
+    void setAll(Busstop *, QList<Route *> routes = {}, int days = 1);
 
 private slots:
     void on_rbMonFri_clicked();
