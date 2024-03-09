@@ -28,11 +28,13 @@ public slots:
 
     void setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDuplicate, QAction *actionDelete);
 
+    void setCurrentTour(Tour *);
+
     void refreshUI();
 
     void refreshTourList();
 
-    Tour * currentTour();
+    Tour *currentTour();
 
 private slots:
     void on_twTours_itemSelectionChanged();

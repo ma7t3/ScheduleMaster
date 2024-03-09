@@ -218,7 +218,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(wdgLines, SIGNAL(currentLineChanged(Line*)), wdgSchedule, SLOT(setCurrentLine(Line*)));
 
     QObject::connect(wdgSchedule, SIGNAL(busstopScheduleRequested(Busstop *, QList<Route *>, int)), this, SLOT(actionOpenBusstopSchedule(Busstop *, QList<Route *>, int)));
-
+    QObject::connect(wdgSchedule, SIGNAL(tourRequested(Tour *)), this, SLOT(actionOpenTour(Tour *)));
     QObject::connect(wdgTours, SIGNAL(currentTourChanged(Tour*)), wdgTourEditor, SLOT(setCurrentTour(Tour*)));
 
     splashScreen.showMessage(tr("loading startup dialog..."), Qt::AlignBottom, messageColor);
@@ -469,6 +469,7 @@ void MainWindow::actionWorkspaceScheduling() {
     this->addDockWidget(Qt::RightDockWidgetArea, dwSchedule);
     this->addDockWidget(Qt::RightDockWidgetArea, dwTripEditor);
     this->addDockWidget(Qt::LeftDockWidgetArea, dwUndoView);
+    this->addDockWidget(Qt::BottomDockWidgetArea, dwTourEditor);
     this->splitDockWidget(dwSchedule, dwTripEditor, Qt::Horizontal);
     this->tabifyDockWidget(dwLines, dwBusstops);
     this->tabifyDockWidget(dwBusstops, dwTours);
@@ -507,7 +508,7 @@ void MainWindow::actionWorkspaceScheduling() {
 
     this->resizeDocks({dwLines, dwSchedule}, {static_cast<int>(this->width() * 0.01), static_cast<int>(this->width() * 0.99)}, Qt::Horizontal);
     this->resizeDocks({dwSchedule, dwTripEditor}, {static_cast<int>(this->width() * 0.9), static_cast<int>(this->width() * 0.1)}, Qt::Horizontal);
-    this->resizeDocks({dwLines, dwUndoView}, {static_cast<int>(this->width() * 0.8), static_cast<int>(this->width() * 0.2)}, Qt::Vertical);
+    this->resizeDocks({dwLines, dwUndoView}, {static_cast<int>(this->height() * 0.8), static_cast<int>(this->height() * 0.2)}, Qt::Vertical);
 
     ui->actionWorkspaceTrackLayout->setChecked(false);
     ui->actionWorkspaceBusstopSchedule->setChecked(false);
@@ -609,6 +610,12 @@ void MainWindow::actionWorkspacePublish() {
 void MainWindow::actionOpenBusstopSchedule(Busstop *b, QList<Route *> routes, int days) {
     wdgBusstopSchedule->setAll(b, routes, days);
     dwBusstopSchedule->show();
+}
+
+void MainWindow::actionOpenTour(Tour *o) {
+    wdgTours->setCurrentTour(o);
+    wdgTourEditor->setCurrentTour(o);
+    dwTourEditor->show();
 }
 
 void MainWindow::setUndoEnabled(bool b) {

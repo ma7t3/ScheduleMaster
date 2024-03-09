@@ -3,6 +3,7 @@
 
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QInputDialog>
 
 #include "App/global.h"
 #include "ProjectData/projectdata.h"
@@ -892,15 +893,42 @@ void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
     if(!item)
         return;
 
-    int index = item->row() - headerRowCount;
-    Busstop *b = scheduleTableBusstopsReference[index];
-    QList<Route *> routes;
-    for (int i = 0; i < _currentLine->routeCount(); ++i) {
-        Route *r = _currentLine->routeAt(i);
-        if(r->direction() == _currentLineDirection)
-            routes << r;
+    if(item->row() == 1) {
+        int index = item->column();
+        Trip *t = scheduleTableTripsReference[index];
+        QList<Tour *> tours = projectData->toursOfTrip(t);
+
+        if(tours.count() == 0)
+            return;
+
+        if(tours.count() == 1) {
+            emit tourRequested(tours[0]);
+        } else {
+            QStringList tourNames;
+            foreach (Tour *o, tours) {
+                tourNames << o->name();
+            }
+            bool ok;
+            QString result = QInputDialog::getItem(this, tr("Select tour"), tr("Select the tour you want to open:"), tourNames, 0, false, &ok);
+            for (int i = 0; i < tourNames.count(); i++) {
+                if(tourNames[i] == result)
+                    emit tourRequested(tours[i]);
+            }
+        }
+    } else {
+        int index = item->row() - headerRowCount;
+        if(index < 0 || index >= scheduleTableBusstopsReference.count())
+            return;
+
+        Busstop *b = scheduleTableBusstopsReference[index];
+        QList<Route *> routes;
+        for (int i = 0; i < _currentLine->routeCount(); ++i) {
+            Route *r = _currentLine->routeAt(i);
+            if(r->direction() == _currentLineDirection)
+                routes << r;
+        }
+        emit busstopScheduleRequested(b, routes, 995);
     }
-    emit busstopScheduleRequested(b, routes, 995);
 }
 
 void WdgSchedule::on_cmbDayTypes_activated(int index) {
