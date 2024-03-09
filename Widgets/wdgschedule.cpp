@@ -230,7 +230,12 @@ void WdgSchedule::refreshDirections() {
     if(lastIndex == -1)
         ui->cmbDirections->setCurrentIndex(0);
 
-    _currentLineDirection = lineDirectionsReference[ui->cmbDirections->currentIndex()];
+    int currentIndex = ui->cmbDirections->currentIndex();
+
+    if(currentIndex > 0 && currentIndex <= lineDirectionsReference.count())
+        _currentLineDirection = lineDirectionsReference[currentIndex];
+    else
+        _currentLineDirection = nullptr;
 }
 
 void WdgSchedule::refreshDayTypes() {
