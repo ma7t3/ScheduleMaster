@@ -132,6 +132,8 @@ TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n
     for(int i = 0; i < ui->twProfile->rowCount(); i++) {
         ui->twProfile->setRowHeight(i, 25);
     }
+
+    ui->leName->setFocus();
 }
 
 TimeProfileEditor::~TimeProfileEditor()

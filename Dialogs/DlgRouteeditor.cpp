@@ -54,11 +54,9 @@ routeEditor::routeEditor(QWidget *parent, bool createMode, Route * r, QList<Line
         ui->twRouteBusstops->addTopLevelItem(itm);
     }
 
-    // load profiles
-
     refreshProfiles();
 
-
+    ui->leName->setFocus();
 }
 
 routeEditor::~routeEditor()

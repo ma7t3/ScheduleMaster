@@ -5,6 +5,8 @@ DlgFootnoteEditor::DlgFootnoteEditor(QWidget *parent, ProjectData *projectData) 
     QDialog(parent), ui(new Ui::DlgFootnoteEditor),
     projectData(projectData) {
     ui->setupUi(this);
+
+    ui->leIdentifier->setFocus();
 }
 
 DlgFootnoteEditor::~DlgFootnoteEditor() {
