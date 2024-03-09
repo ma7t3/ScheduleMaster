@@ -24,7 +24,6 @@ ProjectDataItem ProjectDataItem::operator=(const ProjectDataItem &other) {
 }
 
 void ProjectDataItem::copy(const ProjectDataItem &other) {
-    setParent(other.parent());
     _id = other.id();
 }
 
@@ -43,4 +42,8 @@ QJsonObject ProjectDataItem::toJson() const {
     QJsonObject jsonObject;
     jsonObject.insert("id", _id);
     return jsonObject;
+}
+
+void ProjectDataItem::refreshChilds() {
+    //
 }

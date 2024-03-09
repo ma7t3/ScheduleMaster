@@ -55,6 +55,8 @@ public:
 
     QJsonObject toJson() const;
 
+    void refreshChilds();
+
 protected:
     void copy(const Route &);
     void fromJson(const QJsonObject &);

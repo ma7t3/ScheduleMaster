@@ -63,6 +63,9 @@ QJsonObject Trip::toJson() const {
     return jsonObject;
 }
 
+void Trip::refreshChilds() {
+    _weekDays->setParent(this);
+}
 
 Route *Trip::route() const {
     return _route;

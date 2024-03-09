@@ -20,6 +20,8 @@ public:
 
     void redo() override {
         line->addTrip(trip);
+        line->refreshChilds();
+        trip->refreshChilds();
     }
 
 private:
@@ -42,8 +44,11 @@ public:
     }
 
     void redo() override {
-        for(int i = 0; i < trips.count(); i++)
+        for(int i = 0; i < trips.count(); i++) {
             line->addTrip(trips[i]);
+            trips[i]->refreshChilds();
+        }
+        line->refreshChilds();
     }
 
 private:

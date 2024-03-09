@@ -38,6 +38,8 @@ public:
     QJsonObject toJson() const;
     void setJson(const QJsonObject &);
 
+    void refreshChilds();
+
 protected:
     void copy(const ProjectSettings &);
 
