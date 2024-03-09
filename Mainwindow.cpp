@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent)
     pdfExporter(new DlgPdfExporter(this, projectData)),
     knownFile(true)
 {
+    qInfo() << "initializing splashscreen...";
+
     // init splashscreen
     QSplashScreen splashScreen;
     QString imagePath = ":/splashscreen/splashscreen.png";
@@ -72,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
     splashScreen.show();
     QObject().thread()->sleep(2);
 
+    qInfo() << "loading user interface...";
     // load ui
     ui->setupUi(this);
     MainWindow::hide();
@@ -91,6 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     actionWorkspaceTrackLayout();
 
+    qInfo() << "loading menubar...";
     // load menubar
     splashScreen.showMessage(tr("loading menubar..."), Qt::AlignBottom, messageColor);
 
@@ -190,6 +194,7 @@ MainWindow::MainWindow(QWidget *parent)
     setUndoEnabled(false);
     setSaved(true);
 
+    qInfo() << "loading signals and slots...";
     // load signals and slots
     splashScreen.showMessage(tr("loading signals and slots..."), Qt::AlignBottom, messageColor);
 
@@ -225,6 +230,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     MainWindow::showMaximized();
 
+    qInfo() << "loading startup dialog";
     StartupDialog dlg(startupDialog);
     splashScreen.close();
     dlg.exec();
@@ -245,17 +251,13 @@ MainWindow::~MainWindow()
 }
 
 // Close Event
-void MainWindow::closeEvent(QCloseEvent * event)
-{
-    /*if(undoStack->isClean()) {
-        event->accept();
-        return;
-    }*/
-
+void MainWindow::closeEvent(QCloseEvent * event){
     if(!actionFileClose())
-         event->ignore();
-    else
-         event->accept();
+        event->ignore();
+    else {
+        qInfo() << "closing mainWindow...";
+        event->accept();
+    }
 }
 
 
@@ -276,8 +278,10 @@ bool MainWindow::actionFileOpen() {
         dir.mkpath(dir.path());
 
     QString path = QFileDialog::getOpenFileName(this, "", dir.path(), tr("ScheduleMaster File (*.smp2)"));
-    if(path == "")
+    if(path == "") {
+        qWarning() << "cannot open file \"" << path << "\" - invalid path";
         return false;
+    }
 
     return openFile(path);
 }
@@ -319,6 +323,7 @@ bool MainWindow::actionFileClose() {
             return false;
         }
     }
+    qInfo() << "closing current file...";
     projectData->reset();
     knownFile = false;
     //projectFilePath = "";
@@ -644,6 +649,7 @@ bool MainWindow::openFile(QString path) {
 
     if(!f.exists()) {
         QMessageBox::warning(this, tr("File not found"), tr("<p>The given file was not found!</p>"));
+        qWarning() << "File \"" << path << "\" was not found!";
         actionFileOpen();
         return false;
     }
@@ -652,18 +658,22 @@ bool MainWindow::openFile(QString path) {
 
     if(!f.open(QIODevice::ReadOnly)) {
         QMessageBox::warning(this, tr("Failed reading file"), tr("<p><b>Could not read file:</b></p><p>%1</p>").arg(fi.fileName()));
+        qWarning() << "Failed reading file \"" << path << "\"!";
         actionFileOpen();
         return false;
     }
 
     f.close();
 
+    qDebug() << "loading file handler...";
     fileHandler->show();
     qApp->processEvents();
     fileHandler->readFromFile(path);
 
+    qDebug() << "cleaing up all project data";
     projectData->cleanup();
 
+    qDebug() << "refreshing ui...";
     wdgBusstops->refreshBusstopTable();
     wdgLines->refreshLineTable();
     wdgTours->refreshTourList();

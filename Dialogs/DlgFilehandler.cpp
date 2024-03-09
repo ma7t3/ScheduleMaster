@@ -32,6 +32,7 @@ bool DlgFileHandler::readFromFile(QString filePath) {
     if(!f.exists()) {
         noErrors = false;
         logCritical(tr("couldn't load project - file not found: ") + filePath);
+        qWarning() << "File" << filePath << "was not found!";
         ui->buttonBox->setEnabled(true);
         return false;
     }
@@ -39,6 +40,7 @@ bool DlgFileHandler::readFromFile(QString filePath) {
     if(!f.open(QIODevice::ReadOnly)) {
         noErrors = false;
         logCritical(tr("couldn't load project - couldn't open file: ") + filePath);
+        qWarning() << "Failed reading file" << filePath << "!";
         ui->buttonBox->setEnabled(true);
         return false;
     }
@@ -47,6 +49,7 @@ bool DlgFileHandler::readFromFile(QString filePath) {
     s.setEncoding(QStringConverter::Utf8);
 
     logInfo(tr("reading file..."));
+    qInfo() << "reading file" << filePath << "...";
     QString jsonStr = s.readAll();
     jsonStr = jsonStr.remove(fileHeader);
     QByteArray br = jsonStr.toUtf8();
@@ -55,11 +58,13 @@ bool DlgFileHandler::readFromFile(QString filePath) {
     if(!jDoc.isObject()) {
         noErrors = false;
         logCritical(tr("couldn't load project - file is not a valid json object"));
+        qCritical() << "couldn't load file - no valid json object found!";
         ui->buttonBox->setEnabled(true);
         return false;
     }
 
     logSuccess(tr("read file - %1 characters").arg(jsonStr.length()));
+    qInfo() << "read file - " << jsonStr.length() << " characters!";
 
     QJsonObject jMainObj = jDoc.object();
 
