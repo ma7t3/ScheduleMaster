@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    App/logger.cpp \
     Dialogs/DlgCopyTrip.cpp \
     Dialogs/DlgFilehandler.cpp \
     Dialogs/DlgFootnoteEditor.cpp \
@@ -61,6 +62,7 @@ SOURCES += \
 
 HEADERS += \
     App/global.h \
+    App/logger.h \
     Commands/CmdBusstops.h \
     Commands/CmdFootnotes.h \
     Commands/CmdGeneral.h \
