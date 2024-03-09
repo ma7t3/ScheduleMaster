@@ -2,6 +2,7 @@
 #include <QTranslator>
 
 #include "preferences.h"
+#include "App/logger.h"
 
 #include "Mainwindow.h"
 
@@ -9,6 +10,8 @@ int main(int argc, char *argv[])
 {
     //qDebug() << "Opened File: " << argv[1];
     QApplication a(argc, argv);
+
+    Logger logger(&a);
 
     if(Preferences::instance().language() == Preferences::LanguageGerman) {
         QTranslator *translator = new QTranslator;
