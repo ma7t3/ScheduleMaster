@@ -103,7 +103,6 @@ void Publications::addLine(PublishedLine *newLine) {
     if(!newLine)
         return;
 
-    newLine->setParent(this);
     _lines << newLine;
 }
 

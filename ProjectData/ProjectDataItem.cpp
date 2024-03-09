@@ -24,7 +24,6 @@ ProjectDataItem ProjectDataItem::operator=(const ProjectDataItem &other) {
 }
 
 void ProjectDataItem::copy(const ProjectDataItem &other) {
-    setParent(other.parent());
     _id = other.id();
 }
 

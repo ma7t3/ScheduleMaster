@@ -90,7 +90,6 @@ void Tour::addTrip(Trip *t) {
     if(!t)
         return;
 
-    t->setParent(this);
     _trips << t;
 }
 

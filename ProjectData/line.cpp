@@ -205,7 +205,6 @@ void Line::addDirection(LineDirection *ld) {
     if(!ld)
         return;
 
-    ld->setParent(this);
     _directions << ld;
 }
 
@@ -278,7 +277,6 @@ void Line::addRoute(Route *r) {
     if(!r)
         return;
 
-    r->setParent(this);
     _routes << r;
 }
 
@@ -369,7 +367,6 @@ void Line::addTrip(Trip *t) {
     if(!t)
         return;
 
-    t->setParent(this);
     _trips << t;
 }
 
