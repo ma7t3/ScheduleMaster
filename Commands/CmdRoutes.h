@@ -21,6 +21,8 @@ public:
 
     void redo() override {
         line->addRoute(route);
+        line->refreshChilds();
+        route->refreshChilds();
     }
 
 private:
@@ -45,6 +47,7 @@ public:
 
     void redo() override {
         *route = newRoute;
+        route->refreshChilds();
     }
 
 private:

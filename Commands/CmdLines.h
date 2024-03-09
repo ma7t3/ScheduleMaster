@@ -20,6 +20,7 @@ public:
 
     void redo() override {
         d->addLine(line);
+        line->refreshChilds();
     }
 
 private:
@@ -43,6 +44,7 @@ public:
 
     void redo() override {
         *line = newL;
+        line->refreshChilds();
     }
 
 private:

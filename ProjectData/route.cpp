@@ -91,6 +91,11 @@ QJsonObject Route::toJson() const {
     return jsonObject;
 }
 
+void Route::refreshChilds() {
+    foreach (TimeProfile *p, _timeProfiles)
+        p->setParent(this);
+}
+
 int Route::code() const {
     return _code;
 }
@@ -230,16 +235,13 @@ void Route::addTimeProfile(TimeProfile *p) {
     if(!p)
         return;
 
-    p->setParent(this);
     _timeProfiles << p;
 }
 
 void Route::addTimeProfiles(QList<TimeProfile *> list) {
     for(int i = 0; i < list.count(); i++)
-        if(list[i]) {
-            list[i]->setParent(this);
+        if(list[i])
             _timeProfiles << list[i];
-        }
 }
 
 void Route::removeTimeProfile(TimeProfile *p)

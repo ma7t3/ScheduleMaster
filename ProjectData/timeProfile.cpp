@@ -164,6 +164,11 @@ QJsonObject TimeProfile::toJson() const {
     return jsonObject;
 }
 
+void TimeProfile::refreshChilds() {
+    foreach (TimeProfileItem *itm, _items)
+        itm->setParent(this);
+}
+
 QString TimeProfile::name() const {
     return _name;
 }
@@ -207,14 +212,12 @@ void TimeProfile::addBusstop(TimeProfileItem * itm) {
     if(!itm)
         return;
 
-    itm->setParent(this);
     _items << itm;
 }
 
 void TimeProfile::addBusstops(const QList<TimeProfileItem *> &busstops) {
     for(int i = 0; i < busstops.count(); i++)
         if(busstops[i]) {
-            busstops[i]->setParent(this);
             this->addBusstop(busstops[i]);
         }
 }

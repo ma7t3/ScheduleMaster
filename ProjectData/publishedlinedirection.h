@@ -42,6 +42,8 @@ public:
 
     QJsonObject toJson() const;
 
+    void refreshChilds();
+
 protected:
     void copy(const PublishedLineDirection &);
     void fromJson(const QJsonObject &);

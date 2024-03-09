@@ -69,6 +69,8 @@ public:
 
     QJsonObject toJson() const;
 
+    void refreshChilds();
+
 protected:
     void copy(const Line &);
     void fromJson(const QJsonObject &);

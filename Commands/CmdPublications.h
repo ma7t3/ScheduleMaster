@@ -20,6 +20,8 @@ public:
 
     void redo() override {
         d->publications()->addLine(line);
+        d->publications()->refreshChilds();
+        line->refreshChilds();
     }
 
 private:
@@ -43,6 +45,7 @@ public:
 
     void redo() override {
         *line = newLine;
+        line->refreshChilds();
     }
 
 private:
@@ -87,6 +90,8 @@ public:
 
     void redo() override {
         line->addDirection(lineDirection);
+        line->refreshChilds();
+        lineDirection->refreshChilds();
     }
 
 private:
@@ -110,6 +115,7 @@ public:
 
     void redo() override {
         *direction = newDirection;
+        direction->refreshChilds();
     }
 
 private:
@@ -154,7 +160,8 @@ public:
     }
 
     void redo() override {
-        * busstop = newB;
+        *busstop = newB;
+        busstop->refreshChilds();
     }
 
 private:

@@ -20,6 +20,7 @@ public:
 
     void redo() override {
         d->addTour(tour);
+        tour->refreshChilds();
     }
 
 private:
@@ -38,13 +39,12 @@ public:
     }
 
     void undo() override {
-        tour->setName(oldTour.name());
-        tour->setWeekDays(*oldTour.weekDays());
+        *tour = oldTour;
     }
 
     void redo() override {
-        tour->setName(newTour.name());
-        tour->setWeekDays(*newTour.weekDays());
+        *tour = newTour;
+        tour->refreshChilds();
     }
 
 private:
@@ -68,6 +68,7 @@ public:
 
     void redo() override {
         tour->insertTripAt(trip, index);
+        tour->refreshChilds();
     }
 
 private:
