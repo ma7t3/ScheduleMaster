@@ -511,17 +511,32 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     jLines = jsonObject.value("lines").toArray();
     jTours = jsonObject.value("tours").toArray();
 
+    int counter = 0, invalidCounter = 0;
     for(int i = 0; i < jBusstops.count(); ++i)
-        if(jBusstops[i].isObject())
+        if(jBusstops[i].isObject()) {
+            counter++;
             addBusstop(new Busstop(this, jBusstops[i].toObject()));
+        } else invalidCounter++;
 
+    qInfo().noquote() << counter << "valid busstops found (" + QString::number(invalidCounter) + " invalid)";
+
+    counter = 0, invalidCounter = 0;
     for(int i = 0; i < jLines.count(); ++i)
-        if(jLines[i].isObject())
+        if(jLines[i].isObject()) {
+            counter++;
             addLine(new Line(this, jLines[i].toObject()));
+        } else invalidCounter++;
 
+    qInfo().noquote() << counter << "valid lines found (" + QString::number(invalidCounter) + " invalid)";
+
+    counter = 0, invalidCounter = 0;
     for(int i = 0; i < jTours.count(); ++i)
-        if(jTours[i].isObject())
+        if(jTours[i].isObject()) {
+            counter++;
             addTour(new Tour(this, jTours[i].toObject()));
+        } else invalidCounter++;
+
+    qInfo().noquote() << counter << "valid tours found (" + QString::number(invalidCounter) + " invalid)";
 
     projectSettings()->setJson(jsonObject.value("projectSettings").toObject());
     publications()->setJson(jsonObject.value("publications").toObject());
