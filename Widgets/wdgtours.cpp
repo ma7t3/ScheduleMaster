@@ -254,7 +254,7 @@ void WdgTours::refreshTourList() {
                 lines << lineName;
         }
 
-        ui->twTours->setItem(i, 4, new QTableWidgetItem(lines.join(", ")));
+        ui->twTours->setItem(row, 4, new QTableWidgetItem(lines.join(", ")));
     }
 
     refreshing = false;
