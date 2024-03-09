@@ -894,11 +894,13 @@ void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
 
     int index = item->row() - headerRowCount;
     Busstop *b = scheduleTableBusstopsReference[index];
-    QList<Line *> lines = {_currentLine};
-    QList<Busstop *> busstops;
-    if(scheduleTableBusstopsReference.count() > index + 1)
-        busstops << scheduleTableBusstopsReference[index + 1];
-    emit busstopScheduleRequested(b, busstops, lines, 995);
+    QList<Route *> routes;
+    for (int i = 0; i < _currentLine->routeCount(); ++i) {
+        Route *r = _currentLine->routeAt(i);
+        if(r->direction() == _currentLineDirection)
+            routes << r;
+    }
+    emit busstopScheduleRequested(b, routes, 995);
 }
 
 void WdgSchedule::on_cmbDayTypes_activated(int index) {

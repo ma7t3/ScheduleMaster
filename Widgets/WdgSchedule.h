@@ -65,7 +65,7 @@ signals:
     void currentDirectionChanged(LineDirection *);
     void currentTripsChanged(QList<Trip *>);
     void currentDayTypeChanged(DayType);
-    void busstopScheduleRequested(Busstop *, QList<Busstop *>, QList<Line *>, int);
+    void busstopScheduleRequested(Busstop *, QList<Route *>, int);
 
 private:
     Ui::WdgSchedule *ui;
