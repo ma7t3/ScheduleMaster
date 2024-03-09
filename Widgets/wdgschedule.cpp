@@ -232,7 +232,7 @@ void WdgSchedule::refreshDirections() {
 
     int currentIndex = ui->cmbDirections->currentIndex();
 
-    if(currentIndex > 0 && currentIndex <= lineDirectionsReference.count())
+    if(!lineDirectionsReference.empty())
         _currentLineDirection = lineDirectionsReference[currentIndex];
     else
         _currentLineDirection = nullptr;
