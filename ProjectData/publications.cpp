@@ -47,6 +47,11 @@ void Publications::setJson(const QJsonObject &jsonObject) {
             addLine(new PublishedLine(this, jLineSchedules.at(i).toObject()));
 }
 
+void Publications::refreshChilds() {
+    foreach (PublishedLine *l, _lines)
+        l->setParent(this);
+}
+
 QJsonObject Publications::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.remove("id");

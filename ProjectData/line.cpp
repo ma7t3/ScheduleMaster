@@ -120,6 +120,16 @@ QJsonObject Line::toJson() const {
     return jsonObject;
 }
 
+void Line::refreshChilds() {
+    foreach(LineDirection *ld, _directions)
+        ld->setParent(this);
+
+    foreach(Route *r, _routes)
+        r->setParent(this);
+
+    foreach(Trip *t, _trips)
+        t->setParent(this);
+}
 
 QString Line::name() const {
     return _name;
