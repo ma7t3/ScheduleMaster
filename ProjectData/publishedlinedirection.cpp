@@ -193,7 +193,6 @@ void PublishedLineDirection::addRoute(Route *newRoute) {
     if(!newRoute)
         return;
 
-    newRoute->setParent(this);
     _routes << newRoute;
 }
 

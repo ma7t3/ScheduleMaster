@@ -150,7 +150,6 @@ void ProjectSettings::addDayType(DayType *dayType) {
     if(!dayType)
         return;
 
-    dayType->setParent(this);
     _dayTypes << dayType;
 }
 
