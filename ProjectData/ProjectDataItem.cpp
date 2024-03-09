@@ -44,3 +44,7 @@ QJsonObject ProjectDataItem::toJson() const {
     jsonObject.insert("id", _id);
     return jsonObject;
 }
+
+void ProjectDataItem::refreshChilds() {
+    //
+}

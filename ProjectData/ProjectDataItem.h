@@ -14,6 +14,8 @@ public:
 
     QJsonObject toJson() const;
 
+    void refreshChilds();
+
 protected:
     void copy(const ProjectDataItem &);
     void fromJson(const QJsonObject &);

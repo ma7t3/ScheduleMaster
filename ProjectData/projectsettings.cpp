@@ -54,6 +54,10 @@ void ProjectSettings::setJson(const QJsonObject &jsonObject) {
             addDayType(new DayType(this, jDayTypes.at(i).toObject()));
 }
 
+void ProjectSettings::refreshChilds() {
+    foreach(DayType *dt, _dayTypes)
+        dt->setParent(this);
+}
 
 QJsonObject ProjectSettings::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();

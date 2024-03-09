@@ -74,6 +74,8 @@ public:
 
     QJsonObject toJson() const;
 
+    void refreshChilds();
+
 protected:
     void copy(const TimeProfile &);
     void fromJson(const QJsonObject &);
@@ -81,7 +83,7 @@ protected:
 private:
     QString _name;
     float _duration;
-    QList<TimeProfileItem*> _items;
+    QList<TimeProfileItem *> _items;
 };
 
 #endif // TIMEPROFILE_H

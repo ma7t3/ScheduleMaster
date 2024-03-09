@@ -91,6 +91,11 @@ QJsonObject Route::toJson() const {
     return jsonObject;
 }
 
+void Route::refreshChilds() {
+    foreach (TimeProfile *p, _timeProfiles)
+        p->setParent(this);
+}
+
 int Route::code() const {
     return _code;
 }

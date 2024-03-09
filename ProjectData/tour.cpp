@@ -58,6 +58,10 @@ QJsonObject Tour::toJson() const {
     return jsonObject;
 }
 
+void Tour::refreshChilds() {
+    _weekDays->setParent(this);
+}
+
 void Tour::setName(const QString &newName) {
     _name = newName;
 }
