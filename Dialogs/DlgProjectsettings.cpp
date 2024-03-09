@@ -16,16 +16,8 @@ DlgProjectSettings::DlgProjectSettings(QWidget *parent) :
     QObject::connect(ui->pbSelectIcon, SIGNAL(clicked()), this, SLOT(actionSelectIcon()));
 
     QObject::connect(ui->daySelector, SIGNAL(weekDaysChanged()), this, SLOT(saveDays()));
-    /*QObject::connect(ui->cbMonday, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbTuesday, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbWednesday, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbThursday, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbFriday, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbSaturday, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbSunday, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbHoliday, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbSchool, SIGNAL(clicked()), this, SLOT(saveDays()));
-    QObject::connect(ui->cbNoSchool, SIGNAL(clicked()), this, SLOT(saveDays()));*/
+
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 DlgProjectSettings::~DlgProjectSettings()

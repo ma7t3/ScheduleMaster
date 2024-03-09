@@ -16,6 +16,7 @@ busstopEditor::busstopEditor(QWidget *parent, bool m, QString n, bool i) :
 
     setCreateNewMode(m);
 
+    ui->leName->setFocus();
 }
 busstopEditor::~busstopEditor()
 {

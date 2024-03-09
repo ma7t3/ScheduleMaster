@@ -10,6 +10,8 @@ TourEditor::TourEditor(QWidget *parent, bool createMode, QString name, WeekDays 
 
     if(createMode)
         QDialog::setWindowTitle(tr("create tour"));
+
+    ui->leName->setFocus();
 }
 
 TourEditor::~TourEditor() {
@@ -31,53 +33,3 @@ QString TourEditor::name() {
 WeekDays TourEditor::weekDays() {
     return ui->daySelector->weekDays();
 }
-
-
-/*void TourEditor::on_pbMonFri_clicked() {
-    ui->cbMon->setChecked(true);
-    ui->cbTue->setChecked(true);
-    ui->cbWed->setChecked(true);
-    ui->cbThu->setChecked(true);
-    ui->cbFri->setChecked(true);
-    ui->cbSat->setChecked(false);
-    ui->cbSun->setChecked(false);
-    ui->cbHol->setChecked(false);
-}
-
-void TourEditor::on_pbSat_clicked() {
-    ui->cbMon->setChecked(false);
-    ui->cbTue->setChecked(false);
-    ui->cbWed->setChecked(false);
-    ui->cbThu->setChecked(false);
-    ui->cbFri->setChecked(false);
-    ui->cbSat->setChecked(true);
-    ui->cbSun->setChecked(false);
-    ui->cbHol->setChecked(false);
-}
-
-
-void TourEditor::on_pbSun_clicked() {
-    ui->cbMon->setChecked(false);
-    ui->cbTue->setChecked(false);
-    ui->cbWed->setChecked(false);
-    ui->cbThu->setChecked(false);
-    ui->cbFri->setChecked(false);
-    ui->cbSat->setChecked(false);
-    ui->cbSun->setChecked(true);
-    ui->cbHol->setChecked(true);
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -10,6 +10,8 @@ DlgCopyTrip::DlgCopyTrip(QWidget *parent, const QTime &startTime) :
 
     ui->teEndTime->setTime(_startTime);
     ui->lStartTime->setText(_startTime.toString("hh:mm"));
+
+    ui->teInterval->setFocus();
 }
 
 DlgCopyTrip::~DlgCopyTrip()

@@ -36,6 +36,8 @@ DlgLineEditor::DlgLineEditor(QWidget *parent, Line l) :
     ui->lColorName->setText(hex);
 
     refreshDirections();
+
+    ui->leName->setFocus();
 }
 
 DlgLineEditor::~DlgLineEditor()
