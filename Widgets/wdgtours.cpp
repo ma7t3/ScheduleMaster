@@ -153,6 +153,11 @@ void WdgTours::setMenubarActions(QAction *actionNew, QAction *actionEdit, QActio
     _actionDelete = actionDelete;
 }
 
+void WdgTours::setCurrentTour(Tour *o) {
+    _currentTour = o;
+    refreshTourList();
+}
+
 void WdgTours::refreshUI() {
     int selectionCount = ui->twTours->selectionModel()->selectedRows(0).count();
 
