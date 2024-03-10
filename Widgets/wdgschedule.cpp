@@ -292,7 +292,7 @@ void WdgSchedule::refreshSchedule(QList<Trip *> currentTrips) {
     refreshScheduleBusstopList(trips);
 
     // get all repetitions and sort trips
-    filteredTrips = ProjectData::sortTrips(filteredTrips);
+    filteredTrips = ProjectData::sortItems(filteredTrips);
 
     for(int i = 0; i < filteredTrips.count(); i++)
         refreshScheduleAddTrip(filteredTrips[i]);
@@ -324,8 +324,8 @@ void WdgSchedule::refreshScheduleBusstopList(QList<Trip *> trips) {
         if(!routes.contains(r))
             routes << r;
     }
-
-    routes = ProjectData::sortRoutes(routes);
+    
+    routes = ProjectData::sortItems(routes);
 
     for(int i = 0; i < routes.count(); i++) {
         Route *r = routes[i];

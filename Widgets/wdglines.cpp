@@ -226,7 +226,7 @@ void WdgLines::refreshLineTable() {
     bold.setBold(true);
 
     QList<Line *> lines = projectData->lines();
-    lines = ProjectData::sortLines(lines);
+    lines = ProjectData::sortItems(lines);
     
     for(int i = 0; i < lines.count(); i++) {
         Line * l = lines[i];

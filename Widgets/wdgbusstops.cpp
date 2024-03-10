@@ -189,7 +189,7 @@ void WdgBusstops::refreshBusstopTable()
     tableReference.clear();
 
     QList<Busstop *> busstops = projectData->busstops();
-    busstops = ProjectData::sortBusstops(busstops);
+    busstops = ProjectData::sortItems(busstops);
     
     for(int i = 0; i < busstops.count(); i++) {
         Busstop * b = busstops[i];

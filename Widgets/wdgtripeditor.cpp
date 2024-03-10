@@ -226,7 +226,7 @@ void WdgTripEditor::refreshRoutes() {
     }
 
     QList<Route *> routes = _currentLine->routes();
-    routes = ProjectData::sortRoutes(routes);
+    routes = ProjectData::sortItems(routes);
 
     for(int i = 0; i < routes.count(); i++) {
         Route *r = routes[i];

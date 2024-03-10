@@ -18,6 +18,20 @@ PublishedLine PublishedLine::operator=(const PublishedLine &other) {
     return *this;
 }
 
+bool PublishedLine::operator<(const PublishedLine &other) {
+    bool ok1, ok2;
+    int number1 = title().toInt(&ok1);
+    int number2 = other.title().toInt(&ok2);
+
+    if(ok1 && ok2)
+        return number1 < number2;
+    else if(!ok1 && !ok2)
+        return title() < other.title();
+    else if(ok1 && !ok2)
+        return true;
+    return false;
+}
+
 void PublishedLine::copy(const PublishedLine &other) {
     ProjectDataItem::copy(other);
 

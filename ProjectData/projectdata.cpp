@@ -17,14 +17,14 @@ void ProjectData::reset() {
 }
 
 void ProjectData::cleanup() {
-    _busstops = sortBusstops(_busstops);
-    _lines = sortLines(_lines);
-    _tours = sortTours(_tours);
+    _busstops = sortItems(_busstops);
+    _lines = sortItems(_lines);
+    _tours = sortItems(_tours);
     
     for(int i = 0; i < _lines.count(); i++) {
         Line *l = _lines[i];
-        l->setRoutes(sortRoutes(l->routes()));
-        l->setTrips(sortTrips(l->trips()));
+        l->setRoutes(sortItems(l->routes()));
+        l->setTrips(sortItems(l->trips()));
     }
 }
 
@@ -380,7 +380,7 @@ QList<Line *> ProjectData::linesAtBusstop(Busstop *busstop) {
             usedLines << currentLine;
     }
 
-    return sortLines(usedLines);
+    return sortItems(usedLines);
 }
 
 QList<Tour *> ProjectData::toursOfTrip(Trip *t)
@@ -447,31 +447,6 @@ QList<Busstop *> ProjectData::combinedRoutes(const QList<Route *> &routes) {
     }
 
     return result;
-}
-
-QList<Busstop *> ProjectData::sortBusstops(QList<Busstop *> list) {
-    std::sort(list.begin(), list.end(), [](Busstop *a, Busstop *b) {return *a < *b;});
-    return list;
-}
-
-QList<Line *> ProjectData::sortLines(QList<Line *> list) {
-    std::sort(list.begin(), list.end(), [](Line *a, Line *b) {return *a < *b;});
-    return list;
-}
-
-QList<Route *> ProjectData::sortRoutes(QList<Route *> list) {
-    std::sort(list.begin(), list.end(), [](Route *a, Route *b) {return *a < *b;});
-    return list;
-}
-
-QList<Trip *> ProjectData::sortTrips(QList<Trip *> list) {
-    std::sort(list.begin(), list.end(), [](Trip *a, Trip *b) {return *a < *b;});
-    return list;
-}
-
-QList<Tour *> ProjectData::sortTours(QList<Tour *> list) {
-    std::sort(list.begin(), list.end(), [](Tour *a, Tour *b) {return *a < *b;});
-    return list;
 }
 
 Publications *ProjectData::publications() const {

@@ -201,7 +201,7 @@ void WdgTours::refreshTourList() {
     bold.setBold(true);
 
     QList<Tour *> tours = projectData->tours();
-    tours = ProjectData::sortTours(tours);
+    tours = ProjectData::sortItems(tours);
 
     QRegularExpression regex(ui->leSearch->text());
     regex.setPatternOptions(QRegularExpression::CaseInsensitiveOption);

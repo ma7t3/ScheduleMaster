@@ -277,6 +277,7 @@ void WdgPublishedLines::refreshLineList() {
     _listReference.clear();
 
     QList<PublishedLine *> publishedLines = projectData->publications()->lines();
+    publishedLines = ProjectData::sortItems(publishedLines);
 
     for(int i = 0; i < publishedLines.count(); i++) {
         PublishedLine *l = publishedLines[i];
