@@ -264,7 +264,7 @@ void WdgRoutes::refreshRouteTable() {
         return;
 
     QList<Route *> routes = _currentLine->routes();
-    routes = ProjectData::sortRoutes(routes);
+    routes = ProjectData::sortItems(routes);
     ui->twRoutes->setRowCount(routes.count());
 
     for(int i = 0; i < routes.count(); i++) {

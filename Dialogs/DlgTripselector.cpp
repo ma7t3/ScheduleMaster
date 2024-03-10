@@ -97,7 +97,7 @@ void TripSelector::loadTrips()
 
         resultList << t;
     }
-    resultList = ProjectData::sortTrips(resultList);
+    resultList = ProjectData::sortItems(resultList);
 
     QList<Trip *> resultListAdd;
     if(startTime >= QTime(12, 0, 0, 0)) {
@@ -113,8 +113,8 @@ void TripSelector::loadTrips()
             resultListAdd << t;
         }
     }
-
-    resultListAdd = ProjectData::sortTrips(resultListAdd);
+    
+    resultListAdd = ProjectData::sortItems(resultListAdd);
 
     resultList << resultListAdd;
 

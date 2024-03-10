@@ -13,6 +13,7 @@ public:
     PublishedLine(QObject *parent, const QJsonObject &);
     PublishedLine(const PublishedLine &);
     PublishedLine operator=(const PublishedLine &);
+    bool operator<(const PublishedLine &);
 
     QString title() const;
     void setTitle(const QString &newTitle);

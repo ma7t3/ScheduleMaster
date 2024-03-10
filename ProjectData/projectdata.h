@@ -82,11 +82,11 @@ public:
 
     QList<Busstop *> combinedRoutes(const QList<Route *> &routes);
 
-    static QList<Busstop *> sortBusstops(QList<Busstop *>);
-    static QList<Line *> sortLines(QList<Line *>);
-    static QList<Route *> sortRoutes(QList<Route *>);
-    static QList<Trip *> sortTrips(QList<Trip *>);
-    static QList<Tour *> sortTours(QList<Tour *>);
+    template<typename T>
+    static QList<T *> sortItems(QList<T *> list) {
+        std::sort(list.begin(), list.end(), [](T *a, T *b) {return *a < *b;});
+        return list;
+    }
 
     Publications *publications() const;
 

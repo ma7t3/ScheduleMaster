@@ -164,7 +164,7 @@ public:
     }
 
     void redo() override {
-        tour->setTrips(ProjectData::sortTrips(tour->trips()));
+        tour->setTrips(ProjectData::sortItems(tour->trips()));
     }
 
 private:

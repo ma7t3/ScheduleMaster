@@ -349,8 +349,8 @@ void WdgTourEditor::refreshTourNextTrips()
                 resultList << t;
         }
     }
-
-    resultList = ProjectData::sortTrips(resultList);
+    
+    resultList = ProjectData::sortItems(resultList);
 
     QList<Trip *> resultListAdd;
 
@@ -375,8 +375,8 @@ void WdgTourEditor::refreshTourNextTrips()
             }
         }
     }
-
-    resultListAdd = ProjectData::sortTrips(resultListAdd);
+    
+    resultListAdd = ProjectData::sortItems(resultListAdd);
     resultList << resultListAdd;
 
     for(int i = 0; i < resultList.count(); i++) {

@@ -108,7 +108,7 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
                 }
             }*/
         }
-        allTrips = ProjectData::sortTrips(allTrips);
+        allTrips = ProjectData::sortItems(allTrips);
         _trips = allTrips;
         writeNewPage();
     }
