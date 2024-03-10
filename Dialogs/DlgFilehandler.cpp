@@ -64,7 +64,7 @@ bool DlgFileHandler::readFromFile(QString filePath) {
     }
 
     logSuccess(tr("read file - %1 characters").arg(jsonStr.length()));
-    qInfo() << "read file - " << jsonStr.length() << " characters!";
+    qInfo() << "read file -" << jsonStr.length() << "characters!";
 
     QJsonObject jMainObj = jDoc.object();
 
