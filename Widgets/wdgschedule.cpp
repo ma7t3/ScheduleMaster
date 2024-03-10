@@ -588,6 +588,9 @@ void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
             }
             bool ok;
             QString result = QInputDialog::getItem(this, tr("Select tour"), tr("Select the tour you want to open:"), tourNames, 0, false, &ok);
+            if(!ok)
+                return;
+
             for (int i = 0; i < tourNames.count(); i++) {
                 if(tourNames[i] == result)
                     emit tourRequested(tours[i]);
