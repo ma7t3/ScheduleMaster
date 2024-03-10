@@ -117,32 +117,32 @@
         <translation>Projekt konnte nicht geladen werden - Datei nicht gefunden: </translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="41"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="42"/>
         <source>couldn&apos;t load project - couldn&apos;t open file: </source>
         <translation>Projekt konnte nicht geladen werden - Datei konnte nicht geöffnet werden: </translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="49"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="51"/>
         <source>reading file...</source>
         <translation>Datei wird eingelesen...</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="57"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="60"/>
         <source>couldn&apos;t load project - file is not a valid json object</source>
         <translation>Projekt konnte nicht geladen werden - Datei ist kein gültiges JSON-Objekt</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="62"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="66"/>
         <source>read file - %1 characters</source>
         <translation>Datei eingelesen - %1 Zeichen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="66"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="71"/>
         <source>reading data...</source>
         <translation>Daten einlesen...</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFilehandler.cpp" line="68"/>
+        <location filename="Dialogs/DlgFilehandler.cpp" line="73"/>
         <source>project loaded!</source>
         <translation>Projekt geladen!</translation>
     </message>
@@ -151,7 +151,7 @@
     <name>DlgFootnoteEditor</name>
     <message>
         <location filename="Dialogs/DlgFootnoteEditor.ui" line="14"/>
-        <location filename="Dialogs/DlgFootnoteEditor.cpp" line="15"/>
+        <location filename="Dialogs/DlgFootnoteEditor.cpp" line="17"/>
         <source>Edit Footnote</source>
         <translation>Fußnote bearbeiten</translation>
     </message>
@@ -176,7 +176,7 @@
         <translation>Automatische Zuweisung</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgFootnoteEditor.cpp" line="15"/>
+        <location filename="Dialogs/DlgFootnoteEditor.cpp" line="17"/>
         <source>Create Footnote</source>
         <translation>Fußnote erstellen</translation>
     </message>
@@ -259,24 +259,24 @@
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgLineeditor.cpp" line="67"/>
-        <location filename="Dialogs/DlgLineeditor.cpp" line="83"/>
+        <location filename="Dialogs/DlgLineeditor.cpp" line="69"/>
+        <location filename="Dialogs/DlgLineeditor.cpp" line="85"/>
         <source>Rename direction</source>
         <translation>Fahrtrichtung umbenennen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgLineeditor.cpp" line="67"/>
-        <location filename="Dialogs/DlgLineeditor.cpp" line="83"/>
+        <location filename="Dialogs/DlgLineeditor.cpp" line="69"/>
+        <location filename="Dialogs/DlgLineeditor.cpp" line="85"/>
         <source>Enter a new direction description:</source>
         <translation>Neue Fahrtrichtungsbezeichnung eineben:</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgLineeditor.cpp" line="97"/>
+        <location filename="Dialogs/DlgLineeditor.cpp" line="99"/>
         <source>Delete Direction</source>
         <translation>Fahrtrichtung löschen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgLineeditor.cpp" line="97"/>
+        <location filename="Dialogs/DlgLineeditor.cpp" line="99"/>
         <source>&lt;p&gt;&lt;b&gt;Do you really want to delete this direction?&lt;/b&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Soll diese Fahrtrichtung wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
@@ -488,37 +488,37 @@
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="61"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="53"/>
         <source>Images (*.png *.jpg *.bmp *.ico)</source>
         <translation>Grafiken (*.png *.jpg *.bmp *.ico)</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="68"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="60"/>
         <source>File not found</source>
         <translation>Datei nicht gefunden</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="68"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="60"/>
         <source>The requested file was not found!</source>
         <translation>Die angeforderte Datei wurde nicht gefunden!</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="73"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="65"/>
         <source>Couldn&apos;t open file</source>
         <translation>Datei konnte nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="73"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="65"/>
         <source>&lt;p&gt;&lt;b&gt;The requested file couldn&apos;t be opened:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Die angeforderte Datei konnte nicht geöffnet werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="178"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="170"/>
         <source>Delete day type</source>
         <translation>Tagesart löschen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgProjectsettings.cpp" line="178"/>
+        <location filename="Dialogs/DlgProjectsettings.cpp" line="170"/>
         <source>&lt;p&gt;&lt;b&gt;Do you really want to delete this dayType?&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Soll diese Tagesart wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
@@ -526,7 +526,7 @@
 <context>
     <name>Line</name>
     <message>
-        <location filename="ProjectData/line.cpp" line="74"/>
+        <location filename="ProjectData/line.cpp" line="84"/>
         <source>Unnamed Line</source>
         <translation>Unbenannte Linie</translation>
     </message>
@@ -577,31 +577,31 @@
     </message>
     <message>
         <location filename="Mainwindow.ui" line="84"/>
-        <location filename="Mainwindow.h" line="118"/>
+        <location filename="Mainwindow.h" line="119"/>
         <source>Busstops</source>
         <translation>Bushaltestellen</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="92"/>
-        <location filename="Mainwindow.h" line="119"/>
+        <location filename="Mainwindow.h" line="120"/>
         <source>Lines</source>
         <translation>Linien</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="100"/>
-        <location filename="Mainwindow.h" line="120"/>
+        <location filename="Mainwindow.h" line="121"/>
         <source>Routes</source>
         <translation>Routen</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="109"/>
-        <location filename="Mainwindow.h" line="121"/>
+        <location filename="Mainwindow.h" line="122"/>
         <source>Schedule</source>
         <translation>Fahrplan</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="114"/>
-        <location filename="Mainwindow.h" line="123"/>
+        <location filename="Mainwindow.h" line="124"/>
         <source>Tours</source>
         <translation>Dienste</translation>
     </message>
@@ -838,114 +838,114 @@
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="70"/>
+        <location filename="Mainwindow.cpp" line="72"/>
         <source>loading ui...</source>
         <translation>Benutzeroberflächen wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="95"/>
+        <location filename="Mainwindow.cpp" line="99"/>
         <source>loading menubar...</source>
         <translation>Menüleiste wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="164"/>
+        <location filename="Mainwindow.cpp" line="168"/>
         <source>toolbar</source>
         <translation>Werkzeugleiste</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="194"/>
+        <location filename="Mainwindow.cpp" line="199"/>
         <source>loading signals and slots...</source>
         <translation>Signale und Slots werden geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="224"/>
+        <location filename="Mainwindow.cpp" line="229"/>
         <source>loading startup dialog...</source>
         <translation>Willkommensdialog wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="278"/>
-        <location filename="Mainwindow.cpp" line="298"/>
+        <location filename="Mainwindow.cpp" line="280"/>
+        <location filename="Mainwindow.cpp" line="302"/>
         <source>ScheduleMaster File (*.smp2)</source>
         <translation>ScheduleMaster-Datei (*.smp2)</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="313"/>
+        <location filename="Mainwindow.cpp" line="317"/>
         <source>Unsaved Changes</source>
         <translation>Ungespeicherte Änderungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="313"/>
+        <location filename="Mainwindow.cpp" line="317"/>
         <source>&lt;p&gt;&lt;b&gt;There are unsaved changes!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Do want to save them before closing this file?&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Es gibt ungespeicherte Änderungen!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Sollen diese vor dem schließen der Datei gespeichert werden?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="633"/>
+        <location filename="Mainwindow.cpp" line="645"/>
         <source>Opening project file...</source>
         <translation>Projektdatei wird geöffnet...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="639"/>
+        <location filename="Mainwindow.cpp" line="651"/>
         <source>File not found</source>
         <translation>Datei nicht gefunden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="639"/>
+        <location filename="Mainwindow.cpp" line="651"/>
         <source>&lt;p&gt;The given file was not found!&lt;/p&gt;</source>
         <translation>&lt;p&gt;Die angeforderte Datei wurde nicht gefunden!&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="647"/>
-        <location filename="Mainwindow.cpp" line="684"/>
+        <location filename="Mainwindow.cpp" line="660"/>
+        <location filename="Mainwindow.cpp" line="701"/>
         <source>Failed reading file</source>
         <translation>Einlesen der Datei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="647"/>
+        <location filename="Mainwindow.cpp" line="660"/>
         <source>&lt;p&gt;&lt;b&gt;Could not read file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht gelesen werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="684"/>
+        <location filename="Mainwindow.cpp" line="701"/>
         <source>&lt;p&gt;&lt;b&gt;Could not write to file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht geschrieben werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="697"/>
+        <location filename="Mainwindow.cpp" line="714"/>
         <source>File saved!</source>
         <translation>Datei gespeichert!</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="793"/>
+        <location filename="Mainwindow.cpp" line="810"/>
         <source>&lt;h1&gt;About ScheduleMaster 2&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1.%2.%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Release type:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Beta&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
         <translation>&lt;h1&gt;Über ScheduleMaster&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1.%2.%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Veröffentlichungstyp:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Beta&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="799"/>
+        <location filename="Mainwindow.cpp" line="816"/>
         <source>ScheduleMaster 2 - About</source>
         <translation>ScheduleMaster - Über</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="117"/>
+        <location filename="Mainwindow.h" line="118"/>
         <source>Undo View</source>
         <translation>Rückgängig-Ansicht</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="122"/>
+        <location filename="Mainwindow.h" line="123"/>
         <source>Current trips</source>
         <translation>Aktuelle Fahrten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="124"/>
+        <location filename="Mainwindow.h" line="125"/>
         <source>Current tour</source>
         <translation>Aktueller Dienst</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="125"/>
+        <location filename="Mainwindow.h" line="126"/>
         <source>Busstop schedule</source>
         <translation>Haltestellenfahrplan</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="126"/>
+        <location filename="Mainwindow.h" line="127"/>
         <source>Published lines</source>
         <translation>Veröffentlichte Linien</translation>
     </message>
@@ -1011,7 +1011,7 @@
 <context>
     <name>PublishedLine</name>
     <message>
-        <location filename="ProjectData/publishedline.cpp" line="46"/>
+        <location filename="ProjectData/publishedline.cpp" line="60"/>
         <source>Unnamed Published Line</source>
         <translation>Unbenanne, veröffentlichte Linie</translation>
     </message>
@@ -1065,22 +1065,22 @@
         <translation>Neue Linie: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdLines.h" line="37"/>
+        <location filename="Commands/CmdLines.h" line="38"/>
         <source>edit line: %1</source>
         <translation>Linie bearbeiten: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdLines.h" line="59"/>
+        <location filename="Commands/CmdLines.h" line="61"/>
         <source>delete line: %1</source>
         <translation>Linie löschen: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdLines.h" line="83"/>
+        <location filename="Commands/CmdLines.h" line="85"/>
         <source>deleted line: %1</source>
         <translation>Linie löschen: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="Commands/CmdLines.h" line="85"/>
+        <location filename="Commands/CmdLines.h" line="87"/>
         <source>deleted %n lines</source>
         <translation>
             <numerusform>Linie löschen</numerusform>
@@ -1093,32 +1093,32 @@
         <translation>Neue veröffentlichte Linie: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdPublications.h" line="37"/>
+        <location filename="Commands/CmdPublications.h" line="39"/>
         <source>published line edited: %1</source>
         <translation>Veröffentlichte Linie bearbeiten: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdPublications.h" line="59"/>
+        <location filename="Commands/CmdPublications.h" line="62"/>
         <source>deleted published line: %1</source>
         <translation>Veröffentlichte Linie löschen: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdPublications.h" line="81"/>
+        <location filename="Commands/CmdPublications.h" line="84"/>
         <source>new published line direction: %1</source>
         <translation>Neue veröffentlichte Linienfahrtrichtung: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdPublications.h" line="104"/>
+        <location filename="Commands/CmdPublications.h" line="109"/>
         <source>published line direction edited: %1</source>
         <translation>Veröffentlichte Linienfahrtrichtung bearbeiten: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdPublications.h" line="126"/>
+        <location filename="Commands/CmdPublications.h" line="132"/>
         <source>deleted published line direction: %1</source>
         <translation>Veröffentlichte Linienfahrtrichtung löschen: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdPublications.h" line="149"/>
+        <location filename="Commands/CmdPublications.h" line="155"/>
         <source>edit published busstop: %1</source>
         <translation>Veröffentlichte Haltestelle bearbeiten: %1</translation>
     </message>
@@ -1128,18 +1128,18 @@
         <translation>Neue Route %1 in Linie %2</translation>
     </message>
     <message>
-        <location filename="Commands/CmdRoutes.h" line="39"/>
+        <location filename="Commands/CmdRoutes.h" line="41"/>
         <source>edit route: %1</source>
         <translation>Route bearbeiten: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdRoutes.h" line="69"/>
-        <location filename="Commands/CmdRoutes.h" line="92"/>
+        <location filename="Commands/CmdRoutes.h" line="64"/>
+        <location filename="Commands/CmdRoutes.h" line="87"/>
         <source>delete route %1 from line %2</source>
         <translation>Route %1 von Linie %2 löschen</translation>
     </message>
     <message numerus="yes">
-        <location filename="Commands/CmdRoutes.h" line="94"/>
+        <location filename="Commands/CmdRoutes.h" line="89"/>
         <source>delete %n routes  from line %2</source>
         <translation>
             <numerusform>Route aus Linie %2 löschen</numerusform>
@@ -1152,32 +1152,32 @@
         <translation>Neue Fahrt in Linie %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdSchedule.h" line="36"/>
+        <location filename="Commands/CmdSchedule.h" line="38"/>
         <source>new trips in line %1</source>
         <translation>Neue Fahrt in Linie %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdSchedule.h" line="62"/>
+        <location filename="Commands/CmdSchedule.h" line="67"/>
         <source>change route of trips</source>
         <translation>Route der Fahrt ändern</translation>
     </message>
     <message>
-        <location filename="Commands/CmdSchedule.h" line="104"/>
+        <location filename="Commands/CmdSchedule.h" line="109"/>
         <source>change time profiles of trips</source>
         <translation>Fahrtzeitprofil von Trip ändern</translation>
     </message>
     <message>
-        <location filename="Commands/CmdSchedule.h" line="141"/>
+        <location filename="Commands/CmdSchedule.h" line="146"/>
         <source>change start time of trips</source>
         <translation>Startzeit von Trip ändern</translation>
     </message>
     <message>
-        <location filename="Commands/CmdSchedule.h" line="168"/>
+        <location filename="Commands/CmdSchedule.h" line="173"/>
         <source>change days of trips</source>
         <translation>Fahrttage von Trip ändern</translation>
     </message>
     <message>
-        <location filename="Commands/CmdSchedule.h" line="200"/>
+        <location filename="Commands/CmdSchedule.h" line="205"/>
         <source>delete trips from line %1</source>
         <translation>Fahrt von Linie %1 löschen</translation>
     </message>
@@ -1187,7 +1187,7 @@
         <translation>Neuer Dienst: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdTours.h" line="37"/>
+        <location filename="Commands/CmdTours.h" line="38"/>
         <source>edit tour: %1</source>
         <translation>Dienst bearbeiten: %1</translation>
     </message>
@@ -1197,22 +1197,22 @@
         <translation>Fahrt %1 zum Dienst %2 hinzufügen</translation>
     </message>
     <message>
-        <location filename="Commands/CmdTours.h" line="86"/>
+        <location filename="Commands/CmdTours.h" line="87"/>
         <source>Remove trip %1 from tour %2</source>
         <translation>Fahrt %1 vom Dienst %2 entfernen</translation>
     </message>
     <message>
-        <location filename="Commands/CmdTours.h" line="109"/>
+        <location filename="Commands/CmdTours.h" line="110"/>
         <source>delete tour: %1</source>
         <translation>Dienst löschen: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdTours.h" line="132"/>
+        <location filename="Commands/CmdTours.h" line="133"/>
         <source>deleted tour: %1</source>
         <translation>Dienst löschen: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="Commands/CmdTours.h" line="134"/>
+        <location filename="Commands/CmdTours.h" line="135"/>
         <source>deleted %n tours</source>
         <translation>
             <numerusform>Dienst löschen</numerusform>
@@ -1220,7 +1220,7 @@
         </translation>
     </message>
     <message>
-        <location filename="Commands/CmdTours.h" line="157"/>
+        <location filename="Commands/CmdTours.h" line="158"/>
         <source>reorder trips of tour: %1</source>
         <translation>Fahrten im Dienst sortieren: %1</translation>
     </message>
@@ -1405,22 +1405,22 @@
         <translation>immer + bis Abfartszeit warten</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgTimeprofileeditor.cpp" line="250"/>
+        <location filename="Dialogs/DlgTimeprofileeditor.cpp" line="252"/>
         <source>No profiles</source>
         <translation>Keine Fahrtzeitprofile</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgTimeprofileeditor.cpp" line="250"/>
+        <location filename="Dialogs/DlgTimeprofileeditor.cpp" line="252"/>
         <source>This trip has no profiles.&lt;br&gt;You can&apos;t use it now!</source>
         <translation>Diese Route hat keine profile.&lt;br&gt;Sie kann jetzt nicht verwendet werden!</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgTimeprofileeditor.cpp" line="256"/>
+        <location filename="Dialogs/DlgTimeprofileeditor.cpp" line="258"/>
         <source>select source profile</source>
         <translation>Quellprofil auswählen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgTimeprofileeditor.cpp" line="256"/>
+        <location filename="Dialogs/DlgTimeprofileeditor.cpp" line="258"/>
         <source>Please select the source profile:</source>
         <translation>Bitte Quellprofil auswählen:</translation>
     </message>
@@ -1596,7 +1596,7 @@
         <translation>wird geladen...</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstopschedule.cpp" line="176"/>
+        <location filename="Widgets/wdgbusstopschedule.cpp" line="174"/>
         <source>&lt;unkown&gt;</source>
         <translation>&lt;unbekannt&gt;</translation>
     </message>
@@ -1979,7 +1979,7 @@
         <translation>Fahrtrichtungsbezeichnung eingeben:</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="449"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="451"/>
         <source>Portable document format (*.pdf)</source>
         <translation></translation>
     </message>
@@ -2121,18 +2121,28 @@
         <translation>Startzeit</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="403"/>
+        <location filename="Widgets/wdgschedule.cpp" line="409"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="433"/>
+        <location filename="Widgets/wdgschedule.cpp" line="439"/>
         <source>Multiple assignment at %1:<byte value="xd"/>
 <byte value="xd"/>
 %2</source>
         <translation>Mehrfachzuweisung an den Tagen: %1:
 
 %2</translation>
+    </message>
+    <message>
+        <location filename="Widgets/wdgschedule.cpp" line="912"/>
+        <source>Select tour</source>
+        <translation>Dienst auswählen</translation>
+    </message>
+    <message>
+        <location filename="Widgets/wdgschedule.cpp" line="912"/>
+        <source>Select the tour you want to open:</source>
+        <translation>Zu öffnenden Dienst auswählen:</translation>
     </message>
 </context>
 <context>
@@ -2487,17 +2497,17 @@
         <translation>Wichtige Haltestelle</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgBusstopeditor.cpp" line="49"/>
+        <location filename="Dialogs/DlgBusstopeditor.cpp" line="50"/>
         <source>Create busstop</source>
         <translation>Haltestelle erstellen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgBusstopeditor.cpp" line="55"/>
+        <location filename="Dialogs/DlgBusstopeditor.cpp" line="56"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgBusstopeditor.cpp" line="55"/>
+        <location filename="Dialogs/DlgBusstopeditor.cpp" line="56"/>
         <source>No name given. Busstop was not saved!</source>
         <translation>Kein namen angegeben. Haltestelle wurde nicht gespeichert!</translation>
     </message>
@@ -2535,91 +2545,91 @@
         <translation>Fahrtrichtung:</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="67"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="75"/>
         <source>Busstops</source>
         <translation>Haltestellen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="75"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="83"/>
         <source>All busstops:</source>
         <translation>Alle Haltestellen:</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="82"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="90"/>
         <source>Search busstops...</source>
         <translation>Haltestelle suchen...</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="93"/>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="183"/>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="208"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="107"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="209"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="249"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="98"/>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="188"/>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="213"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="112"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="214"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="254"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="123"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="140"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="130"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="147"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="137"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="154"/>
         <source>Up</source>
         <translation>Hoch</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="144"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="161"/>
         <source>Down</source>
         <translation>Runter</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="151"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="168"/>
         <source>Reverse</source>
         <translation>Umkehren</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="175"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="195"/>
         <source>Route busstops</source>
         <translation>Haltestellen der Route</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="201"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="227"/>
         <source>Profiles</source>
         <translation>Fahrtzeitprofile</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="218"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="259"/>
         <source>Time (min.)</source>
         <translation>Fahrtzeit (min.)</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="228"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="269"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="235"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="276"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="242"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="283"/>
         <source>Duplicate</source>
         <translation>Duplizieren</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.ui" line="249"/>
+        <location filename="Dialogs/DlgRouteeditor.ui" line="290"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
@@ -2629,12 +2639,12 @@
         <translation>Route erstellen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.cpp" line="312"/>
+        <location filename="Dialogs/DlgRouteeditor.cpp" line="309"/>
         <source>Delete profile</source>
         <translation>Fahrtzeitprofil löschen</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgRouteeditor.cpp" line="312"/>
+        <location filename="Dialogs/DlgRouteeditor.cpp" line="309"/>
         <source>&lt;p&gt;Do you really want to delete this profile?&lt;/p&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Duration:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2 min.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;b&gt;You cannot undo this action!&lt;/b&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Soll ideses Profile wirklich gelöscht werden?&lt;/p&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Fahrtzeit:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%2 min.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;b&gt;Diese Aktion kann nicht rückgängig gemacht werden!&lt;/b&gt;&lt;/p&gt;</translation>
     </message>
