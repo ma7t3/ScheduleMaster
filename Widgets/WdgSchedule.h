@@ -23,13 +23,6 @@ public:
 public slots:
     void actionChangeDirection();
 
-    /*void actionScheduleTripNew();
-    void actionScheduleTripDelete();
-    void actionScheduleTripChangeRoute();
-    void actionScheduleTripChangeProfile();
-    void actionScheduleTripChangeStartTime();
-    void actionScheduleTripChangeDays();*/
-
     void setCurrentLine(Line *);
     void refreshDirections();
     void refreshDayTypes();
@@ -42,17 +35,8 @@ private slots:
     void refreshScheduleBusstopList(QList<Trip *>);
     void refreshScheduleAddTrip(Trip *);
     QPair<QString, QString> refreshScheduleGenerateInfo(WeekDays *);
-    void refreshScheduleSelection();
-    //void refreshTripDetails();
 
     bool scheduleCheckMatchingWeekdays(WeekDays *);
-
-    /*void on_twSchedule_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
-    void on_twSchedule_itemPressed(QTableWidgetItem *item);*/
-
-    /*void on_lwRoutes_itemClicked(QListWidgetItem *item);
-
-    void on_teDepartureTime_editingFinished();*/
 
     void on_twSchedule_itemDoubleClicked(QTableWidgetItem *item);
 
