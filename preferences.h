@@ -12,16 +12,10 @@ public:
     static const int LanguageEnglish = 0;
     static const int LanguageGerman = 1;
 
-    int language() const;
-    void setLanguage(int newLanguage);
-
-    static Preferences& instance() {
-        static Preferences _instance(nullptr);
-        return _instance;
-    }
+    static int language();
+    static void setLanguage(const int &newLanguage);
 
 private:
-    QSettings settingsGeneral = QSettings("ScheduleMaster", "general");
-    int _language;
+    static QSettings settingsGeneral;
 };
 #endif // PREFERENCES_H

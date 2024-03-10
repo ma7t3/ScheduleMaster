@@ -12,10 +12,11 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     Logger logger(&a);
+    Preferences pref(&a);
 
     qInfo() << "loading preferences...";
 
-    if(Preferences::instance().language() == Preferences::LanguageGerman) {
+    if(Preferences::language() == Preferences::LanguageGerman) {
         qInfo() << "loading german translation...";
         QTranslator *translator = new QTranslator;
         bool ok;
