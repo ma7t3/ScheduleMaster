@@ -19,7 +19,17 @@ Line Line::operator=(const Line &other) {
 }
 
 bool Line::operator<(const Line &other) {
-    return name() < other.name();
+    bool ok1, ok2;
+    int number1 = name().toInt(&ok1);
+    int number2 = other.name().toInt(&ok2);
+
+    if(ok1 && ok2)
+        return number1 < number2;
+    else if(!ok1 && !ok2)
+        return name() < other.name();
+    else if(ok1 && !ok2)
+        return true;
+    return false;
 }
 
 void Line::copy(const Line &other) {
