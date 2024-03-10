@@ -24,9 +24,9 @@ DlgPreferences::~DlgPreferences()
 }
 
 void DlgPreferences::on_DlgPreferences_accepted() {
-    if(Preferences::instance().language() != ui->cbLanguage->currentIndex())
+    if(Preferences::language() != ui->cbLanguage->currentIndex())
         QMessageBox::information(this, tr("Restart required"), tr("You'll need torestarted the application for all settings to be applied"));
 
-    Preferences::instance().setLanguage(ui->cbLanguage->currentIndex());
+    Preferences::setLanguage(ui->cbLanguage->currentIndex());
 }
 
