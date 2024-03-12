@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="documentMode">
       <bool>true</bool>
@@ -102,35 +102,32 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QListWidget" name="lwDays"/>
-            </item>
-            <item>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
                <widget class="QPushButton" name="pbDayNew">
+                <property name="toolTip">
+                 <string>Add</string>
+                </property>
                 <property name="text">
-                 <string>New</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../main.qrc">
+                  <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pbDaysDelete">
-                <property name="text">
+                <property name="toolTip">
                  <string>Delete</string>
                 </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pbDaysUp">
                 <property name="text">
-                 <string>Up</string>
+                 <string/>
                 </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pbDaysDown">
-                <property name="text">
-                 <string>Down</string>
+                <property name="icon">
+                 <iconset resource="../main.qrc">
+                  <normaloff>:/icons/Delete.ico</normaloff>:/icons/Delete.ico</iconset>
                 </property>
                </widget>
               </item>
@@ -138,6 +135,9 @@
                <spacer name="horizontalSpacer_3">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Minimum</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -147,7 +147,38 @@
                 </property>
                </spacer>
               </item>
+              <item>
+               <widget class="QPushButton" name="pbDaysUp">
+                <property name="toolTip">
+                 <string>Move up</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../main.qrc">
+                  <normaloff>:/icons/MoveUp.ico</normaloff>:/icons/MoveUp.ico</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pbDaysDown">
+                <property name="toolTip">
+                 <string>Move down</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../main.qrc">
+                  <normaloff>:/icons/MoveDown.ico</normaloff>:/icons/MoveDown.ico</iconset>
+                </property>
+               </widget>
+              </item>
              </layout>
+            </item>
+            <item>
+             <widget class="QListWidget" name="lwDays"/>
             </item>
            </layout>
           </item>
@@ -160,6 +191,13 @@
           <string>Current</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
@@ -220,7 +258,9 @@
    </slots>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../main.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -5,6 +5,7 @@
 
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QInputDialog>
 
 DlgProjectSettings::DlgProjectSettings(QWidget *parent) :
     QDialog(parent),
@@ -14,8 +15,6 @@ DlgProjectSettings::DlgProjectSettings(QWidget *parent) :
     ui->setupUi(this);
 
     QObject::connect(ui->pbSelectIcon, SIGNAL(clicked()), this, SLOT(actionSelectIcon()));
-
-    QObject::connect(ui->daySelector, SIGNAL(weekDaysChanged()), this, SLOT(saveDays()));
 
     ui->tabWidget->setCurrentIndex(0);
 }
@@ -132,30 +131,13 @@ void DlgProjectSettings::on_leDayTypesName_textEdited(const QString &arg1) {
     }
 }
 
-
-void DlgProjectSettings::saveDays() {
-    if(!_currentDayType)
+void DlgProjectSettings::on_pbDayNew_clicked() {
+    bool ok;
+    QString name = QInputDialog::getText(this, tr("Create New Day Type"), tr("Enter day type name:"), QLineEdit::Normal, "", &ok);
+    if(!ok)
         return;
 
-    /*_currentDayType->setMonday(ui->cbMonday->isChecked());
-    _currentDayType->setTuesday(ui->cbTuesday->isChecked());
-    _currentDayType->setWednesday(ui->cbWednesday->isChecked());
-    _currentDayType->setThursday(ui->cbThursday->isChecked());
-    _currentDayType->setFriday(ui->cbFriday->isChecked());
-    _currentDayType->setSaturday(ui->cbSaturday->isChecked());
-    _currentDayType->setSunday(ui->cbSunday->isChecked());
-    _currentDayType->setHoliday(ui->cbHoliday->isChecked());
-    _currentDayType->setSchool(ui->cbSchool->isChecked());
-    _currentDayType->setVacation(ui->cbNoSchool->isChecked());*/
-
-    *_currentDayType = ui->daySelector->weekDays();
-
-    refreshDayTypesTable();
-}
-
-
-void DlgProjectSettings::on_pbDayNew_clicked() {
-    DayType *d = new DayType(nullptr, global::getNewID(), "", 0);
+    DayType *d = new DayType(nullptr, global::getNewID(), name, 0);
     tableReference << d;
     _currentDayType = d;
     refreshDayTypesTable();
@@ -220,3 +202,11 @@ void DlgProjectSettings::on_pbDaysDown_clicked() {
     refreshDayTypesTable();
 }
 
+void DlgProjectSettings::on_daySelector_weekDaysChanged() {
+    if(!_currentDayType)
+        return;
+
+    *_currentDayType = ui->daySelector->weekDays();
+
+    refreshDayTypesTable();
+}
