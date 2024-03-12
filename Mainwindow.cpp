@@ -227,6 +227,18 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(wdgSchedule, SIGNAL(tourRequested(Tour *)), this, SLOT(actionOpenTour(Tour *)));
     QObject::connect(wdgTours, SIGNAL(currentTourChanged(Tour*)), wdgTourEditor, SLOT(setCurrentTour(Tour*)));
 
+
+    QList<QAction *> actions;
+    QStringList lastUsedFiles = LocalConfig::lastUsedFiles();
+
+    foreach(QString path, lastUsedFiles) {
+        QFileInfo fi(path);
+        QAction *action = new QAction(fi.fileName(), this);
+        actions << action;
+    }
+
+    ui->menuOpenRecent->addActions(actions);
+
     splashScreen.showMessage(tr("loading startup dialog..."), Qt::AlignBottom, messageColor);
 
     MainWindow::showMaximized();
@@ -636,7 +648,6 @@ void MainWindow::setRedoEnabled(bool b) {
     ui->actionRedo->setEnabled(b);
 }
 
-// wird das ??berhaupt verwendet?
 void MainWindow::setSaved(bool b) {
     if(!b)
         QMainWindow::setWindowTitle("* ScheduleMaster");
