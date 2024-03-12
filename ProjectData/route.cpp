@@ -166,6 +166,15 @@ bool Route::hasBusstop(const QString &id) const {
     return false;
 }
 
+Busstop *Route::firstCommonBusstop(Route *other) {
+    foreach(Busstop *b, _busstops) {
+        if(other->hasBusstop(b))
+            return b;
+    }
+
+    return nullptr;
+}
+
 void Route::setBusstops(const QList<Busstop *> &newBusstops) {
     _busstops = newBusstops;
 }
