@@ -25,6 +25,7 @@
 #include "Mainwindow.h"
 
 #include "App/global.h"
+#include "localconfig.h"
 #include "ui_Mainwindow.h"
 
 #include "Widgets/wdgschedule.h"
@@ -46,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow),
     projectData(new ProjectData),
     undoStack(new QUndoStack),
-    startupDialog(new StartupDialog(this)),
+    startupDialog(new StartupDialog),
     fileHandler(new DlgFileHandler(this, projectData)),
     pdfExporter(new DlgPdfExporter(this, projectData)),
     knownFile(false)
@@ -70,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     QPixmap pixmap(imagePath);
     splashScreen.setPixmap(pixmap);
     splashScreen.showMessage(tr("loading ui..."), Qt::AlignBottom, messageColor);
-    splashScreen.finish(startupDialog);
+    //splashScreen.finish(startupDialog);
     splashScreen.show();
     QObject().thread()->sleep(2);
 
@@ -231,18 +232,22 @@ MainWindow::MainWindow(QWidget *parent)
     MainWindow::showMaximized();
 
     qInfo() << "loading startup dialog";
-    StartupDialog dlg(startupDialog);
+
     splashScreen.close();
-    dlg.exec();
-    if(dlg.result() == QDialog::Accepted) {
-        int action = dlg.getAction();
+    startupDialog->exec();
+    if(startupDialog->result() == QDialog::Accepted) {
+        int action =startupDialog->getAction();
         if(action == StartupDialog::openFile)
             actionFileOpen();
         else if(action == StartupDialog::openRecentFile)
-            openFile(dlg.getFilePath());
-        else if(action == StartupDialog::quit)
+            openFile(startupDialog->getFilePath());
+        else if(action == StartupDialog::quit) {
+            delete startupDialog;
             MainWindow::close();
+        }
     }
+
+    delete startupDialog;
 }
 
 MainWindow::~MainWindow()
@@ -687,6 +692,8 @@ bool MainWindow::openFile(QString path) {
     projectData->setFilePath(path);
 
     ui->statusbar->showMessage(path);
+
+    LocalConfig::addLastUsedFile(path);
 
     return true;
 }

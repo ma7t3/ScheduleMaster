@@ -66,16 +66,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QListWidget" name="lwRecentFiles">
-          <item>
-           <property name="text">
-            <string>Region_Suedniedersachsen.smp2</string>
-           </property>
-           <property name="toolTip">
-            <string>G://OMSI/Projekte/Region Südniedersachsen/Fahrplan/ScheduleMaster/Region_Suedniedersachsen.smp2</string>
-           </property>
-          </item>
-         </widget>
+         <widget class="QListWidget" name="lwRecentFiles"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">

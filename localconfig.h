@@ -15,6 +15,11 @@ public:
     static int language();
     static void setLanguage(const int &newLanguage);
 
+    static QStringList lastUsedFiles();
+    static void addLastUsedFile(const QString &);
+    static void setLastUsedFiles(const QStringList &);
+    static void resetLastUsedFiles();
+
 private:
     static QSettings settingsGeneral;
 };
