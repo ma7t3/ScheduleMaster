@@ -10,10 +10,12 @@ ProjectData::ProjectData() :
 ProjectSettings *ProjectData::projectSettings() { return _projectSettings; }
 
 void ProjectData::reset() {
-    _lines.clear();
-    _busstops.clear();
-    _tours.clear();
     _projectSettings = new ProjectSettings(this);
+    _busstops.clear();
+    _lines.clear();
+    _tours.clear();
+    _footnotes.clear();
+    _publications = new Publications(this);
 }
 
 void ProjectData::cleanup() {
