@@ -74,6 +74,16 @@
     </layout>
    </item>
    <item>
+    <widget class="QLineEdit" name="leSearch">
+     <property name="placeholderText">
+      <string>Search Route...</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTableWidget" name="twRoutes">
      <property name="selectionMode">
       <enum>QAbstractItemView::ExtendedSelection</enum>
@@ -83,17 +93,32 @@
      </property>
      <column>
       <property name="text">
-       <string>Direction</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
        <string>Code</string>
       </property>
      </column>
      <column>
       <property name="text">
+       <string>Direction</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>First Busstop</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Last Busstop</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Busstop Count</string>
       </property>
      </column>
     </widget>

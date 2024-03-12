@@ -25,6 +25,7 @@ WdgRoutes::WdgRoutes(QWidget *parent, ProjectData *projectData, QUndoStack *undo
     QObject::connect(ui->twRoutes, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(actionEdit()));
     QObject::connect(ui->pbDelete, SIGNAL(clicked()), this, SLOT(actionDelete()));
     QObject::connect(ui->pbExportProfiles, SIGNAL(clicked()), this, SLOT(actionExportProfiles()));
+    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(refreshRouteTable()));
 
     QObject::connect(ui->pbExportProfilesOMSITrips, SIGNAL(clicked()), this, SLOT(omsiExport()));
 
@@ -265,31 +266,61 @@ void WdgRoutes::refreshRouteTable() {
 
     QList<Route *> routes = _currentLine->routes();
     routes = ProjectData::sortItems(routes);
-    ui->twRoutes->setRowCount(routes.count());
 
-    for(int i = 0; i < routes.count(); i++) {
-        Route *r = routes[i];
+    bool searchCodeEnabled;
+    QString search = ui->leSearch->text();
+    int searchCode = search.toInt(&searchCodeEnabled);
 
-        tableReference << r;
+    int counter = 0;
+    QList<LineDirection *> directions = _currentLine->directions();
 
-        QString direction = r->direction() ? "+" : "-";
-        QString code = QString::number(r->code());
-        QString name = r->name();
+    foreach(LineDirection *ld, directions) {
+        QList<Route *> routes = _currentLine->routesToDirection(ld);
+        routes = ProjectData::sortItems(routes);
 
-        if(code.length() == 1)
-            code = "0" + code;
+        foreach(Route *r, routes) {
+            if(!r->name().contains(search, Qt::CaseInsensitive))
+                if(!searchCodeEnabled || r->code() != searchCode)
+                    continue;
 
-        ui->twRoutes->setItem(i, 0, new QTableWidgetItem(direction));
-        ui->twRoutes->setItem(i, 1, new QTableWidgetItem(code));
-        ui->twRoutes->setItem(i, 2, new QTableWidgetItem(name));
+            tableReference << r;
 
-        if(_currentRoute == r)
-            ui->twRoutes->setCurrentCell(i, 2);
+            QString code = QString::number(r->code());
+
+            QString firstBusstop, lastBusstop;
+            if(r->busstopCount() != 0) {
+                firstBusstop = r->firstBusstop()->name();
+                lastBusstop = r->lastBusstop()->name();
+            }
+
+            if(code.length() == 1)
+                code = "0" + code;
+
+            QFont bold;
+            bold.setBold(true);
+
+            ui->twRoutes->insertRow(counter);
+            ui->twRoutes->setItem(counter, 0, new QTableWidgetItem(code));
+            ui->twRoutes->setItem(counter, 1, new QTableWidgetItem(ld->description()));
+            ui->twRoutes->setItem(counter, 2, new QTableWidgetItem(r->name()));
+            ui->twRoutes->setItem(counter, 3, new QTableWidgetItem(firstBusstop));
+            ui->twRoutes->setItem(counter, 4, new QTableWidgetItem(lastBusstop));
+            ui->twRoutes->setItem(counter, 5, new QTableWidgetItem(QString::number(r->busstopCount())));
+
+            ui->twRoutes->item(counter, 2)->setFont(bold);
+
+            if(_currentRoute == r)
+                ui->twRoutes->setCurrentCell(counter, 2);
+
+            counter++;
+        }
     }
 
     for(int i = 0; i < ui->twRoutes->rowCount(); i++) {
         ui->twRoutes->setRowHeight(i, 15);
     }
+
+    ui->twRoutes->resizeColumnsToContents();
 
     refreshing = false;
 }
