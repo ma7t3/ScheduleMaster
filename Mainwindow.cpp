@@ -686,9 +686,6 @@ bool MainWindow::openFile(QString path) {
     qApp->processEvents();
     fileHandler->readFromFile(path);
 
-    qDebug() << "cleaing up all project data";
-    projectData->cleanup();
-
     qDebug() << "refreshing ui...";
     wdgBusstops->refreshBusstopTable();
     wdgLines->refreshLineTable();
