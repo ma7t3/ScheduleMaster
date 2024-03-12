@@ -17,3 +17,26 @@ int LocalConfig::language() {
 void LocalConfig::setLanguage(const int &newLanguage) {
     settingsGeneral.setValue("Language", newLanguage == 1 ? "DE-de" : "EN-us");
 }
+
+QStringList LocalConfig::lastUsedFiles() {
+    return settingsGeneral.value("lastUsedFiles", {}).toStringList();
+}
+
+void LocalConfig::addLastUsedFile(const QString &filePath) {
+    QStringList list = lastUsedFiles();
+
+    if(list.contains(filePath))
+        list.removeAll(filePath);
+
+    list.insert(0, filePath);
+
+    setLastUsedFiles(list);
+}
+
+void LocalConfig::setLastUsedFiles(const QStringList &list) {
+    settingsGeneral.setValue("lastUsedFiles", list);
+}
+
+void LocalConfig::resetLastUsedFiles() {
+    settingsGeneral.setValue("lastUsedFiles", {});
+}
