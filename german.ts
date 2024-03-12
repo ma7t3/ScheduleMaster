@@ -582,37 +582,37 @@
     </message>
     <message>
         <location filename="Mainwindow.ui" line="90"/>
-        <location filename="Mainwindow.h" line="119"/>
+        <location filename="Mainwindow.h" line="121"/>
         <source>Busstops</source>
         <translation>Bushaltestellen</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="98"/>
-        <location filename="Mainwindow.h" line="120"/>
+        <location filename="Mainwindow.h" line="122"/>
         <source>Lines</source>
         <translation>Linien</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="106"/>
-        <location filename="Mainwindow.h" line="121"/>
+        <location filename="Mainwindow.h" line="123"/>
         <source>Routes</source>
         <translation>Routen</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="115"/>
-        <location filename="Mainwindow.h" line="122"/>
+        <location filename="Mainwindow.h" line="124"/>
         <source>Schedule</source>
         <translation>Fahrplan</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="120"/>
-        <location filename="Mainwindow.h" line="124"/>
+        <location filename="Mainwindow.h" line="126"/>
         <source>Tours</source>
         <translation>Dienste</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="125"/>
-        <location filename="Mainwindow.ui" line="469"/>
+        <location filename="Mainwindow.ui" line="473"/>
         <source>Publish</source>
         <translation>Veröffentlichen</translation>
     </message>
@@ -803,42 +803,42 @@
         <translation>Fußnoten verwalten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="443"/>
+        <location filename="Mainwindow.ui" line="447"/>
         <source>Manual</source>
         <translation>Handbuch</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="448"/>
+        <location filename="Mainwindow.ui" line="452"/>
         <source>Check for updates</source>
         <translation>Auf Updates überprüfen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="453"/>
+        <location filename="Mainwindow.ui" line="457"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="456"/>
+        <location filename="Mainwindow.ui" line="460"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="461"/>
+        <location filename="Mainwindow.ui" line="465"/>
         <source>Test</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="472"/>
+        <location filename="Mainwindow.ui" line="476"/>
         <source>Alt+5</source>
         <translation>Alt+5</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="477"/>
+        <location filename="Mainwindow.ui" line="481"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="480"/>
+        <location filename="Mainwindow.ui" line="484"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
@@ -884,27 +884,27 @@
         <translation>&lt;p&gt;&lt;b&gt;Es gibt ungespeicherte Änderungen!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Sollen diese vor dem schließen der Datei gespeichert werden?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="661"/>
+        <location filename="Mainwindow.cpp" line="664"/>
         <source>Opening project file...</source>
         <translation>Projektdatei wird geöffnet...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="667"/>
+        <location filename="Mainwindow.cpp" line="670"/>
         <source>File not found</source>
         <translation>Datei nicht gefunden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="667"/>
+        <location filename="Mainwindow.cpp" line="670"/>
         <source>&lt;p&gt;The given file was not found!&lt;/p&gt;</source>
         <translation>&lt;p&gt;Die angeforderte Datei wurde nicht gefunden!&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="676"/>
+        <location filename="Mainwindow.cpp" line="679"/>
         <source>Failed reading file</source>
         <translation>Einlesen der Datei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="676"/>
+        <location filename="Mainwindow.cpp" line="679"/>
         <source>&lt;p&gt;&lt;b&gt;Could not read file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht gelesen werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
@@ -934,27 +934,37 @@
         <translation>ScheduleMaster - Über</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="118"/>
+        <location filename="Mainwindow.cpp" line="970"/>
+        <source>Manual not found</source>
+        <translation>Handbuch konnte nicht gefunden werden</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="970"/>
+        <source>&lt;p&gt;The file was not found:&lt;/p&gt;&lt;p&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Die Datei konnte nicht gefunden werden:&lt;/p&gt;&lt;p&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.h" line="120"/>
         <source>Undo View</source>
         <translation>Rückgängig-Ansicht</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="123"/>
+        <location filename="Mainwindow.h" line="125"/>
         <source>Current trips</source>
         <translation>Aktuelle Fahrten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="125"/>
+        <location filename="Mainwindow.h" line="127"/>
         <source>Current tour</source>
         <translation>Aktueller Dienst</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="126"/>
+        <location filename="Mainwindow.h" line="128"/>
         <source>Busstop schedule</source>
         <translation>Haltestellenfahrplan</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="127"/>
+        <location filename="Mainwindow.h" line="129"/>
         <source>Published lines</source>
         <translation>Veröffentlichte Linien</translation>
     </message>
@@ -1563,37 +1573,22 @@
         <translation>Verkehrsstage</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="70"/>
-        <source>Mon - Fri</source>
-        <translation>Mo-Fr</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="80"/>
-        <source>Sat</source>
-        <translation>Sa</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="87"/>
-        <source>Sun</source>
-        <translation>So</translation>
-    </message>
-    <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="103"/>
+        <location filename="Widgets/wdgbusstopschedule.ui" line="82"/>
         <source>Directions</source>
         <translation>Fahrtrichtungen</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="123"/>
+        <location filename="Widgets/wdgbusstopschedule.ui" line="102"/>
         <source>Schedule</source>
         <translation>Fahrplan</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstopschedule.ui" line="136"/>
+        <location filename="Widgets/wdgbusstopschedule.ui" line="115"/>
         <source>Loading...</source>
         <translation>wird geladen...</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstopschedule.cpp" line="174"/>
+        <location filename="Widgets/wdgbusstopschedule.cpp" line="148"/>
         <source>&lt;unkown&gt;</source>
         <translation>&lt;unbekannt&gt;</translation>
     </message>
@@ -2032,27 +2027,47 @@
         <translation>Routes zu OMSI-Trip-Dateien...</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgroutes.ui" line="86"/>
+        <location filename="Widgets/wdgroutes.ui" line="79"/>
+        <source>Search Route...</source>
+        <translation>Route suchen...</translation>
+    </message>
+    <message>
+        <location filename="Widgets/wdgroutes.ui" line="101"/>
         <source>Direction</source>
         <translation>Fahrtrichtung</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgroutes.ui" line="91"/>
+        <location filename="Widgets/wdgroutes.ui" line="111"/>
+        <source>First Busstop</source>
+        <translation>Erste Haltestelle</translation>
+    </message>
+    <message>
+        <location filename="Widgets/wdgroutes.ui" line="116"/>
+        <source>Last Busstop</source>
+        <translation>Letzte Haltestelle</translation>
+    </message>
+    <message>
+        <location filename="Widgets/wdgroutes.ui" line="121"/>
+        <source>Busstop Count</source>
+        <translation>Haltestellenanzahl</translation>
+    </message>
+    <message>
+        <location filename="Widgets/wdgroutes.ui" line="96"/>
         <source>Code</source>
         <translation>Code</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgroutes.ui" line="96"/>
+        <location filename="Widgets/wdgroutes.ui" line="106"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgroutes.cpp" line="137"/>
+        <location filename="Widgets/wdgroutes.cpp" line="138"/>
         <source>delete route(s)</source>
         <translation>Route(n) löschen</translation>
     </message>
     <message numerus="yes">
-        <location filename="Widgets/wdgroutes.cpp" line="137"/>
+        <location filename="Widgets/wdgroutes.cpp" line="138"/>
         <source>&lt;p&gt;&lt;b&gt;Do you really want to delete these %n route(s)?&lt;/b&gt;&lt;/p&gt;</source>
         <translation>
             <numerusform>&lt;p&gt;&lt;b&gt;Soll diese Routen wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;</numerusform>
