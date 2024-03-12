@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1546</width>
-    <height>664</height>
+    <width>865</width>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1546</width>
+     <width>865</width>
      <height>22</height>
     </rect>
    </property>
@@ -29,8 +29,14 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuOpenRecent">
+     <property name="title">
+      <string>Open Recent</string>
+     </property>
+    </widget>
     <addaction name="actionFileNew"/>
     <addaction name="actionFileOpen"/>
+    <addaction name="menuOpenRecent"/>
     <addaction name="actionFileSave"/>
     <addaction name="actionFileSaveAs"/>
     <addaction name="actionCleanup_and_troubleshooting"/>
