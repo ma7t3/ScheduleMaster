@@ -33,6 +33,7 @@ public:
     Busstop *lastBusstop() const;
     bool hasBusstop(Busstop *) const;
     bool hasBusstop(const QString &) const;
+    Busstop *firstCommonBusstop(Route *);
 
     void setBusstops(const QList<Busstop *> &);
     void addBusstop(Busstop *);
