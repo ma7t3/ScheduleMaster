@@ -21,16 +21,7 @@ public:
 public slots:
     void setBusstop(Busstop *);
     void setRoutes(QList<Route *>);
-
     void setAll(Busstop *, QList<Route *> routes = {}, DayType * = nullptr);
-
-private slots:
-    void on_rbMonFri_clicked();
-
-    void on_rbSat_clicked();
-
-    void on_rbSun_clicked();
-
 
 private slots:
     void refreshSchedule();

@@ -137,21 +137,6 @@ bool WdgBusstopSchedule::checkMatchingWeekDays(WeekDays w) {
     return WeekDays::overlap(w, WeekDays(*currentDayType));
 }
 
-
-void WdgBusstopSchedule::on_rbMonFri_clicked() {
-    refreshSchedule();
-}
-
-
-void WdgBusstopSchedule::on_rbSat_clicked() {
-    refreshSchedule();
-}
-
-
-void WdgBusstopSchedule::on_rbSun_clicked() {
-    refreshSchedule();
-}
-
 void WdgBusstopSchedule::showEvent(QShowEvent *e) {
     QWidget::showEvent(e);
     refreshSchedule();
