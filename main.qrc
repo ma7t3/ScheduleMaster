@@ -41,5 +41,8 @@
         <file>icons/Preferences.ico</file>
         <file>icons/ProjectSettings.ico</file>
         <file>icons/Manual.ico</file>
+        <file>icons/MoveDown.ico</file>
+        <file>icons/MoveUp.ico</file>
+        <file>icons/Reverse.ico</file>
     </qresource>
 </RCC>
