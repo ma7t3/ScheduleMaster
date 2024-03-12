@@ -40,7 +40,6 @@ private slots:
     void on_lwDays_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
     void on_leDayTypesName_textEdited(const QString &arg1);
-    void saveDays();
 
     void on_pbDayNew_clicked();
 
@@ -49,6 +48,8 @@ private slots:
     void on_pbDaysUp_clicked();
 
     void on_pbDaysDown_clicked();
+
+    void on_daySelector_weekDaysChanged();
 
 private:
     Ui::DlgProjectSettings *ui;
