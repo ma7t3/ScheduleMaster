@@ -26,11 +26,14 @@ public:
     WeekDays(QObject *parent, const bool & monday, const bool & tuesday, const bool & wednesday, const bool & thursday, const bool & friday, const bool & saturday, const bool & sunday, const bool & holiday, const bool & school, const bool & vacation);
     WeekDays(const WeekDays &);
 
-    bool operator==(const WeekDays &w) const;
-    bool operator==(WeekDays *w) const;
+    bool operator==(const WeekDays &) const;
+    bool operator==(WeekDays *) const;
 
-    bool operator<=(const WeekDays &w) const;
-    bool operator<=(WeekDays *w) const;
+    bool operator<=(const WeekDays &) const;
+    bool operator<=(WeekDays *) const;
+
+    bool operator<(WeekDays *) const;
+    bool operator<(const WeekDays &) const;
 
     WeekDays operator=(const WeekDays &);
 
