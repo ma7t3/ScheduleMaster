@@ -49,7 +49,7 @@ signals:
     void currentDirectionChanged(LineDirection *);
     void currentTripsChanged(QList<Trip *>);
     void currentDayTypeChanged(DayType);
-    void busstopScheduleRequested(Busstop *, QList<Route *>, int);
+    void busstopScheduleRequested(Busstop *, QList<Route *>, DayType *);
     void tourRequested(Tour *);
 
 private:

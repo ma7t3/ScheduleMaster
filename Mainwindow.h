@@ -60,7 +60,7 @@ private slots:
     void actionWorkspaceTourPlanning();
     void actionWorkspacePublish();
 
-    void actionOpenBusstopSchedule(Busstop *, QList<Route *>, int);
+    void actionOpenBusstopSchedule(Busstop *, QList<Route *>, DayType *);
     void actionOpenTour(Tour *);
 
     void setUndoEnabled(bool);

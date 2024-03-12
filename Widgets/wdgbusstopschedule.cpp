@@ -28,13 +28,20 @@ WdgBusstopSchedule::WdgBusstopSchedule(QWidget *parent, ProjectData *projectData
     QObject::connect(ui->routeSelector, SIGNAL(routesChanged(QList<Route*>)), this, SLOT(refreshSchedule()));
 }
 
-WdgBusstopSchedule::~WdgBusstopSchedule()
-{
+WdgBusstopSchedule::~WdgBusstopSchedule() {
     delete ui;
 }
 
-void WdgBusstopSchedule::refreshSchedule()
-{
+void WdgBusstopSchedule::refreshSchedule() {
+    ui->cmbDayTypes->clear();
+
+    for(int i = 0; i < projectData->projectSettings()->dayTypeCount(); i++) {
+        DayType *dt = projectData->projectSettings()->dayTypeAt(i);
+        ui->cmbDayTypes->addItem(dt->name());
+        if(dt == currentDayType)
+            ui->cmbDayTypes->setCurrentIndex(i);
+    }
+
     ui->twSchedule->clear();
     ui->twSchedule->setRowCount(0);
     ui->twSchedule->setColumnCount(0);
@@ -104,8 +111,6 @@ void WdgBusstopSchedule::refreshSchedule()
         column++;
     }
 
-    qDebug() << " _________________";
-
     ui->progressBar->setHidden(true);
 
     ui->progressBar->setValue(0);
@@ -125,41 +130,25 @@ WeekDays WdgBusstopSchedule::getShiftedWeekDays(Trip *t) {
     return w;
 }
 
-bool WdgBusstopSchedule::checkMatchingWeekDays(WeekDays w)
-{
-    if(ui->rbMonFri->isChecked())
-        return (
-            w.day(WeekDay::monday) ||
-            w.day(WeekDay::tuesday) ||
-            w.day(WeekDay::wednesday) ||
-            w.day(WeekDay::thursday) ||
-            w.day(WeekDay::friday)
-        );
+bool WdgBusstopSchedule::checkMatchingWeekDays(WeekDays w) {
+    if(!currentDayType)
+        return false;
 
-    else if(ui->rbSat->isChecked())
-        return w.day(WeekDay::saturday);
-
-    else if(ui->rbSun->isChecked())
-        return (w.day(WeekDay::sunday) || w.day(WeekDay::holiday));
-
-    return false;
+    return WeekDays::overlap(w, WeekDays(*currentDayType));
 }
 
 
-void WdgBusstopSchedule::on_rbMonFri_clicked()
-{
+void WdgBusstopSchedule::on_rbMonFri_clicked() {
     refreshSchedule();
 }
 
 
-void WdgBusstopSchedule::on_rbSat_clicked()
-{
+void WdgBusstopSchedule::on_rbSat_clicked() {
     refreshSchedule();
 }
 
 
-void WdgBusstopSchedule::on_rbSun_clicked()
-{
+void WdgBusstopSchedule::on_rbSun_clicked() {
     refreshSchedule();
 }
 
@@ -178,33 +167,28 @@ void WdgBusstopSchedule::setBusstop(Busstop *b) {
     ui->routeSelector->setFilterBusstop(b);
     ui->routeSelector->refresh();
     ui->routeSelector->expandAll();
+
+    refreshSchedule();
 }
 
 void WdgBusstopSchedule::setRoutes(QList<Route *> routes) {
     ui->routeSelector->setSelectedRoutes(routes);
 }
 
-void WdgBusstopSchedule::setDays(int i) {
-    if(refreshing)
-        return;
-
-    if(i == 1)
-        ui->rbMonFri->setChecked(true);
-    else if(i == 2)
-        ui->rbSat->setChecked(true);
-    else if(i == 3)
-        ui->rbSun->setChecked(true);
-}
-
-void WdgBusstopSchedule::setAll(Busstop *b, QList<Route *> routes, int days) {
+void WdgBusstopSchedule::setAll(Busstop *b, QList<Route *> routes, DayType *days) {
     if(refreshing)
         return;
 
     setBusstop(b);
     setRoutes(routes);
-    setDays(days);
+    currentDayType = days;
 
     if(this->isVisible())
         refreshSchedule();
+}
+
+void WdgBusstopSchedule::on_cmbDayTypes_activated(int index) {
+    currentDayType = projectData->projectSettings()->dayTypeAt(index);
+    refreshSchedule();
 }
 
