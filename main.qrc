@@ -38,7 +38,8 @@
         <file>Translations/german.qm</file>
         <file>Translations/qtbase_de.qm</file>
         <file>icons/PublishedLines.ico</file>
-		<file>icons/Preferences.ico</file>
+        <file>icons/Preferences.ico</file>
         <file>icons/ProjectSettings.ico</file>
+        <file>icons/Manual.ico</file>
     </qresource>
 </RCC>
