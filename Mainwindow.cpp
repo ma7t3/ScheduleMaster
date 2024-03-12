@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     startupDialog(new StartupDialog(this)),
     fileHandler(new DlgFileHandler(this, projectData)),
     pdfExporter(new DlgPdfExporter(this, projectData)),
-    knownFile(true)
+    knownFile(false)
 {
     qInfo() << "initializing splashscreen...";
 
@@ -697,8 +697,9 @@ bool MainWindow::saveFile(QString path) {
     QTextStream s(&f);
 
 
-    if(!f.open(QIODevice::ReadWrite)) {
-        QMessageBox::warning(this, tr("Failed reading file"), tr("<p><b>Could not write to file:</b></p><p>%1</p>").arg(fi.fileName()));
+    if(!f.open(QIODevice::WriteOnly)) {
+        if(knownFile)
+            QMessageBox::warning(this, tr("Failed writing file"), tr("<p><b>Could not write to file:</b></p><p>%1</p>").arg(fi.fileName()));
         actionFileSaveAs();
         return false;
     }
