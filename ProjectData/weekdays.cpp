@@ -50,6 +50,14 @@ bool WeekDays::operator <=(const WeekDays &w) const {
     return isIn(w);
 }
 
+bool WeekDays::operator<(WeekDays *other) const {
+    return toCode() > other->toCode();
+}
+
+bool WeekDays::operator<(const WeekDays &other) const {
+    return toCode() > other.toCode();
+}
+
 bool WeekDays::operator <=(WeekDays *w) const {
     return isIn(*w);
 }
