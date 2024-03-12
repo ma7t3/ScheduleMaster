@@ -608,7 +608,7 @@ void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
             if(r->direction() == _currentLineDirection)
                 routes << r;
         }
-        emit busstopScheduleRequested(b, routes, 995);
+        emit busstopScheduleRequested(b, routes, _currentDayType);
     }
 }
 

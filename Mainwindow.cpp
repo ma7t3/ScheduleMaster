@@ -218,12 +218,12 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->actionWorkspaceTourPlanning, SIGNAL(triggered()), this, SLOT(actionWorkspaceTourPlanning()));
     QObject::connect(ui->actionWorkspacePublish, SIGNAL(triggered()), this, SLOT(actionWorkspacePublish()));
 
-    QObject::connect(wdgBusstops, SIGNAL(currentBusstopChanged(Busstop*)), wdgBusstopSchedule, SLOT(setAll(Busstop*)));
+    QObject::connect(wdgBusstops, SIGNAL(currentBusstopChanged(Busstop*)), wdgBusstopSchedule, SLOT(setBusstop(Busstop*)));
 
     QObject::connect(wdgLines, SIGNAL(currentLineChanged(Line*)), wdgRoutes, SLOT(setCurrentLine(Line*)));
     QObject::connect(wdgLines, SIGNAL(currentLineChanged(Line*)), wdgSchedule, SLOT(setCurrentLine(Line*)));
 
-    QObject::connect(wdgSchedule, SIGNAL(busstopScheduleRequested(Busstop *, QList<Route *>, int)), this, SLOT(actionOpenBusstopSchedule(Busstop *, QList<Route *>, int)));
+    QObject::connect(wdgSchedule, SIGNAL(busstopScheduleRequested(Busstop *, QList<Route *>, DayType *)), this, SLOT(actionOpenBusstopSchedule(Busstop *, QList<Route *>, DayType *)));
     QObject::connect(wdgSchedule, SIGNAL(tourRequested(Tour *)), this, SLOT(actionOpenTour(Tour *)));
     QObject::connect(wdgTours, SIGNAL(currentTourChanged(Tour*)), wdgTourEditor, SLOT(setCurrentTour(Tour*)));
 
@@ -629,8 +629,8 @@ void MainWindow::actionWorkspacePublish() {
     ui->actionWorkspacePublish->setChecked(true);
 }
 
-void MainWindow::actionOpenBusstopSchedule(Busstop *b, QList<Route *> routes, int days) {
-    wdgBusstopSchedule->setAll(b, routes, days);
+void MainWindow::actionOpenBusstopSchedule(Busstop *b, QList<Route *> routes, DayType *dayType) {
+    wdgBusstopSchedule->setAll(b, routes, dayType);
     dwBusstopSchedule->show();
 }
 

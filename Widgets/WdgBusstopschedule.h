@@ -21,9 +21,8 @@ public:
 public slots:
     void setBusstop(Busstop *);
     void setRoutes(QList<Route *>);
-    void setDays(int);
 
-    void setAll(Busstop *, QList<Route *> routes = {}, int days = 1);
+    void setAll(Busstop *, QList<Route *> routes = {}, DayType * = nullptr);
 
 private slots:
     void on_rbMonFri_clicked();
@@ -36,6 +35,8 @@ private slots:
 private slots:
     void refreshSchedule();
 
+    void on_cmbDayTypes_activated(int index);
+
 private:
     Ui::WdgBusstopSchedule *ui;
 
@@ -44,6 +45,7 @@ private:
     bool checkMatchingWeekDays(WeekDays);
 
     bool refreshing;
+    DayType *currentDayType;
 
     ProjectData *projectData;
     Busstop *busstop;

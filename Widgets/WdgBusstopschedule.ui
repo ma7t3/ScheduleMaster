@@ -65,28 +65,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QRadioButton" name="rbMonFri">
-            <property name="text">
-             <string>Mon - Fri</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="rbSat">
-            <property name="text">
-             <string>Sat</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="rbSun">
-            <property name="text">
-             <string>Sun</string>
-            </property>
-           </widget>
+           <widget class="QComboBox" name="cmbDayTypes"/>
           </item>
          </layout>
         </widget>
