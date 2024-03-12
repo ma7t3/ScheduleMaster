@@ -166,6 +166,48 @@ color: white;</string>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
+           <widget class="QPushButton" name="pbDirectionNew">
+            <property name="toolTip">
+             <string>Add</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbDirectionRename">
+            <property name="toolTip">
+             <string>Rename</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Edit.ico</normaloff>:/icons/Edit.ico</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbDirectionDelete">
+            <property name="toolTip">
+             <string>Delete</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Delete.ico</normaloff>:/icons/Delete.ico</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer_3">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -180,15 +222,29 @@ color: white;</string>
           </item>
           <item>
            <widget class="QPushButton" name="pbDirectionUp">
+            <property name="toolTip">
+             <string>Move up</string>
+            </property>
             <property name="text">
-             <string>Up</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/MoveUp.ico</normaloff>:/icons/MoveUp.ico</iconset>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pbDirectionDown">
+            <property name="toolTip">
+             <string>Move up</string>
+            </property>
             <property name="text">
-             <string>Down</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/MoveDown.ico</normaloff>:/icons/MoveDown.ico</iconset>
             </property>
            </widget>
           </item>
@@ -196,44 +252,6 @@ color: white;</string>
         </item>
         <item>
          <widget class="QListWidget" name="lwDirections"/>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QPushButton" name="pbDirectionNew">
-            <property name="text">
-             <string>New</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pbDirectionRename">
-            <property name="text">
-             <string>Rename</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pbDirectionDelete">
-            <property name="text">
-             <string>Delete</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
         </item>
        </layout>
       </widget>
@@ -256,8 +274,16 @@ color: white;</string>
   <tabstop>leName</tabstop>
   <tabstop>leDescription</tabstop>
   <tabstop>pbColor</tabstop>
+  <tabstop>lwDirections</tabstop>
+  <tabstop>pbDirectionNew</tabstop>
+  <tabstop>pbDirectionRename</tabstop>
+  <tabstop>pbDirectionDelete</tabstop>
+  <tabstop>pbDirectionUp</tabstop>
+  <tabstop>pbDirectionDown</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../main.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
