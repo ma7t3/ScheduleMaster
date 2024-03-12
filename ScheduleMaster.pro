@@ -45,6 +45,7 @@ SOURCES += \
     Widgets/wdgtripeditor.cpp \
     Widgets/wdgundoview.cpp \
     Widgets/wdgbusstopschedule.cpp \
+    localconfig.cpp \
     main.cpp \
     ProjectData/projectdata.cpp \
     Dialogs/DlgProjecttreeviewer.cpp \
@@ -57,8 +58,7 @@ SOURCES += \
     Dialogs/DlgToureditor.cpp \
     ProjectData/trip.cpp \
     Dialogs/DlgTripselector.cpp \
-    Dialogs/DlgTroubleshooter.cpp \
-    preferences.cpp
+    Dialogs/DlgTroubleshooter.cpp
 
 HEADERS += \
     App/global.h \
@@ -118,7 +118,7 @@ HEADERS += \
     Dialogs/DlgTripselector.h \
     Dialogs/DlgTroubleshooter.h \
     ProjectData/weekdays.h \
-    preferences.h
+    localconfig.h
 
 FORMS += \
     Dialogs/DlgCopyTrip.ui \

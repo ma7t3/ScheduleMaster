@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QTranslator>
 
-#include "preferences.h"
+#include "localconfig.h"
 #include "App/logger.h"
 
 #include "Mainwindow.h"
@@ -12,11 +12,11 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     Logger logger(&a);
-    Preferences pref(&a);
+    LocalConfig pref(&a);
 
     qInfo() << "loading preferences...";
-
-    if(Preferences::language() == Preferences::LanguageGerman) {
+    
+    if(LocalConfig::language() == LocalConfig::LanguageGerman) {
         qInfo() << "loading german translation...";
         QTranslator *translator = new QTranslator;
         bool ok;

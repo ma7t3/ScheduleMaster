@@ -1,7 +1,7 @@
 #include "DlgPreferences.h"
 #include "ui_DlgPreferences.h"
 
-#include "preferences.h"
+#include "localconfig.h"
 
 #include <QtCore>
 #include <QMessageBox>
@@ -24,9 +24,9 @@ DlgPreferences::~DlgPreferences()
 }
 
 void DlgPreferences::on_DlgPreferences_accepted() {
-    if(Preferences::language() != ui->cbLanguage->currentIndex())
+    if(LocalConfig::language() != ui->cbLanguage->currentIndex())
         QMessageBox::information(this, tr("Restart required"), tr("You'll need torestarted the application for all settings to be applied"));
-
-    Preferences::setLanguage(ui->cbLanguage->currentIndex());
+    
+    LocalConfig::setLanguage(ui->cbLanguage->currentIndex());
 }
 
