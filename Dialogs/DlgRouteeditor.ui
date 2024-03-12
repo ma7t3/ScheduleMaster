@@ -136,36 +136,71 @@
           </item>
           <item>
            <widget class="QPushButton" name="pbBusstopAdd">
-            <property name="text">
+            <property name="toolTip">
              <string>Add</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pbBusstopRemove">
-            <property name="text">
+            <property name="toolTip">
              <string>Remove</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Remove.ico</normaloff>:/icons/Remove.ico</iconset>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pbBusstopUp">
+            <property name="toolTip">
+             <string>Move up</string>
+            </property>
             <property name="text">
-             <string>Up</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/MoveUp.ico</normaloff>:/icons/MoveUp.ico</iconset>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pbBusstopDown">
+            <property name="toolTip">
+             <string>Move down</string>
+            </property>
             <property name="text">
-             <string>Down</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/MoveDown.ico</normaloff>:/icons/MoveDown.ico</iconset>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pbBusstopReverse">
-            <property name="text">
+            <property name="toolTip">
              <string>Reverse</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Reverse.ico</normaloff>:/icons/Reverse.ico</iconset>
             </property>
            </widget>
           </item>
@@ -226,13 +261,82 @@
        <property name="title">
         <string>Profiles</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QPushButton" name="pbProfileNew">
+            <property name="toolTip">
+             <string>New</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbProfileEdit">
+            <property name="toolTip">
+             <string>Edit</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Edit.ico</normaloff>:/icons/Edit.ico</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbProfileDuplicate">
+            <property name="toolTip">
+             <string>Duplicate</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Duplicate.ico</normaloff>:/icons/Duplicate.ico</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbProfileDelete">
+            <property name="toolTip">
+             <string>Delete</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../main.qrc">
+              <normaloff>:/icons/Delete.ico</normaloff>:/icons/Delete.ico</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -261,51 +365,6 @@
             </column>
            </widget>
           </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <widget class="QPushButton" name="pbProfileNew">
-              <property name="text">
-               <string>New</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pbProfileEdit">
-              <property name="text">
-               <string>Edit</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pbProfileDuplicate">
-              <property name="text">
-               <string>Duplicate</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pbProfileDelete">
-              <property name="text">
-               <string>Delete</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
          </layout>
         </item>
        </layout>
@@ -325,7 +384,27 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>leName</tabstop>
+  <tabstop>sbCode</tabstop>
+  <tabstop>cbDirection</tabstop>
+  <tabstop>leBusstopsSearch</tabstop>
+  <tabstop>twAllBusstops</tabstop>
+  <tabstop>twRouteBusstops</tabstop>
+  <tabstop>pbBusstopAdd</tabstop>
+  <tabstop>pbBusstopRemove</tabstop>
+  <tabstop>pbBusstopUp</tabstop>
+  <tabstop>pbBusstopDown</tabstop>
+  <tabstop>pbBusstopReverse</tabstop>
+  <tabstop>twProfiles</tabstop>
+  <tabstop>pbProfileNew</tabstop>
+  <tabstop>pbProfileEdit</tabstop>
+  <tabstop>pbProfileDuplicate</tabstop>
+  <tabstop>pbProfileDelete</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../main.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -334,8 +413,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>755</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -350,8 +429,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>755</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
