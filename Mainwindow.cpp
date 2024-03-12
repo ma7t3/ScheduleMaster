@@ -955,3 +955,18 @@ void MainWindow::on_actionPublishManageFootnotes_triggered() {
     dlg->exec();
 }
 
+
+void MainWindow::on_actionHelpManual_triggered() {
+    QString openURL;
+    if(LocalConfig::language() == LocalConfig::LanguageGerman)
+        openURL = "Manual_DE.pdf";
+    else
+        openURL = "Manual_EN.pdf";
+
+    if(!QFile::exists(openURL)) {
+        QMessageBox::critical(this, tr("Manual not found"), tr("<p>The file was not found:</p><p><b>%1<b></p>").arg(openURL));
+        return;
+    }
+    QDesktopServices::openUrl(QUrl(openURL));
+}
+

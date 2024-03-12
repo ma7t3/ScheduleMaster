@@ -439,6 +439,10 @@
    </property>
   </action>
   <action name="actionHelpManual">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Manual.ico</normaloff>:/icons/Manual.ico</iconset>
+   </property>
    <property name="text">
     <string>Manual</string>
    </property>
