@@ -40,3 +40,11 @@ void LocalConfig::setLastUsedFiles(const QStringList &list) {
 void LocalConfig::resetLastUsedFiles() {
     settingsGeneral.setValue("lastUsedFiles", {});
 }
+
+bool LocalConfig::compressFiles() {
+    return settingsGeneral.value("compressFiles", true).toBool();
+}
+
+void LocalConfig::setCompressFiles(const bool &newCompressFiles) {
+    settingsGeneral.setValue("compressFiles", newCompressFiles);
+}

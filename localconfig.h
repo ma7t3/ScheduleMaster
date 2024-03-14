@@ -20,6 +20,9 @@ public:
     static void setLastUsedFiles(const QStringList &);
     static void resetLastUsedFiles();
 
+    static bool compressFiles();
+    static void setCompressFiles(const bool &newCompressFiles);
+
 private:
     static QSettings settingsGeneral;
 };

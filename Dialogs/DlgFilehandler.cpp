@@ -2,7 +2,7 @@
 #include "ui_DlgFileHandler.h"
 
 #include "App/global.h"
-#include "../ProjectData/weekdays.h"
+#include "localconfig.h"
 
 DlgFileHandler::DlgFileHandler(QWidget *parent, ProjectData *projectData) :
     QDialog(parent),
@@ -45,15 +45,28 @@ bool DlgFileHandler::readFromFile(QString filePath) {
         return false;
     }
 
-    QTextStream s(&f);
-    s.setEncoding(QStringConverter::Utf8);
-
     logInfo(tr("reading file..."));
     qInfo() << "reading file" << filePath << "...";
-    QString jsonStr = s.readAll();
-    jsonStr = jsonStr.remove(fileHeader);
-    QByteArray br = jsonStr.toUtf8();
-    QJsonDocument jDoc = QJsonDocument::fromJson(br);
+
+    QByteArray data = f.readAll();
+    int dataSize = data.size();
+
+    if(dataSize < 4) {
+        logCritical(tr("Cannot read file - no valid file header found"));
+        qCritical() << "Cannot read file - no valid file header found";
+        return false;
+    }
+
+    QByteArray header = data.left(4);
+    if(header == fileHeaderCompressed) {
+        qInfo() << "uncompressing file data...";
+        data.remove(0, 4);
+        data = qUncompress(data);
+    } else if(header == fileHeaderUncompressed)
+        data.remove(0, 4);
+
+    qInfo() << "loading data...";
+    QJsonDocument jDoc = QJsonDocument::fromJson(data);
 
     if(!jDoc.isObject()) {
         noErrors = false;
@@ -63,8 +76,8 @@ bool DlgFileHandler::readFromFile(QString filePath) {
         return false;
     }
 
-    logSuccess(tr("read file - %1 characters").arg(jsonStr.length()));
-    qInfo() << "read file -" << jsonStr.length() << "characters!";
+    logSuccess(tr("read file - %1 bytes").arg(dataSize));
+    qInfo() << "read file -" << dataSize << "bytes!";
 
     QJsonObject jMainObj = jDoc.object();
 
@@ -150,23 +163,26 @@ bool DlgFileHandler::saveToFile(QString filePath)
     QJsonDocument jDoc;
     jDoc.setObject(jMainObj);
 
-    QString jsonString = jDoc.toJson(QJsonDocument::Indented);
+    QByteArray data;
+    if(LocalConfig::compressFiles()) {
+        data = jDoc.toJson(QJsonDocument::Compact);
+        qInfo() << "compressing file data...";
+        data = fileHeaderCompressed + qCompress(data, 9);
+    } else
+        data = fileHeaderUncompressed + jDoc.toJson(QJsonDocument::Indented);
+
+    qDebug() << "writing file...";
 
     // write to file
-
     QFile f(filePath);
 
-    if(!f.open(QIODevice::WriteOnly))
+    if(!f.open(QIODevice::WriteOnly)) {
+        qCritical() << "Can not write to file:" << f.errorString();
         return false;
+    }
 
-    QTextStream s(&f);
-    s.setEncoding(QStringConverter::Utf8);
-
-    s << fileHeader;
-    s << jsonString;
-
+    f.write(data);
     f.close();
-
     return true;
 }
 
