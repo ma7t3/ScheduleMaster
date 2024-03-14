@@ -31,7 +31,8 @@ private:
 
     ProjectData *projectData;
 
-    const QString fileHeader = "Schedule Master File\r\n====================\r\n";
+    const QByteArray fileHeaderCompressed = QString("SMP1").toUtf8();
+    const QByteArray fileHeaderUncompressed = QString("SMP0").toUtf8();
 
     void logInfo(const QString &text);
     void logSuccess(const QString &text);
