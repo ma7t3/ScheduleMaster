@@ -7,6 +7,7 @@
 #include <QTableWidgetItem>
 #include <QDockWidget>
 #include <QUndoStack>
+#include <QToolBar>
 
 #include "Dialogs/DlgFilehandler.h"
 
@@ -26,7 +27,6 @@
 #include "Dialogs/DlgPdfExporter.h"
 
 #include "ProjectData/projectdata.h"
-#include "qprogressbar.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -97,6 +97,10 @@ private slots:
 
     void on_actionHelpManual_triggered();
 
+    void on_actionViewToolbarGeneral_triggered();
+    void on_actionViewToolbarDocks_triggered();
+    void on_actionViewToolbarWorkspaces_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -127,6 +131,8 @@ private:
     QDockWidget *dwTourEditor = new QDockWidget(tr("Current tour"), this);
     QDockWidget *dwBusstopSchedule = new QDockWidget(tr("Busstop schedule"), this);
     QDockWidget *dwPublishedLines = new QDockWidget(tr("Published lines"), this);
+
+    QToolBar *tbGeneral, *tbDocks, *tbWorkspaces;
 
     bool saved;
     bool knownFile;

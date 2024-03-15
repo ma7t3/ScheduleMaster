@@ -33,14 +33,18 @@
      <property name="title">
       <string>Open Recent</string>
      </property>
+     <property name="icon">
+      <iconset resource="main.qrc">
+       <normaloff>:/icons/LastUSedFiles.ico</normaloff>:/icons/LastUSedFiles.ico</iconset>
+     </property>
     </widget>
     <addaction name="actionFileNew"/>
     <addaction name="actionFileOpen"/>
     <addaction name="menuOpenRecent"/>
+    <addaction name="separator"/>
     <addaction name="actionFileSave"/>
     <addaction name="actionFileSaveAs"/>
-    <addaction name="actionCleanup_and_troubleshooting"/>
-    <addaction name="actionView_As_Tree"/>
+    <addaction name="separator"/>
     <addaction name="actionFileClose"/>
     <addaction name="actionFileQuit"/>
    </widget>
@@ -82,8 +86,21 @@
      <addaction name="actionWorkspaceTourPlanning"/>
      <addaction name="actionWorkspacePublish"/>
     </widget>
+    <widget class="QMenu" name="menuToolbars">
+     <property name="title">
+      <string>Toolbars</string>
+     </property>
+     <property name="icon">
+      <iconset resource="main.qrc">
+       <normaloff>:/icons/Toolbars.ico</normaloff>:/icons/Toolbars.ico</iconset>
+     </property>
+     <addaction name="actionViewToolbarGeneral"/>
+     <addaction name="actionViewToolbarDocks"/>
+     <addaction name="actionViewToolbarWorkspaces"/>
+    </widget>
     <addaction name="menuDocks"/>
     <addaction name="menuWorkspaces"/>
+    <addaction name="menuToolbars"/>
    </widget>
    <widget class="QMenu" name="menuBusstops">
     <property name="title">
@@ -128,14 +145,19 @@
      <property name="title">
       <string>Configuration</string>
      </property>
+     <property name="icon">
+      <iconset resource="main.qrc">
+       <normaloff>:/icons/ProjectSettings.ico</normaloff>:/icons/ProjectSettings.ico</iconset>
+     </property>
      <addaction name="actionPublishManageFootnotes"/>
     </widget>
     <addaction name="actionPublishAll"/>
+    <addaction name="separator"/>
     <addaction name="actionPublishLineSchedules"/>
     <addaction name="actionPublishBusstopSchedules"/>
     <addaction name="actionPublishTourPlans"/>
+    <addaction name="separator"/>
     <addaction name="menuConfiguration"/>
-    <addaction name="actionPublishTest"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -210,6 +232,9 @@
    <property name="text">
     <string>Quit</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
   </action>
   <action name="actionCleanup_and_troubleshooting">
    <property name="text">
@@ -243,6 +268,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Route.ico</normaloff>:/icons/Route.ico</iconset>
+   </property>
    <property name="text">
     <string>Track Layout</string>
    </property>
@@ -253,6 +282,10 @@
   <action name="actionWorkspaceScheduling">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Schedule.ico</normaloff>:/icons/Schedule.ico</iconset>
    </property>
    <property name="text">
     <string>Scheduling</string>
@@ -265,6 +298,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Tour.ico</normaloff>:/icons/Tour.ico</iconset>
+   </property>
    <property name="text">
     <string>Tour Planning</string>
    </property>
@@ -275,6 +312,10 @@
   <action name="actionWorkspaceBusstopSchedule">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/BusstopSchedule.ico</normaloff>:/icons/BusstopSchedule.ico</iconset>
    </property>
    <property name="text">
     <string>Busstop Schedule</string>
@@ -392,11 +433,19 @@
    </property>
   </action>
   <action name="actionPublishLineSchedules">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Schedule.ico</normaloff>:/icons/Schedule.ico</iconset>
+   </property>
    <property name="text">
     <string>Line Schedules</string>
    </property>
   </action>
   <action name="actionPublishBusstopSchedules">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/BusstopSchedule.ico</normaloff>:/icons/BusstopSchedule.ico</iconset>
+   </property>
    <property name="text">
     <string>Busstop Schedules</string>
    </property>
@@ -405,6 +454,10 @@
    </property>
   </action>
   <action name="actionPublishTourPlans">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Tour.ico</normaloff>:/icons/Tour.ico</iconset>
+   </property>
    <property name="text">
     <string>Tour Plans</string>
    </property>
@@ -432,8 +485,15 @@
    <property name="shortcut">
     <string>Ctrl+,</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
+   </property>
   </action>
   <action name="actionPublishManageFootnotes">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Footnote.ico</normaloff>:/icons/Footnote.ico</iconset>
+   </property>
    <property name="text">
     <string>Manage footnotes</string>
    </property>
@@ -448,26 +508,36 @@
    </property>
   </action>
   <action name="actionHelpCheckForUpdates">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/CheckForUpdates.ico</normaloff>:/icons/CheckForUpdates.ico</iconset>
+   </property>
    <property name="text">
     <string>Check for updates</string>
    </property>
   </action>
   <action name="actionHelpAbout">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/About.ico</normaloff>:/icons/About.ico</iconset>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
    <property name="shortcut">
     <string>F1</string>
    </property>
-  </action>
-  <action name="actionPublishTest">
-   <property name="text">
-    <string>Test</string>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
    </property>
   </action>
   <action name="actionWorkspacePublish">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/PublishedLines.ico</normaloff>:/icons/PublishedLines.ico</iconset>
    </property>
    <property name="text">
     <string>Publish</string>
@@ -482,6 +552,42 @@
    </property>
    <property name="shortcut">
     <string>F6</string>
+   </property>
+  </action>
+  <action name="actionViewToolbarGeneral">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/General.ico</normaloff>:/icons/General.ico</iconset>
+   </property>
+   <property name="text">
+    <string>General</string>
+   </property>
+  </action>
+  <action name="actionViewToolbarDocks">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Docks.ico</normaloff>:/icons/Docks.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Docks</string>
+   </property>
+  </action>
+  <action name="actionViewToolbarWorkspaces">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Workspaces.ico</normaloff>:/icons/Workspaces.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Workspaces</string>
    </property>
   </action>
  </widget>

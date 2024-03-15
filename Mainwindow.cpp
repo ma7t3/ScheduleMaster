@@ -147,10 +147,10 @@ MainWindow::MainWindow(QWidget *parent)
     wdgLines->setMenubarActions(ui->actionLinesNew, ui->actionLinesEdit, ui->actionLinesDelete);
     wdgRoutes->setMenubarActions(ui->actionRoutesNew, ui->actionRoutesEdit, ui->actionRoutesDuplicate, ui->actionRoutesDelete);
 
-    QObject::connect(wdgSchedule, SIGNAL(currentLineChanged(Line *, LineDirection *)), wdgTripEditor, SLOT(setCurrentLine(Line *, LineDirection *)));
+    QObject::connect(wdgSchedule, SIGNAL(currentLineChanged(Line*,LineDirection*)), wdgTripEditor, SLOT(setCurrentLine(Line*,LineDirection*)));
     QObject::connect(wdgSchedule, SIGNAL(currentDayTypeChanged(DayType)), wdgTripEditor, SLOT(setCurrentDayType(DayType)));
-    QObject::connect(wdgSchedule, SIGNAL(currentTripsChanged(QList<Trip *>)), wdgTripEditor, SLOT(setCurrentTrips(QList<Trip *>)));
-    QObject::connect(wdgTripEditor, SIGNAL(tripsChanged(QList<Trip *>)), wdgSchedule, SLOT(refreshSchedule(QList<Trip *>)));
+    QObject::connect(wdgSchedule, SIGNAL(currentTripsChanged(QList<Trip*>)), wdgTripEditor, SLOT(setCurrentTrips(QList<Trip*>)));
+    QObject::connect(wdgTripEditor, SIGNAL(tripsChanged(QList<Trip*>)), wdgSchedule, SLOT(refreshSchedule(QList<Trip*>)));
 
 
     QObject::connect(ui->actionBusstopsNew, SIGNAL(triggered()), wdgBusstops, SLOT(actionNew()));
@@ -166,28 +166,43 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->actionRoutesDuplicate, SIGNAL(triggered()), wdgRoutes, SLOT(actionDuplicate()));
     QObject::connect(ui->actionRoutesDelete, SIGNAL(triggered()), wdgRoutes, SLOT(actionDelete()));
 
-    QToolBar *toolbar = new QToolBar(tr("toolbar"), this);
-    toolbar->addAction(ui->actionFileNew);
-    toolbar->addAction(ui->actionFileOpen);
-    toolbar->addAction(ui->actionFileSave);
-    toolbar->addAction(ui->actionUndo);
-    toolbar->addAction(ui->actionRedo);
-    toolbar->addSeparator();
-    toolbar->addAction(actDockBusstops);
-    toolbar->addAction(actDockLines);
-    toolbar->addAction(actDockRoutes);
-    toolbar->addAction(actDockSchedule);
-    toolbar->addAction(actDockBusstopSchedule);
-    toolbar->addAction(actDockTours);
-    toolbar->addAction(actDockTourEditor);
-    toolbar->addAction(actDockPublishedLines);
-    toolbar->addSeparator();
-    toolbar->addAction(ui->actionWorkspaceTrackLayout);
-    toolbar->addAction(ui->actionWorkspaceBusstopSchedule);
-    toolbar->addAction(ui->actionWorkspaceScheduling);
-    toolbar->addAction(ui->actionWorkspaceTourPlanning);
-    toolbar->addAction(ui->actionWorkspacePublish);
-    this->addToolBar(toolbar);
+    tbGeneral = new QToolBar(tr("general"), this);
+    tbGeneral->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    tbGeneral->addAction(ui->actionFileNew);
+    tbGeneral->addAction(ui->actionFileOpen);
+    tbGeneral->addAction(ui->actionFileSave);
+    tbGeneral->addAction(ui->actionUndo);
+    tbGeneral->addAction(ui->actionRedo);
+    tbGeneral->addSeparator();
+    tbGeneral->addAction(ui->actionEditProjectSettings);
+    tbGeneral->addAction(ui->actionEditPreferences);
+
+    tbDocks = new QToolBar(tr("docks"), this);
+    tbDocks->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    tbDocks->addAction(actDockBusstops);
+    tbDocks->addAction(actDockLines);
+    tbDocks->addAction(actDockRoutes);
+    tbDocks->addAction(actDockSchedule);
+    tbDocks->addAction(actDockBusstopSchedule);
+    tbDocks->addAction(actDockTours);
+    tbDocks->addAction(actDockTourEditor);
+    tbDocks->addAction(actDockPublishedLines);
+
+    tbWorkspaces = new QToolBar(tr("workspaces"), this);
+    tbWorkspaces->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    tbWorkspaces->addAction(ui->actionWorkspaceTrackLayout);
+    tbWorkspaces->addAction(ui->actionWorkspaceBusstopSchedule);
+    tbWorkspaces->addAction(ui->actionWorkspaceScheduling);
+    tbWorkspaces->addAction(ui->actionWorkspaceTourPlanning);
+    tbWorkspaces->addAction(ui->actionWorkspacePublish);
+
+    this->addToolBar(Qt::TopToolBarArea, tbGeneral);
+    this->addToolBar(Qt::LeftToolBarArea, tbDocks);
+    this->addToolBar(Qt::TopToolBarArea, tbWorkspaces);
+
+    ui->actionViewToolbarGeneral->setChecked(true);
+    ui->actionViewToolbarDocks->setChecked(true);
+    ui->actionViewToolbarWorkspaces->setChecked(true);
 
     dwBusstopSchedule->resize(900, 831);
 
@@ -721,7 +736,7 @@ bool MainWindow::saveFile(QString path) {
 
     f.close();
 
-    projectData->cleanup();
+    //projectData->cleanup();
 
     fileHandler->saveToFile(path);
 
@@ -968,5 +983,20 @@ void MainWindow::on_actionHelpManual_triggered() {
         return;
     }
     QDesktopServices::openUrl(QUrl(openURL));
+}
+
+
+void MainWindow::on_actionViewToolbarGeneral_triggered() {
+    tbGeneral->setVisible(ui->actionViewToolbarGeneral->isChecked());
+}
+
+
+void MainWindow::on_actionViewToolbarDocks_triggered() {
+    tbDocks->setVisible(ui->actionViewToolbarDocks->isChecked());
+}
+
+
+void MainWindow::on_actionViewToolbarWorkspaces_triggered() {
+    tbWorkspaces->setVisible(ui->actionViewToolbarWorkspaces->isChecked());
 }
 

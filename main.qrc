@@ -44,5 +44,11 @@
         <file>icons/MoveDown.ico</file>
         <file>icons/MoveUp.ico</file>
         <file>icons/Reverse.ico</file>
+        <file>icons/LastUSedFiles.ico</file>
+        <file>icons/Footnote.ico</file>
+        <file>icons/CheckForUpdates.ico</file>
+        <file>icons/About.ico</file>
+        <file>icons/Toolbars.ico</file>
+        <file>icons/General.ico</file>
     </qresource>
 </RCC>
