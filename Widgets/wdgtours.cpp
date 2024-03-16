@@ -296,6 +296,7 @@ void WdgTours::refreshTourList() {
             if(!lines.contains(lineName))
                 lines << lineName;
         }
+        lines.sort();
 
         ui->twTours->setItem(row, 1, new QTableWidgetItem(lines.join(", ")));
     }
