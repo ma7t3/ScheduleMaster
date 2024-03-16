@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <QInputDialog>
 
+#include <QPainter>
+
 #include "App/global.h"
 #include "Dialogs/DlgToureditor.h"
 #include "Commands/CmdTours.h"
@@ -216,11 +218,47 @@ void WdgTours::refreshTourList() {
 
         ui->twTours->insertRow(row);
 
+        QTableWidgetItem *previewItm = new QTableWidgetItem;
+        QPixmap preview(480, 20);
+        preview.fill(Qt::transparent);
+        QPainter p(&preview);
+        p.setPen(Qt::NoPen);
+        p.setBrush(Qt::black);
+        int startPixel, endPixel;
+        startPixel = o->startTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
+        endPixel = o->endTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
+        if(endPixel < startPixel)
+            endPixel = 480;
+
+        p.drawRect(startPixel,
+                   0,
+                   endPixel - startPixel,
+                   20);
+
+        for(int j = 0; j < o->tripCount(); j++) {
+            Trip *t = o->tripAt(j);
+            p.setBrush(projectData->lineOfTrip(t)->color());
+            int startPixel, endPixel;
+            startPixel = t->startTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
+            endPixel = t->endTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
+            if(endPixel < startPixel)
+                endPixel = 480;
+
+            p.drawRect(startPixel,
+                       0,
+                       endPixel - startPixel,
+                       20);
+        }
+
+
+        previewItm->setData(Qt::DecorationRole, preview);
+
         tableReference << o;
         ui->twTours->setItem(row, 0, new QTableWidgetItem(o->name()));
-        ui->twTours->setItem(row, 1, new QTableWidgetItem(o->startTime().toString("hh:mm") + " - " + o->endTime().toString("hh:mm")));
-        ui->twTours->setItem(row, 2, new QTableWidgetItem(o->duration().toString("hh:mm")));
-        ui->twTours->setItem(row, 3, new QTableWidgetItem(o->weekDays()->toString()));
+        ui->twTours->setItem(row, 2, new QTableWidgetItem(o->weekDays()->toString()));
+        ui->twTours->setItem(row, 3, new QTableWidgetItem(o->startTime().toString("hh:mm") + " - " + o->endTime().toString("hh:mm")));
+        ui->twTours->setItem(row, 4, new QTableWidgetItem(o->duration().toString("hh:mm")));
+        ui->twTours->setItem(row, 5, previewItm);
         ui->twTours->item(row, 0)->setFont(bold);
 
         int startTime = o->startTime().msecsSinceStartOfDay(), endTime = o->endTime().msecsSinceStartOfDay(), diff = 0, time = 0;
@@ -237,7 +275,7 @@ void WdgTours::refreshTourList() {
         int timeColorCode = 360 - (time / 240000);
         QColor timeColor;
         timeColor.setHsv(timeColorCode, 128, 255);
-        ui->twTours->item(row, 1)->setBackground(timeColor);
+        ui->twTours->item(row, 3)->setBackground(timeColor);
         ui->twTours->setRowHeight(row, 20);
 
 
@@ -247,9 +285,9 @@ void WdgTours::refreshTourList() {
 
         QColor durationColor;
         durationColor.setHsv(0, 0, durationColorCode);
-        ui->twTours->item(row, 2)->setBackground(durationColor);
+        ui->twTours->item(row, 4)->setBackground(durationColor);
         if(durationColorCode < 128)
-            ui->twTours->item(row, 2)->setForeground(Qt::white);
+            ui->twTours->item(row, 4)->setForeground(Qt::white);
 
         QStringList lines;
 
@@ -259,8 +297,11 @@ void WdgTours::refreshTourList() {
                 lines << lineName;
         }
 
-        ui->twTours->setItem(row, 4, new QTableWidgetItem(lines.join(", ")));
+        ui->twTours->setItem(row, 1, new QTableWidgetItem(lines.join(", ")));
     }
+
+    ui->twTours->resizeColumnsToContents();
+    ui->twTours->setColumnWidth(5, 484);
 
     refreshing = false;
 }

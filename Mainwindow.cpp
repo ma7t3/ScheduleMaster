@@ -601,7 +601,7 @@ void MainWindow::actionWorkspaceTourPlanning() {
     dwUndoView->show();
     dwUndoView->setFloating(false);
 
-    this->resizeDocks({dwTours, dwTourEditor}, {static_cast<int>(this->width() * 0.33), static_cast<int>(this->width() * 0.67)}, Qt::Horizontal);
+    this->resizeDocks({dwTours, dwTourEditor}, {static_cast<int>(this->width() * 0.5), static_cast<int>(this->width() * 0.5)}, Qt::Horizontal);
     this->resizeDocks({dwTours, dwUndoView}, {static_cast<int>(this->width() * 0.8), static_cast<int>(this->width() * 0.2)}, Qt::Vertical);
 
     ui->actionWorkspaceTrackLayout->setChecked(false);

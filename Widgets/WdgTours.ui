@@ -87,6 +87,16 @@
      </column>
      <column>
       <property name="text">
+       <string>Lines</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Days</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>Time</string>
       </property>
      </column>
@@ -97,12 +107,7 @@
      </column>
      <column>
       <property name="text">
-       <string>Days</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Lines</string>
+       <string>Preview</string>
       </property>
      </column>
     </widget>
