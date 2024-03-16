@@ -18,28 +18,9 @@ WdgSchedule::WdgSchedule(QWidget *parent, ProjectData *projectData, QUndoStack *
 {
     ui->setupUi(this);
 
-    /*QObject::connect(ui->pbForwardTrip, SIGNAL(clicked()), this, SLOT(actionScheduleShowTripForward()));
-    QObject::connect(ui->pbReverseTrip, SIGNAL(clicked()), this, SLOT(actionScheduleShowTripReverse()));*/
     QObject::connect(ui->cmbDirections, SIGNAL(activated(int)), this, SLOT(actionChangeDirection()));
     QObject::connect(ui->leSearchBusstop, SIGNAL(textChanged(QString)), this, SLOT(refreshSchedule()));
     QObject::connect(ui->cbOnlyImportantBusstops, SIGNAL(stateChanged(int)), this, SLOT(refreshSchedule()));
-
-    /*QObject::connect(ui->pbTripNew, SIGNAL(clicked()), this, SLOT(actionScheduleTripNew()));
-    QObject::connect(ui->pbTripDelete, SIGNAL(clicked()), this, SLOT(actionScheduleTripDelete()));
-    QObject::connect(ui->lwRoutes, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(actionScheduleTripChangeRoute()));
-    QObject::connect(ui->cbTimeProfiles, SIGNAL(activated(int)), this, SLOT(actionScheduleTripChangeProfile()));
-    QObject::connect(ui->teDepartureTime, SIGNAL(userTimeChanged(QTime)), this, SLOT(actionScheduleTripChangeStartTime()));
-
-    QObject::connect(ui->cbDayMon, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDayTue, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDayWed, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDayThu, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDayFri, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDaySat, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDaySun, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDayHol, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDaySco, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));
-    QObject::connect(ui->cbDayNsco, SIGNAL(clicked()), this, SLOT(actionScheduleTripChangeDays()));*/
 
     ui->twSchedule->setRowHidden(0, true);
 }

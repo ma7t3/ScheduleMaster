@@ -20,6 +20,19 @@ WdgLines::WdgLines(QWidget *parent, ProjectData *projectData, QUndoStack *undoSt
 {
     ui->setupUi(this);
 
+    QAction *actionEdit = new QAction(ui->twLines);
+    actionEdit->setShortcuts({QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Enter)});
+    actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ui->twLines->addAction(actionEdit);
+
+    QAction *actionDelete = new QAction(ui->twLines);
+    actionDelete->setShortcut(QKeySequence::Delete);
+    actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ui->twLines->addAction(actionDelete);
+
+    QObject::connect(actionEdit, SIGNAL(triggered()), this, SLOT(actionEdit()));
+    QObject::connect(actionDelete, SIGNAL(triggered()), this, SLOT(actionDelete()));
+
     QObject::connect(ui->pbLineNew, SIGNAL(clicked()), this, SLOT(actionNew()));
     QObject::connect(ui->pbLineEdit, SIGNAL(clicked()), this, SLOT(actionEdit()));
     QObject::connect(ui->twLines, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(actionEdit()));
