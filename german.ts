@@ -579,9 +579,9 @@
     </message>
     <message>
         <location filename="Mainwindow.ui" line="53"/>
-        <location filename="Mainwindow.ui" line="345"/>
-        <location filename="Mainwindow.ui" line="378"/>
-        <location filename="Mainwindow.ui" line="411"/>
+        <location filename="Mainwindow.ui" line="348"/>
+        <location filename="Mainwindow.ui" line="381"/>
+        <location filename="Mainwindow.ui" line="414"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
@@ -632,197 +632,212 @@
         <translation>Fahrplan</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="137"/>
+        <location filename="Mainwindow.ui" line="140"/>
         <location filename="Mainwindow.h" line="130"/>
         <source>Tours</source>
         <translation>Dienste</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="142"/>
+        <location filename="Mainwindow.ui" line="145"/>
         <location filename="Mainwindow.ui" line="543"/>
         <source>Publish</source>
         <translation>Veröffentlichen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="146"/>
+        <location filename="Mainwindow.ui" line="149"/>
         <source>Configuration</source>
         <translation>Konfiguration</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="164"/>
+        <location filename="Mainwindow.ui" line="167"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="188"/>
+        <location filename="Mainwindow.ui" line="191"/>
         <source>New Project</source>
         <translation>Neues Projekt</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="197"/>
+        <location filename="Mainwindow.ui" line="200"/>
         <source>Open Project</source>
         <translation>Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="206"/>
+        <location filename="Mainwindow.ui" line="209"/>
         <source>Save Project</source>
         <translation>Projekt speichern</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="215"/>
+        <location filename="Mainwindow.ui" line="218"/>
         <source>Save Project As</source>
         <translation>Projekt speichern unter</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="224"/>
+        <location filename="Mainwindow.ui" line="227"/>
         <source>Close Project</source>
         <translation>Projekt schließen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="233"/>
+        <location filename="Mainwindow.ui" line="236"/>
         <source>Quit</source>
         <translation>Beenden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="241"/>
+        <location filename="Mainwindow.ui" line="244"/>
         <source>Cleanup and troubleshooting</source>
         <translation>Aufräumen und Problembehandlung</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="246"/>
+        <location filename="Mainwindow.ui" line="249"/>
         <source>View As Tree</source>
         <translation>Als Baum anzeigen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="255"/>
+        <location filename="Mainwindow.ui" line="258"/>
         <source>Undo</source>
         <translation>Rückgängig</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="264"/>
+        <location filename="Mainwindow.ui" line="267"/>
         <source>Redo</source>
         <translation>Wiederholen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="276"/>
+        <location filename="Mainwindow.ui" line="279"/>
         <source>Track Layout</source>
         <translation>Streckenverlauf</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="279"/>
+        <location filename="Mainwindow.ui" line="282"/>
         <source>Alt+1</source>
         <translation>Alt+1</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="291"/>
+        <location filename="Mainwindow.ui" line="294"/>
         <source>Scheduling</source>
         <translation>Fahrplanung</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="294"/>
+        <location filename="Mainwindow.ui" line="297"/>
         <source>Alt+3</source>
         <translation>Alt+3</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="306"/>
+        <location filename="Mainwindow.ui" line="309"/>
         <source>Tour Planning</source>
         <translation>Dienstplanung</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="309"/>
+        <location filename="Mainwindow.ui" line="312"/>
         <source>Alt+4</source>
         <translation>Alt+4</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="321"/>
+        <location filename="Mainwindow.ui" line="324"/>
         <source>Busstop Schedule</source>
         <translation>Haltestellenfahrplan</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="324"/>
+        <location filename="Mainwindow.ui" line="327"/>
         <source>Alt+2</source>
         <translation>Alt+2</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="333"/>
-        <location filename="Mainwindow.ui" line="366"/>
-        <location filename="Mainwindow.ui" line="399"/>
+        <location filename="Mainwindow.ui" line="336"/>
+        <location filename="Mainwindow.ui" line="369"/>
+        <location filename="Mainwindow.ui" line="402"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="336"/>
+        <location filename="Mainwindow.ui" line="339"/>
         <source>Ctrl+B</source>
-        <translation>Strg+B</translation>
+        <translation>Strg+H</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="348"/>
+        <location filename="Mainwindow.ui" line="351"/>
         <source>Ctrl+Shift+B</source>
-        <translation>Strg+Shift+B</translation>
+        <translation>Strg+Shift+H</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="357"/>
-        <location filename="Mainwindow.ui" line="390"/>
-        <location filename="Mainwindow.ui" line="423"/>
+        <location filename="Mainwindow.ui" line="360"/>
+        <location filename="Mainwindow.ui" line="393"/>
+        <location filename="Mainwindow.ui" line="426"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="369"/>
+        <location filename="Mainwindow.ui" line="372"/>
         <source>Ctrl+L</source>
         <translation>Strg+L</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="381"/>
+        <location filename="Mainwindow.ui" line="384"/>
         <source>Ctrl+Shift+L</source>
         <translation>Strg+Shift+L</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="402"/>
+        <location filename="Mainwindow.ui" line="405"/>
         <source>Ctrl+R</source>
         <translation>Strg+R</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="414"/>
+        <location filename="Mainwindow.ui" line="417"/>
         <source>Ctrl+Shift+R</source>
         <translation>Strg+Shift+R</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="432"/>
+        <location filename="Mainwindow.ui" line="435"/>
         <source>Duplicate</source>
         <translation>Duplizieren</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="441"/>
+        <location filename="Mainwindow.ui" line="444"/>
         <source>Line Schedules</source>
         <translation>Linienfahrpläne</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="450"/>
         <location filename="Mainwindow.ui" line="453"/>
+        <location filename="Mainwindow.ui" line="456"/>
         <source>Busstop Schedules</source>
         <translation>Haltestellenfahrpläne</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="462"/>
         <location filename="Mainwindow.ui" line="465"/>
+        <location filename="Mainwindow.ui" line="468"/>
         <source>Tour Plans</source>
         <translation>Dienstpläne</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="474"/>
+        <location filename="Mainwindow.ui" line="477"/>
         <source>Project settings</source>
         <translation>Projekteinstellungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="483"/>
+        <location filename="Mainwindow.ui" line="486"/>
         <source>Preferences</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="486"/>
-        <source>Ctrl+,</source>
-        <translation>Strg + ,</translation>
+        <location filename="Mainwindow.ui" line="599"/>
+        <source>Add Trip</source>
+        <translation>Fahrt hinzufügen</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.ui" line="602"/>
+        <source>Ctrl+T</source>
+        <translation>Strg+F</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.ui" line="611"/>
+        <source>Copy Trip</source>
+        <translation>Trip kopieren</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.ui" line="620"/>
+        <source>Delete Selected Trips</source>
+        <translation>Ausgewählte Fahrten löschen</translation>
     </message>
     <message>
         <location filename="Mainwindow.ui" line="498"/>
@@ -880,103 +895,138 @@
         <translation>Menüleiste wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="169"/>
+        <location filename="Mainwindow.cpp" line="120"/>
+        <source>Alt+B</source>
+        <translation>Alt+H</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="121"/>
+        <source>Alt+L</source>
+        <translation>Alt+L</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="122"/>
+        <source>Alt+R</source>
+        <translation>Alt+R</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="123"/>
+        <source>Alt+S</source>
+        <translation>Alt+F</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="124"/>
+        <source>Alt+Shift+B</source>
+        <translation>Alt+Shift+H</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="125"/>
+        <source>Alt+T</source>
+        <translation>Alt+D</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="126"/>
+        <source>Alt+Shift+T</source>
+        <translation>Alt+Shift+D</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="178"/>
         <source>general</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="180"/>
+        <location filename="Mainwindow.cpp" line="189"/>
         <source>docks</source>
         <translation>Docks</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="191"/>
+        <location filename="Mainwindow.cpp" line="200"/>
         <source>workspaces</source>
         <translation>Arbeitsbereiche</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="215"/>
+        <location filename="Mainwindow.cpp" line="224"/>
         <source>loading signals and slots...</source>
         <translation>Signale und Slots werden geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="257"/>
+        <location filename="Mainwindow.cpp" line="266"/>
         <source>loading startup dialog...</source>
         <translation>Willkommensdialog wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="312"/>
-        <location filename="Mainwindow.cpp" line="334"/>
+        <location filename="Mainwindow.cpp" line="321"/>
+        <location filename="Mainwindow.cpp" line="343"/>
         <source>ScheduleMaster File (*.smp2)</source>
         <translation>ScheduleMaster-Datei (*.smp2)</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="349"/>
+        <location filename="Mainwindow.cpp" line="358"/>
         <source>Unsaved Changes</source>
         <translation>Ungespeicherte Änderungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="349"/>
+        <location filename="Mainwindow.cpp" line="358"/>
         <source>&lt;p&gt;&lt;b&gt;There are unsaved changes!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Do want to save them before closing this file?&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Es gibt ungespeicherte Änderungen!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Sollen diese vor dem schließen der Datei gespeichert werden?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="676"/>
+        <location filename="Mainwindow.cpp" line="685"/>
         <source>Opening project file...</source>
         <translation>Projektdatei wird geöffnet...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="682"/>
+        <location filename="Mainwindow.cpp" line="691"/>
         <source>File not found</source>
         <translation>Datei nicht gefunden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="682"/>
+        <location filename="Mainwindow.cpp" line="691"/>
         <source>&lt;p&gt;The given file was not found!&lt;/p&gt;</source>
         <translation>&lt;p&gt;Die angeforderte Datei wurde nicht gefunden!&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="691"/>
+        <location filename="Mainwindow.cpp" line="700"/>
         <source>Failed reading file</source>
         <translation>Einlesen der Datei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="691"/>
+        <location filename="Mainwindow.cpp" line="700"/>
         <source>&lt;p&gt;&lt;b&gt;Could not read file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht gelesen werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="732"/>
+        <location filename="Mainwindow.cpp" line="741"/>
         <source>&lt;p&gt;&lt;b&gt;Could not write to file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht geschrieben werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="732"/>
+        <location filename="Mainwindow.cpp" line="741"/>
         <source>Failed writing file</source>
         <translation>Fehler beim schreiben der Datei</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="745"/>
+        <location filename="Mainwindow.cpp" line="754"/>
         <source>File saved!</source>
         <translation>Datei gespeichert!</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="841"/>
+        <location filename="Mainwindow.cpp" line="850"/>
         <source>&lt;h1&gt;About ScheduleMaster 2&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1.%2.%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Release type:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Beta&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
         <translation>&lt;h1&gt;Über ScheduleMaster&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1.%2.%3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Veröffentlichungstyp:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Beta&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="847"/>
+        <location filename="Mainwindow.cpp" line="856"/>
         <source>ScheduleMaster 2 - About</source>
         <translation>ScheduleMaster - Über</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="982"/>
+        <location filename="Mainwindow.cpp" line="991"/>
         <source>Manual not found</source>
         <translation>Handbuch konnte nicht gefunden werden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="982"/>
+        <location filename="Mainwindow.cpp" line="991"/>
         <source>&lt;p&gt;The file was not found:&lt;/p&gt;&lt;p&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Die Datei konnte nicht gefunden werden:&lt;/p&gt;&lt;p&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/p&gt;</translation>
     </message>
@@ -1673,12 +1723,12 @@
         <translation>Genutzt von Linien</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgbusstops.cpp" line="97"/>
+        <location filename="Widgets/wdgbusstops.cpp" line="111"/>
         <source>Delete busstop(s)</source>
         <translation>Haltestelle(n) löschen</translation>
     </message>
     <message numerus="yes">
-        <location filename="Widgets/wdgbusstops.cpp" line="97"/>
+        <location filename="Widgets/wdgbusstops.cpp" line="111"/>
         <source>&lt;p&gt;&lt;b&gt;Do you really want to delete these %n busstop(s)?&lt;/b&gt;&lt;/p&gt;%1</source>
         <translation>
             <numerusform>&lt;p&gt;&lt;b&gt;Solle diese Haltestelle wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;%1</numerusform>
@@ -1830,12 +1880,12 @@
         <translation>Beschreibung</translation>
     </message>
     <message>
-        <location filename="Widgets/wdglines.cpp" line="99"/>
+        <location filename="Widgets/wdglines.cpp" line="112"/>
         <source>Delete line(s)</source>
         <translation>Linie(n) löschen</translation>
     </message>
     <message numerus="yes">
-        <location filename="Widgets/wdglines.cpp" line="99"/>
+        <location filename="Widgets/wdglines.cpp" line="112"/>
         <source>&lt;p&gt;&lt;b&gt;Do you really want to delete these %n line(s)?&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;</source>
         <translation>
             <numerusform>&lt;p&gt;&lt;b&gt;Solle diese Linie wirklich geslöscht werden?&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;</numerusform>
@@ -2099,12 +2149,12 @@
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgroutes.cpp" line="138"/>
+        <location filename="Widgets/wdgroutes.cpp" line="157"/>
         <source>delete route(s)</source>
         <translation>Route(n) löschen</translation>
     </message>
     <message numerus="yes">
-        <location filename="Widgets/wdgroutes.cpp" line="138"/>
+        <location filename="Widgets/wdgroutes.cpp" line="157"/>
         <source>&lt;p&gt;&lt;b&gt;Do you really want to delete these %n route(s)?&lt;/b&gt;&lt;/p&gt;</source>
         <translation>
             <numerusform>&lt;p&gt;&lt;b&gt;Soll diese Routen wirklich gelöscht werden?&lt;/b&gt;&lt;/p&gt;</numerusform>
@@ -2170,12 +2220,12 @@
         <translation>Startzeit</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="266"/>
+        <location filename="Widgets/wdgschedule.cpp" line="247"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="296"/>
+        <location filename="Widgets/wdgschedule.cpp" line="277"/>
         <source>Multiple assignment at %1:<byte value="xd"/>
 <byte value="xd"/>
 %2</source>
@@ -2184,12 +2234,12 @@
 %2</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="590"/>
+        <location filename="Widgets/wdgschedule.cpp" line="571"/>
         <source>Select tour</source>
         <translation>Dienst auswählen</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="590"/>
+        <location filename="Widgets/wdgschedule.cpp" line="571"/>
         <source>Select the tour you want to open:</source>
         <translation>Zu öffnenden Dienst auswählen:</translation>
     </message>
