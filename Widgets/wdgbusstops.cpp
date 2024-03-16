@@ -19,6 +19,19 @@ WdgBusstops::WdgBusstops(QWidget *parent, ProjectData *projectData, QUndoStack *
 {
     ui->setupUi(this);
 
+    QAction *actionEdit = new QAction(ui->twBusstops);
+    actionEdit->setShortcuts({QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Enter)});
+    actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ui->twBusstops->addAction(actionEdit);
+
+    QAction *actionDelete = new QAction(ui->twBusstops);
+    actionDelete->setShortcut(QKeySequence::Delete);
+    actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ui->twBusstops->addAction(actionDelete);
+
+    QObject::connect(actionEdit, SIGNAL(triggered()), this, SLOT(actionEdit()));
+    QObject::connect(actionDelete, SIGNAL(triggered()), this, SLOT(actionDelete()));
+
     QObject::connect(ui->pbBusstopNew, SIGNAL(clicked()), this, SLOT(actionNew()));
     QObject::connect(ui->pbBusstopEdit, SIGNAL(clicked()), this, SLOT(actionEdit()));
     QObject::connect(ui->twBusstops, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(actionEdit()));
@@ -26,6 +39,7 @@ WdgBusstops::WdgBusstops(QWidget *parent, ProjectData *projectData, QUndoStack *
     QObject::connect(ui->leBusstopSearch, SIGNAL(textChanged(QString)), this, SLOT(actionSearch()));
     QObject::connect(ui->pbExportList, SIGNAL(clicked()), this, SLOT(actionExportList()));
     //QObject::connect(this, SIGNAL(currentBusstopChanged(Busstop*)), this, SLOT(refreshUI()));
+
 
     ui->twBusstops->verticalHeader()->setVisible(false);
     ui->twBusstops->setEditTriggers(QTableWidget::NoEditTriggers);
@@ -256,4 +270,3 @@ void WdgBusstops::on_twBusstops_itemSelectionChanged() {
 
     emit currentBusstopChanged(_currentBusstop);
 }
-

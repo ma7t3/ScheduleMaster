@@ -19,6 +19,25 @@ WdgRoutes::WdgRoutes(QWidget *parent, ProjectData *projectData, QUndoStack *undo
 {
     ui->setupUi(this);
 
+    QAction *actionEdit = new QAction(ui->twRoutes);
+    actionEdit->setShortcuts({QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Enter)});
+    actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ui->twRoutes->addAction(actionEdit);
+
+    QAction *actionDuplicate = new QAction(ui->twRoutes);
+    actionDuplicate->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_D));
+    actionDuplicate->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ui->twRoutes->addAction(actionDuplicate);
+
+    QAction *actionDelete = new QAction(ui->twRoutes);
+    actionDelete->setShortcut(QKeySequence::Delete);
+    actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ui->twRoutes->addAction(actionDelete);
+
+    QObject::connect(actionEdit, SIGNAL(triggered()), this, SLOT(actionEdit()));
+    QObject::connect(actionDuplicate, SIGNAL(triggered()), this, SLOT(actionDuplicate()));
+    QObject::connect(actionDelete, SIGNAL(triggered()), this, SLOT(actionDelete()));
+
     QObject::connect(ui->pbNew, SIGNAL(clicked()), this, SLOT(actionNew()));
     QObject::connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(actionEdit()));
     QObject::connect(ui->pbDuplicate, SIGNAL(clicked()), this, SLOT(actionDuplicate()));
