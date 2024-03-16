@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>865</width>
-    <height>558</height>
+    <width>999</width>
+    <height>611</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>865</width>
+     <width>999</width>
      <height>22</height>
     </rect>
    </property>
@@ -131,6 +131,9 @@
     <property name="title">
      <string>Schedule</string>
     </property>
+    <addaction name="actionScheduleAddTrip"/>
+    <addaction name="actionScheduleCopyTrip"/>
+    <addaction name="actionScheduleDeleteSelectedTrips"/>
    </widget>
    <widget class="QMenu" name="menuTours">
     <property name="title">
@@ -482,9 +485,6 @@
    <property name="text">
     <string>Preferences</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+,</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::PreferencesRole</enum>
    </property>
@@ -588,6 +588,36 @@
    </property>
    <property name="text">
     <string>Workspaces</string>
+   </property>
+  </action>
+  <action name="actionScheduleAddTrip">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Add Trip</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionScheduleCopyTrip">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Duplicate.ico</normaloff>:/icons/Duplicate.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Copy Trip</string>
+   </property>
+  </action>
+  <action name="actionScheduleDeleteSelectedTrips">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Delete.ico</normaloff>:/icons/Delete.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Delete Selected Trips</string>
    </property>
   </action>
  </widget>
