@@ -240,7 +240,7 @@ color: white;</string>
           <item>
            <widget class="QPushButton" name="pbDirectionDown">
             <property name="toolTip">
-             <string>Move up</string>
+             <string>Move down</string>
             </property>
             <property name="text">
              <string/>
