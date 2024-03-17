@@ -3,25 +3,38 @@
 
 #include <QUndoStack>
 
-#include "ProjectData/projectdata.h"
+#include "ProjectData/projectsettings.h"
 
-class CmdAbstract : QUndoCommand {
-public:
-    CmdAbstract(ProjectData *d) : d(d) {}
-
-protected:
-    ProjectData *d;
+enum CmdType {
+    GeneralType,
+    BusstopsType,
+    LinesType,
+    RoutesType,
+    ScheduleType,
+    ToursType,
+    PublicationsType,
+    FootnotesType
 };
 
-class CmdEditProjectSettings : public QUndoCommand {
+class CmdAbstract : public QUndoCommand {
+public:
+    CmdAbstract(const QString &text, QUndoCommand *parent = nullptr, CmdType t = GeneralType) :
+        QUndoCommand(text, parent),
+        t(t)
+    {}
+
+protected:
+    CmdType t;
+};
+
+class CmdEditProjectSettings : public CmdAbstract {
 
 public:
-    CmdEditProjectSettings(ProjectSettings *s, ProjectSettings newS) :
+    CmdEditProjectSettings(ProjectSettings *s, ProjectSettings newS, QUndoCommand *parent = nullptr) :
+        CmdAbstract(QObject::tr("project settings edited"), parent, GeneralType),
         s(s),
         newS(newS),
         oldS(*s) {
-        setText(QObject::tr("project settings edited"));
-
         // copy day types
         QList<DayType *> dayTypeCopies;
         for(int i = 0; i < oldS.dayTypeCount(); i++)

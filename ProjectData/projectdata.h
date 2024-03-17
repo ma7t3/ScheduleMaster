@@ -5,12 +5,12 @@
 #include <QJsonDocument>
 #include <QColor>
 
-#include "busstop.h"
-#include "line.h"
-#include "tour.h"
-#include "projectsettings.h"
-#include "publications.h"
-#include "footnote.h"
+#include "projectData/busstop.h"
+#include "projectData/line.h"
+#include "projectData/tour.h"
+#include "projectData/projectsettings.h"
+#include "projectData/publications.h"
+#include "projectData/footnote.h"
 
 class ProjectData : public QObject {
     Q_OBJECT

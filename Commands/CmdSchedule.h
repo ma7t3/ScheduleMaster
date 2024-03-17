@@ -3,16 +3,17 @@
 
 #include <QUndoStack>
 
-#include "ProjectData/projectdata.h"
+#include "ProjectData/line.h"
+#include "Commands/CmdGeneral.h"
 
-class CmdScheduleTripNew : public QUndoCommand {
+class CmdScheduleTripNew : public CmdAbstract {
 
 public:
     CmdScheduleTripNew(Line *l, Trip *t) :
+        CmdAbstract(QObject::tr("new trip in line %1").arg(l->name()), nullptr, ScheduleType),
         line(l),
-        trip(t) {
-        setText(QObject::tr("new trip in line %1").arg(line->name()));
-    }
+        trip(t)
+    {}
 
     void undo() override {
         line->removeTrip(trip);
@@ -29,14 +30,14 @@ private:
     Trip *trip;
 };
 
-class CmdScheduleTripsNew : public QUndoCommand {
+class CmdScheduleTripsNew : public CmdAbstract {
 
 public:
     CmdScheduleTripsNew(Line *l, QList<Trip *> list) :
+        CmdAbstract(QObject::tr("new trips in line %1").arg(l->name()), nullptr, ScheduleType),
         line(l),
-        trips(list) {
-        setText(QObject::tr("new trips in line %1").arg(line->name()));
-    }
+        trips(list)
+    {}
 
     void undo() override {
         for(int i = 0; i < trips.count(); i++)
@@ -58,13 +59,13 @@ private:
 
 
 
-class CmdScheduleTripsChangeRoute : public QUndoCommand {
+class CmdScheduleTripsChangeRoute : public CmdAbstract {
 
 public:
     CmdScheduleTripsChangeRoute(QList<Trip *> list, Route *newRoute) :
+        CmdAbstract(QObject::tr("change route of trips"), nullptr, ScheduleType),
         trips(list),
         newRoute(newRoute) {
-        setText(QObject::tr("change route of trips"));
         for(int i = 0; i < trips.count(); i++) {
             oldRoutes << trips[i]->route();
             oldProfiles << trips[i]->timeProfile();
@@ -100,14 +101,13 @@ private:
 };
 
 
-class CmdScheduleTripsChangeTimeProfile : public QUndoCommand {
+class CmdScheduleTripsChangeTimeProfile : public CmdAbstract {
 
 public:
     CmdScheduleTripsChangeTimeProfile(QList<Trip *> list, QString profileName) :
+        CmdAbstract(QObject::tr("change time profiles of trips"), nullptr, ScheduleType),
         trips(list),
         newProfileName(profileName) {
-        setText(QObject::tr("change time profiles of trips"));
-
         for(int i = 0; i < trips.count(); i++)
             oldProfiles << trips[i]->timeProfile();
     }
@@ -136,15 +136,15 @@ private:
 };
 
 
-class CmdScheduleTripChangeStartTime : public QUndoCommand {
+class CmdScheduleTripChangeStartTime : public CmdAbstract {
 
 public:
     CmdScheduleTripChangeStartTime(QList<Trip *> list, QList<QTime> oldStartTimes, QList<QTime> newStartTimes) :
+        CmdAbstract(QObject::tr("change start time of trips"), nullptr, ScheduleType),
         trips(list),
         oldStartTimes(oldStartTimes),
-        newStartTimes(newStartTimes) {
-        setText(QObject::tr("change start time of trips"));
-    }
+        newStartTimes(newStartTimes)
+    {}
 
     void undo() override {
         for(int i = 0; i < trips.count(); i++) {
@@ -164,14 +164,13 @@ private:
 };
 
 
-class CmdScheduleTripsChangeDays : public QUndoCommand {
+class CmdScheduleTripsChangeDays : public CmdAbstract {
 
 public:
     CmdScheduleTripsChangeDays(QList<Trip *> trips, WeekDays w) :
+        CmdAbstract(QObject::tr("change days of trips"), nullptr, ScheduleType),
         trips(trips),
         newWeekDays(w) {
-        setText(QObject::tr("change days of trips"));
-
         for(int i = 0; i < trips.count(); i++) {
             oldWeekDays << *trips[i]->weekDays();
         }
@@ -196,18 +195,19 @@ private:
 };
 
 
-class CmdScheduleTripsDelete : public QUndoCommand {
+class CmdScheduleTripsDelete : public CmdAbstract {
 
 public:
     CmdScheduleTripsDelete(Line *l, QList<Trip *> list) :
+        CmdAbstract(QObject::tr("delete trips from line %1").arg(l->name()), nullptr, ScheduleType),
         line(l),
-        trips(list) {
-        setText(QObject::tr("delete trips from line %1").arg(line->name()));
-    }
+        trips(list)
+    {}
 
     void undo() override {
         for(int i = 0; i < trips.count(); i++)
             line->addTrip(trips[i]);
+
     }
 
     void redo() override {
