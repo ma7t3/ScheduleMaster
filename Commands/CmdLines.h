@@ -4,15 +4,16 @@
 #include <QUndoCommand>
 
 #include "ProjectData/projectdata.h"
+#include "Commands/CmdGeneral.h"
 
-class CmdLineNew : public QUndoCommand {
+class CmdLineNew : public CmdAbstract {
 
 public:
     CmdLineNew(ProjectData *d, Line *l) :
+        CmdAbstract(QObject::tr("new line: %1").arg(l->name()), nullptr, LinesType),
         d(d),
-        line(l) {
-        setText(QObject::tr("new line: %1").arg(line->name()));
-    }
+        line(l)
+    {}
 
     void undo() override {
         d->removeLine(line);
@@ -28,14 +29,14 @@ private:
     Line *line;
 };
 
-class CmdLineEdit: public QUndoCommand {
+class CmdLineEdit: public CmdAbstract {
 
 public:
     CmdLineEdit(Line *l, Line newL) :
+        CmdAbstract(QObject::tr("edit line: %1").arg(newL.name()), nullptr, LinesType),
         line(l),
         oldL(*l),
         newL(newL) {
-        setText(QObject::tr("edit line: %1").arg(newL.name()));
         // copy directions
         QList<LineDirection *> directionCopies;
         for(int i = 0; i < oldL.directionCount(); i++)
@@ -57,14 +58,14 @@ private:
     Line oldL, newL;
 };
 
-class CmdLineDelete : public QUndoCommand {
+class CmdLineDelete : public CmdAbstract {
 
 public:
     CmdLineDelete(ProjectData *d, Line *l) :
+        CmdAbstract(QObject::tr("delete line: %1").arg(l->name()), nullptr, LinesType),
         d(d),
-        line(l) {
-        setText(QObject::tr("delete line: %1").arg(line->name()));
-    }
+        line(l)
+    {}
 
     void undo() override {
         d->addLine(line);
@@ -80,17 +81,14 @@ private:
 };
 
 
-class CmdLinesDelete : public QUndoCommand {
+class CmdLinesDelete : public CmdAbstract {
 
 public:
     CmdLinesDelete(ProjectData *d, QList<Line *> list) :
+        CmdAbstract(list.count() == 1 ? QObject::tr("deleted line: %1").arg(list[0]->name()) : QObject::tr("deleted %n lines", "", list.count()), nullptr, LinesType),
         d(d),
-        lines(list) {
-        if(list.count() == 1)
-            setText(QObject::tr("deleted line: %1").arg(list[0]->name()));
-        else
-            setText(QObject::tr("deleted %n lines", "", list.count()));
-    }
+        lines(list)
+    {}
 
     void undo() override {
         for(int i = 0; i < lines.count(); i++)

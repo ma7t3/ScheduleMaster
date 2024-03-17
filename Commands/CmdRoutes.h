@@ -5,15 +5,16 @@
 
 #include "ProjectData/line.h"
 #include "ProjectData/route.h"
+#include "Commands/CmdGeneral.h"
 
-class CmdRouteNew : public QUndoCommand {
+class CmdRouteNew : public CmdAbstract {
 
 public:
     CmdRouteNew(Line *l, Route *r) :
+        CmdAbstract(QObject::tr("new route %1 in line %2").arg(r->name()).arg(l->name()), nullptr, RoutesType),
         line(l),
-        route(r) {
-        setText(QObject::tr("new route %1 in line %2").arg(route->name()).arg(line->name()));
-    }
+        route(r)
+    {}
 
     void undo() override {
         line->removeRoute(route);
@@ -30,16 +31,15 @@ private:
     Route *route;
 };
 
-class CmdRouteEdit : public QUndoCommand {
+class CmdRouteEdit : public CmdAbstract {
 
 public:
-    CmdRouteEdit(Route *r, Route newR
-    ) :
+    CmdRouteEdit(Route *r, Route newR) :
+        CmdAbstract(QObject::tr("edit route: %1").arg(newR.name()), nullptr, RoutesType),
         route(r),
         oldRoute(*r),
-        newRoute(newR) {
-        setText(QObject::tr("edit route: %1").arg(newR.name()));
-    }
+        newRoute(newR)
+    {}
 
     void undo() override {
         *route = oldRoute;
@@ -55,14 +55,14 @@ private:
     Route oldRoute, newRoute;
 };
 
-class CmdRouteDelete : public QUndoCommand {
+class CmdRouteDelete : public CmdAbstract {
 
 public:
     CmdRouteDelete(Line *l, Route *r) :
+        CmdAbstract(QObject::tr("delete route %1 from line %2").arg(r->name()).arg(l->name()), nullptr, RoutesType),
         line(l),
-        route(r) {
-        setText(QObject::tr("delete route %1 from line %2").arg(route->name()).arg(line->name()));
-    }
+        route(r)
+    {}
 
     void undo() override {
         line->addRoute(route);
@@ -77,17 +77,14 @@ private:
     Route *route;
 };
 
-class CmdRoutesDelete : public QUndoCommand {
+class CmdRoutesDelete : public CmdAbstract {
 
 public:
     CmdRoutesDelete(Line *l, QList<Route *> list) :
+        CmdAbstract(list.count() == 1 ? QObject::tr("delete route %1 from line %2").arg(list[0]->name()).arg(l->name()) : QObject::tr("delete %n routes  from line %2", "", list.count()).arg(l->name()), nullptr, RoutesType),
         line(l),
-        routes(list) {
-        if(list.count() == 1)
-            setText(QObject::tr("delete route %1 from line %2").arg(list[0]->name()).arg(line->name()));
-        else
-            setText(QObject::tr("delete %n routes  from line %2", "", list.count()).arg(line->name()));
-    }
+        routes(list)
+    {}
 
     void undo() override {
         for(int i = 0; i < routes.count(); i++)

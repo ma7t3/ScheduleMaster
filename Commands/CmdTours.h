@@ -4,15 +4,16 @@
 #include <QUndoStack>
 
 #include "ProjectData/projectdata.h"
+#include "Commands/CmdGeneral.h"
 
-class CmdTourNew : public QUndoCommand {
+class CmdTourNew : public CmdAbstract {
 
 public:
     CmdTourNew(ProjectData *d, Tour *o) :
+        CmdAbstract(QObject::tr("new tour: %1").arg(o->name()), nullptr, ToursType),
         d(d),
-        tour(o) {
-        setText(QObject::tr("new tour: %1").arg(tour->name()));
-    }
+        tour(o)
+    {}
 
     void undo() override {
         d->removeTour(tour);
@@ -28,15 +29,15 @@ private:
     Tour *tour;
 };
 
-class CmdTourEdit : public QUndoCommand {
+class CmdTourEdit : public CmdAbstract {
 
 public:
     CmdTourEdit(Tour *o, Tour newO) :
+        CmdAbstract(QObject::tr("edit tour: %1").arg(newO.name()),  nullptr, ToursType),
         tour(o),
         oldTour(*o),
-        newTour(newO) {
-        setText(QObject::tr("edit tour: %1").arg(newTour.name()));
-    }
+        newTour(newO)
+    {}
 
     void undo() override {
         *tour = oldTour;
@@ -52,15 +53,15 @@ private:
     Tour oldTour, newTour;
 };
 
-class CmdTourTripAdd : public QUndoCommand {
+class CmdTourTripAdd : public CmdAbstract {
 
 public:
     CmdTourTripAdd(Tour *o, Trip *t, int i) :
+        CmdAbstract(QObject::tr("Add trip %1 to tour %2").arg(t->route()->name(), o->name()), nullptr, ToursType),
         tour(o),
         trip(t),
-        index(i) {
-        setText(QObject::tr("Add trip %1 to tour %2").arg(trip->route()->name(), tour->name()));
-    }
+        index(i)
+    {}
 
     void undo() override {
         tour->removeTrip(trip);
@@ -77,15 +78,15 @@ private:
     int index;
 };
 
-class CmdTourTripRemove : public QUndoCommand {
+class CmdTourTripRemove : public CmdAbstract {
 
 public:
     CmdTourTripRemove(Tour *o, Trip *t, int i) :
+        CmdAbstract(QObject::tr("Remove trip %1 from tour %2").arg(t->route()->name(), o->name()), nullptr, ToursType),
         tour(o),
         trip(t),
-        index(i) {
-        setText(QObject::tr("Remove trip %1 from tour %2").arg(trip->route()->name(), tour->name()));
-    }
+        index(i)
+    {}
 
     void undo() override {
         tour->insertTripAt(trip, index);
@@ -101,14 +102,14 @@ private:
     int index;
 };
 
-class CmdTourDelete : public QUndoCommand {
+class CmdTourDelete : public CmdAbstract {
 
 public:
     CmdTourDelete(ProjectData *d, Tour *o) :
+        CmdAbstract(QObject::tr("delete tour: %1").arg(o->name()), nullptr, ToursType),
         d(d),
-        tour(o) {
-        setText(QObject::tr("delete tour: %1").arg(tour->name()));
-    }
+        tour(o)
+    {}
 
     void undo() override {
         d->addTour(tour);
@@ -123,17 +124,14 @@ private:
     Tour *tour;
 };
 
-class CmdToursDelete : public QUndoCommand {
+class CmdToursDelete : public CmdAbstract {
 
 public:
     CmdToursDelete(ProjectData *d, QList<Tour *> list) :
+        CmdAbstract(list.count() == 1 ? QObject::tr("deleted tour: %1").arg(list[0]->name()) : QObject::tr("deleted %n tours", "", list.count()), nullptr, ToursType),
         d(d),
-        tours(list) {
-        if(list.count() == 1)
-            setText(QObject::tr("deleted tour: %1").arg(list[0]->name()));
-        else
-            setText(QObject::tr("deleted %n tours", "", list.count()));
-    }
+        tours(list)
+    {}
 
     void undo() override {
         for(int i = 0; i < tours.count(); i++)
@@ -150,12 +148,12 @@ private:
     QList<Tour *> tours;
 };
 
-class CmdTourReorderTrips : public QUndoCommand {
+class CmdTourReorderTrips : public CmdAbstract {
 
 public:
     CmdTourReorderTrips(Tour *o) :
+        CmdAbstract(QObject::tr("reorder trips of tour: %1").arg(o->name()), nullptr, ToursType),
         tour(o) {
-        setText(QObject::tr("reorder trips of tour: %1").arg(tour->name()));
         trips = tour->trips();
     }
 

@@ -4,15 +4,16 @@
 #include <QUndoCommand>
 
 #include "ProjectData/projectdata.h"
+#include "Commands/CmdGeneral.h"
 
-class CmdPublishedLineNew : public QUndoCommand {
+class CmdPublishedLineNew : public CmdAbstract {
 
 public:
     CmdPublishedLineNew(ProjectData *d, PublishedLine *l) :
+        CmdAbstract(QObject::tr("new published line: %1").arg(l->title()), nullptr, PublicationsType),
         d(d),
-        line(l) {
-        setText(QObject::tr("new published line: %1").arg(line->title()));
-    }
+        line(l)
+    {}
 
     void undo() override {
         d->publications()->removeLine(line);
@@ -29,15 +30,15 @@ private:
     PublishedLine *line;
 };
 
-class CmdPublishedLineEdit : public QUndoCommand {
+class CmdPublishedLineEdit : public CmdAbstract {
 
 public:
     CmdPublishedLineEdit(PublishedLine *l, PublishedLine newL) :
+        CmdAbstract(QObject::tr("published line edited: %1").arg(newL.title()), nullptr, PublicationsType),
         line(l),
         oldLine(*l),
-        newLine(newL) {
-        setText(QObject::tr("published line edited: %1").arg(newLine.title()));
-    }
+        newLine(newL)
+    {}
 
     void undo() override {
         *line = oldLine;
@@ -53,14 +54,14 @@ private:
     PublishedLine oldLine, newLine;
 };
 
-class CmdPublishedLineDelete: public QUndoCommand {
+class CmdPublishedLineDelete: public CmdAbstract {
 
 public:
     CmdPublishedLineDelete(ProjectData *d, PublishedLine *l) :
+        CmdAbstract(QObject::tr("deleted published line: %1").arg(l->title()), nullptr, PublicationsType),
         d(d),
-        line(l) {
-        setText(QObject::tr("deleted published line: %1").arg(line->title()));
-    }
+        line(l)
+    {}
 
     void undo() override {
         d->publications()->addLine(line);
@@ -75,14 +76,14 @@ private:
     PublishedLine *line;
 };
 
-class CmdPublishedLineDirectionNew : public QUndoCommand {
+class CmdPublishedLineDirectionNew : public CmdAbstract {
 
 public:
     CmdPublishedLineDirectionNew(PublishedLine *l, PublishedLineDirection *ld) :
+        CmdAbstract(QObject::tr("new published line direction: %1").arg(ld->name()), nullptr, PublicationsType),
         line(l),
-        lineDirection(ld) {
-        setText(QObject::tr("new published line direction: %1").arg(lineDirection->name()));
-    }
+        lineDirection(ld)
+    {}
 
     void undo() override {
         line->removeDirection(lineDirection);
@@ -99,15 +100,15 @@ private:
     PublishedLineDirection *lineDirection;
 };
 
-class CmdPublishedLineDirectionEdit : public QUndoCommand {
+class CmdPublishedLineDirectionEdit : public CmdAbstract {
 
 public:
     CmdPublishedLineDirectionEdit(PublishedLineDirection *ld, PublishedLineDirection newLd) :
+        CmdAbstract(QObject::tr("published line direction edited: %1").arg(newLd.name()), nullptr, PublicationsType),
         direction(ld),
         oldDirection(*ld),
-        newDirection(newLd) {
-        setText(QObject::tr("published line direction edited: %1").arg(newDirection.name()));
-    }
+        newDirection(newLd)
+    {}
 
     void undo() override {
         *direction = oldDirection;
@@ -123,14 +124,14 @@ private:
     PublishedLineDirection oldDirection, newDirection;
 };
 
-class CmdPublishedLineDirectionDelete: public QUndoCommand {
+class CmdPublishedLineDirectionDelete: public CmdAbstract {
 
 public:
     CmdPublishedLineDirectionDelete(PublishedLine *l, PublishedLineDirection *ld) :
+        CmdAbstract(QObject::tr("deleted published line direction: %1").arg(ld->name()), nullptr, PublicationsType),
         line(l),
-        lineDirection(ld) {
-        setText(QObject::tr("deleted published line direction: %1").arg(lineDirection->name()));
-    }
+        lineDirection(ld)
+    {}
 
     void undo() override {
         line->addDirection(lineDirection);
@@ -145,15 +146,15 @@ private:
     PublishedLineDirection *lineDirection;
 };
 
-class CmdPublishedBusstopEdit: public QUndoCommand {
+class CmdPublishedBusstopEdit: public CmdAbstract {
 
 public:
     CmdPublishedBusstopEdit(PublishedBusstop *b, PublishedBusstop newB) :
+        CmdAbstract(QObject::tr("edit published busstop: %1").arg(newB.linkedBusstop()->name()), nullptr, PublicationsType),
         busstop(b),
         oldB(*b),
-        newB(newB) {
-        setText(QObject::tr("edit published busstop: %1").arg(newB.linkedBusstop()->name()));
-    }
+        newB(newB)
+    {}
 
     void undo() override {
         *busstop = oldB;
