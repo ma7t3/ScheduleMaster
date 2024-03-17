@@ -80,6 +80,7 @@ void WdgSchedule::refreshDirections() {
 }
 
 void WdgSchedule::refreshDayTypes() {
+    qDebug() << "123456";
     dayTypesReference = projectData->projectSettings()->dayTypes();
 
     ui->cmbDayTypes->clear();
@@ -93,14 +94,7 @@ void WdgSchedule::refreshDayTypes() {
 }
 
 void WdgSchedule::refreshSchedule() {
-    refreshSchedule({});
-}
-
-void WdgSchedule::refreshSchedule(QList<Trip *> currentTrips) {
     refreshingSchedule = true;
-
-    if(!currentTrips.empty())
-        _currentTrips = currentTrips;
 
     int currentScrollValue = ui->twSchedule->horizontalScrollBar()->value();
 

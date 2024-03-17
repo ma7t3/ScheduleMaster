@@ -30,7 +30,7 @@ public slots:
 
     void refreshUI();
 
-    void refreshLineTable();    
+    void refresh();
 
     Line *currentLine();
 

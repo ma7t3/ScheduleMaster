@@ -30,7 +30,7 @@ public slots:
     void setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDelete);
 
     void refreshUI();
-    void refreshBusstopTable();
+    void refresh();
     Busstop * currentBusstop();
 
 private slots:   
