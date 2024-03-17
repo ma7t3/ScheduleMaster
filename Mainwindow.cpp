@@ -26,6 +26,7 @@
 
 #include "App/global.h"
 #include "localconfig.h"
+#include "globalconfig.h"
 #include "ui_Mainwindow.h"
 
 #include "Widgets/wdgschedule.h"
@@ -52,6 +53,23 @@ MainWindow::MainWindow(QWidget *parent)
     pdfExporter(new DlgPdfExporter(this, projectData)),
     knownFile(false)
 {
+    if(LocalConfig::crashDetected()) {
+        QString messageTitle = tr("Crash detected");
+        QString messageStr = tr("<p><b>Seems like ScheduleMaster crashed last time you used it</b></p><p>If this was unexpected (e.g. you didn't try to kill the process via the Windows Task Manager or something), please feel free to send a bug report!</p>");
+        QString messageStrAddition = tr("<p>The logfile of your last session was saved seperately. Do you want to open it?</p>");
+        if(QFile::exists(LocalConfig::lastLogfileName())) {
+            messageStr += messageStrAddition;
+            QMessageBox::StandardButton msg = QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Yes|QMessageBox::No);
+            if(msg == QMessageBox::Yes) {
+                QDesktopServices::openUrl(LocalConfig::lastLogfileName());
+            }
+        } else {
+            QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Ok);
+        }
+    }
+
+    LocalConfig::setCrashDetected(true);
+
     qInfo() << "initializing splashscreen...";
 
     // init splashscreen
@@ -288,6 +306,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    LocalConfig::setCrashDetected(false);
     delete ui;
 }
 
