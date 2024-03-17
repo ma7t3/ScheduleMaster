@@ -1,6 +1,7 @@
 #include "localconfig.h"
 
 QSettings LocalConfig::settingsGeneral = QSettings("ScheduleMaster", "general");
+QString LocalConfig::_lastLogfileName = "";
 
 LocalConfig::LocalConfig(QObject *parent) :
     QObject(parent) {
@@ -47,4 +48,20 @@ bool LocalConfig::compressFiles() {
 
 void LocalConfig::setCompressFiles(const bool &newCompressFiles) {
     settingsGeneral.setValue("compressFiles", newCompressFiles);
+}
+
+bool LocalConfig::crashDetected() {
+    return !settingsGeneral.value("closeCheck", true).toBool();
+}
+
+void LocalConfig::setCrashDetected(const bool &newCrashDetected) {
+    settingsGeneral.setValue("closeCheck", !newCrashDetected);
+}
+
+QString LocalConfig::lastLogfileName() {
+    return _lastLogfileName;
+}
+
+void LocalConfig::setLastLogfileName(const QString &newLastLogfileName) {
+    _lastLogfileName = newLastLogfileName;
 }
