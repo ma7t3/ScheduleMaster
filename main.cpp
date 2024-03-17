@@ -11,8 +11,16 @@ int main(int argc, char *argv[])
     //qDebug() << "Opened File: " << argv[1];
     QApplication a(argc, argv);
 
-    Logger logger(&a);
     LocalConfig pref(&a);
+
+    if(LocalConfig::crashDetected()) {
+        const QDateTime dt(QDateTime::currentDateTime());
+        QString newFileName = "logfile_" + dt.toString("yyyy-MM-dd_hh-mm-ss") + ".txt";
+        if(QFile::copy("logfile.txt", newFileName))
+            LocalConfig::setLastLogfileName(newFileName);
+    }
+
+    Logger logger(&a);
 
     qInfo() << "loading preferences...";
     

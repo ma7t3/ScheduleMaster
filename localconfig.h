@@ -23,7 +23,14 @@ public:
     static bool compressFiles();
     static void setCompressFiles(const bool &newCompressFiles);
 
+    static bool crashDetected();
+    static void setCrashDetected(const bool &newCrashDetected);
+
+    static QString lastLogfileName();
+    static void setLastLogfileName(const QString &);
+
 private:
     static QSettings settingsGeneral;
+    static QString _lastLogfileName;
 };
 #endif // LOCALCONFIG_H
