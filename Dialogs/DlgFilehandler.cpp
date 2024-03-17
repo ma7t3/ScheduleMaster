@@ -152,10 +152,7 @@ void DlgFileHandler::logCritical(const QString &text) {
 bool DlgFileHandler::saveToFile(QString filePath)
 {
     QJsonObject jFileInfo;
-    jFileInfo.insert("primaryVersion", global::primaryVersion);
-    jFileInfo.insert("secondaryVersion", global::secondaryVersion);
-    jFileInfo.insert("tertiaryVersion", global::tertiaryVersion);
-    jFileInfo.insert("releaseType", global::releaseType);
+    jFileInfo.insert("appVersion", GlobalConfig::currentVersion());
 
     QJsonObject jMainObj = projectData->toJson();
     jMainObj.insert("_fileInfo", jFileInfo);

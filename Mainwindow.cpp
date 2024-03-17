@@ -847,10 +847,8 @@ void MainWindow::on_actionView_As_Tree_triggered() {
 
 void MainWindow::on_actionHelpAbout_triggered() {
     QString text;
-    text = tr("<h1>About ScheduleMaster 2</h1><table><tr><td><b>Version:</b></td><td>%1.%2.%3</td></tr><tr><td><b>Release type:</b></td><td>Beta</td></tr></table>")
-               .arg(QString::number(global::primaryVersion))
-               .arg(QString::number(global::secondaryVersion))
-               .arg(QString::number(global::tertiaryVersion));
+    text = tr("<h1>About ScheduleMaster 2</h1><table><tr><td><b>Version:</b></td><td>%1</td></tr><tr><td><b>Release type:</b></td><td>Beta</td></tr></table>")
+               .arg(GlobalConfig::currentVersion());
 
     QMessageBox msg;
     msg.setWindowTitle(tr("ScheduleMaster 2 - About"));
@@ -882,7 +880,6 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
     newS.setDayTypes(dlg->dayTypes());
 
     undoStack->push(new CmdEditProjectSettings(projectData->projectSettings(), newS));
-
     wdgSchedule->refreshDayTypes();
 }
 
