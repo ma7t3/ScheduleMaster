@@ -14,11 +14,6 @@ DlgPreferences::DlgPreferences(QWidget *parent) :
 
     if(LocalConfig::language() == LocalConfig::LanguageGerman)
         ui->cbLanguage->setCurrentIndex(1);
-
-    if(LocalConfig::compressFiles())
-        ui->cbCompressFiles->setChecked(true);
-
-
 }
 
 DlgPreferences::~DlgPreferences()
@@ -31,6 +26,5 @@ void DlgPreferences::on_DlgPreferences_accepted() {
         QMessageBox::information(this, tr("Restart required"), tr("You'll need torestarted the application for all settings to be applied"));
     
     LocalConfig::setLanguage(ui->cbLanguage->currentIndex());
-    LocalConfig::setCompressFiles(ui->cbCompressFiles->isChecked());
 }
 

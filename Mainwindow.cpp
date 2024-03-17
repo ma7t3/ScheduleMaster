@@ -318,7 +318,7 @@ bool MainWindow::actionFileOpen() {
     if(!dir.exists())
         dir.mkpath(dir.path());
 
-    QString path = QFileDialog::getOpenFileName(this, "", dir.path(), tr("ScheduleMaster File (*.smp2)"));
+    QString path = QFileDialog::getOpenFileName(this, "", dir.path(), tr("ScheduleMaster File (*.smp  *.json)"));
     if(path == "") {
         qWarning() << "cannot open file \"" << path << "\" - invalid path";
         return false;
@@ -340,7 +340,7 @@ bool MainWindow::actionFileSaveAs() {
     if(!dir.exists())
         dir.mkpath(dir.path());
 
-    QString path = QFileDialog::getSaveFileName(this, "", dir.path(), tr("ScheduleMaster File (*.smp2)"));
+    QString path = QFileDialog::getSaveFileName(this, "", dir.path(), tr("ScheduleMaster File (*.smp);;JSON File (*.json)"));
     if(path == "")
         return false;
 
