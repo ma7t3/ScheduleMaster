@@ -36,6 +36,11 @@ public:
         oldL(*l),
         newL(newL) {
         setText(QObject::tr("edit line: %1").arg(newL.name()));
+        // copy directions
+        QList<LineDirection *> directionCopies;
+        for(int i = 0; i < oldL.directionCount(); i++)
+            directionCopies << new LineDirection(*oldL.directionAt(i));
+        oldL.setDirections(directionCopies);
     }
 
     void undo() override {
