@@ -1,4 +1,4 @@
-
+//********************************************************************************************************************************************************************
 // Includes
 //********************************************************************************************************************************************************************
 
@@ -173,7 +173,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(wdgSchedule, SIGNAL(currentLineChanged(Line*,LineDirection*)), wdgTripEditor, SLOT(setCurrentLine(Line*,LineDirection*)));
     connect(wdgSchedule, SIGNAL(currentDayTypeChanged(DayType)), wdgTripEditor, SLOT(setCurrentDayType(DayType)));
     connect(wdgSchedule, SIGNAL(currentTripsChanged(QList<Trip*>)), wdgTripEditor, SLOT(setCurrentTrips(QList<Trip*>)));
-    connect(wdgTripEditor, SIGNAL(tripsChanged(QList<Trip*>)), wdgSchedule, SLOT(refreshSchedule(QList<Trip*>)));
+    connect(wdgTripEditor, SIGNAL(tripsChanged(QList<Trip*>)), wdgSchedule, SLOT(refreshSchedule()));
 
 
     connect(ui->actionBusstopsNew, SIGNAL(triggered()), wdgBusstops, SLOT(actionNew()));
@@ -268,6 +268,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(wdgSchedule, SIGNAL(busstopScheduleRequested(Busstop *, QList<Route *>, DayType *)), this, SLOT(actionOpenBusstopSchedule(Busstop *, QList<Route *>, DayType *)));
     connect(wdgSchedule, SIGNAL(tourRequested(Tour *)), this, SLOT(actionOpenTour(Tour *)));
     connect(wdgTours, SIGNAL(currentTourChanged(Tour*)), wdgTourEditor, SLOT(setCurrentTour(Tour*)));
+
+
+    //              SENDER SIGNAL                              RECIVER      SLOT
+    QObject::connect(this, &MainWindow::busstopsChanged,       wdgBusstops, &WdgBusstops::refresh);
+    QObject::connect(this, &MainWindow::linesChanged,          wdgLines,    &WdgLines::refresh);
+    QObject::connect(this, &MainWindow::routesChanged,         wdgRoutes,   &WdgRoutes::refresh);
+    QObject::connect(this, &MainWindow::projectSettingsChanged,       wdgSchedule, &WdgSchedule::refreshDayTypes);
+    QObject::connect(this, &MainWindow::lineDirectionsChanged, wdgSchedule, &WdgSchedule::refreshDirections);
+    QObject::connect(this, &MainWindow::tripsChanged,          wdgSchedule, &WdgSchedule::refreshSchedule);
 
 
     QList<QAction *> actions;
@@ -388,9 +397,9 @@ bool MainWindow::actionFileClose() {
     knownFile = false;
     //projectFilePath = "";
     projectData->setFilePath("");
-    wdgBusstops->refreshBusstopTable();
-    wdgLines->refreshLineTable();
-    wdgRoutes->refreshRouteTable();
+    wdgBusstops->refresh();
+    wdgLines->refresh();
+    wdgRoutes->refresh();
     wdgSchedule->refreshSchedule();
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
@@ -406,9 +415,9 @@ bool MainWindow::actionQuit() {
 
 void MainWindow::actionEditUndo() {
     undoStack->undo();
-    wdgBusstops->refreshBusstopTable();
-    wdgLines->refreshLineTable();
-    wdgRoutes->refreshRouteTable();
+    wdgBusstops->refresh();
+    wdgLines->refresh();
+    wdgRoutes->refresh();
     wdgSchedule->refreshSchedule();
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
@@ -419,9 +428,9 @@ void MainWindow::actionEditUndo() {
 
 void MainWindow::actionEditRedo() {
     undoStack->redo();
-    wdgBusstops->refreshBusstopTable();
-    wdgLines->refreshLineTable();
-    wdgRoutes->refreshRouteTable();
+    wdgBusstops->refresh();
+    wdgLines->refresh();
+    wdgRoutes->refresh();
     wdgSchedule->refreshSchedule();
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
@@ -730,8 +739,8 @@ bool MainWindow::openFile(QString path) {
     fileHandler->readFromFile(path);
 
     qDebug() << "refreshing ui...";
-    wdgBusstops->refreshBusstopTable();
-    wdgLines->refreshLineTable();
+    wdgBusstops->refresh();
+    wdgLines->refresh();
     wdgTours->refreshTourList();
     wdgSchedule->refreshDayTypes();
     wdgPublishedLines->refreshLineList();
