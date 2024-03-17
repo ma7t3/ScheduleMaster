@@ -71,7 +71,7 @@ void WdgLines::actionNew() {
         return;
 
     undoStack->push(new CmdLineNew(projectData, l));
-    refreshLineTable();
+    refresh();
 }
 
 
@@ -92,7 +92,7 @@ void WdgLines::actionEdit() {
         return;
 
     undoStack->push(new CmdLineEdit(l, newL));
-    refreshLineTable();
+    refresh();
 }
 
 void WdgLines::actionDelete() {
@@ -115,7 +115,7 @@ void WdgLines::actionDelete() {
         return;
 
     undoStack->push(new CmdLinesDelete(projectData, lines));
-    refreshLineTable();
+    refresh();
 }
 
 void WdgLines::actionExportList() {
@@ -229,7 +229,7 @@ Line * WdgLines::currentLine() {
     return _currentLine;
 }
 
-void WdgLines::refreshLineTable() {
+void WdgLines::refresh() {
     refreshing = true;
 
     ui->twLines->setRowCount(0);

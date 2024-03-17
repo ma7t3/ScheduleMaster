@@ -65,7 +65,7 @@ void WdgBusstops::actionNew() {
 
     Busstop *b = new Busstop(nullptr, global::getNewID(), name, important);
     undoStack->push(new CmdBusstopNew(projectData, b));
-    refreshBusstopTable();
+    refresh();
 }
 
 void WdgBusstops::actionEdit() {
@@ -93,7 +93,7 @@ void WdgBusstops::actionEdit() {
     newB.setImportant(newImportant);
     
     undoStack->push(new CmdBusstopEdit(_currentBusstop, newB));
-    refreshBusstopTable();
+    refresh();
 }
 
 void WdgBusstops::actionDelete() {
@@ -113,11 +113,11 @@ void WdgBusstops::actionDelete() {
         return;
     
     undoStack->push(new CmdBusstopsDelete(projectData, busstops));
-    refreshBusstopTable();
+    refresh();
 }
 
 void WdgBusstops::actionSearch() {
-    refreshBusstopTable();
+    refresh();
 }
 
 void WdgBusstops::setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDelete) {
@@ -194,7 +194,7 @@ Busstop *WdgBusstops::currentBusstop()
     return _currentBusstop;
 }
 
-void WdgBusstops::refreshBusstopTable()
+void WdgBusstops::refresh()
 {
     refreshing = true;
 

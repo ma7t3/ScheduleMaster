@@ -44,7 +44,7 @@ WdgRoutes::WdgRoutes(QWidget *parent, ProjectData *projectData, QUndoStack *undo
     QObject::connect(ui->twRoutes, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(actionEdit()));
     QObject::connect(ui->pbDelete, SIGNAL(clicked()), this, SLOT(actionDelete()));
     QObject::connect(ui->pbExportProfiles, SIGNAL(clicked()), this, SLOT(actionExportProfiles()));
-    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(refreshRouteTable()));
+    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(refresh()));
 
     QObject::connect(ui->pbExportProfilesOMSITrips, SIGNAL(clicked()), this, SLOT(omsiExport()));
 
@@ -86,7 +86,7 @@ void WdgRoutes::actionNew() {
     }
 
     undoStack->push(new CmdRouteNew(_currentLine, r));
-    refreshRouteTable();
+    refresh();
 }
 
 void WdgRoutes::actionEdit() {
@@ -116,7 +116,7 @@ void WdgRoutes::actionEdit() {
     }
 
     undoStack->push(new CmdRouteEdit(_currentRoute, newR));
-    refreshRouteTable();
+    refresh();
 }
 
 void WdgRoutes::actionDuplicate() {
@@ -139,7 +139,7 @@ void WdgRoutes::actionDuplicate() {
     }
 
     undoStack->push(new CmdRouteNew(_currentLine, n));
-    refreshRouteTable();
+    refresh();
 }
 
 void WdgRoutes::actionDelete() {
@@ -159,7 +159,7 @@ void WdgRoutes::actionDelete() {
         return;
 
     undoStack->push(new CmdRoutesDelete(_currentLine, routes));
-    refreshRouteTable();
+    refresh();
 }
 
 void WdgRoutes::actionExportProfiles() {
@@ -242,7 +242,7 @@ void WdgRoutes::setCurrentLine(Line *l) {
     _actionNew->setEnabled(true);
 
     _currentLine = l;
-    refreshRouteTable();
+    refresh();
 }
 
 Route * WdgRoutes::currentRoute() {
@@ -274,7 +274,7 @@ QAction *WdgRoutes::menubarActionExportListAll() {
 }
 
 
-void WdgRoutes::refreshRouteTable() {
+void WdgRoutes::refresh() {
     refreshing = true;
 
     ui->twRoutes->setRowCount(0);

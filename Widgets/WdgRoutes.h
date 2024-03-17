@@ -33,7 +33,7 @@ public slots:
 
     void setCurrentLine(Line *);
 
-    void refreshRouteTable();
+    void refresh();
 
     Route *currentRoute();
 

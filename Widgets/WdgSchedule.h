@@ -29,7 +29,6 @@ public slots:
 
     //void refreshRoutes();
     void refreshSchedule();
-    void refreshSchedule(QList<Trip *>);
 
 private slots:
     void refreshScheduleBusstopList(QList<Trip *>);
