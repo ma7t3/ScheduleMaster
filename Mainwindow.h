@@ -101,6 +101,16 @@ private slots:
     void on_actionViewToolbarDocks_triggered();
     void on_actionViewToolbarWorkspaces_triggered();
 
+signals:
+    void projectSettingsChanged();
+    void busstopsChanged();
+    void linesChanged();
+    void lineDirectionsChanged();
+    void routesChanged();
+    void timeProfilesChanged();
+    void tripsChanged();
+    void toursChanged();
+
 private:
     Ui::MainWindow *ui;
 
