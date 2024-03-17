@@ -3,8 +3,7 @@
 
 #include <QtCore>
 
-class LocalConfig : QObject
-{
+class LocalConfig : QObject {
     Q_OBJECT
 public:
     LocalConfig(QObject *parent);
@@ -20,8 +19,6 @@ public:
     static void setLastUsedFiles(const QStringList &);
     static void resetLastUsedFiles();
 
-    static bool compressFiles();
-    static void setCompressFiles(const bool &newCompressFiles);
 
     static bool crashDetected();
     static void setCrashDetected(const bool &newCrashDetected);

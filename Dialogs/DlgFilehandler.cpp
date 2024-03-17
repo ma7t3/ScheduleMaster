@@ -3,6 +3,7 @@
 
 #include "App/global.h"
 #include "localconfig.h"
+#include "globalconfig.h"
 
 DlgFileHandler::DlgFileHandler(QWidget *parent, ProjectData *projectData) :
     QDialog(parent),
@@ -151,6 +152,7 @@ void DlgFileHandler::logCritical(const QString &text) {
 
 bool DlgFileHandler::saveToFile(QString filePath)
 {
+    bool compress = filePath.endsWith(".smp");
     QJsonObject jFileInfo;
     jFileInfo.insert("appVersion", GlobalConfig::currentVersion());
 
@@ -161,12 +163,12 @@ bool DlgFileHandler::saveToFile(QString filePath)
     jDoc.setObject(jMainObj);
 
     QByteArray data;
-    if(LocalConfig::compressFiles()) {
+    if(compress) {
         data = jDoc.toJson(QJsonDocument::Compact);
         qInfo() << "compressing file data...";
         data = fileHeaderCompressed + qCompress(data, 9);
     } else
-        data = fileHeaderUncompressed + jDoc.toJson(QJsonDocument::Indented);
+        data = jDoc.toJson(QJsonDocument::Indented);
 
     qDebug() << "writing file...";
 
