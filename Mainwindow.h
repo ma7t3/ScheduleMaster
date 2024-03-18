@@ -28,6 +28,8 @@
 
 #include "ProjectData/projectdata.h"
 
+#include "Commands/CmdGeneral.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -53,6 +55,7 @@ private slots:
 
     void actionEditUndo();
     void actionEditRedo();
+    void refreshAfterUndoRedo(CmdType t);
 
     void actionWorkspaceTrackLayout();
     void actionWorkspaceBusstopSchedule();

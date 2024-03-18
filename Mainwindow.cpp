@@ -431,30 +431,43 @@ bool MainWindow::actionQuit() {
 
 void MainWindow::actionEditUndo() {
     undoStack->undo();
-    wdgBusstops->refresh();
-    wdgLines->refresh();
-    wdgRoutes->refresh();
-    wdgSchedule->refreshSchedule();
-    wdgTours->refreshTourList();
-    wdgTourEditor->refreshTour();
-    wdgSchedule->refreshDayTypes();
-    wdgPublishedLines->refreshDayTypes();
-    wdgPublishedLines->refreshRouteList();
-    wdgPublishedLines->refreshBusstopList();
+    refreshAfterUndoRedo(dynamic_cast<const CmdAbstract *>(undoStack->command(undoStack->index()))->commandType());
 }
 
 void MainWindow::actionEditRedo() {
+    CmdType type = dynamic_cast<const CmdAbstract *>(undoStack->command(undoStack->index()))->commandType();
     undoStack->redo();
-    wdgBusstops->refresh();
-    wdgLines->refresh();
-    wdgRoutes->refresh();
-    wdgSchedule->refreshSchedule();
-    wdgTours->refreshTourList();
-    wdgTourEditor->refreshTour();
-    wdgSchedule->refreshDayTypes();
-    wdgPublishedLines->refreshDayTypes();
-    wdgPublishedLines->refreshRouteList();
-    wdgPublishedLines->refreshBusstopList();
+    refreshAfterUndoRedo(type);
+}
+
+void MainWindow::refreshAfterUndoRedo(CmdType t) {
+    if(t == GeneralType) {
+        wdgSchedule->refreshDayTypes();
+    }
+    if(t == BusstopsType) {
+        wdgBusstops->refresh();
+    }
+    if(t == LinesType) {
+        wdgLines->refresh();
+    }
+    if(t == RoutesType) {
+        wdgRoutes->refresh();
+    }
+    if(t == ScheduleType) {
+        wdgSchedule->refreshSchedule();
+    }
+    if(t == ToursType) {
+        wdgTours->refreshTourList();
+        wdgTourEditor->refreshTour();
+    }
+    if(t == PublicationsType) {
+        wdgPublishedLines->refreshDayTypes();
+        wdgPublishedLines->refreshRouteList();
+        wdgPublishedLines->refreshBusstopList();
+    }
+    if(t == FootnotesType) {
+        // nothin for now ^^
+    }
 }
 
 /* Notiz an mich:
