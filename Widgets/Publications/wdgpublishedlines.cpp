@@ -343,6 +343,7 @@ void WdgPublishedLines::refreshCurrentLineDirection() {
 
 void WdgPublishedLines::refreshDayTypes() {
     ui->lwDayTypes->clear();
+    _dayTypesReference.clear();
 
     ProjectSettings *s = projectData->projectSettings();
 
