@@ -23,6 +23,8 @@ public:
         t(t)
     {}
 
+    CmdType commandType() const {return t;}
+
 protected:
     CmdType t;
 };
