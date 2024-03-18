@@ -4,6 +4,7 @@
 #include <QPdfWriter>
 #include <QPainter>
 #include <QDesktopServices>
+#include <QMessageBox>
 
 DlgPdfExporter::DlgPdfExporter(QWidget *parent, ProjectData *projectData) :
     QDialog(parent),
@@ -67,8 +68,11 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
     
     QString fileName = _currentLine->filePath();
     QFile f(fileName);
-    if(!f.open(QFile::WriteOnly))
+    if(!f.open(QFile::WriteOnly)) {
+        logError(tr("Couldn't write file: %1 - Access denied").arg(l->title()));
+        QMessageBox::critical(this, tr("Failed creating PDF file"), tr("<p><b>Couldn't write file: %1</b></p><p>Reason: %2</p>").arg(l->title(), f.errorString()));
         return;
+    }
 
     QFileInfo fi(f);
     QString pdfTitle = fi.baseName();
@@ -115,11 +119,8 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
 
     painter->end();
 
-    QIcon icon(":/icons/success.ico");
-    QTreeWidgetItem *itm = new QTreeWidgetItem({tr("Line finished: %1").arg(_currentLine->title())});
-    itm->setIcon(0, icon);
-    ui->twLog->addTopLevelItem(itm);
-    ui->twLog->scrollToBottom();
+    logInfo(tr("Line finished: %1").arg(_currentLine->title()));
+
     qApp->processEvents();
 
     //QDesktopServices::openUrl(QUrl(fileName));
@@ -457,19 +458,18 @@ void DlgPdfExporter::exportTour(Tour *o) {
     qApp->processEvents();
 }
 
+void DlgPdfExporter::logInfo(QString message) {
+    QIcon icon(":/icons/success.ico");
+    QTreeWidgetItem *itm = new QTreeWidgetItem({message});
+    itm->setIcon(0, icon);
+    ui->twLog->addTopLevelItem(itm);
+    ui->twLog->scrollToBottom();
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void DlgPdfExporter::logError(QString message) {
+    QIcon icon(":/icons/error.ico");
+    QTreeWidgetItem *itm = new QTreeWidgetItem({message});
+    itm->setIcon(0, icon);
+    ui->twLog->addTopLevelItem(itm);
+    ui->twLog->scrollToBottom();
+}

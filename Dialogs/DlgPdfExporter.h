@@ -34,6 +34,9 @@ private slots:
 
     void exportTour(Tour *o);
 
+    void logInfo(QString message);
+    void logError(QString message);
+
 private:
     Ui::DlgPdfExporter *ui;
     ProjectData *projectData;
