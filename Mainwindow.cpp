@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent)
     pdfExporter(new DlgPdfExporter(this, projectData)),
     knownFile(false)
 {
+    pdfExporter->setModal(true);
+
     if(LocalConfig::crashDetected()) {
         QString messageTitle = tr("Crash detected");
         QString messageStr = tr("<p><b>Seems like ScheduleMaster crashed last time you used it</b></p><p>If this was unexpected (e.g. you didn't try to kill the process via the Windows Task Manager or something), please feel free to send a bug report!</p>");
