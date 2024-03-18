@@ -26,6 +26,9 @@ public:
     static QString lastLogfileName();
     static void setLastLogfileName(const QString &);
 
+    static QString defaultProjectLocation();
+    static void setDefaultProjectLocation(const QString &);
+
 private:
     static QSettings settingsGeneral;
     static QString _lastLogfileName;

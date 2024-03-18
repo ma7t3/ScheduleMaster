@@ -341,10 +341,17 @@ bool MainWindow::actionFileNew() {
 }
 
 bool MainWindow::actionFileOpen() {
+    QDir dir;
+    if(knownFile) {
+        QFileInfo fi(projectData->filePath());
+        dir = fi.dir().absolutePath();
+    } else {
+        dir = LocalConfig::defaultProjectLocation();
+    }
+
     if(!actionFileClose())
         return false;
 
-    QDir dir = QDir::homePath() + "/.ScheduleMaster/Projects";
     if(!dir.exists())
         dir.mkpath(dir.path());
 
@@ -366,7 +373,14 @@ bool MainWindow::actionFileSave() {
 }
 
 bool MainWindow::actionFileSaveAs() {
-    QDir dir = QDir::homePath() + "/.ScheduleMaster/Projects";
+    QDir dir;
+    if(knownFile) {
+        QFileInfo fi(projectData->filePath());
+        dir = fi.dir().absolutePath();
+    } else {
+        dir = LocalConfig::defaultProjectLocation();
+    }
+
     if(!dir.exists())
         dir.mkpath(dir.path());
 
