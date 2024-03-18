@@ -57,3 +57,11 @@ QString LocalConfig::lastLogfileName() {
 void LocalConfig::setLastLogfileName(const QString &newLastLogfileName) {
     _lastLogfileName = newLastLogfileName;
 }
+
+QString LocalConfig::defaultProjectLocation() {
+    return settingsGeneral.value("defaultProjectLocation", QDir::homePath() + "/.ScheduleMaster/Projects").toString();
+}
+
+void LocalConfig::setDefaultProjectLocation(const QString &newDefaultProjectLocation) {
+    settingsGeneral.setValue("defaultProjectLocation", newDefaultProjectLocation);
+}

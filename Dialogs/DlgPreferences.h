@@ -18,6 +18,8 @@ public:
 private slots:
     void on_DlgPreferences_accepted();
 
+    void on_pbDefaultProjectLocationBrowse_clicked();
+
 private:
     Ui::DlgPreferences *ui;
 };

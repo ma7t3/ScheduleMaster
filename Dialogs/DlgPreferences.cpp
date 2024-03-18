@@ -5,6 +5,7 @@
 
 #include <QtCore>
 #include <QMessageBox>
+#include <QFileDialog>
 
 DlgPreferences::DlgPreferences(QWidget *parent) :
     QDialog(parent),
@@ -14,6 +15,8 @@ DlgPreferences::DlgPreferences(QWidget *parent) :
 
     if(LocalConfig::language() == LocalConfig::LanguageGerman)
         ui->cbLanguage->setCurrentIndex(1);
+
+    ui->leDefaultProjectLocation->setText(LocalConfig::defaultProjectLocation());
 }
 
 DlgPreferences::~DlgPreferences()
@@ -26,5 +29,15 @@ void DlgPreferences::on_DlgPreferences_accepted() {
         QMessageBox::information(this, tr("Restart required"), tr("You'll need torestarted the application for all settings to be applied"));
     
     LocalConfig::setLanguage(ui->cbLanguage->currentIndex());
+    LocalConfig::setDefaultProjectLocation(ui->leDefaultProjectLocation->text());
+}
+
+
+void DlgPreferences::on_pbDefaultProjectLocationBrowse_clicked() {
+    QString newPath = QFileDialog::getExistingDirectory(this, "", LocalConfig::defaultProjectLocation(), QFileDialog::ShowDirsOnly);
+    if(newPath.isEmpty())
+        return;
+
+    ui->leDefaultProjectLocation->setText(newPath);
 }
 
