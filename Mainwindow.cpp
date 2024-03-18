@@ -426,6 +426,7 @@ void MainWindow::actionEditUndo() {
     wdgSchedule->refreshDayTypes();
     wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRouteList();
+    wdgPublishedLines->refreshBusstopList();
 }
 
 void MainWindow::actionEditRedo() {
@@ -439,6 +440,7 @@ void MainWindow::actionEditRedo() {
     wdgSchedule->refreshDayTypes();
     wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRouteList();
+    wdgPublishedLines->refreshBusstopList();
 }
 
 /* Notiz an mich:

@@ -170,4 +170,33 @@ private:
     PublishedBusstop oldB, newB;
 };
 
+
+class CmdPublishedBusstopsEdit : public CmdAbstract {
+
+public:
+    CmdPublishedBusstopsEdit(QList<QPair<PublishedBusstop *, PublishedBusstop>> list) :
+        CmdAbstract(list.count() == 1 ? QObject::tr("edit published busstop: %1").arg(list[0].second.linkedBusstop()->name()) : QObject::tr("published busstops edited"), nullptr, PublicationsType),
+        data(list) {
+        for(int i = 0; i < list.count(); i++) {
+            oldData << *list[i].first;
+        }
+    }
+
+    void undo() override {
+        for(int i = 0; i < data.count(); i++) {
+            *data[i].first = oldData[i];
+        }
+    }
+
+    void redo() override {
+        for(int i = 0; i < data.count(); i++) {
+            *data[i].first = data[i].second;
+        }
+    }
+
+private:
+    QList<QPair<PublishedBusstop *, PublishedBusstop>> data;
+    QList<PublishedBusstop> oldData;
+};
+
 #endif // CMDPUBLICATIONS_H

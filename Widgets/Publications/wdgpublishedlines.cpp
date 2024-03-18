@@ -484,14 +484,21 @@ void WdgPublishedLines::on_pbBusstopSearchAndReplace_clicked() {
     if(!ok1 || !ok2)
         return;
 
+    QList<QPair<PublishedBusstop *, PublishedBusstop>> affectedItems;
+
     for(int i = 0; i < _currentLineDirection->busstopCount(); i++) {
         PublishedBusstop *b = _currentLineDirection->busstopAt(i);
         QString input = b->label().isEmpty() ? b->linkedBusstop()->name() : b->label();
         QString result = input;
         result.replace(search, replace, Qt::CaseInsensitive);
-        if(result != input)
-            b->setLabel(result);
+        if(result != input) {
+            PublishedBusstop newB = *b;
+            newB.setLabel(result);
+            affectedItems << QPair<PublishedBusstop *, PublishedBusstop>(b, newB);
+        }
     }
+
+    undoStack->push(new CmdPublishedBusstopsEdit(affectedItems));
 
     refreshBusstopList();
 }
