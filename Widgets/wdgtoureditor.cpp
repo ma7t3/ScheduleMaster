@@ -339,7 +339,7 @@ void WdgTourEditor::refreshTourNextTrips()
         for(int j = 0; j < trips.count(); j++) {
             Trip *t = trips[j];
 
-            if(!_currentTour->weekDays()->isIn(t->weekDays()))
+            if(!_currentTour->weekDays().isIn(t->weekDays()))
                 continue;
 
             if(t->route()->firstBusstop()->id() != _currentTrip->route()->lastBusstop()->id())
@@ -364,7 +364,7 @@ void WdgTourEditor::refreshTourNextTrips()
                 if(t->startTime() >= QTime(12, 0, 0, 0))
                     continue;
 
-                if(!_currentTour->weekDays()->shfitedToNextDay().isIn(t->weekDays())) {
+                if(!_currentTour->weekDays().shfitedToNextDay().isIn(t->weekDays())) {
                     continue;
                 }
 
