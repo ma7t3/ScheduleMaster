@@ -17,6 +17,7 @@ DlgPreferences::DlgPreferences(QWidget *parent) :
         ui->cbLanguage->setCurrentIndex(1);
 
     ui->leDefaultProjectLocation->setText(LocalConfig::defaultProjectLocation());
+    ui->cbLogfileMode->setCurrentIndex(LocalConfig::logfileMode());
 }
 
 DlgPreferences::~DlgPreferences()
@@ -25,11 +26,23 @@ DlgPreferences::~DlgPreferences()
 }
 
 void DlgPreferences::on_DlgPreferences_accepted() {
-    if(LocalConfig::language() != ui->cbLanguage->currentIndex())
+    int logfileMode = ui->cbLogfileMode->currentIndex();
+
+    if(LocalConfig::language() != ui->cbLanguage->currentIndex() ||
+        LocalConfig::logfileMode() != logfileMode)
         QMessageBox::information(this, tr("Restart required"), tr("You'll need torestarted the application for all settings to be applied"));
     
     LocalConfig::setLanguage(ui->cbLanguage->currentIndex());
     LocalConfig::setDefaultProjectLocation(ui->leDefaultProjectLocation->text());
+
+    if(logfileMode == LocalConfig::NoLog)
+        LocalConfig::setLogfileMode(LocalConfig::NoLog);
+    if(logfileMode == LocalConfig::DefaultLog)
+        LocalConfig::setLogfileMode(LocalConfig::DefaultLog);
+    if(logfileMode == LocalConfig::DebugLog)
+        LocalConfig::setLogfileMode(LocalConfig::DebugLog);
+    if(logfileMode == LocalConfig::DebugDetailLog)
+        LocalConfig::setLogfileMode(LocalConfig::DebugDetailLog);
 }
 
 
