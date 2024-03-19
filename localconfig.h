@@ -8,6 +8,13 @@ class LocalConfig : QObject {
 public:
     LocalConfig(QObject *parent);
 
+    enum LogfileMode {
+        NoLog,
+        DefaultLog,
+        DebugLog,
+        DebugDetailLog
+    };
+
     static const int LanguageEnglish = 0;
     static const int LanguageGerman = 1;
 
@@ -28,6 +35,9 @@ public:
 
     static QString defaultProjectLocation();
     static void setDefaultProjectLocation(const QString &);
+
+    static LogfileMode logfileMode();
+    static void setLogfileMode(const LogfileMode &);
 
 private:
     static QSettings settingsGeneral;

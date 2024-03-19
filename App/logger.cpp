@@ -1,4 +1,6 @@
 #include "logger.h"
+#include "localconfig.h"
+#include "globalconfig.h"
 
 #include <QTextStream>
 
@@ -6,8 +8,16 @@
 
 QString Logger::fileName;
 unsigned int Logger::counter;
+LocalConfig::LogfileMode Logger::logfileMode;
+bool Logger::active;
+
+static const QtMessageHandler QT_DEFAULT_MESSAGE_HANDLER = qInstallMessageHandler(nullptr);
 
 Logger::Logger(QObject *parent) : QObject(parent) {
+    logfileMode = LocalConfig::logfileMode();
+    if(logfileMode == LocalConfig::NoLog)
+        return;
+
     fileName = "logfile.txt";
     counter = 0;
 
@@ -30,6 +40,9 @@ Logger::Logger(QObject *parent) : QObject(parent) {
 
 
 void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QString &message) {
+    if(type == QtMsgType::QtDebugMsg && logfileMode != LocalConfig::DebugLog && logfileMode != LocalConfig::DebugDetailLog)
+        return;
+
     QFile f(fileName);
     f.open(QIODevice::Append | QIODevice::Text);
     QTextStream s(&f);
@@ -58,8 +71,21 @@ void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QS
     QTime now = QTime::currentTime();
     QString timeStr = now.toString("hh:mm:ss");
 
-    s << counterStr << " | " << timeStr << " | " << typeStr << " | " << message << "\n";
+    if(logfileMode == LocalConfig::DebugDetailLog) {
+        s << "       |          |                         | " << message << "\n";
+
+        s << counterStr << " | " << timeStr << " | " << typeStr << " | ";
+        s << "in " << context.file << " (Line " << context.line << ")\n";
+
+        s << "       |          |                         | " << context.function << "\n\n";
+    } else {
+        s << counterStr << " | " << timeStr << " | " << typeStr << " | " << message << "\n";
+    }
+
     f.close();
+
+    (*QT_DEFAULT_MESSAGE_HANDLER)(type, context, message);
+
     counter++;
 }
 
