@@ -275,6 +275,8 @@ QAction *WdgRoutes::menubarActionExportListAll() {
 
 
 void WdgRoutes::refresh() {
+    qDebug() << "refreshing route list...";
+
     refreshing = true;
 
     ui->twRoutes->setRowCount(0);

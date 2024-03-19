@@ -196,6 +196,7 @@ Busstop *WdgBusstops::currentBusstop()
 
 void WdgBusstops::refresh()
 {
+    qDebug() << "refreshing busstop list...";
     refreshing = true;
 
     QString filter = ui->leBusstopSearch->text();

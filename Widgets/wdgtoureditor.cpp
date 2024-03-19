@@ -178,6 +178,8 @@ Trip * WdgTourEditor::currentTrip()
 }
 
 void WdgTourEditor::refreshTour() {
+    qDebug() << "refreshing current tour...";
+
     Trip *lastCurrentTrip = _currentTrip;
     QFont bold;
     bold.setBold(true);

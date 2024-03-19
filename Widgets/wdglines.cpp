@@ -230,6 +230,8 @@ Line * WdgLines::currentLine() {
 }
 
 void WdgLines::refresh() {
+    qDebug() << "refreshing line list...";
+
     refreshing = true;
 
     ui->twLines->setRowCount(0);
