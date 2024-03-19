@@ -31,15 +31,14 @@ public:
     TimeProfile *timeProfile() const;
     void setTimeProfile(TimeProfile *);
 
-    WeekDays *weekDays() const;
+    WeekDays weekDays() const;
+    void setWeekDays(const WeekDays &);
 
     bool goesPastMidnight() const;
     bool busstopIsAfterMidnight(Busstop *b) const;
     bool busstopIsAfterMidnight(const QString &id) const;
 
     QJsonObject toJson() const;
-
-    void refreshChilds();
 
 protected:
     void copy(const Trip &);
@@ -48,7 +47,7 @@ protected:
 private:
     Route *_route;
     QTime _startTime;
-    WeekDays *_weekDays;
+    WeekDays _weekDays;
     TimeProfile *_timeProfile;
 };
 

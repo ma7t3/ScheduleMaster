@@ -21,18 +21,14 @@ enum WeekDay {
 class WeekDays : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    WeekDays(QObject *parent);
+    WeekDays(QObject *parent = nullptr);
     WeekDays(QObject *parent, const int &code);
     WeekDays(QObject *parent, const bool & monday, const bool & tuesday, const bool & wednesday, const bool & thursday, const bool & friday, const bool & saturday, const bool & sunday, const bool & holiday, const bool & school, const bool & vacation);
     WeekDays(const WeekDays &);
 
     bool operator==(const WeekDays &) const;
-    bool operator==(WeekDays *) const;
-
+    bool operator!=(const WeekDays &) const;
     bool operator<=(const WeekDays &) const;
-    bool operator<=(WeekDays *) const;
-
-    bool operator<(WeekDays *) const;
     bool operator<(const WeekDays &) const;
 
     WeekDays operator=(const WeekDays &);

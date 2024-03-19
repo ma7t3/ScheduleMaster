@@ -99,7 +99,7 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
         for(int j = 0; j < parentTrips.count(); j++) {
             Trip *t = parentTrips[j];
 
-            if(!t->weekDays()->isIn(WeekDays(nullptr, 995)))
+            if(!t->weekDays().isIn(WeekDays(nullptr, 995)))
                 continue;
 
             allTrips << t;

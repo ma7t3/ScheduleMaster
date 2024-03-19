@@ -33,9 +33,9 @@ public slots:
 private slots:
     void refreshScheduleBusstopList(QList<Trip *>);
     void refreshScheduleAddTrip(Trip *);
-    QPair<QString, QString> refreshScheduleGenerateInfo(WeekDays *);
+    QPair<QString, QString> refreshScheduleGenerateInfo(WeekDays);
 
-    bool scheduleCheckMatchingWeekdays(WeekDays *);
+    bool checkMatchingWeekdays(WeekDays);
 
     void on_twSchedule_itemDoubleClicked(QTableWidgetItem *item);
 

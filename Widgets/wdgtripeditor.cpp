@@ -282,7 +282,7 @@ void WdgTripEditor::refreshUI() {
         if(i == 0) {
             startTime = t->startTime();
             endTime = t->endTime();
-            weekDays = *t->weekDays();
+            weekDays = t->weekDays();
         }
     }
 

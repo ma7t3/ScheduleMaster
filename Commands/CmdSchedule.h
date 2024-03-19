@@ -172,19 +172,19 @@ public:
         trips(trips),
         newWeekDays(w) {
         for(int i = 0; i < trips.count(); i++) {
-            oldWeekDays << *trips[i]->weekDays();
+            oldWeekDays << trips[i]->weekDays();
         }
     }
 
     void undo() override {
         for(int i = 0; i < trips.count(); i++) {
-            trips[i]->weekDays()->setCode(oldWeekDays[i].toCode());
+            trips[i]->setWeekDays(oldWeekDays[i]);
         }
     }
 
     void redo() override {
         for(int i = 0; i < trips.count(); i++) {
-            trips[i]->weekDays()->setCode(newWeekDays.toCode());
+            trips[i]->setWeekDays(newWeekDays);
         }
     }
 

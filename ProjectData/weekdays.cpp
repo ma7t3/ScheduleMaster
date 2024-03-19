@@ -42,24 +42,16 @@ bool WeekDays::operator ==(const WeekDays &w) const {
     return toCode() == w.toCode();
 }
 
-bool WeekDays::operator ==(WeekDays *w) const {
-    return toCode() == w->toCode();
+bool WeekDays::operator!=(const WeekDays &w) const {
+    return !(*this == w);
 }
 
 bool WeekDays::operator <=(const WeekDays &w) const {
     return isIn(w);
 }
 
-bool WeekDays::operator<(WeekDays *other) const {
-    return toCode() > other->toCode();
-}
-
 bool WeekDays::operator<(const WeekDays &other) const {
     return toCode() > other.toCode();
-}
-
-bool WeekDays::operator <=(WeekDays *w) const {
-    return isIn(*w);
 }
 
 WeekDays WeekDays::operator=(const WeekDays &other) {
@@ -205,16 +197,16 @@ WeekDays WeekDays::combine(const QList<WeekDays> &list) {
     for(int i = 1; i < list.count(); i++) {
         WeekDays w = list[i];
 
-        result.setDay(WeekDay::monday,    (result.day(WeekDay::monday)    || w.day(WeekDay::monday)));
-        result.setDay(WeekDay::tuesday,    (result.day(WeekDay::tuesday)   || w.day(WeekDay::tuesday)));
-        result.setDay(WeekDay::wednesday,   (result.day(WeekDay::wednesday) || w.day(WeekDay::wednesday)));
+        result.setDay(WeekDay::monday,   (result.day(WeekDay::monday)    || w.day(WeekDay::monday)));
+        result.setDay(WeekDay::tuesday,  (result.day(WeekDay::tuesday)   || w.day(WeekDay::tuesday)));
+        result.setDay(WeekDay::wednesday,(result.day(WeekDay::wednesday) || w.day(WeekDay::wednesday)));
         result.setDay(WeekDay::thursday, (result.day(WeekDay::thursday)  || w.day(WeekDay::thursday)));
-        result.setDay(WeekDay::friday,  (result.day(WeekDay::friday)    || w.day(WeekDay::friday)));
-        result.setDay(WeekDay::saturday,    (result.day(WeekDay::saturday)  || w.day(WeekDay::saturday)));
-        result.setDay(WeekDay::sunday,  (result.day(WeekDay::sunday)    || w.day(WeekDay::sunday)));
-        result.setDay(WeekDay::holiday,   (result.day(WeekDay::holiday)   || w.day(WeekDay::holiday)));
-        result.setDay(WeekDay::school,    (result.day(WeekDay::school)    || w.day(WeekDay::school)));
-        result.setDay(WeekDay::vacation,  (result.day(WeekDay::vacation)  || w.day(WeekDay::vacation)));
+        result.setDay(WeekDay::friday,   (result.day(WeekDay::friday)    || w.day(WeekDay::friday)));
+        result.setDay(WeekDay::saturday, (result.day(WeekDay::saturday)  || w.day(WeekDay::saturday)));
+        result.setDay(WeekDay::sunday,   (result.day(WeekDay::sunday)    || w.day(WeekDay::sunday)));
+        result.setDay(WeekDay::holiday,  (result.day(WeekDay::holiday)   || w.day(WeekDay::holiday)));
+        result.setDay(WeekDay::school,   (result.day(WeekDay::school)    || w.day(WeekDay::school)));
+        result.setDay(WeekDay::vacation, (result.day(WeekDay::vacation)  || w.day(WeekDay::vacation)));
     }
 
     return result;

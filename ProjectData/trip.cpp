@@ -9,12 +9,11 @@ Trip::Trip(QObject *parent,
            TimeProfile *timeProfile,
            const WeekDays &weekDays) :
     ProjectDataItem(parent, id),
-    _route(route), _startTime(startTime), _weekDays(new WeekDays(weekDays)),
+    _route(route), _startTime(startTime), _weekDays(weekDays),
     _timeProfile(timeProfile) {}
 
 Trip::Trip(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent),
-    _weekDays(new WeekDays(this)) {
+    ProjectDataItem(parent) {
     fromJson(jsonObject);
 }
 
@@ -39,8 +38,8 @@ bool Trip::operator<(const Trip &other) {
     if(route() != other.route())
         return route() < other.route();
 
-    if(weekDays() != other.weekDays())
-        return weekDays() < other.weekDays();
+    if(_weekDays != other.weekDays())
+        return _weekDays < other.weekDays();
 
     return false;
 }
@@ -66,7 +65,7 @@ void Trip::fromJson(const QJsonObject &jsonObject) {
     setStartTime(QTime::fromMSecsSinceStartOfDay(jsonObject.value("startTime").toInt()));
     setRoute(dynamic_cast<Line *>(parent())->route(jsonObject.value("routeID").toString()));
     setTimeProfile(route()->timeProfile(jsonObject.value("timeProfileID").toString()));
-    weekDays()->setCode(jsonObject.value("weekdays").toInt());
+    _weekDays.setCode(jsonObject.value("weekdays").toInt());
 }
 
 
@@ -74,15 +73,11 @@ QJsonObject Trip::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
 
     jsonObject.insert("startTime", startTime().msecsSinceStartOfDay());
-    jsonObject.insert("weekdays", weekDays()->toCode());
+    jsonObject.insert("weekdays", _weekDays.toCode());
     jsonObject.insert("routeID", route()->id());
     jsonObject.insert("timeProfileID", timeProfile()->id());
 
     return jsonObject;
-}
-
-void Trip::refreshChilds() {
-    _weekDays->setParent(this);
 }
 
 Route *Trip::route() const {
@@ -136,8 +131,12 @@ void Trip::setTimeProfile(TimeProfile *p) {
     _timeProfile = p;
 }
 
-WeekDays * Trip::weekDays() const {
+WeekDays Trip::weekDays() const {
     return _weekDays;
+}
+
+void Trip::setWeekDays(const WeekDays &w) {
+    _weekDays = w;
 }
 
 bool Trip::goesPastMidnight() const {

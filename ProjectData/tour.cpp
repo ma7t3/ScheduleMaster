@@ -28,7 +28,7 @@ bool Tour::operator<(Tour &other) {
 void Tour::copy(const Tour &other) {
     ProjectDataItem::copy(other);
     setName(other.name());
-    setWeekDays(*other.weekDays());
+    setWeekDays(other.weekDays());
     setTrips(other.trips());
 }
 
@@ -36,7 +36,7 @@ void Tour::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
 
     setName(jsonObject.value("name").toString(tr("unnamed tour")));
-    weekDays()->setCode(jsonObject.value("weekdays").toInt());
+    weekDays().setCode(jsonObject.value("weekdays").toInt());
 
     QJsonArray jTrips = jsonObject.value("trips").toArray();
     for (int i = 0; i < jTrips.count(); ++i)
@@ -47,7 +47,7 @@ void Tour::fromJson(const QJsonObject &jsonObject) {
 QJsonObject Tour::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.insert("name", name());
-    jsonObject.insert("weekdays", weekDays()->toCode());
+    jsonObject.insert("weekdays", weekDays().toCode());
 
     QJsonArray jTrips;
     for (int i = 0; i < tripCount(); ++i)
@@ -56,10 +56,6 @@ QJsonObject Tour::toJson() const {
     jsonObject.insert("trips", jTrips);
 
     return jsonObject;
-}
-
-void Tour::refreshChilds() {
-    _weekDays->setParent(this);
 }
 
 void Tour::setName(const QString &newName) {
@@ -74,7 +70,7 @@ QString Tour::name() const {
     return _name;
 }
 
-WeekDays *Tour::weekDays() const {
+WeekDays Tour::weekDays() const {
     return _weekDays;
 }
 
