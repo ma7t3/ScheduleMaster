@@ -382,7 +382,7 @@ void DlgPdfExporter::exportTour(Tour *o) {
 
     painter->drawText(headlineRect1.adjusted(5, 0, -5, 0), o->name(), Qt::AlignCenter|Qt::AlignVCenter);
     painter->drawText(headlineRect2.adjusted(5, 0, -5, 0), tr("Tour plan"), Qt::AlignCenter|Qt::AlignVCenter);
-    painter->drawText(headlineRect3.adjusted(5, 0, -5, 0), o->weekDays()->toString(), Qt::AlignCenter|Qt::AlignVCenter);
+    painter->drawText(headlineRect3.adjusted(5, 0, -5, 0), o->weekDays().toString(), Qt::AlignCenter|Qt::AlignVCenter);
 
 
     // draw table

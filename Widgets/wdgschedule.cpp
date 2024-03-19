@@ -243,14 +243,14 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
         QStringList strListToolTip;
         for(int i = 0; i < tours.count(); i++) {
             strList << tours[i]->name();
-            strListToolTip << "- " + tours[i]->name() + " (" + tours[i]->weekDays()->toString() + ")";
+            strListToolTip << "- " + tours[i]->name() + " (" + tours[i]->weekDays().toString() + ")";
         }
         tour = strList.join(", ");
         tourToolTip = strListToolTip.join("\r\n");
     }
     QList<WeekDays> tourWeekDays;
     for(int i = 0; i < tours.count(); i++)
-        tourWeekDays << *tours[i]->weekDays();
+        tourWeekDays << tours[i]->weekDays();
 
     if(tours.empty()) {
         itmTour->setBackground(Qt::red);

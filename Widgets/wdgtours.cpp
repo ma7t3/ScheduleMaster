@@ -59,7 +59,7 @@ void WdgTours::actionTourEdit() {
     if(!o)
         return;
     
-    TourEditor dlg(this, false, o->name(), *o->weekDays());
+    TourEditor dlg(this, false, o->name(), o->weekDays());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -78,7 +78,7 @@ void WdgTours::actionTourDuplicate() {
     if(!o)
         return;
     
-    TourEditor dlg(this, false, o->name(), *o->weekDays());
+    TourEditor dlg(this, false, o->name(), o->weekDays());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -255,7 +255,7 @@ void WdgTours::refreshTourList() {
 
         tableReference << o;
         ui->twTours->setItem(row, 0, new QTableWidgetItem(o->name()));
-        ui->twTours->setItem(row, 2, new QTableWidgetItem(o->weekDays()->toString()));
+        ui->twTours->setItem(row, 2, new QTableWidgetItem(o->weekDays().toString()));
         ui->twTours->setItem(row, 3, new QTableWidgetItem(o->startTime().toString("hh:mm") + " - " + o->endTime().toString("hh:mm")));
         ui->twTours->setItem(row, 4, new QTableWidgetItem(o->duration().toString("hh:mm")));
         ui->twTours->setItem(row, 5, previewItm);
