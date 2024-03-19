@@ -65,3 +65,25 @@ QString LocalConfig::defaultProjectLocation() {
 void LocalConfig::setDefaultProjectLocation(const QString &newDefaultProjectLocation) {
     settingsGeneral.setValue("defaultProjectLocation", newDefaultProjectLocation);
 }
+
+LocalConfig::LogfileMode LocalConfig::logfileMode() {
+    bool ok;
+    int i = settingsGeneral.value("logfileMode", DefaultLog).toInt(&ok);
+    if(!ok)
+        return DefaultLog;
+
+    if(i == DebugDetailLog)
+        return DebugDetailLog;
+
+    if(i == DebugLog)
+        return DebugLog;
+
+    if(i == NoLog)
+        return NoLog;
+
+    return DefaultLog;
+}
+
+void LocalConfig::setLogfileMode(const LogfileMode &newLogmode) {
+    settingsGeneral.setValue("logfileMode", newLogmode);
+}
