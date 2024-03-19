@@ -12,6 +12,8 @@ public:
     ProjectSettings(const ProjectSettings&);
     ProjectSettings operator=(const ProjectSettings &);
 
+    void reset();
+
     QString displayName() const;
     void setDisplayName(const QString &newDisplayName);
 

@@ -28,6 +28,8 @@ public:
 
     void refreshChilds();
 
+    void reset();
+
 protected:
     void copy(const Publications &);
 

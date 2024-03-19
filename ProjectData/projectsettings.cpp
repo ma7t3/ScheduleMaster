@@ -21,6 +21,14 @@ ProjectSettings ProjectSettings::operator=(const ProjectSettings &other) {
     return *this;
 }
 
+void ProjectSettings::reset() {
+    _displayName = "";
+    _shortName = "";
+    _icon = "";
+    qDeleteAll(_dayTypes);
+    _dayTypes.clear();
+}
+
 void ProjectSettings::copy(const ProjectSettings &other) {
     ProjectDataItem::copy(other);
     setNames(other.displayName(), other.shortName());

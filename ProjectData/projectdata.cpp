@@ -10,12 +10,22 @@ ProjectData::ProjectData() :
 ProjectSettings *ProjectData::projectSettings() { return _projectSettings; }
 
 void ProjectData::reset() {
-    _projectSettings = new ProjectSettings(this);
+    _filePath = "";
+
+    qDeleteAll(_busstops);
     _busstops.clear();
+
+    qDeleteAll(_lines);
     _lines.clear();
+
+    qDeleteAll(_tours);
     _tours.clear();
+
+    qDeleteAll(_footnotes);
     _footnotes.clear();
-    _publications = new Publications(this);
+
+    _projectSettings->reset();
+    _publications->reset();
 }
 
 void ProjectData::cleanup() {
