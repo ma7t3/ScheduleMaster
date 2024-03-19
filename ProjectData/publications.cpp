@@ -52,6 +52,11 @@ void Publications::refreshChilds() {
         l->setParent(this);
 }
 
+void Publications::reset() {
+    qDeleteAll(_lines);
+    _lines.clear();
+}
+
 QJsonObject Publications::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.remove("id");

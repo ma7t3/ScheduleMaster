@@ -415,13 +415,21 @@ bool MainWindow::actionFileClose() {
     }
     qInfo() << "closing current file...";
     projectData->reset();
+    qDebug() << "projectData reset";
     knownFile = false;
-    //projectFilePath = "";
-    projectData->setFilePath("");
+
+    wdgRoutes->setCurrentLine(nullptr);
+    wdgSchedule->setCurrentLine(nullptr);
+    wdgTours->setCurrentTour(nullptr);
+    wdgTourEditor->setCurrentTour(nullptr);
+    wdgPublishedLines->setCurrentLine(nullptr);
+
     wdgBusstops->refresh();
     wdgLines->refresh();
     wdgRoutes->refresh();
     wdgSchedule->refreshSchedule();
+    wdgSchedule->refreshDirections();
+    wdgSchedule->refreshDayTypes();
     wdgTours->refreshTourList();
     wdgTourEditor->refreshTour();
     wdgPublishedLines->refreshDayTypes();
@@ -454,6 +462,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
     }
     if(t == LinesType) {
         wdgLines->refresh();
+        wdgSchedule->refreshDayTypes();
     }
     if(t == RoutesType) {
         wdgRoutes->refresh();
