@@ -3,8 +3,8 @@
 #include "globalconfig.h"
 
 #include <QTextStream>
-
 #include <QDateTime>
+#include <QSysInfo>
 
 QString Logger::fileName;
 unsigned int Logger::counter;
@@ -27,10 +27,25 @@ Logger::Logger(QObject *parent) : QObject(parent) {
 
     QDateTime now = QDateTime::currentDateTime();
 
-    s << "ScheduleMaster\n";
-    s << "Version: 0.9.0-Beta\n";
-    s << "Date:    " << now.toString("yyyy-MM-dd") << "\n";
-    s << "Time:    " << now.toString("hh:mm:ss") << "\n\n";
+    QString logfileModeInfo;
+    if(logfileMode == LocalConfig::DefaultLog)
+        logfileModeInfo = "Normal logging";
+    if(logfileMode == LocalConfig::DebugLog)
+        logfileModeInfo = "Debug logging";
+    if(logfileMode == LocalConfig::DebugDetailLog)
+        logfileModeInfo = "Detailed debug logging";
+
+    s << "##########################################################################################\n";
+    s << "   ScheduleMaster | " << GlobalConfig::currentVersion() << " | " << "Qt " << qVersion() << " | " << logfileModeInfo << "\n";
+    s << "##########################################################################################\n";
+    s << "Time:               " << now.toString("yyyy-MM-dd") << ", " << now.toString("hh:mm:ss") << "\n";
+    s << "------------------------------------------------------------------------------------------\n";
+    s << "Build information:  " << QSysInfo::buildAbi() << "\n";
+    s << "------------------------------------------------------------------------------------------\n";
+    s << "System Information: OS:               " << QSysInfo::prettyProductName() << "\n";
+    s << "                    Kernel:           " << QSysInfo::kernelType() << " (" << QSysInfo::kernelVersion() << ")\n";
+    s << "                    CPU architecture: " << QSysInfo::currentCpuArchitecture() << "\n";
+    s << "------------------------------------------------------------------------------------------\n";
     s << "No.    | Time     | Type                    | Message\n";
 
     f.close();
