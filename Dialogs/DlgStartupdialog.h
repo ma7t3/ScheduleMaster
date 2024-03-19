@@ -20,10 +20,12 @@ public:
     int getAction();
     QString getFilePath();
 
-    static const int quit = 0;
-    static const int newFile = 1;
-    static const int openFile = 2;
-    static const int openRecentFile = 3;
+    enum actions {
+        Quit,
+        NewFile,
+        OpenFile,
+        OpenRecentFile
+    };
 
 private slots:
     void on_commandLinkButton_clicked();

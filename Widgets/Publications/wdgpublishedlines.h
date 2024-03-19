@@ -53,13 +53,14 @@ public slots:
     void refreshDayTypes();
     //void refreshDayCheckBoxes();
 
-    void refreshRouteList();
+    void refreshRoutes();
 
     void refreshAllBusstops();
     void refreshBusstopList();
 
 signals:
     void currentLineChanged(PublishedLine *);
+    void refreshRequested();
 
 private slots:
     void on_lwLines_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);

@@ -41,6 +41,7 @@ private slots:
 
 signals:
     void currentLineChanged(Line *);
+    void refreshRequested();
 
 private:
     Ui::WdgLines *ui;

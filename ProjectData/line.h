@@ -17,6 +17,7 @@ public:
     Line(QObject *parent, const QString &id, const QString &name, const QString &description = "", const QColor &color = QColor(0, 0, 0));
     Line(QObject *parent, const QJsonObject &);
     Line(const Line &);
+
     Line operator=(const Line &);
     bool operator<(const Line &);
 

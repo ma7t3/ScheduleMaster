@@ -46,6 +46,8 @@ public:
 
 private slots:
 
+    void startupDialogHandler();
+
     bool actionFileNew();
     bool actionFileOpen();
     bool actionFileSave();
@@ -53,8 +55,8 @@ private slots:
     bool actionFileClose();
     bool actionQuit();
 
-    void actionEditUndo();
-    void actionEditRedo();
+    void refreshUndo();
+    void refreshRedo();
     void refreshAfterUndoRedo(CmdType t);
 
     void actionWorkspaceTrackLayout();
@@ -66,40 +68,18 @@ private slots:
     void actionOpenBusstopSchedule(Busstop *, QList<Route *>, DayType *);
     void actionOpenTour(Tour *);
 
-    void setUndoEnabled(bool);
-    void setRedoEnabled(bool);
-
     void setSaved(bool b);
     bool openFile(QString);
     bool saveFile(QString);
 
-    //void reviceDataFromFileHandler();
-
-    /*
-     * ////////////////////////////////////////////////////////////////////////////////////////////
-    */
-
-
     void on_actionCleanup_and_troubleshooting_triggered();
-
     void on_actionView_As_Tree_triggered();
-
-
     void on_actionHelpAbout_triggered();
-
-
     void on_actionEditProjectSettings_triggered();
-
-    //void on_actionPublishTest_triggered();
-
     void on_actionPublishAll_triggered();
-
     void on_actionEditPreferences_triggered();
-
     void on_actionPublishManageFootnotes_triggered();
-
     void on_actionHelpManual_triggered();
-
     void on_actionViewToolbarGeneral_triggered();
     void on_actionViewToolbarDocks_triggered();
     void on_actionViewToolbarWorkspaces_triggered();

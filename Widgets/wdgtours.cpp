@@ -25,7 +25,7 @@ WdgTours::WdgTours(QWidget *parent, ProjectData *projectData, QUndoStack *undoSt
     QObject::connect(ui->pbTourDuplicate, SIGNAL(clicked()), this, SLOT(actionTourDuplicate()));
     QObject::connect(ui->pbTourDelete, SIGNAL(clicked()), this, SLOT(actionTourDelete()));
     QObject::connect(ui->pbExport, SIGNAL(clicked()), this, SLOT(actionExport()));
-    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(refreshTourList()));
+    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(refresh()));
 
     ui->twTours->setEditTriggers(QTableWidget::NoEditTriggers);
     ui->twTours->verticalHeader()->setVisible(false);
@@ -51,7 +51,7 @@ void WdgTours::actionTourNew() {
     
     Tour *o = new Tour(nullptr, global::getNewID(), dlg.name(), dlg.weekDays());
     undoStack->push(new CmdTourNew(projectData, o));
-    refreshTourList();
+    refresh();
 }
 
 void WdgTours::actionTourEdit() {
@@ -70,7 +70,7 @@ void WdgTours::actionTourEdit() {
     newO.setName(dlg.name());
     newO.setWeekDays(dlg.weekDays());
     undoStack->push(new CmdTourEdit(o, newO));
-    refreshTourList();
+    refresh();
 }
 
 void WdgTours::actionTourDuplicate() {
@@ -86,7 +86,7 @@ void WdgTours::actionTourDuplicate() {
     
     Tour *nO = new Tour(nullptr, global::getNewID(), dlg.name(), dlg.weekDays());
     undoStack->push(new CmdTourNew(projectData, nO));
-    refreshTourList();
+    refresh();
 }
 
 void WdgTours::actionTourDelete() {
@@ -107,7 +107,7 @@ void WdgTours::actionTourDelete() {
         return;
 
     undoStack->push(new CmdToursDelete(projectData, tours));
-    refreshTourList();
+    refresh();
 }
 
 void WdgTours::actionExport() {
@@ -157,7 +157,7 @@ void WdgTours::setMenubarActions(QAction *actionNew, QAction *actionEdit, QActio
 
 void WdgTours::setCurrentTour(Tour *o) {
     _currentTour = o;
-    refreshTourList();
+    refresh();
 }
 
 void WdgTours::refreshUI() {
@@ -192,7 +192,7 @@ Tour * WdgTours::currentTour() {
     return _currentTour;
 }
 
-void WdgTours::refreshTourList() {
+void WdgTours::refresh() {
     qDebug() << "refreshing tour list...";
 
     refreshing = true;

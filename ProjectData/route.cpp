@@ -64,7 +64,6 @@ void Route::fromJson(const QJsonObject &jsonObject) {
 
     for(int i = 0; i < jBusstops.count(); ++i)
         if(jBusstops[i].isString())
-            //addBusstop(new Busstop(this, jBusstops[i].toObject()));
             addBusstop(static_cast<ProjectData *>(parent()->parent())->busstop(jBusstops[i].toString()));
 
     for(int i = 0; i < jTimeProfiles.count(); ++i)

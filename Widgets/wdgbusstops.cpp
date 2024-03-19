@@ -65,7 +65,7 @@ void WdgBusstops::actionNew() {
 
     Busstop *b = new Busstop(nullptr, global::getNewID(), name, important);
     undoStack->push(new CmdBusstopNew(projectData, b));
-    refresh();
+    emit refreshRequested();
 }
 
 void WdgBusstops::actionEdit() {
@@ -93,7 +93,7 @@ void WdgBusstops::actionEdit() {
     newB.setImportant(newImportant);
     
     undoStack->push(new CmdBusstopEdit(_currentBusstop, newB));
-    refresh();
+    emit refreshRequested();
 }
 
 void WdgBusstops::actionDelete() {
@@ -113,7 +113,7 @@ void WdgBusstops::actionDelete() {
         return;
     
     undoStack->push(new CmdBusstopsDelete(projectData, busstops));
-    refresh();
+    emit refreshRequested();
 }
 
 void WdgBusstops::actionSearch() {

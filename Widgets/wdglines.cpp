@@ -71,7 +71,7 @@ void WdgLines::actionNew() {
         return;
 
     undoStack->push(new CmdLineNew(projectData, l));
-    refresh();
+    emit refreshRequested();
 }
 
 
@@ -92,7 +92,7 @@ void WdgLines::actionEdit() {
         return;
 
     undoStack->push(new CmdLineEdit(l, newL));
-    refresh();
+    emit refreshRequested();
 }
 
 void WdgLines::actionDelete() {
@@ -115,7 +115,7 @@ void WdgLines::actionDelete() {
         return;
 
     undoStack->push(new CmdLinesDelete(projectData, lines));
-    refresh();
+    emit refreshRequested();
 }
 
 void WdgLines::actionExportList() {

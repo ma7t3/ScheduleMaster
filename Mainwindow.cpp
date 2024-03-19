@@ -54,23 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     knownFile(false)
 {
     pdfExporter->setModal(true);
-
-    if(LocalConfig::crashDetected()) {
-        QString messageTitle = tr("Crash detected");
-        QString messageStr = tr("<p><b>Seems like ScheduleMaster crashed last time you used it</b></p><p>If this was unexpected (e.g. you didn't try to kill the process via the Windows Task Manager or something), please feel free to send a bug report!</p>");
-        QString messageStrAddition = tr("<p>The logfile of your last session was saved seperately. Do you want to open it?</p>");
-        if(QFile::exists(LocalConfig::lastLogfileName())) {
-            messageStr += messageStrAddition;
-            QMessageBox::StandardButton msg = QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Yes|QMessageBox::No);
-            if(msg == QMessageBox::Yes) {
-                QDesktopServices::openUrl(LocalConfig::lastLogfileName());
-            }
-        } else {
-            QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Ok);
-        }
-    }
-
-    LocalConfig::setCrashDetected(true);
+    startupDialog->setModal(true);
 
     qInfo() << "initializing splashscreen...";
 
@@ -91,32 +75,46 @@ MainWindow::MainWindow(QWidget *parent)
     QPixmap pixmap(imagePath);
     splashScreen.setPixmap(pixmap);
     splashScreen.showMessage(tr("loading ui..."), Qt::AlignBottom, messageColor);
-    //splashScreen.finish(startupDialog);
     splashScreen.show();
 
-#ifdef QT_DEBUG
-    QObject().thread()->sleep(0);
-#else
-    QObject().thread()->sleep(2);
+    // detect crash
+    if(LocalConfig::crashDetected()) {
+        bool logfileSaved = QFile::exists(LocalConfig::lastLogfileName());
+        qInfo() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + LocalConfig::lastLogfileName() : "");
+        QString messageTitle = tr("Crash detected");
+        QString messageStr = tr("<p><b>Seems like ScheduleMaster crashed last time you used it</b></p><p>If this was unexpected (e.g. you didn't try to kill the process via the Windows Task Manager or something), please feel free to send a bug report!</p>");
+        QString messageStrAddition = tr("<p>The logfile of your last session was saved seperately. Do you want to open it?</p>");
+        if(QFile::exists(LocalConfig::lastLogfileName())) {
+            messageStr += messageStrAddition;
+            QMessageBox::StandardButton msg = QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Yes|QMessageBox::No);
+            if(msg == QMessageBox::Yes) {
+                QDesktopServices::openUrl(LocalConfig::lastLogfileName());
+            }
+        } else {
+            QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Ok);
+        }
+    }
+    LocalConfig::setCrashDetected(true);
+
+#ifndef QT_DEBUG
+    QThread::sleep(2);
 #endif
 
     qInfo() << "loading user interface...";
-    // load ui
     ui->setupUi(this);
-    MainWindow::hide();
 
-    ui->centralwidget->setHidden(true);
-
-    dwUndoView->setWidget(wdgUndoView);
-    dwBusstops->setWidget(wdgBusstops);
-    dwLines->setWidget(wdgLines);
-    dwRoutes->setWidget(wdgRoutes);
-    dwSchedule->setWidget(wdgSchedule);
-    dwTripEditor->setWidget(wdgTripEditor);
-    dwBusstopSchedule->setWidget(wdgBusstopSchedule);
-    dwTours->setWidget(wdgTours);
-    dwTourEditor->setWidget(wdgTourEditor);
-    dwPublishedLines->setWidget(wdgPublishedLines);
+    qInfo() << "setting up dock widgets...";
+    ui->centralwidget -> setHidden(true);
+    dwUndoView        -> setWidget(wdgUndoView);
+    dwBusstops        -> setWidget(wdgBusstops);
+    dwLines           -> setWidget(wdgLines);
+    dwRoutes          -> setWidget(wdgRoutes);
+    dwSchedule        -> setWidget(wdgSchedule);
+    dwTripEditor      -> setWidget(wdgTripEditor);
+    dwBusstopSchedule -> setWidget(wdgBusstopSchedule); dwBusstopSchedule->resize(900, 831);
+    dwTours           -> setWidget(wdgTours);
+    dwTourEditor      -> setWidget(wdgTourEditor);
+    dwPublishedLines  -> setWidget(wdgPublishedLines);
 
     actionWorkspaceTrackLayout();
 
@@ -124,45 +122,36 @@ MainWindow::MainWindow(QWidget *parent)
     // load menubar
     splashScreen.showMessage(tr("loading menubar..."), Qt::AlignBottom, messageColor);
 
-    QAction *actDockBusstops = dwBusstops->toggleViewAction();
-    QAction *actDockLines= dwLines->toggleViewAction();
-    QAction *actDockRoutes = dwRoutes->toggleViewAction();
-    QAction *actDockSchedule = dwSchedule->toggleViewAction();
-    QAction *actDockBusstopSchedule = dwBusstopSchedule->toggleViewAction();
-    QAction *actDockTours = dwTours->toggleViewAction();
-    QAction *actDockTourEditor = dwTourEditor->toggleViewAction();
-    QAction *actDockPublishedLines = dwPublishedLines->toggleViewAction();
+    qDebug() << "loading toggleViewActions...";
+    QAction *actDockBusstops        = dwBusstops        -> toggleViewAction();
+    QAction *actDockLines           = dwLines           -> toggleViewAction();
+    QAction *actDockRoutes          = dwRoutes          -> toggleViewAction();
+    QAction *actDockSchedule        = dwSchedule        -> toggleViewAction();
+    QAction *actDockBusstopSchedule = dwBusstopSchedule -> toggleViewAction();
+    QAction *actDockTours           = dwTours           -> toggleViewAction();
+    QAction *actDockTourEditor      = dwTourEditor      -> toggleViewAction();
+    QAction *actDockPublishedLines  = dwPublishedLines  -> toggleViewAction();
 
-    actDockBusstops->setIcon(QIcon(":/icons/Busstop.ico"));
-    actDockLines->setIcon(QIcon(":/icons/Line.ico"));
-    actDockRoutes->setIcon(QIcon(":/icons/Route.ico"));
-    actDockSchedule->setIcon(QIcon(":/icons/Schedule.ico"));
-    actDockBusstopSchedule->setIcon(QIcon(":/icons/BusstopSchedule.ico"));
-    actDockTours->setIcon(QIcon(":/icons/TourList.ico"));
-    actDockTourEditor->setIcon(QIcon(":/icons/Tour.ico"));
-    actDockPublishedLines->setIcon(QIcon(":/icons/PublishedLines.ico"));
+    qDebug() << "setting icons of toggleViewActions...";
+    actDockBusstops        -> setIcon(QIcon(":/icons/Busstop.ico"));
+    actDockLines           -> setIcon(QIcon(":/icons/Line.ico"));
+    actDockRoutes          -> setIcon(QIcon(":/icons/Route.ico"));
+    actDockSchedule        -> setIcon(QIcon(":/icons/Schedule.ico"));
+    actDockBusstopSchedule -> setIcon(QIcon(":/icons/BusstopSchedule.ico"));
+    actDockTours           -> setIcon(QIcon(":/icons/TourList.ico"));
+    actDockTourEditor      -> setIcon(QIcon(":/icons/Tour.ico"));
+    actDockPublishedLines  -> setIcon(QIcon(":/icons/PublishedLines.ico"));
 
-    actDockBusstops->setShortcut(QKeySequence(tr("Alt+B")));
-    actDockLines->setShortcut(QKeySequence(tr("Alt+L")));
-    actDockRoutes->setShortcut(QKeySequence(tr("Alt+R")));
-    actDockSchedule->setShortcut(QKeySequence(tr("Alt+S")));
-    actDockBusstopSchedule->setShortcut(QKeySequence(tr("Alt+Shift+B")));
-    actDockTours->setShortcut(QKeySequence(tr("Alt+T")));
-    actDockTourEditor->setShortcut(QKeySequence(tr("Alt+Shift+T")));
+    qDebug() << "setting shortcuts toggleViewActions...";
+    actDockBusstops        -> setShortcut(QKeySequence(tr("Alt+B")));
+    actDockLines           -> setShortcut(QKeySequence(tr("Alt+L")));
+    actDockRoutes          -> setShortcut(QKeySequence(tr("Alt+R")));
+    actDockSchedule        -> setShortcut(QKeySequence(tr("Alt+S")));
+    actDockBusstopSchedule -> setShortcut(QKeySequence(tr("Alt+Shift+B")));
+    actDockTours           -> setShortcut(QKeySequence(tr("Alt+T")));
+    actDockTourEditor      -> setShortcut(QKeySequence(tr("Alt+Shift+T")));
 
-    ui->actionFileNew->setShortcut(QKeySequence::New);
-    ui->actionFileOpen->setShortcut(QKeySequence::Open);
-    ui->actionFileSave->setShortcut(QKeySequence::Save);
-    ui->actionFileSaveAs->setShortcuts({QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_S), QKeySequence::SaveAs});
-    ui->actionFileClose->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_W), QKeySequence::Close});
-    ui->actionFileQuit->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_Q), QKeySequence::Quit});
-
-    ui->actionUndo->setShortcut(QKeySequence::Undo);
-    ui->actionRedo->setShortcut(QKeySequence::Redo);
-    ui->actionEditProjectSettings->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_Comma));
-    ui->actionEditPreferences->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_Comma), QKeySequence::Preferences});
-
-
+    qDebug() << "adding toggleViewActions to menubar";
     ui->menuDocks->addAction(actDockBusstops);
     ui->menuDocks->addAction(actDockLines);
     ui->menuDocks->addAction(actDockRoutes);
@@ -173,45 +162,50 @@ MainWindow::MainWindow(QWidget *parent)
     ui->menuDocks->addSeparator();
     ui->menuDocks->addAction(actDockPublishedLines);
 
-    wdgBusstops->setMenubarActions(ui->actionBusstopsNew, ui->actionBusstopsEdit, ui->actionBusstopsDelete);
-    wdgLines->setMenubarActions(ui->actionLinesNew, ui->actionLinesEdit, ui->actionLinesDelete);
-    wdgRoutes->setMenubarActions(ui->actionRoutesNew, ui->actionRoutesEdit, ui->actionRoutesDuplicate, ui->actionRoutesDelete);
+    qDebug() << "setting menubarActions to widgets";
+    wdgBusstops -> setMenubarActions(ui->actionBusstopsNew, ui->actionBusstopsEdit, ui->actionBusstopsDelete);
+    wdgLines    -> setMenubarActions(ui->actionLinesNew, ui->actionLinesEdit, ui->actionLinesDelete);
+    wdgRoutes   -> setMenubarActions(ui->actionRoutesNew, ui->actionRoutesEdit, ui->actionRoutesDuplicate, ui->actionRoutesDelete);
 
-    connect(wdgSchedule, SIGNAL(currentLineChanged(Line*,LineDirection*)), wdgTripEditor, SLOT(setCurrentLine(Line*,LineDirection*)));
-    connect(wdgSchedule, SIGNAL(currentDayTypeChanged(DayType)), wdgTripEditor, SLOT(setCurrentDayType(DayType)));
-    connect(wdgSchedule, SIGNAL(currentTripsChanged(QList<Trip*>)), wdgTripEditor, SLOT(setCurrentTrips(QList<Trip*>)));
-    connect(wdgTripEditor, SIGNAL(tripsChanged(QList<Trip*>)), wdgSchedule, SLOT(refreshSchedule()));
+    qDebug() << "loading undo and redo action...";
+    QAction *actionUndo = undoStack->createUndoAction(this, tr("Undo:"));
+    QAction *actionRedo = undoStack->createRedoAction(this, tr("Redo:"));
+    actionUndo->setIcon(QIcon(":/icons/Undo.ico"));
+    actionRedo->setIcon(QIcon(":/icons/Redo.ico"));
 
+    qInfo() << "loading shortcuts";
+    splashScreen.showMessage(tr("loading shortcuts..."), Qt::AlignBottom, messageColor);
+    ui->actionFileNew->setShortcut(QKeySequence::New);
+    ui->actionFileOpen->setShortcut(QKeySequence::Open);
+    ui->actionFileSave->setShortcut(QKeySequence::Save);
+    ui->actionFileSaveAs->setShortcuts({QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_S), QKeySequence::SaveAs});
+    ui->actionFileClose->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_W), QKeySequence::Close});
+    ui->actionFileQuit->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_Q), QKeySequence::Quit});
 
-    connect(ui->actionBusstopsNew, SIGNAL(triggered()), wdgBusstops, SLOT(actionNew()));
-    connect(ui->actionBusstopsEdit, SIGNAL(triggered()), wdgBusstops, SLOT(actionEdit()));
-    connect(ui->actionBusstopsDelete, SIGNAL(triggered()), wdgBusstops, SLOT(actionDelete()));
+    actionUndo->setShortcut(QKeySequence::Undo);
+    actionRedo->setShortcut(QKeySequence::Redo);
+    ui->actionEditProjectSettings->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_Comma));
+    ui->actionEditPreferences->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_Comma), QKeySequence::Preferences});
 
-    connect(ui->actionLinesNew, SIGNAL(triggered()), wdgLines, SLOT(actionNew()));
-    connect(ui->actionLinesEdit, SIGNAL(triggered()), wdgLines, SLOT(actionEdit()));
-    connect(ui->actionLinesDelete, SIGNAL(triggered()), wdgLines, SLOT(actionDelete()));
+    qInfo() << "loading toolbars...";
+    splashScreen.showMessage(tr("loading toolbars..."), Qt::AlignBottom, messageColor);
 
-    connect(ui->actionRoutesNew, SIGNAL(triggered()), wdgRoutes, SLOT(actionNew()));
-    connect(ui->actionRoutesEdit, SIGNAL(triggered()), wdgRoutes, SLOT(actionEdit()));
-    connect(ui->actionRoutesDuplicate, SIGNAL(triggered()), wdgRoutes, SLOT(actionDuplicate()));
-    connect(ui->actionRoutesDelete, SIGNAL(triggered()), wdgRoutes, SLOT(actionDelete()));
+    tbGeneral    = new QToolBar(tr("general"),    this);
+    tbDocks      = new QToolBar(tr("docks"),      this);
+    tbWorkspaces = new QToolBar(tr("workspaces"), this);
 
-    connect(ui->actionScheduleAddTrip, SIGNAL(triggered()), wdgTripEditor, SLOT(actionNew()));
-    connect(ui->actionScheduleCopyTrip, SIGNAL(triggered()), wdgTripEditor, SLOT(actionCopy()));
-    connect(ui->actionScheduleDeleteSelectedTrips, SIGNAL(triggered()), wdgTripEditor, SLOT(actionDelete()));
-
-    tbGeneral = new QToolBar(tr("general"), this);
+    qDebug() << "\tgeneral toolbar";
     tbGeneral->setToolButtonStyle(Qt::ToolButtonIconOnly);
     tbGeneral->addAction(ui->actionFileNew);
     tbGeneral->addAction(ui->actionFileOpen);
     tbGeneral->addAction(ui->actionFileSave);
-    tbGeneral->addAction(ui->actionUndo);
-    tbGeneral->addAction(ui->actionRedo);
+    tbGeneral->addAction(actionUndo);
+    tbGeneral->addAction(actionRedo);
     tbGeneral->addSeparator();
     tbGeneral->addAction(ui->actionEditProjectSettings);
     tbGeneral->addAction(ui->actionEditPreferences);
 
-    tbDocks = new QToolBar(tr("docks"), this);
+    qDebug() << "\tdocks toolbar";
     tbDocks->setToolButtonStyle(Qt::ToolButtonIconOnly);
     tbDocks->addAction(actDockBusstops);
     tbDocks->addAction(actDockLines);
@@ -222,7 +216,7 @@ MainWindow::MainWindow(QWidget *parent)
     tbDocks->addAction(actDockTourEditor);
     tbDocks->addAction(actDockPublishedLines);
 
-    tbWorkspaces = new QToolBar(tr("workspaces"), this);
+    qDebug() << "\tworkspaces toolbar";
     tbWorkspaces->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     tbWorkspaces->addAction(ui->actionWorkspaceTrackLayout);
     tbWorkspaces->addAction(ui->actionWorkspaceBusstopSchedule);
@@ -230,62 +224,97 @@ MainWindow::MainWindow(QWidget *parent)
     tbWorkspaces->addAction(ui->actionWorkspaceTourPlanning);
     tbWorkspaces->addAction(ui->actionWorkspacePublish);
 
-    this->addToolBar(Qt::TopToolBarArea, tbGeneral);
+    this->addToolBar(Qt::TopToolBarArea,  tbGeneral);
     this->addToolBar(Qt::LeftToolBarArea, tbDocks);
-    this->addToolBar(Qt::TopToolBarArea, tbWorkspaces);
+    this->addToolBar(Qt::TopToolBarArea,  tbWorkspaces);
 
-    ui->actionViewToolbarGeneral->setChecked(true);
-    ui->actionViewToolbarDocks->setChecked(true);
-    ui->actionViewToolbarWorkspaces->setChecked(true);
-
-    dwBusstopSchedule->resize(900, 831);
-
-    setRedoEnabled(false);
-    setUndoEnabled(false);
-    setSaved(true);
+    ui->actionViewToolbarGeneral    ->setChecked(true);
+    ui->actionViewToolbarDocks      ->setChecked(true);
+    ui->actionViewToolbarWorkspaces ->setChecked(true);
 
     qInfo() << "loading signals and slots...";
-    // load signals and slots
     splashScreen.showMessage(tr("loading signals and slots..."), Qt::AlignBottom, messageColor);
 
-    connect(ui->actionFileNew, SIGNAL(triggered()), this, SLOT(actionFileNew()));
-    connect(ui->actionFileOpen, SIGNAL(triggered()), this, SLOT(actionFileOpen()));
-    connect(ui->actionFileSave, SIGNAL(triggered()), this, SLOT(actionFileSave()));
-    connect(ui->actionFileSaveAs, SIGNAL(triggered()), this, SLOT(actionFileSaveAs()));
-    connect(ui->actionFileClose, SIGNAL(triggered()), this, SLOT(actionFileClose()));
-    connect(ui->actionFileQuit, SIGNAL(triggered()), this, SLOT(actionQuit()));
+    qDebug() << "\tbusstops";
+    connect(ui->actionBusstopsNew,                 &QAction::triggered,                    wdgBusstops,        &WdgBusstops::actionNew);
+    connect(ui->actionBusstopsEdit,                &QAction::triggered,                    wdgBusstops,        &WdgBusstops::actionEdit);
+    connect(ui->actionBusstopsDelete,              &QAction::triggered,                    wdgBusstops,        &WdgBusstops::actionDelete);
 
-    connect(undoStack, SIGNAL(cleanChanged(bool)), this, SLOT(setSaved(bool)));
-    connect(undoStack, SIGNAL(canUndoChanged(bool)), this, SLOT(setUndoEnabled(bool)));
-    connect(undoStack, SIGNAL(canRedoChanged(bool)), this, SLOT(setRedoEnabled(bool)));
-    connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(actionEditUndo()));
-    connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(actionEditRedo()));
+    qDebug() << "\tlines";
+    connect(ui->actionLinesNew,                    &QAction::triggered,                    wdgLines,           &WdgLines::actionNew);
+    connect(ui->actionLinesEdit,                   &QAction::triggered,                    wdgLines,           &WdgLines::actionEdit);
+    connect(ui->actionLinesDelete,                 &QAction::triggered,                    wdgLines,           &WdgLines::actionDelete);
 
-    connect(ui->actionWorkspaceTrackLayout, SIGNAL(triggered()), this, SLOT(actionWorkspaceTrackLayout()));
-    connect(ui->actionWorkspaceBusstopSchedule, SIGNAL(triggered()), this, SLOT(actionWorkspaceBusstopSchedule()));
-    connect(ui->actionWorkspaceScheduling, SIGNAL(triggered()), this, SLOT(actionWorkspaceScheduling()));
-    connect(ui->actionWorkspaceTourPlanning, SIGNAL(triggered()), this, SLOT(actionWorkspaceTourPlanning()));
-    connect(ui->actionWorkspacePublish, SIGNAL(triggered()), this, SLOT(actionWorkspacePublish()));
+    qDebug() << "\troutes";
+    connect(ui->actionRoutesNew,                   &QAction::triggered,                    wdgRoutes,          &WdgRoutes::actionNew);
+    connect(ui->actionRoutesEdit,                  &QAction::triggered,                    wdgRoutes,          &WdgRoutes::actionEdit);
+    connect(ui->actionRoutesDuplicate,             &QAction::triggered,                    wdgRoutes,          &WdgRoutes::actionDuplicate);
+    connect(ui->actionRoutesDelete,                &QAction::triggered,                    wdgRoutes,          &WdgRoutes::actionDelete);
 
-    connect(wdgBusstops, SIGNAL(currentBusstopChanged(Busstop*)), wdgBusstopSchedule, SLOT(setBusstop(Busstop*)));
+    qDebug() << "\tschedule";
+    connect(ui->actionScheduleAddTrip,             &QAction::triggered,                    wdgTripEditor,      &WdgTripEditor::actionNew);
+    connect(ui->actionScheduleCopyTrip,            &QAction::triggered,                    wdgTripEditor,      &WdgTripEditor::actionCopy);
+    connect(ui->actionScheduleDeleteSelectedTrips, &QAction::triggered,                    wdgTripEditor,      &WdgTripEditor::actionDelete);
 
-    connect(wdgLines, SIGNAL(currentLineChanged(Line*)), wdgRoutes, SLOT(setCurrentLine(Line*)));
-    connect(wdgLines, SIGNAL(currentLineChanged(Line*)), wdgSchedule, SLOT(setCurrentLine(Line*)));
+    qDebug() << "\tfile operations";
+    connect(ui->actionFileNew,                     &QAction::triggered,                    this,               &MainWindow::actionFileNew);
+    connect(ui->actionFileOpen,                    &QAction::triggered,                    this,               &MainWindow::actionFileOpen);
+    connect(ui->actionFileSave,                    &QAction::triggered,                    this,               &MainWindow::actionFileSave);
+    connect(ui->actionFileSaveAs,                  &QAction::triggered,                    this,               &MainWindow::actionFileSaveAs);
+    connect(ui->actionFileClose,                   &QAction::triggered,                    this,               &MainWindow::actionFileClose);
+    connect(ui->actionFileQuit,                    &QAction::triggered,                    this,               &MainWindow::actionQuit);
+    connect(undoStack,                             &QUndoStack::cleanChanged,              this,               &MainWindow::setSaved);
+    connect(actionUndo,                            &QAction::triggered,                    this,               &MainWindow::refreshUndo);
+    connect(actionRedo,                            &QAction::triggered,                    this,               &MainWindow::refreshRedo);
 
-    connect(wdgSchedule, SIGNAL(busstopScheduleRequested(Busstop *, QList<Route *>, DayType *)), this, SLOT(actionOpenBusstopSchedule(Busstop *, QList<Route *>, DayType *)));
-    connect(wdgSchedule, SIGNAL(tourRequested(Tour *)), this, SLOT(actionOpenTour(Tour *)));
-    connect(wdgTours, SIGNAL(currentTourChanged(Tour*)), wdgTourEditor, SLOT(setCurrentTour(Tour*)));
+    qDebug() << "\tworkspace actions";
+    connect(ui->actionWorkspaceTrackLayout,        &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTrackLayout);
+    connect(ui->actionWorkspaceBusstopSchedule,    &QAction::triggered,                    this,               &MainWindow::actionWorkspaceBusstopSchedule);
+    connect(ui->actionWorkspaceScheduling,         &QAction::triggered,                    this,               &MainWindow::actionWorkspaceScheduling);
+    connect(ui->actionWorkspaceTourPlanning,       &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTourPlanning);
+    connect(ui->actionWorkspacePublish,            &QAction::triggered,                    this,               &MainWindow::actionWorkspacePublish);
+
+    qDebug() << "\tdock-to-dock actions";
+    connect(wdgBusstops,                           &WdgBusstops::currentBusstopChanged,    wdgBusstopSchedule, &WdgBusstopSchedule::setBusstop);
+    connect(wdgLines,                              &WdgLines::currentLineChanged,          wdgRoutes,          &WdgRoutes::setCurrentLine);
+    connect(wdgLines,                              &WdgLines::currentLineChanged,          wdgSchedule,        &WdgSchedule::setCurrentLine);
+    connect(wdgSchedule,                           &WdgSchedule::busstopScheduleRequested, this,               &MainWindow::actionOpenBusstopSchedule);
+    connect(wdgSchedule,                           &WdgSchedule::tourRequested,            this,               &MainWindow::actionOpenTour);
+    connect(wdgSchedule,                           &WdgSchedule::currentLineChanged,       wdgTripEditor,      &WdgTripEditor::setCurrentLine);
+    connect(wdgSchedule,                           &WdgSchedule::currentDayTypeChanged,    wdgTripEditor,      &WdgTripEditor::setCurrentDayType);
+    connect(wdgSchedule,                           &WdgSchedule::currentTripsChanged,      wdgTripEditor,      &WdgTripEditor::setCurrentTrips);
+    connect(wdgTripEditor,                         &WdgTripEditor::tripsChanged,           wdgSchedule,        &WdgSchedule::refreshSchedule);
+    connect(wdgTours,                              &WdgTours::currentTourChanged,          wdgTourEditor,      &WdgTourEditor::setCurrentTour);
+
+    qDebug() << "\tundo/redo refreshs";
+    // Busstops
+    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgBusstops,        &WdgBusstops::refresh);
+    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgSchedule,        &WdgSchedule::refreshSchedule);
+    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgRoutes,          &WdgRoutes::refresh);
+
+    // Lines
+    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgLines,           &WdgLines::refresh);
+    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgSchedule,        &WdgSchedule::refreshSchedule);
+    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);
+
+    // Routes
+    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgRoutes,          &WdgRoutes::refresh);
+    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);
+
+    // Schedule
+    connect(wdgSchedule,                           &WdgSchedule::refreshRequested,         wdgSchedule,        &WdgSchedule::refreshSchedule);
+
+    // Tours
+    connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTours,           &WdgTours::refresh);
+    connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTourEditor,      &WdgTourEditor::refresh);
+
+    // Published Lines
+    connect(wdgPublishedLines,                     &WdgPublishedLines::refreshRequested,   wdgPublishedLines,  &WdgPublishedLines::refreshDayTypes);
+    connect(wdgPublishedLines,                     &WdgPublishedLines::refreshRequested,   wdgPublishedLines,  &WdgPublishedLines::refreshBusstopList);
 
 
-    //              SENDER SIGNAL                              RECIVER      SLOT
-    QObject::connect(this, &MainWindow::busstopsChanged,       wdgBusstops, &WdgBusstops::refresh);
-    QObject::connect(this, &MainWindow::linesChanged,          wdgLines,    &WdgLines::refresh);
-    QObject::connect(this, &MainWindow::routesChanged,         wdgRoutes,   &WdgRoutes::refresh);
-    QObject::connect(this, &MainWindow::projectSettingsChanged,       wdgSchedule, &WdgSchedule::refreshDayTypes);
-    QObject::connect(this, &MainWindow::lineDirectionsChanged, wdgSchedule, &WdgSchedule::refreshDirections);
-    QObject::connect(this, &MainWindow::tripsChanged,          wdgSchedule, &WdgSchedule::refreshSchedule);
-
-
+    qInfo() << "loading last used files...";
+    splashScreen.showMessage(tr("loading last used files..."), Qt::AlignBottom, messageColor);
     QList<QAction *> actions;
     QStringList lastUsedFiles = LocalConfig::lastUsedFiles();
 
@@ -294,30 +323,17 @@ MainWindow::MainWindow(QWidget *parent)
         QAction *action = new QAction(fi.fileName(), this);
         actions << action;
     }
-
     ui->menuOpenRecent->addActions(actions);
 
     splashScreen.showMessage(tr("loading startup dialog..."), Qt::AlignBottom, messageColor);
 
-    MainWindow::showMaximized();
+    showMaximized();
+
 
     qInfo() << "loading startup dialog";
-
     splashScreen.close();
-    startupDialog->exec();
-    if(startupDialog->result() == QDialog::Accepted) {
-        int action =startupDialog->getAction();
-        if(action == StartupDialog::openFile)
-            actionFileOpen();
-        else if(action == StartupDialog::openRecentFile)
-            openFile(startupDialog->getFilePath());
-        else if(action == StartupDialog::quit) {
-            delete startupDialog;
-            MainWindow::close();
-        }
-    }
-
-    delete startupDialog;
+    startupDialog->show();
+    connect(startupDialog, &QDialog::finished, this, &MainWindow::startupDialogHandler);
 }
 
 MainWindow::~MainWindow()
@@ -327,7 +343,7 @@ MainWindow::~MainWindow()
 }
 
 // Close Event
-void MainWindow::closeEvent(QCloseEvent * event){
+void MainWindow::closeEvent(QCloseEvent * event) {
     if(!actionFileClose())
         event->ignore();
     else {
@@ -336,6 +352,20 @@ void MainWindow::closeEvent(QCloseEvent * event){
     }
 }
 
+void MainWindow::startupDialogHandler() {
+    qInfo() << "closed startupDialog";
+
+    if(startupDialog->result() == QDialog::Accepted) {
+        int action =startupDialog->getAction();
+        if(action == StartupDialog::OpenFile)
+            actionFileOpen();
+        else if(action == StartupDialog::OpenRecentFile)
+            openFile(startupDialog->getFilePath());
+        else if(action == StartupDialog::Quit) {
+            QApplication::quit();
+        }
+    }
+}
 
 //********************************************************************************************************************************************************************
 // Actions
@@ -430,10 +460,10 @@ bool MainWindow::actionFileClose() {
     wdgSchedule->refreshSchedule();
     wdgSchedule->refreshDirections();
     wdgSchedule->refreshDayTypes();
-    wdgTours->refreshTourList();
-    wdgTourEditor->refreshTour();
+    wdgTours->refresh();
+    wdgTourEditor->refresh();
     wdgPublishedLines->refreshDayTypes();
-    wdgPublishedLines->refreshRouteList();
+    wdgPublishedLines->refreshRoutes();
     return true;
 }
 
@@ -442,41 +472,46 @@ bool MainWindow::actionQuit() {
     return true;
 }
 
-void MainWindow::actionEditUndo() {
-    undoStack->undo();
+void MainWindow::refreshUndo() {
+    //undoStack->undo();
     refreshAfterUndoRedo(dynamic_cast<const CmdAbstract *>(undoStack->command(undoStack->index()))->commandType());
 }
 
-void MainWindow::actionEditRedo() {
-    CmdType type = dynamic_cast<const CmdAbstract *>(undoStack->command(undoStack->index()))->commandType();
-    undoStack->redo();
+void MainWindow::refreshRedo() {
+    CmdType type = dynamic_cast<const CmdAbstract *>(undoStack->command(undoStack->index() - 1))->commandType();
+    //undoStack->redo();
     refreshAfterUndoRedo(type);
 }
 
 void MainWindow::refreshAfterUndoRedo(CmdType t) {
+    qDebug() << "refreshing views because of undo/redo command. Type:" << t;
+
     if(t == GeneralType) {
         wdgSchedule->refreshDayTypes();
     }
     if(t == BusstopsType) {
         wdgBusstops->refresh();
+        wdgSchedule->refreshSchedule();
+        wdgRoutes->refresh();
     }
     if(t == LinesType) {
         wdgLines->refresh();
-        wdgSchedule->refreshDayTypes();
+        wdgSchedule->refreshDirections();
+        wdgPublishedLines->refreshRoutes();
     }
     if(t == RoutesType) {
         wdgRoutes->refresh();
+        wdgPublishedLines->refreshRoutes();
     }
     if(t == ScheduleType) {
         wdgSchedule->refreshSchedule();
     }
     if(t == ToursType) {
-        wdgTours->refreshTourList();
-        wdgTourEditor->refreshTour();
+        wdgTours->refresh();
+        wdgTourEditor->refresh();
     }
     if(t == PublicationsType) {
         wdgPublishedLines->refreshDayTypes();
-        wdgPublishedLines->refreshRouteList();
         wdgPublishedLines->refreshBusstopList();
     }
     if(t == FootnotesType) {
@@ -737,20 +772,13 @@ void MainWindow::actionOpenTour(Tour *o) {
     dwTourEditor->show();
 }
 
-void MainWindow::setUndoEnabled(bool b) {
-    ui->actionUndo->setEnabled(b);
-}
-
-void MainWindow::setRedoEnabled(bool b) {
-    ui->actionRedo->setEnabled(b);
-}
-
 void MainWindow::setSaved(bool b) {
+    QString displayName = projectData->projectSettings()->displayName();
+    QString str = "ScheduleMaster" + (!displayName.isEmpty() ? " - " + projectData->projectSettings()->displayName() : "");
     if(!b)
-        QMainWindow::setWindowTitle("* ScheduleMaster");
-    else
-        QMainWindow::setWindowTitle("ScheduleMaster");
+        str = "* " + str;
 
+    QMainWindow::setWindowTitle(str);
     ui->actionFileSave->setDisabled(b);
 }
 
@@ -786,20 +814,18 @@ bool MainWindow::openFile(QString path) {
     qDebug() << "refreshing ui...";
     wdgBusstops->refresh();
     wdgLines->refresh();
-    wdgTours->refreshTourList();
+    wdgTours->refresh();
     wdgSchedule->refreshDayTypes();
     wdgPublishedLines->refreshLineList();
     wdgPublishedLines->refreshDayTypes();
-    wdgPublishedLines->refreshRouteList();
+    wdgPublishedLines->refreshRoutes();
 
     undoStack->clear();
     knownFile = true;
+    setSaved(true);
     projectData->setFilePath(path);
-
     ui->statusbar->showMessage(path);
-
     LocalConfig::addLastUsedFile(path);
-
     return true;
 }
 

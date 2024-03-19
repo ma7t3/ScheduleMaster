@@ -32,7 +32,7 @@ public slots:
 
     void refreshUI();
 
-    void refreshTourList();
+    void refresh();
 
     Tour *currentTour();
 
@@ -41,6 +41,7 @@ private slots:
 
 signals:
     void currentTourChanged(Tour *);
+    void refreshRequested();
 
 private:
     Ui::WdgTours *ui;

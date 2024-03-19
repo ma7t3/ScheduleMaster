@@ -79,6 +79,7 @@ void WdgTripEditor::actionNew() {
     undoStack->push(new CmdScheduleTripNew(_currentLine, t));
     _currentTrips = {t};
     emit tripsChanged(_currentTrips);
+    emit refreshRequested();
     refreshUI();
 }
 
@@ -108,6 +109,7 @@ void WdgTripEditor::actionCopy() {
     _currentTrips << trips;
 
     emit tripsChanged(_currentTrips);
+    emit refreshRequested();
 }
 
 void WdgTripEditor::actionDelete() {
@@ -122,6 +124,7 @@ void WdgTripEditor::actionDelete() {
     undoStack->push(new CmdScheduleTripsDelete(_currentLine, _currentTrips));
     _currentTrips.clear();
     emit tripsChanged(_currentTrips);
+    emit refreshRequested();
     refreshUI();
 }
 
@@ -134,6 +137,7 @@ void WdgTripEditor::actionChangeRoute() {
 
     undoStack->push(new CmdScheduleTripsChangeRoute(_currentTrips, _currentRoute));
     emit tripsChanged(_currentTrips);
+    emit refreshRequested();
 }
 
 void WdgTripEditor::actionChangeTimeProfile() {
@@ -143,6 +147,7 @@ void WdgTripEditor::actionChangeTimeProfile() {
     QString profileName = ui->cbTimeProfiles->currentText();
     undoStack->push(new CmdScheduleTripsChangeTimeProfile(_currentTrips, profileName));
     emit tripsChanged(_currentTrips);
+    emit refreshRequested();
 }
 
 void WdgTripEditor::actionChangeStartTime() {
@@ -186,6 +191,7 @@ void WdgTripEditor::actionChangeStartTime() {
 
     lastStartTime = time;
     emit tripsChanged(_currentTrips);
+    emit refreshRequested();
 }
 
 void WdgTripEditor::actionChangeDays() {
@@ -197,6 +203,7 @@ void WdgTripEditor::actionChangeDays() {
 
     undoStack->push(new CmdScheduleTripsChangeDays(_currentTrips, ui->daySelector->weekDays()));
     emit tripsChanged(_currentTrips);
+    emit refreshRequested();
 }
 
 void WdgTripEditor::saveStartTime() {

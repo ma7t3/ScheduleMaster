@@ -12,20 +12,27 @@ ProjectSettings *ProjectData::projectSettings() { return _projectSettings; }
 void ProjectData::reset() {
     _filePath = "";
 
-    qDeleteAll(_busstops);
-    _busstops.clear();
+    _projectSettings->reset();
+    qDebug() << "projectSettings reset";
 
-    qDeleteAll(_lines);
-    _lines.clear();
+    _publications->reset();
+    qDebug() << "publications reset";
 
     qDeleteAll(_tours);
     _tours.clear();
+    qDebug() << "tours deleted";
+
+    qDeleteAll(_lines);
+    _lines.clear();
+    qDebug() << "lines deleted";
 
     qDeleteAll(_footnotes);
     _footnotes.clear();
+    qDebug() << "footnotes deleted";
 
-    _projectSettings->reset();
-    _publications->reset();
+    qDeleteAll(_busstops);
+    _busstops.clear();
+    qDebug() << "busstops deleted";
 }
 
 void ProjectData::cleanup() {

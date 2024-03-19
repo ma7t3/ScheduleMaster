@@ -50,6 +50,7 @@ signals:
     void currentDayTypeChanged(DayType);
     void busstopScheduleRequested(Busstop *, QList<Route *>, DayType *);
     void tourRequested(Tour *);
+    void refreshRequested();
 
 private:
     Ui::WdgSchedule *ui;
