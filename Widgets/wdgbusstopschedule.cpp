@@ -121,12 +121,12 @@ void WdgBusstopSchedule::refreshSchedule() {
 WeekDays WdgBusstopSchedule::getShiftedWeekDays(Trip *t) {
     WeekDays w(nullptr);
     if(!t->goesPastMidnight())
-        w = *t->weekDays();
+        w = t->weekDays();
     else
         if(t->busstopIsAfterMidnight(busstop))
-            w = t->weekDays()->shfitedToNextDay();
+            w = t->weekDays().shfitedToNextDay();
         else
-            w = *t->weekDays();
+            w = t->weekDays();
     return w;
 }
 

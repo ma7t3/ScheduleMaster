@@ -20,7 +20,7 @@ public:
     void setName(const QString &);
 
     void setWeekDays(const WeekDays &);
-    WeekDays *weekDays() const;
+    WeekDays weekDays() const;
 
 
     QList<Trip *> trips() const;
@@ -48,15 +48,13 @@ public:
 
     QJsonObject toJson() const;
 
-    void refreshChilds();
-
 protected:
     void copy(const Tour &);
     void fromJson(const QJsonObject &);
 
 private:
     QString _name;
-    WeekDays *_weekDays;
+    WeekDays _weekDays;
     QList<Trip *> _trips;
 
 };

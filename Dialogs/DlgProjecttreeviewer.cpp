@@ -160,7 +160,7 @@ QList<QTreeWidgetItem*> ProjectTreeViewer::loadTrips(QList<Trip *> trips, QTreeW
             itm->setForeground(1, Qt::white);
         } else {
             itm->setText(1, t->id());
-            itm->setText(0, "[" + t->startTime().toString("hh:mm") + "] " + t->route()->name() + " (" + t->weekDays()->toString() + ") (" + t->id() + ")");
+            itm->setText(0, "[" + t->startTime().toString("hh:mm") + "] " + t->route()->name() + " (" + t->weekDays().toString() + ") (" + t->id() + ")");
         }
         items << itm;
     }

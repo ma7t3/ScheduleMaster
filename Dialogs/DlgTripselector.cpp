@@ -5,7 +5,7 @@
 #include "App/global.h"
 #include "ProjectData\busstop.h"
 
-TripSelector::TripSelector(QWidget *parent, ProjectData *p, Trip *t, WeekDays *d) :
+TripSelector::TripSelector(QWidget *parent, ProjectData *p, Trip *t, WeekDays d) :
     QDialog(parent),
     ui(new Ui::TripSelector),
     projectData(p),
@@ -92,7 +92,7 @@ void TripSelector::loadTrips()
     for(int i = 0; i < trips.count(); i++) {
         Trip *t = trips[i];
         
-        if(!weekDays->isIn(*t->weekDays()))
+        if(!weekDays.isIn(t->weekDays()))
             continue;
 
         resultList << t;
@@ -107,7 +107,7 @@ void TripSelector::loadTrips()
             if(t->startTime() >= QTime(12, 0, 0, 0))
                 continue;
 
-            if(!weekDays->shfitedToNextDay().isIn(*t->weekDays()))
+            if(!weekDays.shfitedToNextDay().isIn(t->weekDays()))
                 continue;
 
             resultListAdd << t;

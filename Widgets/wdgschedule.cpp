@@ -115,7 +115,7 @@ void WdgSchedule::refreshSchedule() {
     for(int i = 0; i < trips.count(); i++) {
         Trip *t = trips[i];
 
-        if(scheduleCheckMatchingWeekdays(t->weekDays())) {
+        if(checkMatchingWeekdays(t->weekDays())) {
             filteredTrips << t;
         }
     }
@@ -257,7 +257,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
         itmTour->setForeground(Qt::yellow);
     } else {
         WeekDays combinedTourWeekDays = WeekDays::combine(tourWeekDays);
-        bool match = combinedTourWeekDays.toCode() == t->weekDays()->toCode();
+        bool match = combinedTourWeekDays == t->weekDays();
         bool overlap = WeekDays::overlap(tourWeekDays);
         QString overlapStr = WeekDays::intersection(tourWeekDays).toString();
 
@@ -383,7 +383,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     }
 }
 
-QPair<QString, QString> WdgSchedule::refreshScheduleGenerateInfo(WeekDays *w) {
+QPair<QString, QString> WdgSchedule::refreshScheduleGenerateInfo(WeekDays w) {
     QPair<QString, QString> p;
     p.first = "";
     p.second = "";
@@ -534,11 +534,11 @@ QPair<QString, QString> WdgSchedule::refreshScheduleGenerateInfo(WeekDays *w) {
     return p;*/
 }
 
-bool WdgSchedule::scheduleCheckMatchingWeekdays(WeekDays *d) {
+bool WdgSchedule::checkMatchingWeekdays(WeekDays d) {
     if(!_currentDayType)
         return false;
 
-    return WeekDays::overlap(*d, *_currentDayType);
+    return WeekDays::overlap(d, *_currentDayType);
 }
 
 void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {

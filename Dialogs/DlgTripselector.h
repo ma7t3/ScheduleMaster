@@ -16,7 +16,7 @@ class TripSelector : public QDialog
     Q_OBJECT
 
 public:
-    explicit TripSelector(QWidget *parent = nullptr, ProjectData *p = new ProjectData, Trip *t = nullptr, WeekDays *d = nullptr);
+    explicit TripSelector(QWidget *parent = nullptr, ProjectData *p = new ProjectData, Trip *t = nullptr, WeekDays d = WeekDays());
     ~TripSelector();
 
     Trip * getTrip();
@@ -35,7 +35,7 @@ private:
     Busstop *startBusstop;
     QTime startTime;
     Trip *previousTrip;
-    WeekDays *weekDays;
+    WeekDays weekDays;
 
     LineDirection *currentDirection = nullptr;
     QList<LineDirection *> directionsReference;
