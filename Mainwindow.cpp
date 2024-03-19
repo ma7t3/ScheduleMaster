@@ -93,7 +93,12 @@ MainWindow::MainWindow(QWidget *parent)
     splashScreen.showMessage(tr("loading ui..."), Qt::AlignBottom, messageColor);
     //splashScreen.finish(startupDialog);
     splashScreen.show();
+
+#ifdef QT_DEBUG
+    QObject().thread()->sleep(0);
+#else
     QObject().thread()->sleep(2);
+#endif
 
     qInfo() << "loading user interface...";
     // load ui
