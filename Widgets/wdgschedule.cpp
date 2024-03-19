@@ -93,6 +93,8 @@ void WdgSchedule::refreshDayTypes() {
 }
 
 void WdgSchedule::refreshSchedule() {
+    qDebug() << "refreshing schedule...";
+
     refreshingSchedule = true;
 
     int currentScrollValue = ui->twSchedule->horizontalScrollBar()->value();

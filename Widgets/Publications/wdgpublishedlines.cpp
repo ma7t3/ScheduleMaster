@@ -342,6 +342,8 @@ void WdgPublishedLines::refreshCurrentLineDirection() {
 }
 
 void WdgPublishedLines::refreshDayTypes() {
+    qDebug() << "refreshing day types in published lines...";
+
     ui->lwDayTypes->clear();
     _dayTypesReference.clear();
 
@@ -359,6 +361,7 @@ void WdgPublishedLines::refreshDayTypes() {
 
 
 void WdgPublishedLines::refreshRouteList() {
+    qDebug() << "refreshing route list in published lines...";
     ui->routeSelector->refresh();
 }
 

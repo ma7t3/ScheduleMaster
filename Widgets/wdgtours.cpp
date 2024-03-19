@@ -193,6 +193,8 @@ Tour * WdgTours::currentTour() {
 }
 
 void WdgTours::refreshTourList() {
+    qDebug() << "refreshing tour list...";
+
     refreshing = true;
 
     ui->twTours->clearContents();
