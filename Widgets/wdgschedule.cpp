@@ -80,7 +80,6 @@ void WdgSchedule::refreshDirections() {
 }
 
 void WdgSchedule::refreshDayTypes() {
-    qDebug() << "123456";
     dayTypesReference = projectData->projectSettings()->dayTypes();
 
     ui->cmbDayTypes->clear();
