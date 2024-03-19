@@ -49,6 +49,8 @@ void WdgSchedule::setCurrentLine(Line *l) {
 }
 
 void WdgSchedule::refreshDirections() {
+    qDebug() << "refreshing line directions in schedule";
+
     int lastIndex = ui->cmbDirections->currentIndex();
 
     ui->cmbDirections->clear();
@@ -80,6 +82,7 @@ void WdgSchedule::refreshDirections() {
 }
 
 void WdgSchedule::refreshDayTypes() {
+    qDebug() << "refreshing day types in schedule";
     dayTypesReference = projectData->projectSettings()->dayTypes();
 
     ui->cmbDayTypes->clear();

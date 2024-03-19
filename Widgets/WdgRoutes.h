@@ -51,6 +51,7 @@ private slots:
 
 signals:
     void currentRouteChanged(Route *);
+    void refreshRequested();
 
 private:
     Ui::WdgRoutes *ui;

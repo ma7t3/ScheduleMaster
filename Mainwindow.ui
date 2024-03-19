@@ -52,8 +52,6 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
     <addaction name="separator"/>
     <addaction name="actionEditProjectSettings"/>
     <addaction name="separator"/>
@@ -247,24 +245,6 @@
   <action name="actionView_As_Tree">
    <property name="text">
     <string>View As Tree</string>
-   </property>
-  </action>
-  <action name="actionUndo">
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/Undo.ico</normaloff>:/icons/Undo.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Undo</string>
-   </property>
-  </action>
-  <action name="actionRedo">
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/Redo.ico</normaloff>:/icons/Redo.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Redo</string>
    </property>
   </action>
   <action name="actionWorkspaceTrackLayout">

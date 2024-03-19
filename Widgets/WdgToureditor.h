@@ -29,8 +29,8 @@ public slots:
     void actionTourAddMoreTrips();
     void actionReorderTrips();
     void actionExport();
-
-    void refreshTour();
+    
+    void refresh();
     void refreshTourNextTrips();
 
     void setCurrentTour(Tour *t);
@@ -42,6 +42,9 @@ public slots:
 
 private slots:
     void on_twNextTrips_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+
+signals:
+    void refreshRequested();
 
 private:
     Ui::WdgTourEditor *ui;

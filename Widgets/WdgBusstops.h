@@ -38,6 +38,7 @@ private slots:
 
 signals:
     void currentBusstopChanged(Busstop *);
+    void refreshRequested();
 
 private:
     Ui::WdgBusstops *ui;

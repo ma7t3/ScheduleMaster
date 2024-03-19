@@ -31,19 +31,19 @@ QString StartupDialog::getFilePath() {
 }
 
 void StartupDialog::on_commandLinkButton_clicked() {
-    action = newFile;
+    action = NewFile;
     accept();
 }
 
 
 void StartupDialog::on_commandLinkButton_2_clicked() {
-    action = openFile;
+    action = OpenFile;
     accept();
 }
 
 
 void StartupDialog::on_commandLinkButton_3_clicked() {
-    action = quit;
+    action = Quit;
     accept();
 }
 
@@ -60,7 +60,7 @@ void StartupDialog::on_pbOpenRecentFile_clicked() {
         return;
 
     filePath = itm->toolTip();
-    action = openRecentFile;
+    action = OpenRecentFile;
     accept();
 }
 

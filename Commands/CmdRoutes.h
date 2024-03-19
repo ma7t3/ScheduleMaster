@@ -24,6 +24,9 @@ public:
         line->addRoute(route);
         line->refreshChilds();
         route->refreshChilds();
+        for(int i = 0; i < route->timeProfileCount(); i++) {
+            route->timeProfileAt(i)->refreshChilds();
+        }
     }
 
 private:

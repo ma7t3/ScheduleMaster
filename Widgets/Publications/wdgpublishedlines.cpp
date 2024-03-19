@@ -174,7 +174,7 @@ void WdgPublishedLines::actionBusstopsAddAll() {
     for(int i = 0; i < _allBusstopsReference.count(); i++) {
         ui->cmbAllBusstops->setCurrentIndex(i);
         actionBusstopAdd();
-        qApp->processEvents();
+        //qApp->processEvents();
     }
 }
 
@@ -360,7 +360,7 @@ void WdgPublishedLines::refreshDayTypes() {
 }
 
 
-void WdgPublishedLines::refreshRouteList() {
+void WdgPublishedLines::refreshRoutes() {
     qDebug() << "refreshing route list in published lines...";
     ui->routeSelector->refresh();
 }

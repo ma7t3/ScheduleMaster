@@ -49,15 +49,15 @@ WdgTourEditor::~WdgTourEditor()
 
 
 void WdgTourEditor::actionTourChangeProportionalRowHeight() {
-    refreshTour();
+    refresh();
 }
 
 void WdgTourEditor::actionTourChangeShowBreaks() {
-    refreshTour();
+    refresh();
 }
 
 void WdgTourEditor::actionTourChangeScale() {
-    refreshTour();
+    refresh();
 }
 
 void WdgTourEditor::actionTourAddTrip() {
@@ -72,7 +72,7 @@ void WdgTourEditor::actionTourAddTrip() {
 
     undoStack->push(new CmdTourTripAdd(_currentTour, _currentNextTrip, index));
     _currentTrip = _currentNextTrip;
-    refreshTour();
+    refresh();
 }
 
 void WdgTourEditor::actionTourRemoveTrip() {
@@ -84,7 +84,7 @@ void WdgTourEditor::actionTourRemoveTrip() {
         return;
     
     undoStack->push(new CmdTourTripRemove(_currentTour, _currentTrip, _currentTour->indexOfTrip(_currentTrip)));
-    refreshTour();
+    refresh();
 }
 
 void WdgTourEditor::actionTourAddMoreTrips() {
@@ -107,7 +107,7 @@ void WdgTourEditor::actionTourAddMoreTrips() {
 
     undoStack->push(new CmdTourTripAdd(_currentTour, t, index));
     _currentTrip = t;
-    refreshTour();
+    refresh();
 }
 
 void WdgTourEditor::actionReorderTrips() {
@@ -115,7 +115,7 @@ void WdgTourEditor::actionReorderTrips() {
         return;
 
     undoStack->push(new CmdTourReorderTrips(_currentTour));
-    refreshTour();
+    refresh();
 }
 
 void WdgTourEditor::actionExport() {
@@ -177,7 +177,7 @@ Trip * WdgTourEditor::currentTrip()
     return nullptr;
 }
 
-void WdgTourEditor::refreshTour() {
+void WdgTourEditor::refresh() {
     qDebug() << "refreshing current tour...";
 
     Trip *lastCurrentTrip = _currentTrip;
@@ -416,7 +416,7 @@ void WdgTourEditor::refreshTourNextTrips()
 
 void WdgTourEditor::setCurrentTour(Tour *t) {
     _currentTour = t;
-    refreshTour();
+    refresh();
 }
 
 Trip * WdgTourEditor::currentNextTrip()

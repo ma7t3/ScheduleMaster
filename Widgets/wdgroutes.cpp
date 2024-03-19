@@ -86,7 +86,7 @@ void WdgRoutes::actionNew() {
     }
 
     undoStack->push(new CmdRouteNew(_currentLine, r));
-    refresh();
+    emit refreshRequested();
 }
 
 void WdgRoutes::actionEdit() {
@@ -116,7 +116,7 @@ void WdgRoutes::actionEdit() {
     }
 
     undoStack->push(new CmdRouteEdit(_currentRoute, newR));
-    refresh();
+    emit refreshRequested();
 }
 
 void WdgRoutes::actionDuplicate() {
@@ -139,7 +139,7 @@ void WdgRoutes::actionDuplicate() {
     }
 
     undoStack->push(new CmdRouteNew(_currentLine, n));
-    refresh();
+    emit refreshRequested();
 }
 
 void WdgRoutes::actionDelete() {
@@ -159,7 +159,7 @@ void WdgRoutes::actionDelete() {
         return;
 
     undoStack->push(new CmdRoutesDelete(_currentLine, routes));
-    refresh();
+    emit refreshRequested();
 }
 
 void WdgRoutes::actionExportProfiles() {

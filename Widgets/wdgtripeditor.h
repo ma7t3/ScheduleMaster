@@ -43,6 +43,7 @@ public slots:
 
 signals:
     void tripsChanged(QList<Trip *>);
+    void refreshRequested();
 
 private slots:
     void on_lwRoutes_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
