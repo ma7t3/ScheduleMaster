@@ -37,6 +37,7 @@
 #include "Dialogs/DlgProjectsettings.h"
 #include "Dialogs/DlgPreferences.h"
 #include "Dialogs/DlgManageFootnotes.h"
+#include "Dialogs/DlgOmsiImport.h"
 
 
 //********************************************************************************************************************************************************************
@@ -1104,3 +1105,9 @@ void MainWindow::on_actionViewToolbarDocks_triggered() {
 void MainWindow::on_actionViewToolbarWorkspaces_triggered() {
     tbWorkspaces->setVisible(ui->actionViewToolbarWorkspaces->isChecked());
 }
+
+void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
+    DlgOmsiImport dlg;
+    dlg.exec();
+}
+
