@@ -84,6 +84,8 @@ private slots:
     void on_actionViewToolbarDocks_triggered();
     void on_actionViewToolbarWorkspaces_triggered();
 
+    void on_actionFileImportOmsiSchedule_triggered();
+
 signals:
     void projectSettingsChanged();
     void busstopsChanged();

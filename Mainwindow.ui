@@ -38,12 +38,24 @@
        <normaloff>:/icons/LastUSedFiles.ico</normaloff>:/icons/LastUSedFiles.ico</iconset>
      </property>
     </widget>
+    <widget class="QMenu" name="menuImport">
+     <property name="title">
+      <string>Import</string>
+     </property>
+     <property name="icon">
+      <iconset resource="main.qrc">
+       <normaloff>:/icons/FileImport.ico</normaloff>:/icons/FileImport.ico</iconset>
+     </property>
+     <addaction name="actionFileImportOmsiSchedule"/>
+    </widget>
     <addaction name="actionFileNew"/>
     <addaction name="actionFileOpen"/>
     <addaction name="menuOpenRecent"/>
     <addaction name="separator"/>
     <addaction name="actionFileSave"/>
     <addaction name="actionFileSaveAs"/>
+    <addaction name="separator"/>
+    <addaction name="menuImport"/>
     <addaction name="separator"/>
     <addaction name="actionFileClose"/>
     <addaction name="actionFileQuit"/>
@@ -598,6 +610,15 @@
    </property>
    <property name="text">
     <string>Delete Selected Trips</string>
+   </property>
+  </action>
+  <action name="actionFileImportOmsiSchedule">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/FileImportOmsi.ico</normaloff>:/icons/FileImportOmsi.ico</iconset>
+   </property>
+   <property name="text">
+    <string>OMSI Schedule (Alpha)</string>
    </property>
   </action>
  </widget>
