@@ -50,5 +50,7 @@
         <file>icons/About.ico</file>
         <file>icons/Toolbars.ico</file>
         <file>icons/General.ico</file>
+        <file>icons/FileImport.ico</file>
+        <file>icons/FileImportOmsi.ico</file>
     </qresource>
 </RCC>
