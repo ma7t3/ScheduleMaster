@@ -14,6 +14,7 @@ SOURCES += \
     Dialogs/DlgFilehandler.cpp \
     Dialogs/DlgFootnoteEditor.cpp \
     Dialogs/DlgManageFootnotes.cpp \
+    Dialogs/DlgOmsiImport.cpp \
     Dialogs/DlgPdfExporter.cpp \
     Dialogs/DlgPreferences.cpp \
     Dialogs/DlgProjectsettings.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
     Dialogs/DlgFileHandler.h \
     Dialogs/DlgFootnoteEditor.h \
     Dialogs/DlgManageFootnotes.h \
+    Dialogs/DlgOmsiImport.h \
     Dialogs/DlgPdfExporter.h \
     Dialogs/DlgPreferences.h \
     Dialogs/DlgProjectsettings.h \
@@ -127,6 +129,7 @@ FORMS += \
     Dialogs/DlgFileHandler.ui \
     Dialogs/DlgFootnoteEditor.ui \
     Dialogs/DlgManageFootnotes.ui \
+    Dialogs/DlgOmsiImport.ui \
     Dialogs/DlgPdfExporter.ui \
     Dialogs/DlgPreferences.ui \
     Dialogs/DlgProjectsettings.ui \
