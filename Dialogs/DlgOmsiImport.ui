@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="vlAll">
      <item>
-      <widget class="QGroupBox" name="groupBox_3">
+      <widget class="QGroupBox" name="gbMapDir">
        <property name="title">
         <string>Map Directory</string>
        </property>
@@ -42,7 +42,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
-        <widget class="QGroupBox" name="groupBox_4">
+        <widget class="QGroupBox" name="gbOptions">
          <property name="title">
           <string>Options</string>
          </property>
@@ -88,7 +88,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="gbTrips">
          <property name="title">
           <string>Trips</string>
          </property>
@@ -153,7 +153,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="QGroupBox" name="gbLines">
          <property name="title">
           <string>Lines</string>
          </property>
@@ -224,7 +224,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pbStart">
        <property name="font">
         <font>
          <bold>true</bold>
@@ -236,7 +236,39 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="lCurrentProgress">
+       <property name="text">
+        <string>&lt;&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QProgressBar" name="progressBar">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="value">
         <number>0</number>
        </property>

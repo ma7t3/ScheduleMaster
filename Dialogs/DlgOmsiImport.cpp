@@ -1,19 +1,36 @@
 #include "DlgOmsiImport.h"
 #include "ui_DlgOmsiImport.h"
 
+#include "Plugins/PlgOmsiImport.h"
+
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDir>
+#include <QCloseEvent>
 
-DlgOmsiImport::DlgOmsiImport(QWidget *parent) : QDialog(parent), ui(new Ui::DlgOmsiImport) {
+DlgOmsiImport::DlgOmsiImport(QWidget *parent, ProjectData *projectData) :
+    QDialog(parent),
+    ui(new Ui::DlgOmsiImport),
+    _importer(new PlgOmsiImport(this, projectData)),
+    projectData(projectData) {
     ui->setupUi(this);
 
     connect(ui->lwTrips, &QListWidget::itemClicked, this, &DlgOmsiImport::refreshCount);
     connect(ui->lwLines, &QListWidget::itemClicked, this, &DlgOmsiImport::refreshCount);
+
+    connect(_importer, &PlgOmsiImport::newFileStarted, this, &DlgOmsiImport::refreshProgress);
+    connect(_importer, &QThread::finished, this, &DlgOmsiImport::finish);
 }
 
 DlgOmsiImport::~DlgOmsiImport() {
     delete ui;
+}
+
+void DlgOmsiImport::closeEvent(QCloseEvent *e) {
+    if(_importer->isRunning())
+        e->ignore();
+    else
+        e->accept();
 }
 
 void DlgOmsiImport::on_pbDirBrowse_clicked() {
@@ -123,4 +140,50 @@ void DlgOmsiImport::on_pbLinesToggleSelected_clicked() {
             itm->setCheckState(Qt::Checked);
     }
     refreshCount();
+}
+
+void DlgOmsiImport::on_pbStart_clicked() {
+    ui->gbMapDir ->setEnabled(false);
+    ui->gbOptions->setEnabled(false);
+    ui->gbTrips  ->setEnabled(false);
+    ui->gbLines  ->setEnabled(false);
+    ui->pbStart  ->setEnabled(false);
+
+    QStringList trips, lines;
+
+    for(int i = 0; i < ui->lwTrips->count(); i++) {
+        if(ui->lwTrips->item(i)->checkState() == Qt::Checked)
+            trips << ui->lwTrips->item(i)->text();
+    }
+
+    for(int i = 0; i < ui->lwLines->count(); i++) {
+        if(ui->lwLines->item(i)->checkState() == Qt::Checked)
+            lines << ui->lwLines->item(i)->text();
+    }
+
+    _importer->setMapDirectory(ui->leDir->text());
+    _importer->setTripMask(ui->leTripNameMask->text());
+    _importer->setSelectedTrips(trips);
+    _importer->setSelectedLines(lines);
+
+    ui->progressBar->setValue(0);
+    ui->progressBar->setMaximum(trips.count() + lines.count());
+    _importer->start();
+}
+
+void DlgOmsiImport::refreshProgress(int index, QString filePath) {
+    ui->lCurrentProgress->setText(filePath);
+    ui->progressBar->setValue(index);
+}
+
+void DlgOmsiImport::finish() {
+    ui->gbMapDir ->setEnabled(true);
+    ui->gbOptions->setEnabled(true);
+    ui->gbTrips  ->setEnabled(true);
+    ui->gbLines  ->setEnabled(true);
+    ui->pbStart  ->setEnabled(true);
+
+    ui->progressBar->setValue(ui->progressBar->maximum());
+    QMessageBox::information(this, tr("Imported successfully"), tr("Your OMSI map was imported sucessfully!"));
+    accept();
 }

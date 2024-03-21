@@ -1107,7 +1107,16 @@ void MainWindow::on_actionViewToolbarWorkspaces_triggered() {
 }
 
 void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
-    DlgOmsiImport dlg;
+    DlgOmsiImport dlg(this, projectData);
     dlg.exec();
+
+    qDebug() << "refreshing ui...";
+    wdgBusstops->refresh();
+    wdgLines->refresh();
+    wdgTours->refresh();
+    wdgSchedule->refreshDayTypes();
+    wdgPublishedLines->refreshLineList();
+    wdgPublishedLines->refreshDayTypes();
+    wdgPublishedLines->refreshRoutes();
 }
 
