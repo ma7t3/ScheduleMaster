@@ -60,7 +60,8 @@ SOURCES += \
     Dialogs/DlgToureditor.cpp \
     ProjectData/trip.cpp \
     Dialogs/DlgTripselector.cpp \
-    Dialogs/DlgTroubleshooter.cpp
+    Dialogs/DlgTroubleshooter.cpp \
+    Plugins/PlgOmsiImport.cpp
 
 HEADERS += \
     App/global.h \
@@ -122,7 +123,8 @@ HEADERS += \
     Dialogs/DlgTroubleshooter.h \
     ProjectData/weekdays.h \
     globalconfig.h \
-    localconfig.h
+    localconfig.h \
+    Plugins/PlgOmsiImport.h
 
 FORMS += \
     Dialogs/DlgCopyTrip.ui \
