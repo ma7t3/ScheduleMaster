@@ -21,6 +21,8 @@ signals:
     void newFileStarted(int, QString);
 
 private:
+    WeekDays importWeekDays(const QString &str);
+
     QString _mapDir;
     QRegularExpression _tripMask;
     QStringList _trips, _lines;
