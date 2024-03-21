@@ -170,6 +170,19 @@ Route *ProjectData::route(QString id) {
     return nullptr;
 }
 
+Route *ProjectData::routeWithName(QString name) {
+    for(int i = 0; i < lineCount(); i++) {
+        Line *l = lineAt(i);
+        for(int j = 0; j < l->routeCount(); j++) {
+            Route *r = l->routeAt(j);
+            if(r->name() == name)
+                return r;
+        }
+    }
+
+    return nullptr;
+}
+
 Trip *ProjectData::trip(QString id) {
     for(int i = 0; i < lineCount(); i++) {
         Line *l = lineAt(i);

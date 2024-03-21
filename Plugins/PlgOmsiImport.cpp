@@ -76,6 +76,8 @@ void PlgOmsiImport::run() {
         while(!s.atEnd()) {
             QString line = s.readLine();
 
+            startRouteWithoutReadingNextLine:
+
             if(line == "[station]") {
                 s.readLine();
                 s.readLine();
@@ -104,8 +106,79 @@ void PlgOmsiImport::run() {
                 }
                 r->addBusstop(b);
             }
-        }
 
+            if(line == "[profile]") {
+                QString name        = s.readLine();
+                QString durationStr = s.readLine();
+                int duration;
+                bool ok;
+                duration = durationStr.toFloat(&ok);
+
+                TimeProfile *p = new TimeProfile(r, global::getNewID(), name);
+                p->setDuration(duration);
+                r->addTimeProfile(p);
+
+                while(!s.atEnd()) {
+                    line = s.readLine();
+
+                    if(line == "[profile_man_arr_time]" || line == "[profile_man_dep_time]") {
+                        bool setDep = false;
+                        if(line == "[profile_man_dep_time]")
+                            setDep = true;
+
+                        QString indexStr   = s.readLine();
+                        QString timeStr = s.readLine();
+                        int index;
+                        float time;
+                        bool ok1, ok2;
+                        index = indexStr.toInt(&ok1);
+                        time  = timeStr.toFloat(&ok2);
+
+                        if(!ok1 || !ok2)
+                            continue;
+
+                        TimeProfileItem *itm = p->busstop(r->busstopAt(index));
+                        if(!itm) {
+                            itm = new TimeProfileItem(p, r->busstopAt(index));
+                            itm->setBusstopMode(1);
+                            p->addBusstop(itm);
+                        }
+
+                        if(setDep) {
+                            // if we actually have a departure value, set seperate arrival before
+                            itm->setArrValue(itm->depValue());
+                            itm->setDepValue(time);
+                        } else {
+                            // import arrival value as departure because it makes more sense :P
+                            itm->setDepValue(time);
+                        }
+                    }
+
+                    if(line == "[profile_otherstopping]") {
+                        QString indexStr = s.readLine();
+                        QString modeStr  = s.readLine();
+                        int index, mode;
+                        bool ok1, ok2;
+                        index = indexStr.toInt(&ok1);
+                        mode  = modeStr.toInt(&ok2);
+
+                        if(!ok1 || !ok2)
+                            continue;
+
+                        TimeProfileItem *itm = p->busstop(r->busstopAt(index));
+                        if(!itm) {
+                            itm = new TimeProfileItem(p, r->busstopAt(index));
+                            p->addBusstop(itm);
+                        }
+
+                        itm->setBusstopMode(mode);
+                    }
+
+                    if(line == "[profile]")
+                        goto startRouteWithoutReadingNextLine;
+                }
+            }
+        }
 
         f.close();
 
@@ -113,11 +186,80 @@ void PlgOmsiImport::run() {
     }
 
     foreach(QString currentLine, _lines) {
-        emit newFileStarted(counter, currentLine);
         QFile f(_mapDir + "/TTData/" + currentLine + ".ttl");
+        if(!f.exists()) {
+            qCritical() << "Cannot import line:" << currentLine << "File not found!";
+            continue;
+        }
+        if(!f.open(QFile::ReadOnly)) {
+            qCritical() << "Cannot open line file:" << currentLine << "Reason:" << f.errorString();
+            continue;
+        }
         qDebug() << "Importing" << currentLine;
-        counter ++;
+        emit newFileStarted(counter, currentLine);
+
+        QTextStream s(&f);
+        s.setEncoding(QStringConverter::Latin1);
+
+        while(!s.atEnd()) {
+            QString line = s.readLine();
+
+            startTourWithoutReadingNextLine:
+
+            if(line == "[newtour]") {
+                QString name = s.readLine();
+                s.readLine();
+                QString dayStr = s.readLine();
+                WeekDays w = importWeekDays(dayStr);
+                Tour *o = new Tour(projectData, global::getNewID(), name, w);
+                projectData->addTour(o);
+
+                while(!s.atEnd()) {
+                    line = s.readLine();
+
+                    if(line == "[addtrip]") {
+                        QString routeName = s.readLine();
+                        QString timeProfileIndexStr = s.readLine();
+                        QString timeStr = s.readLine();
+
+                        bool ok1, ok2;
+                        int timeProfileIndex;
+                        float timeFloat;
+
+                        timeProfileIndex = timeProfileIndexStr.toInt(&ok1);
+                        timeFloat        = timeStr.toFloat(&ok2);
+
+                        if(!ok1 || !ok2)
+                            return;
+
+                        QTime time = QTime::fromMSecsSinceStartOfDay(timeFloat * 60 * 1000);
+                        Route *r = projectData->routeWithName(routeName);
+
+                        TimeProfile *p = r->timeProfileAt(timeProfileIndex);
+                        if(!p && r->timeProfileCount() > 0)
+                            p = r->timeProfileAt(0);
+                        else if(!p)
+                            continue;
+
+                        Line *l = projectData->lineOfRoute(r);
+                        Trip *t = new Trip(nullptr, global::getNewID(), r, time, p, w);
+                        l->addTrip(t);
+                        o->addTrip(t);
+                    }
+
+                    if(line == "[newtour]")
+                        goto startTourWithoutReadingNextLine;
+                }
+            }
+        }
+
+        f.close();
+        counter++;
     }
+
+    projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), "Monday - Firday", 995));
+    projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), "Saturday", 19));
+    projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), "Sunday & Holiday", 15));
 }
 
 void PlgOmsiImport::setMapDirectory(const QString &path) {
@@ -135,3 +277,44 @@ void PlgOmsiImport::setSelectedTrips(const QStringList &selectedTrips) {
 void PlgOmsiImport::setSelectedLines(const QStringList &selectedLines) {
     _lines = selectedLines;
 }
+
+WeekDays PlgOmsiImport::importWeekDays(const QString &str) {
+    bool ok;
+    int num = str.toInt(&ok);
+    if(!ok)
+        return WeekDays(nullptr, 995);
+
+    QString bin = QString::number(num, 2);
+
+    while(bin.length() < 10)
+        bin = "0" + bin;
+
+    WeekDays w;
+    w.setDay(monday,    bin[9] == '1');
+    w.setDay(tuesday,   bin[8] == '1');
+    w.setDay(wednesday, bin[7] == '1');
+    w.setDay(thursday,  bin[6] == '1');
+    w.setDay(friday,    bin[5] == '1');
+    w.setDay(saturday,  bin[4] == '1');
+    w.setDay(sunday,    bin[3] == '1');
+    w.setDay(holiday,   bin[2] == '1');
+    w.setDay(school,    bin[1] == '1');
+    w.setDay(vacation,  bin[0] == '1');
+    return w;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

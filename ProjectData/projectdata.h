@@ -46,6 +46,7 @@ public:
     bool lineWithNameExists(const QString &name);
 
     Route *route(QString);
+    Route *routeWithName(QString);
     Trip *trip(QString);
 
     int tourCount();
