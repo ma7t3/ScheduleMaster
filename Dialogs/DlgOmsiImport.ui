@@ -57,10 +57,10 @@
           <item row="0" column="1">
            <widget class="QLineEdit" name="leTripNameMask">
             <property name="whatsThis">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;What is the trip name maske?&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The trip name mask is used to extract the line number from the entire Trip name, e.g. &amp;quot;131_BOW-EBF&amp;quot; would be line number &amp;quot;131&amp;quot;. You can add an regular expression here. If it matches with the trip name, the first capture group will be used as the line number this trip is associated with.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;^(.*)_.*$&lt;/span&gt; is the default and machtes every trip that contains underscores and regonices everything before the first underscore as the line number.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;What is the trip name maske?&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The trip name mask is used to extract the line number from the entire Trip name, e.g. &amp;quot;131_BOW-EBF&amp;quot; would be line number &amp;quot;131&amp;quot;. You can add an regular expression here. If it matches with the trip name, the first capture group will be used as the line number this trip is associated with.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;^(.*?)_.*$&lt;/span&gt; is the default and machtes every trip that contains underscores and regonices everything before the first underscore as the line number.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>^(.*)_.*$</string>
+             <string>^(.*?)_.*$</string>
             </property>
            </widget>
           </item>
