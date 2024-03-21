@@ -100,9 +100,25 @@ Busstop *ProjectData::busstopAt(int i) {
     return _busstops[i];
 }
 
-QList <Busstop *> ProjectData::busstops() { return _busstops; }
+QList<Busstop *> ProjectData::busstops() {
+    return _busstops;
+}
 
+Busstop *ProjectData::busstopWithName(const QString &name) {
+    for(int i = 0; i < busstopCount(); i++) {
+        if(busstopAt(i)->name().toLower() == name.toLower())
+            return busstopAt(i);
+    }
+    return nullptr;
+}
 
+bool ProjectData::busstopWithNameExists(const QString &name) {
+    for(int i = 0; i < busstopCount(); i++) {
+        if(busstopAt(i)->name().toLower() == name.toLower())
+            return true;
+    }
+    return false;
+}
 
 int ProjectData::lineCount() { return _lines.count(); }
 
@@ -121,7 +137,25 @@ Line *ProjectData::lineAt(int i) {
     return _lines[i];
 }
 
-QList<Line *> ProjectData::lines() { return _lines; }
+QList<Line *> ProjectData::lines() {
+    return _lines;
+}
+
+Line *ProjectData::lineWithName(const QString &name) {
+    for(int i = 0; i < lineCount(); i++)
+        if(lineAt(i)->name().toLower() == name.toLower())
+            return lineAt(i);
+
+    return nullptr;
+}
+
+bool ProjectData::lineWithNameExists(const QString &name) {
+    for(int i = 0; i < lineCount(); i++)
+        if(lineAt(i)->name().toLower() == name.toLower())
+            return true;
+
+    return false;
+}
 
 Route *ProjectData::route(QString id) {
     for(int i = 0; i < lineCount(); i++) {
