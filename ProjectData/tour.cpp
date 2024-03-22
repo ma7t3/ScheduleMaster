@@ -2,12 +2,11 @@
 #include "projectdata.h"
 
 Tour::Tour(QObject *parent, const QString &id, const QString &name, const WeekDays &weekDays) :
-    ProjectDataItem(parent, id), _name(name), _weekDays(new WeekDays(weekDays)) {
+    ProjectDataItem(parent, id), _name(name), _weekDays(weekDays) {
 }
 
 Tour::Tour(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent),
-    _weekDays(new WeekDays(this)) {
+    ProjectDataItem(parent) {
     fromJson(jsonObject);
 }
 
@@ -36,7 +35,7 @@ void Tour::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
 
     setName(jsonObject.value("name").toString(tr("unnamed tour")));
-    weekDays().setCode(jsonObject.value("weekdays").toInt());
+    _weekDays.setCode(jsonObject.value("weekdays").toInt());
 
     QJsonArray jTrips = jsonObject.value("trips").toArray();
     for (int i = 0; i < jTrips.count(); ++i)
@@ -63,7 +62,7 @@ void Tour::setName(const QString &newName) {
 }
 
 void Tour::setWeekDays(const WeekDays &newWeekDays) {
-    _weekDays = new WeekDays(newWeekDays);
+    _weekDays = newWeekDays;
 }
 
 QString Tour::name() const {
