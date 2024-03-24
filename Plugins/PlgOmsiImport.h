@@ -23,6 +23,8 @@ signals:
 private:
     WeekDays importWeekDays(const QString &str);
 
+    int countCommonBusstopSequences(Route *, Route *) const;
+
     QString _mapDir;
     QRegularExpression _tripMask;
     QStringList _trips, _lines;
