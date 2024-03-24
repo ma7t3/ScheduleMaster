@@ -232,9 +232,9 @@ void WdgTours::refresh() {
         if(endPixel < startPixel)
             endPixel = 480;
 
-        p.drawRect(startPixel,
+        p.drawRect(startPixel - 2,
                    0,
-                   endPixel - startPixel,
+                   endPixel - startPixel + 4,
                    20);
 
         for(int j = 0; j < o->tripCount(); j++) {
@@ -247,9 +247,9 @@ void WdgTours::refresh() {
                 endPixel = 480;
 
             p.drawRect(startPixel,
-                       0,
+                       2,
                        endPixel - startPixel,
-                       20);
+                       16);
         }
 
 
