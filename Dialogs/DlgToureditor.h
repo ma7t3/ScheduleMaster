@@ -3,7 +3,8 @@
 
 #include <QDialog>
 
-#include "ProjectData\weekdays.h"
+#include "ProjectData/weekdays.h"
+#include "ProjectData/daytype.h"
 
 namespace Ui {
 class TourEditor;
@@ -14,7 +15,7 @@ class TourEditor : public QDialog
     Q_OBJECT
 
 public:
-    explicit TourEditor(QWidget *parent = nullptr, bool = false, QString = "", WeekDays = WeekDays(nullptr));
+    explicit TourEditor(QWidget *parent = nullptr, bool = false, QString = "", WeekDays = WeekDays(nullptr), QList<DayType *> dayTypes = {});
     ~TourEditor();
 
     void setName(QString);
@@ -24,14 +25,13 @@ public:
     WeekDays weekDays();
 
 private slots:
-    /*void on_pbMonFri_clicked();
-
-    void on_pbSat_clicked();
-
-    void on_pbSun_clicked();*/
+    void on_cbDayTypes_activated(int index);
+    void refreshDayTypeSelector();
 
 private:
     Ui::TourEditor *ui;
+
+    QList<DayType *> _dayTypes;
 };
 
 #endif // TOUREDITOR_H

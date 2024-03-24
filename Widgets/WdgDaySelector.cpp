@@ -62,7 +62,7 @@ WeekDays WdgDaySelector::weekDays() {
     w.setDay(WeekDay::monday,    ui->cbMonday->isChecked());
     w.setDay(WeekDay::tuesday,   ui->cbTuesday->isChecked());
     w.setDay(WeekDay::wednesday, ui->cbWednesday->isChecked());
-    w.setDay(WeekDay::thursday,   ui->cbThursday->isChecked());
+    w.setDay(WeekDay::thursday,  ui->cbThursday->isChecked());
     w.setDay(WeekDay::friday,    ui->cbFriday->isChecked());
     w.setDay(WeekDay::saturday,  ui->cbSaturday->isChecked());
     w.setDay(WeekDay::sunday,    ui->cbSunday->isChecked());

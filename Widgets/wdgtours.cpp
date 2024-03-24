@@ -43,7 +43,7 @@ WdgTours::~WdgTours()
 }
 
 void WdgTours::actionTourNew() {
-    TourEditor dlg(this, true);
+    TourEditor dlg(this, true, "", WeekDays(), projectData->projectSettings()->dayTypes());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -59,7 +59,7 @@ void WdgTours::actionTourEdit() {
     if(!o)
         return;
     
-    TourEditor dlg(this, false, o->name(), o->weekDays());
+    TourEditor dlg(this, false, o->name(), o->weekDays(), projectData->projectSettings()->dayTypes());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -78,7 +78,7 @@ void WdgTours::actionTourDuplicate() {
     if(!o)
         return;
     
-    TourEditor dlg(this, false, o->name(), o->weekDays());
+    TourEditor dlg(this, false, o->name(), o->weekDays(), projectData->projectSettings()->dayTypes());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -232,9 +232,9 @@ void WdgTours::refresh() {
         if(endPixel < startPixel)
             endPixel = 480;
 
-        p.drawRect(startPixel,
+        p.drawRect(startPixel - 2,
                    0,
-                   endPixel - startPixel,
+                   endPixel - startPixel + 4,
                    20);
 
         for(int j = 0; j < o->tripCount(); j++) {
@@ -247,9 +247,9 @@ void WdgTours::refresh() {
                 endPixel = 480;
 
             p.drawRect(startPixel,
-                       0,
+                       2,
                        endPixel - startPixel,
-                       20);
+                       16);
         }
 
 
