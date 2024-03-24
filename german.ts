@@ -320,6 +320,109 @@
     </message>
 </context>
 <context>
+    <name>DlgOmsiImport</name>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="14"/>
+        <source>Import OMSI Schedule</source>
+        <translation>Omsi-Fahrplan importieren</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="22"/>
+        <source>Map Directory</source>
+        <translation>Map-Verzeichnis</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="35"/>
+        <source>Browse...</source>
+        <translation>Durchsuchen...</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="47"/>
+        <source>Options</source>
+        <translation>Optionen</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="53"/>
+        <source>Trip name mask:</source>
+        <translation>Trip-Namen-Maske:</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="60"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;What is the trip name maske?&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The trip name mask is used to extract the line number from the entire Trip name, e.g. &amp;quot;131_BOW-EBF&amp;quot; would be line number &amp;quot;131&amp;quot;. You can add an regular expression here. If it matches with the trip name, the first capture group will be used as the line number this trip is associated with.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:&apos;Courier New&apos;;&quot;&gt;^(.*?)_.*$&lt;/span&gt; is the default and machtes every trip that contains underscores and regonices everything before the first underscore as the line number.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Was ist die Trip-Namen-Maske?&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Die Trip-Namen-Maske dient dazu, aus dem Tripnamen die zugehörige Liniennummer zu extrahieren. Beispiel: &amp;qout;131_BOW-EBF&amp;qout; hätte die Liniennummer &amp;qout;131&amp;qout;. Hier kann ein regulärer Ausdruck eingetragen werden. Sofern dieser auf den Tripnmane passt, wird die erste Capture Group als Liniennummer erkannt.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Beispiel:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:&apos;Courier New&apos;;&quot;&gt;^(.*?)_.*$&lt;/span&gt; ist der Standard und passt auf alle Tripnamen, die mindestens einen Unterstrich enthalten, alles vor dem ersten Unterstrich wird als Linennummer erkannt.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="70"/>
+        <source>Merge duplicate trips</source>
+        <translation>Doppelfahrten zusammenfassen</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="93"/>
+        <source>Trips</source>
+        <translation>Trips</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="101"/>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="166"/>
+        <source>Count: 0</source>
+        <translation>Anzahl: 0</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="108"/>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="173"/>
+        <source>select all</source>
+        <translation>Alle auswählen</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="115"/>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="180"/>
+        <source>deselect all</source>
+        <translation>Alle abwählen</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="146"/>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="211"/>
+        <source>toggle selected</source>
+        <translation>Ausgewählte wechseln</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="158"/>
+        <source>Lines</source>
+        <translation>Lines</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.ui" line="234"/>
+        <source>Start Import!</source>
+        <translation>Import starten!</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.cpp" line="53"/>
+        <source>TTData not found</source>
+        <translation>TTData-Ordner nicht gefunden</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.cpp" line="53"/>
+        <source>&lt;p&gt;&lt;b&gt;No valid TTData directory found!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Cannot load trips and lines&lt;/p&gt;</source>
+        <translation>&lt;p&gt;&lt;b&gt;Kein gültiger TTData-Ordner gefunden!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Trips und Linien konnten nicht geladen werden&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.cpp" line="89"/>
+        <location filename="Dialogs/DlgOmsiImport.cpp" line="90"/>
+        <source>Count: %1 (%2 selected)</source>
+        <translation>Anzahl: %1 (%2 ausgewählt)</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.cpp" line="187"/>
+        <source>Imported successfully</source>
+        <translation>Import erfolgreich</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgOmsiImport.cpp" line="187"/>
+        <source>Your OMSI map was imported sucessfully!</source>
+        <translation>Die OMSI-Map wurde erfolgreich importiert</translation>
+    </message>
+</context>
+<context>
     <name>DlgPdfExporter</name>
     <message>
         <location filename="Dialogs/DlgPdfExporter.cpp" line="72"/>
@@ -623,503 +726,546 @@
         <translation>Zuletzt geöffnet</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="53"/>
-        <location filename="Mainwindow.ui" line="348"/>
-        <location filename="Mainwindow.ui" line="381"/>
-        <location filename="Mainwindow.ui" line="414"/>
+        <location filename="Mainwindow.ui" line="43"/>
+        <source>Import</source>
+        <translation>Importieren</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.ui" line="65"/>
+        <location filename="Mainwindow.ui" line="340"/>
+        <location filename="Mainwindow.ui" line="373"/>
+        <location filename="Mainwindow.ui" line="406"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="64"/>
+        <location filename="Mainwindow.ui" line="74"/>
         <source>View</source>
         <translation>Ansicht</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="68"/>
-        <location filename="Mainwindow.ui" line="578"/>
+        <location filename="Mainwindow.ui" line="78"/>
+        <location filename="Mainwindow.ui" line="570"/>
         <source>Docks</source>
         <translation>Docks</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="77"/>
-        <location filename="Mainwindow.ui" line="590"/>
+        <location filename="Mainwindow.ui" line="87"/>
+        <location filename="Mainwindow.ui" line="582"/>
         <source>Workspaces</source>
         <translation>Arbeitsbereiche</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="91"/>
+        <location filename="Mainwindow.ui" line="101"/>
         <source>Toolbars</source>
         <translation>Werkzeugleisten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="107"/>
-        <location filename="Mainwindow.h" line="138"/>
+        <location filename="Mainwindow.ui" line="117"/>
+        <location filename="Mainwindow.h" line="120"/>
         <source>Busstops</source>
         <translation>Bushaltestellen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="115"/>
-        <location filename="Mainwindow.h" line="139"/>
+        <location filename="Mainwindow.ui" line="125"/>
+        <location filename="Mainwindow.h" line="121"/>
         <source>Lines</source>
         <translation>Linien</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="123"/>
-        <location filename="Mainwindow.h" line="140"/>
+        <location filename="Mainwindow.ui" line="133"/>
+        <location filename="Mainwindow.h" line="122"/>
         <source>Routes</source>
         <translation>Routen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="132"/>
-        <location filename="Mainwindow.h" line="141"/>
+        <location filename="Mainwindow.ui" line="142"/>
+        <location filename="Mainwindow.h" line="123"/>
         <source>Schedule</source>
         <translation>Fahrplan</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="140"/>
-        <location filename="Mainwindow.h" line="143"/>
+        <location filename="Mainwindow.ui" line="150"/>
+        <location filename="Mainwindow.h" line="125"/>
         <source>Tours</source>
         <translation>Dienste</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="145"/>
-        <location filename="Mainwindow.ui" line="543"/>
+        <location filename="Mainwindow.ui" line="155"/>
+        <location filename="Mainwindow.ui" line="535"/>
         <source>Publish</source>
         <translation>Veröffentlichen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="149"/>
+        <location filename="Mainwindow.ui" line="159"/>
         <source>Configuration</source>
         <translation>Konfiguration</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="167"/>
+        <location filename="Mainwindow.ui" line="177"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="191"/>
+        <location filename="Mainwindow.ui" line="201"/>
         <source>New Project</source>
         <translation>Neues Projekt</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="200"/>
+        <location filename="Mainwindow.ui" line="210"/>
         <source>Open Project</source>
         <translation>Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="209"/>
+        <location filename="Mainwindow.ui" line="219"/>
         <source>Save Project</source>
         <translation>Projekt speichern</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="218"/>
+        <location filename="Mainwindow.ui" line="228"/>
         <source>Save Project As</source>
         <translation>Projekt speichern unter</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="227"/>
+        <location filename="Mainwindow.ui" line="237"/>
         <source>Close Project</source>
         <translation>Projekt schließen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="236"/>
+        <location filename="Mainwindow.ui" line="246"/>
         <source>Quit</source>
         <translation>Beenden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="244"/>
+        <location filename="Mainwindow.ui" line="254"/>
         <source>Cleanup and troubleshooting</source>
         <translation>Aufräumen und Problembehandlung</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="249"/>
+        <location filename="Mainwindow.ui" line="259"/>
         <source>View As Tree</source>
         <translation>Als Baum anzeigen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="258"/>
-        <source>Undo</source>
-        <translation>Rückgängig</translation>
-    </message>
-    <message>
-        <location filename="Mainwindow.ui" line="267"/>
-        <source>Redo</source>
-        <translation>Wiederholen</translation>
-    </message>
-    <message>
-        <location filename="Mainwindow.ui" line="279"/>
+        <location filename="Mainwindow.ui" line="271"/>
         <source>Track Layout</source>
         <translation>Streckenverlauf</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="282"/>
+        <location filename="Mainwindow.ui" line="274"/>
         <source>Alt+1</source>
         <translation>Alt+1</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="294"/>
+        <location filename="Mainwindow.ui" line="286"/>
         <source>Scheduling</source>
         <translation>Fahrplanung</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="297"/>
+        <location filename="Mainwindow.ui" line="289"/>
         <source>Alt+3</source>
         <translation>Alt+3</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="309"/>
+        <location filename="Mainwindow.ui" line="301"/>
         <source>Tour Planning</source>
         <translation>Dienstplanung</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="312"/>
+        <location filename="Mainwindow.ui" line="304"/>
         <source>Alt+4</source>
         <translation>Alt+4</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="324"/>
+        <location filename="Mainwindow.ui" line="316"/>
         <source>Busstop Schedule</source>
         <translation>Haltestellenfahrplan</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="327"/>
+        <location filename="Mainwindow.ui" line="319"/>
         <source>Alt+2</source>
         <translation>Alt+2</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="336"/>
-        <location filename="Mainwindow.ui" line="369"/>
-        <location filename="Mainwindow.ui" line="402"/>
+        <location filename="Mainwindow.ui" line="328"/>
+        <location filename="Mainwindow.ui" line="361"/>
+        <location filename="Mainwindow.ui" line="394"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="339"/>
+        <location filename="Mainwindow.ui" line="331"/>
         <source>Ctrl+B</source>
         <translation>Strg+H</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="351"/>
+        <location filename="Mainwindow.ui" line="343"/>
         <source>Ctrl+Shift+B</source>
         <translation>Strg+Shift+H</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="360"/>
-        <location filename="Mainwindow.ui" line="393"/>
-        <location filename="Mainwindow.ui" line="426"/>
+        <location filename="Mainwindow.ui" line="352"/>
+        <location filename="Mainwindow.ui" line="385"/>
+        <location filename="Mainwindow.ui" line="418"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="372"/>
+        <location filename="Mainwindow.ui" line="364"/>
         <source>Ctrl+L</source>
         <translation>Strg+L</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="384"/>
+        <location filename="Mainwindow.ui" line="376"/>
         <source>Ctrl+Shift+L</source>
         <translation>Strg+Shift+L</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="405"/>
+        <location filename="Mainwindow.ui" line="397"/>
         <source>Ctrl+R</source>
         <translation>Strg+R</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="417"/>
+        <location filename="Mainwindow.ui" line="409"/>
         <source>Ctrl+Shift+R</source>
         <translation>Strg+Shift+R</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="435"/>
+        <location filename="Mainwindow.ui" line="427"/>
         <source>Duplicate</source>
         <translation>Duplizieren</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="444"/>
+        <location filename="Mainwindow.ui" line="436"/>
         <source>Line Schedules</source>
         <translation>Linienfahrpläne</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="453"/>
-        <location filename="Mainwindow.ui" line="456"/>
+        <location filename="Mainwindow.ui" line="445"/>
+        <location filename="Mainwindow.ui" line="448"/>
         <source>Busstop Schedules</source>
         <translation>Haltestellenfahrpläne</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="465"/>
-        <location filename="Mainwindow.ui" line="468"/>
+        <location filename="Mainwindow.ui" line="457"/>
+        <location filename="Mainwindow.ui" line="460"/>
         <source>Tour Plans</source>
         <translation>Dienstpläne</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="477"/>
+        <location filename="Mainwindow.ui" line="469"/>
         <source>Project settings</source>
         <translation>Projekteinstellungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="486"/>
+        <location filename="Mainwindow.ui" line="478"/>
         <source>Preferences</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="599"/>
+        <location filename="Mainwindow.ui" line="591"/>
         <source>Add Trip</source>
         <translation>Fahrt hinzufügen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="602"/>
+        <location filename="Mainwindow.ui" line="594"/>
         <source>Ctrl+T</source>
         <translation>Strg+F</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="611"/>
+        <location filename="Mainwindow.ui" line="603"/>
         <source>Copy Trip</source>
         <translation>Trip kopieren</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="620"/>
+        <location filename="Mainwindow.ui" line="612"/>
         <source>Delete Selected Trips</source>
         <translation>Ausgewählte Fahrten löschen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="498"/>
+        <location filename="Mainwindow.ui" line="621"/>
+        <source>OMSI Schedule (Alpha)</source>
+        <translation>OMSI-Fahrplan (Alpha)</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.ui" line="490"/>
         <source>Manage footnotes</source>
         <translation>Fußnoten verwalten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="507"/>
+        <location filename="Mainwindow.ui" line="499"/>
         <source>Manual</source>
         <translation>Handbuch</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="516"/>
+        <location filename="Mainwindow.ui" line="508"/>
         <source>Check for updates</source>
         <translation>Auf Updates überprüfen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="525"/>
+        <location filename="Mainwindow.ui" line="517"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="528"/>
+        <location filename="Mainwindow.ui" line="520"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="566"/>
+        <location filename="Mainwindow.ui" line="558"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="546"/>
+        <location filename="Mainwindow.ui" line="538"/>
         <source>Alt+5</source>
         <translation>Alt+5</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="551"/>
+        <location filename="Mainwindow.ui" line="543"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
     <message>
-        <location filename="Mainwindow.ui" line="554"/>
+        <location filename="Mainwindow.ui" line="546"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="59"/>
+        <location filename="Mainwindow.cpp" line="85"/>
         <source>Crash detected</source>
         <translation>Absturz erkannt</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="60"/>
+        <location filename="Mainwindow.cpp" line="86"/>
         <source>&lt;p&gt;&lt;b&gt;Seems like ScheduleMaster crashed last time you used it&lt;/b&gt;&lt;/p&gt;&lt;p&gt;If this was unexpected (e.g. you didn&apos;t try to kill the process via the Windows Task Manager or something), please feel free to send a bug report!&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt; Scheinbar ist ScheduleMaster bei der letzten Verwendung abgestürzt&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Wenn dies nicht beabsichtig wurde (z.B. durch beenden über den Windows Task-Manager etc.), senden sie bitte einen Bugreport, damit der Fehler reproduziert und behoben werden kann.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="61"/>
+        <location filename="Mainwindow.cpp" line="87"/>
         <source>&lt;p&gt;The logfile of your last session was saved seperately. Do you want to open it?&lt;/p&gt;</source>
         <translation>&lt;p&gt;Die Log-Datei der letzten Sitzung wurde seperat gespeichert. Möchten Sie diese jetzt öffnen?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="93"/>
+        <location filename="Mainwindow.cpp" line="78"/>
         <source>loading ui...</source>
         <translation>Benutzeroberflächen wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="120"/>
+        <location filename="Mainwindow.cpp" line="124"/>
         <source>loading menubar...</source>
         <translation>Menüleiste wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="140"/>
+        <location filename="Mainwindow.cpp" line="147"/>
         <source>Alt+B</source>
         <translation>Alt+H</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="141"/>
+        <location filename="Mainwindow.cpp" line="148"/>
         <source>Alt+L</source>
         <translation>Alt+L</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="142"/>
+        <location filename="Mainwindow.cpp" line="149"/>
         <source>Alt+R</source>
         <translation>Alt+R</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="143"/>
+        <location filename="Mainwindow.cpp" line="150"/>
         <source>Alt+S</source>
         <translation>Alt+F</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="144"/>
+        <location filename="Mainwindow.cpp" line="151"/>
         <source>Alt+Shift+B</source>
         <translation>Alt+Shift+H</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="145"/>
+        <location filename="Mainwindow.cpp" line="152"/>
         <source>Alt+T</source>
         <translation>Alt+D</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="146"/>
+        <location filename="Mainwindow.cpp" line="153"/>
         <source>Alt+Shift+T</source>
         <translation>Alt+Shift+D</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="198"/>
+        <location filename="Mainwindow.cpp" line="172"/>
+        <source>Undo:</source>
+        <translation>Rückgängig:</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="173"/>
+        <source>Redo:</source>
+        <translation>Vorgängig:</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="178"/>
+        <source>loading shortcuts...</source>
+        <translation>Shortcuts laden...</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="192"/>
+        <source>loading toolbars...</source>
+        <translation>Werkzeugleisten laden...</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="194"/>
         <source>general</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="209"/>
+        <location filename="Mainwindow.cpp" line="195"/>
         <source>docks</source>
         <translation>Docks</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="220"/>
+        <location filename="Mainwindow.cpp" line="196"/>
         <source>workspaces</source>
         <translation>Arbeitsbereiche</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="244"/>
+        <location filename="Mainwindow.cpp" line="237"/>
         <source>loading signals and slots...</source>
         <translation>Signale und Slots werden geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="295"/>
+        <location filename="Mainwindow.cpp" line="318"/>
+        <source>loading last used files...</source>
+        <translation>Zuletzt verwendete Dateien laden...</translation>
+    </message>
+    <message>
+        <location filename="Mainwindow.cpp" line="329"/>
         <source>loading startup dialog...</source>
         <translation>Willkommensdialog wird geladen...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="358"/>
+        <location filename="Mainwindow.cpp" line="394"/>
         <source>ScheduleMaster File (*.smp  *.json)</source>
         <translation>ScheduleMaster-Datei (*.smp *.json)</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="387"/>
+        <location filename="Mainwindow.cpp" line="423"/>
         <source>ScheduleMaster File (*.smp);;JSON File (*.json)</source>
         <translation>ScheduleMaster-Datei (*.smp);;JSON-Datei (*.json)</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="909"/>
+        <location filename="Mainwindow.cpp" line="950"/>
         <source>&lt;h1&gt;About ScheduleMaster&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
         <oldsource>&lt;h1&gt;About ScheduleMaster 2&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Release type:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Beta&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</oldsource>
         <translation>&lt;h1&gt;Über ScheduleMaster&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Version:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;%1&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="402"/>
+        <location filename="Mainwindow.cpp" line="438"/>
         <source>Unsaved Changes</source>
         <translation>Ungespeicherte Änderungen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="402"/>
+        <location filename="Mainwindow.cpp" line="438"/>
         <source>&lt;p&gt;&lt;b&gt;There are unsaved changes!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Do want to save them before closing this file?&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Es gibt ungespeicherte Änderungen!&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Sollen diese vor dem schließen der Datei gespeichert werden?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="744"/>
+        <location filename="Mainwindow.cpp" line="787"/>
         <source>Opening project file...</source>
         <translation>Projektdatei wird geöffnet...</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="750"/>
+        <location filename="Mainwindow.cpp" line="793"/>
         <source>File not found</source>
         <translation>Datei nicht gefunden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="750"/>
+        <location filename="Mainwindow.cpp" line="793"/>
         <source>&lt;p&gt;The given file was not found!&lt;/p&gt;</source>
         <translation>&lt;p&gt;Die angeforderte Datei wurde nicht gefunden!&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="759"/>
+        <location filename="Mainwindow.cpp" line="802"/>
         <source>Failed reading file</source>
         <translation>Einlesen der Datei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="759"/>
+        <location filename="Mainwindow.cpp" line="802"/>
         <source>&lt;p&gt;&lt;b&gt;Could not read file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht gelesen werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="800"/>
+        <location filename="Mainwindow.cpp" line="841"/>
         <source>&lt;p&gt;&lt;b&gt;Could not write to file:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Datei konnte nicht geschrieben werden:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="800"/>
+        <location filename="Mainwindow.cpp" line="841"/>
         <source>Failed writing file</source>
         <translation>Fehler beim schreiben der Datei</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="813"/>
+        <location filename="Mainwindow.cpp" line="854"/>
         <source>File saved!</source>
         <translation>Datei gespeichert!</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="913"/>
+        <location filename="Mainwindow.cpp" line="954"/>
         <source>ScheduleMaster - About</source>
         <oldsource>ScheduleMaster 2 - About</oldsource>
         <translation>ScheduleMaster - Über</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="1047"/>
+        <location filename="Mainwindow.cpp" line="1088"/>
         <source>Manual not found</source>
         <translation>Handbuch konnte nicht gefunden werden</translation>
     </message>
     <message>
-        <location filename="Mainwindow.cpp" line="1047"/>
+        <location filename="Mainwindow.cpp" line="1088"/>
         <source>&lt;p&gt;The file was not found:&lt;/p&gt;&lt;p&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Die Datei konnte nicht gefunden werden:&lt;/p&gt;&lt;p&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="137"/>
+        <location filename="Mainwindow.h" line="119"/>
         <source>Undo View</source>
         <translation>Rückgängig-Ansicht</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="142"/>
+        <location filename="Mainwindow.h" line="124"/>
         <source>Current trips</source>
         <translation>Aktuelle Fahrten</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="144"/>
+        <location filename="Mainwindow.h" line="126"/>
         <source>Current tour</source>
         <translation>Aktueller Dienst</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="145"/>
+        <location filename="Mainwindow.h" line="127"/>
         <source>Busstop schedule</source>
         <translation>Haltestellenfahrplan</translation>
     </message>
     <message>
-        <location filename="Mainwindow.h" line="146"/>
+        <location filename="Mainwindow.h" line="128"/>
         <source>Published lines</source>
         <translation>Veröffentlichte Linien</translation>
+    </message>
+</context>
+<context>
+    <name>PlgOmsiImport</name>
+    <message>
+        <location filename="Plugins/PlgOmsiImport.cpp" line="344"/>
+        <source>Monday - Friday</source>
+        <translation>Montag - Freitag</translation>
+    </message>
+    <message>
+        <location filename="Plugins/PlgOmsiImport.cpp" line="345"/>
+        <source>Saturday</source>
+        <translation>Samstag</translation>
+    </message>
+    <message>
+        <location filename="Plugins/PlgOmsiImport.cpp" line="346"/>
+        <source>Sunday &amp; Holiday</source>
+        <translation>Sonn- und Feiertage</translation>
     </message>
 </context>
 <context>
@@ -1306,18 +1452,18 @@
         <translation>Neue Route %1 in Linie %2</translation>
     </message>
     <message>
-        <location filename="Commands/CmdRoutes.h" line="38"/>
+        <location filename="Commands/CmdRoutes.h" line="41"/>
         <source>edit route: %1</source>
         <translation>Route bearbeiten: %1</translation>
     </message>
     <message>
-        <location filename="Commands/CmdRoutes.h" line="62"/>
-        <location filename="Commands/CmdRoutes.h" line="84"/>
+        <location filename="Commands/CmdRoutes.h" line="65"/>
+        <location filename="Commands/CmdRoutes.h" line="87"/>
         <source>delete route %1 from line %2</source>
         <translation>Route %1 von Linie %2 löschen</translation>
     </message>
     <message numerus="yes">
-        <location filename="Commands/CmdRoutes.h" line="84"/>
+        <location filename="Commands/CmdRoutes.h" line="87"/>
         <source>delete %n routes  from line %2</source>
         <translation>
             <numerusform>Route aus Linie %2 löschen</numerusform>
@@ -1467,7 +1613,7 @@
 <context>
     <name>TimeProfile</name>
     <message>
-        <location filename="ProjectData/timeProfile.cpp" line="144"/>
+        <location filename="ProjectData/timeProfile.cpp" line="150"/>
         <source>unnamed time profile</source>
         <translation>Unbenanntes Fahrtzeitprofil</translation>
     </message>
@@ -1594,7 +1740,7 @@
 <context>
     <name>Tour</name>
     <message>
-        <location filename="ProjectData/tour.cpp" line="38"/>
+        <location filename="ProjectData/tour.cpp" line="37"/>
         <source>unnamed tour</source>
         <translation>Unbenannter Dienst</translation>
     </message>
@@ -1617,7 +1763,12 @@
         <translation>Fahrttage</translation>
     </message>
     <message>
-        <location filename="Dialogs/DlgToureditor.cpp" line="12"/>
+        <location filename="Dialogs/DlgToureditor.ui" line="54"/>
+        <source>Preset:</source>
+        <translation>Voreinstellung:</translation>
+    </message>
+    <message>
+        <location filename="Dialogs/DlgToureditor.cpp" line="13"/>
         <source>create tour</source>
         <translation>Dienst erstellen</translation>
     </message>
@@ -2130,7 +2281,7 @@
         <translation>Fahrtrichtungsbezeichnung eingeben:</translation>
     </message>
     <message>
-        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="452"/>
+        <location filename="Widgets/Publications/wdgpublishedlines.cpp" line="455"/>
         <source>Portable document format (*.pdf)</source>
         <translation></translation>
     </message>
@@ -2292,12 +2443,12 @@
         <translation>Startzeit</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="241"/>
+        <location filename="Widgets/wdgschedule.cpp" line="245"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="271"/>
+        <location filename="Widgets/wdgschedule.cpp" line="275"/>
         <source>Multiple assignment at %1:<byte value="xd"/>
 <byte value="xd"/>
 %2</source>
@@ -2306,12 +2457,12 @@
 %2</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="565"/>
+        <location filename="Widgets/wdgschedule.cpp" line="569"/>
         <source>Select tour</source>
         <translation>Dienst auswählen</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgschedule.cpp" line="565"/>
+        <location filename="Widgets/wdgschedule.cpp" line="569"/>
         <source>Select the tour you want to open:</source>
         <translation>Zu öffnenden Dienst auswählen:</translation>
     </message>
@@ -2460,12 +2611,12 @@
         <translation>&lt;p&gt;&lt;b&gt;Soll die Fahrt wirklich aus diesem Dienst entfernt werden?&lt;/b&gt;&lt;p&gt;&lt;p&gt;Sie wird dabei nicht aus dem Fahrplan gelöscht.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgtoureditor.cpp" line="224"/>
+        <location filename="Widgets/wdgtoureditor.cpp" line="226"/>
         <source>break</source>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="Widgets/wdgtoureditor.cpp" line="229"/>
+        <location filename="Widgets/wdgtoureditor.cpp" line="231"/>
         <source>service trip</source>
         <translation>Betriebsfahrt</translation>
     </message>
@@ -2629,7 +2780,7 @@
         <translation>Annmerkungen und Fußnoten</translation>
     </message>
     <message numerus="yes">
-        <location filename="Widgets/wdgtripeditor.cpp" line="117"/>
+        <location filename="Widgets/wdgtripeditor.cpp" line="119"/>
         <source>Do you really want to delete these %n trips?</source>
         <translation>
             <numerusform>Soll diese Fahrt wirklich gelöscht werden?</numerusform>
@@ -2637,7 +2788,7 @@
         </translation>
     </message>
     <message>
-        <location filename="Widgets/wdgtripeditor.cpp" line="242"/>
+        <location filename="Widgets/wdgtripeditor.cpp" line="249"/>
         <source>You can&apos;t use this trip now, since it has no valid time profiles!</source>
         <translation>Diese Fahrt kann nicht verwendet werden, weil sie keine gültige Fahrtzeitprofile hat!</translation>
     </message>
