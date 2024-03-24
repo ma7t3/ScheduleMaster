@@ -43,7 +43,7 @@ WdgTours::~WdgTours()
 }
 
 void WdgTours::actionTourNew() {
-    TourEditor dlg(this, true);
+    TourEditor dlg(this, true, "", WeekDays(), projectData->projectSettings()->dayTypes());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -59,7 +59,7 @@ void WdgTours::actionTourEdit() {
     if(!o)
         return;
     
-    TourEditor dlg(this, false, o->name(), o->weekDays());
+    TourEditor dlg(this, false, o->name(), o->weekDays(), projectData->projectSettings()->dayTypes());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
@@ -78,7 +78,7 @@ void WdgTours::actionTourDuplicate() {
     if(!o)
         return;
     
-    TourEditor dlg(this, false, o->name(), o->weekDays());
+    TourEditor dlg(this, false, o->name(), o->weekDays(), projectData->projectSettings()->dayTypes());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
