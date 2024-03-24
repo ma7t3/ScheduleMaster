@@ -127,6 +127,11 @@ void PlgOmsiImport::run() {
                 p->setDuration(duration);
                 r->addTimeProfile(p);
 
+                for(int i = 0; i < r->busstopCount(); i++) {
+                    TimeProfileItem *itm = new TimeProfileItem(p, r->busstopAt(i));
+                    p->addBusstop(itm);
+                }
+
                 while(!s.atEnd()) {
                     line = s.readLine();
 
