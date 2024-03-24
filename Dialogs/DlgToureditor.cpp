@@ -1,9 +1,10 @@
 #include "Dialogs\DlgToureditor.h"
 #include "ui_DlgToureditor.h"
 
-TourEditor::TourEditor(QWidget *parent, bool createMode, QString name, WeekDays weekDays) :
+TourEditor::TourEditor(QWidget *parent, bool createMode, QString name, WeekDays weekDays, QList<DayType *> dayTypes) :
     QDialog(parent),
-    ui(new Ui::TourEditor) {
+    ui(new Ui::TourEditor),
+    _dayTypes(dayTypes) {
     ui->setupUi(this);
     setName(name);
     setWeekDays(weekDays);
@@ -12,6 +13,13 @@ TourEditor::TourEditor(QWidget *parent, bool createMode, QString name, WeekDays 
         QDialog::setWindowTitle(tr("create tour"));
 
     ui->leName->setFocus();
+
+    for(int i = 0; i < dayTypes.count(); i++)
+        ui->cbDayTypes->addItem(dayTypes[i]->name());
+
+    refreshDayTypeSelector();
+
+    connect(ui->daySelector, &WdgDaySelector::weekDaysChanged, this, &TourEditor::refreshDayTypeSelector);
 }
 
 TourEditor::~TourEditor() {
@@ -32,4 +40,17 @@ QString TourEditor::name() {
 
 WeekDays TourEditor::weekDays() {
     return ui->daySelector->weekDays();
+}
+
+void TourEditor::on_cbDayTypes_activated(int index) {
+    setWeekDays(*_dayTypes[index]);
+}
+
+void TourEditor::refreshDayTypeSelector() {
+    WeekDays w = ui->daySelector->weekDays();
+    ui->cbDayTypes->setCurrentIndex(-1);
+
+    for(int i = 0; i < _dayTypes.count(); i++)
+        if(w == *_dayTypes[i])
+            ui->cbDayTypes->setCurrentIndex(i);
 }
