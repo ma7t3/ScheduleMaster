@@ -238,7 +238,7 @@
      <item>
       <widget class="QLabel" name="lCurrentProgress">
        <property name="text">
-        <string>&lt;&gt;</string>
+        <string/>
        </property>
       </widget>
      </item>

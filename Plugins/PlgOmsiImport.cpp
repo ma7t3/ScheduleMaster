@@ -232,6 +232,7 @@ void PlgOmsiImport::run() {
                 projectData->addTour(o);
 
                 while(!s.atEnd()) {
+                    nextTrip:
                     line = s.readLine();
 
                     if(line == "[addtrip]") {
@@ -260,8 +261,20 @@ void PlgOmsiImport::run() {
                         else if(!p)
                             continue;
 
+                        // check, if trip already exists
                         Line *l = projectData->lineOfRoute(r);
-                        Trip *t = new Trip(nullptr, global::getNewID(), r, time, p, w);
+                        QList<Trip *> trips = l->tripsOfRoute(r);
+
+                        for(int i = 0; i < trips.count(); i++) {
+                            Trip *t = trips[i];
+                            if(t->startTime() == time && t->timeProfile() == p) {
+                                t->setWeekDays(WeekDays::combine(t->weekDays(), w));
+                                o->addTrip(t);
+                                goto nextTrip;
+                            }
+                        }
+
+                        Trip *t = new Trip(l, global::getNewID(), r, time, p, w);
                         l->addTrip(t);
                         o->addTrip(t);
                     }
