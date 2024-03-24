@@ -37,6 +37,9 @@ void PlgOmsiImport::run() {
 
     busstopsCfg.close();
 
+
+    qInfo() << "loading trips...";
+
     foreach(QString currentTrip, _trips) {
         QFile f(_mapDir + "/TTData/" + currentTrip + ".ttp");
         if(!f.exists()) {
@@ -59,15 +62,21 @@ void PlgOmsiImport::run() {
             lineName = match.captured(1);
 
         Line *l = projectData->lineWithName(lineName);
+        LineDirection *ld1;
+        LineDirection *ld2;
         if(!l) {
             l = new Line(projectData, global::getNewID(), lineName, "", Qt::white);
             qInfo() << "new line created:" << lineName;
             projectData->addLine(l);
-            l->addDirection(new LineDirection(l, global::getNewID(), "direction"));
+            ld1 = new LineDirection(l, global::getNewID(), "Direction 1");
+            ld2 = new LineDirection(l, global::getNewID(), "Direction 2");
+            l->addDirection(ld1);
+            l->addDirection(ld2);
         }
-        LineDirection *ld = l->directionAt(0);
+        ld1 = l->directionAt(0);
+        ld2 = l->directionAt(1);
 
-        Route *r = new Route(l, global::getNewID(), 1, currentTrip, ld);
+        Route *r = new Route(l, global::getNewID(), 1, currentTrip, ld1);
         l->addRoute(r);
 
         QTextStream s(&f);
@@ -185,6 +194,9 @@ void PlgOmsiImport::run() {
         counter ++;
     }
 
+
+    qInfo() << "loading lines...";
+
     foreach(QString currentLine, _lines) {
         QFile f(_mapDir + "/TTData/" + currentLine + ".ttl");
         if(!f.exists()) {
@@ -234,6 +246,8 @@ void PlgOmsiImport::run() {
 
                         QTime time = QTime::fromMSecsSinceStartOfDay(timeFloat * 60 * 1000);
                         Route *r = projectData->routeWithName(routeName);
+                        if(!r)
+                            continue;
 
                         TimeProfile *p = r->timeProfileAt(timeProfileIndex);
                         if(!p && r->timeProfileCount() > 0)
@@ -257,6 +271,58 @@ void PlgOmsiImport::run() {
         counter++;
     }
 
+    qInfo() << "refreshing direction assignments...";
+    for(int i = 0; i < projectData->lineCount(); i++) {
+        Line *l = projectData->lineAt(i);
+        Route *referenceRoute = nullptr;
+
+        // determine longest route
+        for(int j = 0; j < l->routeCount(); j++) {
+            Route *rTest = l->routeAt(j);
+            if(!referenceRoute || referenceRoute->busstopCount() < rTest->busstopCount())
+                referenceRoute = rTest;
+        }
+
+        for(int j = 0; j < l->routeCount(); j++) {
+            Route *r = l->routeAt(j);
+            if(r == referenceRoute)
+                continue;
+
+            int minCount = std::min(referenceRoute->busstopCount(), r->busstopCount()) * 0.66;
+
+            if(countCommonBusstopSequences(r, referenceRoute) < minCount)
+                r->setDirection(l->directionAt(1));
+        }
+
+        LineDirection *ld1 = l->directionAt(0);
+        LineDirection *ld2 = l->directionAt(1);
+
+        QList<Route *> routes1 = l->routesToDirection(l->directionAt(0));
+        QList<Route *> routes2 = l->routesToDirection(l->directionAt(1));
+
+        int counter = 0;
+        int codeCounter = 1;
+        QString name;
+        foreach(Route *r, routes1) {
+            if(r->busstopCount() > counter)
+                name = r->lastBusstop()->name();
+            r->setCode(codeCounter);
+            codeCounter += 2;
+        }
+        ld1->setDescription(name);
+
+        counter = 0;
+        codeCounter = 2;
+        foreach(Route *r, routes2) {
+            if(r->busstopCount() > counter)
+                name = r->lastBusstop()->name();
+            r->setCode(codeCounter);
+            codeCounter += 2;
+        }
+        ld2->setDescription(name);
+    }
+
+    qInfo() << "generating day types";
     projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), "Monday - Firday", 995));
     projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), "Saturday", 19));
     projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), "Sunday & Holiday", 15));
@@ -302,6 +368,34 @@ WeekDays PlgOmsiImport::importWeekDays(const QString &str) {
     w.setDay(vacation,  bin[0] == '1');
     return w;
 }
+
+int PlgOmsiImport::countCommonBusstopSequences(Route *r1, Route *r2) const {
+    int counter = 0;
+
+    for(int i = 0; i < r1->busstopCount(); i++) {
+        Busstop *b = r1->busstopAt(i);
+        if(!r2->hasBusstop(b))
+            continue;
+
+        int index = r2->indexOfBusstop(b);
+        if(index >= r2->busstopCount() || i >= r1->busstopCount())
+            continue;
+
+        if(r1->busstopAt(i + 1) == r2->busstopAt(index + 1))
+            counter++;
+    }
+
+    return counter;
+}
+
+
+
+
+
+
+
+
+
 
 
 
