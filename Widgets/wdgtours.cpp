@@ -223,6 +223,8 @@ void WdgTours::refresh() {
     QRegularExpression regex(ui->leSearch->text());
     regex.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     
+
+    int counter = 0;
     for(int i = 0; i < tours.count(); i++) {
         Tour *o = tours[i];
 

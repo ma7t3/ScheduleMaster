@@ -355,12 +355,19 @@ QList<Route *> ProjectData::matchingRoutes(Route *inputR) {
 Line *ProjectData::lineOfRoute(Route *r) {
     if(!r)
         return nullptr;
+
+    auto it = _routeLineCacheMap.find(r);
+    if(it != _routeLineCacheMap.end())
+        return _routeLineCacheMap[r];
     
     for(int i = 0; i < this->lineCount(); i++) {
         Line *l = this->lineAt(i);
         for(int j = 0; j < l->routeCount(); j++) {
-            if(l->routeAt(j)->id() == r->id())
+            if(l->routeAt(j)->id() == r->id()) {
+                _routeLineCacheMap[r] = l;
+                qDebug() << "noMapt found yet";
                 return l;
+            }
         }
     }
 
@@ -370,12 +377,19 @@ Line *ProjectData::lineOfRoute(Route *r) {
 Line *ProjectData::lineOfTrip(Trip *t) {
     if(!t)
         return nullptr;
+
+    auto it = _routeTripCacheMap.find(t);
+    if(it != _routeTripCacheMap.end())
+        return _routeTripCacheMap[t];
     
     for(int i = 0; i < this->lineCount(); i++) {
         Line *l = this->lineAt(i);
         for(int j = 0; j < l->tripCount(); j++) {
-            if(l->tripAt(j)->id() == t->id())
+            if(l->tripAt(j)->id() == t->id()) {
+                _routeTripCacheMap[t] = l;
+                qDebug() << "not found yet";
                 return l;
+            }
         }
     }
 
