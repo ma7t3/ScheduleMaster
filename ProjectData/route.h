@@ -34,6 +34,7 @@ public:
     bool hasBusstop(Busstop *) const;
     bool hasBusstop(const QString &) const;
     Busstop *firstCommonBusstop(Route *);
+    int indexOfBusstop(Busstop *) const;
 
     void setBusstops(const QList<Busstop *> &);
     void addBusstop(Busstop *);

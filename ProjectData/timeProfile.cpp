@@ -3,13 +3,19 @@
 
 TimeProfileItem::TimeProfileItem(QObject *parent, const QString &busstopId) :
     ProjectDataItem(parent),
+    _arrValue(0),
+    _depValue(0),
     _seperateTimes(false),
+    _busstopMode(1),
     _busstopId(busstopId) {
 }
 
 TimeProfileItem::TimeProfileItem(QObject *parent, Busstop *b) :
     ProjectDataItem(parent),
+    _arrValue(0),
+    _depValue(0),
     _seperateTimes(false),
+    _busstopMode(1),
     _busstopId(b->id()) {
 }
 

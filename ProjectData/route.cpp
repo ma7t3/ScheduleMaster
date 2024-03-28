@@ -174,6 +174,14 @@ Busstop *Route::firstCommonBusstop(Route *other) {
     return nullptr;
 }
 
+int Route::indexOfBusstop(Busstop *b) const {
+    for(int i = 0; i < busstopCount(); i++)
+        if(busstopAt(i) == b)
+            return i;
+
+    return -1;
+}
+
 void Route::setBusstops(const QList<Busstop *> &newBusstops) {
     _busstops = newBusstops;
 }
