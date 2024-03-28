@@ -250,6 +250,9 @@ void PlgOmsiImport::run() {
                         if(!ok1 || !ok2)
                             return;
 
+                        if(timeFloat >= 1440)
+                            timeFloat -= 1440;
+
                         QTime time = QTime::fromMSecsSinceStartOfDay(timeFloat * 60 * 1000);
                         Route *r = projectData->routeWithName(routeName);
                         if(!r)
