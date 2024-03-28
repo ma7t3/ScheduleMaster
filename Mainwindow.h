@@ -49,11 +49,13 @@ private slots:
     void startupDialogHandler();
 
     bool actionFileNew();
-    bool actionFileOpen();
+    bool actionFileOpen(QString = "");
     bool actionFileSave();
     bool actionFileSaveAs();
     bool actionFileClose();
     bool actionQuit();
+
+    void refreshLastUsedFiles();
 
     void refreshUndo();
     void refreshRedo();
@@ -105,6 +107,9 @@ private:
     DlgFileHandler *fileHandler;
     DlgPdfExporter *pdfExporter;
 
+    QStringList _lastUsedFileNames;
+    QList<QAction *> _lastUsedFileActions;
+
     WdgUndoView *wdgUndoView = new WdgUndoView(this, undoStack);
     WdgBusstops *wdgBusstops = new WdgBusstops(this, projectData, undoStack);
     WdgLines *wdgLines = new WdgLines(this, projectData, undoStack);
@@ -131,6 +136,5 @@ private:
 
     bool saved;
     bool knownFile;
-    //QString projectFilePath;
 };
 #endif // MAINWINDOW_H

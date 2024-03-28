@@ -259,7 +259,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     qDebug() << "\tfile operations";
     connect(ui->actionFileNew,                     &QAction::triggered,                    this,               &MainWindow::actionFileNew);
-    connect(ui->actionFileOpen,                    &QAction::triggered,                    this,               &MainWindow::actionFileOpen);
+    connect(ui->actionFileOpen,                    &QAction::triggered,                    this,               [this](){actionFileOpen();});
     connect(ui->actionFileSave,                    &QAction::triggered,                    this,               &MainWindow::actionFileSave);
     connect(ui->actionFileSaveAs,                  &QAction::triggered,                    this,               &MainWindow::actionFileSaveAs);
     connect(ui->actionFileClose,                   &QAction::triggered,                    this,               &MainWindow::actionFileClose);
@@ -316,7 +316,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     qInfo() << "loading last used files...";
     splashScreen.showMessage(tr("loading last used files..."), Qt::AlignBottom, messageColor);
-    QList<QAction *> actions;
+    /*QList<QAction *> actions;
     QStringList lastUsedFiles = LocalConfig::lastUsedFiles();
 
     foreach(QString path, lastUsedFiles) {
@@ -324,7 +324,9 @@ MainWindow::MainWindow(QWidget *parent)
         QAction *action = new QAction(fi.fileName(), this);
         actions << action;
     }
-    ui->menuOpenRecent->addActions(actions);
+    ui->menuOpenRecent->addActions(actions);*/
+
+    refreshLastUsedFiles();
 
     splashScreen.showMessage(tr("loading startup dialog..."), Qt::AlignBottom, messageColor);
 
@@ -376,7 +378,7 @@ bool MainWindow::actionFileNew() {
     return actionFileClose();
 }
 
-bool MainWindow::actionFileOpen() {
+bool MainWindow::actionFileOpen(QString path) {
     QDir dir;
     if(knownFile) {
         QFileInfo fi(projectData->filePath());
@@ -391,10 +393,12 @@ bool MainWindow::actionFileOpen() {
     if(!dir.exists())
         dir.mkpath(dir.path());
 
-    QString path = QFileDialog::getOpenFileName(this, "", dir.path(), tr("ScheduleMaster File (*.smp  *.json)"));
-    if(path == "") {
-        qWarning() << "cannot open file \"" << path << "\" - invalid path";
-        return false;
+    if(!QFile::exists(path)) {
+        path = QFileDialog::getOpenFileName(this, "", dir.path(), tr("ScheduleMaster File (*.smp  *.json)"));
+        if(path == "") {
+            qWarning() << "cannot open file \"" << path << "\" - invalid path";
+            return false;
+        }
     }
 
     return openFile(path);
@@ -471,6 +475,28 @@ bool MainWindow::actionFileClose() {
 bool MainWindow::actionQuit() {
     close();
     return true;
+}
+
+void MainWindow::refreshLastUsedFiles() {
+    ui->menuOpenRecent->clear();
+    _lastUsedFileNames.clear();
+    _lastUsedFileActions.clear();
+
+    QStringList lastUsedFiles = LocalConfig::lastUsedFiles();
+
+    int i = 0;
+    foreach(QString path, lastUsedFiles) {
+        QFileInfo fi(path);
+        QAction *action = new QAction(fi.fileName(), ui->menuOpenRecent);
+        _lastUsedFileActions << action;
+        _lastUsedFileNames   << path;
+        ui->menuOpenRecent->addAction(action);
+
+        connect(action, &QAction::triggered, this, [this, path](){actionFileOpen(path);});
+        i++;
+        if(i >= 15)
+            break;
+    }
 }
 
 void MainWindow::refreshUndo() {
@@ -827,6 +853,7 @@ bool MainWindow::openFile(QString path) {
     projectData->setFilePath(path);
     ui->statusbar->showMessage(path);
     LocalConfig::addLastUsedFile(path);
+    refreshLastUsedFiles();
     return true;
 }
 
