@@ -272,7 +272,11 @@ void WdgTourEditor::refresh() {
         ui->twTour->setItem(targetRow, 0, new QTableWidgetItem(t->startTime().toString("hh:mm") + "\r\n" + t->endTime().toString("hh:mm")));
         ui->twTour->setItem(targetRow, 1, new QTableWidgetItem(QString::number(duration) + " min."));
         ui->twTour->setItem(targetRow, 2, new QTableWidgetItem(t->route()->name() + "\r\n(" + t->timeProfile()->name() + ")"));
-        ui->twTour->setItem(targetRow, 3, new QTableWidgetItem(t->route()->firstBusstop()->name() + "\r\n" + t->route()->lastBusstop()->name()));
+
+        if(t->route()->firstBusstop() && t->route()->lastBusstop())
+            ui->twTour->setItem(targetRow, 3, new QTableWidgetItem(t->route()->firstBusstop()->name() + "\r\n" + t->route()->lastBusstop()->name()));
+        else
+            ui->twTour->setItem(targetRow, 3, new QTableWidgetItem("\r\n"));
 
         if(ui->cbDifferentHeights->isChecked())
             ui->twTour->setRowHeight(targetRow, duration * (ui->hsTourScale->value() / 5.0));

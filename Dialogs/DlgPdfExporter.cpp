@@ -411,7 +411,10 @@ void DlgPdfExporter::exportTour(Tour *o) {
         lastBusstop = t->route()->lastBusstop();
 
         timeText += t->startTime().toString("hh:mm") + "\r\n";
-        tripText += t->route()->firstBusstop()->name() + "\r\n";
+        if(firstBusstop)
+            tripText += t->route()->firstBusstop()->name() + "\r\n";
+        else
+            tripText += "\r\n";
 
         Route *r = t->route();
         for(int j = 0; j < r->busstopCount(); j++) {
@@ -428,7 +431,11 @@ void DlgPdfExporter::exportTour(Tour *o) {
         }
 
         timeText += t->endTime().toString("hh:mm");
-        tripText += t->route()->lastBusstop()->name();
+
+        if(lastBusstop)
+            tripText += t->route()->lastBusstop()->name();
+        else
+            tripText += "\r\n";
 
         QRect lineField(10, lastXCoordinate, 180, rowCount * 50);
         QRect timeField(210, lastXCoordinate, 180, rowCount * 50);
