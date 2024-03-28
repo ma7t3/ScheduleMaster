@@ -19,6 +19,19 @@ WdgTours::WdgTours(QWidget *parent, ProjectData *projectData, QUndoStack *undoSt
 {
     ui->setupUi(this);
 
+    QAction *actionEdit = new QAction(ui->twTours);
+    actionEdit->setShortcuts({QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Enter)});
+    actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ui->twTours->addAction(actionEdit);
+
+    QAction *actionDelete = new QAction(ui->twTours);
+    actionDelete->setShortcut(QKeySequence::Delete);
+    actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ui->twTours->addAction(actionDelete);
+
+    QObject::connect(actionEdit, &QAction::triggered, this, &WdgTours::actionTourEdit);
+    QObject::connect(actionDelete, &QAction::triggered, this, &WdgTours::actionTourDelete);
+
     QObject::connect(ui->pbTourNew, SIGNAL(clicked()), this, SLOT(actionTourNew()));
     QObject::connect(ui->pbTourEdit, SIGNAL(clicked()), this, SLOT(actionTourEdit()));
     QObject::connect(ui->twTours, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(actionTourEdit()));
