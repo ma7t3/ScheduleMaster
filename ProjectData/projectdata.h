@@ -106,6 +106,9 @@ private:
     QList<Tour *> _tours;
     QList<Footnote *> _footnotes;
     Publications *_publications;
+
+    std::unordered_map<Route *, Line *> _routeLineCacheMap;
+    std::unordered_map<Trip *, Line *> _routeTripCacheMap;
 };
 
 #endif // PROJECTDATA_H
