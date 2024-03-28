@@ -66,7 +66,11 @@ void PlgOmsiImport::run() {
         LineDirection *ld1;
         LineDirection *ld2;
         if(!l) {
-            l = new Line(projectData, global::getNewID(), lineName, "", Qt::white);
+            QColor color(QRandomGenerator::global()->bounded(256),
+                         QRandomGenerator::global()->bounded(256),
+                         QRandomGenerator::global()->bounded(256));
+
+            l = new Line(projectData, global::getNewID(), lineName, "", color);
             qInfo() << "new line created:" << lineName;
             projectData->addLine(l);
             ld1 = new LineDirection(l, global::getNewID(), "Direction 1");
