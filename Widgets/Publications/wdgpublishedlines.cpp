@@ -160,7 +160,14 @@ void WdgPublishedLines::actionBusstopAdd() {
     PublishedBusstop *pb = new PublishedBusstop(nullptr, global::getNewID(), b, "");
 
     PublishedLineDirection newLd = *_currentLineDirection;
-    newLd.addBusstopAt(ui->lwBusstops->currentRow() + 1, pb);
+
+    int insertIndex;
+    if(ui->lwBusstops->currentRow() != -1)
+        insertIndex = ui->lwBusstops->currentRow() + 1;
+    else
+        insertIndex = ui->lwBusstops->count();
+
+    newLd.addBusstopAt(insertIndex, pb);
 
     undoStack->push(new CmdPublishedLineDirectionEdit(_currentLineDirection, newLd));
 
@@ -174,7 +181,7 @@ void WdgPublishedLines::actionBusstopsAddAll() {
     for(int i = 0; i < _allBusstopsReference.count(); i++) {
         ui->cmbAllBusstops->setCurrentIndex(i);
         actionBusstopAdd();
-        //qApp->processEvents();
+        qApp->processEvents();
     }
 }
 
