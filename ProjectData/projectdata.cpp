@@ -33,6 +33,9 @@ void ProjectData::reset() {
     qDeleteAll(_busstops);
     _busstops.clear();
     qDebug() << "busstops deleted";
+
+    _routeLineCacheMap.clear();
+    _routeTripCacheMap.clear();
 }
 
 void ProjectData::cleanup() {
@@ -365,7 +368,6 @@ Line *ProjectData::lineOfRoute(Route *r) {
         for(int j = 0; j < l->routeCount(); j++) {
             if(l->routeAt(j)->id() == r->id()) {
                 _routeLineCacheMap[r] = l;
-                qDebug() << "noMapt found yet";
                 return l;
             }
         }
@@ -387,7 +389,6 @@ Line *ProjectData::lineOfTrip(Trip *t) {
         for(int j = 0; j < l->tripCount(); j++) {
             if(l->tripAt(j)->id() == t->id()) {
                 _routeTripCacheMap[t] = l;
-                qDebug() << "not found yet";
                 return l;
             }
         }
