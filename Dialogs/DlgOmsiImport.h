@@ -35,6 +35,8 @@ private slots:
     void refreshProgress(int, QString);
     void finish();
 
+    void on_cbMergeDuplicateTrips_stateChanged(int arg1);
+
 private:
     Ui::DlgOmsiImport *ui;
     PlgOmsiImport *_importer;

@@ -187,3 +187,8 @@ void DlgOmsiImport::finish() {
     QMessageBox::information(this, tr("Imported successfully"), tr("Your OMSI map was imported sucessfully!"));
     accept();
 }
+
+void DlgOmsiImport::on_cbMergeDuplicateTrips_stateChanged(int arg1) {
+    _importer->setMergeTrips(arg1 == Qt::Checked);
+}
+
