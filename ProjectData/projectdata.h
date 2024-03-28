@@ -35,13 +35,18 @@ public:
     Busstop *busstop(QString);
     Busstop *busstopAt(int);
     QList <Busstop*> busstops();
+    Busstop *busstopWithName(const QString &name);
+    bool busstopWithNameExists(const QString &name);
 
     int lineCount();
     Line *line(QString);
     Line *lineAt(int);
     QList<Line *> lines();
+    Line *lineWithName(const QString &name);
+    bool lineWithNameExists(const QString &name);
 
     Route *route(QString);
+    Route *routeWithName(QString);
     Trip *trip(QString);
 
     int tourCount();

@@ -14,6 +14,7 @@ SOURCES += \
     Dialogs/DlgFilehandler.cpp \
     Dialogs/DlgFootnoteEditor.cpp \
     Dialogs/DlgManageFootnotes.cpp \
+    Dialogs/DlgOmsiImport.cpp \
     Dialogs/DlgPdfExporter.cpp \
     Dialogs/DlgPreferences.cpp \
     Dialogs/DlgProjectsettings.cpp \
@@ -59,7 +60,8 @@ SOURCES += \
     Dialogs/DlgToureditor.cpp \
     ProjectData/trip.cpp \
     Dialogs/DlgTripselector.cpp \
-    Dialogs/DlgTroubleshooter.cpp
+    Dialogs/DlgTroubleshooter.cpp \
+    Plugins/PlgOmsiImport.cpp
 
 HEADERS += \
     App/global.h \
@@ -76,6 +78,7 @@ HEADERS += \
     Dialogs/DlgFileHandler.h \
     Dialogs/DlgFootnoteEditor.h \
     Dialogs/DlgManageFootnotes.h \
+    Dialogs/DlgOmsiImport.h \
     Dialogs/DlgPdfExporter.h \
     Dialogs/DlgPreferences.h \
     Dialogs/DlgProjectsettings.h \
@@ -120,13 +123,15 @@ HEADERS += \
     Dialogs/DlgTroubleshooter.h \
     ProjectData/weekdays.h \
     globalconfig.h \
-    localconfig.h
+    localconfig.h \
+    Plugins/PlgOmsiImport.h
 
 FORMS += \
     Dialogs/DlgCopyTrip.ui \
     Dialogs/DlgFileHandler.ui \
     Dialogs/DlgFootnoteEditor.ui \
     Dialogs/DlgManageFootnotes.ui \
+    Dialogs/DlgOmsiImport.ui \
     Dialogs/DlgPdfExporter.ui \
     Dialogs/DlgPreferences.ui \
     Dialogs/DlgProjectsettings.ui \

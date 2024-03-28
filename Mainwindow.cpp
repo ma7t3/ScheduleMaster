@@ -37,6 +37,7 @@
 #include "Dialogs/DlgProjectsettings.h"
 #include "Dialogs/DlgPreferences.h"
 #include "Dialogs/DlgManageFootnotes.h"
+#include "Dialogs/DlgOmsiImport.h"
 
 
 //********************************************************************************************************************************************************************
@@ -1104,3 +1105,30 @@ void MainWindow::on_actionViewToolbarDocks_triggered() {
 void MainWindow::on_actionViewToolbarWorkspaces_triggered() {
     tbWorkspaces->setVisible(ui->actionViewToolbarWorkspaces->isChecked());
 }
+
+void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
+    DlgOmsiImport dlg(this, projectData);
+    dlg.exec();
+
+    for(int i = 0; i < projectData->lineCount(); i++) {
+        Line *l = projectData->lineAt(i);
+        l->refreshChilds();
+        for(int j = 0; j < l->routeCount(); j++) {
+            Route *r = l->routeAt(j);
+            r->refreshChilds();
+            for(int k = 0; k < r->timeProfileCount(); k++) {
+                r->timeProfileAt(k)->refreshChilds();
+            }
+        }
+    }
+
+    qDebug() << "refreshing ui...";
+    wdgBusstops->refresh();
+    wdgLines->refresh();
+    wdgTours->refresh();
+    wdgSchedule->refreshDayTypes();
+    wdgPublishedLines->refreshLineList();
+    wdgPublishedLines->refreshDayTypes();
+    wdgPublishedLines->refreshRoutes();
+}
+
