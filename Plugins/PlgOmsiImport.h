@@ -17,6 +17,8 @@ public:
     void setSelectedTrips(const QStringList &selectedTrips);
     void setSelectedLines(const QStringList &selectedLines);
 
+    void setMergeTrips(bool newMergeTrips);
+
 signals:
     void newFileStarted(int, QString);
 
@@ -29,6 +31,8 @@ private:
     QRegularExpression _tripMask;
     QStringList _trips, _lines;
     ProjectData *projectData;
+
+    bool _mergeTrips;
 };
 
 #endif // PLGOMSIIMPORT_H

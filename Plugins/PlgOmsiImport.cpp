@@ -7,7 +7,8 @@
 
 PlgOmsiImport::PlgOmsiImport(QObject *parent, ProjectData *projectData) :
     QThread(parent),
-    projectData(projectData)
+    projectData(projectData),
+    _mergeTrips(true)
 {}
 
 void PlgOmsiImport::run() {
@@ -74,7 +75,6 @@ void PlgOmsiImport::run() {
             l->addDirection(ld2);
         }
         ld1 = l->directionAt(0);
-        ld2 = l->directionAt(1);
 
         Route *r = new Route(l, global::getNewID(), 1, currentTrip, ld1);
         l->addRoute(r);
@@ -261,16 +261,21 @@ void PlgOmsiImport::run() {
                         else if(!p)
                             continue;
 
-                        // check, if trip already exists
-                        Line *l = projectData->lineOfRoute(r);
-                        QList<Trip *> trips = l->tripsOfRoute(r);
 
-                        for(int i = 0; i < trips.count(); i++) {
-                            Trip *t = trips[i];
-                            if(t->startTime() == time && t->timeProfile() == p) {
-                                t->setWeekDays(WeekDays::combine(t->weekDays(), w));
-                                o->addTrip(t);
-                                goto nextTrip;
+                        Line *l = projectData->lineOfRoute(r);
+
+                        // only do if we want to merge same trips
+                        if(_mergeTrips) {
+                            // check, if trip already exists
+                            QList<Trip *> trips = l->tripsOfRoute(r);
+
+                            for(int i = 0; i < trips.count(); i++) {
+                                Trip *t = trips[i];
+                                if(t->startTime() == time && t->timeProfile() == p) {
+                                    t->setWeekDays(WeekDays::combine(t->weekDays(), w));
+                                    o->addTrip(t);
+                                    goto nextTrip;
+                                }
                             }
                         }
 
@@ -406,27 +411,6 @@ int PlgOmsiImport::countCommonBusstopSequences(Route *r1, Route *r2) const {
     return counter;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void PlgOmsiImport::setMergeTrips(bool newMergeTrips) {
+    _mergeTrips = newMergeTrips;
+}
