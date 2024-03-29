@@ -7,6 +7,8 @@ DlgFootnoteEditor::DlgFootnoteEditor(QWidget *parent, ProjectData *projectData) 
     ui->setupUi(this);
 
     ui->leIdentifier->setFocus();
+
+    ui->daySelector->setTristate(true);
 }
 
 DlgFootnoteEditor::~DlgFootnoteEditor() {
@@ -23,6 +25,14 @@ QString DlgFootnoteEditor::identifier() const {
 
 void DlgFootnoteEditor::setIdentifier(const QString &newIdentifier) {
     ui->leIdentifier->setText(newIdentifier);
+}
+
+QString DlgFootnoteEditor::name() const {
+    return ui->leName->text();
+}
+
+void DlgFootnoteEditor::setName(const QString &newName) {
+    ui->leName->setText(newName);
 }
 
 QString DlgFootnoteEditor::description() const {
