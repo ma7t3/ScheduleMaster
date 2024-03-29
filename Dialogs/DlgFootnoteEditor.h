@@ -21,6 +21,9 @@ public:
     QString identifier() const;
     void setIdentifier(const QString &newIdentifier);
 
+    QString name() const;
+    void setName(const QString &newName);
+
     QString description() const;
     void setDescription(const QString &newDescription);
 
