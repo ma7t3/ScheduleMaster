@@ -36,7 +36,7 @@
 #include "Dialogs/DlgTroubleshooter.h"
 #include "Dialogs/DlgProjectsettings.h"
 #include "Dialogs/DlgPreferences.h"
-#include "Dialogs/DlgManageFootnotes.h"
+#include "Widgets/WdgFootnotes.h"
 #include "Dialogs/DlgOmsiImport.h"
 
 
@@ -116,6 +116,7 @@ MainWindow::MainWindow(QWidget *parent)
     dwTours           -> setWidget(wdgTours);
     dwTourEditor      -> setWidget(wdgTourEditor);
     dwPublishedLines  -> setWidget(wdgPublishedLines);
+    dwFootnotes       -> setWidget(wdgFootnotes);
 
     actionWorkspaceTrackLayout();
 
@@ -132,6 +133,7 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *actDockTours           = dwTours           -> toggleViewAction();
     QAction *actDockTourEditor      = dwTourEditor      -> toggleViewAction();
     QAction *actDockPublishedLines  = dwPublishedLines  -> toggleViewAction();
+    QAction *actDockFootnotes       = dwFootnotes       -> toggleViewAction();
 
     qDebug() << "setting icons of toggleViewActions...";
     actDockBusstops        -> setIcon(QIcon(":/icons/Busstop.ico"));
@@ -142,6 +144,7 @@ MainWindow::MainWindow(QWidget *parent)
     actDockTours           -> setIcon(QIcon(":/icons/TourList.ico"));
     actDockTourEditor      -> setIcon(QIcon(":/icons/Tour.ico"));
     actDockPublishedLines  -> setIcon(QIcon(":/icons/PublishedLines.ico"));
+    actDockFootnotes       -> setIcon(QIcon(":/icons/Footnote.ico"));
 
     qDebug() << "setting shortcuts toggleViewActions...";
     actDockBusstops        -> setShortcut(QKeySequence(tr("Alt+B")));
@@ -151,6 +154,7 @@ MainWindow::MainWindow(QWidget *parent)
     actDockBusstopSchedule -> setShortcut(QKeySequence(tr("Alt+Shift+B")));
     actDockTours           -> setShortcut(QKeySequence(tr("Alt+T")));
     actDockTourEditor      -> setShortcut(QKeySequence(tr("Alt+Shift+T")));
+    actDockFootnotes       -> setShortcut(QKeySequence(tr("Alt+F")));
 
     qDebug() << "adding toggleViewActions to menubar";
     ui->menuDocks->addAction(actDockBusstops);
@@ -162,6 +166,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->menuDocks->addAction(actDockTourEditor);
     ui->menuDocks->addSeparator();
     ui->menuDocks->addAction(actDockPublishedLines);
+    ui->menuDocks->addAction(actDockFootnotes);
 
     qDebug() << "setting menubarActions to widgets";
     wdgBusstops -> setMenubarActions(ui->actionBusstopsNew, ui->actionBusstopsEdit, ui->actionBusstopsDelete);
@@ -216,6 +221,7 @@ MainWindow::MainWindow(QWidget *parent)
     tbDocks->addAction(actDockTours);
     tbDocks->addAction(actDockTourEditor);
     tbDocks->addAction(actDockPublishedLines);
+    tbDocks->addAction(actDockFootnotes);
 
     qDebug() << "\tworkspaces toolbar";
     tbWorkspaces->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -500,13 +506,11 @@ void MainWindow::refreshLastUsedFiles() {
 }
 
 void MainWindow::refreshUndo() {
-    //undoStack->undo();
     refreshAfterUndoRedo(dynamic_cast<const CmdAbstract *>(undoStack->command(undoStack->index()))->commandType());
 }
 
 void MainWindow::refreshRedo() {
     CmdType type = dynamic_cast<const CmdAbstract *>(undoStack->command(undoStack->index() - 1))->commandType();
-    //undoStack->redo();
     refreshAfterUndoRedo(type);
 }
 
@@ -577,6 +581,9 @@ void MainWindow::actionWorkspaceTrackLayout() {
 
     dwPublishedLines->close();
     dwPublishedLines->setFloating(true);
+
+    dwFootnotes->close();
+    dwFootnotes->setFloating(true);
 
     dwBusstops->show();
     dwBusstops->setFloating(false);
@@ -1099,8 +1106,8 @@ void MainWindow::on_actionPublishAll_triggered() {
 
 
 void MainWindow::on_actionPublishManageFootnotes_triggered() {
-    DlgManageFootnotes *dlg = new DlgManageFootnotes(this, projectData);
-    dlg->exec();
+    /*WdgFootnotes *dlg = new WdgFootnotes(this, projectData, undoStack);
+    dlg->exec();*/
 }
 
 

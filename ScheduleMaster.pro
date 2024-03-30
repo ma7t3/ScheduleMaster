@@ -13,11 +13,11 @@ SOURCES += \
     Dialogs/DlgCopyTrip.cpp \
     Dialogs/DlgFilehandler.cpp \
     Dialogs/DlgFootnoteEditor.cpp \
-    Dialogs/DlgManageFootnotes.cpp \
     Dialogs/DlgOmsiImport.cpp \
     Dialogs/DlgPdfExporter.cpp \
     Dialogs/DlgPreferences.cpp \
     Dialogs/DlgProjectsettings.cpp \
+    Widgets/WdgFootnotes.cpp \
     Mainwindow.cpp \
     ProjectData/daytype.cpp \
     ProjectData/footnote.cpp \
@@ -77,7 +77,6 @@ HEADERS += \
     Dialogs/DlgCopyTrip.h \
     Dialogs/DlgFileHandler.h \
     Dialogs/DlgFootnoteEditor.h \
-    Dialogs/DlgManageFootnotes.h \
     Dialogs/DlgOmsiImport.h \
     Dialogs/DlgPdfExporter.h \
     Dialogs/DlgPreferences.h \
@@ -97,6 +96,7 @@ HEADERS += \
     ProjectData/publishedlinedirection.h \
     Widgets/Publications/wdgpublishedlines.h \
     Widgets/WdgDaySelector.h \
+    Widgets/WdgFootnotes.h \
     Widgets/WdgRouteSelector.h \
     Widgets/wdgbusstops.h \
     Widgets/wdglines.h \
@@ -130,7 +130,7 @@ FORMS += \
     Dialogs/DlgCopyTrip.ui \
     Dialogs/DlgFileHandler.ui \
     Dialogs/DlgFootnoteEditor.ui \
-    Dialogs/DlgManageFootnotes.ui \
+    Widgets/WdgFootnotes.ui \
     Dialogs/DlgOmsiImport.ui \
     Dialogs/DlgPdfExporter.ui \
     Dialogs/DlgPreferences.ui \
