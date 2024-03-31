@@ -42,3 +42,26 @@ QString DlgFootnoteEditor::description() const {
 void DlgFootnoteEditor::setDescription(const QString &newDescription) {
     ui->leDescription->setText(newDescription);
 }
+
+WeekDays DlgFootnoteEditor::weekDays() const {
+    return ui->daySelector->weekDays();
+}
+void DlgFootnoteEditor::setWeekDays(const WeekDays &w) {
+    ui->daySelector->setWeekDays(w);
+}
+
+WeekDays DlgFootnoteEditor::careWeekDays() const {
+    return ui->daySelector->careWeekDays();
+}
+
+void DlgFootnoteEditor::setCareWeekDays(const WeekDays &w) {
+    ui->daySelector->setCareWeekDays(w);
+}
+
+void DlgFootnoteEditor::setAutoAssignWeekDaysEnabled(const bool &b) {
+    ui->gbAutoAssign->setChecked(b);
+}
+
+bool DlgFootnoteEditor::autoAssignWeekDaysEnabled() const {
+    return ui->gbAutoAssign->isChecked();
+}

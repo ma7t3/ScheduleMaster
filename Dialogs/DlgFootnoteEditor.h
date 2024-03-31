@@ -27,6 +27,15 @@ public:
     QString description() const;
     void setDescription(const QString &newDescription);
 
+    WeekDays weekDays() const;
+    void setWeekDays(const WeekDays &);
+
+    WeekDays careWeekDays() const;
+    void setCareWeekDays(const WeekDays &);
+
+    void setAutoAssignWeekDaysEnabled(const bool &b);
+    bool autoAssignWeekDaysEnabled() const;
+
 private:
     Ui::DlgFootnoteEditor *ui;
     ProjectData *projectData;
