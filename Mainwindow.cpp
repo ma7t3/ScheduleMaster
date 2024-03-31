@@ -546,7 +546,8 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
         wdgPublishedLines->refreshBusstopList();
     }
     if(t == FootnotesType) {
-        // nothin for now ^^
+        wdgFootnotes->refreshFootnotes();
+        wdgSchedule->refreshSchedule();
     }
 }
 
@@ -853,6 +854,7 @@ bool MainWindow::openFile(QString path) {
     wdgPublishedLines->refreshLineList();
     wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRoutes();
+    wdgFootnotes->refreshFootnotes();
 
     undoStack->clear();
     knownFile = true;

@@ -5,10 +5,13 @@
 
 #include "ProjectDataItem.h"
 
+#include "weekdays.h"
+
 class Footnote : public virtual ProjectDataItem {
     Q_OBJECT
 public:
     Footnote(QObject *parent, const QString &id, const QString &identifier, const QString &name, const QString &description = "");
+    Footnote(QObject *parent, const QJsonObject &);
     Footnote(const Footnote &);
     Footnote operator=(const Footnote &);
     bool operator<(const Footnote &);
@@ -35,6 +38,7 @@ public:
 
 protected:
     void copy(const Footnote &);
+    void fromJson(const QJsonObject &);
 
 private:
     QString _identifier, _name, _description;

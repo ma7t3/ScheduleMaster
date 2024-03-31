@@ -548,9 +548,14 @@ QJsonObject ProjectData::toJson() {
     for(int i = 0; i < tourCount(); ++i)
         jTours.append(tourAt(i)->toJson());
 
+    for(int i = 0; i < footnoteCount(); i++) {
+        jFootnotes.append(footnoteAt(i)->toJson());
+    }
+
     jsonObject.insert("busstops", jBusstops);
     jsonObject.insert("lines", jLines);
     jsonObject.insert("tours", jTours);
+    jsonObject.insert("footnotes", jFootnotes);
     qDebug() << "a";
     jsonObject.insert("projectSettings", projectSettings()->toJson());
     qDebug() << "projectSettings saved.";
@@ -566,6 +571,7 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     jBusstops = jsonObject.value("busstops").toArray();
     jLines = jsonObject.value("lines").toArray();
     jTours = jsonObject.value("tours").toArray();
+    jFootnotes = jsonObject.value("footnotes").toArray();
 
     int counter = 0, invalidCounter = 0;
     for(int i = 0; i < jBusstops.count(); ++i)
@@ -593,6 +599,15 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
         } else invalidCounter++;
 
     qInfo().noquote() << counter << "valid tours found (" + QString::number(invalidCounter) + " invalid)";
+
+    counter = 0, invalidCounter = 0;
+    for(int i = 0; i < jFootnotes.count(); ++i)
+        if(jFootnotes[i].isObject()) {
+            counter++;
+            addFootnote(new Footnote(this, jFootnotes[i].toObject()));
+        } else invalidCounter++;
+
+    qInfo().noquote() << counter << "valid footnotes found (" + QString::number(invalidCounter) + " invalid)";
 
     projectSettings()->setJson(jsonObject.value("projectSettings").toObject());
     publications()->setJson(jsonObject.value("publications").toObject());
