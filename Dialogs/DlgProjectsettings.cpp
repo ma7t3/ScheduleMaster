@@ -104,8 +104,10 @@ void DlgProjectSettings::refreshTayTypesDetails() {
         return;
     }
 
+    WeekDays w = *_currentDayType;
+
     ui->leDayTypesName->setText(_currentDayType->name());
-    ui->daySelector->setWeekDays(*_currentDayType);
+    ui->daySelector->setWeekDays(w);
 
     ui->leDayTypesName->setEnabled(true);
     ui->daySelector->setEnabled(true);

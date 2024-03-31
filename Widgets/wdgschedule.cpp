@@ -284,14 +284,20 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
 
     //------------------------------
 
-    QPair<QString, QString> p = refreshScheduleGenerateInfo(t->weekDays());
+    /*QPair<QString, QString> p = refreshScheduleGenerateInfo(t->weekDays());
     info = p.first;
     infoToolTip = p.second;
-    itmInfo->setToolTip(infoToolTip);
-    if(info != "")
-        itmInfo->setBackground(Qt::yellow);
+    itmInfo->setToolTip(infoToolTip);*/
 
-    itmInfo->setText(info);
+    QList<Footnote *> footnotes = projectData->autoAssignedFootnotesOfTrip(t);
+    QStringList footnotesStrList;
+    for(int i = 0; i < footnotes.count(); i++)
+        footnotesStrList << footnotes[i]->identifier();
+
+    itmInfo->setText(footnotesStrList.join(", "));
+
+    if(!footnotesStrList.isEmpty())
+        itmInfo->setBackground(Qt::yellow);
 
     //------------------------------
 
