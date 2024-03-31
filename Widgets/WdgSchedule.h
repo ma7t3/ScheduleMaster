@@ -33,8 +33,6 @@ public slots:
 private slots:
     void refreshScheduleBusstopList(QList<Trip *>);
     void refreshScheduleAddTrip(Trip *);
-    QPair<QString, QString> refreshScheduleGenerateInfo(WeekDays);
-
     bool checkMatchingWeekdays(WeekDays);
 
     void on_twSchedule_itemDoubleClicked(QTableWidgetItem *item);
@@ -57,7 +55,7 @@ private:
     ProjectData *projectData;
     QUndoStack *undoStack;
 
-    int headerRowCount = 6;
+    int headerRowCount = 7;
 
     Line *_currentLine = nullptr;
     QList<Trip *> _currentTrips;
