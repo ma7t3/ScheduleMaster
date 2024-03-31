@@ -9,6 +9,8 @@ Footnote::Footnote(QObject *parent,
     _identifier(identifier), _name(name), _description(description),
     _autoAssignWeekDaysEnabled(false) {}
 
+Footnote::Footnote(QObject *parent, const QJsonObject &jsonObject) : ProjectDataItem(parent) {
+    fromJson(jsonObject);
 }
 
 Footnote::Footnote(const Footnote &other) :
@@ -30,6 +32,55 @@ void Footnote::copy(const Footnote &other) {
     setIdentifier(other.identifier());
     setName(other.name());
     setDescription(other.description());
+    setAutoAssignWeekDaysEnabled(other.autoAssignWeekDaysEnabled());
+    setAutoAssignWeekDays(other.autoAssignWeekDays());
+    setAutoAssignCareWeekDays(other.autoAssignCareWeekDays());
+}
+
+void Footnote::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+
+    setIdentifier(jsonObject.value("identifier").toString(tr("X")));
+    setName(jsonObject.value("name").toString(tr("Unnamed Footnote")));
+    setDescription(jsonObject.value("description").toString());
+
+    QJsonObject jsonAutoAssignObject = jsonObject.value("autoAssign").toObject(QJsonObject());
+
+    if(!jsonAutoAssignObject.empty() && jsonAutoAssignObject.value("weekDays").isArray()) {
+        setAutoAssignWeekDaysEnabled(true);
+
+        QJsonArray jArr = jsonAutoAssignObject.value("weekDays").toArray();
+        WeekDays w, cW;
+
+        w.setCode(jArr.at(0).toInt());
+        cW.setCode(jArr.at(1).toInt());
+
+        setAutoAssignWeekDays(w);
+        setAutoAssignCareWeekDays(cW);
+    } else {
+        setAutoAssignWeekDaysEnabled(false);
+    }
+}
+
+QJsonObject Footnote::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.insert("identifier", identifier());
+    jsonObject.insert("name", name());
+    jsonObject.insert("description", description());
+
+    QJsonObject jsonAutoAssignObject;
+
+    if(autoAssignWeekDaysEnabled()) {
+        jsonAutoAssignObject.insert("weekDays", QJsonArray() << autoAssignWeekDays().toCode() << autoAssignCareWeekDays().toCode());
+    } else {
+        jsonAutoAssignObject.insert("weekDays", false);
+    }
+
+    jsonObject.insert("autoAssign", jsonAutoAssignObject);
+    return jsonObject;
+}
+
+
 WeekDays Footnote::autoAssignCareWeekDays() const {
     return _autoAssignCareWeekDays;
 }
