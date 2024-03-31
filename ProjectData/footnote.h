@@ -22,12 +22,25 @@ public:
     QString description() const;
     void setDescription(const QString &newDescription);
 
+    bool autoAssignWeekDaysEnabled() const;
+    void setAutoAssignWeekDaysEnabled(bool newAutoAssignWeekDaysEnabled);
+
+    WeekDays autoAssignWeekDays() const;
+    void setAutoAssignWeekDays(const WeekDays &newAutoAssignWeekDays);
+
+    WeekDays autoAssignCareWeekDays() const;
+    void setAutoAssignCareWeekDays(const WeekDays &newAutoAssignCareWeekDays);
+
+    QJsonObject toJson() const;
 
 protected:
     void copy(const Footnote &);
 
 private:
     QString _identifier, _name, _description;
+
+    bool _autoAssignWeekDaysEnabled;
+    WeekDays _autoAssignWeekDays, _autoAssignCareWeekDays;
 };
 
 #endif // FOOTNOTE_H

@@ -18,13 +18,15 @@ public:
     explicit WdgFootnotes(QWidget *parent = nullptr, ProjectData *projectData = nullptr, QUndoStack *undoStack = nullptr);
     ~WdgFootnotes();
 
+public slots:
+    void refreshFootnotes();
+
 private slots:
     void actionNew();
     void actionEdit();
     void actionDuplicate();
     void actionDelete();
 
-    void refreshFootnotes();
     void refreshUI();
 
     void on_tableWidget_itemSelectionChanged();
@@ -35,7 +37,7 @@ private:
     ProjectData *projectData;
     QUndoStack *undoStack;
 
-    //QList<Footnote> _footnotes;
+    QList<Footnote *> _footnotesReference;
 };
 
 #endif // WDGFOOTNOTES_H

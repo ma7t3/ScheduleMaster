@@ -33,13 +33,17 @@ WdgFootnotes::~WdgFootnotes() {
 }
 
 void WdgFootnotes::actionNew() {
-    DlgFootnoteEditor *dlg = new DlgFootnoteEditor(this, projectData);
-    dlg->setCreateNewMode(true);
-    dlg->exec();
-    if(dlg->result() != QDialog::Accepted)
+    DlgFootnoteEditor dlg(this, projectData);
+    dlg.setCreateNewMode(true);
+    dlg.exec();
+    if(dlg.result() != QDialog::Accepted)
         return;
 
-    Footnote *f = new Footnote(projectData, global::getNewID(), dlg->identifier(), dlg->name(), dlg->description());
+    Footnote *f = new Footnote(projectData, global::getNewID(), dlg.identifier(), dlg.name(), dlg.description());
+    f->setAutoAssignWeekDaysEnabled(dlg.autoAssignWeekDaysEnabled());
+    f->setAutoAssignWeekDays(dlg.weekDays());
+    f->setAutoAssignCareWeekDays(dlg.careWeekDays());
+
     undoStack->push(new CmdFootnoteNew(projectData, f));
 
     refreshFootnotes();
@@ -50,22 +54,30 @@ void WdgFootnotes::actionEdit() {
         return;
 
     int index = ui->tableWidget->currentItem()->row();
-    Footnote *f = projectData->footnoteAt(index);
+    Footnote *f = _footnotesReference[index];
 
-    DlgFootnoteEditor *dlg = new DlgFootnoteEditor(this, projectData);
-    dlg->setCreateNewMode(false);
+    DlgFootnoteEditor dlg(this, projectData);
+    dlg.setCreateNewMode(false);
 
-    dlg->setIdentifier(f->identifier());
-    dlg->setName(f->name());
-    dlg->setDescription(f->description());
+    dlg.setIdentifier(f->identifier());
+    dlg.setName(f->name());
+    dlg.setDescription(f->description());
 
-    dlg->exec();
-    if(dlg->result() != QDialog::Accepted)
+    dlg.setAutoAssignWeekDaysEnabled(f->autoAssignWeekDaysEnabled());
+    dlg.setWeekDays(f->autoAssignWeekDays());
+    dlg.setCareWeekDays(f->autoAssignCareWeekDays());
+
+    dlg.exec();
+    if(dlg.result() != QDialog::Accepted)
         return;
 
-    f->setIdentifier(dlg->identifier());
-    f->setName(dlg->name());
-    f->setDescription(dlg->description());
+    f->setIdentifier(dlg.identifier());
+    f->setName(dlg.name());
+    f->setDescription(dlg.description());
+
+    f->setAutoAssignWeekDaysEnabled(dlg.autoAssignWeekDaysEnabled());
+    f->setAutoAssignWeekDays(dlg.weekDays());
+    f->setAutoAssignCareWeekDays(dlg.careWeekDays());
 
     refreshFootnotes();
 }
@@ -75,31 +87,42 @@ void WdgFootnotes::actionDuplicate() {
         return;
 
     int index = ui->tableWidget->currentItem()->row();
-    Footnote *f = projectData->footnoteAt(index);
+    Footnote *f = _footnotesReference[index];
 
-    DlgFootnoteEditor *dlg = new DlgFootnoteEditor(this, projectData);
-    dlg->setCreateNewMode(false);
+    DlgFootnoteEditor dlg(this, projectData);
+    dlg.setCreateNewMode(false);
 
-    dlg->setIdentifier(f->identifier());
-    dlg->setName(f->name());
-    dlg->setDescription(f->description());
+    dlg.setIdentifier(f->identifier());
+    dlg.setName(f->name());
+    dlg.setDescription(f->description());
 
-    dlg->exec();
-    if(dlg->result() != QDialog::Accepted)
+    dlg.setAutoAssignWeekDaysEnabled(f->autoAssignWeekDaysEnabled());
+    dlg.setWeekDays(f->autoAssignWeekDays());
+    dlg.setCareWeekDays(f->autoAssignCareWeekDays());
+
+    dlg.exec();
+    if(dlg.result() != QDialog::Accepted)
         return;
 
-    Footnote *newF = new Footnote(projectData, global::getNewID(), dlg->identifier(), dlg->name(), dlg->description());
+    Footnote *newF = new Footnote(projectData, global::getNewID(), dlg.identifier(), dlg.name(), dlg.description());
+
+    newF->setAutoAssignWeekDaysEnabled(dlg.autoAssignWeekDaysEnabled());
+    newF->setAutoAssignWeekDays(dlg.weekDays());
+    newF->setAutoAssignCareWeekDays(dlg.careWeekDays());
+
     undoStack->push(new CmdFootnoteNew(projectData, newF));
 
     refreshFootnotes();
 }
 
 void WdgFootnotes::actionDelete() {
-    QList<Footnote *> selectedFootnotes;
     QString stringList;
+
+    QList<Footnote *> selectedFootnotes;
+
     for(int i = 0; i < ui->tableWidget->rowCount(); i++) {
         if(ui->tableWidget->item(i, 0)->isSelected()) {
-            Footnote *f = projectData->footnoteAt(i);
+            Footnote *f = _footnotesReference[i];
             selectedFootnotes << f;
             stringList += ("<li>" + f->name() + "</li>");
         }
@@ -118,6 +141,7 @@ void WdgFootnotes::refreshFootnotes() {
     QList<Footnote *> footnotes = ProjectData::sortItems(projectData->footnotes());
 
     ui->tableWidget->setRowCount(0);
+    _footnotesReference.clear();
 
     int targetRow = 0;
     for(int i = 0; i < footnotes.count(); i++) {
@@ -130,6 +154,8 @@ void WdgFootnotes::refreshFootnotes() {
         ui->tableWidget->setItem(targetRow, 2, new QTableWidgetItem(f->description()));
 
         targetRow++;
+
+        _footnotesReference << f;
     }
 
     ui->tableWidget->resizeColumnsToContents();

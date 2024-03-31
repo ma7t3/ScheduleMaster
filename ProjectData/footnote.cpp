@@ -1,10 +1,14 @@
 #include "footnote.h"
 
-Footnote::Footnote(QObject *parent, const QString &id, const QString &identifier, const QString &name, const QString &description) :
+Footnote::Footnote(QObject *parent,
+                   const QString &id,
+                   const QString &identifier,
+                   const QString &name,
+                   const QString &description) :
     ProjectDataItem(parent, id),
-    _identifier(identifier),
-    _name(name),
-    _description(description) {
+    _identifier(identifier), _name(name), _description(description),
+    _autoAssignWeekDaysEnabled(false) {}
+
 }
 
 Footnote::Footnote(const Footnote &other) :
@@ -26,6 +30,28 @@ void Footnote::copy(const Footnote &other) {
     setIdentifier(other.identifier());
     setName(other.name());
     setDescription(other.description());
+WeekDays Footnote::autoAssignCareWeekDays() const {
+    return _autoAssignCareWeekDays;
+}
+
+void Footnote::setAutoAssignCareWeekDays(const WeekDays &newAutoAssignCareWeekDays) {
+    _autoAssignCareWeekDays = newAutoAssignCareWeekDays;
+}
+
+WeekDays Footnote::autoAssignWeekDays() const {
+    return _autoAssignWeekDays;
+}
+
+void Footnote::setAutoAssignWeekDays(const WeekDays &newAutoAssignWeekDays) {
+    _autoAssignWeekDays = newAutoAssignWeekDays;
+}
+
+bool Footnote::autoAssignWeekDaysEnabled() const {
+    return _autoAssignWeekDaysEnabled;
+}
+
+void Footnote::setAutoAssignWeekDaysEnabled(bool newAutoAssignWeekDaysEnabled) {
+    _autoAssignWeekDaysEnabled = newAutoAssignWeekDaysEnabled;
 }
 
 QString Footnote::identifier() const {
