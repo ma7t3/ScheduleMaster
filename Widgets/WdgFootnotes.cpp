@@ -46,7 +46,7 @@ void WdgFootnotes::actionNew() {
 
     undoStack->push(new CmdFootnoteNew(projectData, f));
 
-    refreshFootnotes();
+    emit refreshRequested();
 }
 
 void WdgFootnotes::actionEdit() {
@@ -79,7 +79,7 @@ void WdgFootnotes::actionEdit() {
     f->setAutoAssignWeekDays(dlg.weekDays());
     f->setAutoAssignCareWeekDays(dlg.careWeekDays());
 
-    refreshFootnotes();
+    emit refreshRequested();
 }
 
 void WdgFootnotes::actionDuplicate() {
@@ -112,7 +112,7 @@ void WdgFootnotes::actionDuplicate() {
 
     undoStack->push(new CmdFootnoteNew(projectData, newF));
 
-    refreshFootnotes();
+    emit refreshRequested();
 }
 
 void WdgFootnotes::actionDelete() {
@@ -134,7 +134,7 @@ void WdgFootnotes::actionDelete() {
 
     undoStack->push(new CmdFootnotesDelete(projectData, selectedFootnotes));
 
-    refreshFootnotes();
+    emit refreshRequested();
 }
 
 void WdgFootnotes::refreshFootnotes() {

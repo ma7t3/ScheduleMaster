@@ -31,6 +31,9 @@ private slots:
 
     void on_tableWidget_itemSelectionChanged();
 
+signals:
+    void refreshRequested();
+
 private:
     Ui::WdgFootnotes *ui;
 
