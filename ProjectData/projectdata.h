@@ -70,6 +70,7 @@ public:
     void removeFootnote(const QString &);
     Footnote *footnoteAt(int);
     int footnoteCount() const;
+    QList<Footnote *> autoAssignedFootnotesOfTrip(Trip *);
 
 
     QList<Route *> matchingRoutes(Route *);

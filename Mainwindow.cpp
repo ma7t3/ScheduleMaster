@@ -319,6 +319,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(wdgPublishedLines,                     &WdgPublishedLines::refreshRequested,   wdgPublishedLines,  &WdgPublishedLines::refreshDayTypes);
     connect(wdgPublishedLines,                     &WdgPublishedLines::refreshRequested,   wdgPublishedLines,  &WdgPublishedLines::refreshBusstopList);
 
+    // Footnotes
+    connect(wdgFootnotes,                          &WdgFootnotes::refreshRequested,        wdgFootnotes,       &WdgFootnotes::refreshFootnotes);
+    connect(wdgFootnotes,                          &WdgFootnotes::refreshRequested,        wdgSchedule,        &WdgSchedule::refreshSchedule);
+
 
     qInfo() << "loading last used files...";
     splashScreen.showMessage(tr("loading last used files..."), Qt::AlignBottom, messageColor);
