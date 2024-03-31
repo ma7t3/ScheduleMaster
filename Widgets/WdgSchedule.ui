@@ -112,6 +112,11 @@
      </row>
      <row>
       <property name="text">
+       <string>Footnotes</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
        <string>Route Name</string>
       </property>
      </row>

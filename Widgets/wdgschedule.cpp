@@ -230,17 +230,19 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     int targetColumn = ui->twSchedule->columnCount();
     ui->twSchedule->insertColumn(targetColumn);
 
-    QString tour, tourToolTip, info, infoToolTip;
+    QString tour, tourToolTip;
 
-    QTableWidgetItem *itmTour = new QTableWidgetItem(tour);
-    QTableWidgetItem *itmInfo = new QTableWidgetItem(info);
-    QTableWidgetItem *itmRoute = new QTableWidgetItem(t->route()->name());
+    QTableWidgetItem *itmTour        = new QTableWidgetItem();
+    QTableWidgetItem *itmInfo        = new QTableWidgetItem();
+    QTableWidgetItem *itmFootnotes   = new QTableWidgetItem();
+    QTableWidgetItem *itmRoute       = new QTableWidgetItem(t->route()->name());
     QTableWidgetItem *itmTimeProfile = new QTableWidgetItem(t->timeProfile()->name());
-    QTableWidgetItem *itmStartTime = new QTableWidgetItem(t->startTime().toString("hh:mm"));
+    QTableWidgetItem *itmStartTime   = new QTableWidgetItem(t->startTime().toString("hh:mm"));
 
     //------------------------------
 
-    QList<Tour *> tours = projectData->toursOfTrip(t);
+    QList<Tour *> tours = ProjectData::sortItems(projectData->toursOfTrip(t));
+
     if(tours.isEmpty()) {
         tour = tr("None");
     } else {
@@ -254,8 +256,9 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
         tourToolTip = strListToolTip.join("\r\n");
     }
     QList<WeekDays> tourWeekDays;
-    for(int i = 0; i < tours.count(); i++)
+    for(int i = 0; i < tours.count(); i++) {
         tourWeekDays << tours[i]->weekDays();
+    }
 
     if(tours.empty()) {
         itmTour->setBackground(Qt::red);
@@ -284,20 +287,19 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
 
     //------------------------------
 
-    /*QPair<QString, QString> p = refreshScheduleGenerateInfo(t->weekDays());
-    info = p.first;
-    infoToolTip = p.second;
-    itmInfo->setToolTip(infoToolTip);*/
-
     QList<Footnote *> footnotes = projectData->autoAssignedFootnotesOfTrip(t);
     QStringList footnotesStrList;
-    for(int i = 0; i < footnotes.count(); i++)
+    QStringList footnotesToolTipStrList;
+    for(int i = 0; i < footnotes.count(); i++) {
         footnotesStrList << footnotes[i]->identifier();
+        footnotesToolTipStrList << footnotes[i]->identifier() + ": " + footnotes[i]->description();
+    }
 
-    itmInfo->setText(footnotesStrList.join(", "));
+    itmFootnotes->setText(footnotesStrList.join(", "));
+    itmFootnotes->setToolTip(footnotesToolTipStrList.join("\r\n"));
 
     if(!footnotesStrList.isEmpty())
-        itmInfo->setBackground(Qt::yellow);
+        itmFootnotes->setBackground(Qt::yellow);
 
     //------------------------------
 
@@ -324,9 +326,10 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     ui->twSchedule->setItem(0, targetColumn, new QTableWidgetItem);
     ui->twSchedule->setItem(1, targetColumn, itmTour);
     ui->twSchedule->setItem(2, targetColumn, itmInfo);
-    ui->twSchedule->setItem(3, targetColumn, itmRoute);
-    ui->twSchedule->setItem(4, targetColumn, itmTimeProfile);
-    ui->twSchedule->setItem(5, targetColumn, itmStartTime);
+    ui->twSchedule->setItem(3, targetColumn, itmFootnotes);
+    ui->twSchedule->setItem(4, targetColumn, itmRoute);
+    ui->twSchedule->setItem(5, targetColumn, itmTimeProfile);
+    ui->twSchedule->setItem(6, targetColumn, itmStartTime);
 
     //--------------------------------------------------------------------------------
 
@@ -392,157 +395,6 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
         else
             ui->twSchedule->setRangeSelected(QTableWidgetSelectionRange(0, targetColumn, ui->twSchedule->rowCount() - 1, targetColumn), true);
     }
-}
-
-QPair<QString, QString> WdgSchedule::refreshScheduleGenerateInfo(WeekDays w) {
-    QPair<QString, QString> p;
-    p.first = "";
-    p.second = "";
-    return p;
-
-    /*bool monday = w->monday();       // 0
-    bool tuesday = w->tuesday();     // 1
-    bool wednesday = w->wednesday(); // 2
-    bool thursday = w->thursday();   // 3
-    bool friday = w->friday();       // 4
-    bool saturday = w->saturday();   // 5
-    bool sunday = w->sunday();       // 6
-    bool holiday = w->holiday();     // 7
-    bool school = w->school();       // 8
-    bool noSchool = w->vacation();   // 9
-
-    QList<int> addList;
-    QList<int> onlyList;
-    QList<int> notList;*/
-
-    /*if(scheduleCurrentDaysShow == scheduleCurrentDaysMonFri) {
-        if(saturday) addList << 5;
-        if(sunday) addList << 6;
-        if(holiday) addList << 7;
-    }
-
-    if(scheduleCurrentDaysShow == scheduleCurrentDaysSat || scheduleCurrentDaysShow == scheduleCurrentDaysSun) {
-        if(monday) addList << 0;
-        if(tuesday) addList << 1;
-        if(wednesday) addList << 2;
-        if(thursday) addList << 3;
-        if(friday) addList << 4;
-    }
-
-    if(scheduleCurrentDaysShow == scheduleCurrentDaysSat) {
-        if(sunday) addList << 6;
-        if(holiday) addList << 7;
-    }
-
-    if(scheduleCurrentDaysShow == scheduleCurrentDaysSun) {
-        if(saturday) addList << 5;
-    }
-
-
-    if(scheduleCurrentDaysShow == scheduleCurrentDaysMonFri) {
-        if(!monday) notList << 0;
-        if(!tuesday) notList << 1;
-        if(!wednesday) notList << 2;
-        if(!thursday) notList << 3;
-        if(!friday) notList << 4;
-
-        if(notList.count() > 3) {
-            notList.clear();
-            if(monday) onlyList << 0;
-            if(tuesday) onlyList << 1;
-            if(wednesday) onlyList << 2;
-            if(thursday) onlyList << 3;
-            if(friday) onlyList << 4;
-        }
-    }
-
-    if(scheduleCurrentDaysShow == scheduleCurrentDaysSat) {
-        if(!saturday) notList << 5;
-    }
-
-    if(scheduleCurrentDaysShow == scheduleCurrentDaysSun) {
-        if(!sunday) notList << 6;
-        if(!holiday) notList << 7;
-    }
-
-    QStringList addStrListLong;
-    QStringList onlyStrListLong;
-    QStringList notStrListLong;
-
-    QStringList addStrListShort;
-    QStringList onlyStrListShort;
-    QStringList notStrListShort;
-
-    for(int i = 0; i < addList.count(); i++) {
-        if(addList[i] == 0) { addStrListLong << "Monday"   ; addStrListShort << "+Mon"; }
-        if(addList[i] == 1) { addStrListLong << "Tuesday"  ; addStrListShort << "+Tue"; }
-        if(addList[i] == 2) { addStrListLong << "Wednesday"; addStrListShort << "+Wed"; }
-        if(addList[i] == 3) { addStrListLong << "Thursday" ; addStrListShort << "+Thu"; }
-        if(addList[i] == 4) { addStrListLong << "Friday"   ; addStrListShort << "+Fri"; }
-        if(addList[i] == 5) { addStrListLong << "Saturday" ; addStrListShort << "+Sat"; }
-        if(addList[i] == 6) { addStrListLong << "Sunday"   ; addStrListShort << "+Sun"; }
-        if(addList[i] == 7) { addStrListLong << "Holiday"  ; addStrListShort << "+Hol"; }
-    }
-
-    for(int i = 0; i < onlyList.count(); i++) {
-        if(onlyList[i] == 0) { onlyStrListLong << "Monday"   ; onlyStrListShort << "Mon"; }
-        if(onlyList[i] == 1) { onlyStrListLong << "Tuesday"  ; onlyStrListShort << "Tue"; }
-        if(onlyList[i] == 2) { onlyStrListLong << "Wednesday"; onlyStrListShort << "Wed"; }
-        if(onlyList[i] == 3) { onlyStrListLong << "Thursday" ; onlyStrListShort << "Thu"; }
-        if(onlyList[i] == 4) { onlyStrListLong << "Friday"   ; onlyStrListShort << "Fri"; }
-        if(onlyList[i] == 5) { onlyStrListLong << "Saturday" ; onlyStrListShort << "Sat"; }
-        if(onlyList[i] == 6) { onlyStrListLong << "Sunday"   ; onlyStrListShort << "Sun"; }
-        if(onlyList[i] == 7) { onlyStrListLong << "Holiday"  ; onlyStrListShort << "Hol"; }
-    }
-
-    for(int i = 0; i < notList.count(); i++) {
-        if(notList[i] == 0) { notStrListLong << "Monday"   ; notStrListShort << "-Mon"; }
-        if(notList[i] == 1) { notStrListLong << "Tuesday"  ; notStrListShort << "-Tue"; }
-        if(notList[i] == 2) { notStrListLong << "Wednesday"; notStrListShort << "-Wed"; }
-        if(notList[i] == 3) { notStrListLong << "Thursday" ; notStrListShort << "-Thu"; }
-        if(notList[i] == 4) { notStrListLong << "Friday"   ; notStrListShort << "-Fri"; }
-        if(notList[i] == 5) { notStrListLong << "Saturday" ; notStrListShort << "-Sat"; }
-        if(notList[i] == 6) { notStrListLong << "Sunday"   ; notStrListShort << "-Sun"; }
-        if(notList[i] == 7) { notStrListLong << "Holiday"  ; notStrListShort << "-Hol"; }
-    }
-
-    QString schoolStrLong;
-    QString schoolStrShort;
-    if(school && noSchool) {
-        schoolStrLong = "";
-        schoolStrShort = "";
-    }
-    else if(!school && !noSchool) {
-        schoolStrLong = "NEVER";
-        schoolStrShort = "X";
-    }
-    else if(school && !noSchool) {
-        schoolStrLong = "only School";
-        schoolStrShort = "S";
-    }
-    else if(!school && noSchool) {
-        schoolStrLong = "only Vacation";
-        schoolStrShort = "V";
-    }
-
-    QString longStr = schoolStrLong;
-    QString shortStr = schoolStrShort.isEmpty() ? QStringList(notStrListShort << onlyStrListShort << addStrListShort).join(", ") : schoolStrShort + (QStringList(notStrListShort << onlyStrListShort << addStrListShort).empty() ? "" : "; ") + QStringList(notStrListShort << onlyStrListShort << addStrListShort).join(", ");
-
-    if(notList.count() == 0 && onlyList.count() == 0 && addList.count() != 0) {
-        longStr += (longStr.isEmpty() ? QString("") : QString("; ")) + "additionally " + addStrListLong.join(", ");
-    } else if(notList.count() == 0 && (onlyList.count() != 0  || addList.count() != 0)) {
-        longStr += (longStr.isEmpty() ? QString("") : QString("; ")) + "only " + QStringList(onlyStrListLong << addStrListLong).join(", ");
-    } else if(onlyList.count() == 0 && (notList.count() != 0)) {
-        longStr += (longStr.isEmpty() ? QString("") : QString("; ")) + "not " + notStrListLong.join(", ");
-        if(!addList.empty()) {
-            longStr += "; but " + addStrListLong.join(", ");
-        }
-    }
-
-    QPair<QString, QString> p;
-    p.first = shortStr;
-    p.second = longStr;
-    return p;*/
 }
 
 bool WdgSchedule::checkMatchingWeekdays(WeekDays d) {
