@@ -6,16 +6,16 @@
 #include "ProjectDataItem.h"
 
 enum WeekDay {
-    monday,
-    tuesday,
-    wednesday,
-    thursday,
-    friday,
-    saturday,
-    sunday,
-    holiday,
-    school,
-    vacation
+    monday    = 0,
+    tuesday   = 1,
+    wednesday = 2,
+    thursday  = 3,
+    friday    = 4,
+    saturday  = 5,
+    sunday    = 6,
+    holiday   = 7,
+    school    = 8,
+    vacation  = 9
 };
 
 class WeekDays : public virtual ProjectDataItem {
@@ -35,6 +35,9 @@ public:
 
     bool day(const WeekDay &) const;
     void setDay(const WeekDay &, const bool &);
+
+    bool day(const int &) const;
+    void setDay(const int &, const bool &);
 
     void setCode(const int &code);
     int toCode() const;
@@ -61,7 +64,7 @@ protected:
     void fromJson(QJsonObject const &);
 
 private:
-    std::unordered_map<WeekDay, bool> _days;
+    std::unordered_map<int, bool> _days;
 };
 
 #endif // WEEKDAYS_H
