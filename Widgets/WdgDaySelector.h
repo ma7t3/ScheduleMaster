@@ -17,10 +17,13 @@ public:
     explicit WdgDaySelector(QWidget *parent = nullptr);
     ~WdgDaySelector();
 
-    void setSmallMode(bool b);
+    void setSmallMode(const bool &b);
+    void setTristate(const bool &b);
 
-    void setWeekDays(WeekDays);
-    WeekDays weekDays();
+    void setWeekDays(const WeekDays &);
+    void setCareWeekDays(const WeekDays &);
+    WeekDays weekDays() const;
+    WeekDays careWeekDays() const;
 
 private slots:
     void emitChangedSignal();

@@ -42,6 +42,9 @@ void WdgBusstopSchedule::refreshSchedule() {
             ui->cmbDayTypes->setCurrentIndex(i);
     }
 
+    if(!currentDayType && projectData->projectSettings()->dayTypeCount() != 0)
+        currentDayType = projectData->projectSettings()->dayTypeAt(0);
+
     ui->twSchedule->clear();
     ui->twSchedule->setRowCount(0);
     ui->twSchedule->setColumnCount(0);

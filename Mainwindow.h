@@ -21,6 +21,7 @@
 #include "Widgets/wdgbusstopschedule.h"
 #include "Widgets/wdgundoview.h"
 #include "Widgets/Publications/WdgPublishedLines.h"
+#include "Widgets/WdgFootnotes.h"
 
 #include "Dialogs/DlgStartupdialog.h"
 #include "Dialogs/DlgFilehandler.h"
@@ -120,6 +121,7 @@ private:
     WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, projectData, undoStack);
     WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, projectData);
     WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, projectData, undoStack);
+    WdgFootnotes *wdgFootnotes = new WdgFootnotes(this, projectData, undoStack);
 
     QDockWidget *dwUndoView = new QDockWidget(tr("Undo View"), this);
     QDockWidget *dwBusstops = new QDockWidget(tr("Busstops"), this);
@@ -131,6 +133,7 @@ private:
     QDockWidget *dwTourEditor = new QDockWidget(tr("Current tour"), this);
     QDockWidget *dwBusstopSchedule = new QDockWidget(tr("Busstop schedule"), this);
     QDockWidget *dwPublishedLines = new QDockWidget(tr("Published lines"), this);
+    QDockWidget *dwFootnotes = new QDockWidget(tr("Footnotes"), this);
 
     QToolBar *tbGeneral, *tbDocks, *tbWorkspaces;
 
