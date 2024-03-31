@@ -96,15 +96,22 @@ void WdgBusstopSchedule::refreshSchedule() {
 
         if(ui->twSchedule->columnCount() <= column) {
             ui->twSchedule->insertColumn(column);
-            ui->twSchedule->setColumnWidth(column, 25);
+        }
+
+        QList<Footnote *> footnotes = ProjectData::sortItems(projectData->autoAssignedFootnotesOfTrip(t));
+        QString footnotesStr;
+        QStringList footnotesToolTip;
+        for(int i = 0; i < footnotes.count(); i++) {
+            footnotesStr += footnotes[i]->identifier();
+            footnotesToolTip << footnotes[i]->identifier() + ": " + footnotes[i]->description();
         }
         
         Line *l = projectData->lineOfTrip(t);
-        QTableWidgetItem *itm = new QTableWidgetItem(QString::number(time.minute()));
+        QTableWidgetItem *itm = new QTableWidgetItem(QString::number(time.minute()) + footnotesStr);
         QFont f;
         f.setPixelSize(20);
         itm->setFont(f);
-        itm->setToolTip(t->route()->name() + " (" + getShiftedWeekDays(t).toString() + ")");
+        itm->setToolTip(t->route()->name() + " (" + getShiftedWeekDays(t).toString() + ")\r\n\r\n" + footnotesToolTip.join("\r\n"));
         if(l) {
             itm->setBackground(l->color());
             itm->setForeground(global::getContrastColor(l->color()));
@@ -115,6 +122,15 @@ void WdgBusstopSchedule::refreshSchedule() {
     }
 
     ui->progressBar->setHidden(true);
+
+    ui->twSchedule->resizeColumnsToContents();
+    int maxColumnWidth = 0;
+    for(int i = 0; i < ui->twSchedule->columnCount(); i++)
+        maxColumnWidth = std::max(maxColumnWidth, ui->twSchedule->columnWidth(i));
+
+    for(int i = 0; i < ui->twSchedule->columnCount(); i++)
+        ui->twSchedule->setColumnWidth(i, maxColumnWidth);
+
 
     ui->progressBar->setValue(0);
     ui->lLoading->setHidden(true);
