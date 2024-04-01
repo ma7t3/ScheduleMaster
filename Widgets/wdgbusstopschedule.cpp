@@ -99,25 +99,30 @@ void WdgBusstopSchedule::refreshSchedule() {
         }
 
         QList<Footnote *> footnotes = ProjectData::sortItems(projectData->autoAssignedFootnotesOfTrip(t));
-        QString footnotesStr;
+        QStringList footnotesStr;
         QStringList footnotesToolTip;
         for(int i = 0; i < footnotes.count(); i++) {
-            footnotesStr += footnotes[i]->identifier();
+            footnotesStr << "<b>" + footnotes[i]->identifier() + "</b>";
             footnotesToolTip << footnotes[i]->identifier() + ": " + footnotes[i]->description();
         }
         
         Line *l = projectData->lineOfTrip(t);
-        QTableWidgetItem *itm = new QTableWidgetItem(QString::number(time.minute()) + footnotesStr);
-        QFont f;
-        f.setPixelSize(20);
-        itm->setFont(f);
-        itm->setToolTip(t->route()->name() + " (" + getShiftedWeekDays(t).toString() + ")\r\n\r\n" + footnotesToolTip.join("\r\n"));
+        QTableWidgetItem *itm = new QTableWidgetItem;
+
+        itm->setToolTip(t->route()->name() + " (" + getShiftedWeekDays(t).toString() + ")" + (footnotes.isEmpty() ? "" : "\r\n\r\n" + footnotesToolTip.join("\r\n")));
+        ui->twSchedule->setItem(hour, column, itm);
+        QLabel *label = new QLabel(QString::number(time.minute()) + "<sub>" + footnotesStr.join(",") + "</sub>");
+        label->setMargin(3);
+
         if(l) {
             itm->setBackground(l->color());
-            itm->setForeground(global::getContrastColor(l->color()));
+            label->setStyleSheet("color: " + global::getContrastColor(l->color()).name());
         }
+        QFont f;
+        f.setPixelSize(20);
+        label->setFont(f);
 
-        ui->twSchedule->setItem(hour, column, itm);
+        ui->twSchedule->setCellWidget(hour, column, label);
         column++;
     }
 
@@ -130,6 +135,14 @@ void WdgBusstopSchedule::refreshSchedule() {
 
     for(int i = 0; i < ui->twSchedule->columnCount(); i++)
         ui->twSchedule->setColumnWidth(i, maxColumnWidth);
+
+    ui->twSchedule->resizeRowsToContents();
+    int maxRowHeight = 0;
+    for(int i = 0; i < ui->twSchedule->rowCount(); i++)
+        maxRowHeight = std::max(maxRowHeight, ui->twSchedule->rowHeight(i));
+
+    for(int i = 0; i < ui->twSchedule->rowCount(); i++)
+        ui->twSchedule->setRowHeight(i, maxRowHeight);
 
 
     ui->progressBar->setValue(0);
