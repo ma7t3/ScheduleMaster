@@ -103,13 +103,13 @@ void WdgBusstopSchedule::refreshSchedule() {
         QStringList footnotesToolTip;
         for(int i = 0; i < footnotes.count(); i++) {
             footnotesStr << "<b>" + footnotes[i]->identifier() + "</b>";
-            footnotesToolTip << footnotes[i]->identifier() + ": " + footnotes[i]->description();
+            footnotesToolTip << "<tr><td><b>" + footnotes[i]->identifier() + ": </b></td><td>" + footnotes[i]->description() + "</td></tr>";
         }
         
         Line *l = projectData->lineOfTrip(t);
         QTableWidgetItem *itm = new QTableWidgetItem;
 
-        itm->setToolTip(t->route()->name() + " (" + getShiftedWeekDays(t).toString() + ")" + (footnotes.isEmpty() ? "" : "\r\n\r\n" + footnotesToolTip.join("\r\n")));
+        itm->setToolTip("<html><body><b>" + t->route()->name() + "</b><br>(" + getShiftedWeekDays(t).toString() + ")<hr>" + (footnotes.isEmpty() ? "" : "<table>" + footnotesToolTip.join("") + "</table></body></html>"));
         ui->twSchedule->setItem(hour, column, itm);
         QLabel *label = new QLabel(QString::number(time.minute()) + "<sub>" + footnotesStr.join(",") + "</sub>");
         label->setMargin(3);
