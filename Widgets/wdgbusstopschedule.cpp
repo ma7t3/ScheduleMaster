@@ -16,9 +16,6 @@ WdgBusstopSchedule::WdgBusstopSchedule(QWidget *parent, ProjectData *projectData
 
     ui->twSchedule->horizontalHeader()->setVisible(false);
 
-    ui->progressBar->setHidden(true);
-    ui->lLoading->setHidden(true);
-
     QFont bold;
     bold.setBold(true);
     ui->lBusstopName->setFont(bold);
@@ -126,8 +123,6 @@ void WdgBusstopSchedule::refreshSchedule() {
         column++;
     }
 
-    ui->progressBar->setHidden(true);
-
     ui->twSchedule->resizeColumnsToContents();
     int maxColumnWidth = 0;
     for(int i = 0; i < ui->twSchedule->columnCount(); i++)
@@ -144,9 +139,6 @@ void WdgBusstopSchedule::refreshSchedule() {
     for(int i = 0; i < ui->twSchedule->rowCount(); i++)
         ui->twSchedule->setRowHeight(i, maxRowHeight);
 
-
-    ui->progressBar->setValue(0);
-    ui->lLoading->setHidden(true);
     refreshing = false;
 }
 
