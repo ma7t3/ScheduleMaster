@@ -89,6 +89,8 @@ private slots:
 
     void on_actionFileImportOmsiSchedule_triggered();
 
+    void on_actionFileExportRoutesWithProfilesCsv_triggered();
+
 signals:
     void projectSettingsChanged();
     void busstopsChanged();
