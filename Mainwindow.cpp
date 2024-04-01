@@ -1172,3 +1172,65 @@ void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
     wdgPublishedLines->refreshRoutes();
 }
 
+
+void MainWindow::on_actionFileExportRoutesWithProfilesCsv_triggered() {
+    QString path = QFileDialog::getExistingDirectory(this, "", "", QFileDialog::ShowDirsOnly);
+
+    QDir dir(path);
+    if(!dir.exists())
+        return;
+
+    for(int i = 0; i < projectData->lineCount(); i++) {
+        Line *l = projectData->lineAt(i);
+        QDir subDir = dir.path() + "/" + l->name();
+        if(!subDir.exists()) {
+            bool ok = dir.mkdir(l->name());
+            if(!ok) {
+                qInfo() << "[CSV Export] Couldn't create directory:" << l->name();
+                continue;
+            }
+        }
+
+        for(int j = 0; j < l->routeCount(); j++) {
+            Route *r = l->routeAt(j);
+            QFile f(path + "/" + l->name() + "/" + QString::number(r->code()) + "_" + r->name() + ".csv");
+            if(!f.open(QFile::WriteOnly)) {
+                qInfo() << "[CSV Export] Couldn't create file:" << (QString::number(r->code()) + "_" + r->name() + ".csv");
+                continue;
+            }
+            QTextStream s(&f);
+            s.setEncoding(QStringConverter::Latin1);
+            s << "Name:;" << r->name() << "\r\n";
+            s << "Code:;" << QString::number(r->code()) << "\r\n";
+            s << "\r\n";
+            s << "Busstops;";
+            for(int k = 0; k < r->timeProfileCount(); k++) {
+                s << r->timeProfileAt(k)->name() << ";";
+            }
+            s << "\r\n";
+
+            for(int k = 0; k < r->busstopCount(); k++) {
+                Busstop *b = r->busstopAt(k);
+                s << b->name() << ";";
+                for(int m = 0; m < r->timeProfileCount(); m++) {
+                    TimeProfileItem *itm = r->timeProfileAt(m)->busstop(b);
+                    if(itm)
+                        s << QString::number(itm->depValue()).replace(".", ",") << ";";
+                    else
+                        s << "0;";
+                }
+                s << "\r\n";
+            }
+
+            f.close();
+        }
+    }
+}
+
+
+
+
+
+
+
+

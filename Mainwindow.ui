@@ -48,6 +48,12 @@
      </property>
      <addaction name="actionFileImportOmsiSchedule"/>
     </widget>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <addaction name="actionFileExportRoutesWithProfilesCsv"/>
+    </widget>
     <addaction name="actionFileNew"/>
     <addaction name="actionFileOpen"/>
     <addaction name="menuOpenRecent"/>
@@ -56,6 +62,7 @@
     <addaction name="actionFileSaveAs"/>
     <addaction name="separator"/>
     <addaction name="menuImport"/>
+    <addaction name="menuExport"/>
     <addaction name="separator"/>
     <addaction name="actionFileClose"/>
     <addaction name="actionFileQuit"/>
@@ -619,6 +626,11 @@
    </property>
    <property name="text">
     <string>OMSI Schedule (Alpha)</string>
+   </property>
+  </action>
+  <action name="actionFileExportRoutesWithProfilesCsv">
+   <property name="text">
+    <string>Routes with Profiles (CSV)</string>
    </property>
   </action>
  </widget>
