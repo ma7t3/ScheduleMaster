@@ -269,6 +269,11 @@ void DlgPdfExporter::writeNewPage() {
 
         // head data
 
+        QList<Footnote *> footnotes = projectData->autoAssignedFootnotesOfTrip(trips[i]);
+        QStringList footnotesStr;
+        for(int j = 0; j < footnotes.count(); j++)
+            footnotesStr << footnotes[j]->identifier();
+
         QRect labelField(i * columnWidth + 10 + firstColumnWidth, tableStart, columnWidth - 10, rowHeight);
 
         painter->setFont(fontNormal);
@@ -287,7 +292,7 @@ void DlgPdfExporter::writeNewPage() {
         }
         if(headerShowFootnotes) {
             painter->setFont(fontNormalBold);
-            painter->drawText(labelField, "", Qt::AlignCenter|Qt::AlignVCenter);
+            painter->drawText(labelField, footnotesStr.join(" "), Qt::AlignCenter|Qt::AlignVCenter);
             labelField.adjust(0, rowHeight, 0, rowHeight);
         }
 
