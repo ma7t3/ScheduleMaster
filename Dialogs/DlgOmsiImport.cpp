@@ -20,6 +20,8 @@ DlgOmsiImport::DlgOmsiImport(QWidget *parent, ProjectData *projectData) :
 
     connect(_importer, &PlgOmsiImport::newFileStarted, this, &DlgOmsiImport::refreshProgress);
     connect(_importer, &QThread::finished, this, &DlgOmsiImport::finish);
+
+    setWindowFlag(Qt::WindowContextHelpButtonHint);
 }
 
 DlgOmsiImport::~DlgOmsiImport() {
