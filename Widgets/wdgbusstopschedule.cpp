@@ -109,7 +109,7 @@ void WdgBusstopSchedule::refreshSchedule() {
         Line *l = projectData->lineOfTrip(t);
         QTableWidgetItem *itm = new QTableWidgetItem;
 
-        itm->setToolTip("<html><body><b>" + t->route()->name() + "</b><br>(" + getShiftedWeekDays(t).toString() + ")<hr>" + (footnotes.isEmpty() ? "" : "<table>" + footnotesToolTip.join("") + "</table></body></html>"));
+        itm->setToolTip("<html><body><b>" + t->route()->name() + "</b><br>(" + getShiftedWeekDays(t).toString() + ")" + (footnotes.isEmpty() ? "" : "<hr><table>" + footnotesToolTip.join("") + "</table></body></html>"));
         ui->twSchedule->setItem(hour, column, itm);
         QLabel *label = new QLabel(QString::number(time.minute()) + "<sub>" + footnotesStr.join(",") + "</sub>");
         label->setMargin(3);
