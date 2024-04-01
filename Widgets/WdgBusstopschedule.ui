@@ -103,20 +103,6 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QProgressBar" name="progressBar">
-          <property name="value">
-           <number>0</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="lLoading">
-          <property name="text">
-           <string>Loading...</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QTableWidget" name="twSchedule">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
