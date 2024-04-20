@@ -186,6 +186,7 @@
     <addaction name="actionHelpManual"/>
     <addaction name="actionHelpCheckForUpdates"/>
     <addaction name="actionHelpAbout"/>
+    <addaction name="actionHelpAboutQt"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -521,7 +522,7 @@
      <normaloff>:/icons/About.ico</normaloff>:/icons/About.ico</iconset>
    </property>
    <property name="text">
-    <string>About</string>
+    <string>About ScheduleMaster</string>
    </property>
    <property name="shortcut">
     <string>F1</string>
@@ -631,6 +632,15 @@
   <action name="actionFileExportRoutesWithProfilesCsv">
    <property name="text">
     <string>Routes with Profiles (CSV)</string>
+   </property>
+  </action>
+  <action name="actionHelpAboutQt">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Qt.svg</normaloff>:/icons/Qt.svg</iconset>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>
