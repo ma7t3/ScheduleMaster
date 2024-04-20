@@ -246,14 +246,14 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     if(tours.isEmpty()) {
         tour = tr("None");
     } else {
-        QStringList strList;
-        QStringList strListToolTip;
+        QStringList strListTours;
+        tourToolTip = "<ul style=\"margin: 0; padding: 0\">";
         for(int i = 0; i < tours.count(); i++) {
-            strList << tours[i]->name();
-            strListToolTip << "- " + tours[i]->name() + " (" + tours[i]->weekDays().toString() + ")";
+            strListTours << tours[i]->name();
+            tourToolTip += "<li><b>" + tours[i]->name() + "</b> (" + tours[i]->weekDays().toString() + ")</li>";
         }
-        tour = strList.join(", ");
-        tourToolTip = strListToolTip.join("\r\n");
+        tourToolTip += "</ul>";
+        tour = strListTours.join(", ");
     }
     QList<WeekDays> tourWeekDays;
     for(int i = 0; i < tours.count(); i++) {
@@ -275,7 +275,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
         } else if(overlap) {
             itmTour->setBackground(QColor("#ffa800"));
             itmTour->setForeground(Qt::black);
-            tourToolTip = tr("Multiple assignment at %1:\r\n\r\n%2").arg(overlapStr, tourToolTip);
+            tourToolTip = tr("<p><b style=\"color: red;\">Multiple assignment at %1:</b><p>%2").arg(overlapStr, tourToolTip);
         } else {
             itmTour->setBackground(Qt::blue);
             itmTour->setForeground(Qt::white);
@@ -283,20 +283,20 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     }
 
     itmTour->setText(tour);
-    itmTour->setToolTip(tourToolTip);
+    itmTour->setToolTip("<html><body>" + tourToolTip + "</body></html>");
 
     //------------------------------
 
     QList<Footnote *> footnotes = projectData->autoAssignedFootnotesOfTrip(t);
     QStringList footnotesStrList;
-    QStringList footnotesToolTipStrList;
+    QString footnotesToolTipStr = "<html><body><table>";
     for(int i = 0; i < footnotes.count(); i++) {
         footnotesStrList << footnotes[i]->identifier();
-        footnotesToolTipStrList << footnotes[i]->identifier() + ": " + footnotes[i]->description();
+        footnotesToolTipStr += "<tr><td><b>" + footnotes[i]->identifier() + ": </b></td><td>" + footnotes[i]->description() + "</td></tr>";
     }
 
     itmFootnotes->setText(footnotesStrList.join(", "));
-    itmFootnotes->setToolTip(footnotesToolTipStrList.join("\r\n"));
+    itmFootnotes->setToolTip(footnotesToolTipStr + "</table></body></html>");
 
     if(!footnotesStrList.isEmpty())
         itmFootnotes->setBackground(Qt::yellow);

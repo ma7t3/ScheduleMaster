@@ -301,7 +301,7 @@ WeekDays WeekDays::intersection(const QList<WeekDays> &list) {
                 continue;
 
             WeekDays w2 = list[j];
-            WeekDays r(0);
+            WeekDays r(nullptr, 0);
 
             r.setDay(monday,    w1.day(monday)    && w2.day(monday));
             r.setDay(tuesday,   w1.day(tuesday)   && w2.day(tuesday));
