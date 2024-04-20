@@ -999,6 +999,12 @@ void MainWindow::on_actionHelpAbout_triggered() {
 }
 
 
+void MainWindow::on_actionHelpAboutQt_triggered() {
+    QMessageBox::aboutQt(this, tr("About Qt"));
+}
+
+
+
 void MainWindow::on_actionEditProjectSettings_triggered() {
     QList<DayType> dayTypes;
     for(int i = 0; i < projectData->projectSettings()->dayTypeCount(); i++)
@@ -1226,11 +1232,3 @@ void MainWindow::on_actionFileExportRoutesWithProfilesCsv_triggered() {
         }
     }
 }
-
-
-
-
-
-
-
-

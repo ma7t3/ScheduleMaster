@@ -91,6 +91,8 @@ private slots:
 
     void on_actionFileExportRoutesWithProfilesCsv_triggered();
 
+    void on_actionHelpAboutQt_triggered();
+
 signals:
     void projectSettingsChanged();
     void busstopsChanged();
