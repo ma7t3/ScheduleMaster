@@ -17,6 +17,10 @@ DlgProjectSettings::DlgProjectSettings(QWidget *parent) :
     QObject::connect(ui->pbSelectIcon, SIGNAL(clicked()), this, SLOT(actionSelectIcon()));
 
     ui->tabWidget->setCurrentIndex(0);
+
+    ui->leDayTypesName->setEnabled(false);
+    ui->daySelector->setEnabled(false);
+    ui->daySelector->setWeekDays(WeekDays(this, 0));
 }
 
 DlgProjectSettings::~DlgProjectSettings()
@@ -96,7 +100,7 @@ void DlgProjectSettings::refreshDayTypesTable() {
 void DlgProjectSettings::refreshTayTypesDetails() {
     if(!_currentDayType) {
         ui->leDayTypesName->setText("");
-        ui->daySelector->setWeekDays(WeekDays(0));
+        ui->daySelector->setWeekDays(WeekDays(this, 0));
 
         ui->leDayTypesName->setEnabled(false);
         ui->daySelector->setEnabled(false);
@@ -104,10 +108,8 @@ void DlgProjectSettings::refreshTayTypesDetails() {
         return;
     }
 
-    WeekDays w = *_currentDayType;
-
     ui->leDayTypesName->setText(_currentDayType->name());
-    ui->daySelector->setWeekDays(w);
+    ui->daySelector->setWeekDays(WeekDays(*_currentDayType));
 
     ui->leDayTypesName->setEnabled(true);
     ui->daySelector->setEnabled(true);
