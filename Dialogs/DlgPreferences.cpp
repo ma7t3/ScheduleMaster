@@ -30,7 +30,7 @@ void DlgPreferences::on_DlgPreferences_accepted() {
 
     if(LocalConfig::language() != ui->cbLanguage->currentIndex() ||
         LocalConfig::logfileMode() != logfileMode)
-        QMessageBox::information(this, tr("Restart required"), tr("You'll need to restarted the application for all settings to be applied"));
+        QMessageBox::information(this, tr("Restart required"), tr("You'll need to restarted the application for all settings to be applied."));
     
     LocalConfig::setLanguage(ui->cbLanguage->currentIndex());
     LocalConfig::setDefaultProjectLocation(ui->leDefaultProjectLocation->text());
