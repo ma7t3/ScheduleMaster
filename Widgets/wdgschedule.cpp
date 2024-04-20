@@ -283,7 +283,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     }
 
     itmTour->setText(tour);
-    itmTour->setToolTip("<html><body>" + tourToolTip + "</body></html>");
+    itmTour->setToolTip(!tours.isEmpty() ? "<html><body>" + tourToolTip + "</body></html>" : "");
 
     //------------------------------
 
@@ -296,7 +296,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     }
 
     itmFootnotes->setText(footnotesStrList.join(", "));
-    itmFootnotes->setToolTip(footnotesToolTipStr + "</table></body></html>");
+    itmFootnotes->setToolTip(!footnotes.isEmpty() ? footnotesToolTipStr + "</table></body></html>" : "");
 
     if(!footnotesStrList.isEmpty())
         itmFootnotes->setBackground(Qt::yellow);
