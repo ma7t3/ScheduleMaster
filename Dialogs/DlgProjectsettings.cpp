@@ -141,7 +141,7 @@ void DlgProjectSettings::on_pbDayNew_clicked() {
     if(!ok)
         return;
 
-    DayType *d = new DayType(nullptr, global::getNewID(), name, 0);
+    DayType *d = new DayType(nullptr, ProjectDataItem::getNewID(), name, 0);
     tableReference << d;
     _currentDayType = d;
     refreshDayTypesTable();
