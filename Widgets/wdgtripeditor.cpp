@@ -75,7 +75,11 @@ void WdgTripEditor::actionNew() {
     if(!startTime.isValid())
         startTime.setHMS(0, 0, 0, 0);
 
-    Trip *t = new Trip(nullptr, global::getNewID(), _currentRoute, startTime, p, _currentDayType);
+    Trip *t = _currentLine->newTrip();
+    t->setRoute(_currentRoute);
+    t->setStartTime(startTime);
+    t->setTimeProfile(p);
+    t->setWeekDays(_currentDayType);
     undoStack->push(new CmdScheduleTripNew(_currentLine, t));
     _currentTrips = {t};
     emit tripsChanged(_currentTrips);
@@ -99,8 +103,10 @@ void WdgTripEditor::actionCopy() {
 
     QList<Trip *> trips;
     for(int i = 0; i < count; i++) {
-        Trip *t = new Trip(nullptr, global::getNewID(), currentTrip->route(), currentTrip->startTime(), currentTrip->timeProfile());
+        Trip *t = _currentLine->newTrip();
+        t->setRoute(currentTrip->route());
         t->setStartTime(QTime::fromMSecsSinceStartOfDay(currentTrip->startTime().msecsSinceStartOfDay() + ((i + 1) * interval.msecsSinceStartOfDay())));
+        t->setTimeProfile(currentTrip->timeProfile());
         trips << t;
     }
 

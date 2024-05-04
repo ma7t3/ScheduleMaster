@@ -2,15 +2,8 @@
 #include "timeProfile.h"
 #include "line.h"
 
-Trip::Trip(QObject *parent,
-           const QString &id,
-           Route *route,
-           const QTime &startTime,
-           TimeProfile *timeProfile,
-           const WeekDays &weekDays) :
-    ProjectDataItem(parent, id),
-    _route(route), _startTime(startTime), _weekDays(weekDays),
-    _timeProfile(timeProfile) {}
+Trip::Trip(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id) {}
 
 Trip::Trip(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {

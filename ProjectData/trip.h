@@ -11,7 +11,7 @@
 class Trip : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Trip(QObject *parent, const QString &id, Route* route, const QTime &startTime, TimeProfile *timeProfile, const WeekDays &weekDays = WeekDays(nullptr));
+    Trip(QObject *parent, const QString &id);
     Trip(QObject *parent, const QJsonObject &);
     Trip(const Trip &);
     bool operator<(const Trip &);

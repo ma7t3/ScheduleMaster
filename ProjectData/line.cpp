@@ -99,7 +99,7 @@ void Line::fromJson(const QJsonObject &jsonObject) {
 
     for(int i = 0; i < jTrips.count(); ++i)
         if(jTrips[i].isObject())
-            addTrip(new Trip(this, jTrips[i].toObject()));
+            addTrip(newTrip(jTrips[i].toObject()));
 }
 
 
@@ -421,4 +421,20 @@ Route *Line::newRoute(const Route &newRoute) {
     Route *r = new Route(newRoute);
     r->setParent(this);
     return r;
+}
+
+Trip *Line::newTrip(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Trip(this, id);
+}
+
+Trip *Line::newTrip(const QJsonObject &obj) {
+    return new Trip(this, obj);
+}
+
+Trip *Line::newTrip(const Trip &newTrip) {
+    Trip *t = new Trip(newTrip);
+    t->setParent(this);
+    return t;
 }
