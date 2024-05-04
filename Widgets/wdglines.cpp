@@ -66,9 +66,10 @@ void WdgLines::actionNew() {
     if(dlg.result() != QDialog::Accepted)
         return;
 
-    Line *l = new Line(dlg.line());
-    if(l->name() == "")
+    if(dlg.line().name().isEmpty())
         return;
+
+    Line *l = projectData->newLine(dlg.line());
 
     undoStack->push(new CmdLineNew(projectData, l));
     emit refreshRequested();

@@ -1,7 +1,7 @@
 #include "ProjectData\line.h"
 
-Line::Line(QObject *parent, const QString &id, const QString &name, const QString &description, const QColor &color) :
-    ProjectDataItem(parent, id), _name(name), _description(description), _color(color) {}
+Line::Line(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id) {}
 
 Line::Line(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {

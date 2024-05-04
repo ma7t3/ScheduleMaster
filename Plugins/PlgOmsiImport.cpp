@@ -70,7 +70,9 @@ void PlgOmsiImport::run() {
                          QRandomGenerator::global()->bounded(256),
                          QRandomGenerator::global()->bounded(256));
 
-            l = new Line(projectData, global::getNewID(), lineName, "", color);
+            l = projectData->newLine();
+            l->setName(lineName);
+            l->setColor(color);
             qInfo() << "new line created:" << lineName;
             projectData->addLine(l);
             ld1 = new LineDirection(l, global::getNewID(), "Direction 1");

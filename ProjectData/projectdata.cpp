@@ -618,7 +618,7 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     for(int i = 0; i < jLines.count(); ++i)
         if(jLines[i].isObject()) {
             counter++;
-            addLine(new Line(this, jLines[i].toObject()));
+            addLine(newLine(jLines[i].toObject()));
         } else invalidCounter++;
 
     qInfo().noquote() << counter << "valid lines found (" + QString::number(invalidCounter) + " invalid)";
@@ -659,4 +659,20 @@ Busstop *ProjectData::newBusstop(const Busstop &newBusstop) {
     Busstop *b = new Busstop(newBusstop);
     b->setParent(this);
     return b;
+}
+
+Line *ProjectData::newLine(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Line(this, id);
+}
+
+Line *ProjectData::newLine(const QJsonObject &obj) {
+    return new Line(this, obj);
+}
+
+Line *ProjectData::newLine(const Line &newLine) {
+    Line *l = new Line(newLine);
+    l->setParent(this);
+    return l;
 }

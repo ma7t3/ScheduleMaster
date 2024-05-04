@@ -103,6 +103,10 @@ public:
     Busstop *newBusstop(const QJsonObject &);
     Busstop *newBusstop(const Busstop &newBusstop);
 
+    Line *newLine(QString id = "");
+    Line *newLine(const QJsonObject &);
+    Line *newLine(const Line &newLine);
+
 private:
     QString _filePath;
     ProjectSettings *_projectSettings;
