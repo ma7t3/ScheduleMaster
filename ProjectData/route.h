@@ -11,7 +11,7 @@
 class Route : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Route(QObject *parent, const QString &id, const int &code, const QString &name, LineDirection *direction);
+    Route(QObject *parent, const QString &id);
     Route(QObject *parent, const QJsonObject &);
     Route(const Route &);
     bool operator<(const Route &);

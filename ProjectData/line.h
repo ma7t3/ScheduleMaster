@@ -72,6 +72,10 @@ public:
 
     void refreshChilds();
 
+    Route *newRoute(QString id = "");
+    Route *newRoute(const QJsonObject &obj);
+    Route *newRoute(const Route &newRoute);
+
 protected:
     void copy(const Line &);
     void fromJson(const QJsonObject &);

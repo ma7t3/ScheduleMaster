@@ -82,7 +82,9 @@ void PlgOmsiImport::run() {
         }
         ld1 = l->directionAt(0);
 
-        Route *r = new Route(l, global::getNewID(), 1, currentTrip, ld1);
+        Route *r = l->newRoute();
+        r->setName(currentTrip);
+        r->setDirection(ld1);
         l->addRoute(r);
 
         QTextStream s(&f);
