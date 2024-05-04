@@ -627,7 +627,7 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     for(int i = 0; i < jTours.count(); ++i)
         if(jTours[i].isObject()) {
             counter++;
-            addTour(new Tour(this, jTours[i].toObject()));
+            addTour(newTour(jTours[i].toObject()));
         } else invalidCounter++;
 
     qInfo().noquote() << counter << "valid tours found (" + QString::number(invalidCounter) + " invalid)";
@@ -675,4 +675,20 @@ Line *ProjectData::newLine(const Line &newLine) {
     Line *l = new Line(newLine);
     l->setParent(this);
     return l;
+}
+
+Tour *ProjectData::newTour(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Tour(this, id);
+}
+
+Tour *ProjectData::newTour(const QJsonObject &obj) {
+    return new Tour(this, obj);
+}
+
+Tour *ProjectData::newTour(const Tour &newTour) {
+    Tour *o = new Tour(newTour);
+    o->setParent(this);
+    return o;
 }
