@@ -97,7 +97,8 @@ void PlgOmsiImport::run() {
                 QString name = s.readLine();
                 Busstop *b = projectData->busstopWithName(name);
                 if(!b) {
-                    b = new Busstop(projectData, global::getNewID(), name);
+                    b = projectData->newBusstop();
+                    b->setName(name);
                     projectData->addBusstop(b);
                     qInfo() << "new busstop created:" << name;
                 }
@@ -113,7 +114,8 @@ void PlgOmsiImport::run() {
                 QString name = busstopsFromCfg[id];
                 Busstop *b = projectData->busstopWithName(name);
                 if(!b) {
-                    b = new Busstop(projectData, global::getNewID(), name);
+                    b = projectData->newBusstop();
+                    b->setName(name);
                     projectData->addBusstop(b);
                     qInfo() << "new busstop created:" << name;
                 }

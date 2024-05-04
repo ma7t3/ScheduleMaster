@@ -1,7 +1,7 @@
 #include "ProjectData/busstop.h"
 
-Busstop::Busstop(QObject *parent, const QString &id, const QString &name, const bool &important) :
-    ProjectDataItem(parent, id), _name(name), _important(important) {}
+Busstop::Busstop(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id) {}
 
 Busstop::Busstop(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {

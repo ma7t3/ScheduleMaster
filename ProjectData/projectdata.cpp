@@ -1,6 +1,9 @@
 
 #include "ProjectData\projectdata.h"
 
+
+#include "App/global.h"
+
 ProjectData::ProjectData() :
     QObject(nullptr),
     _projectSettings(new ProjectSettings(this)),
@@ -66,7 +69,6 @@ void ProjectData::addBusstop(Busstop *b) {
     if(!b)
         return;
 
-    b->setParent(this);
     _busstops << b;
 }
 void ProjectData::addLine(Line *l) {
@@ -607,7 +609,7 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     for(int i = 0; i < jBusstops.count(); ++i)
         if(jBusstops[i].isObject()) {
             counter++;
-            addBusstop(new Busstop(this, jBusstops[i].toObject()));
+            addBusstop(newBusstop(jBusstops[i].toObject()));
         } else invalidCounter++;
 
     qInfo().noquote() << counter << "valid busstops found (" + QString::number(invalidCounter) + " invalid)";
@@ -643,11 +645,18 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     publications()->setJson(jsonObject.value("publications").toObject());
 }
 
+Busstop *ProjectData::newBusstop(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Busstop(this, id);
+}
 
+Busstop *ProjectData::newBusstop(const QJsonObject &obj) {
+    return new Busstop(this, obj);
+}
 
-
-
-
-
-
-
+Busstop *ProjectData::newBusstop(const Busstop &newBusstop) {
+    Busstop *b = new Busstop(newBusstop);
+    b->setParent(this);
+    return b;
+}
