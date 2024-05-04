@@ -294,7 +294,11 @@ void PlgOmsiImport::run() {
                             }
                         }
 
-                        Trip *t = new Trip(l, global::getNewID(), r, time, p, w);
+                        Trip *t = l->newTrip();
+                        t->setRoute(r);
+                        t->setStartTime(time);
+                        t->setTimeProfile(p);
+                        t->setWeekDays(w);
                         l->addTrip(t);
                         o->addTrip(t);
                     }

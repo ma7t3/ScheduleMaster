@@ -76,6 +76,10 @@ public:
     Route *newRoute(const QJsonObject &obj);
     Route *newRoute(const Route &newRoute);
 
+    Trip *newTrip(QString id = "");
+    Trip *newTrip(const QJsonObject &obj);
+    Trip *newTrip(const Trip &newTrip);
+
 protected:
     void copy(const Line &);
     void fromJson(const QJsonObject &);
