@@ -99,6 +99,10 @@ public:
     QJsonObject toJson();
     void setJson(const QJsonObject &);
 
+    Busstop *newBusstop(QString id = "");
+    Busstop *newBusstop(const QJsonObject &);
+    Busstop *newBusstop(const Busstop &newBusstop);
+
 private:
     QString _filePath;
     ProjectSettings *_projectSettings;

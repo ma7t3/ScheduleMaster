@@ -63,7 +63,9 @@ void WdgBusstops::actionNew() {
     if(name == "")
         return;
 
-    Busstop *b = new Busstop(nullptr, global::getNewID(), name, important);
+    Busstop *b = projectData->newBusstop();
+    b->setName(name);
+    b->setImportant(important);
     undoStack->push(new CmdBusstopNew(projectData, b));
     emit refreshRequested();
 }
