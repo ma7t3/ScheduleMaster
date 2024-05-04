@@ -16,6 +16,8 @@ public:
 
     void refreshChilds();
 
+    static QString getNewID();
+
 protected:
     void copy(const ProjectDataItem &);
     void fromJson(const QJsonObject &);
