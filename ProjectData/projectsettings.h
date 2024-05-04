@@ -42,6 +42,10 @@ public:
 
     void refreshChilds();
 
+    DayType *newDayType(QString id = "");
+    DayType *newDayType(const QJsonObject &);
+    DayType *newDayType(const DayType &newDayType);
+
 protected:
     void copy(const ProjectSettings &);
 

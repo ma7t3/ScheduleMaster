@@ -359,9 +359,22 @@ void PlgOmsiImport::run() {
     }
 
     qInfo() << "generating day types";
-    projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), tr("Monday - Friday"), 995));
-    projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), tr("Saturday"), 19));
-    projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), tr("Sunday & Holiday"), 15));
+    DayType *d1 = projectData->projectSettings()->newDayType();
+    DayType *d2 = projectData->projectSettings()->newDayType();
+    DayType *d3 = projectData->projectSettings()->newDayType();
+
+    d1->setName(tr("Monday - Friday"));
+    d1->setCode(995);
+
+    d2->setName(tr("Saturday"));
+    d2->setCode(19);
+
+    d3->setName(tr("Sunday & Holiday"));
+    d3->setCode(15);
+
+    projectData->projectSettings()->addDayType(d1);
+    projectData->projectSettings()->addDayType(d2);
+    projectData->projectSettings()->addDayType(d3);
 }
 
 void PlgOmsiImport::setMapDirectory(const QString &path) {
