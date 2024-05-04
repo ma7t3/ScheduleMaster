@@ -236,7 +236,9 @@ void PlgOmsiImport::run() {
                 s.readLine();
                 QString dayStr = s.readLine();
                 WeekDays w = importWeekDays(dayStr);
-                Tour *o = new Tour(projectData, global::getNewID(), name, w);
+                Tour *o = projectData->newTour();
+                o->setName(name);
+                o->setWeekDays(w);
                 projectData->addTour(o);
 
                 while(!s.atEnd()) {

@@ -1,8 +1,8 @@
 #include "ProjectData\tour.h"
 #include "projectdata.h"
 
-Tour::Tour(QObject *parent, const QString &id, const QString &name, const WeekDays &weekDays) :
-    ProjectDataItem(parent, id), _name(name), _weekDays(weekDays) {
+Tour::Tour(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id) {
 }
 
 Tour::Tour(QObject *parent, const QJsonObject &jsonObject) :

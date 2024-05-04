@@ -10,7 +10,7 @@
 class Tour : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Tour(QObject *parent, const QString &id, const QString &name, const WeekDays &weekDays = WeekDays(nullptr));
+    Tour(QObject *parent, const QString &id);
     Tour(QObject *parent, const QJsonObject &);
     Tour(const Tour &);
     Tour operator=(const Tour &);

@@ -107,6 +107,10 @@ public:
     Line *newLine(const QJsonObject &);
     Line *newLine(const Line &newLine);
 
+    Tour *newTour(QString id = "");
+    Tour *newTour(const QJsonObject &);
+    Tour *newTour(const Tour &newTour);
+
 private:
     QString _filePath;
     ProjectSettings *_projectSettings;
