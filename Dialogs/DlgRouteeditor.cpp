@@ -243,7 +243,8 @@ void routeEditor::on_pbProfileNew_clicked()
     float duration = dlg.getDuration();
     QList<TimeProfileItem *> itemList = dlg.getTimeProfileItemList();
 
-    TimeProfile *t = new TimeProfile(nullptr, global::getNewID(), name);
+    TimeProfile *t = routeData->newTimeProfile();
+    t->setName(name);
     t->setDuration(duration);
     t->addBusstops(itemList);
 

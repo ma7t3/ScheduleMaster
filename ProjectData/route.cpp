@@ -63,7 +63,7 @@ void Route::fromJson(const QJsonObject &jsonObject) {
 
     for(int i = 0; i < jTimeProfiles.count(); ++i)
         if(jTimeProfiles[i].isObject())
-            addTimeProfile(new TimeProfile(this, jTimeProfiles[i].toObject()));
+            addTimeProfile(newTimeProfile(jTimeProfiles[i].toObject()));
 }
 
 QJsonObject Route::toJson() const {
@@ -277,4 +277,20 @@ int Route::indexOfTimeProfile(TimeProfile* p) const {
             return i;
 
     return -1;
+}
+
+TimeProfile *Route::newTimeProfile(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new TimeProfile(this, id);
+}
+
+TimeProfile *Route::newTimeProfile(const QJsonObject &obj) {
+    return new TimeProfile(this, obj);
+}
+
+TimeProfile *Route::newTimeProfile(const TimeProfile &newTimeProfile) {
+    TimeProfile *p = new TimeProfile(newTimeProfile);
+    p->setParent(this);
+    return p;
 }

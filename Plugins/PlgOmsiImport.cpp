@@ -133,7 +133,8 @@ void PlgOmsiImport::run() {
                 bool ok;
                 duration = durationStr.toFloat(&ok);
 
-                TimeProfile *p = new TimeProfile(r, global::getNewID(), name);
+                TimeProfile *p = r->newTimeProfile();
+                p->setName(name);
                 p->setDuration(duration);
                 r->addTimeProfile(p);
 

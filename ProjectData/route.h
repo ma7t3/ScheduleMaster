@@ -59,6 +59,10 @@ public:
 
     void refreshChilds();
 
+    TimeProfile *newTimeProfile(QString id = "");
+    TimeProfile *newTimeProfile(const QJsonObject &);
+    TimeProfile *newTimeProfile(const TimeProfile &newTimeProfile);
+
 protected:
     void copy(const Route &);
     void fromJson(const QJsonObject &);
