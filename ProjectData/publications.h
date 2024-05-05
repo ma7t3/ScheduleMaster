@@ -30,6 +30,10 @@ public:
 
     void reset();
 
+    PublishedLine *newLine(QString id = "");
+    PublishedLine *newLine(const QJsonObject &);
+    PublishedLine *newLine(const PublishedLine &newLine);
+
 protected:
     void copy(const Publications &);
 
