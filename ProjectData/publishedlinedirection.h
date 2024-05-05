@@ -44,6 +44,10 @@ public:
 
     void refreshChilds();
 
+    PublishedBusstop *newBusstop(QString id = "");
+    PublishedBusstop *newBusstop(const QJsonObject &);
+    PublishedBusstop *newBusstop(const PublishedBusstop &newBusstop);
+
 protected:
     void copy(const PublishedLineDirection &);
     void fromJson(const QJsonObject &);

@@ -159,7 +159,8 @@ void WdgPublishedLines::actionBusstopAdd() {
     if(busstopFound)
         return;
 
-    PublishedBusstop *pb = new PublishedBusstop(nullptr, global::getNewID(), b, "");
+    PublishedBusstop *pb = _currentLineDirection->newBusstop();
+    pb->setLinkedBusstop(b);
 
     PublishedLineDirection newLd = *_currentLineDirection;
 
