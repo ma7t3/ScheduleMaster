@@ -2,8 +2,8 @@
 
 #include "ProjectData.h"
 
-PublishedBusstop::PublishedBusstop(QObject *parent, const QString &id, Busstop *linkedBusstop, const QString &label) :
-    ProjectDataItem(parent, id), _linkedBusstop(linkedBusstop), _label(label), _showDivider(false) {}
+PublishedBusstop::PublishedBusstop(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id), _showDivider(false) {}
 
 PublishedBusstop::PublishedBusstop(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {

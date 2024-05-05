@@ -47,7 +47,7 @@ void PublishedLineDirection::fromJson(const QJsonObject &jsonObject) {
     QJsonArray jRoutes = jsonObject.value("routes").toArray();
 
     for(int i = 0; i < jBusstops.count(); ++i)
-        addBusstop(new PublishedBusstop(this, jBusstops.at(i).toObject()));
+        addBusstop(newBusstop(jBusstops.at(i).toObject()));
 
     for(int i = 0; i < jRoutes.count(); ++i) {
         Route *r = static_cast<ProjectData *>(parent()->parent()->parent())->route(jRoutes.at(i).toString(""));
@@ -200,4 +200,20 @@ bool PublishedLineDirection::hasRoute(Route *r) {
     }
 
     return false;
+}
+
+PublishedBusstop *PublishedLineDirection::newBusstop(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new PublishedBusstop(this, id);
+}
+
+PublishedBusstop *PublishedLineDirection::newBusstop(const QJsonObject &obj) {
+    return new PublishedBusstop(this, obj);
+}
+
+PublishedBusstop *PublishedLineDirection::newBusstop(const PublishedBusstop &newBusstop) {
+    PublishedBusstop *b = new PublishedBusstop(newBusstop);
+    b->setParent(this);
+    return b;
 }
