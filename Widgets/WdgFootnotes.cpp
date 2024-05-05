@@ -39,7 +39,10 @@ void WdgFootnotes::actionNew() {
     if(dlg.result() != QDialog::Accepted)
         return;
 
-    Footnote *f = new Footnote(projectData, global::getNewID(), dlg.identifier(), dlg.name(), dlg.description());
+    Footnote *f = projectData->newFootnote();
+    f->setIdentifier(dlg.identifier());
+    f->setName(dlg.name());
+    f->setDescription(dlg.description());
     f->setAutoAssignWeekDaysEnabled(dlg.autoAssignWeekDaysEnabled());
     f->setAutoAssignWeekDays(dlg.weekDays());
     f->setAutoAssignCareWeekDays(dlg.careWeekDays());
@@ -104,7 +107,10 @@ void WdgFootnotes::actionDuplicate() {
     if(dlg.result() != QDialog::Accepted)
         return;
 
-    Footnote *newF = new Footnote(projectData, global::getNewID(), dlg.identifier(), dlg.name(), dlg.description());
+    Footnote *newF = projectData->newFootnote();
+    newF->setIdentifier(dlg.identifier());
+    newF->setName(dlg.name());
+    newF->setDescription(dlg.description());
 
     newF->setAutoAssignWeekDaysEnabled(dlg.autoAssignWeekDaysEnabled());
     newF->setAutoAssignWeekDays(dlg.weekDays());

@@ -111,6 +111,10 @@ public:
     Tour *newTour(const QJsonObject &);
     Tour *newTour(const Tour &newTour);
 
+    Footnote *newFootnote(QString id = "");
+    Footnote *newFootnote(const QJsonObject &);
+    Footnote *newFootnote(const Footnote &newFootnote);
+
 private:
     QString _filePath;
     ProjectSettings *_projectSettings;
