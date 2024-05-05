@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include <QStyleFactory>
+
 DlgPreferences::DlgPreferences(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DlgPreferences)
@@ -16,8 +18,17 @@ DlgPreferences::DlgPreferences(QWidget *parent) :
     if(LocalConfig::language() == LocalConfig::LanguageGerman)
         ui->cbLanguage->setCurrentIndex(1);
 
+    if(LocalConfig::style() == LocalConfig::Fusion)
+        ui->cbApperance->setCurrentIndex(2);
+    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
+        ui->cbApperance->setCurrentIndex(1);
+    else
+        ui->cbApperance->setCurrentIndex(0);
+
     ui->leDefaultProjectLocation->setText(LocalConfig::defaultProjectLocation());
     ui->cbLogfileMode->setCurrentIndex(LocalConfig::logfileMode());
+
+    connect(ui->cbApperance, &QComboBox::currentIndexChanged, this, &DlgPreferences::refreshStylePreview);
 }
 
 DlgPreferences::~DlgPreferences()
@@ -35,6 +46,13 @@ void DlgPreferences::on_DlgPreferences_accepted() {
     LocalConfig::setLanguage(ui->cbLanguage->currentIndex());
     LocalConfig::setDefaultProjectLocation(ui->leDefaultProjectLocation->text());
 
+    if(ui->cbApperance->currentIndex() == 2)
+        LocalConfig::setStyle(LocalConfig::Fusion);
+    else if(ui->cbApperance->currentIndex() == 1)
+        LocalConfig::setStyle(LocalConfig::WindowsXpStyle);
+    else
+        LocalConfig::setStyle(LocalConfig::System);
+
     if(logfileMode == LocalConfig::NoLog)
         LocalConfig::setLogfileMode(LocalConfig::NoLog);
     if(logfileMode == LocalConfig::DefaultLog)
@@ -45,6 +63,14 @@ void DlgPreferences::on_DlgPreferences_accepted() {
         LocalConfig::setLogfileMode(LocalConfig::DebugDetailLog);
 }
 
+void DlgPreferences::on_DlgPreferences_rejected() {
+    if(LocalConfig::style() == LocalConfig::Fusion)
+        qApp->setStyle(QStyleFactory::create("Fusion"));
+    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
+        qApp->setStyle(QStyleFactory::create("Windows"));
+    else
+        qApp->setStyle(QStyleFactory::create("windowsvista"));
+}
 
 void DlgPreferences::on_pbDefaultProjectLocationBrowse_clicked() {
     QString newPath = QFileDialog::getExistingDirectory(this, "", LocalConfig::defaultProjectLocation(), QFileDialog::ShowDirsOnly);
@@ -52,5 +78,14 @@ void DlgPreferences::on_pbDefaultProjectLocationBrowse_clicked() {
         return;
 
     ui->leDefaultProjectLocation->setText(newPath);
+}
+
+void DlgPreferences::refreshStylePreview(int index) {
+    if(index == 0)
+        qApp->setStyle(QStyleFactory::create("windowsvista"));
+    else if(index == 1)
+        qApp->setStyle(QStyleFactory::create("Windows"));
+    else if(index == 2)
+        qApp->setStyle(QStyleFactory::create("Fusion"));
 }
 
