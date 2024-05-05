@@ -66,7 +66,8 @@ void WdgPublishedLines::actionNew() {
     if(!ok)
         return;
 
-    PublishedLine *l = new PublishedLine(nullptr, global::getNewID(), name);
+    PublishedLine *l = projectData->publications()->newLine();
+    l->setTitle(name);
     undoStack->push(new CmdPublishedLineNew(projectData, l));
     _currentLine = l;
     refreshLineList();

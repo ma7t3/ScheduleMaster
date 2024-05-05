@@ -44,7 +44,7 @@ void Publications::setJson(const QJsonObject &jsonObject) {
 
     for(int i = 0; i < jLineSchedules.count(); ++i)
         if(jLineSchedules.at(i).isObject())
-            addLine(new PublishedLine(this, jLineSchedules.at(i).toObject()));
+            addLine(newLine(jLineSchedules.at(i).toObject()));
 }
 
 void Publications::refreshChilds() {
@@ -121,4 +121,21 @@ void Publications::removeLine(const QString &id) {
     for(int i = 0; i < lineCount(); i++)
         if(lineAt(i)->id() == id)
             _lines.remove(i);
+}
+
+
+PublishedLine *Publications::newLine(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new PublishedLine(this, id);
+}
+
+PublishedLine *Publications::newLine(const QJsonObject &obj) {
+    return new PublishedLine(this, obj);
+}
+
+PublishedLine *Publications::newLine(const PublishedLine &newLine) {
+    PublishedLine *l = new PublishedLine(newLine);
+    l->setParent(this);
+    return l;
 }

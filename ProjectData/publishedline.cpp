@@ -1,7 +1,7 @@
 #include "publishedline.h"
 
-PublishedLine::PublishedLine(QObject *parent, const QString &id, const QString &title, const QString &footer) :
-    ProjectDataItem(parent, id), _title(title), _footer(footer) {}
+PublishedLine::PublishedLine(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id) {}
 
 PublishedLine::PublishedLine(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {
