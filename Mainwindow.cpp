@@ -20,6 +20,8 @@
 #include <QPainter>
 #include <QDesktopServices>
 
+#include <QStyleHints>
+
 
 #include "Commands/Cmdgeneral.h"
 #include "Mainwindow.h"
@@ -61,7 +63,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // init splashscreen
     QSplashScreen splashScreen;
-    QString imagePath = ":/splashscreen/splashscreen.png";
+    QString imagePath = ":/splashscreen/slpashscreen_light.png";
+    if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark)
+        imagePath = ":/splashscreen/splashscreen_dark.png";
+
     QColor messageColor = QColor(0, 0, 0);
     QDate now = QDate::currentDate();
 
