@@ -75,8 +75,10 @@ void PlgOmsiImport::run() {
             l->setColor(color);
             qInfo() << "new line created:" << lineName;
             projectData->addLine(l);
-            ld1 = new LineDirection(l, global::getNewID(), "Direction 1");
-            ld2 = new LineDirection(l, global::getNewID(), "Direction 2");
+            ld1 = l->newDirection();
+            ld2 = l->newDirection();
+            ld1->setDescription("Direction 1");
+            ld2->setDescription("Direction 2");
             l->addDirection(ld1);
             l->addDirection(ld2);
         }

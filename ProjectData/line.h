@@ -72,6 +72,10 @@ public:
 
     void refreshChilds();
 
+    LineDirection *newDirection(QString id = "");
+    LineDirection *newDirection(const QJsonObject &obj);
+    LineDirection *newDirection(const LineDirection &newDirection);
+
     Route *newRoute(QString id = "");
     Route *newRoute(const QJsonObject &obj);
     Route *newRoute(const Route &newRoute);
