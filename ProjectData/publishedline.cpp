@@ -62,7 +62,7 @@ void PublishedLine::fromJson(const QJsonObject &jsonObject) {
 
     QJsonArray jDirections = jsonObject.value("directions").toArray();
     for(int i = 0; i < jDirections.count(); ++i)
-        addDirection(new PublishedLineDirection(this, jDirections.at(i).toObject()));
+        addDirection(newDirection(jDirections.at(i).toObject()));
 }
 
 
@@ -203,4 +203,20 @@ void PublishedLine::removeDayType(DayType *dt) {
     for(int i = 0; i < dayTypeCount(); i++)
         if(_dayTypes[i] == dt)
             _dayTypes.remove(i);
+}
+
+PublishedLineDirection *PublishedLine::newDirection(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new PublishedLineDirection(this, id);
+}
+
+PublishedLineDirection *PublishedLine::newDirection(const QJsonObject &obj) {
+    return new PublishedLineDirection(this, obj);
+}
+
+PublishedLineDirection *PublishedLine::newDirection(const PublishedLineDirection &newDirection) {
+    PublishedLineDirection *ld = new PublishedLineDirection(newDirection);
+    ld->setParent(this);
+    return ld;
 }

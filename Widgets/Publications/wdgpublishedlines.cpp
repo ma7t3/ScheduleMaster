@@ -109,7 +109,8 @@ void WdgPublishedLines::actionDirectionNew() {
     if(!ok)
         return;
 
-    PublishedLineDirection *ld = new PublishedLineDirection(nullptr, global::getNewID(), name);
+    PublishedLineDirection *ld = _currentLine->newDirection();
+    ld->setName(name);
     undoStack->push(new CmdPublishedLineDirectionNew(_currentLine, ld));
     _currentLineDirection = ld;
     refreshCurrentLine();

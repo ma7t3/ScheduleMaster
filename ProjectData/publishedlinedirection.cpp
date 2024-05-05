@@ -2,11 +2,8 @@
 
 #include "ProjectData.h"
 
-PublishedLineDirection::PublishedLineDirection(QObject *parent,
-                                               const QString &id,
-                                               const QString &name) :
-    ProjectDataItem(parent, id),
-    _name(name) {}
+PublishedLineDirection::PublishedLineDirection(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id) {}
 
 PublishedLineDirection::PublishedLineDirection(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {
