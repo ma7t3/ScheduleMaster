@@ -5,8 +5,8 @@
 ProjectDataItem::ProjectDataItem(QObject *parent, const QString &id) :
     QObject(parent),
     _id(id) {
-    if(this->id() == "")
-        _id = global::getNewID();
+    if(this->id().isEmpty())
+        _id = getNewID();
 }
 
 ProjectDataItem::ProjectDataItem(QObject *parent, const QJsonObject &jsonObject) :
@@ -46,4 +46,8 @@ QJsonObject ProjectDataItem::toJson() const {
 
 void ProjectDataItem::refreshChilds() {
     //
+}
+
+QString ProjectDataItem::getNewID() {
+    return QUuid::createUuid().toString(QUuid::WithoutBraces);
 }

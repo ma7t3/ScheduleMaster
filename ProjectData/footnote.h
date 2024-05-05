@@ -10,7 +10,7 @@
 class Footnote : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Footnote(QObject *parent, const QString &id, const QString &identifier, const QString &name, const QString &description = "");
+    Footnote(QObject *parent, const QString &id);
     Footnote(QObject *parent, const QJsonObject &);
     Footnote(const Footnote &);
     Footnote operator=(const Footnote &);

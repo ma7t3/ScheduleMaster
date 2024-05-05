@@ -40,7 +40,7 @@ public:
         // copy directions
         QList<LineDirection *> directionCopies;
         for(int i = 0; i < oldL.directionCount(); i++)
-            directionCopies << new LineDirection(*oldL.directionAt(i));
+            directionCopies << line->newDirection(*oldL.directionAt(i));
         oldL.setDirections(directionCopies);
     }
 

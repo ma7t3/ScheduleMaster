@@ -1,7 +1,7 @@
 #include "ProjectData\line.h"
 
-Line::Line(QObject *parent, const QString &id, const QString &name, const QString &description, const QColor &color) :
-    ProjectDataItem(parent, id), _name(name), _description(description), _color(color) {}
+Line::Line(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id) {}
 
 Line::Line(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {
@@ -91,15 +91,15 @@ void Line::fromJson(const QJsonObject &jsonObject) {
 
     for(int i = 0; i < jDirections.count(); ++i)
         if(jDirections[i].isObject())
-            addDirection(new LineDirection(this, jDirections[i].toObject()));
+            addDirection(newDirection(jDirections[i].toObject()));
 
     for(int i = 0; i < jRoutes.count(); ++i)
         if(jRoutes[i].isObject())
-            addRoute(new Route(this, jRoutes[i].toObject()));
+            addRoute(newRoute(jRoutes[i].toObject()));
 
     for(int i = 0; i < jTrips.count(); ++i)
         if(jTrips[i].isObject())
-            addTrip(new Trip(this, jTrips[i].toObject()));
+            addTrip(newTrip(jTrips[i].toObject()));
 }
 
 
@@ -403,4 +403,53 @@ LineDirection *Line::directionOfTrip(Trip *t) const {
         return nullptr;
 
     return t->route()->direction();
+}
+
+
+LineDirection *Line::newDirection(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new LineDirection(this, id);
+}
+
+LineDirection *Line::newDirection(const QJsonObject &obj) {
+    return new LineDirection(this, obj);
+}
+
+LineDirection *Line::newDirection(const LineDirection &newDirection) {
+    LineDirection *ld = new LineDirection(newDirection);
+    ld->setParent(this);
+    return ld;
+}
+
+Route *Line::newRoute(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Route(this, id);
+}
+
+Route *Line::newRoute(const QJsonObject &obj) {
+    return new Route(this, obj);
+}
+
+Route *Line::newRoute(const Route &newRoute) {
+    Route *r = new Route(newRoute);
+    r->setParent(this);
+    return r;
+}
+
+Trip *Line::newTrip(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Trip(this, id);
+}
+
+Trip *Line::newTrip(const QJsonObject &obj) {
+    return new Trip(this, obj);
+}
+
+Trip *Line::newTrip(const Trip &newTrip) {
+    Trip *t = new Trip(newTrip);
+    t->setParent(this);
+    return t;
 }

@@ -116,8 +116,8 @@ bool TimeProfileItem::hasSeperateTimes() const {
     return _seperateTimes;
 }
 
-TimeProfile::TimeProfile(QObject *parent, const QString &id, const QString &name) :
-    ProjectDataItem(parent, id), _name(name) {
+TimeProfile::TimeProfile(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id) {
 
 }
 

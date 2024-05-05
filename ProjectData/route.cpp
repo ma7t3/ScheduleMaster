@@ -3,13 +3,8 @@
 #include "ProjectDataItem.h"
 #include "projectdata.h"
 
-Route::Route(QObject *parent,
-             const QString &id,
-             const int &code,
-             const QString &name,
-             LineDirection *direction) :
-    ProjectDataItem(parent, id),
-    _code(code), _direction(direction), _name(name) {}
+Route::Route(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id), _code(1) {}
 
 Route::Route(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {
@@ -68,7 +63,7 @@ void Route::fromJson(const QJsonObject &jsonObject) {
 
     for(int i = 0; i < jTimeProfiles.count(); ++i)
         if(jTimeProfiles[i].isObject())
-            addTimeProfile(new TimeProfile(this, jTimeProfiles[i].toObject()));
+            addTimeProfile(newTimeProfile(jTimeProfiles[i].toObject()));
 }
 
 QJsonObject Route::toJson() const {
@@ -282,4 +277,20 @@ int Route::indexOfTimeProfile(TimeProfile* p) const {
             return i;
 
     return -1;
+}
+
+TimeProfile *Route::newTimeProfile(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new TimeProfile(this, id);
+}
+
+TimeProfile *Route::newTimeProfile(const QJsonObject &obj) {
+    return new TimeProfile(this, obj);
+}
+
+TimeProfile *Route::newTimeProfile(const TimeProfile &newTimeProfile) {
+    TimeProfile *p = new TimeProfile(newTimeProfile);
+    p->setParent(this);
+    return p;
 }
