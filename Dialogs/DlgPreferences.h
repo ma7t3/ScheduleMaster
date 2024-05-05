@@ -17,8 +17,11 @@ public:
 
 private slots:
     void on_DlgPreferences_accepted();
+    void on_DlgPreferences_rejected();
 
     void on_pbDefaultProjectLocationBrowse_clicked();
+
+    void refreshStylePreview(int index);
 
 private:
     Ui::DlgPreferences *ui;
