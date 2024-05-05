@@ -9,6 +9,8 @@
 #include "ProjectData/projectdata.h"
 #include "Commands/Cmdschedule.h"
 
+#include <QStyleHints>
+
 WdgSchedule::WdgSchedule(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
     QWidget(parent),
     ui(new Ui::WdgSchedule),
@@ -376,8 +378,12 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
         }
 
         itm->setTextAlignment(Qt::AlignCenter); // make all times centered
-        if((i % 2) == 0 && i >= headerRowCount) // "zebrastreifen"-look
-            itm->setBackground(QColor(224, 224, 224));
+        if((i % 2) == 0 && i >= headerRowCount) { // "zebrastreifen"-look
+            if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark)
+                itm->setBackground(QColor(31, 31, 31));
+            else
+                itm->setBackground(QColor(224, 224, 224));
+        }
     }
 
     // check if trip is current

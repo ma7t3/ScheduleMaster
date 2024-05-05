@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>splashscreen/splashscreen.png</file>
+        <file>splashscreen/slpashscreen_light.png</file>
+        <file>splashscreen/splashscreen_dark.png</file>
         <file>icons/FileNew.ico</file>
         <file>icons/FileClose.ico</file>
         <file>icons/FileOpen.ico</file>

@@ -15,17 +15,25 @@ public:
         DebugDetailLog
     };
 
+    enum Style {
+        System,
+        WindowsXpStyle,
+        Fusion
+    };
+
     static const int LanguageEnglish = 0;
     static const int LanguageGerman = 1;
 
     static int language();
     static void setLanguage(const int &newLanguage);
 
+    static Style style();
+    static void setStyle(const Style &newStyle);
+
     static QStringList lastUsedFiles();
     static void addLastUsedFile(const QString &);
     static void setLastUsedFiles(const QStringList &);
     static void resetLastUsedFiles();
-
 
     static bool crashDetected();
     static void setCrashDetected(const bool &newCrashDetected);
