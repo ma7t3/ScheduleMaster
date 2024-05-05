@@ -59,12 +59,28 @@ void ProjectSettings::setJson(const QJsonObject &jsonObject) {
 
     for(int i = 0; i < jDayTypes.count(); ++i)
         if(jDayTypes.at(i).isObject())
-            addDayType(new DayType(this, jDayTypes.at(i).toObject()));
+            addDayType(newDayType(jDayTypes.at(i).toObject()));
 }
 
 void ProjectSettings::refreshChilds() {
     foreach(DayType *dt, _dayTypes)
         dt->setParent(this);
+}
+
+DayType *ProjectSettings::newDayType(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new DayType(this, id);
+}
+
+DayType *ProjectSettings::newDayType(const QJsonObject &obj) {
+    return new DayType(this, obj);
+}
+
+DayType *ProjectSettings::newDayType(const DayType &newDayType) {
+    DayType *dt = new DayType(newDayType);
+    dt->setParent(this);
+    return dt;
 }
 
 QJsonObject ProjectSettings::toJson() const {

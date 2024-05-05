@@ -8,7 +8,7 @@
 class PublishedBusstop : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    PublishedBusstop(QObject *parent, const QString &id, Busstop *linkedBusstop, const QString &label = "");
+    PublishedBusstop(QObject *parent, const QString &id);
     PublishedBusstop(QObject *parent, const QJsonObject &);
     PublishedBusstop(const PublishedBusstop &);
     PublishedBusstop operator=(const PublishedBusstop &);

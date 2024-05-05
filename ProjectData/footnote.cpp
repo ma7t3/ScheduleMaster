@@ -1,12 +1,7 @@
 #include "footnote.h"
 
-Footnote::Footnote(QObject *parent,
-                   const QString &id,
-                   const QString &identifier,
-                   const QString &name,
-                   const QString &description) :
+Footnote::Footnote(QObject *parent, const QString &id) :
     ProjectDataItem(parent, id),
-    _identifier(identifier), _name(name), _description(description),
     _autoAssignWeekDaysEnabled(false) {}
 
 Footnote::Footnote(QObject *parent, const QJsonObject &jsonObject) : ProjectDataItem(parent) {

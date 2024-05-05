@@ -70,7 +70,8 @@ void DlgLineEditor::actionNewDirection() {
     if(!ok || newName.isEmpty())
         return;
 
-    LineDirection *ld = new LineDirection(nullptr, global::getNewID(), newName);
+    LineDirection *ld = new LineDirection(nullptr, global::getNewID());
+    ld->setDescription(newName);
     _line.addDirection(ld);
     ui->lwDirections->addItem(newName);
 }

@@ -67,7 +67,8 @@ void WdgRoutes::actionNew() {
     if(!_currentLine)
         return;
 
-    Route * r = new Route(nullptr, global::getNewID(), 1, "", _currentLine->directionAt(0));
+    Route *r = _currentLine->newRoute();
+    r->setDirection(_currentLine->directionAt(0));
     routeEditor dlg(this, true, r, _currentLine->directions(), projectData->busstops());
     dlg.exec();
 
@@ -130,7 +131,10 @@ void WdgRoutes::actionDuplicate() {
     if(dlg.result() != QDialog::Accepted)
         return;
 
-    Route * n = new Route(nullptr, global::getNewID(), dlg.getCode(), dlg.name(), dlg.getDirection());
+    Route *n = _currentLine->newRoute();
+    n->setCode(dlg.getCode());
+    n->setName(dlg.name());
+    n->setDirection(dlg.getDirection());
     QStringList busstopList = dlg.getBusstopList();
 
     for(int i = 0; i < busstopList.count(); i++) {

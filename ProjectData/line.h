@@ -14,7 +14,7 @@
 class Line : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Line(QObject *parent, const QString &id, const QString &name, const QString &description = "", const QColor &color = QColor(0, 0, 0));
+    Line(QObject *parent, const QString &id);
     Line(QObject *parent, const QJsonObject &);
     Line(const Line &);
 
@@ -71,6 +71,18 @@ public:
     QJsonObject toJson() const;
 
     void refreshChilds();
+
+    LineDirection *newDirection(QString id = "");
+    LineDirection *newDirection(const QJsonObject &obj);
+    LineDirection *newDirection(const LineDirection &newDirection);
+
+    Route *newRoute(QString id = "");
+    Route *newRoute(const QJsonObject &obj);
+    Route *newRoute(const Route &newRoute);
+
+    Trip *newTrip(QString id = "");
+    Trip *newTrip(const QJsonObject &obj);
+    Trip *newTrip(const Trip &newTrip);
 
 protected:
     void copy(const Line &);

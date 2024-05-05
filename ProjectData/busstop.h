@@ -8,7 +8,7 @@
 class Busstop : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Busstop(QObject *parent, const QString &id, const QString &name, const bool &important = false);
+    Busstop(QObject *parent, const QString &id);
     Busstop(QObject *parent, const QJsonObject &);
     Busstop(const Busstop &);
     Busstop operator=(const Busstop &other);

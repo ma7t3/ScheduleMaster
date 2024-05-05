@@ -66,7 +66,8 @@ void WdgPublishedLines::actionNew() {
     if(!ok)
         return;
 
-    PublishedLine *l = new PublishedLine(nullptr, global::getNewID(), name);
+    PublishedLine *l = projectData->publications()->newLine();
+    l->setTitle(name);
     undoStack->push(new CmdPublishedLineNew(projectData, l));
     _currentLine = l;
     refreshLineList();
@@ -108,7 +109,8 @@ void WdgPublishedLines::actionDirectionNew() {
     if(!ok)
         return;
 
-    PublishedLineDirection *ld = new PublishedLineDirection(nullptr, global::getNewID(), name);
+    PublishedLineDirection *ld = _currentLine->newDirection();
+    ld->setName(name);
     undoStack->push(new CmdPublishedLineDirectionNew(_currentLine, ld));
     _currentLineDirection = ld;
     refreshCurrentLine();
@@ -157,7 +159,8 @@ void WdgPublishedLines::actionBusstopAdd() {
     if(busstopFound)
         return;
 
-    PublishedBusstop *pb = new PublishedBusstop(nullptr, global::getNewID(), b, "");
+    PublishedBusstop *pb = _currentLineDirection->newBusstop();
+    pb->setLinkedBusstop(b);
 
     PublishedLineDirection newLd = *_currentLineDirection;
 

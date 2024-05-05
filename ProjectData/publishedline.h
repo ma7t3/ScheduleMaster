@@ -9,7 +9,7 @@
 class PublishedLine : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    PublishedLine(QObject *parent, const QString &id, const QString &title, const QString &footer = "");
+    PublishedLine(QObject *parent, const QString &id);
     PublishedLine(QObject *parent, const QJsonObject &);
     PublishedLine(const PublishedLine &);
     PublishedLine operator=(const PublishedLine &);
@@ -46,6 +46,10 @@ public:
     QJsonObject toJson() const;
 
     void refreshChilds();
+
+    PublishedLineDirection *newDirection(QString id = "");
+    PublishedLineDirection *newDirection(const QJsonObject &);
+    PublishedLineDirection *newDirection(const PublishedLineDirection &newDirection);
 
 protected:
     void copy(const PublishedLine &);

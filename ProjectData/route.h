@@ -11,7 +11,7 @@
 class Route : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Route(QObject *parent, const QString &id, const int &code, const QString &name, LineDirection *direction);
+    Route(QObject *parent, const QString &id);
     Route(QObject *parent, const QJsonObject &);
     Route(const Route &);
     bool operator<(const Route &);
@@ -58,6 +58,10 @@ public:
     QJsonObject toJson() const;
 
     void refreshChilds();
+
+    TimeProfile *newTimeProfile(QString id = "");
+    TimeProfile *newTimeProfile(const QJsonObject &);
+    TimeProfile *newTimeProfile(const TimeProfile &newTimeProfile);
 
 protected:
     void copy(const Route &);

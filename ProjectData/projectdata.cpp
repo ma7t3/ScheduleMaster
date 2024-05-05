@@ -1,6 +1,9 @@
 
 #include "ProjectData\projectdata.h"
 
+
+#include "App/global.h"
+
 ProjectData::ProjectData() :
     QObject(nullptr),
     _projectSettings(new ProjectSettings(this)),
@@ -66,7 +69,6 @@ void ProjectData::addBusstop(Busstop *b) {
     if(!b)
         return;
 
-    b->setParent(this);
     _busstops << b;
 }
 void ProjectData::addLine(Line *l) {
@@ -607,7 +609,7 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     for(int i = 0; i < jBusstops.count(); ++i)
         if(jBusstops[i].isObject()) {
             counter++;
-            addBusstop(new Busstop(this, jBusstops[i].toObject()));
+            addBusstop(newBusstop(jBusstops[i].toObject()));
         } else invalidCounter++;
 
     qInfo().noquote() << counter << "valid busstops found (" + QString::number(invalidCounter) + " invalid)";
@@ -616,7 +618,7 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     for(int i = 0; i < jLines.count(); ++i)
         if(jLines[i].isObject()) {
             counter++;
-            addLine(new Line(this, jLines[i].toObject()));
+            addLine(newLine(jLines[i].toObject()));
         } else invalidCounter++;
 
     qInfo().noquote() << counter << "valid lines found (" + QString::number(invalidCounter) + " invalid)";
@@ -625,7 +627,7 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     for(int i = 0; i < jTours.count(); ++i)
         if(jTours[i].isObject()) {
             counter++;
-            addTour(new Tour(this, jTours[i].toObject()));
+            addTour(newTour(jTours[i].toObject()));
         } else invalidCounter++;
 
     qInfo().noquote() << counter << "valid tours found (" + QString::number(invalidCounter) + " invalid)";
@@ -634,7 +636,7 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     for(int i = 0; i < jFootnotes.count(); ++i)
         if(jFootnotes[i].isObject()) {
             counter++;
-            addFootnote(new Footnote(this, jFootnotes[i].toObject()));
+            addFootnote(newFootnote(jFootnotes[i].toObject()));
         } else invalidCounter++;
 
     qInfo().noquote() << counter << "valid footnotes found (" + QString::number(invalidCounter) + " invalid)";
@@ -643,11 +645,66 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     publications()->setJson(jsonObject.value("publications").toObject());
 }
 
+Busstop *ProjectData::newBusstop(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Busstop(this, id);
+}
 
+Busstop *ProjectData::newBusstop(const QJsonObject &obj) {
+    return new Busstop(this, obj);
+}
 
+Busstop *ProjectData::newBusstop(const Busstop &newBusstop) {
+    Busstop *b = new Busstop(newBusstop);
+    b->setParent(this);
+    return b;
+}
 
+Line *ProjectData::newLine(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Line(this, id);
+}
 
+Line *ProjectData::newLine(const QJsonObject &obj) {
+    return new Line(this, obj);
+}
 
+Line *ProjectData::newLine(const Line &newLine) {
+    Line *l = new Line(newLine);
+    l->setParent(this);
+    return l;
+}
 
+Tour *ProjectData::newTour(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Tour(this, id);
+}
 
+Tour *ProjectData::newTour(const QJsonObject &obj) {
+    return new Tour(this, obj);
+}
 
+Tour *ProjectData::newTour(const Tour &newTour) {
+    Tour *o = new Tour(newTour);
+    o->setParent(this);
+    return o;
+}
+
+Footnote *ProjectData::newFootnote(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Footnote(this, id);
+}
+
+Footnote *ProjectData::newFootnote(const QJsonObject &obj) {
+    return new Footnote(this, obj);
+}
+
+Footnote *ProjectData::newFootnote(const Footnote &newFootnote) {
+    Footnote *f = new Footnote(newFootnote);
+    f->setParent(this);
+    return f;
+}

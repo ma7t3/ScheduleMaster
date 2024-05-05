@@ -70,17 +70,23 @@ void PlgOmsiImport::run() {
                          QRandomGenerator::global()->bounded(256),
                          QRandomGenerator::global()->bounded(256));
 
-            l = new Line(projectData, global::getNewID(), lineName, "", color);
+            l = projectData->newLine();
+            l->setName(lineName);
+            l->setColor(color);
             qInfo() << "new line created:" << lineName;
             projectData->addLine(l);
-            ld1 = new LineDirection(l, global::getNewID(), "Direction 1");
-            ld2 = new LineDirection(l, global::getNewID(), "Direction 2");
+            ld1 = l->newDirection();
+            ld2 = l->newDirection();
+            ld1->setDescription("Direction 1");
+            ld2->setDescription("Direction 2");
             l->addDirection(ld1);
             l->addDirection(ld2);
         }
         ld1 = l->directionAt(0);
 
-        Route *r = new Route(l, global::getNewID(), 1, currentTrip, ld1);
+        Route *r = l->newRoute();
+        r->setName(currentTrip);
+        r->setDirection(ld1);
         l->addRoute(r);
 
         QTextStream s(&f);
@@ -97,7 +103,8 @@ void PlgOmsiImport::run() {
                 QString name = s.readLine();
                 Busstop *b = projectData->busstopWithName(name);
                 if(!b) {
-                    b = new Busstop(projectData, global::getNewID(), name);
+                    b = projectData->newBusstop();
+                    b->setName(name);
                     projectData->addBusstop(b);
                     qInfo() << "new busstop created:" << name;
                 }
@@ -113,7 +120,8 @@ void PlgOmsiImport::run() {
                 QString name = busstopsFromCfg[id];
                 Busstop *b = projectData->busstopWithName(name);
                 if(!b) {
-                    b = new Busstop(projectData, global::getNewID(), name);
+                    b = projectData->newBusstop();
+                    b->setName(name);
                     projectData->addBusstop(b);
                     qInfo() << "new busstop created:" << name;
                 }
@@ -127,7 +135,8 @@ void PlgOmsiImport::run() {
                 bool ok;
                 duration = durationStr.toFloat(&ok);
 
-                TimeProfile *p = new TimeProfile(r, global::getNewID(), name);
+                TimeProfile *p = r->newTimeProfile();
+                p->setName(name);
                 p->setDuration(duration);
                 r->addTimeProfile(p);
 
@@ -232,7 +241,9 @@ void PlgOmsiImport::run() {
                 s.readLine();
                 QString dayStr = s.readLine();
                 WeekDays w = importWeekDays(dayStr);
-                Tour *o = new Tour(projectData, global::getNewID(), name, w);
+                Tour *o = projectData->newTour();
+                o->setName(name);
+                o->setWeekDays(w);
                 projectData->addTour(o);
 
                 while(!s.atEnd()) {
@@ -286,7 +297,11 @@ void PlgOmsiImport::run() {
                             }
                         }
 
-                        Trip *t = new Trip(l, global::getNewID(), r, time, p, w);
+                        Trip *t = l->newTrip();
+                        t->setRoute(r);
+                        t->setStartTime(time);
+                        t->setTimeProfile(p);
+                        t->setWeekDays(w);
                         l->addTrip(t);
                         o->addTrip(t);
                     }
@@ -353,9 +368,22 @@ void PlgOmsiImport::run() {
     }
 
     qInfo() << "generating day types";
-    projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), tr("Monday - Friday"), 995));
-    projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), tr("Saturday"), 19));
-    projectData->projectSettings()->addDayType(new DayType(projectData, global::getNewID(), tr("Sunday & Holiday"), 15));
+    DayType *d1 = projectData->projectSettings()->newDayType();
+    DayType *d2 = projectData->projectSettings()->newDayType();
+    DayType *d3 = projectData->projectSettings()->newDayType();
+
+    d1->setName(tr("Monday - Friday"));
+    d1->setCode(995);
+
+    d2->setName(tr("Saturday"));
+    d2->setCode(19);
+
+    d3->setName(tr("Sunday & Holiday"));
+    d3->setCode(15);
+
+    projectData->projectSettings()->addDayType(d1);
+    projectData->projectSettings()->addDayType(d2);
+    projectData->projectSettings()->addDayType(d3);
 }
 
 void PlgOmsiImport::setMapDirectory(const QString &path) {

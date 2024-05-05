@@ -52,7 +52,7 @@ class TimeProfile : public ProjectDataItem
 {
     Q_OBJECT
 public:
-    TimeProfile(QObject *parent, const QString &id, const QString &name);
+    TimeProfile(QObject *parent, const QString &id);
     TimeProfile(QObject *parent, const QJsonObject &);
     TimeProfile(const TimeProfile &);
     TimeProfile operator=(const TimeProfile &);
