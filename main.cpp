@@ -1,6 +1,9 @@
 #include <QApplication>
 #include <QTranslator>
 
+#include <QStyleFactory>
+#include <QStyleHints>
+
 #include "localconfig.h"
 #include "App/logger.h"
 
@@ -12,6 +15,12 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     LocalConfig localConfig(&a);
+
+    if(LocalConfig::style() == LocalConfig::Fusion)
+        a.setStyle(QStyleFactory::create("Fusion"));
+    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
+        a.setStyle(QStyleFactory::create("Windows"));
+
 
     if(LocalConfig::crashDetected()) {
         const QDateTime dt(QDateTime::currentDateTime());
