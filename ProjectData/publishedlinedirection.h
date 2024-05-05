@@ -10,7 +10,7 @@
 class PublishedLineDirection : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    PublishedLineDirection(QObject *parent, const QString &id, const QString &name);
+    PublishedLineDirection(QObject *parent, const QString &id);
     PublishedLineDirection(QObject *parent, const QJsonObject &);
     PublishedLineDirection(const PublishedLineDirection &);
     PublishedLineDirection operator=(const PublishedLineDirection &);

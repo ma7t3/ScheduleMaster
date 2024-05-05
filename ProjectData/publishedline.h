@@ -47,6 +47,10 @@ public:
 
     void refreshChilds();
 
+    PublishedLineDirection *newDirection(QString id = "");
+    PublishedLineDirection *newDirection(const QJsonObject &);
+    PublishedLineDirection *newDirection(const PublishedLineDirection &newDirection);
+
 protected:
     void copy(const PublishedLine &);
     void fromJson(const QJsonObject &);
