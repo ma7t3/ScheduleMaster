@@ -91,7 +91,7 @@ void Line::fromJson(const QJsonObject &jsonObject) {
 
     for(int i = 0; i < jDirections.count(); ++i)
         if(jDirections[i].isObject())
-            addDirection(new LineDirection(this, jDirections[i].toObject()));
+            addDirection(newDirection(jDirections[i].toObject()));
 
     for(int i = 0; i < jRoutes.count(); ++i)
         if(jRoutes[i].isObject())
@@ -406,6 +406,21 @@ LineDirection *Line::directionOfTrip(Trip *t) const {
 }
 
 
+LineDirection *Line::newDirection(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new LineDirection(this, id);
+}
+
+LineDirection *Line::newDirection(const QJsonObject &obj) {
+    return new LineDirection(this, obj);
+}
+
+LineDirection *Line::newDirection(const LineDirection &newDirection) {
+    LineDirection *ld = new LineDirection(newDirection);
+    ld->setParent(this);
+    return ld;
+}
 
 Route *Line::newRoute(QString id) {
     if(id.isEmpty())
