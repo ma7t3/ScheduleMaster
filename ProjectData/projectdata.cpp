@@ -636,7 +636,7 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     for(int i = 0; i < jFootnotes.count(); ++i)
         if(jFootnotes[i].isObject()) {
             counter++;
-            addFootnote(new Footnote(this, jFootnotes[i].toObject()));
+            addFootnote(newFootnote(jFootnotes[i].toObject()));
         } else invalidCounter++;
 
     qInfo().noquote() << counter << "valid footnotes found (" + QString::number(invalidCounter) + " invalid)";
@@ -691,4 +691,20 @@ Tour *ProjectData::newTour(const Tour &newTour) {
     Tour *o = new Tour(newTour);
     o->setParent(this);
     return o;
+}
+
+Footnote *ProjectData::newFootnote(QString id) {
+    if(id.isEmpty())
+        id = ProjectDataItem::getNewID();
+    return new Footnote(this, id);
+}
+
+Footnote *ProjectData::newFootnote(const QJsonObject &obj) {
+    return new Footnote(this, obj);
+}
+
+Footnote *ProjectData::newFootnote(const Footnote &newFootnote) {
+    Footnote *f = new Footnote(newFootnote);
+    f->setParent(this);
+    return f;
 }
