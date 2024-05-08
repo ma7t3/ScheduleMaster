@@ -74,13 +74,17 @@ void WdgFootnotes::actionEdit() {
     if(dlg.result() != QDialog::Accepted)
         return;
 
-    f->setIdentifier(dlg.identifier());
-    f->setName(dlg.name());
-    f->setDescription(dlg.description());
+    Footnote newF(*f);
 
-    f->setAutoAssignWeekDaysEnabled(dlg.autoAssignWeekDaysEnabled());
-    f->setAutoAssignWeekDays(dlg.weekDays());
-    f->setAutoAssignCareWeekDays(dlg.careWeekDays());
+    newF.setIdentifier(dlg.identifier());
+    newF.setName(dlg.name());
+    newF.setDescription(dlg.description());
+
+    newF.setAutoAssignWeekDaysEnabled(dlg.autoAssignWeekDaysEnabled());
+    newF.setAutoAssignWeekDays(dlg.weekDays());
+    newF.setAutoAssignCareWeekDays(dlg.careWeekDays());
+
+    undoStack->push(new CmdFootnoteEdit(f, newF));
 
     emit refreshRequested();
 }
