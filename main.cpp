@@ -9,18 +9,21 @@
 
 #include "Mainwindow.h"
 
+#include "AppInfo.h"
+
+
 int main(int argc, char *argv[])
 {
     //qDebug() << "Opened File: " << argv[1];
     QApplication a(argc, argv);
 
     LocalConfig localConfig(&a);
+    AppInfo appInfo(&a);
 
     if(LocalConfig::style() == LocalConfig::Fusion)
         a.setStyle(QStyleFactory::create("Fusion"));
     else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
         a.setStyle(QStyleFactory::create("Windows"));
-
 
     if(LocalConfig::crashDetected()) {
         const QDateTime dt(QDateTime::currentDateTime());
