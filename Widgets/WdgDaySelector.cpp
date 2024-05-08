@@ -71,16 +71,16 @@ void WdgDaySelector::setWeekDays(const WeekDays  &w) {
 }
 
 void WdgDaySelector::setCareWeekDays(const WeekDays &w) {
-    if(w.day(WeekDay::monday))    { ui->cbMonday    ->setCheckState(Qt::PartiallyChecked);}
-    if(w.day(WeekDay::tuesday))   { ui->cbTuesday   ->setCheckState(Qt::PartiallyChecked);}
-    if(w.day(WeekDay::wednesday)) { ui->cbWednesday ->setCheckState(Qt::PartiallyChecked);}
-    if(w.day(WeekDay::thursday))  { ui->cbThursday  ->setCheckState(Qt::PartiallyChecked);}
-    if(w.day(WeekDay::friday))    { ui->cbFriday    ->setCheckState(Qt::PartiallyChecked);}
-    if(w.day(WeekDay::saturday))  { ui->cbSaturday  ->setCheckState(Qt::PartiallyChecked);}
-    if(w.day(WeekDay::sunday))    { ui->cbSunday    ->setCheckState(Qt::PartiallyChecked);}
-    if(w.day(WeekDay::holiday))   { ui->cbHoliday   ->setCheckState(Qt::PartiallyChecked);}
-    if(w.day(WeekDay::school))    { ui->cbSchool    ->setCheckState(Qt::PartiallyChecked);}
-    if(w.day(WeekDay::vacation))  { ui->cbVacation  ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::monday))    { ui->cbMonday    ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::tuesday))   { ui->cbTuesday   ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::wednesday)) { ui->cbWednesday ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::thursday))  { ui->cbThursday  ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::friday))    { ui->cbFriday    ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::saturday))  { ui->cbSaturday  ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::sunday))    { ui->cbSunday    ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::holiday))   { ui->cbHoliday   ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::school))    { ui->cbSchool    ->setCheckState(Qt::PartiallyChecked);}
+    if(!w.day(WeekDay::vacation))  { ui->cbVacation  ->setCheckState(Qt::PartiallyChecked);}
 }
 
 WeekDays WdgDaySelector::weekDays() const {
@@ -101,16 +101,16 @@ WeekDays WdgDaySelector::weekDays() const {
 
 WeekDays WdgDaySelector::careWeekDays() const {
     WeekDays w(nullptr);
-    w.setDay(WeekDay::monday,    ui->cbMonday->checkState()    == Qt::PartiallyChecked);
-    w.setDay(WeekDay::tuesday,   ui->cbTuesday->checkState()   == Qt::PartiallyChecked);
-    w.setDay(WeekDay::wednesday, ui->cbWednesday->checkState() == Qt::PartiallyChecked);
-    w.setDay(WeekDay::thursday,  ui->cbThursday->checkState()  == Qt::PartiallyChecked);
-    w.setDay(WeekDay::friday,    ui->cbFriday->checkState()    == Qt::PartiallyChecked);
-    w.setDay(WeekDay::saturday,  ui->cbSaturday->checkState()  == Qt::PartiallyChecked);
-    w.setDay(WeekDay::sunday,    ui->cbSunday->checkState()    == Qt::PartiallyChecked);
-    w.setDay(WeekDay::holiday,   ui->cbHoliday->checkState()   == Qt::PartiallyChecked);
-    w.setDay(WeekDay::school,    ui->cbSchool->checkState()    == Qt::PartiallyChecked);
-    w.setDay(WeekDay::vacation,  ui->cbVacation->checkState()  == Qt::PartiallyChecked);
+    w.setDay(WeekDay::monday,    ui->cbMonday->checkState()    != Qt::PartiallyChecked);
+    w.setDay(WeekDay::tuesday,   ui->cbTuesday->checkState()   != Qt::PartiallyChecked);
+    w.setDay(WeekDay::wednesday, ui->cbWednesday->checkState() != Qt::PartiallyChecked);
+    w.setDay(WeekDay::thursday,  ui->cbThursday->checkState()  != Qt::PartiallyChecked);
+    w.setDay(WeekDay::friday,    ui->cbFriday->checkState()    != Qt::PartiallyChecked);
+    w.setDay(WeekDay::saturday,  ui->cbSaturday->checkState()  != Qt::PartiallyChecked);
+    w.setDay(WeekDay::sunday,    ui->cbSunday->checkState()    != Qt::PartiallyChecked);
+    w.setDay(WeekDay::holiday,   ui->cbHoliday->checkState()   != Qt::PartiallyChecked);
+    w.setDay(WeekDay::school,    ui->cbSchool->checkState()    != Qt::PartiallyChecked);
+    w.setDay(WeekDay::vacation,  ui->cbVacation->checkState()  != Qt::PartiallyChecked);
 
     return w;
 }
