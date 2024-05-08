@@ -1128,7 +1128,7 @@ void MainWindow::on_actionPublishManageFootnotes_triggered() {
 
 void MainWindow::on_actionHelpManual_triggered() {
     QString openURL;
-    if(LocalConfig::language() == LocalConfig::LanguageGerman)
+    if(LocalConfig::language() == LocalConfig::German)
         openURL = "Manual_DE.pdf";
     else
         openURL = "Manual_EN.pdf";

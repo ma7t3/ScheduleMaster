@@ -15,7 +15,7 @@ DlgPreferences::DlgPreferences(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    if(LocalConfig::language() == LocalConfig::LanguageGerman)
+    if(LocalConfig::language() == LocalConfig::German)
         ui->cbLanguage->setCurrentIndex(1);
 
     if(LocalConfig::style() == LocalConfig::Fusion)
@@ -43,7 +43,7 @@ void DlgPreferences::on_DlgPreferences_accepted() {
         LocalConfig::logfileMode() != logfileMode)
         QMessageBox::information(this, tr("Restart required"), tr("You'll need to restarted the application for all settings to be applied."));
     
-    LocalConfig::setLanguage(ui->cbLanguage->currentIndex());
+    LocalConfig::setLanguage(ui->cbLanguage->currentIndex() == 1 ? LocalConfig::German : LocalConfig::English);
     LocalConfig::setDefaultProjectLocation(ui->leDefaultProjectLocation->text());
 
     if(ui->cbApperance->currentIndex() == 2)
