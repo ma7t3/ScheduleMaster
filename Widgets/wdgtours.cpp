@@ -314,7 +314,7 @@ void WdgTours::refresh() {
         timeColor.setHsv(timeColorCode, 128, 255);
         ui->twTours->item(row, 3)->setBackground(timeColor);
         ui->twTours->item(row, 3)->setForeground(Qt::black);
-        ui->twTours->setRowHeight(row, 20);
+        ui->twTours->setRowHeight(row, 23);
 
 
         int durationColorCode = 255 - o->duration().msecsSinceStartOfDay() / 168750;
