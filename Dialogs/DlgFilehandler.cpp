@@ -170,7 +170,7 @@ bool DlgFileHandler::saveToFile(QString filePath)
     } else
         data = jDoc.toJson(QJsonDocument::Indented);
 
-    qDebug() << "writing file...";
+    qInfo() << "writing file...";
 
     // write to file
     QFile f(filePath);
@@ -182,6 +182,7 @@ bool DlgFileHandler::saveToFile(QString filePath)
 
     f.write(data);
     f.close();
+    qInfo() << "saved data to file.";
     return true;
 }
 

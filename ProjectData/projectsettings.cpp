@@ -93,8 +93,6 @@ QJsonObject ProjectSettings::toJson() const {
 
     QJsonArray jDayTypes;
 
-    qDebug() << "lol";
-
     for(int i = 0; i < dayTypeCount(); ++i)
         jDayTypes.append(dayTypeAt(i)->toJson());
 

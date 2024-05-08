@@ -588,7 +588,6 @@ QJsonObject ProjectData::toJson() {
     jsonObject.insert("lines", jLines);
     jsonObject.insert("tours", jTours);
     jsonObject.insert("footnotes", jFootnotes);
-    qDebug() << "a";
     jsonObject.insert("projectSettings", projectSettings()->toJson());
     qDebug() << "projectSettings saved.";
     jsonObject.insert("publications", publications()->toJson());
