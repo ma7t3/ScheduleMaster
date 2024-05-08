@@ -55,5 +55,6 @@
         <file>icons/FileImportOmsi.ico</file>
         <file>icons/Qt.svg</file>
         <file>versions.json</file>
+        <file>icons/Changelog.ico</file>
     </qresource>
 </RCC>
