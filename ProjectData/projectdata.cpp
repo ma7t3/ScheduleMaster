@@ -336,13 +336,13 @@ int ProjectData::footnoteCount() const {
 }
 
 QList<Footnote *> ProjectData::autoAssignedFootnotesOfTrip(Trip *t) {
-    WeekDays w = t->weekDays();
 
     QList<Footnote *> result;
 
     for(int i = 0; i < footnoteCount(); i++) {
         Footnote *f = footnoteAt(i);
-        WeekDays tW, cW;
+        WeekDays w, tW, cW;
+        w  = t->weekDays();
         tW = f->autoAssignWeekDays();
         cW = f->autoAssignCareWeekDays();
 
