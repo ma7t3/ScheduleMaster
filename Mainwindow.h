@@ -93,6 +93,8 @@ private slots:
 
     void on_actionHelpAboutQt_triggered();
 
+    void on_actionHelpChangelog_triggered();
+
 signals:
     void projectSettingsChanged();
     void busstopsChanged();

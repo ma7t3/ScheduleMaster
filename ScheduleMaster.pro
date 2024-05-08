@@ -10,6 +10,8 @@ CONFIG += c++11
 
 SOURCES += \
     App/logger.cpp \
+    AppInfo.cpp \
+    Dialogs/DlgChangelog.cpp \
     Dialogs/DlgCopyTrip.cpp \
     Dialogs/DlgFilehandler.cpp \
     Dialogs/DlgFootnoteEditor.cpp \
@@ -17,6 +19,7 @@ SOURCES += \
     Dialogs/DlgPdfExporter.cpp \
     Dialogs/DlgPreferences.cpp \
     Dialogs/DlgProjectsettings.cpp \
+    Widgets/WdgChangelogBrowser.cpp \
     Widgets/WdgFootnotes.cpp \
     Mainwindow.cpp \
     ProjectData/daytype.cpp \
@@ -66,6 +69,7 @@ SOURCES += \
 HEADERS += \
     App/global.h \
     App/logger.h \
+    AppInfo.h \
     Commands/CmdBusstops.h \
     Commands/CmdFootnotes.h \
     Commands/CmdGeneral.h \
@@ -74,6 +78,7 @@ HEADERS += \
     Commands/CmdRoutes.h \
     Commands/CmdSchedule.h \
     Commands/CmdTours.h \
+    Dialogs/DlgChangelog.h \
     Dialogs/DlgCopyTrip.h \
     Dialogs/DlgFileHandler.h \
     Dialogs/DlgFootnoteEditor.h \
@@ -95,6 +100,7 @@ HEADERS += \
     ProjectData/publishedline.h \
     ProjectData/publishedlinedirection.h \
     Widgets/Publications/wdgpublishedlines.h \
+    Widgets/WdgChangelogBrowser.h \
     Widgets/WdgDaySelector.h \
     Widgets/WdgFootnotes.h \
     Widgets/WdgRouteSelector.h \
@@ -127,6 +133,7 @@ HEADERS += \
     Plugins/PlgOmsiImport.h
 
 FORMS += \
+    Dialogs/DlgChangelog.ui \
     Dialogs/DlgCopyTrip.ui \
     Dialogs/DlgFileHandler.ui \
     Dialogs/DlgFootnoteEditor.ui \
