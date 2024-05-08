@@ -227,8 +227,6 @@ void WdgTours::refresh() {
     QRegularExpression regex(ui->leSearch->text());
     regex.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     
-
-    int counter = 0;
     for(int i = 0; i < tours.count(); i++) {
         Tour *o = tours[i];
 
@@ -248,13 +246,22 @@ void WdgTours::refresh() {
         int startPixel, endPixel;
         startPixel = o->startTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
         endPixel = o->endTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
-        if(endPixel < startPixel)
-            endPixel = 480;
 
-        p.drawRect(startPixel - 2,
-                   0,
-                   endPixel - startPixel + 4,
-                   20);
+        if(endPixel < startPixel) {
+            p.drawRect(startPixel - 2,
+                       0,
+                       480 - startPixel + 4,
+                       20);
+            p.drawRect(0,
+                       0,
+                       endPixel + 4,
+                       20);
+        } else {
+            p.drawRect(startPixel - 2,
+                       0,
+                       endPixel - startPixel + 4,
+                       20);
+        }
 
         for(int j = 0; j < o->tripCount(); j++) {
             Trip *t = o->tripAt(j);
@@ -262,13 +269,22 @@ void WdgTours::refresh() {
             int startPixel, endPixel;
             startPixel = t->startTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
             endPixel = t->endTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
-            if(endPixel < startPixel)
-                endPixel = 480;
 
-            p.drawRect(startPixel,
-                       2,
-                       endPixel - startPixel,
-                       16);
+            if(endPixel < startPixel) {
+                p.drawRect(startPixel,
+                           2,
+                           480 - startPixel,
+                           16);
+                p.drawRect(0,
+                           2,
+                           endPixel,
+                           16);
+            } else {
+                p.drawRect(startPixel,
+                           2,
+                           endPixel - startPixel,
+                           16);
+            }
         }
 
 
