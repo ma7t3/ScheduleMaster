@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
     qInfo() << "loading preferences...";
     
-    if(LocalConfig::language() == LocalConfig::LanguageGerman) {
+    if(LocalConfig::language() == LocalConfig::German) {
         qInfo() << "loading german translation...";
         QTranslator *translator = new QTranslator;
         bool ok;

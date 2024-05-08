@@ -8,6 +8,11 @@ class LocalConfig : QObject {
 public:
     LocalConfig(QObject *parent);
 
+    enum Language {
+        English,
+        German
+    };
+
     enum LogfileMode {
         NoLog,
         DefaultLog,
@@ -21,11 +26,8 @@ public:
         Fusion
     };
 
-    static const int LanguageEnglish = 0;
-    static const int LanguageGerman = 1;
-
-    static int language();
-    static void setLanguage(const int &newLanguage);
+    static Language language();
+    static void setLanguage(const Language &newLanguage);
 
     static Style style();
     static void setStyle(const Style &newStyle);
