@@ -28,7 +28,8 @@
 
 #include "App/global.h"
 #include "localconfig.h"
-#include "globalconfig.h"
+//#include "globalconfig.h"
+#include "AppInfo.h"
 #include "ui_Mainwindow.h"
 
 #include "Widgets/wdgschedule.h"
@@ -40,6 +41,7 @@
 #include "Dialogs/DlgPreferences.h"
 #include "Widgets/WdgFootnotes.h"
 #include "Dialogs/DlgOmsiImport.h"
+#include "Dialogs/DlgChangelog.h"
 
 
 //********************************************************************************************************************************************************************
@@ -989,9 +991,13 @@ void MainWindow::on_actionView_As_Tree_triggered() {
 }
 
 void MainWindow::on_actionHelpAbout_triggered() {
+    if(!AppInfo::currentVersion())
+        return;
+
     QString text;
-    text = tr("<h1>About ScheduleMaster</h1><table><tr><td><b>Version:</b></td><td>%1</td></tr></table>")
-               .arg(GlobalConfig::currentVersion());
+    text = tr("<h1>About ScheduleMaster</h1><table><tr><td><b>Version:</b></td><td>%1</td></tr><tr><td><b>Build ID:</b></td><td>%2</td></tr></table>")
+               .arg(AppInfo::currentVersion()->name())
+               .arg(AppInfo::currentVersion()->buildID());
 
     QMessageBox msg;
     msg.setWindowTitle(tr("ScheduleMaster - About"));
@@ -1235,3 +1241,9 @@ void MainWindow::on_actionFileExportRoutesWithProfilesCsv_triggered() {
         }
     }
 }
+
+void MainWindow::on_actionHelpChangelog_triggered() {
+    DlgChangelog dlg;
+    dlg.exec();
+}
+

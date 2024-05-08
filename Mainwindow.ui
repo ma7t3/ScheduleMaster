@@ -185,6 +185,7 @@
     </property>
     <addaction name="actionHelpManual"/>
     <addaction name="actionHelpCheckForUpdates"/>
+    <addaction name="actionHelpChangelog"/>
     <addaction name="actionHelpAbout"/>
     <addaction name="actionHelpAboutQt"/>
    </widget>
@@ -641,6 +642,15 @@
    </property>
    <property name="text">
     <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionHelpChangelog">
+   <property name="icon">
+    <iconset resource="main.qrc">
+     <normaloff>:/icons/Changelog.ico</normaloff>:/icons/Changelog.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Changelog</string>
    </property>
   </action>
  </widget>
