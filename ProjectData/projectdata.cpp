@@ -347,16 +347,16 @@ QList<Footnote *> ProjectData::autoAssignedFootnotesOfTrip(Trip *t) {
         cW = f->autoAssignCareWeekDays();
 
         // equalize don't-care states
-        if(cW.day(monday))    w.setDay(monday,    tW.day(monday));
-        if(cW.day(tuesday))   w.setDay(tuesday,   tW.day(tuesday));
-        if(cW.day(wednesday)) w.setDay(wednesday, tW.day(wednesday));
-        if(cW.day(thursday))  w.setDay(thursday,  tW.day(thursday));
-        if(cW.day(friday))    w.setDay(friday,    tW.day(friday));
-        if(cW.day(saturday))  w.setDay(saturday,  tW.day(saturday));
-        if(cW.day(sunday))    w.setDay(sunday,    tW.day(sunday));
-        if(cW.day(holiday))   w.setDay(holiday,   tW.day(holiday));
-        if(cW.day(school))    w.setDay(school,    tW.day(school));
-        if(cW.day(vacation))  w.setDay(vacation,  tW.day(vacation));
+        if(!cW.day(monday))    w.setDay(monday,    tW.day(monday));
+        if(!cW.day(tuesday))   w.setDay(tuesday,   tW.day(tuesday));
+        if(!cW.day(wednesday)) w.setDay(wednesday, tW.day(wednesday));
+        if(!cW.day(thursday))  w.setDay(thursday,  tW.day(thursday));
+        if(!cW.day(friday))    w.setDay(friday,    tW.day(friday));
+        if(!cW.day(saturday))  w.setDay(saturday,  tW.day(saturday));
+        if(!cW.day(sunday))    w.setDay(sunday,    tW.day(sunday));
+        if(!cW.day(holiday))   w.setDay(holiday,   tW.day(holiday));
+        if(!cW.day(school))    w.setDay(school,    tW.day(school));
+        if(!cW.day(vacation))  w.setDay(vacation,  tW.day(vacation));
 
         if(w == tW)
             result << f;
