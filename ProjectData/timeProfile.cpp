@@ -62,12 +62,7 @@ QJsonObject TimeProfileItem::toJson() const {
     jsonObject.insert("busstopID", busstopId());
     jsonObject.insert("busstopMode", busstopMode());
 
-
-    //qDebug() << dynamic_cast<ProjectData *>(parent()->parent()->parent()->parent())->busstop(busstopId())->name() << ": " << hasSeperateTimes() << " - " << arrValue();
-    //qDebug() << hasSeperateTimes() << " - " << arrValue();
-
     if(hasSeperateTimes()) {
-        qDebug() << arrValue();
         jsonObject.insert("arr", arrValue());
     }
 

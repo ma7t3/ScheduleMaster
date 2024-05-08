@@ -890,8 +890,6 @@ bool MainWindow::saveFile(QString path) {
 
     f.close();
 
-    //projectData->cleanup();
-
     fileHandler->saveToFile(path);
 
     undoStack->setClean();
