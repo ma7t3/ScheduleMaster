@@ -1,9 +1,10 @@
 [
     {
         "enabled":false,
-        "name":"V0.9.0-beta",
+        "name":"0.9.0-beta",
         "build_id":"",
-        "release_date":"2024-05-08",
+        "release_date":"2030-01-01",
+        "changed_file_format":true,
         "changelog_compact":[
         ],
         "changelog_detailed":{
@@ -19,9 +20,10 @@
     },
     {
         "enabled":true,
-        "name":"V0.9.0-private_SH_02",
+        "name":"0.9.0-private_SH_02",
         "build_id":"e66ba5abc83573b3bd0d1d73cf82f02f1dd43069",
         "release_date":"2024-04-01",
+        "changed_file_format":false,
         "changelog_compact":[
             {
                 "en-US":"Several bugfixes and improvements",
@@ -57,9 +59,10 @@
     },
     {
         "enabled":true,
-        "name":"V0.9.0-private_SH_01",
+        "name":"0.9.0-private_SH_01",
         "build_id":"268b8a2ff475c66fb337d501399c8cb72158abcd",
         "release_date":"2024-03-31",
+        "changed_file_format":false,
         "changelog_compact":[
         ],
         "changelog_detailed":{
