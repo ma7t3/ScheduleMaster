@@ -11,7 +11,7 @@
 
 QList<AppInfo::AppVersion *> AppInfo::_versions;
 
-const QRegularExpression AppInfo::VersionNameRegex = QRegularExpression("^[V|v](?<major>[0-9]+)\\.(?<minor>[0-9]+)\\.(?<patch>[0-9]+)-(?<type>.+)$");
+const QRegularExpression AppInfo::VersionNameRegex = QRegularExpression("^(?<major>[0-9]+)\\.(?<minor>[0-9]+)\\.(?<patch>[0-9]+)-(?<type>.+)$");
 
 AppInfo::AppInfo(QObject *parent) : QObject(parent) {
 
@@ -44,6 +44,9 @@ AppInfo::AppInfo(QObject *parent) : QObject(parent) {
 }
 
 AppInfo::AppVersion *AppInfo::currentVersion() {
+    if(_versions.isEmpty())
+        return nullptr;
+
     return _versions.first();
 }
 
@@ -60,6 +63,29 @@ AppInfo::AppVersion *AppInfo::olderVersion(const int &index) {
         return nullptr;
 
     return _versions[index];
+}
+
+AppInfo::AppVersion *AppInfo::version(const QString &name) {
+    for(int i = 0; i < _versions.count(); i++) {
+        if(_versions[i]->name() == name)
+            return _versions[i];
+    }
+    return nullptr;
+}
+
+bool AppInfo::fileFormatChangesSinceVersion(AppVersion *version) {
+    if(!version || _versions.isEmpty())
+        return false;
+
+    int startIndex = _versions.indexOf(version) - 1;
+
+    for(int i = startIndex; i >= 0; i--) {
+        qDebug() << _versions[i]->name();
+        if(_versions[i]->changedFileFormat())
+            return true;
+    }
+
+    return false;
 }
 
 AppInfo::AppVersion::AppVersion(QObject *parent) : QObject(parent) {}
@@ -147,9 +173,14 @@ QString AppInfo::AppVersion::buildID() const {
     return _buildType;
 }
 
+bool AppInfo::AppVersion::isCurrentVersion() const {
+    return AppInfo::currentVersion() == this;
+}
+
 void AppInfo::AppVersion::fromJson(const QJsonObject &obj) {
     _name = obj.value("name").toString();
     _releaseDate = QDate::fromString(obj.value("release_date").toString("1970-01-01"), "yyyy-MM-dd");
+    _changedFileFormat = obj.value("changed_file_format").toBool(false);
 
     _changelogCompact  = obj.value("changelog_compact").toArray();
     _changelogDetailed = obj.value("changelog_detailed").toObject();
