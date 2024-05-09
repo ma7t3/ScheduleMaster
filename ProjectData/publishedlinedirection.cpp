@@ -65,10 +65,12 @@ QJsonObject PublishedLineDirection::toJson() const {
     QJsonArray jBusstops, jRoutes;
 
     for (int i = 0; i < busstopCount(); ++i)
-        jBusstops.append(busstopAt(i)->toJson());
+        if(busstopAt(i)->linkedBusstop())
+            jBusstops.append(busstopAt(i)->toJson());
 
     for (int i = 0; i < routeCount(); ++i)
-        jRoutes.append(routeAt(i)->id());
+        if(routeAt(i))
+            jRoutes.append(routeAt(i)->id());
 
     jsonObject.insert("busstops", jBusstops);
     jsonObject.insert("routes", jRoutes);
