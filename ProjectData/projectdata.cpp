@@ -562,7 +562,7 @@ QList<Busstop *> ProjectData::combinedRoutes(const QList<Route *> &routes) {
     return result;
 }
 
-QList<Trip *> ProjectData::sortTrips(QList<Trip *> list) {
+QList<Trip *> ProjectData::sortTrips(QList<Trip *> list, const int &hourBreak) {
     // first: sort by start time
     std::sort(list.begin(), list.end(), [](Trip *a, Trip *b) {
         return *a < *b;
@@ -595,6 +595,20 @@ QList<Trip *> ProjectData::sortTrips(QList<Trip *> list) {
         } else {
             i++;
         }
+    }
+
+    if(list.isEmpty())
+        return list;
+
+    int j = 0;
+    while(list.first()->startTime().hour() < hourBreak) {
+        if(j == list.count())
+            break;
+
+        Trip *t = list.first();
+        list.removeFirst();
+        list << t;
+        j++;
     }
 
     return list;

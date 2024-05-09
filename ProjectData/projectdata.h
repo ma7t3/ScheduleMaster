@@ -94,7 +94,7 @@ public:
         return list;
     }
 
-    static QList<Trip *> sortTrips(QList<Trip *> list);
+    static QList<Trip *> sortTrips(QList<Trip *> list, const int &hourBreak);
 
     Publications *publications() const;
 

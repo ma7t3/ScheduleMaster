@@ -7,7 +7,8 @@
 
 #include "App/global.h"
 #include "ProjectData/projectdata.h"
-#include "Commands/Cmdschedule.h"
+#include "Commands/CmdLines.h"
+#include "Commands/CmdSchedule.h"
 
 #include <QStyleHints>
 
@@ -48,6 +49,13 @@ void WdgSchedule::setCurrentLine(Line *l) {
     refreshSchedule();
     emit currentLineChanged(_currentLine, _currentLineDirection);
     emit currentTripsChanged(_currentTrips);
+}
+
+void WdgSchedule::setLineHourBreak(const int &newLineHourBreak) {
+    if(!_currentLine)
+        return;
+    undoStack->push(new CmdLineChangeHourBreak(_currentLine, newLineHourBreak));
+    refreshSchedule();
 }
 
 void WdgSchedule::refreshDirections() {
@@ -132,7 +140,7 @@ void WdgSchedule::refreshSchedule() {
     refreshScheduleBusstopList(trips);
 
     // get all repetitions and sort trips
-    filteredTrips = ProjectData::sortTrips(filteredTrips);
+    filteredTrips = ProjectData::sortTrips(filteredTrips, _currentLine->hourBreak());
 
     for(int i = 0; i < filteredTrips.count(); i++)
         refreshScheduleAddTrip(filteredTrips[i]);
@@ -480,17 +488,3 @@ void WdgSchedule::on_twSchedule_itemSelectionChanged() {
 
     emit currentTripsChanged(_currentTrips);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

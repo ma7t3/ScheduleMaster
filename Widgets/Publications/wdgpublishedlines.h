@@ -51,7 +51,6 @@ public slots:
     void refreshCurrentLineDirection();
 
     void refreshDayTypes();
-    //void refreshDayCheckBoxes();
 
     void refreshRoutes();
 
@@ -64,16 +63,12 @@ signals:
 
 private slots:
     void on_lwLines_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-
     void on_pbFilePathBrowse_clicked();
-
     void on_lwDirections_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-
     void on_lwBusstops_itemClicked(QListWidgetItem *item);
-
     void on_pbBusstopSearchAndReplace_clicked();
-
     void on_lwDayTypes_itemChanged(QListWidgetItem *item);
+    void on_cbLineHourBreak_currentIndexChanged(int index);
 
 private:
     Ui::WdgPublishedLines *ui;

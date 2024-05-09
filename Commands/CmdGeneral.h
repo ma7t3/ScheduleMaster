@@ -11,6 +11,7 @@ enum CmdType {
     LinesType,
     RoutesType,
     ScheduleType,
+    ScheduleHourBreakType,
     ToursType,
     PublicationsType,
     FootnotesType
