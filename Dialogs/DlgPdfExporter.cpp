@@ -103,14 +103,6 @@ void DlgPdfExporter::exportLineSchedule(PublishedLine *l) {
                 continue;
 
             allTrips << t;
-
-            /*if(!t->hasRepeat())
-
-            else {
-                for(int k = 0; k < t->childCount(); k++) {
-                    allTrips << t->repetitionAt(k);
-                }
-            }*/
         }
         allTrips = ProjectData::sortItems(allTrips);
         _trips = allTrips;
