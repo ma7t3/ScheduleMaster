@@ -20,14 +20,16 @@ public:
     explicit WdgSchedule(QWidget *parent = nullptr, ProjectData *projectData = nullptr, QUndoStack *undoStack = nullptr);
     ~WdgSchedule();
 
+
+
 public slots:
     void actionChangeDirection();
 
     void setCurrentLine(Line *);
+    void setLineHourBreak(const int &);
+
     void refreshDirections();
     void refreshDayTypes();
-
-    //void refreshRoutes();
     void refreshSchedule();
 
 private slots:
@@ -49,6 +51,7 @@ signals:
     void busstopScheduleRequested(Busstop *, QList<Route *>, DayType *);
     void tourRequested(Tour *);
     void refreshRequested();
+    void currentHourBreakChanged(const int &);
 
 private:
     Ui::WdgSchedule *ui;

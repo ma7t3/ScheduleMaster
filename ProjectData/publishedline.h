@@ -24,6 +24,9 @@ public:
     QString footer() const;
     void setFooter(const QString &newSubTitle);
 
+    int hourBreak() const;
+    void setHourBreak(const int &newHourBreak);
+
     QList<PublishedLineDirection *> directions() const;
     int directionCount() const;
     PublishedLineDirection *direction(const QString &id) const;
@@ -59,6 +62,7 @@ private:
     QString _filePath;
     QString _title;
     QString _footer;
+    int _hourBreak;
 
     QList<PublishedLineDirection *> _directions;
     QList<DayType *> _dayTypes;

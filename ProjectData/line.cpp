@@ -37,6 +37,7 @@ void Line::copy(const Line &other) {
     setName(other.name());
     setDescription(other.description());
     setColor(other.color());
+    setHourBreak(other.hourBreak());
 
     QList<LineDirection *> newDirections;
     for(int i = 0; i < other.directionCount(); i++) {
@@ -81,9 +82,10 @@ void Line::copy(const Line &other) {
 void Line::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
 
-    setName(jsonObject.value("name").isString() ? jsonObject.value("name").toString() : tr("Unnamed Line"));
-    setDescription(jsonObject.value("description").isString() ? jsonObject.value("description").toString() : "");
-    setColor(jsonObject.value("color").isString() ? QColor(jsonObject.value("color").toString()) : QColor(0, 0, 0));
+    setName(jsonObject.value("name").toString(tr("Unnamed Line")));
+    setDescription(jsonObject.value("description").toString(""));
+    setColor(QColor(jsonObject.value("color").toString("#000000")));
+    setHourBreak(jsonObject.value("hourBreak").toInt(0));
 
     QJsonArray jDirections = jsonObject.value("directions").isArray() ? jsonObject.value("directions").toArray() : QJsonArray();
     QJsonArray jRoutes = jsonObject.value("routes").isArray() ? jsonObject.value("routes").toArray() : QJsonArray();
@@ -109,6 +111,7 @@ QJsonObject Line::toJson() const {
     jsonObject.insert("name", name());
     jsonObject.insert("description", description());
     jsonObject.insert("color", color().name(QColor::HexRgb));
+    jsonObject.insert("hourBreak", hourBreak());
 
     QJsonArray jDirections;
     QJsonArray jRoutes;
@@ -163,6 +166,14 @@ void Line::setDescription(const QString &newDescription) {
 
 void Line::setColor(const QColor &newColor) {
     _color = newColor;
+}
+
+int Line::hourBreak() const {
+    return _hourBreak;
+}
+
+void Line::setHourBreak(const int &newHourBreak) {
+    _hourBreak = newHourBreak;
 }
 
 QList<LineDirection *> Line::directions() const {

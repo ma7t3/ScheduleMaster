@@ -313,6 +313,7 @@ void WdgPublishedLines::refreshCurrentLine() {
     ui->leTitle->setText(_currentLine->title());
     ui->leFooter->setText(_currentLine->footer());
     ui->leFilePath->setText(_currentLine->filePath());
+    ui->cbLineHourBreak->setCurrentIndex(_currentLine->hourBreak());
 
     QList<PublishedLineDirection *> directions = _currentLine->directions();
     for(int i = 0; i < directions.count(); i++) {
@@ -532,5 +533,14 @@ void WdgPublishedLines::on_lwDayTypes_itemChanged(QListWidgetItem *item) {
         _currentLine->addDayType(_dayTypesReference[index]);
     else
         _currentLine->addDayType(_dayTypesReference[index]);
+}
+
+void WdgPublishedLines::on_cbLineHourBreak_currentIndexChanged(int index) {
+    if(refreshingCurrentLine)
+        return;
+
+    PublishedLine l(*_currentLine);
+    l.setHourBreak(index);
+    undoStack->push(new CmdPublishedLineEdit(_currentLine, l));
 }
 

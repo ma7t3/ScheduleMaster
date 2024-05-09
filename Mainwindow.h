@@ -86,14 +86,13 @@ private slots:
     void on_actionViewToolbarGeneral_triggered();
     void on_actionViewToolbarDocks_triggered();
     void on_actionViewToolbarWorkspaces_triggered();
-
     void on_actionFileImportOmsiSchedule_triggered();
-
     void on_actionFileExportRoutesWithProfilesCsv_triggered();
-
     void on_actionHelpAboutQt_triggered();
-
     void on_actionHelpChangelog_triggered();
+
+    void refreshScheduleHourBreak(Line *);
+    void setScheduleLineHourBreak(const int &);
 
 signals:
     void projectSettingsChanged();
@@ -142,6 +141,8 @@ private:
     QDockWidget *dwFootnotes = new QDockWidget(tr("Footnotes"), this);
 
     QToolBar *tbGeneral, *tbDocks, *tbWorkspaces;
+
+    QList<QAction *> hourBreakActions;
 
     bool saved;
     bool knownFile;

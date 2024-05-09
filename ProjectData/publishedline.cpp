@@ -39,6 +39,7 @@ void PublishedLine::copy(const PublishedLine &other) {
     setTitle(other.title());
     setFooter(other.footer());
     setDayTypes(other.dayTypes());
+    setHourBreak(other.hourBreak());
 
     QList<PublishedLineDirection *> newDirections;
     for(int i = 0; i < other.directionCount(); i++) {
@@ -59,12 +60,12 @@ void PublishedLine::fromJson(const QJsonObject &jsonObject) {
     setFilePath(jsonObject.value("filePath").toString(""));
     setTitle(jsonObject.value("title").toString(tr("Unnamed Published Line")));
     setFooter(jsonObject.value("footer").toString(""));
+    setHourBreak(jsonObject.value("hourBreak").toInt(0));
 
     QJsonArray jDirections = jsonObject.value("directions").toArray();
     for(int i = 0; i < jDirections.count(); ++i)
         addDirection(newDirection(jDirections.at(i).toObject()));
 }
-
 
 QJsonObject PublishedLine::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
@@ -72,6 +73,7 @@ QJsonObject PublishedLine::toJson() const {
     jsonObject.insert("filePath", filePath());
     jsonObject.insert("title", title());
     jsonObject.insert("footer", footer());
+    jsonObject.insert("hourBreak", hourBreak());
 
     QJsonArray jDirections;
     //QJsonArray jDayTypes;
@@ -112,6 +114,16 @@ QString PublishedLine::footer() const {
 void PublishedLine::setFooter(const QString &newSubTitle) {
     _footer = newSubTitle;
 }
+
+
+int PublishedLine::hourBreak() const {
+    return _hourBreak;
+}
+
+void PublishedLine::setHourBreak(const int &newHourBreak) {
+    _hourBreak = newHourBreak;
+}
+
 
 QList<PublishedLineDirection *> PublishedLine::directions() const {
     return _directions;

@@ -30,6 +30,10 @@ public:
     QColor color() const;
     void setColor(const QColor &);
 
+
+    int hourBreak() const;
+    void setHourBreak(const int &newHourBreak);
+
     QList<LineDirection *> directions() const;
     int directionCount() const;
     LineDirection *direction(const QString &id) const;
@@ -95,6 +99,7 @@ private:
     QList<LineDirection *> _directions;
     QList<Route*> _routes;
     QList<Trip *> _trips;
+    int _hourBreak;
 };
 
 #endif // LINE_H

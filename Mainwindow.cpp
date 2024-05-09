@@ -200,6 +200,20 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionEditProjectSettings->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_Comma));
     ui->actionEditPreferences->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_Comma), QKeySequence::Preferences});
 
+    QMenu *hourBreakMenu = new QMenu(tr("Hour Break"), ui->menuSchedule);
+    ui->menuSchedule->addSeparator();
+    ui->menuSchedule->addMenu(hourBreakMenu);
+
+    // load hour break menu
+    for(int i = 0; i < 24; i++) {
+        QAction *action = hourBreakMenu->addAction(QString::number(i));
+        hourBreakActions << action;
+        action->setCheckable(true);
+        if(i == 0)
+            action->setChecked(true);
+        connect(action, &QAction::triggered, this, [this, i](){setScheduleLineHourBreak(i);});
+    }
+
     qInfo() << "loading toolbars...";
     splashScreen.showMessage(tr("loading toolbars..."), Qt::AlignBottom, messageColor);
 
@@ -295,6 +309,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(wdgSchedule,                           &WdgSchedule::busstopScheduleRequested, this,               &MainWindow::actionOpenBusstopSchedule);
     connect(wdgSchedule,                           &WdgSchedule::tourRequested,            this,               &MainWindow::actionOpenTour);
     connect(wdgSchedule,                           &WdgSchedule::currentLineChanged,       wdgTripEditor,      &WdgTripEditor::setCurrentLine);
+    connect(wdgSchedule,                           &WdgSchedule::currentLineChanged,       this,               &MainWindow::refreshScheduleHourBreak);
     connect(wdgSchedule,                           &WdgSchedule::currentDayTypeChanged,    wdgTripEditor,      &WdgTripEditor::setCurrentDayType);
     connect(wdgSchedule,                           &WdgSchedule::currentTripsChanged,      wdgTripEditor,      &WdgTripEditor::setCurrentTrips);
     connect(wdgTripEditor,                         &WdgTripEditor::tripsChanged,           wdgSchedule,        &WdgSchedule::refreshSchedule);
@@ -547,6 +562,10 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
     }
     if(t == ScheduleType) {
         wdgSchedule->refreshSchedule();
+    }
+    if(t == ScheduleHourBreakType) {
+        wdgSchedule->refreshSchedule();
+        refreshScheduleHourBreak(wdgLines->currentLine());
     }
     if(t == ToursType) {
         wdgTours->refresh();
@@ -1247,3 +1266,18 @@ void MainWindow::on_actionHelpChangelog_triggered() {
     dlg.exec();
 }
 
+void MainWindow::refreshScheduleHourBreak(Line *l) {
+    for(int i = 0; i < 24; i++)
+        hourBreakActions[i]->setChecked(false);
+    if(!l)
+        return;
+    int hour = l->hourBreak();
+    hourBreakActions[hour]->setChecked(true);
+}
+
+void MainWindow::setScheduleLineHourBreak(const int &hour) {
+    for(int i = 0; i < 24; i++)
+        hourBreakActions[i]->setChecked(false);
+    hourBreakActions[hour]->setChecked(true);
+    wdgSchedule->setLineHourBreak(hour);
+}
