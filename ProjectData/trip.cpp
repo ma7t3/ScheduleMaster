@@ -16,17 +16,8 @@ Trip::Trip(const Trip &other) :
 }
 
 bool Trip::operator<(const Trip &other) {
-    Busstop *b = route()->firstCommonBusstop(other.route());
-
-    int difference;
-
-    if(b == nullptr || route() == other.route())
-        difference = startTime().msecsSinceStartOfDay() - other.startTime().msecsSinceStartOfDay();
-    else
-        difference =  busstopTime(b).msecsSinceStartOfDay() - other.busstopTime(b).msecsSinceStartOfDay();
-
-    if(difference != 0)
-        return difference < 0;
+    if(startTime() !=  other.startTime())
+        return startTime() < other.startTime();
 
     if(route() != other.route())
         return route() < other.route();

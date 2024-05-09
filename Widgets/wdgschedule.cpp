@@ -132,7 +132,7 @@ void WdgSchedule::refreshSchedule() {
     refreshScheduleBusstopList(trips);
 
     // get all repetitions and sort trips
-    filteredTrips = ProjectData::sortItems(filteredTrips);
+    filteredTrips = ProjectData::sortTrips(filteredTrips);
 
     for(int i = 0; i < filteredTrips.count(); i++)
         refreshScheduleAddTrip(filteredTrips[i]);

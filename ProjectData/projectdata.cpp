@@ -562,6 +562,44 @@ QList<Busstop *> ProjectData::combinedRoutes(const QList<Route *> &routes) {
     return result;
 }
 
+QList<Trip *> ProjectData::sortTrips(QList<Trip *> list) {
+    // first: sort by start time
+    std::sort(list.begin(), list.end(), [](Trip *a, Trip *b) {
+        return *a < *b;
+    });
+
+    // 2nd run: gnome sort by first common busstop
+    int i = 0;
+    while(true) {
+        if(i + 1 >= list.count()) // finish if we reached the end
+            break;
+
+        // compare
+        Trip *t1 = list[i];
+        Trip *t2 = list[i + 1];
+        Busstop *b = t1->route()->firstCommonBusstop(t2->route());
+
+        bool swap;
+        if(!b)
+            swap = t1->startTime() > t2->startTime();
+        else
+            swap = t1->busstopTime(b) > t2->busstopTime(b);
+
+        if(swap) {
+            list[i] = t2;
+            list[i + 1] = t1;
+
+            if(i > 0) i--;
+            else      i++;
+
+        } else {
+            i++;
+        }
+    }
+
+    return list;
+}
+
 Publications *ProjectData::publications() const {
     return _publications;
 }

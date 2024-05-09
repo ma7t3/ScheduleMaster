@@ -94,6 +94,8 @@ public:
         return list;
     }
 
+    static QList<Trip *> sortTrips(QList<Trip *> list);
+
     Publications *publications() const;
 
     QJsonObject toJson();
