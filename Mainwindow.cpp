@@ -187,6 +187,7 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *actionRedo = undoStack->createRedoAction(this, tr("Redo:"));
     actionUndo->setIcon(QIcon(":/icons/Undo.ico"));
     actionRedo->setIcon(QIcon(":/icons/Redo.ico"));
+    ui->menuEdit->insertActions(nullptr, {actionUndo, actionRedo});
 
     qInfo() << "loading shortcuts";
     splashScreen.showMessage(tr("loading shortcuts..."), Qt::AlignBottom, messageColor);
@@ -203,6 +204,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionEditPreferences->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_Comma), QKeySequence::Preferences});
 
     QMenu *hourBreakMenu = new QMenu(tr("Hour Break"), ui->menuSchedule);
+    hourBreakMenu->setIcon(QIcon(":/icons/HourBreak.ico"));
     ui->menuSchedule->addSeparator();
     ui->menuSchedule->addMenu(hourBreakMenu);
 

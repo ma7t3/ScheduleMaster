@@ -56,5 +56,6 @@
         <file>icons/Qt.svg</file>
         <file>versions.json</file>
         <file>icons/Changelog.ico</file>
+        <file>icons/HourBreak.ico</file>
     </qresource>
 </RCC>
