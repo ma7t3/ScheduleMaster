@@ -154,7 +154,7 @@ bool DlgFileHandler::saveToFile(QString filePath)
 {
     bool compress = filePath.endsWith(".smp");
     QJsonObject jFileInfo;
-    jFileInfo.insert("appVersion", GlobalConfig::currentVersion());
+    jFileInfo.insert("appVersion", AppInfo::currentVersion() ? AppInfo::currentVersion()->name() : "UNKNOWN");
 
     QJsonObject jMainObj = projectData->toJson();
     jMainObj.insert("_fileInfo", jFileInfo);
