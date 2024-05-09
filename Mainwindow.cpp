@@ -64,12 +64,14 @@ MainWindow::MainWindow(QWidget *parent)
     qInfo() << "initializing splashscreen...";
 
     // init splashscreen
+    QColor messageColor = QColor(0, 0, 0);
     QSplashScreen splashScreen;
     QString imagePath = ":/splashscreen/slpashscreen_light.png";
-    if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark)
+    if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
         imagePath = ":/splashscreen/splashscreen_dark.png";
+        messageColor = QColor(255, 255, 255);
+    }
 
-    QColor messageColor = QColor(0, 0, 0);
     QDate now = QDate::currentDate();
 
     if(now.dayOfYear() > 300 && now.dayOfYear() < 310)
