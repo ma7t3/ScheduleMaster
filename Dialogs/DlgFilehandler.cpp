@@ -4,6 +4,9 @@
 #include "App/global.h"
 #include "localconfig.h"
 #include "globalconfig.h"
+#include "AppInfo.h"
+
+#include <QMessageBox>
 
 DlgFileHandler::DlgFileHandler(QWidget *parent, ProjectData *projectData) :
     QDialog(parent),
@@ -83,6 +86,22 @@ bool DlgFileHandler::readFromFile(QString filePath) {
     QJsonObject jMainObj = jDoc.object();
 
     logInfo(tr("reading data..."));
+
+    for(int i = 0; i < AppInfo::versionCount(); i++)
+        qDebug() << i << AppInfo::olderVersion(i)->name();
+
+    if(AppInfo::currentVersion()) {
+        const QString appVersionName = jMainObj.value("_fileInfo").toObject().value("appVersion").toString();
+        AppInfo::AppVersion *version = AppInfo::version(appVersionName);
+        if(!version) {
+            QMessageBox::warning(this, tr("File format changed"), tr("<p><b>This file was created in an unkown version of ScheduleMaster!</b></p><p>We'll try to open the file anyway but it's recommended to create a backup of your original file to avoid data loss!</p>"));
+        } else {
+            if(AppInfo::fileFormatChangesSinceVersion(version)) {
+                QMessageBox::warning(this, tr("File format changed"), tr("<p><b>This file was created in an older version of ScheduleMaster that used a different file format!</b></p><p>We'll try to convert it to the current format automatically but it's recommended to create a backup of your original file to avoid data loss!</p><p><table><tr><td><b>Current version:</b></td><td>%1</td></tr><tr><td><b>File version:</b></td><td>%2</td></tr></table></p>").arg(AppInfo::currentVersion()->name(), version->name()));
+            }
+        }
+    }
+
     projectData->setJson(jMainObj);
     logSuccess(tr("project loaded!"));
 

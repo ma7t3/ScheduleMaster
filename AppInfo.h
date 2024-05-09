@@ -26,7 +26,8 @@ public:
 
     static int versionCount();
     static AppVersion *olderVersion(const int &index);
-
+    static AppVersion *version(const QString &name);
+    static bool fileFormatChangesSinceVersion(AppVersion *);
 
     static const QRegularExpression VersionNameRegex;
 
@@ -59,6 +60,8 @@ public:
     int patchLevel() const;
     QString buildID() const;
     BuildType buildType() const;
+
+    bool isCurrentVersion() const;
 
 protected:
     void fromJson(const QJsonObject &);
