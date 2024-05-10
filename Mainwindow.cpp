@@ -183,11 +183,15 @@ MainWindow::MainWindow(QWidget *parent)
     wdgRoutes   -> setMenubarActions(ui->actionRoutesNew, ui->actionRoutesEdit, ui->actionRoutesDuplicate, ui->actionRoutesDelete);
 
     qDebug() << "loading undo and redo action...";
-    QAction *actionUndo = undoStack->createUndoAction(this, tr("Undo:"));
-    QAction *actionRedo = undoStack->createRedoAction(this, tr("Redo:"));
-    actionUndo->setIcon(QIcon(":/icons/Undo.ico"));
-    actionRedo->setIcon(QIcon(":/icons/Redo.ico"));
-    ui->menuEdit->insertActions(nullptr, {actionUndo, actionRedo});
+    undoAction = undoStack->createUndoAction(this, tr("Undo"));
+    redoAction = undoStack->createRedoAction(this, tr("Redo"));
+    undoAction->setIcon(QIcon(":/icons/Undo.ico"));
+    redoAction->setIcon(QIcon(":/icons/Redo.ico"));
+    ui->menuEdit->addActions({undoAction, redoAction});
+    ui->menuEdit->addSeparator();
+    ui->menuEdit->addActions({ui->actionEditProjectSettings});
+    ui->menuEdit->addSeparator();
+    ui->menuEdit->addActions({ui->actionEditPreferences}),
 
     qInfo() << "loading shortcuts";
     splashScreen.showMessage(tr("loading shortcuts..."), Qt::AlignBottom, messageColor);
@@ -198,8 +202,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionFileClose->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_W), QKeySequence::Close});
     ui->actionFileQuit->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_Q), QKeySequence::Quit});
 
-    actionUndo->setShortcut(QKeySequence::Undo);
-    actionRedo->setShortcut(QKeySequence::Redo);
+    undoAction->setShortcut(QKeySequence::Undo);
+    redoAction->setShortcut(QKeySequence::Redo);
     ui->actionEditProjectSettings->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_Comma));
     ui->actionEditPreferences->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_Comma), QKeySequence::Preferences});
 
@@ -230,8 +234,8 @@ MainWindow::MainWindow(QWidget *parent)
     tbGeneral->addAction(ui->actionFileNew);
     tbGeneral->addAction(ui->actionFileOpen);
     tbGeneral->addAction(ui->actionFileSave);
-    tbGeneral->addAction(actionUndo);
-    tbGeneral->addAction(actionRedo);
+    tbGeneral->addAction(undoAction);
+    tbGeneral->addAction(redoAction);
     tbGeneral->addSeparator();
     tbGeneral->addAction(ui->actionEditProjectSettings);
     tbGeneral->addAction(ui->actionEditPreferences);
@@ -296,8 +300,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFileClose,                   &QAction::triggered,                    this,               &MainWindow::actionFileClose);
     connect(ui->actionFileQuit,                    &QAction::triggered,                    this,               &MainWindow::actionQuit);
     connect(undoStack,                             &QUndoStack::cleanChanged,              this,               &MainWindow::setSaved);
-    connect(actionUndo,                            &QAction::triggered,                    this,               &MainWindow::refreshUndo);
-    connect(actionRedo,                            &QAction::triggered,                    this,               &MainWindow::refreshRedo);
+    connect(undoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshUndo);
+    connect(redoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshRedo);
 
     qDebug() << "\tworkspace actions";
     connect(ui->actionWorkspaceTrackLayout,        &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTrackLayout);
