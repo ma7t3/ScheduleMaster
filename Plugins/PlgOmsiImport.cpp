@@ -73,6 +73,7 @@ void PlgOmsiImport::run() {
             l = projectData->newLine();
             l->setName(lineName);
             l->setColor(color);
+            l->setHourBreak(0);
             qInfo() << "new line created:" << lineName;
             projectData->addLine(l);
             ld1 = l->newDirection();

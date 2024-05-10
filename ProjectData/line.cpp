@@ -1,7 +1,7 @@
 #include "ProjectData\line.h"
 
 Line::Line(QObject *parent, const QString &id) :
-    ProjectDataItem(parent, id) {}
+    ProjectDataItem(parent, id), _hourBreak(0) {}
 
 Line::Line(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {
