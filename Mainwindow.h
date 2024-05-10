@@ -144,6 +144,8 @@ private:
 
     QList<QAction *> hourBreakActions;
 
+    QAction *undoAction, *redoAction;
+
     bool saved;
     bool knownFile;
 };
