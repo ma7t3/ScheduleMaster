@@ -5,49 +5,160 @@
 #include <QUndoStack>
 #include <QToolBar>
 
+#include "Mainwindow.h"
 #include "Commands/CmdBusstops.h"
-
 #include "Dialogs/DlgBusstopeditor.h"
-#include "Dialogs/DlgDataexporter.h"
+
 #include "App/global.h"
 
-WdgBusstops::WdgBusstops(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
+WdgBusstops::WdgBusstops(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgBusstops),
-    projectData(projectData),
-    undoStack(undoStack)
-{
+    projectData(((MainWindow *)parent)->projectData()),
+    undoStack(((MainWindow *)parent)->undoStack()) {
     ui->setupUi(this);
 
-    QAction *actionEdit = new QAction(ui->twBusstops);
-    actionEdit->setShortcuts({QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Enter)});
-    actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ui->twBusstops->addAction(actionEdit);
+    _actionNew = ui->twBusstops->addAction(QIcon(":/icons/Add.ico"), tr("New"));
+    _actionEdit = ui->twBusstops->addAction(QIcon(":/icons/Edit.ico"), tr("Edit"));
+    _actionDelete = ui->twBusstops->addAction(QIcon(":/icons/Delete.ico"), tr("Delete"));
 
-    QAction *actionDelete = new QAction(ui->twBusstops);
-    actionDelete->setShortcut(QKeySequence::Delete);
-    actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ui->twBusstops->addAction(actionDelete);
+    _actionEdit->setDisabled(true);
+    _actionDelete->setDisabled(true);
 
-    QObject::connect(actionEdit, SIGNAL(triggered()), this, SLOT(actionEdit()));
-    QObject::connect(actionDelete, SIGNAL(triggered()), this, SLOT(actionDelete()));
+    _actionEdit->setShortcuts({QKeySequence(Qt::Key_Enter), QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return)});
+    _actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    QObject::connect(ui->pbBusstopNew, SIGNAL(clicked()), this, SLOT(actionNew()));
-    QObject::connect(ui->pbBusstopEdit, SIGNAL(clicked()), this, SLOT(actionEdit()));
-    QObject::connect(ui->twBusstops, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(actionEdit()));
-    QObject::connect(ui->pbBusstopDelete, SIGNAL(clicked()), this, SLOT(actionDelete()));
-    QObject::connect(ui->leBusstopSearch, SIGNAL(textChanged(QString)), this, SLOT(actionSearch()));
-    QObject::connect(ui->pbExportList, SIGNAL(clicked()), this, SLOT(actionExportList()));
-    //QObject::connect(this, SIGNAL(currentBusstopChanged(Busstop*)), this, SLOT(refreshUI()));
+    _actionDelete->setShortcut(QKeySequence::Delete);
+    _actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
+    ui->twBusstops->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    QObject::connect(_actionNew,    &QAction::triggered, this, &WdgBusstops::actionNew);
+    QObject::connect(_actionEdit,   &QAction::triggered, this, &WdgBusstops::actionEdit);
+    QObject::connect(_actionDelete, &QAction::triggered, this, &WdgBusstops::actionDelete);
+
+    connect(_actionNew,    &QAction::enabledChanged, ui->pbBusstopNew,    &QPushButton::setEnabled);
+    connect(_actionEdit,   &QAction::enabledChanged, ui->pbBusstopEdit,   &QPushButton::setEnabled);
+    connect(_actionDelete, &QAction::enabledChanged, ui->pbBusstopDelete, &QPushButton::setEnabled);
+
+    QObject::connect(ui->pbBusstopNew,    &QPushButton::clicked, this, &WdgBusstops::actionNew);
+    QObject::connect(ui->pbBusstopEdit,   &QPushButton::clicked, this, &WdgBusstops::actionEdit);
+    QObject::connect(ui->twBusstops,      &QTableWidget::cellDoubleClicked, this, &WdgBusstops::actionEdit);
+    QObject::connect(ui->pbBusstopDelete, &QPushButton::clicked, this, &WdgBusstops::actionDelete);
+    QObject::connect(ui->leBusstopSearch, &QLineEdit::textChanged, this, &WdgBusstops::refreshBusstopList);
 
     ui->twBusstops->verticalHeader()->setVisible(false);
     ui->twBusstops->setEditTriggers(QTableWidget::NoEditTriggers);
 }
 
-WdgBusstops::~WdgBusstops()
-{
+WdgBusstops::~WdgBusstops() {
     delete ui;
+}
+
+QList<QAction *> WdgBusstops::actions() {
+    return ui->twBusstops->actions();
+}
+
+void WdgBusstops::refreshUI() {
+    int selectionCount = ui->twBusstops->selectionModel()->selectedRows(0).count();
+
+    _actionEdit->setEnabled(selectionCount == 1);
+    _actionDelete->setEnabled(selectionCount >= 1);
+
+    if(selectionCount == 0)
+        ui->twBusstops->setCurrentItem(nullptr);
+}
+
+void WdgBusstops::refreshBusstopList() {
+    qDebug() << "refreshing busstop list...";
+    _refreshing = true;
+
+    QString filter = ui->leBusstopSearch->text();
+    ui->twBusstops->setRowCount(0);
+    _tableReference.clear();
+
+    QList<Busstop *> busstops = projectData->busstops();
+    busstops = ProjectData::sortItems(busstops);
+
+    for(int i = 0; i < busstops.count(); i++) {
+        Busstop * b = busstops[i];
+
+        QString name = b->name();
+        bool important = b->isImportant();
+
+        bool foundInName = name.contains(filter, Qt::CaseInsensitive);
+
+        bool foundInLines = false;
+        QList<Line *> usedLines = projectData->linesAtBusstop(b);
+        for(int j = 0; j < usedLines.count(); j++) {
+            if(usedLines[j]->name().contains(filter, Qt::CaseInsensitive)) {
+                foundInLines = true;
+                break;
+            }
+        }
+        if(!foundInLines && !foundInName)
+            continue;
+
+        int currentRow = ui->twBusstops->rowCount();
+        ui->twBusstops->insertRow(currentRow);
+
+
+        int xValue = 5;
+        for(int j = 0; j < usedLines.count(); j++) {
+            int width = ui->twBusstops->fontMetrics().boundingRect(usedLines[j]->name()).width();
+            xValue += (width + 20);
+        }
+
+        QPixmap linesPixmap(xValue, 15);
+        linesPixmap.fill(Qt::transparent);
+        QPainter painter(&linesPixmap);
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        xValue = 5;
+        for(int j = 0; j < usedLines.count(); j++) {
+            int width = ui->twBusstops->fontMetrics().boundingRect(usedLines[j]->name()).width();
+            QColor color = usedLines[j]->color();
+            QRect rect(xValue, 0, width + 15, 15);
+            xValue += (width + 20);
+            painter.setBrush(color);
+            painter.setPen(Qt::NoPen);
+            painter.drawRoundedRect(rect, 7.5, 7.5);
+            painter.setPen(global::getContrastColor(color));
+            painter.drawText(rect, Qt::AlignCenter, usedLines[j]->name());
+        }
+
+        QTableWidgetItem * nameItm = new QTableWidgetItem(name);
+        QTableWidgetItem * usedLinesItm = new QTableWidgetItem;
+
+        usedLinesItm->setData(Qt::DecorationRole, linesPixmap);
+
+        QFont bold;
+        bold.setBold(true);
+        if(important)
+            nameItm->setFont(bold);
+
+        ui->twBusstops->setItem(currentRow, 0, nameItm);
+        ui->twBusstops->setItem(currentRow, 1, usedLinesItm);
+
+        _tableReference << b;
+
+        if(b == _currentBusstop)
+            ui->twBusstops->setCurrentItem(nameItm);
+    }
+
+    if(ui->leBusstopSearch->text().isEmpty()) {
+        ui->twBusstops->resizeColumnToContents(0);
+        ui->twBusstops->resizeColumnToContents(1);
+    }
+
+    for(int i = 0; i < ui->twBusstops->rowCount(); i++)
+        ui->twBusstops->setRowHeight(i, 15);
+
+    _refreshing = false;
+}
+
+Busstop *WdgBusstops::currentBusstop() {
+    return _currentBusstop;
 }
 
 void WdgBusstops::actionNew() {
@@ -73,7 +184,7 @@ void WdgBusstops::actionNew() {
 void WdgBusstops::actionEdit() {
     if(!_currentBusstop)
         return;
-    
+
     QString name = _currentBusstop->name();
     bool important = _currentBusstop->isImportant();
 
@@ -88,12 +199,12 @@ void WdgBusstops::actionEdit() {
 
     if(newName == "")
         return;
-    
-    Busstop newB = *_currentBusstop;
+
+    Busstop newB(*_currentBusstop);
 
     newB.setName(newName);
     newB.setImportant(newImportant);
-    
+
     undoStack->push(new CmdBusstopEdit(_currentBusstop, newB));
     emit refreshRequested();
 }
@@ -104,54 +215,21 @@ void WdgBusstops::actionDelete() {
     QString showList ="<ul>";
     QList<Busstop *> busstops;
     for(int i = 0; i < selection.count(); i++) {
-        Busstop *b = tableReference[selection[i].row()];
+        Busstop *b = _tableReference[selection[i].row()];
         busstops << b;
         showList += QString("<li>%1</li>").arg(b->name());
     }
     showList += "</ul>";
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete busstop(s)"), tr("<p><b>Do you really want to delete these %n busstop(s)?</b></p>%1", "", busstops.count()).arg(showList), QMessageBox::Yes|QMessageBox::No);
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete %n busstop(s)", "", busstops.count()), tr("<p><b>Do you really want to delete these %n busstop(s)?</b></p>%1", "", busstops.count()).arg(showList), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
-    
+
     undoStack->push(new CmdBusstopsDelete(projectData, busstops));
     emit refreshRequested();
 }
 
-void WdgBusstops::actionSearch() {
-    refresh();
-}
-
-void WdgBusstops::setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDelete) {
-    _actionNew = actionNew;
-    _actionEdit = actionEdit;
-    _actionDelete = actionDelete;
-
-    refreshUI();
-}
-
-void WdgBusstops::refreshUI() {
-    int selectionCount = ui->twBusstops->selectionModel()->selectedRows(0).count();
-
-    if(selectionCount == 0) {
-        ui->twBusstops->setCurrentItem(nullptr);
-        ui->pbBusstopEdit->setEnabled(false);
-        ui->pbBusstopDelete->setEnabled(false);
-        _actionEdit->setEnabled(false);
-        _actionDelete->setEnabled(false);
-    } else if(selectionCount == 1) {
-        ui->pbBusstopEdit->setEnabled(true);
-        ui->pbBusstopDelete->setEnabled(true);
-        _actionEdit->setEnabled(true);
-        _actionDelete->setEnabled(true);
-    } else {
-        ui->pbBusstopEdit->setEnabled(false);
-        ui->pbBusstopDelete->setEnabled(true);
-        _actionEdit->setEnabled(false);
-        _actionDelete->setEnabled(true);
-    }
-}
-
+/*
 void WdgBusstops::actionExportList() {
     QString plainText, csvText, htmlText;
 
@@ -190,75 +268,10 @@ void WdgBusstops::actionExportList() {
 
     dlg.exec();
 }
-
-Busstop *WdgBusstops::currentBusstop()
-{
-    return _currentBusstop;
-}
-
-void WdgBusstops::refresh()
-{
-    qDebug() << "refreshing busstop list...";
-    refreshing = true;
-
-    QString filter = ui->leBusstopSearch->text();
-    ui->twBusstops->setRowCount(0);
-    tableReference.clear();
-
-    QList<Busstop *> busstops = projectData->busstops();
-    busstops = ProjectData::sortItems(busstops);
-    
-    for(int i = 0; i < busstops.count(); i++) {
-        Busstop * b = busstops[i];
-
-        //QString id = b->id();
-        QString name = b->name();
-        bool important = b->isImportant();
-
-        if(!name.contains(filter, Qt::CaseInsensitive))
-            continue;
-
-        int currentRow = ui->twBusstops->rowCount();
-        ui->twBusstops->insertRow(currentRow);
-
-        QStringList usedLinesStrList;
-        QList<Line *> usedLines = projectData->linesAtBusstop(b);
-        for(int i = 0; i < usedLines.count(); i++)
-            usedLinesStrList << usedLines[i]->name();
-            //usedLinesStrList << "[" + usedLines[i]->name() + "]";
-        QString usedLinesStr = usedLinesStrList.join(", ");
-
-        QTableWidgetItem * nameItm = new QTableWidgetItem(name);
-        QTableWidgetItem * usedLinesItm = new QTableWidgetItem(usedLinesStr);
-
-        QFont bold;
-        bold.setBold(true);
-        if(important)
-            nameItm->setFont(bold);
-
-        ui->twBusstops->setItem(currentRow, 0, nameItm);
-        ui->twBusstops->setItem(currentRow, 1, usedLinesItm);
-
-        tableReference << b;
-        
-        if(b == _currentBusstop)
-            ui->twBusstops->setCurrentItem(nameItm);
-    }
-
-    if(ui->leBusstopSearch->text().isEmpty()) {
-        ui->twBusstops->resizeColumnToContents(0);
-        ui->twBusstops->resizeColumnToContents(1);
-    }
-
-    for(int i = 0; i < ui->twBusstops->rowCount(); i++) {
-        ui->twBusstops->setRowHeight(i, 15);
-    }
-
-    refreshing = false;
-}
+*/
 
 void WdgBusstops::on_twBusstops_itemSelectionChanged() {
-    if(refreshing)
+    if(_refreshing)
         return;
 
     QTableWidgetItem *current = ui->twBusstops->currentItem();
@@ -267,7 +280,7 @@ void WdgBusstops::on_twBusstops_itemSelectionChanged() {
     if(!current || selectionCount == 0 || selectionCount > 1)
         _currentBusstop = nullptr;
     else
-        _currentBusstop = tableReference[current->row()];
+        _currentBusstop = _tableReference[current->row()];
 
     refreshUI();
 

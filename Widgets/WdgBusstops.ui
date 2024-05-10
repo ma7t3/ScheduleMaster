@@ -25,6 +25,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pbBusstopEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Edit...</string>
        </property>
@@ -32,15 +35,11 @@
      </item>
      <item>
       <widget class="QPushButton" name="pbBusstopDelete">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Delete</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pbExportList">
-       <property name="text">
-        <string>Export List...</string>
        </property>
       </widget>
      </item>
@@ -76,6 +75,9 @@
      </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="horizontalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
      </property>
      <property name="columnCount">
       <number>2</number>
