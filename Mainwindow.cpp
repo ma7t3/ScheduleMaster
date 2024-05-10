@@ -51,11 +51,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow),
-    projectData(new ProjectData),
-    undoStack(new QUndoStack),
+    _projectData(new ProjectData),
+    _undoStack(new QUndoStack),
     startupDialog(new StartupDialog),
-    fileHandler(new DlgFileHandler(this, projectData)),
-    pdfExporter(new DlgPdfExporter(this, projectData)),
+    fileHandler(new DlgFileHandler(this, _projectData)),
+    pdfExporter(new DlgPdfExporter(this, _projectData)),
     knownFile(false)
 {
     pdfExporter->setModal(true);
@@ -165,6 +165,8 @@ MainWindow::MainWindow(QWidget *parent)
     actDockTourEditor      -> setShortcut(QKeySequence(tr("Alt+Shift+T")));
     actDockFootnotes       -> setShortcut(QKeySequence(tr("Alt+F")));
 
+    ui->menuBusstops->addActions(wdgBusstops->actions());
+
     qDebug() << "adding toggleViewActions to menubar";
     ui->menuDocks->addAction(actDockBusstops);
     ui->menuDocks->addAction(actDockLines);
@@ -178,13 +180,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->menuDocks->addAction(actDockFootnotes);
 
     qDebug() << "setting menubarActions to widgets";
-    wdgBusstops -> setMenubarActions(ui->actionBusstopsNew, ui->actionBusstopsEdit, ui->actionBusstopsDelete);
     wdgLines    -> setMenubarActions(ui->actionLinesNew, ui->actionLinesEdit, ui->actionLinesDelete);
     wdgRoutes   -> setMenubarActions(ui->actionRoutesNew, ui->actionRoutesEdit, ui->actionRoutesDuplicate, ui->actionRoutesDelete);
 
     qDebug() << "loading undo and redo action...";
-    undoAction = undoStack->createUndoAction(this, tr("Undo"));
-    redoAction = undoStack->createRedoAction(this, tr("Redo"));
+    undoAction = _undoStack->createUndoAction(this, tr("Undo"));
+    redoAction = _undoStack->createRedoAction(this, tr("Redo"));
     undoAction->setIcon(QIcon(":/icons/Undo.ico"));
     redoAction->setIcon(QIcon(":/icons/Redo.ico"));
     ui->menuEdit->addActions({undoAction, redoAction});
@@ -271,11 +272,6 @@ MainWindow::MainWindow(QWidget *parent)
     qInfo() << "loading signals and slots...";
     splashScreen.showMessage(tr("loading signals and slots..."), Qt::AlignBottom, messageColor);
 
-    qDebug() << "\tbusstops";
-    connect(ui->actionBusstopsNew,                 &QAction::triggered,                    wdgBusstops,        &WdgBusstops::actionNew);
-    connect(ui->actionBusstopsEdit,                &QAction::triggered,                    wdgBusstops,        &WdgBusstops::actionEdit);
-    connect(ui->actionBusstopsDelete,              &QAction::triggered,                    wdgBusstops,        &WdgBusstops::actionDelete);
-
     qDebug() << "\tlines";
     connect(ui->actionLinesNew,                    &QAction::triggered,                    wdgLines,           &WdgLines::actionNew);
     connect(ui->actionLinesEdit,                   &QAction::triggered,                    wdgLines,           &WdgLines::actionEdit);
@@ -299,7 +295,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFileSaveAs,                  &QAction::triggered,                    this,               &MainWindow::actionFileSaveAs);
     connect(ui->actionFileClose,                   &QAction::triggered,                    this,               &MainWindow::actionFileClose);
     connect(ui->actionFileQuit,                    &QAction::triggered,                    this,               &MainWindow::actionQuit);
-    connect(undoStack,                             &QUndoStack::cleanChanged,              this,               &MainWindow::setSaved);
+    connect(_undoStack,                             &QUndoStack::cleanChanged,              this,               &MainWindow::setSaved);
     connect(undoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshUndo);
     connect(redoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshRedo);
 
@@ -325,7 +321,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     qDebug() << "\tundo/redo refreshs";
     // Busstops
-    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgBusstops,        &WdgBusstops::refresh);
+    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgBusstops,        &WdgBusstops::refreshBusstopList);
     connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgSchedule,        &WdgSchedule::refreshSchedule);
     connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgRoutes,          &WdgRoutes::refresh);
 
@@ -395,6 +391,14 @@ void MainWindow::closeEvent(QCloseEvent * event) {
     }
 }
 
+ProjectData *MainWindow::projectData() const {
+    return _projectData;
+}
+
+QUndoStack *MainWindow::undoStack() const {
+    return _undoStack;
+}
+
 void MainWindow::startupDialogHandler() {
     qInfo() << "closed startupDialog";
 
@@ -421,7 +425,7 @@ bool MainWindow::actionFileNew() {
 bool MainWindow::actionFileOpen(QString path) {
     QDir dir;
     if(knownFile) {
-        QFileInfo fi(projectData->filePath());
+        QFileInfo fi(_projectData->filePath());
         dir = fi.dir().absolutePath();
     } else {
         dir = LocalConfig::defaultProjectLocation();
@@ -448,14 +452,14 @@ bool MainWindow::actionFileSave() {
     if(!knownFile)
         return actionFileSaveAs();
 
-    return saveFile(projectData->filePath());
+    return saveFile(_projectData->filePath());
     //return saveFile(projectFilePath);
 }
 
 bool MainWindow::actionFileSaveAs() {
     QDir dir;
     if(knownFile) {
-        QFileInfo fi(projectData->filePath());
+        QFileInfo fi(_projectData->filePath());
         dir = fi.dir().absolutePath();
     } else {
         dir = LocalConfig::defaultProjectLocation();
@@ -471,14 +475,14 @@ bool MainWindow::actionFileSaveAs() {
     if(saveFile(path)) {
         knownFile = true;
         //projectFilePath = path;
-        projectData->setFilePath(path);
+        _projectData->setFilePath(path);
         return true;
     }
     return false;
 }
 
 bool MainWindow::actionFileClose() {
-    if(!undoStack->isClean()) {
+    if(!_undoStack->isClean()) {
         QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved Changes"), tr("<p><b>There are unsaved changes!</b></p><p>Do want to save them before closing this file?</p>"), QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
 
         if(msg == QMessageBox::Yes) {
@@ -489,7 +493,7 @@ bool MainWindow::actionFileClose() {
         }
     }
     qInfo() << "closing current file...";
-    projectData->reset();
+    _projectData->reset();
     qDebug() << "projectData reset";
     knownFile = false;
 
@@ -499,7 +503,7 @@ bool MainWindow::actionFileClose() {
     wdgTourEditor->setCurrentTour(nullptr);
     wdgPublishedLines->setCurrentLine(nullptr);
 
-    wdgBusstops->refresh();
+    wdgBusstops->refreshBusstopList();
     wdgLines->refresh();
     wdgRoutes->refresh();
     wdgSchedule->refreshSchedule();
@@ -540,11 +544,11 @@ void MainWindow::refreshLastUsedFiles() {
 }
 
 void MainWindow::refreshUndo() {
-    refreshAfterUndoRedo(dynamic_cast<const CmdAbstract *>(undoStack->command(undoStack->index()))->commandType());
+    refreshAfterUndoRedo(dynamic_cast<const CmdAbstract *>(_undoStack->command(_undoStack->index()))->commandType());
 }
 
 void MainWindow::refreshRedo() {
-    CmdType type = dynamic_cast<const CmdAbstract *>(undoStack->command(undoStack->index() - 1))->commandType();
+    CmdType type = dynamic_cast<const CmdAbstract *>(_undoStack->command(_undoStack->index() - 1))->commandType();
     refreshAfterUndoRedo(type);
 }
 
@@ -555,7 +559,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
         wdgSchedule->refreshDayTypes();
     }
     if(t == BusstopsType) {
-        wdgBusstops->refresh();
+        wdgBusstops->refreshBusstopList();
         wdgSchedule->refreshSchedule();
         wdgRoutes->refresh();
     }
@@ -846,8 +850,8 @@ void MainWindow::actionOpenTour(Tour *o) {
 }
 
 void MainWindow::setSaved(bool b) {
-    QString displayName = projectData->projectSettings()->displayName();
-    QString str = "ScheduleMaster" + (!displayName.isEmpty() ? " - " + projectData->projectSettings()->displayName() : "");
+    QString displayName = _projectData->projectSettings()->displayName();
+    QString str = "ScheduleMaster" + (!displayName.isEmpty() ? " - " + _projectData->projectSettings()->displayName() : "");
     if(!b)
         str = "* " + str;
 
@@ -885,7 +889,7 @@ bool MainWindow::openFile(QString path) {
     fileHandler->readFromFile(path);
 
     qDebug() << "refreshing ui...";
-    wdgBusstops->refresh();
+    wdgBusstops->refreshBusstopList();
     wdgLines->refresh();
     wdgTours->refresh();
     wdgSchedule->refreshDayTypes();
@@ -894,10 +898,10 @@ bool MainWindow::openFile(QString path) {
     wdgPublishedLines->refreshRoutes();
     wdgFootnotes->refreshFootnotes();
 
-    undoStack->clear();
+    _undoStack->clear();
     knownFile = true;
     setSaved(true);
-    projectData->setFilePath(path);
+    _projectData->setFilePath(path);
     ui->statusbar->showMessage(path);
     LocalConfig::addLastUsedFile(path);
     refreshLastUsedFiles();
@@ -921,7 +925,7 @@ bool MainWindow::saveFile(QString path) {
 
     fileHandler->saveToFile(path);
 
-    undoStack->setClean();
+    _undoStack->setClean();
     knownFile = true;
     ui->statusbar->showMessage(tr("File saved!"), 5000);
     return true;
@@ -1013,7 +1017,7 @@ void MainWindow::on_actionCleanup_and_troubleshooting_triggered()
 
 
 void MainWindow::on_actionView_As_Tree_triggered() {
-    ProjectTreeViewer dlg(this, projectData);
+    ProjectTreeViewer dlg(this, _projectData);
     dlg.exec();
 }
 
@@ -1043,12 +1047,12 @@ void MainWindow::on_actionHelpAboutQt_triggered() {
 
 void MainWindow::on_actionEditProjectSettings_triggered() {
     QList<DayType> dayTypes;
-    for(int i = 0; i < projectData->projectSettings()->dayTypeCount(); i++)
-        dayTypes << *projectData->projectSettings()->dayTypeAt(i);
+    for(int i = 0; i < _projectData->projectSettings()->dayTypeCount(); i++)
+        dayTypes << *_projectData->projectSettings()->dayTypeAt(i);
 
     DlgProjectSettings *dlg = new DlgProjectSettings(this);
-    dlg->setNames(projectData->projectSettings()->displayName(), projectData->projectSettings()->shortName());
-    dlg->setIcon(projectData->projectSettings()->icon());
+    dlg->setNames(_projectData->projectSettings()->displayName(), _projectData->projectSettings()->shortName());
+    dlg->setIcon(_projectData->projectSettings()->icon());
     dlg->setDayTypes(dayTypes);
 
     dlg->exec();
@@ -1061,7 +1065,7 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
     newS.setIcon(dlg->icon());
     newS.setDayTypes(dlg->dayTypes());
 
-    undoStack->push(new CmdEditProjectSettings(projectData->projectSettings(), newS));
+    _undoStack->push(new CmdEditProjectSettings(_projectData->projectSettings(), newS));
     wdgSchedule->refreshDayTypes();
 }
 
@@ -1189,11 +1193,11 @@ void MainWindow::on_actionViewToolbarWorkspaces_triggered() {
 }
 
 void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
-    DlgOmsiImport dlg(this, projectData);
+    DlgOmsiImport dlg(this, _projectData);
     dlg.exec();
 
-    for(int i = 0; i < projectData->lineCount(); i++) {
-        Line *l = projectData->lineAt(i);
+    for(int i = 0; i < _projectData->lineCount(); i++) {
+        Line *l = _projectData->lineAt(i);
         l->refreshChilds();
         for(int j = 0; j < l->routeCount(); j++) {
             Route *r = l->routeAt(j);
@@ -1205,7 +1209,7 @@ void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
     }
 
     qDebug() << "refreshing ui...";
-    wdgBusstops->refresh();
+    wdgBusstops->refreshBusstopList();
     wdgLines->refresh();
     wdgTours->refresh();
     wdgSchedule->refreshDayTypes();
@@ -1222,8 +1226,8 @@ void MainWindow::on_actionFileExportRoutesWithProfilesCsv_triggered() {
     if(!dir.exists())
         return;
 
-    for(int i = 0; i < projectData->lineCount(); i++) {
-        Line *l = projectData->lineAt(i);
+    for(int i = 0; i < _projectData->lineCount(); i++) {
+        Line *l = _projectData->lineAt(i);
         QDir subDir = dir.path() + "/" + l->name();
         if(!subDir.exists()) {
             bool ok = dir.mkdir(l->name());

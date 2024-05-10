@@ -45,6 +45,9 @@ public:
     ~MainWindow();
     void closeEvent(QCloseEvent *event) override;
 
+    ProjectData *projectData() const;
+    QUndoStack *undoStack() const;
+
 private slots:
 
     void startupDialogHandler();
@@ -107,8 +110,8 @@ signals:
 private:
     Ui::MainWindow *ui;
 
-    ProjectData *projectData;
-    QUndoStack *undoStack;
+    ProjectData *_projectData;
+    QUndoStack *_undoStack;
     StartupDialog *startupDialog;
     DlgFileHandler *fileHandler;
     DlgPdfExporter *pdfExporter;
@@ -116,17 +119,17 @@ private:
     QStringList _lastUsedFileNames;
     QList<QAction *> _lastUsedFileActions;
 
-    WdgUndoView *wdgUndoView = new WdgUndoView(this, undoStack);
-    WdgBusstops *wdgBusstops = new WdgBusstops(this, projectData, undoStack);
-    WdgLines *wdgLines = new WdgLines(this, projectData, undoStack);
-    WdgRoutes *wdgRoutes = new WdgRoutes(this, projectData, undoStack);
-    WdgSchedule *wdgSchedule = new WdgSchedule(this, projectData, undoStack);
-    WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, projectData, undoStack);
-    WdgTours *wdgTours = new WdgTours(this, projectData, undoStack);
-    WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, projectData, undoStack);
-    WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, projectData);
-    WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, projectData, undoStack);
-    WdgFootnotes *wdgFootnotes = new WdgFootnotes(this, projectData, undoStack);
+    WdgUndoView *wdgUndoView = new WdgUndoView(this, _undoStack);
+    WdgBusstops *wdgBusstops = new WdgBusstops(this);
+    WdgLines *wdgLines = new WdgLines(this, _projectData, _undoStack);
+    WdgRoutes *wdgRoutes = new WdgRoutes(this, _projectData, _undoStack);
+    WdgSchedule *wdgSchedule = new WdgSchedule(this, _projectData, _undoStack);
+    WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, _projectData, _undoStack);
+    WdgTours *wdgTours = new WdgTours(this, _projectData, _undoStack);
+    WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, _projectData, _undoStack);
+    WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, _projectData);
+    WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, _projectData, _undoStack);
+    WdgFootnotes *wdgFootnotes = new WdgFootnotes(this, _projectData, _undoStack);
 
     QDockWidget *dwUndoView = new QDockWidget(tr("Undo View"), this);
     QDockWidget *dwBusstops = new QDockWidget(tr("Busstops"), this);
