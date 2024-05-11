@@ -217,17 +217,16 @@ void WdgTourEditor::refresh() {
             tourTableReference << lastTrip;
 
             QString time = lastTrip->endTime().toString("hh:mm") + "\r\n" + t->startTime().toString("hh:mm");
-            QString route;
-            QString busstops;
-            QColor color;
-            QColor cColor;
+            QString route = tr("break");
+            QString busstops = "";
+            QColor color = Qt::black;
+            QColor cColor = Qt::white;
 
-            if(lastTrip->route()->lastBusstop()->id() == t->route()->firstBusstop()->id()) {
-                route = tr("break");
+            bool valid = (lastTrip->route()->lastBusstop() && t->route()->firstBusstop());
+
+            if(valid && lastTrip->route()->lastBusstop()->id() == t->route()->firstBusstop()->id()) {
                 busstops = lastTrip->route()->lastBusstop()->name();
-                color = Qt::black;
-                cColor = Qt::white;
-            } else {
+            } else if(valid) {
                 route = tr("service trip");
                 busstops = lastTrip->route()->lastBusstop()->name() + "\r\n" + t->route()->firstBusstop()->name();
                 color = Qt::lightGray;
