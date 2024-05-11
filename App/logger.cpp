@@ -1,6 +1,6 @@
 #include "logger.h"
 #include "localconfig.h"
-#include "globalconfig.h"
+#include "AppInfo.h"
 
 #include <QTextStream>
 #include <QDateTime>
@@ -36,7 +36,7 @@ Logger::Logger(QObject *parent) : QObject(parent) {
         logfileModeInfo = "Detailed debug logging";
 
     s << "##########################################################################################\n";
-    s << "   ScheduleMaster | " << GlobalConfig::currentVersion() << " | " << "Qt " << qVersion() << " | " << logfileModeInfo << "\n";
+    s << "   ScheduleMaster | " << AppInfo::currentVersion() << " | " << "Qt " << qVersion() << " | " << logfileModeInfo << "\n";
     s << "##########################################################################################\n";
     s << "Time:               " << now.toString("yyyy-MM-dd") << ", " << now.toString("hh:mm:ss") << "\n";
     s << "------------------------------------------------------------------------------------------\n";
