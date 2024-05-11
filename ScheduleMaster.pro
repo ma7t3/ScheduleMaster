@@ -18,7 +18,9 @@ SOURCES += \
     Dialogs/DlgOmsiImport.cpp \
     Dialogs/DlgPdfExporter.cpp \
     Dialogs/DlgPreferences.cpp \
+    Dialogs/DlgProgressLogger.cpp \
     Dialogs/DlgProjectsettings.cpp \
+    ProjectData/FileHandler.cpp \
     Widgets/WdgChangelogBrowser.cpp \
     Widgets/WdgFootnotes.cpp \
     Mainwindow.cpp \
@@ -84,8 +86,10 @@ HEADERS += \
     Dialogs/DlgOmsiImport.h \
     Dialogs/DlgPdfExporter.h \
     Dialogs/DlgPreferences.h \
+    Dialogs/DlgProgressLogger.h \
     Dialogs/DlgProjectsettings.h \
     Mainwindow.h \
+    ProjectData/FileHandler.h \
     ProjectData/daytype.h \
     ProjectData/footnote.h \
     ProjectData/linedirection.h \
@@ -135,6 +139,7 @@ FORMS += \
     Dialogs/DlgCopyTrip.ui \
     Dialogs/DlgFileHandler.ui \
     Dialogs/DlgFootnoteEditor.ui \
+    Dialogs/DlgProgressLogger.ui \
     Widgets/WdgFootnotes.ui \
     Dialogs/DlgOmsiImport.ui \
     Dialogs/DlgPdfExporter.ui \
