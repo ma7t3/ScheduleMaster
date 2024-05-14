@@ -51,7 +51,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow),
     _projectData(new ProjectData(this)),
-    _undoStack(new QUndoStack),
     fileHandler(new FileHandler(this)),
     startupDialog(new StartupDialog(parent)),
     progressLogger(new DlgProgressLogger(this)),
@@ -208,8 +207,8 @@ MainWindow::MainWindow(QWidget *parent)
     wdgRoutes   -> setMenubarActions(ui->actionRoutesNew, ui->actionRoutesEdit, ui->actionRoutesDuplicate, ui->actionRoutesDelete);
 
     qDebug() << "loading undo and redo action...";
-    undoAction = _undoStack->createUndoAction(this, tr("Undo"));
-    redoAction = _undoStack->createRedoAction(this, tr("Redo"));
+    undoAction = undoStack()->createUndoAction(this, tr("Undo"));
+    redoAction = undoStack()->createRedoAction(this, tr("Redo"));
     undoAction->setIcon(QIcon(":/icons/Undo.ico"));
     redoAction->setIcon(QIcon(":/icons/Redo.ico"));
     ui->menuEdit->addActions({undoAction, redoAction});
@@ -319,7 +318,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFileSaveAs,                  &QAction::triggered,                    this,               &MainWindow::actionFileSaveAs);
     connect(ui->actionFileClose,                   &QAction::triggered,                    this,               &MainWindow::actionFileClose);
     connect(ui->actionFileQuit,                    &QAction::triggered,                    this,               &MainWindow::actionQuit);
-    connect(_undoStack,                             &QUndoStack::cleanChanged,              this,               &MainWindow::setSaved);
+    connect(undoStack(),                           &QUndoStack::cleanChanged,              this,               &MainWindow::setSaved);
     connect(undoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshUndo);
     connect(redoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshRedo);
 
@@ -409,7 +408,7 @@ ProjectData *MainWindow::projectData() const {
 }
 
 QUndoStack *MainWindow::undoStack() const {
-    return _undoStack;
+    return _projectData->undoStack();
 }
 
 void MainWindow::startupDialogHandler() {
@@ -495,7 +494,7 @@ bool MainWindow::actionFileSaveAs() {
 }
 
 bool MainWindow::actionFileClose() {
-    if(!_undoStack->isClean()) {
+    if(!undoStack()->isClean()) {
         QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved Changes"), tr("<p><b>There are unsaved changes!</b></p><p>Do want to save them before closing this file?</p>"), QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
 
         if(msg == QMessageBox::Yes) {
@@ -557,11 +556,11 @@ void MainWindow::refreshLastUsedFiles() {
 }
 
 void MainWindow::refreshUndo() {
-    refreshAfterUndoRedo(dynamic_cast<const CmdAbstract *>(_undoStack->command(_undoStack->index()))->commandType());
+    refreshAfterUndoRedo(dynamic_cast<const CmdAbstract *>(undoStack()->command(undoStack()->index()))->commandType());
 }
 
 void MainWindow::refreshRedo() {
-    CmdType type = dynamic_cast<const CmdAbstract *>(_undoStack->command(_undoStack->index() - 1))->commandType();
+    CmdType type = dynamic_cast<const CmdAbstract *>(undoStack()->command(undoStack()->index() - 1))->commandType();
     refreshAfterUndoRedo(type);
 }
 
@@ -944,11 +943,11 @@ void MainWindow::handleFileHandlerResult() {
         _projectData->setFilePath(filePath);
         ui->statusbar->showMessage(filePath);
         LocalConfig::addLastUsedFile(filePath);
-        _undoStack->clear();
+        undoStack()->clear();
         refreshLastUsedFiles();
         QApplication::restoreOverrideCursor();
     } else if(fileHandler->action() == FileHandler::SaveFileAction) {
-        _undoStack->setClean();
+        undoStack()->setClean();
         ui->statusbar->showMessage(tr("File saved!"), 5000);
     }
 
@@ -1091,7 +1090,7 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
     newS.setIcon(dlg->icon());
     newS.setDayTypes(dlg->dayTypes());
 
-    _undoStack->push(new CmdEditProjectSettings(_projectData->projectSettings(), newS));
+    undoStack()->push(new CmdEditProjectSettings(_projectData->projectSettings(), newS));
     wdgSchedule->refreshDayTypes();
 }
 

@@ -116,7 +116,6 @@ private:
 
     ProjectData *_projectData;
 
-    QUndoStack *_undoStack;
     FileHandler *fileHandler;
     StartupDialog *startupDialog;
     DlgProgressLogger *progressLogger;
@@ -125,17 +124,17 @@ private:
     QStringList _lastUsedFileNames;
     QList<QAction *> _lastUsedFileActions;
 
-    WdgUndoView *wdgUndoView = new WdgUndoView(this, _undoStack);
+    WdgUndoView *wdgUndoView = new WdgUndoView(this, undoStack());
     WdgBusstops *wdgBusstops = new WdgBusstops(this);
-    WdgLines *wdgLines = new WdgLines(this, _projectData, _undoStack);
-    WdgRoutes *wdgRoutes = new WdgRoutes(this, _projectData, _undoStack);
-    WdgSchedule *wdgSchedule = new WdgSchedule(this, _projectData, _undoStack);
-    WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, _projectData, _undoStack);
-    WdgTours *wdgTours = new WdgTours(this, _projectData, _undoStack);
-    WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, _projectData, _undoStack);
+    WdgLines *wdgLines = new WdgLines(this, _projectData, undoStack());
+    WdgRoutes *wdgRoutes = new WdgRoutes(this, _projectData, undoStack());
+    WdgSchedule *wdgSchedule = new WdgSchedule(this, _projectData, undoStack());
+    WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, _projectData, undoStack());
+    WdgTours *wdgTours = new WdgTours(this, _projectData, undoStack());
+    WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, _projectData, undoStack());
     WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, _projectData);
-    WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, _projectData, _undoStack);
-    WdgFootnotes *wdgFootnotes = new WdgFootnotes(this, _projectData, _undoStack);
+    WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, _projectData, undoStack());
+    WdgFootnotes *wdgFootnotes = new WdgFootnotes(this, _projectData, undoStack());
 
     QDockWidget *dwUndoView = new QDockWidget(tr("Undo View"), this);
     QDockWidget *dwBusstops = new QDockWidget(tr("Busstops"), this);
@@ -150,12 +149,9 @@ private:
     QDockWidget *dwFootnotes = new QDockWidget(tr("Footnotes"), this);
 
     QToolBar *tbGeneral, *tbDocks, *tbWorkspaces;
-
     QList<QAction *> hourBreakActions;
-
     QAction *undoAction, *redoAction;
 
-    bool saved;
     bool knownFile;
 };
 #endif // MAINWINDOW_H

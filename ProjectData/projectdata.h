@@ -4,6 +4,7 @@
 #include <QtCore>
 #include <QJsonDocument>
 #include <QColor>
+#include <QUndoStack>
 
 #include "projectData/busstop.h"
 #include "projectData/line.h"
@@ -118,6 +119,8 @@ public:
     Footnote *newFootnote(const QJsonObject &);
     Footnote *newFootnote(const Footnote &newFootnote);
 
+    QUndoStack *undoStack() const;
+
 signals:
     void test();
     void loadingProgressMaxValue(const int &maxValue);
@@ -132,6 +135,8 @@ private:
     QList<Tour *> _tours;
     QList<Footnote *> _footnotes;
     Publications *_publications;
+
+    QUndoStack *_undoStack;
 
     std::unordered_map<Route *, Line *> _routeLineCacheMap;
     std::unordered_map<Trip *, Line *> _routeTripCacheMap;
