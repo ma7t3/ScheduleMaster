@@ -4,7 +4,8 @@
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
     _projectSettings(new ProjectSettings(this)),
-    _publications(new Publications(this))
+    _publications(new Publications(this)),
+    _undoStack(new QUndoStack(this))
 {}
 
 ProjectData::~ProjectData() {
@@ -778,4 +779,8 @@ Footnote *ProjectData::newFootnote(const Footnote &newFootnote) {
     Footnote *f = new Footnote(newFootnote);
     f->setParent(this);
     return f;
+}
+
+QUndoStack *ProjectData::undoStack() const {
+    return _undoStack;
 }
