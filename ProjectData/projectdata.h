@@ -15,7 +15,8 @@
 class ProjectData : public QObject {
     Q_OBJECT
 public:
-    ProjectData();
+    ProjectData(QObject *parent = nullptr);
+    ~ProjectData();
 
     ProjectSettings *projectSettings();
 
