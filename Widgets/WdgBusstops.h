@@ -41,7 +41,6 @@ signals:
 private:
     Ui::WdgBusstops *ui;
     ProjectData *projectData;
-    QUndoStack *undoStack;
     Busstop *_currentBusstop = nullptr;
     QList<Busstop *> _tableReference;
 

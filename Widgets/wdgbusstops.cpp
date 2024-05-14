@@ -14,12 +14,11 @@
 WdgBusstops::WdgBusstops(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgBusstops),
-    projectData(((MainWindow *)parent)->projectData()),
-    undoStack(((MainWindow *)parent)->undoStack()) {
+    projectData(((MainWindow *)parent)->projectData()) {
     ui->setupUi(this);
 
-    _actionNew = ui->twBusstops->addAction(QIcon(":/icons/Add.ico"), tr("New"));
-    _actionEdit = ui->twBusstops->addAction(QIcon(":/icons/Edit.ico"), tr("Edit"));
+    _actionNew = ui->twBusstops->addAction(QIcon(":/icons/Add.ico"),       tr("New"));
+    _actionEdit = ui->twBusstops->addAction(QIcon(":/icons/Edit.ico"),     tr("Edit"));
     _actionDelete = ui->twBusstops->addAction(QIcon(":/icons/Delete.ico"), tr("Delete"));
 
     _actionEdit->setDisabled(true);
@@ -33,19 +32,19 @@ WdgBusstops::WdgBusstops(QWidget *parent) :
 
     ui->twBusstops->setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    QObject::connect(_actionNew,    &QAction::triggered, this, &WdgBusstops::actionNew);
-    QObject::connect(_actionEdit,   &QAction::triggered, this, &WdgBusstops::actionEdit);
-    QObject::connect(_actionDelete, &QAction::triggered, this, &WdgBusstops::actionDelete);
+    connect(_actionNew,          &QAction::triggered, this, &WdgBusstops::actionNew);
+    connect(_actionEdit,         &QAction::triggered, this, &WdgBusstops::actionEdit);
+    connect(_actionDelete,       &QAction::triggered, this, &WdgBusstops::actionDelete);
 
-    connect(_actionNew,    &QAction::enabledChanged, ui->pbBusstopNew,    &QPushButton::setEnabled);
-    connect(_actionEdit,   &QAction::enabledChanged, ui->pbBusstopEdit,   &QPushButton::setEnabled);
-    connect(_actionDelete, &QAction::enabledChanged, ui->pbBusstopDelete, &QPushButton::setEnabled);
+    connect(_actionNew,          &QAction::enabledChanged, ui->pbBusstopNew,    &QPushButton::setEnabled);
+    connect(_actionEdit,         &QAction::enabledChanged, ui->pbBusstopEdit,   &QPushButton::setEnabled);
+    connect(_actionDelete,       &QAction::enabledChanged, ui->pbBusstopDelete, &QPushButton::setEnabled);
 
-    QObject::connect(ui->pbBusstopNew,    &QPushButton::clicked, this, &WdgBusstops::actionNew);
-    QObject::connect(ui->pbBusstopEdit,   &QPushButton::clicked, this, &WdgBusstops::actionEdit);
-    QObject::connect(ui->twBusstops,      &QTableWidget::cellDoubleClicked, this, &WdgBusstops::actionEdit);
-    QObject::connect(ui->pbBusstopDelete, &QPushButton::clicked, this, &WdgBusstops::actionDelete);
-    QObject::connect(ui->leBusstopSearch, &QLineEdit::textChanged, this, &WdgBusstops::refreshBusstopList);
+    connect(ui->pbBusstopNew,    &QPushButton::clicked, this, &WdgBusstops::actionNew);
+    connect(ui->pbBusstopEdit,   &QPushButton::clicked, this, &WdgBusstops::actionEdit);
+    connect(ui->twBusstops,      &QTableWidget::cellDoubleClicked, this, &WdgBusstops::actionEdit);
+    connect(ui->pbBusstopDelete, &QPushButton::clicked, this, &WdgBusstops::actionDelete);
+    connect(ui->leBusstopSearch, &QLineEdit::textChanged, this, &WdgBusstops::refreshBusstopList);
 
     ui->twBusstops->verticalHeader()->setVisible(false);
     ui->twBusstops->setEditTriggers(QTableWidget::NoEditTriggers);
@@ -177,7 +176,7 @@ void WdgBusstops::actionNew() {
     Busstop *b = projectData->newBusstop();
     b->setName(name);
     b->setImportant(important);
-    undoStack->push(new CmdBusstopNew(projectData, b));
+    projectData->undoStack()->push(new CmdBusstopNew(projectData, b));
     emit refreshRequested();
 }
 
@@ -205,7 +204,7 @@ void WdgBusstops::actionEdit() {
     newB.setName(newName);
     newB.setImportant(newImportant);
 
-    undoStack->push(new CmdBusstopEdit(_currentBusstop, newB));
+    projectData->undoStack()->push(new CmdBusstopEdit(_currentBusstop, newB));
     emit refreshRequested();
 }
 
@@ -225,7 +224,7 @@ void WdgBusstops::actionDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new CmdBusstopsDelete(projectData, busstops));
+    projectData->undoStack()->push(new CmdBusstopsDelete(projectData, busstops));
     emit refreshRequested();
 }
 
