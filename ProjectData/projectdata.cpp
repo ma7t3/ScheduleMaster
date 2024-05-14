@@ -1,11 +1,8 @@
 
 #include "ProjectData\projectdata.h"
 
-
-#include "App/global.h"
-
-ProjectData::ProjectData() :
-    QObject(nullptr),
+ProjectData::ProjectData(QObject *parent) :
+    QObject(parent),
     _projectSettings(new ProjectSettings(this)),
     _publications(new Publications(this))
 {}
