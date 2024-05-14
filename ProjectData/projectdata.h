@@ -15,7 +15,8 @@
 class ProjectData : public QObject {
     Q_OBJECT
 public:
-    ProjectData();
+    ProjectData(QObject *parent = nullptr);
+    ~ProjectData();
 
     ProjectSettings *projectSettings();
 
@@ -116,6 +117,12 @@ public:
     Footnote *newFootnote(QString id = "");
     Footnote *newFootnote(const QJsonObject &);
     Footnote *newFootnote(const Footnote &newFootnote);
+
+signals:
+    void test();
+    void loadingProgressMaxValue(const int &maxValue);
+    void loadingProgressUpdated(const int &currentValue);
+    void loadingProgressTextUpdated(const int &type, const QString &message, const bool &showAsCurrent = false);
 
 private:
     QString _filePath;

@@ -9,7 +9,7 @@
 #include <QUndoStack>
 #include <QToolBar>
 
-#include "Dialogs/DlgFilehandler.h"
+#include "ProjectData/FileHandler.h"
 
 #include "Widgets/wdgbusstops.h"
 #include "Widgets/wdglines.h"
@@ -24,7 +24,7 @@
 #include "Widgets/WdgFootnotes.h"
 
 #include "Dialogs/DlgStartupdialog.h"
-#include "Dialogs/DlgFilehandler.h"
+#include "Dialogs/DlgProgressLogger.h"
 #include "Dialogs/DlgPdfExporter.h"
 
 #include "ProjectData/projectdata.h"
@@ -77,6 +77,10 @@ private slots:
     void setSaved(bool b);
     bool openFile(QString);
     bool saveFile(QString);
+    void handleFileHandlerFileError(const QString &filePath, const QString errorString);
+    void handleFileHandlerFileOldVersionWarning(AppInfo::AppVersion *);
+    void handleFileHandlerFileUnkownVersionWarning();
+    void handleFileHandlerResult();
 
     void on_actionCleanup_and_troubleshooting_triggered();
     void on_actionView_As_Tree_triggered();
@@ -111,9 +115,11 @@ private:
     Ui::MainWindow *ui;
 
     ProjectData *_projectData;
+
     QUndoStack *_undoStack;
+    FileHandler *fileHandler;
     StartupDialog *startupDialog;
-    DlgFileHandler *fileHandler;
+    DlgProgressLogger *progressLogger;
     DlgPdfExporter *pdfExporter;
 
     QStringList _lastUsedFileNames;

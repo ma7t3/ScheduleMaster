@@ -26,20 +26,19 @@
 #include "Commands/Cmdgeneral.h"
 #include "Mainwindow.h"
 
-#include "App/global.h"
 #include "localconfig.h"
-//#include "globalconfig.h"
 #include "AppInfo.h"
+
 #include "ui_Mainwindow.h"
 
-#include "Widgets/wdgschedule.h"
+//#include "Widgets/wdgschedule.h"
 
 #include "Dialogs/DlgStartupdialog.h"
 #include "Dialogs/DlgProjecttreeviewer.h"
 #include "Dialogs/DlgTroubleshooter.h"
 #include "Dialogs/DlgProjectsettings.h"
 #include "Dialogs/DlgPreferences.h"
-#include "Widgets/WdgFootnotes.h"
+//#include "Widgets/WdgFootnotes.h"
 #include "Dialogs/DlgOmsiImport.h"
 #include "Dialogs/DlgChangelog.h"
 
@@ -51,10 +50,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow),
-    _projectData(new ProjectData),
+    _projectData(new ProjectData(this)),
     _undoStack(new QUndoStack),
-    startupDialog(new StartupDialog),
-    fileHandler(new DlgFileHandler(this, _projectData)),
+    fileHandler(new FileHandler(this)),
+    startupDialog(new StartupDialog(parent)),
+    progressLogger(new DlgProgressLogger(this)),
     pdfExporter(new DlgPdfExporter(this, _projectData)),
     knownFile(false)
 {
@@ -105,6 +105,30 @@ MainWindow::MainWindow(QWidget *parent)
         }
     }
     LocalConfig::setCrashDetected(true);
+
+    connect(fileHandler, &FileHandler::actionStarted, progressLogger, &DlgProgressLogger::addEntry);
+    connect(fileHandler, &FileHandler::finished, this, &MainWindow::handleFileHandlerResult);
+
+    connect(fileHandler, &FileHandler::openFileError, this, &MainWindow::handleFileHandlerFileError);
+    connect(fileHandler, &FileHandler::saveFileError, this, &MainWindow::handleFileHandlerFileError);
+
+    connect(fileHandler, &FileHandler::unknownVersionDetected, this, &MainWindow::handleFileHandlerFileUnkownVersionWarning);
+    connect(fileHandler, &FileHandler::oldVersionDetected, this, &MainWindow::handleFileHandlerFileOldVersionWarning);
+
+    connect(_projectData, &ProjectData::loadingProgressMaxValue, progressLogger, &DlgProgressLogger::setProgressMaximum);
+    connect(_projectData, &ProjectData::loadingProgressUpdated, progressLogger, &DlgProgressLogger::setProgressValue);
+    connect(_projectData, &ProjectData::loadingProgressTextUpdated, progressLogger, [&](const int &type, const QString &message, const bool &showAsCurrent = false){
+        DlgProgressLogger::EntryType enumType;
+        switch(type) {
+            case 0: enumType = DlgProgressLogger::SuccessType;  break;
+            case 1: enumType = DlgProgressLogger::InfoType;     break;
+            case 2: enumType = DlgProgressLogger::WarningType;  break;
+            case 3: enumType = DlgProgressLogger::ErrorType;    break;
+            case 4: enumType = DlgProgressLogger::CriticalType; break;
+        }
+
+        progressLogger->addEntry(enumType, message, showAsCurrent);
+    });
 
 #ifndef QT_DEBUG
     QThread::sleep(2);
@@ -352,15 +376,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     qInfo() << "loading last used files...";
     splashScreen.showMessage(tr("loading last used files..."), Qt::AlignBottom, messageColor);
-    /*QList<QAction *> actions;
-    QStringList lastUsedFiles = LocalConfig::lastUsedFiles();
-
-    foreach(QString path, lastUsedFiles) {
-        QFileInfo fi(path);
-        QAction *action = new QAction(fi.fileName(), this);
-        actions << action;
-    }
-    ui->menuOpenRecent->addActions(actions);*/
 
     refreshLastUsedFiles();
 
@@ -368,15 +383,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     showMaximized();
 
-
     qInfo() << "loading startup dialog";
     splashScreen.close();
     startupDialog->show();
     connect(startupDialog, &QDialog::finished, this, &MainWindow::startupDialogHandler);
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     LocalConfig::setCrashDetected(false);
     delete ui;
 }
@@ -862,73 +875,86 @@ void MainWindow::setSaved(bool b) {
 bool MainWindow::openFile(QString path) {
     ui->statusbar->showMessage(tr("Opening project file..."));
 
-    QFile f(path);
-    QFileInfo fi(path);
+    _projectData->setParent(nullptr);
+    _projectData->moveToThread(fileHandler);
 
-    if(!f.exists()) {
-        QMessageBox::warning(this, tr("File not found"), tr("<p>The given file was not found!</p>"));
-        qWarning() << "File \"" << path << "\" was not found!";
-        actionFileOpen();
-        return false;
-    }
+    fileHandler->setAction(FileHandler::ReadFileAction);
+    fileHandler->setFilePath(path);
 
-    QTextStream s(&f);
+    progressLogger->setWindowTitle(tr("Reading file..."));
+    progressLogger->show();
 
-    if(!f.open(QIODevice::ReadOnly)) {
-        QMessageBox::warning(this, tr("Failed reading file"), tr("<p><b>Could not read file:</b></p><p>%1</p>").arg(fi.fileName()));
-        qWarning() << "Failed reading file \"" << path << "\"!";
-        actionFileOpen();
-        return false;
-    }
-
-    f.close();
-
-    qDebug() << "loading file handler...";
-    fileHandler->show();
-    qApp->processEvents();
-    fileHandler->readFromFile(path);
-
-    qDebug() << "refreshing ui...";
-    wdgBusstops->refreshBusstopList();
-    wdgLines->refresh();
-    wdgTours->refresh();
-    wdgSchedule->refreshDayTypes();
-    wdgPublishedLines->refreshLineList();
-    wdgPublishedLines->refreshDayTypes();
-    wdgPublishedLines->refreshRoutes();
-    wdgFootnotes->refreshFootnotes();
-
-    _undoStack->clear();
-    knownFile = true;
-    setSaved(true);
-    _projectData->setFilePath(path);
-    ui->statusbar->showMessage(path);
-    LocalConfig::addLastUsedFile(path);
-    refreshLastUsedFiles();
-    return true;
+    fileHandler->start();
+    return fileHandler->success();
 }
 
 bool MainWindow::saveFile(QString path) {
-    QFile f(path);
-    QFileInfo fi(path);
-    QTextStream s(&f);
+    ui->statusbar->showMessage(tr("Saving project file..."));
 
+    _projectData->setParent(nullptr);
+    _projectData->moveToThread(fileHandler);
 
-    if(!f.open(QIODevice::WriteOnly)) {
-        if(knownFile)
-            QMessageBox::warning(this, tr("Failed writing file"), tr("<p><b>Could not write to file:</b></p><p>%1</p>").arg(fi.fileName()));
-        actionFileSaveAs();
-        return false;
+    fileHandler->setAction(FileHandler::SaveFileAction);
+    fileHandler->setFilePath(path);
+
+    progressLogger->setWindowTitle(tr("Saving file..."));
+    progressLogger->show();
+
+    fileHandler->start();
+    return fileHandler->success();
+}
+
+void MainWindow::handleFileHandlerFileError(const QString &filePath, const QString errorString) {
+    if(fileHandler->action() == FileHandler::ReadFileAction)
+        QMessageBox::warning(this, tr("Couldn't open file"), tr("<p><b>The file couldn't be opened:</b></p><p>%1</p><p>%2</p>").arg(filePath).arg(errorString));
+    else if(fileHandler->action() == FileHandler::SaveFileAction)
+        QMessageBox::warning(this, tr("Couldn't save file"), tr("<p><b>The file couldn't be saved:</b></p><p>%1</p><p>%2</p>").arg(filePath).arg(errorString));
+}
+
+void MainWindow::handleFileHandlerFileOldVersionWarning(AppInfo::AppVersion *version) {
+    QMessageBox::warning(this, tr("File format changed"), tr("<p><b>This file was created in an older version of ScheduleMaster that used a different file format!</b></p><p>We'll try to convert it to the current format automatically but it's recommended to create a backup of your original file to avoid data loss!</p><p><table><tr><td><b>Current version:</b></td><td>%1</td></tr><tr><td><b>File version:</b></td><td>%2</td></tr></table></p>").arg(AppInfo::currentVersion()->name(), version->name()));
+}
+
+void MainWindow::handleFileHandlerFileUnkownVersionWarning() {
+    QMessageBox::warning(this, tr("File format changed"), tr("<p><b>This file was created in an unkown version of ScheduleMaster!</b></p><p>We'll try to open the file anyway but it's recommended to create a backup of your original file to avoid data loss!</p>"));
+}
+
+void MainWindow::handleFileHandlerResult() {
+    _projectData->setParent(this);
+    if(!fileHandler->success()) {
+        progressLogger->finish();
+        return;
     }
 
-    f.close();
+    QString filePath = fileHandler->filePath();
 
-    fileHandler->saveToFile(path);
+    if(fileHandler->action() == FileHandler::ReadFileAction) {
+        progressLogger->addEntry(DlgProgressLogger::InfoType, tr("Updating ui"), true);
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+        qApp->processEvents();
+        qDebug() << "refreshing ui...";
+        wdgBusstops->refreshBusstopList();
+        wdgLines->refresh();
+        wdgTours->refresh();
+        wdgSchedule->refreshDayTypes();
+        wdgPublishedLines->refreshLineList();
+        wdgPublishedLines->refreshDayTypes();
+        wdgPublishedLines->refreshRoutes();
+        wdgFootnotes->refreshFootnotes();
+        _projectData->setFilePath(filePath);
+        ui->statusbar->showMessage(filePath);
+        LocalConfig::addLastUsedFile(filePath);
+        _undoStack->clear();
+        refreshLastUsedFiles();
+        QApplication::restoreOverrideCursor();
+    } else if(fileHandler->action() == FileHandler::SaveFileAction) {
+        _undoStack->setClean();
+        ui->statusbar->showMessage(tr("File saved!"), 5000);
+    }
 
-    _undoStack->setClean();
+    setSaved(true);
     knownFile = true;
-    ui->statusbar->showMessage(tr("File saved!"), 5000);
-    return true;
+    progressLogger->finish();
 }
 
 /*void MainWindow::reviceDataFromFileHandler() {
