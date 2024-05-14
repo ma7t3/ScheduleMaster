@@ -295,10 +295,7 @@ MainWindow::MainWindow(QWidget *parent) :
     qInfo() << "loading signals and slots...";
     splashScreen.showMessage(tr("loading signals and slots..."), Qt::AlignBottom, messageColor);
 
-    qDebug() << "\tlines";
-    connect(ui->actionLinesNew,                    &QAction::triggered,                    wdgLines,           &WdgLines::actionNew);
-    connect(ui->actionLinesEdit,                   &QAction::triggered,                    wdgLines,           &WdgLines::actionEdit);
-    connect(ui->actionLinesDelete,                 &QAction::triggered,                    wdgLines,           &WdgLines::actionDelete);
+    connect(wdgBusstops, &WdgBusstops::busstopScheduleRequested, this, &MainWindow::actionOpenBusstopSchedule);
 
     qDebug() << "\troutes";
     connect(ui->actionRoutesNew,                   &QAction::triggered,                    wdgRoutes,          &WdgRoutes::actionNew);

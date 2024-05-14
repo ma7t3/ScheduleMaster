@@ -17,9 +17,10 @@ WdgBusstops::WdgBusstops(QWidget *parent) :
     projectData(((MainWindow *)parent)->projectData()) {
     ui->setupUi(this);
 
-    _actionNew = ui->twBusstops->addAction(QIcon(":/icons/Add.ico"),       tr("New"));
-    _actionEdit = ui->twBusstops->addAction(QIcon(":/icons/Edit.ico"),     tr("Edit"));
-    _actionDelete = ui->twBusstops->addAction(QIcon(":/icons/Delete.ico"), tr("Delete"));
+    _actionNew          = ui->twBusstops->addAction(QIcon(":/icons/Add.ico"),             tr("New"));
+    _actionEdit         = ui->twBusstops->addAction(QIcon(":/icons/Edit.ico"),            tr("Edit"));
+    _actionDelete       = ui->twBusstops->addAction(QIcon(":/icons/Delete.ico"),          tr("Delete"));
+    _actionViewSchedule = ui->twBusstops->addAction(QIcon(":/icons/BusstopSchedule.ico"), tr("View Schedule"));
 
     _actionEdit->setDisabled(true);
     _actionDelete->setDisabled(true);
@@ -30,21 +31,26 @@ WdgBusstops::WdgBusstops(QWidget *parent) :
     _actionDelete->setShortcut(QKeySequence::Delete);
     _actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
+    _actionViewSchedule->setShortcuts({QKeySequence(tr("Alt+Enter")), QKeySequence(tr("Alt+Return"))});
+    _actionViewSchedule->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
     ui->twBusstops->setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    connect(_actionNew,          &QAction::triggered, this, &WdgBusstops::actionNew);
-    connect(_actionEdit,         &QAction::triggered, this, &WdgBusstops::actionEdit);
-    connect(_actionDelete,       &QAction::triggered, this, &WdgBusstops::actionDelete);
+    connect(_actionNew,          &QAction::triggered,              this,                &WdgBusstops::actionNew);
+    connect(_actionEdit,         &QAction::triggered,              this,                &WdgBusstops::actionEdit);
+    connect(_actionDelete,       &QAction::triggered,              this,                &WdgBusstops::actionDelete);
 
-    connect(_actionNew,          &QAction::enabledChanged, ui->pbBusstopNew,    &QPushButton::setEnabled);
-    connect(_actionEdit,         &QAction::enabledChanged, ui->pbBusstopEdit,   &QPushButton::setEnabled);
-    connect(_actionDelete,       &QAction::enabledChanged, ui->pbBusstopDelete, &QPushButton::setEnabled);
+    connect(_actionNew,          &QAction::enabledChanged,         ui->pbBusstopNew,    &QPushButton::setEnabled);
+    connect(_actionEdit,         &QAction::enabledChanged,         ui->pbBusstopEdit,   &QPushButton::setEnabled);
+    connect(_actionDelete,       &QAction::enabledChanged,         ui->pbBusstopDelete, &QPushButton::setEnabled);
 
-    connect(ui->pbBusstopNew,    &QPushButton::clicked, this, &WdgBusstops::actionNew);
-    connect(ui->pbBusstopEdit,   &QPushButton::clicked, this, &WdgBusstops::actionEdit);
-    connect(ui->twBusstops,      &QTableWidget::cellDoubleClicked, this, &WdgBusstops::actionEdit);
-    connect(ui->pbBusstopDelete, &QPushButton::clicked, this, &WdgBusstops::actionDelete);
-    connect(ui->leBusstopSearch, &QLineEdit::textChanged, this, &WdgBusstops::refreshBusstopList);
+    connect(ui->pbBusstopNew,    &QPushButton::clicked,            this,                &WdgBusstops::actionNew);
+    connect(ui->pbBusstopEdit,   &QPushButton::clicked,            this,                &WdgBusstops::actionEdit);
+    connect(ui->twBusstops,      &QTableWidget::cellDoubleClicked, this,                &WdgBusstops::actionEdit);
+    connect(ui->pbBusstopDelete, &QPushButton::clicked,            this,                &WdgBusstops::actionDelete);
+    connect(ui->leBusstopSearch, &QLineEdit::textChanged,          this,                &WdgBusstops::refreshBusstopList);
+
+    connect(_actionViewSchedule, &QAction::triggered,              this,                [this](){emit if(_currentBusstop && projectData->projectSettings()->dayTypeCount() > 0) busstopScheduleRequested(_currentBusstop, {}, projectData->projectSettings()->dayTypeAt(0));});
 
     ui->twBusstops->verticalHeader()->setVisible(false);
     ui->twBusstops->setEditTriggers(QTableWidget::NoEditTriggers);

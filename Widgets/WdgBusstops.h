@@ -37,6 +37,7 @@ private slots:
 signals:
     void currentBusstopChanged(Busstop *);
     void refreshRequested();
+    void busstopScheduleRequested(Busstop *, QList<Route *>, DayType *);
 
 private:
     Ui::WdgBusstops *ui;
@@ -46,10 +47,10 @@ private:
 
     bool _refreshing = false;
 
-    QAction *_actionNew = nullptr;
-    QAction *_actionEdit = nullptr;
-    QAction *_actionDelete = nullptr;
-    QAction *_actionExportList = nullptr;
+    QAction *_actionNew;
+    QAction *_actionEdit;
+    QAction *_actionDelete;
+    QAction *_actionViewSchedule;
 };
 
 #endif // WDGBUSSTOPS_H
