@@ -13,12 +13,13 @@ SOURCES += \
     AppInfo.cpp \
     Dialogs/DlgChangelog.cpp \
     Dialogs/DlgCopyTrip.cpp \
-    Dialogs/DlgFilehandler.cpp \
     Dialogs/DlgFootnoteEditor.cpp \
     Dialogs/DlgOmsiImport.cpp \
     Dialogs/DlgPdfExporter.cpp \
     Dialogs/DlgPreferences.cpp \
+    Dialogs/DlgProgressLogger.cpp \
     Dialogs/DlgProjectsettings.cpp \
+    ProjectData/FileHandler.cpp \
     Widgets/WdgChangelogBrowser.cpp \
     Widgets/WdgFootnotes.cpp \
     Mainwindow.cpp \
@@ -79,13 +80,14 @@ HEADERS += \
     Commands/CmdTours.h \
     Dialogs/DlgChangelog.h \
     Dialogs/DlgCopyTrip.h \
-    Dialogs/DlgFileHandler.h \
     Dialogs/DlgFootnoteEditor.h \
     Dialogs/DlgOmsiImport.h \
     Dialogs/DlgPdfExporter.h \
     Dialogs/DlgPreferences.h \
+    Dialogs/DlgProgressLogger.h \
     Dialogs/DlgProjectsettings.h \
     Mainwindow.h \
+    ProjectData/FileHandler.h \
     ProjectData/daytype.h \
     ProjectData/footnote.h \
     ProjectData/linedirection.h \
@@ -133,8 +135,8 @@ HEADERS += \
 FORMS += \
     Dialogs/DlgChangelog.ui \
     Dialogs/DlgCopyTrip.ui \
-    Dialogs/DlgFileHandler.ui \
     Dialogs/DlgFootnoteEditor.ui \
+    Dialogs/DlgProgressLogger.ui \
     Widgets/WdgFootnotes.ui \
     Dialogs/DlgOmsiImport.ui \
     Dialogs/DlgPdfExporter.ui \
