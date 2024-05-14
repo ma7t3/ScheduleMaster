@@ -73,7 +73,7 @@ void DlgProgressLogger::addEntry(const EntryType &type,
 
     case CriticalType:
         icon = QIcon(":/icons/error.ico");
-        typeStr = tr("Ciritical:");
+        typeStr = tr("Critical:");
         break;
     }
 
