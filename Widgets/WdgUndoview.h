@@ -13,7 +13,7 @@ class WdgUndoView : public QWidget
     Q_OBJECT
 
 public:
-    explicit WdgUndoView(QWidget *parent = nullptr, QUndoStack *undoStack = nullptr);
+    explicit WdgUndoView(QWidget *parent = nullptr);
     ~WdgUndoView();
 
 private:

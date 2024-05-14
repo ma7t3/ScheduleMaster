@@ -12,9 +12,7 @@
 #include "AppInfo.h"
 
 
-int main(int argc, char *argv[])
-{
-    //qDebug() << "Opened File: " << argv[1];
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     LocalConfig localConfig(&a);

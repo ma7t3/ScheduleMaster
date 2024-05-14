@@ -124,7 +124,7 @@ private:
     QStringList _lastUsedFileNames;
     QList<QAction *> _lastUsedFileActions;
 
-    WdgUndoView *wdgUndoView = new WdgUndoView(this, undoStack());
+    WdgUndoView *wdgUndoView = new WdgUndoView(this);
     WdgBusstops *wdgBusstops = new WdgBusstops(this);
     WdgLines *wdgLines = new WdgLines(this, _projectData, undoStack());
     WdgRoutes *wdgRoutes = new WdgRoutes(this, _projectData, undoStack());
