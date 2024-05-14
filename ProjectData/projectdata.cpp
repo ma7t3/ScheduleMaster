@@ -7,6 +7,10 @@ ProjectData::ProjectData(QObject *parent) :
     _publications(new Publications(this))
 {}
 
+ProjectData::~ProjectData() {
+
+}
+
 ProjectSettings *ProjectData::projectSettings() { return _projectSettings; }
 
 void ProjectData::reset() {
@@ -653,41 +657,60 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
     jTours = jsonObject.value("tours").toArray();
     jFootnotes = jsonObject.value("footnotes").toArray();
 
+    int totalCount = jBusstops.count() +
+                     jLines.count() +
+                     jTours.count() +
+                     jFootnotes.count();
+
+    emit loadingProgressMaxValue(totalCount);
+
+    emit loadingProgressTextUpdated(1, tr("Reading busstops..."), true);
     int counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jBusstops.count(); ++i)
+    for(int i = 0; i < jBusstops.count(); ++i) {
         if(jBusstops[i].isObject()) {
             counter++;
             addBusstop(newBusstop(jBusstops[i].toObject()));
         } else invalidCounter++;
+        if(i % 10 == 0) emit loadingProgressUpdated(i + 1);
+    }
 
     qInfo().noquote() << counter << "valid busstops found (" + QString::number(invalidCounter) + " invalid)";
 
+    emit loadingProgressTextUpdated(1, tr("Reading lines..."), true);
     counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jLines.count(); ++i)
+    for(int i = 0; i < jLines.count(); ++i) {
         if(jLines[i].isObject()) {
             counter++;
             addLine(newLine(jLines[i].toObject()));
         } else invalidCounter++;
+        if(i % 10 == 0) emit loadingProgressUpdated(i + 1 + jBusstops.count());
+    }
 
     qInfo().noquote() << counter << "valid lines found (" + QString::number(invalidCounter) + " invalid)";
-
+    emit loadingProgressTextUpdated(1, tr("Reading tours..."), true);
     counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jTours.count(); ++i)
+    for(int i = 0; i < jTours.count(); ++i) {
         if(jTours[i].isObject()) {
             counter++;
             addTour(newTour(jTours[i].toObject()));
         } else invalidCounter++;
+        if(i % 10 == 0) emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count());
+    }
 
     qInfo().noquote() << counter << "valid tours found (" + QString::number(invalidCounter) + " invalid)";
-
+    emit loadingProgressTextUpdated(1, tr("Reading footnotes..."), true);
     counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jFootnotes.count(); ++i)
+    for(int i = 0; i < jFootnotes.count(); ++i) {
         if(jFootnotes[i].isObject()) {
             counter++;
             addFootnote(newFootnote(jFootnotes[i].toObject()));
         } else invalidCounter++;
+        if(i % 10 == 0) emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count() + jTours.count());
+    }
 
     qInfo().noquote() << counter << "valid footnotes found (" + QString::number(invalidCounter) + " invalid)";
+
+    emit loadingProgressUpdated(totalCount);
 
     projectSettings()->setJson(jsonObject.value("projectSettings").toObject());
     publications()->setJson(jsonObject.value("publications").toObject());

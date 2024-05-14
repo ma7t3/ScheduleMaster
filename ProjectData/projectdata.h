@@ -118,6 +118,12 @@ public:
     Footnote *newFootnote(const QJsonObject &);
     Footnote *newFootnote(const Footnote &newFootnote);
 
+signals:
+    void test();
+    void loadingProgressMaxValue(const int &maxValue);
+    void loadingProgressUpdated(const int &currentValue);
+    void loadingProgressTextUpdated(const int &type, const QString &message, const bool &showAsCurrent = false);
+
 private:
     QString _filePath;
     ProjectSettings *_projectSettings;

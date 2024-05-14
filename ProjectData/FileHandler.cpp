@@ -6,38 +6,45 @@
 
 FileHandler::FileHandler(QObject *parent) :
     QThread(parent),
-    projectData(((MainWindow *)parent)->projectData()){
-    qDebug() << projectData;
+    projectData(((MainWindow *)parent)->projectData()),
+    _succes(true) {
 }
 
 void FileHandler::run() {
     if(_action == ReadFileAction)
-        readFile();
+        _succes = readFile();
     else if(_action == SaveFileAction)
-        saveFile();
+        _succes = saveFile();
+
+    projectData->moveToThread(qApp->thread());
+}
+
+FileHandler::Action FileHandler::action() const {
+    return _action;
 }
 
 void FileHandler::setAction(const Action &action) {
     _action = action;
 }
 
+QString FileHandler::filePath() const {
+    return _filePath;
+}
+
 void FileHandler::setFilePath(const QString &path) {
     _filePath = path;
 }
 
-void FileHandler::readFile() {
+bool FileHandler::success() const {
+    return _succes;
+}
+
+bool FileHandler::readFile() {
     QFile f(_filePath);
-
-    if(!f.exists()) {
-        emit actionStarted(DlgProgressLogger::CriticalType, tr("couldn't load project - file not found: ") + _filePath);
-        qWarning() << "File" << _filePath << "was not found!";
-        return;
-    }
-
     if(!f.open(QIODevice::ReadOnly)) {
-        emit actionStarted(DlgProgressLogger::CriticalType, tr("couldn't load project - couldn't open file: ") + _filePath);
-        qWarning() << "Failed reading file" << _filePath << "!";
-        return;
+        qWarning() << "Failed reading file" << _filePath << "! Reason:" << f.errorString();
+        emit openFileError(_filePath, f.errorString());
+        return false;
     }
 
     emit actionStarted(DlgProgressLogger::InfoType, tr("reading file..."), true);
@@ -49,7 +56,7 @@ void FileHandler::readFile() {
     if(dataSize < 4) {
         emit actionStarted(DlgProgressLogger::CriticalType, tr("Cannot read file - no valid file header found"));
         qCritical() << "Cannot read file - no valid file header found";
-        return;
+        return false;
     }
 
     QByteArray header = data.left(4);
@@ -66,7 +73,7 @@ void FileHandler::readFile() {
     if(!jDoc.isObject()) {
         emit actionStarted(DlgProgressLogger::CriticalType, tr("couldn't load project - file is not a valid json object"));
         qCritical() << "couldn't load file - no valid json object found!";
-        return;
+        return false;
     }
 
     emit actionStarted(DlgProgressLogger::SuccessType, tr("read file - %1 bytes").arg(dataSize));
@@ -80,25 +87,28 @@ void FileHandler::readFile() {
         const QString appVersionName = jMainObj.value("_fileInfo").toObject().value("appVersion").toString();
         AppInfo::AppVersion *version = AppInfo::version(appVersionName);
         if(!version) {
-            //QMessageBox::warning(this, tr("File format changed"), tr("<p><b>This file was created in an unkown version of ScheduleMaster!</b></p><p>We'll try to open the file anyway but it's recommended to create a backup of your original file to avoid data loss!</p>"));
             emit unknownVersionDetected();
         } else {
             if(AppInfo::fileFormatChangesSinceVersion(version)) {
-                //QMessageBox::warning(this, tr("File format changed"), tr("<p><b>This file was created in an older version of ScheduleMaster that used a different file format!</b></p><p>We'll try to convert it to the current format automatically but it's recommended to create a backup of your original file to avoid data loss!</p><p><table><tr><td><b>Current version:</b></td><td>%1</td></tr><tr><td><b>File version:</b></td><td>%2</td></tr></table></p>").arg(AppInfo::currentVersion()->name(), version->name()));
                 emit oldVersionDetected(version);
             }
         }
     }
 
-    qDebug() << QThread::currentThread();
-
     projectData->setJson(jMainObj);
     emit actionStarted(DlgProgressLogger::SuccessType, tr("project loaded!"));
 
-    return;
+    return true;
 }
 
-void FileHandler::saveFile() {
+bool FileHandler::saveFile() {
+    QFile f(_filePath);
+    if(!f.open(QIODevice::WriteOnly)) {
+        qWarning() << "Failed reading file" << _filePath << "! Reason:" << f.errorString();
+        emit saveFileError(_filePath, f.errorString());
+        return false;
+    }
+
     bool compress = _filePath.endsWith(".smp");
     QJsonObject jFileInfo;
     jFileInfo.insert("appVersion", AppInfo::currentVersion() ? AppInfo::currentVersion()->name() : "UNKNOWN");
@@ -120,14 +130,6 @@ void FileHandler::saveFile() {
 
 
     // write to file
-    QFile f(_filePath);
-
-    if(!f.open(QIODevice::WriteOnly)) {
-        emit actionStarted(DlgProgressLogger::InfoType, tr("couldn't write to file: %1").arg(f.errorString()));
-        qCritical() << "Can not write to file:" << f.errorString();
-        return;
-    }
-
     emit actionStarted(DlgProgressLogger::InfoType, tr("writing file..."), true);
     qInfo() << "writing file...";
 
@@ -135,4 +137,5 @@ void FileHandler::saveFile() {
     f.close();
     emit actionStarted(DlgProgressLogger::SuccessType, tr("saved file"));
     qInfo() << "saved data to file.";
+    return true;
 }
