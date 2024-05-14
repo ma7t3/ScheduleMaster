@@ -47,9 +47,9 @@
 // Constructor, Destructor, Overwrites (CloseEvent e.g.)
 //********************************************************************************************************************************************************************
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow),
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow),
     _projectData(new ProjectData(this)),
     fileHandler(new FileHandler(this)),
     startupDialog(new StartupDialog(parent)),

@@ -1,10 +1,12 @@
 #include "wdgundoview.h"
 #include "ui_wdgundoview.h"
 
-WdgUndoView::WdgUndoView(QWidget *parent, QUndoStack *undoStack) :
+#include "Mainwindow.h"
+
+WdgUndoView::WdgUndoView(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgUndoView),
-    undoStack(undoStack)
+    undoStack(((MainWindow *)parent)->undoStack())
 {
     ui->setupUi(this);
     ui->undoView->setStack(undoStack);
