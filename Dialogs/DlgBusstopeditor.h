@@ -2,8 +2,9 @@
 #define BUSSTOPEDITOR_H
 
 #include <QDialog>
-
 #include <QCloseEvent>
+
+#include "ProjectData/busstop.h"
 
 namespace Ui {
 class busstopEditor;
@@ -14,23 +15,18 @@ class busstopEditor : public QDialog
     Q_OBJECT
 
 public:
-    explicit busstopEditor(QWidget *parent = nullptr, bool m = true, QString = "", bool = false);
+    explicit busstopEditor(QWidget *parent, Busstop, bool createMode = false);
     ~busstopEditor();
 
-    void setName(QString);
-    void setImportant(bool);
+    void setCreateNewMode(const bool &);
 
-    QString name();
-    bool isImportant();
-
-    void setCreateNewMode(bool);
-
-private slots:
-    void on_busstopEditor_accepted();
+    Busstop busstop() const;
+    void setBusstop(const Busstop &);
 
 private:
     Ui::busstopEditor *ui;
 
+    Busstop _busstop;
     bool createNewMode;
 };
 
