@@ -5,54 +5,35 @@
 
 #include <QCloseEvent>
 
-busstopEditor::busstopEditor(QWidget *parent, bool m, QString n, bool i) :
+busstopEditor::busstopEditor(QWidget *parent, Busstop busstop, bool createMode) :
     QDialog(parent),
     ui(new Ui::busstopEditor),
-    createNewMode(m)
-{
+    _busstop(busstop),
+    createNewMode(createMode) {
     ui->setupUi(this);
-    ui->leName->setText(n);
-    ui->cbImportant->setChecked(i);
 
-    setCreateNewMode(m);
-
+    setCreateNewMode(createMode);
+    setBusstop(busstop);
     ui->leName->setFocus();
 }
-busstopEditor::~busstopEditor()
-{
+busstopEditor::~busstopEditor() {
     delete ui;
 }
 
-
-void busstopEditor::setName(QString name)
-{
-    ui->leName->setText(name);
-}
-
-void busstopEditor::setImportant(bool important)
-{
-    ui->cbImportant->setChecked(important);
-}
-
-QString busstopEditor::name()
-{
-    return ui->leName->text();
-}
-
-bool busstopEditor::isImportant()
-{
-    return ui->cbImportant->isChecked();
-}
-
-void busstopEditor::setCreateNewMode(bool createNewMode)
-{
+void busstopEditor::setCreateNewMode(const bool &createNewMode) {
     if(createNewMode)
         this->setWindowTitle(tr("Create busstop"));
 }
 
-void busstopEditor::on_busstopEditor_accepted()
-{
-    if(ui->leName->text() == "")
-        QMessageBox::warning(this, tr("Error"), tr("No name given. Busstop was not saved!"));
+Busstop busstopEditor::busstop() const {
+    Busstop b = _busstop;
+    b.setName(ui->leName->text());
+    b.setImportant(ui->cbImportant->isChecked());
+    return b;
 }
 
+void busstopEditor::setBusstop(const Busstop &b) {
+    _busstop = b;
+    ui->leName->setText(b.name());
+    ui->cbImportant->setChecked(b.isImportant());
+}

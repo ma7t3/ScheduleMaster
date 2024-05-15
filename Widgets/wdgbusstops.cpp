@@ -167,21 +167,16 @@ Busstop *WdgBusstops::currentBusstop() {
 }
 
 void WdgBusstops::actionNew() {
-    busstopEditor dlg;
-    dlg.exec();
-
-    if(dlg.result() != QDialog::Accepted)
-        return;
-
-    QString name = dlg.name();
-    bool important = dlg.isImportant();
-
-    if(name == "")
-        return;
-
     Busstop *b = projectData->newBusstop();
-    b->setName(name);
-    b->setImportant(important);
+
+    busstopEditor dlg(this, *b, true);
+    if(dlg.exec() != QDialog::Accepted) {
+        delete b;
+        return;
+    }
+
+    *b = dlg.busstop();
+
     projectData->undoStack()->push(new CmdBusstopNew(projectData, b));
     emit refreshRequested();
 }
@@ -190,25 +185,11 @@ void WdgBusstops::actionEdit() {
     if(!_currentBusstop)
         return;
 
-    QString name = _currentBusstop->name();
-    bool important = _currentBusstop->isImportant();
-
-    busstopEditor dlg(this, false, name, important);
-    dlg.exec();
-
-    if(dlg.result() != QDialog::Accepted)
+    busstopEditor dlg(this, *_currentBusstop, false);
+    if(dlg.exec() != QDialog::Accepted)
         return;
 
-    QString newName = dlg.name();
-    bool newImportant = dlg.isImportant();
-
-    if(newName == "")
-        return;
-
-    Busstop newB(*_currentBusstop);
-
-    newB.setName(newName);
-    newB.setImportant(newImportant);
+    Busstop newB = dlg.busstop();
 
     projectData->undoStack()->push(new CmdBusstopEdit(_currentBusstop, newB));
     emit refreshRequested();
