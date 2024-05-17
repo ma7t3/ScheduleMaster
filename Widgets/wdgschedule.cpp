@@ -308,8 +308,10 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     itmFootnotes->setText(footnotesStrList.join(", "));
     itmFootnotes->setToolTip(!footnotes.isEmpty() ? footnotesToolTipStr + "</table></body></html>" : "");
 
-    if(!footnotesStrList.isEmpty())
+    if(!footnotesStrList.isEmpty()) {
         itmFootnotes->setBackground(Qt::yellow);
+        itmFootnotes->setForeground(Qt::black);
+    }
 
     //------------------------------
 
