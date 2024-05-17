@@ -16,10 +16,13 @@ class DlgLineEditor : public QDialog
     Q_OBJECT
 
 public:
-    explicit DlgLineEditor(QWidget *parent = nullptr, Line l = Line(nullptr, ProjectDataItem::getNewID()));
+    explicit DlgLineEditor(QWidget *parent, Line *, bool createMode = false);
     ~DlgLineEditor();
 
-    Line line();
+    void setCreateMode(const bool &);
+
+    Line line() const;
+    void setLine(const Line &);
 
 private slots:
     void on_pbColor_clicked();
@@ -35,6 +38,7 @@ private slots:
 private:
     Ui::DlgLineEditor *ui;
     Line _line;
+    Line *_linePtr;
 };
 
 #endif // LINEEDITOR_H

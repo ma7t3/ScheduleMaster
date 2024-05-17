@@ -50,6 +50,7 @@ void Line::copy(const Line &other) {
             newDirections << ld;
         }
     }
+
     setDirections(newDirections);
 
     QList<Route *> newRoutes;
@@ -131,17 +132,6 @@ QJsonObject Line::toJson() const {
     jsonObject.insert("trips", jTrips);
 
     return jsonObject;
-}
-
-void Line::refreshChilds() {
-    foreach(LineDirection *ld, _directions)
-        ld->setParent(this);
-
-    foreach(Route *r, _routes)
-        r->setParent(this);
-
-    foreach(Trip *t, _trips)
-        t->setParent(this);
 }
 
 QString Line::name() const {
@@ -431,6 +421,14 @@ LineDirection *Line::newDirection(const LineDirection &newDirection) {
     LineDirection *ld = new LineDirection(newDirection);
     ld->setParent(this);
     return ld;
+}
+
+QList<LineDirection *> Line::cloneDirections() const {
+    QList<LineDirection *> result;
+    for(int i = 0; i < directionCount(); i++)
+        result << new LineDirection(*directionAt(i));
+
+    return result;
 }
 
 Route *Line::newRoute(QString id) {

@@ -6,50 +6,55 @@
 #include <QInputDialog>
 
 
-DlgLineEditor::DlgLineEditor(QWidget *parent, Line l) :
+DlgLineEditor::DlgLineEditor(QWidget *parent, Line *line, bool createMode) :
     QDialog(parent),
     ui(new Ui::DlgLineEditor),
-    _line(l)
-{
+    _line(*line),
+    _linePtr(line) {
     ui->setupUi(this);
 
-    QObject::connect(ui->lwDirections, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(actionRenameDirection()));
-    QObject::connect(ui->pbDirectionNew, SIGNAL(clicked()), this, SLOT(actionNewDirection()));
-    QObject::connect(ui->pbDirectionRename, SIGNAL(clicked()), this, SLOT(actionRenameDirection()));
-    QObject::connect(ui->pbDirectionDelete, SIGNAL(clicked()), this, SLOT(actionDeleteDirection()));
+    setCreateMode(createMode);
+    setLine(*line);
 
-    QObject::connect(ui->pbDirectionUp, SIGNAL(clicked()), this, SLOT(actionDirectionUp()));
-    QObject::connect(ui->pbDirectionDown, SIGNAL(clicked()), this, SLOT(actionDirectionDown()));
+    connect(ui->pbDirectionNew,    &QPushButton::clicked,           this, &DlgLineEditor::actionNewDirection);
+    connect(ui->pbDirectionRename, &QPushButton::clicked,           this, &DlgLineEditor::actionRenameDirection);
+    connect(ui->lwDirections,      &QListWidget::itemDoubleClicked, this, &DlgLineEditor::actionRenameDirection);
+    connect(ui->pbDirectionDelete, &QPushButton::clicked,           this, &DlgLineEditor::actionDeleteDirection);
 
-    QList<LineDirection *> directions;
-    for(int i = 0; i < _line.directionCount(); i++) {
-        LineDirection *ld = new LineDirection(*_line.directionAt(i));
-        directions << ld;
-    }
-
-    _line.setDirections(directions);
-
-    ui->leName->setText(l.name());
-    ui->leDescription->setText(l.description());
-    QString hex = l.color().name(QColor::HexRgb);
-    ui->lColor->setStyleSheet("background-color: " + hex + ";");
-    ui->lColorName->setText(hex);
-
-    refreshDirections();
+    connect(ui->pbDirectionUp,     &QPushButton::clicked,           this, &DlgLineEditor::actionDirectionUp);
+    connect(ui->pbDirectionDown,   &QPushButton::clicked,           this, &DlgLineEditor::actionDirectionDown);
 
     ui->leName->setFocus();
 }
 
-DlgLineEditor::~DlgLineEditor()
-{
+DlgLineEditor::~DlgLineEditor() {
     delete ui;
 }
 
-Line DlgLineEditor::line() {
-    _line.setName(ui->leName->text());
-    _line.setDescription(ui->leDescription->text());
-    _line.setColor(QColor(ui->lColorName->text()));
-    return _line;
+void DlgLineEditor::setCreateMode(const bool &newCreateMode) {
+    if(newCreateMode)
+        setWindowTitle(tr("Create line"));
+}
+
+Line DlgLineEditor::line() const {
+    Line l = _line;
+    l.setName(ui->leName->text());
+    l.setDescription(ui->leDescription->text());
+    l.setColor(QColor(ui->lColorName->text()));
+    return l;
+}
+
+void DlgLineEditor::setLine(const Line &l) {
+    _line = l;
+    _line.setDirections(_linePtr->cloneDirections());
+
+    ui->leName->setText(_line.name());
+    ui->leDescription->setText(_line.description());
+    QString hex = _line.color().name(QColor::HexRgb);
+    ui->lColor->setStyleSheet("background-color: " + hex + ";");
+    ui->lColorName->setText(hex);
+
+    refreshDirections();
 }
 
 void DlgLineEditor::on_pbColor_clicked() {
@@ -70,7 +75,7 @@ void DlgLineEditor::actionNewDirection() {
     if(!ok || newName.isEmpty())
         return;
 
-    LineDirection *ld = new LineDirection(nullptr, global::getNewID());
+    LineDirection *ld = _linePtr->newDirection();
     ld->setDescription(newName);
     _line.addDirection(ld);
     ui->lwDirections->addItem(newName);
