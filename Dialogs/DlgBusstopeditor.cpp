@@ -8,8 +8,7 @@
 busstopEditor::busstopEditor(QWidget *parent, Busstop busstop, bool createMode) :
     QDialog(parent),
     ui(new Ui::busstopEditor),
-    _busstop(busstop),
-    createNewMode(createMode) {
+    _busstop(busstop) {
     ui->setupUi(this);
 
     setCreateNewMode(createMode);
@@ -22,7 +21,7 @@ busstopEditor::~busstopEditor() {
 
 void busstopEditor::setCreateNewMode(const bool &createNewMode) {
     if(createNewMode)
-        this->setWindowTitle(tr("Create busstop"));
+        setWindowTitle(tr("Create busstop"));
 }
 
 Busstop busstopEditor::busstop() const {

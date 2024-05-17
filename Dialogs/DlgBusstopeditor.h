@@ -25,9 +25,7 @@ public:
 
 private:
     Ui::busstopEditor *ui;
-
     Busstop _busstop;
-    bool createNewMode;
 };
 
 #endif // BUSSTOPEDITOR_H
