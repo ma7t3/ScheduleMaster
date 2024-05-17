@@ -124,9 +124,6 @@
     <property name="title">
      <string>Lines</string>
     </property>
-    <addaction name="actionLinesNew"/>
-    <addaction name="actionLinesEdit"/>
-    <addaction name="actionLinesDelete"/>
    </widget>
    <widget class="QMenu" name="menuRoutes">
     <property name="title">
@@ -319,39 +316,6 @@
    </property>
    <property name="shortcut">
     <string>Alt+2</string>
-   </property>
-  </action>
-  <action name="actionLinesNew">
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
-   </property>
-   <property name="text">
-    <string>New</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+L</string>
-   </property>
-  </action>
-  <action name="actionLinesEdit">
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/Edit.ico</normaloff>:/icons/Edit.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Edit</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+L</string>
-   </property>
-  </action>
-  <action name="actionLinesDelete">
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/Delete.ico</normaloff>:/icons/Delete.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Delete</string>
    </property>
   </action>
   <action name="actionRoutesNew">

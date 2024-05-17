@@ -126,7 +126,7 @@ private:
 
     WdgUndoView *wdgUndoView = new WdgUndoView(this);
     WdgBusstops *wdgBusstops = new WdgBusstops(this);
-    WdgLines *wdgLines = new WdgLines(this, _projectData, undoStack());
+    WdgLines *wdgLines = new WdgLines(this);
     WdgRoutes *wdgRoutes = new WdgRoutes(this, _projectData, undoStack());
     WdgSchedule *wdgSchedule = new WdgSchedule(this, _projectData, undoStack());
     WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, _projectData, undoStack());
