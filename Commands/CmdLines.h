@@ -59,11 +59,7 @@ public:
         line(l),
         oldL(*l),
         newL(newL) {
-        // copy directions
-        QList<LineDirection *> directionCopies;
-        for(int i = 0; i < oldL.directionCount(); i++)
-            directionCopies << line->newDirection(*oldL.directionAt(i));
-        oldL.setDirections(directionCopies);
+        oldL.setDirections(oldL.cloneDirections());
     }
 
     void undo() override {

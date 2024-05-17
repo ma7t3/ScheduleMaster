@@ -74,11 +74,11 @@ public:
 
     QJsonObject toJson() const;
 
-    void refreshChilds();
-
     LineDirection *newDirection(QString id = "");
     LineDirection *newDirection(const QJsonObject &obj);
     LineDirection *newDirection(const LineDirection &newDirection);
+
+    QList<LineDirection *> cloneDirections() const;
 
     Route *newRoute(QString id = "");
     Route *newRoute(const QJsonObject &obj);
