@@ -18,11 +18,6 @@ int main(int argc, char *argv[]) {
     LocalConfig localConfig(&a);
     AppInfo appInfo(&a);
 
-    if(LocalConfig::style() == LocalConfig::Fusion)
-        a.setStyle(QStyleFactory::create("Fusion"));
-    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
-        a.setStyle(QStyleFactory::create("Windows"));
-
     if(LocalConfig::crashDetected()) {
         const QDateTime dt(QDateTime::currentDateTime());
         QString newFileName = "logfile_" + dt.toString("yyyy-MM-dd_hh-mm-ss") + ".txt";
@@ -33,7 +28,15 @@ int main(int argc, char *argv[]) {
     Logger logger(&a);
 
     qInfo() << "loading preferences...";
+    qInfo() << "   loading stylesheet...";
+    if(LocalConfig::style() == LocalConfig::Fusion)
+        a.setStyle(QStyleFactory::create("Fusion"));
+    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
+        a.setStyle(QStyleFactory::create("Windows"));
+    else
+        a.setStyle(QStyleFactory::create("windowsvista"));
     
+    qInfo() << "   loading language...";
     if(LocalConfig::language() == LocalConfig::German) {
         qInfo() << "loading german translation...";
         QTranslator *translator = new QTranslator;
