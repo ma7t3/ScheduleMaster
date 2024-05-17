@@ -1,52 +1,50 @@
 #include "wdglines.h"
 #include "ui_wdglines.h"
 
-#include "Dialogs/DlgLineeditor.h"
-#include "Dialogs/DlgDataexporter.h"
-#include "Commands/CmdLines.h"
-#include "ProjectData/projectdata.h"
+#include "Mainwindow.h"
 #include "App/global.h"
+#include "Commands/CmdLines.h"
+#include "Dialogs/DlgLineeditor.h"
+#include "ProjectData/projectdata.h"
 
 #include <QUndoStack>
 #include <QMessageBox>
 
-
-
-WdgLines::WdgLines(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
+WdgLines::WdgLines(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgLines),
-    projectData(projectData),
-    undoStack(undoStack)
-{
+    projectData(((MainWindow *)parent)->projectData()),
+    _currentLine(nullptr),
+    refreshing(false) {
     ui->setupUi(this);
 
-    QAction *actionEdit = new QAction(ui->twLines);
-    actionEdit->setShortcuts({QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Enter)});
-    actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ui->twLines->addAction(actionEdit);
+    _actionNew    = ui->twLines->addAction(QIcon(":/icons/Add.ico"),    tr("New"));
+    _actionEdit   = ui->twLines->addAction(QIcon(":/icons/Edit.ico"),   tr("Edit"));
+    _actionDelete = ui->twLines->addAction(QIcon(":/icons/Delete.ico"), tr("Delete"));
 
-    QAction *actionDelete = new QAction(ui->twLines);
-    actionDelete->setShortcut(QKeySequence::Delete);
-    actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ui->twLines->addAction(actionDelete);
+    _actionEdit->setDisabled(true);
+    _actionDelete->setDisabled(true);
 
-    QObject::connect(actionEdit, SIGNAL(triggered()), this, SLOT(actionEdit()));
-    QObject::connect(actionDelete, SIGNAL(triggered()), this, SLOT(actionDelete()));
+    _actionEdit->setShortcuts({QKeySequence(Qt::Key_Enter), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Space)});
+    _actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    QObject::connect(ui->pbLineNew, SIGNAL(clicked()), this, SLOT(actionNew()));
-    QObject::connect(ui->pbLineEdit, SIGNAL(clicked()), this, SLOT(actionEdit()));
-    QObject::connect(ui->twLines, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(actionEdit()));
-    QObject::connect(ui->pbLineDelete, SIGNAL(clicked()), this, SLOT(actionDelete()));
-    QObject::connect(ui->pbExportList, SIGNAL(clicked()), this, SLOT(actionExportList()));
+    _actionDelete->setShortcut(QKeySequence::Delete);
+    _actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    QObject::connect(_actionNew, SIGNAL(triggered()), this, SLOT(actionNew()));
-    QObject::connect(_actionEdit, SIGNAL(triggered()), this, SLOT(actionEdit()));
-    QObject::connect(_actionDelete, SIGNAL(triggered()), this, SLOT(actionDelete()));
-    QObject::connect(_actionExportList, SIGNAL(triggered()), this, SLOT(actionExportList()));
-    QObject::connect(_actionExportListAndRoutes, SIGNAL(triggered()), this, SLOT(actionExportListAndRoutes()));
+    ui->twLines->setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    _actionNew->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_L));
-    _actionEdit->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_L));
+    connect(_actionNew,       &QAction::triggered,              this,             &WdgLines::actionNew);
+    connect(_actionEdit,      &QAction::triggered,              this,             &WdgLines::actionEdit);
+    connect(_actionDelete,    &QAction::triggered,              this,             &WdgLines::actionDelete);
+
+    connect(_actionNew,       &QAction::enabledChanged,         ui->pbLineNew,    &QPushButton::setEnabled);
+    connect(_actionEdit,      &QAction::enabledChanged,         ui->pbLineEdit,   &QPushButton::setEnabled);
+    connect(_actionDelete,    &QAction::enabledChanged,         ui->pbLineDelete, &QPushButton::setEnabled);
+
+    connect(ui->pbLineNew,    &QPushButton::clicked,            this,             &WdgLines::actionNew);
+    connect(ui->pbLineEdit,   &QPushButton::clicked,            this,             &WdgLines::actionEdit);
+    connect(ui->twLines,      &QTableWidget::cellDoubleClicked, this,             &WdgLines::actionEdit);
+    connect(ui->pbLineDelete, &QPushButton::clicked,            this,             &WdgLines::actionDelete);
 
     ui->twLines->verticalHeader()->setVisible(false);
     ui->twLines->setEditTriggers(QTableWidget::NoEditTriggers);
@@ -54,45 +52,105 @@ WdgLines::WdgLines(QWidget *parent, ProjectData *projectData, QUndoStack *undoSt
     ui->twLines->setColumnWidth(1, 400);
 }
 
-WdgLines::~WdgLines()
-{
+WdgLines::~WdgLines() {
     delete ui;
 }
 
-void WdgLines::actionNew() {
-    DlgLineEditor dlg(this);
-    dlg.exec();
-
-    if(dlg.result() != QDialog::Accepted)
-        return;
-
-    if(dlg.line().name().isEmpty())
-        return;
-
-    Line *l = projectData->newLine(dlg.line());
-
-    undoStack->push(new CmdLineNew(projectData, l));
-    emit refreshRequested();
+QList<QAction *> WdgLines::actions() {
+    return ui->twLines->actions();
 }
 
+
+void WdgLines::refreshUI() {
+    int selectionCount = ui->twLines->selectionModel()->selectedRows(0).count();
+
+    _actionEdit->setEnabled(selectionCount == 1);
+    _actionDelete->setEnabled(selectionCount >= 1);
+}
+
+void WdgLines::refreshLineList() {
+    qDebug() << "refreshing line list...";
+
+    refreshing = true;
+
+    ui->twLines->setRowCount(0);
+    tableReference.clear();
+
+    QFont bold;
+    bold.setBold(true);
+
+    QList<Line *> lines = projectData->lines();
+    lines = ProjectData::sortItems(lines);
+
+    for(int i = 0; i < lines.count(); i++) {
+        Line * l = lines[i];
+
+        tableReference << l;
+
+        QString name = l->name();
+        QString description = l->description();
+        QColor color = l->color();
+
+        int currentRow = ui->twLines->rowCount();
+        ui->twLines->insertRow(currentRow);
+
+        QTableWidgetItem * nameItm = new QTableWidgetItem(name);
+        QTableWidgetItem * descriptionItm = new QTableWidgetItem(description);
+
+        nameItm->setBackground(QBrush(color));
+        nameItm->setForeground(global::getContrastColor(color));
+        nameItm->setFont(bold);
+
+        ui->twLines->setItem(currentRow, 0, nameItm);
+        ui->twLines->setItem(currentRow, 1, descriptionItm);
+
+        if(l == _currentLine)
+            ui->twLines->setCurrentCell(i, 0);
+    }
+
+    for(int i = 0; i < ui->twLines->rowCount(); i++) {
+        ui->twLines->setRowHeight(i, 15);
+    }
+
+    ui->twLines->resizeColumnsToContents();
+    refreshing = false;
+}
+
+Line * WdgLines::currentLine() {
+    return _currentLine;
+}
+
+void WdgLines::actionNew() {
+    Line *l = projectData->newLine();
+
+    DlgLineEditor dlg(this, l, true);
+    if(dlg.exec() != QDialog::Accepted)
+        return;
+
+    *l = dlg.line();
+
+    projectData->undoStack()->push(new CmdLineNew(projectData, l));
+    emit refreshRequested();
+}
 
 void WdgLines::actionEdit() {
     Line *l = currentLine();
     if(!l)
         return;
 
-    DlgLineEditor dlg(this, *l);
-    dlg.exec();
+    qDebug() << l->directionAt(0)->description();
 
-    if(dlg.result() != QDialog::Accepted)
+    DlgLineEditor dlg(this, l, false);
+    if(dlg.exec() != QDialog::Accepted)
         return;
+
+    qDebug() << l->directionAt(0)->description();
 
     Line newL = dlg.line();
 
-    if(newL.name() == "")
-        return;
+    qDebug() << l->directionAt(0)->description();
 
-    undoStack->push(new CmdLineEdit(l, newL));
+    projectData->undoStack()->push(new CmdLineEdit(l, newL));
     emit refreshRequested();
 }
 
@@ -115,11 +173,34 @@ void WdgLines::actionDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new CmdLinesDelete(projectData, lines));
+    projectData->undoStack()->push(new CmdLinesDelete(projectData, lines));
     emit refreshRequested();
 }
 
-void WdgLines::actionExportList() {
+void WdgLines::on_twLines_itemSelectionChanged() {
+    if(refreshing)
+        return;
+
+    QTableWidgetItem *current = ui->twLines->currentItem();
+
+    int selectionCount = ui->twLines->selectionModel()->selectedRows().count();
+
+    if(!current || selectionCount == 0 || selectionCount > 1)
+        _currentLine = nullptr;
+    else
+        _currentLine = tableReference[current->row()];
+
+    refreshUI();
+    emit currentLineChanged(_currentLine);
+}
+
+void WdgLines::on_twLines_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous) {
+    Q_UNUSED(previous);
+    if(current && current->column() != 0)
+        ui->twLines->setCurrentCell(current->row(), 0);
+}
+
+/*void WdgLines::actionExportList() {
     QString plainText, csvText, htmlText;
 
     QFileInfo fi(projectData->filePath());
@@ -193,115 +274,4 @@ void WdgLines::actionExportListAndRoutes() {
     dlg.setText(plainText, csvText, htmlText);
 
     dlg.exec();
-}
-
-void WdgLines::setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDelete) {
-    _actionNew = actionNew;
-    _actionEdit = actionEdit;
-    _actionDelete = actionDelete;
-
-    refreshUI();
-}
-
-void WdgLines::refreshUI() {
-    int selectionCount = ui->twLines->selectionModel()->selectedRows(0).count();
-
-    if(selectionCount == 0) {
-        ui->twLines->setCurrentItem(nullptr);
-        ui->pbLineEdit->setEnabled(false);
-        ui->pbLineDelete->setEnabled(false);
-        _actionEdit->setEnabled(false);
-        _actionDelete->setEnabled(false);
-    } else if(selectionCount == 1) {
-        ui->pbLineEdit->setEnabled(true);
-        ui->pbLineDelete->setEnabled(true);
-        _actionEdit->setEnabled(true);
-        _actionDelete->setEnabled(true);
-    } else {
-        ui->pbLineEdit->setEnabled(false);
-        ui->pbLineDelete->setEnabled(true);
-        _actionEdit->setEnabled(false);
-        _actionDelete->setEnabled(true);
-    }
-}
-
-
-Line * WdgLines::currentLine() {
-    return _currentLine;
-}
-
-void WdgLines::refresh() {
-    qDebug() << "refreshing line list...";
-
-    refreshing = true;
-
-    ui->twLines->setRowCount(0);
-    tableReference.clear();
-
-    QFont bold;
-    bold.setBold(true);
-
-    QList<Line *> lines = projectData->lines();
-    lines = ProjectData::sortItems(lines);
-    
-    for(int i = 0; i < lines.count(); i++) {
-        Line * l = lines[i];
-
-        tableReference << l;
-
-        QString name = l->name();
-        QString description = l->description();
-        QColor color = l->color();
-
-        int currentRow = ui->twLines->rowCount();
-        ui->twLines->insertRow(currentRow);
-
-        QTableWidgetItem * nameItm = new QTableWidgetItem(name);
-        QTableWidgetItem * descriptionItm = new QTableWidgetItem(description);
-
-        nameItm->setBackground(QBrush(color));
-        nameItm->setForeground(global::getContrastColor(color));
-        nameItm->setFont(bold);
-
-        ui->twLines->setItem(currentRow, 0, nameItm);
-        ui->twLines->setItem(currentRow, 1, descriptionItm);
-
-        if(l == _currentLine)
-            ui->twLines->setCurrentCell(i, 0);
-    }
-
-    for(int i = 0; i < ui->twLines->rowCount(); i++) {
-        ui->twLines->setRowHeight(i, 15);
-    }
-
-    ui->twLines->resizeColumnToContents(0);
-    ui->twLines->resizeColumnToContents(1);
-
-    refreshing = false;
-}
-
-
-void WdgLines::on_twLines_itemSelectionChanged() {
-    if(refreshing)
-        return;
-
-    QTableWidgetItem *current = ui->twLines->currentItem();
-
-    int selectionCount = ui->twLines->selectionModel()->selectedRows().count();
-
-    if(!current || selectionCount == 0 || selectionCount > 1)
-        _currentLine = nullptr;
-    else
-        _currentLine = tableReference[current->row()];
-
-    refreshUI();
-    emit currentLineChanged(_currentLine);
-}
-
-
-void WdgLines::on_twLines_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous) {
-    Q_UNUSED(previous);
-    if(current && current->column() != 0)
-        ui->twLines->setCurrentCell(current->row(), 0);
-}
-
+}*/

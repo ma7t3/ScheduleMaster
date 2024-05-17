@@ -189,6 +189,7 @@ MainWindow::MainWindow(QWidget *parent) :
     actDockFootnotes       -> setShortcut(QKeySequence(tr("Alt+F")));
 
     ui->menuBusstops->addActions(wdgBusstops->actions());
+    ui->menuLines   ->addActions(wdgLines   ->actions());
 
     qDebug() << "adding toggleViewActions to menubar";
     ui->menuDocks->addAction(actDockBusstops);
@@ -203,7 +204,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuDocks->addAction(actDockFootnotes);
 
     qDebug() << "setting menubarActions to widgets";
-    wdgLines    -> setMenubarActions(ui->actionLinesNew, ui->actionLinesEdit, ui->actionLinesDelete);
     wdgRoutes   -> setMenubarActions(ui->actionRoutesNew, ui->actionRoutesEdit, ui->actionRoutesDuplicate, ui->actionRoutesDelete);
 
     qDebug() << "loading undo and redo action...";
@@ -346,7 +346,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgRoutes,          &WdgRoutes::refresh);
 
     // Lines
-    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgLines,           &WdgLines::refresh);
+    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgLines,           &WdgLines::refreshLineList);
     connect(wdgLines,                              &WdgLines::refreshRequested,            wdgSchedule,        &WdgSchedule::refreshSchedule);
     connect(wdgLines,                              &WdgLines::refreshRequested,            wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);
 
@@ -513,7 +513,7 @@ bool MainWindow::actionFileClose() {
     wdgPublishedLines->setCurrentLine(nullptr);
 
     wdgBusstops->refreshBusstopList();
-    wdgLines->refresh();
+    wdgLines->refreshLineList();
     wdgRoutes->refresh();
     wdgSchedule->refreshSchedule();
     wdgSchedule->refreshDirections();
@@ -573,7 +573,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
         wdgRoutes->refresh();
     }
     if(t == LinesType) {
-        wdgLines->refresh();
+        wdgLines->refreshLineList();
         wdgSchedule->refreshDirections();
         wdgPublishedLines->refreshRoutes();
     }
@@ -930,7 +930,7 @@ void MainWindow::handleFileHandlerResult() {
         qApp->processEvents();
         qDebug() << "refreshing ui...";
         wdgBusstops->refreshBusstopList();
-        wdgLines->refresh();
+        wdgLines->refreshLineList();
         wdgTours->refresh();
         wdgSchedule->refreshDayTypes();
         wdgPublishedLines->refreshLineList();
@@ -1232,7 +1232,7 @@ void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
 
     qDebug() << "refreshing ui...";
     wdgBusstops->refreshBusstopList();
-    wdgLines->refresh();
+    wdgLines->refreshLineList();
     wdgTours->refresh();
     wdgSchedule->refreshDayTypes();
     wdgPublishedLines->refreshLineList();
