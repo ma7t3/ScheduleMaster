@@ -379,10 +379,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     showMaximized();
 
-    qInfo() << "loading startup dialog";
-    splashScreen.close();
-    startupDialog->show();
-    connect(startupDialog, &QDialog::finished, this, &MainWindow::startupDialogHandler);
+    QStringList args = qApp->arguments();
+    if(args.count() >= 2)
+        openFile(args[1]);
+    else {
+        qInfo() << "loading startup dialog";
+        splashScreen.close();
+        startupDialog->show();
+        connect(startupDialog, &QDialog::finished, this, &MainWindow::startupDialogHandler);
+    }
 }
 
 MainWindow::~MainWindow() {
