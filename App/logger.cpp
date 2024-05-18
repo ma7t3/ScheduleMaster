@@ -6,22 +6,24 @@
 #include <QDateTime>
 #include <QSysInfo>
 
-QString Logger::fileName;
+QString Logger::logfilePath;
 unsigned int Logger::counter;
 LocalConfig::LogfileMode Logger::logfileMode;
 bool Logger::active;
 
 static const QtMessageHandler QT_DEFAULT_MESSAGE_HANDLER = qInstallMessageHandler(nullptr);
 
-Logger::Logger(QObject *parent) : QObject(parent) {
+Logger::Logger(QObject *parent, const QDir &logfilesDir) : QObject(parent) {
     logfileMode = LocalConfig::logfileMode();
     if(logfileMode == LocalConfig::NoLog)
         return;
 
-    fileName = "logfile.txt";
+    if(!logfilesDir.exists())
+        logfilesDir.mkpath(logfilesDir.path());
+    logfilePath = logfilesDir.path() + "/logfile.txt";
     counter = 0;
 
-    QFile f(fileName);
+    QFile f(logfilePath);
     f.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream s(&f);
 
@@ -58,7 +60,7 @@ void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QS
     if(type == QtMsgType::QtDebugMsg && logfileMode != LocalConfig::DebugLog && logfileMode != LocalConfig::DebugDetailLog)
         return;
 
-    QFile f(fileName);
+    QFile f(logfilePath);
     f.open(QIODevice::Append | QIODevice::Text);
     QTextStream s(&f);
 
