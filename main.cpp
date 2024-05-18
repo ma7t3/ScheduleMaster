@@ -18,14 +18,16 @@ int main(int argc, char *argv[]) {
     LocalConfig localConfig(&a);
     AppInfo appInfo(&a);
 
+    QDir logDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs";
+
     if(LocalConfig::crashDetected()) {
         const QDateTime dt(QDateTime::currentDateTime());
-        QString newFileName = "logfile_" + dt.toString("yyyy-MM-dd_hh-mm-ss") + ".txt";
-        if(QFile::copy("logfile.txt", newFileName))
+        QString newFileName = logDir.path() + "/logfile_crash_" + dt.toString("yyyy-MM-dd_hh-mm-ss") + ".txt";
+        if(QFile::copy(logDir.path() + "/logfile.txt", newFileName))
             LocalConfig::setLastLogfileName(newFileName);
     }
 
-    Logger logger(&a);
+    Logger logger(&a, logDir);
 
     qInfo() << "loading preferences...";
     qInfo() << "   loading stylesheet...";
