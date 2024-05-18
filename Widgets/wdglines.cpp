@@ -159,13 +159,21 @@ void WdgLines::actionDelete() {
 
     QString showList ="<table style=\"border-collapse: collapse;\">";
     QList<Line *> lines;
+    const int maxShowCount = 15;
+    bool hasMore = selection.count() > maxShowCount;
     for(int i = 0; i < selection.count(); i++) {
         Line *l = tableReference[selection[i].row()];
         lines << l;
-        QColor color = l->color();
-        QColor contrastColor = global::getContrastColor(color);
-        showList += QString("<tr style=\"color: %1; background-color: %2\"><td style=\"padding: 5px;\">%3</td><td style=\"padding: 5px;\">%4</td>").arg(contrastColor.name(QColor::HexRgb), color.name(QColor::HexRgb), l->name(), l->description());
+        if(i < maxShowCount) {
+            QColor color = l->color();
+            QColor contrastColor = global::getContrastColor(color);
+            showList += QString("<tr><td style=\"color: %1; background-color: %2; padding: 5px\">%3</td><td style=\"padding: 5px;\">%4</td>").arg(contrastColor.name(QColor::HexRgb), color.name(QColor::HexRgb), l->name(), l->description());
+        }
     }
+
+    if(hasMore)
+        showList += "<tr><td></td><td style=\"padding: 5px;\"><i>" + tr("%n more", "", selection.count() - maxShowCount) + "</i></td></tr>";
+
     showList += "</table>";
 
     QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete line(s)"), tr("<p><b>Do you really want to delete these %n line(s)?</b></p><p></p>", "", lines.count()) + showList, QMessageBox::Yes|QMessageBox::No);
