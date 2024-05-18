@@ -200,11 +200,16 @@ void WdgBusstops::actionDelete() {
 
     QString showList ="<ul>";
     QList<Busstop *> busstops;
+    const int maxShowCount = 15;
+    bool hasMore = selection.count() > maxShowCount;
     for(int i = 0; i < selection.count(); i++) {
         Busstop *b = _tableReference[selection[i].row()];
         busstops << b;
-        showList += QString("<li>%1</li>").arg(b->name());
+        if(i < maxShowCount)
+            showList += QString("<li>%1</li>").arg(b->name());
     }
+    if(hasMore)
+        showList += "<li style=\"list-style-type: none\"><i>" + tr("%n more", "", selection.count() - maxShowCount) + "</i></li>";
     showList += "</ul>";
 
     QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete %n busstop(s)", "", busstops.count()), tr("<p><b>Do you really want to delete these %n busstop(s)?</b></p>%1", "", busstops.count()).arg(showList), QMessageBox::Yes|QMessageBox::No);
