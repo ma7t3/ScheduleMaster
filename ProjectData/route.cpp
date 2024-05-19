@@ -93,6 +93,16 @@ void Route::refreshChilds() {
         p->setParent(this);
 }
 
+QList<TimeProfile *> Route::cloneTimeProfiles() const {
+    QList<TimeProfile *> result;
+    for(int i = 0; i < timeProfileCount(); i++) {
+        TimeProfile *p = new TimeProfile(*timeProfileAt(i));
+        p->setBusstops(p->cloneItems());
+        result << p;
+    }
+    return result;
+}
+
 int Route::code() const {
     return _code;
 }

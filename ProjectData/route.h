@@ -59,6 +59,8 @@ public:
 
     void refreshChilds();
 
+    QList<TimeProfile *> cloneTimeProfiles() const;
+
     TimeProfile *newTimeProfile(QString id = "");
     TimeProfile *newTimeProfile(const QJsonObject &);
     TimeProfile *newTimeProfile(const TimeProfile &newTimeProfile);

@@ -167,6 +167,13 @@ QJsonObject TimeProfile::toJson() const {
     return jsonObject;
 }
 
+QList<TimeProfileItem *> TimeProfile::cloneItems() {
+    QList<TimeProfileItem *> result;
+    for(int i = 0; i < _items.count(); i++)
+        result << new TimeProfileItem(*_items[i]);
+    return result;
+}
+
 void TimeProfile::refreshChilds() {
     foreach (TimeProfileItem *itm, _items)
         itm->setParent(this);
