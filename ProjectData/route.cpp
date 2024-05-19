@@ -208,6 +208,12 @@ void Route::insertBusstop(const int &index , Busstop * b) {
     _busstops.insert(index, b);
 }
 
+void Route::removeBusstop(const int &index) {
+    if(index < 0 || index >= _busstops.count())
+        return;
+    _busstops.remove(index);
+}
+
 void Route::clearBusstops() {
     _busstops.clear();
 }
