@@ -39,6 +39,7 @@ public:
     void setBusstops(const QList<Busstop *> &);
     void addBusstop(Busstop *);
     void insertBusstop(const int &, Busstop *);
+    void removeBusstop(const int &);
     void clearBusstops();
 
     QList<TimeProfile *> timeProfiles() const;
