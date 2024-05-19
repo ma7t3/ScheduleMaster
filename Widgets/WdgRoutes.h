@@ -17,37 +17,28 @@ class WdgRoutes : public QWidget
     Q_OBJECT
 
 public:
-    explicit WdgRoutes(QWidget *parent = nullptr, ProjectData *projectData = nullptr, QUndoStack *undoStack = nullptr);
+    explicit WdgRoutes(QWidget *parent = nullptr);
     ~WdgRoutes();
 
+    QList<QAction *> actions();
+
 public slots:
+    void refreshUI();
+    void refreshRouteList();
+    void setCurrentLine(Line *);
+
+public:
+    Route *currentRoute() const;
+
+private slots:
     void actionNew();
     void actionEdit();
     void actionDuplicate();
     void actionDelete();
-    void actionExportProfiles();
-
-    void setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDuplicate, QAction *actionDelete);
-
-    void refreshUI();
-
-    void setCurrentLine(Line *);
-
-    void refresh();
-
-    Route *currentRoute();
-
-    QAction *menubarActionNew();
-    QAction *menubarActionEdit();
-    QAction *menubarActionDuplicate();
-    QAction *menubarActionDelete();
-    QAction *menubarActionExportListCurrent();
-    QAction *menubarActionExportListAll();
-
-private slots:
-    void on_twRoutes_itemSelectionChanged();
 
     void omsiExport();
+
+    void on_twRoutes_itemSelectionChanged();
 
 signals:
     void currentRouteChanged(Route *);
@@ -57,18 +48,16 @@ private:
     Ui::WdgRoutes *ui;
 
     ProjectData *projectData;
-    QUndoStack *undoStack;
-    Line *_currentLine = nullptr;
-    Route *_currentRoute = nullptr;
+    Line *_currentLine;
+    Route *_currentRoute;
     QList<Route *> tableReference;
-    bool refreshing = false;
 
-    QAction *_actionNew = new QAction("Route");
-    QAction *_actionEdit = new QAction("Route");
-    QAction *_actionDuplicate = new QAction("Route");
-    QAction *_actionDelete = new QAction("Route");
-    QAction *_actionExportListCurrent = new QAction("Current route list");
-    QAction *_actionExportListAll = new QAction("All route list");
+    bool refreshing;
+
+    QAction *_actionNew;
+    QAction *_actionEdit;
+    QAction *_actionDuplicate;
+    QAction *_actionDelete;
 };
 
 #endif // WDGROUTES_H

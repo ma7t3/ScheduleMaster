@@ -7,40 +7,35 @@
 #include <QDialog>
 
 namespace Ui {
-class TimeProfileEditor;
+class DlgTimeProfileEditor;
 }
 
-class TimeProfileEditor : public QDialog
+class DlgTimeProfileEditor : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit TimeProfileEditor(QWidget *parent = nullptr, bool = false, QString = "unnamed", float = 0, Route* = nullptr,  QList<TimeProfileItem *> = {}, QList<Route *> = {});
-    ~TimeProfileEditor();
+    explicit DlgTimeProfileEditor(QWidget *parent, TimeProfile *, Route *, const bool &createMode = false);
+    ~DlgTimeProfileEditor();
 
-    void setName(QString);
-    void setDuration(float);
-    void setRoute(Route *);
-    void setTimeProfileItemList(QList<TimeProfileItem *>);
+    void setCreateMode(const bool &);
 
-    QString name();
-    float getDuration();
-    Route * getRoute();
-    QList<TimeProfileItem *> getTimeProfileItemList();
+    TimeProfile timeProfile() const;
+    void setTimeProfile(const TimeProfile &);
 
-    QList<Route *> matchingRoutes;
 
-public slots:
+private slots:
+    void loadBusstopList(Route *);
     void refreshTable(int);
     void executeCopy();
 
 private:
-    Ui::TimeProfileEditor *ui;
+    Ui::DlgTimeProfileEditor *ui;
 
-    Route *route;
-    QList<TimeProfileItem *> itemList;
+    TimeProfile _timeProfile;
+    TimeProfile *_timeProfilePtr;
 
-    TimeProfileItem * findItemForBusstop(QString id);
+    QList<Route *> _matchingRoutes;
 };
 
 #endif // TIMEPROFILEEDITOR_H

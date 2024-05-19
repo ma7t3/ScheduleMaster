@@ -129,10 +129,6 @@
     <property name="title">
      <string>Routes</string>
     </property>
-    <addaction name="actionRoutesNew"/>
-    <addaction name="actionRoutesEdit"/>
-    <addaction name="actionRoutesDuplicate"/>
-    <addaction name="actionRoutesDelete"/>
    </widget>
    <widget class="QMenu" name="menuSchedule">
     <property name="title">
@@ -316,48 +312,6 @@
    </property>
    <property name="shortcut">
     <string>Alt+2</string>
-   </property>
-  </action>
-  <action name="actionRoutesNew">
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/Add.ico</normaloff>:/icons/Add.ico</iconset>
-   </property>
-   <property name="text">
-    <string>New</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
-   </property>
-  </action>
-  <action name="actionRoutesEdit">
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/Edit.ico</normaloff>:/icons/Edit.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Edit</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+R</string>
-   </property>
-  </action>
-  <action name="actionRoutesDelete">
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/Delete.ico</normaloff>:/icons/Delete.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Delete</string>
-   </property>
-  </action>
-  <action name="actionRoutesDuplicate">
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/Duplicate.ico</normaloff>:/icons/Duplicate.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Duplicate</string>
    </property>
   </action>
   <action name="actionPublishLineSchedules">

@@ -45,13 +45,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pbExportProfiles">
-       <property name="text">
-        <string>Export profiles...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="pbExportProfilesOMSITrips">
        <property name="text">
         <string>Routes to omsi trip files...</string>
@@ -85,12 +78,18 @@
    </item>
    <item>
     <widget class="QTableWidget" name="twRoutes">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::ExtendedSelection</enum>
      </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
      <column>
       <property name="text">
        <string>Code</string>

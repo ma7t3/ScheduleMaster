@@ -130,6 +130,8 @@ void WdgLines::actionNew() {
     *l = dlg.line();
 
     projectData->undoStack()->push(new CmdLineNew(projectData, l));
+    _currentLine = l;
+    emit currentLineChanged(l);
     emit refreshRequested();
 }
 
@@ -138,17 +140,11 @@ void WdgLines::actionEdit() {
     if(!l)
         return;
 
-    qDebug() << l->directionAt(0)->description();
-
     DlgLineEditor dlg(this, l, false);
     if(dlg.exec() != QDialog::Accepted)
         return;
 
-    qDebug() << l->directionAt(0)->description();
-
     Line newL = dlg.line();
-
-    qDebug() << l->directionAt(0)->description();
 
     projectData->undoStack()->push(new CmdLineEdit(l, newL));
     emit refreshRequested();
