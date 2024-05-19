@@ -2,63 +2,57 @@
 #define ROUTEEDITOR_H
 
 #include <QDialog>
-#include <QTreeWidgetItem>
+#include <QListWidgetItem>
 
 #include "ProjectData\projectdata.h"
 
 namespace Ui {
-class routeEditor;
+class DlgRouteEditor;
 }
 
-class routeEditor : public QDialog
+class DlgRouteEditor : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit routeEditor(QWidget *parent = nullptr, bool createMode = false, Route * r = nullptr, QList<LineDirection *> ld = {}, QList<Busstop*> l = QList<Busstop*>(), QList<Route *> m = QList<Route *>());
-    ~routeEditor();
+    explicit DlgRouteEditor(QWidget *parent, Route *, const bool &createMode = false);
+    ~DlgRouteEditor();
 
-    void moveCurrentRouteBusstop(bool);
+    void setCreateMode(const bool &);
 
-    QString name();
-    int getCode();
-    LineDirection *getDirection();
-    QStringList getBusstopList();
-    QStringList getTimeProfileList();
-    QList<Route *> matchingRoutes;
+    Route route() const;
+    void setRoute(const Route &);
 
 private slots:
-    void on_pbBusstopAdd_clicked();
+    void refreshAllBusstops();
+    void refreshProfiles();
+    void refreshRouteBusstops();
 
-    void on_pbBusstopRemove_clicked();
+    void actionBusstopAdd();
+    void actionBusstopRemove();
+    void actionBusstopUp();
+    void actionBusstopDown();
+    void actionBusstopsReverse();
+    void actionProfileNew();
+    void actionProfileEdit();
+    void actionProfileDelete();
+    void moveCurrentRouteBusstop(bool);
 
-    void on_pbBusstopUp_clicked();
-
-    void on_pbBusstopDown_clicked();
-
-    void on_pbBusstopReverse_clicked();
-
-    void on_leBusstopsSearch_textChanged(const QString &arg1);
-
-    void on_pbProfileNew_clicked();
-
-    void on_pbProfileEdit_clicked();
-
-    void on_twProfiles_itemDoubleClicked(QTreeWidgetItem *item, int column);
-
-    void on_twAllBusstops_itemDoubleClicked(QTreeWidgetItem *item, int column);
-
-    void on_pbProfileDelete_clicked();
+    void on_lwRouteBusstops_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
-    Ui::routeEditor *ui;
+    Ui::DlgRouteEditor *ui;
 
-    void refreshAllBusstops(QString);
-    void refreshProfiles();
+    Route _route;
+    Route *_routePtr;
+    QList<LineDirection *> _directionsReference;
+    QList<Busstop *> _allBusstops;
+    QList<Busstop *> _allBusstopsReference;
+    QList<Route *> _matchingRoutes;
+    Busstop *_currentRouteBusstop;
+    QList<TimeProfile *> _timeProfilesReference;
 
-    QList<LineDirection *> directions;
-    Route * routeData;
-    QList<Busstop *> allBusstops;
+    //QList<LineDirection *> directions;
 };
 
 #endif // ROUTEEDITOR_H

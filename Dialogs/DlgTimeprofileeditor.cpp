@@ -4,20 +4,22 @@
 #include <QInputDialog>
 #include <QPushButton>
 #include <QMessageBox>
+
+#include "ProjectData/ProjectData.h"
+
 #include "Dialogs\DlgTimeprofileeditor.h"
 #include "ui_DlgTimeprofileeditor.h"
 
-TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n, float d, Route* r,  QList<TimeProfileItem *> l, QList<Route *> m) :
+DlgTimeProfileEditor::DlgTimeProfileEditor(QWidget *parent, TimeProfile *timeProfile, Route *route, const bool &createMode) :
     QDialog(parent),
-    ui(new Ui::TimeProfileEditor),
-    route(r),
-    itemList(l),
-    matchingRoutes(m)
+    ui(new Ui::DlgTimeProfileEditor),
+    _timeProfile(*timeProfile),
+    _timeProfilePtr(timeProfile)
 {
     ui->setupUi(this);
 
-    ui->twProfile->verticalHeader()->setVisible(false);
-    ui->twProfile->setEditTriggers(QTableWidget::NoEditTriggers);
+    setCreateMode(createMode);
+
     ui->twProfile->setColumnHidden(0, true);
     ui->twProfile->setColumnWidth(1, 350);
     ui->twProfile->setColumnWidth(2, 50);
@@ -25,34 +27,75 @@ TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n
     ui->twProfile->setColumnWidth(4, 75);
     ui->twProfile->setColumnWidth(5, 175);
 
-    if(createMode)
-        this->setWindowTitle(tr("Create Time Profile"));
 
-    ui->leName->setText(n);
-    ui->dsbDuration->setValue(d);
+    setTimeProfile(*timeProfile);
+    loadBusstopList(route);
 
-    // load busstops
+    ui->leName->setFocus();
+}
 
-    QStringList busstopIDList;
-    
+DlgTimeProfileEditor::~DlgTimeProfileEditor()
+{
+    delete ui;
+}
+
+void DlgTimeProfileEditor::setCreateMode(const bool &newCreateMode) {
+    if(newCreateMode)
+        setWindowTitle(tr("Create Time Profile"));
+}
+
+TimeProfile DlgTimeProfileEditor::timeProfile() const {
+    TimeProfile timeProfile = _timeProfile;
+
+    Route *r = dynamic_cast<Route *>(timeProfile.parent());
+
+    timeProfile.setName(ui->leName->text());
+    timeProfile.setDuration(ui->dsbDuration->value());
+
+
+    QList<TimeProfileItem *> itemList;
+
+    for(int i = 0; i < r->busstopCount(); i++) {
+        QWidget *sepTimesW = ui->twProfile->cellWidget(i, 2);
+        QWidget *arrTimeW = ui->twProfile->cellWidget(i, 3);
+        QWidget *depTimeW = ui->twProfile->cellWidget(i, 4);
+        QWidget *busstopModeW = ui->twProfile->cellWidget(i, 5);
+
+        bool sepTimes = qobject_cast<QCheckBox *>(sepTimesW)->isChecked();
+        float arrTime = qobject_cast<QDoubleSpinBox *>(arrTimeW)->value();
+        float depTime = qobject_cast<QDoubleSpinBox *>(depTimeW)->value();
+        int busstopMode = qobject_cast<QComboBox *>(busstopModeW)->currentIndex();
+
+        TimeProfileItem *itm = timeProfile.busstop(r->busstopAt(i));
+        if(!itm)
+            itm = new TimeProfileItem(_timeProfilePtr, r->busstopAt(i));
+        itm->setDepValue(depTime);
+        if(sepTimes)
+            itm->setArrValue(arrTime);
+        itm->setBusstopMode(busstopMode);
+
+        itemList << itm;
+    }
+
+    timeProfile.setBusstops(itemList);
+    return timeProfile;
+}
+
+void DlgTimeProfileEditor::setTimeProfile(const TimeProfile &timeProfile) {
+    _timeProfile = timeProfile;
+
+    ui->leName->setText(_timeProfile.name());
+    ui->dsbDuration->setValue(_timeProfile.duration());
+}
+
+void DlgTimeProfileEditor::loadBusstopList(Route *r) {
     int busstopCount = r->busstopCount();
     ui->twProfile->setRowCount(busstopCount);
-    
+
     for(int i = 0; i < r->busstopCount(); i++) {
         Busstop *b = r->busstopAt(i);
+        QTableWidgetItem *itmName = new QTableWidgetItem(b->name());
 
-        QString id = b->id();
-        QString name = b->name();
-
-        busstopIDList << id;
-
-        QTableWidgetItem *itmID = new QTableWidgetItem;
-        QTableWidgetItem *itmName = new QTableWidgetItem;
-
-        itmID->setText(id);
-        itmName->setText(name);
-
-        ui->twProfile->setItem(i, 0, itmID);
         ui->twProfile->setItem(i, 1, itmName);
 
         QCheckBox *sepBox = new QCheckBox;
@@ -79,13 +122,12 @@ TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n
         ui->twProfile->setCellWidget(i, 5, cb);
 
         //load data
-
-        TimeProfileItem *itm = findItemForBusstop(id);
+        TimeProfileItem *itm = _timeProfile.busstop(b);
 
         if(itm) {
+            qDebug() << itm->hasSeperateTimes();
+            qDebug() << itm->arrValue();
             sepBox->setChecked(itm->hasSeperateTimes());
-
-
             if(itm->hasSeperateTimes()) {
                 dsbArr->setValue(itm->arrValue());
                 dsbArr->setEnabled(true);
@@ -93,37 +135,34 @@ TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n
                 dsbArr->setValue(0);
                 dsbArr->setEnabled(false);
             }
-            
+
             dsbDep->setValue(itm->depValue());
             cb->setCurrentIndex(itm->busstopMode());
         }
 
-        QObject::connect(sepBox, SIGNAL(stateChanged(int)), this, SLOT(refreshTable(int)));
+        connect(sepBox, &QCheckBox::stateChanged, this, &DlgTimeProfileEditor::refreshTable);
     }
 
-    QList<Route *> matchingRoutesFiltered;
-    for(int i = 0; i < matchingRoutes.count(); i++)
-        if(matchingRoutes[i]->timeProfileCount() > 0)
-            matchingRoutesFiltered << matchingRoutes[i];
-
-    matchingRoutes = matchingRoutesFiltered;
+    // load busstops
+    QList<Route *> allMatchingRoutes = dynamic_cast<ProjectData *>(r->parent()->parent())->matchingRoutes(r);
+    for(int i = 0; i < allMatchingRoutes.count(); i++)
+        if(allMatchingRoutes[i]->timeProfileCount() > 0)
+            _matchingRoutes << allMatchingRoutes[i];
 
     // copy-buttons
-    for(int i = 0; i < matchingRoutesFiltered.count(); i++) {
+    for(int i = 0; i < _matchingRoutes.count(); i++) {
         ui->twProfile->insertColumn(ui->twProfile->columnCount());
         int targetColumn = ui->twProfile->columnCount() - 1;
-        Route *r = matchingRoutesFiltered[i];
-        ui->twProfile->setHorizontalHeaderItem(targetColumn, new QTableWidgetItem(r->name()));
+        Route *compareRoute = _matchingRoutes[i];
+        ui->twProfile->setHorizontalHeaderItem(targetColumn, new QTableWidgetItem(compareRoute->name()));
 
         for(int j = 0; j < ui->twProfile->rowCount(); j++) {
-            QString currentBusstopId = ui->twProfile->item(j, 0)->text();
-
-            if(r->hasBusstop(currentBusstopId)) {
+            if(compareRoute->hasBusstop(r->busstopAt(j))) {
                 QPushButton* pb = new QPushButton;
-                pb->setText(r->name());
+                pb->setText(compareRoute->name());
                 ui->twProfile->setCellWidget(j, targetColumn, pb);
 
-                QObject::connect(pb, SIGNAL(clicked()), this, SLOT(executeCopy()));
+                connect(pb, &QPushButton::clicked, this, &DlgTimeProfileEditor::executeCopy);
             }
         }
     }
@@ -132,115 +171,31 @@ TimeProfileEditor::TimeProfileEditor(QWidget *parent, bool createMode, QString n
     for(int i = 0; i < ui->twProfile->rowCount(); i++) {
         ui->twProfile->setRowHeight(i, 25);
     }
-
-    ui->leName->setFocus();
 }
 
-TimeProfileEditor::~TimeProfileEditor()
-{
-    delete ui;
-}
-
-void TimeProfileEditor::setName(QString n)
-{
-    ui->leName->setText(n);
-}
-
-void TimeProfileEditor::setDuration(float d)
-{
-    ui->dsbDuration->setValue(d);
-}
-
-void TimeProfileEditor::setRoute(Route *r)
-{
-    route = r;
-}
-
-void TimeProfileEditor::setTimeProfileItemList(QList<TimeProfileItem *> l)
-{
-    itemList = l;
-}
-
-
-QString TimeProfileEditor::name()
-{
-    return ui->leName->text();
-}
-
-float TimeProfileEditor::getDuration()
-{
-    return ui->dsbDuration->value();
-}
-
-Route * TimeProfileEditor::getRoute()
-{
-    return route;
-}
-
-QList<TimeProfileItem *> TimeProfileEditor::getTimeProfileItemList()
-{
-    QList<TimeProfileItem *> l;
-
-    for(int i = 0; i < ui->twProfile->rowCount(); i++) {
-        QString busstopID = ui->twProfile->item(i, 0)->text();
-        QWidget *sepTimesW = ui->twProfile->cellWidget(i, 2);
-        QWidget *arrTimeW = ui->twProfile->cellWidget(i, 3);
-        QWidget *depTimeW = ui->twProfile->cellWidget(i, 4);
-        QWidget *busstopModeW = ui->twProfile->cellWidget(i, 5);
-
-        bool sepTimes = qobject_cast<QCheckBox *>(sepTimesW)->isChecked();
-        float arrTime = qobject_cast<QDoubleSpinBox *>(arrTimeW)->value();
-        float depTime = qobject_cast<QDoubleSpinBox *>(depTimeW)->value();
-        int busstopMode = qobject_cast<QComboBox *>(busstopModeW)->currentIndex();
-
-        TimeProfileItem *itm = new TimeProfileItem(nullptr, busstopID);
-        itm->setDepValue(depTime);
-
-        if(sepTimes)
-            itm->setArrValue(arrTime);
-
-        itm->setBusstopMode(busstopMode);
-
-        l << itm;
-    }
-
-    return l;
-}
-
-
-TimeProfileItem * TimeProfileEditor::findItemForBusstop(QString id)
-{
-    for(int i = 0; i < itemList.count(); i++) {
-        TimeProfileItem *itm = itemList[i];
-        
-        if(itm->busstopId() == id)
-            return itm;
-    }
-
-    return nullptr;
-}
-
-void TimeProfileEditor::refreshTable(int state)
+void DlgTimeProfileEditor::refreshTable(int state)
 {
     int row = ui->twProfile->currentRow();
     QWidget *w = ui->twProfile->cellWidget(row, 3);
-    QDoubleSpinBox *b = qobject_cast<QDoubleSpinBox *>(w);
+    QDoubleSpinBox *dsb = qobject_cast<QDoubleSpinBox *>(w);
 
     if(state == Qt::Checked)
-        b->setEnabled(true);
+        dsb->setEnabled(true);
     else {
-        b->setEnabled(false);
-        b->setValue(0);
+        dsb->setEnabled(false);
+        dsb->setValue(0);
     }
 }
 
-void TimeProfileEditor::executeCopy()
+void DlgTimeProfileEditor::executeCopy()
 {
     int routeIndex = ui->twProfile->currentColumn() - 6;
-    Route *r = matchingRoutes[routeIndex];
+    Route *r = _matchingRoutes[routeIndex];
     QStringList itemList;
 
     int presetProfileIndex = 0;
+
+    qDebug() << r->name();
     
     for(int i = 0; i < r->timeProfileCount(); i++) {
         itemList << r->timeProfileAt(i)->name();
@@ -254,21 +209,10 @@ void TimeProfileEditor::executeCopy()
     }
 
     bool ok;
-
     QString result = QInputDialog::getItem(this, tr("select source profile"), tr("Please select the source profile:"), itemList, presetProfileIndex, false, &ok);
-
     if(!ok)
         return;
 
-    /*QInputDialog dlg;
-    dlg.setWindowTitle("select source profile");
-    dlg.setLabelText("Please select the source profile: ");
-    dlg.setComboBoxItems(itemList);
-    dlg.setComboBoxEditable(false);
-    dlg.setOkButtonText("Copy!");
-    dlg.setOption(QInputDialog::UseListViewForComboBoxItems);
-    dlg.exec();
-    QString result = dlg.textValue();*/
     TimeProfile *p = nullptr;
     
     for(int i = 0; i < r->timeProfileCount(); i++)
@@ -281,15 +225,15 @@ void TimeProfileEditor::executeCopy()
         return;
 
     int currentRow = ui->twProfile->currentRow();
-    QString currentBusstopID = ui->twProfile->item(currentRow, 0)->text();
+    Busstop *currentBusstop = dynamic_cast<Route *>(_timeProfile.parent())->busstopAt(currentRow);
     QWidget *depTimeW = ui->twProfile->cellWidget(currentRow, 4);
     float targetOffset = qobject_cast<QDoubleSpinBox *>(depTimeW)->value();
-    float sourceOffset = p->busstop(currentBusstopID)->depValue();
+    float sourceOffset = p->busstop(currentBusstop)->depValue();
 
     int sourceIndex = -1;
     int targetIndex = currentRow;
     for(int i =0; i < r->busstopCount(); i++)
-        if(r->busstopAt(i)->id() == currentBusstopID)
+        if(r->busstopAt(i) == currentBusstop)
             sourceIndex = i;
 
     if(sourceIndex == -1)
@@ -305,19 +249,19 @@ void TimeProfileEditor::executeCopy()
         if(sourceIndex >= r->busstopCount())
             break;
 
-        QString busstopID = ui->twProfile->item(targetIndex, 0)->text();
-        if(r->busstopAt(sourceIndex)->id() != busstopID)
+        Busstop *currentBusstop = dynamic_cast<Route *>(_timeProfile.parent())->busstopAt(targetIndex);
+        if(r->busstopAt(sourceIndex) != currentBusstop)
             break;
 
-        TimeProfileItem *sourceItm = p->busstop(busstopID);
+        TimeProfileItem *sourceItm = p->busstop(currentBusstop);
         float arr = sourceItm->arrValue() - sourceOffset + targetOffset;
         float dep = sourceItm->depValue() - sourceOffset + targetOffset;
         int busstopMode = sourceItm->busstopMode();
         bool sepTimes = sourceItm->hasSeperateTimes();
 
-        QCheckBox *sepTimesBox = qobject_cast<QCheckBox *>(ui->twProfile->cellWidget(targetIndex, 2));
-        QDoubleSpinBox *arrBox = qobject_cast<QDoubleSpinBox *>(ui->twProfile->cellWidget(targetIndex, 3));
-        QDoubleSpinBox *depBox = qobject_cast<QDoubleSpinBox *>(ui->twProfile->cellWidget(targetIndex, 4));
+        QCheckBox *sepTimesBox    = qobject_cast<QCheckBox *>(ui->twProfile->cellWidget(targetIndex, 2));
+        QDoubleSpinBox *arrBox    = qobject_cast<QDoubleSpinBox *>(ui->twProfile->cellWidget(targetIndex, 3));
+        QDoubleSpinBox *depBox    = qobject_cast<QDoubleSpinBox *>(ui->twProfile->cellWidget(targetIndex, 4));
         QComboBox *busstopModeBox = qobject_cast<QComboBox *>(ui->twProfile->cellWidget(targetIndex, 5));
 
         sepTimesBox->setChecked(sepTimes);
@@ -336,22 +280,3 @@ void TimeProfileEditor::executeCopy()
             ui->dsbDuration->setValue(arr);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

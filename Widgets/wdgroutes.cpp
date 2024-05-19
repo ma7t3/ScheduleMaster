@@ -6,53 +6,59 @@
 
 #include <QFileDialog>
 
-#include "App/global.h"
+#include "Mainwindow.h"
 #include "Dialogs/DlgRouteeditor.h"
-#include "Dialogs/DlgDataexporter.h"
 #include "Commands/CmdRoutes.h"
 
-WdgRoutes::WdgRoutes(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
+WdgRoutes::WdgRoutes(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgRoutes),
-    projectData(projectData),
-    undoStack(undoStack)
-{
+    projectData(((MainWindow *)parent)->projectData()),
+    _currentLine(nullptr),
+    _currentRoute(nullptr),
+    refreshing(false) {
     ui->setupUi(this);
 
-    QAction *actionEdit = new QAction(ui->twRoutes);
-    actionEdit->setShortcuts({QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Enter)});
-    actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ui->twRoutes->addAction(actionEdit);
+    _actionNew       = ui->twRoutes->addAction(QIcon(":/icons/Add.ico"),       tr("New"));
+    _actionEdit      = ui->twRoutes->addAction(QIcon(":/icons/Edit.ico"),      tr("Edit"));
+    _actionDuplicate = ui->twRoutes->addAction(QIcon(":/icons/Duplicate.ico"), tr("Duplicate"));
+    _actionDelete    = ui->twRoutes->addAction(QIcon(":/icons/Delete.ico"),    tr("Delete"));
 
-    QAction *actionDuplicate = new QAction(ui->twRoutes);
-    actionDuplicate->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_D));
-    actionDuplicate->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ui->twRoutes->addAction(actionDuplicate);
+    _actionEdit->setDisabled(true);
+    _actionDuplicate->setDisabled(true);
+    _actionDelete->setDisabled(true);
 
-    QAction *actionDelete = new QAction(ui->twRoutes);
-    actionDelete->setShortcut(QKeySequence::Delete);
-    actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ui->twRoutes->addAction(actionDelete);
+    _actionEdit->setShortcuts({QKeySequence(Qt::Key_Enter), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Space)});
+    _actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    QObject::connect(actionEdit, SIGNAL(triggered()), this, SLOT(actionEdit()));
-    QObject::connect(actionDuplicate, SIGNAL(triggered()), this, SLOT(actionDuplicate()));
-    QObject::connect(actionDelete, SIGNAL(triggered()), this, SLOT(actionDelete()));
+    _actionDuplicate->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_D));
+    _actionDuplicate->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    QObject::connect(ui->pbNew, SIGNAL(clicked()), this, SLOT(actionNew()));
-    QObject::connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(actionEdit()));
-    QObject::connect(ui->pbDuplicate, SIGNAL(clicked()), this, SLOT(actionDuplicate()));
-    QObject::connect(ui->twRoutes, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(actionEdit()));
-    QObject::connect(ui->pbDelete, SIGNAL(clicked()), this, SLOT(actionDelete()));
-    QObject::connect(ui->pbExportProfiles, SIGNAL(clicked()), this, SLOT(actionExportProfiles()));
-    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(refresh()));
+    _actionDelete->setShortcut(QKeySequence::Delete);
+    _actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    QObject::connect(ui->pbExportProfilesOMSITrips, SIGNAL(clicked()), this, SLOT(omsiExport()));
+    ui->twRoutes->setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    _actionNew->setShortcut(QKeySequence(Qt::CTRL|Qt::Key_R));
-    _actionEdit->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_R));
+    connect(_actionNew,       &QAction::triggered,             this,             &WdgRoutes::actionNew);
+    connect(_actionEdit,      &QAction::triggered,             this,             &WdgRoutes::actionEdit);
+    connect(_actionDuplicate, &QAction::triggered,             this,             &WdgRoutes::actionDuplicate);
+    connect(_actionDelete,    &QAction::triggered,             this,             &WdgRoutes::actionDelete);
 
-    ui->twRoutes->verticalHeader()->setVisible(false);
-    ui->twRoutes->setEditTriggers(QTableWidget::NoEditTriggers);
+    connect(_actionNew,       &QAction::enabledChanged,         ui->pbNew,       &QPushButton::setEnabled);
+    connect(_actionEdit,      &QAction::enabledChanged,         ui->pbEdit,      &QPushButton::setEnabled);
+    connect(_actionDuplicate, &QAction::enabledChanged,         ui->pbDuplicate, &QPushButton::setEnabled);
+    connect(_actionDelete,    &QAction::enabledChanged,         ui->pbDelete,    &QPushButton::setEnabled);
+
+    connect(ui->pbNew,        &QPushButton::clicked,            this,            &WdgRoutes::actionNew);
+    connect(ui->pbEdit,       &QPushButton::clicked,            this,            &WdgRoutes::actionEdit);
+    connect(ui->twRoutes,     &QTableWidget::cellDoubleClicked, this,            &WdgRoutes::actionEdit);
+    connect(ui->pbDuplicate,  &QPushButton::clicked,            this,            &WdgRoutes::actionDuplicate);
+    connect(ui->pbDelete,     &QPushButton::clicked,            this,            &WdgRoutes::actionDelete);
+
+    connect(ui->leSearch,     &QLineEdit::textChanged,          this,            &WdgRoutes::refreshRouteList);
+
+    QObject::connect(ui->pbExportProfilesOMSITrips, &QPushButton::clicked, this, &WdgRoutes::omsiExport);
+
     ui->twRoutes->setColumnWidth(0, 50);
     ui->twRoutes->setColumnWidth(1, 50);
     ui->twRoutes->setColumnWidth(2, 400);
@@ -63,222 +69,19 @@ WdgRoutes::~WdgRoutes()
     delete ui;
 }
 
-void WdgRoutes::actionNew() {
-    if(!_currentLine)
-        return;
-
-    Route *r = _currentLine->newRoute();
-    r->setDirection(_currentLine->directionAt(0));
-    routeEditor dlg(this, true, r, _currentLine->directions(), projectData->busstops());
-    dlg.exec();
-
-    if(dlg.result() != QDialog::Accepted)
-        return;
-
-    r->setName(dlg.name());
-    r->setCode(dlg.getCode());
-    r->setDirection(dlg.getDirection());
-
-    QStringList busstopList = dlg.getBusstopList();
-
-    for(int i = 0; i < busstopList.count(); i++) {
-        Busstop * b = projectData->busstop(busstopList[i]);
-        r->addBusstop(b);
-    }
-
-    undoStack->push(new CmdRouteNew(_currentLine, r));
-    emit refreshRequested();
-}
-
-void WdgRoutes::actionEdit() {
-    if(!_currentLine || !_currentRoute)
-        return;
-    
-    QList<Route *> matchingRoutes = projectData->matchingRoutes(_currentRoute);
-    
-    routeEditor dlg(this, false, _currentRoute, _currentLine->directions(), projectData->busstops(), matchingRoutes);
-
-    dlg.exec();
-    if(dlg.result() != QDialog::Accepted)
-        return;
-
-    Route newR = *_currentRoute;
-
-    newR.setName(dlg.name());
-    newR.setCode(dlg.getCode());
-    newR.setDirection(dlg.getDirection());
-    newR.clearBusstops();
-
-    QStringList busstopList = dlg.getBusstopList();
-
-    for(int i = 0; i < busstopList.count(); i++) {
-        Busstop *b = projectData->busstop(busstopList[i]);
-        newR.addBusstop(b);
-    }
-
-    undoStack->push(new CmdRouteEdit(_currentRoute, newR));
-    emit refreshRequested();
-}
-
-void WdgRoutes::actionDuplicate() {
-    if(!_currentLine || !_currentRoute)
-        return;
-    
-    QList<Route *> matchingRoutes = projectData->matchingRoutes(_currentRoute);
-    
-    routeEditor dlg(this, false, _currentRoute, _currentLine->directions(), projectData->busstops(), matchingRoutes);
-    dlg.exec();
-    if(dlg.result() != QDialog::Accepted)
-        return;
-
-    Route *n = _currentLine->newRoute();
-    n->setCode(dlg.getCode());
-    n->setName(dlg.name());
-    n->setDirection(dlg.getDirection());
-    QStringList busstopList = dlg.getBusstopList();
-
-    for(int i = 0; i < busstopList.count(); i++) {
-        Busstop * b = projectData->busstop(busstopList[i]);
-        n->addBusstop(b);
-    }
-
-    undoStack->push(new CmdRouteNew(_currentLine, n));
-    emit refreshRequested();
-}
-
-void WdgRoutes::actionDelete() {
-    QModelIndexList selection = ui->twRoutes->selectionModel()->selectedRows(0);
-
-    QString showList ="<ul>";
-    QList<Route *> routes;
-    for(int i = 0; i < selection.count(); i++) {
-        Route *r = tableReference[selection[i].row()];
-        routes << r;
-        showList += QString("<li>%1</li>").arg(r->name());
-    }
-    showList += "</ul>";
-
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("delete route(s)"), tr("<p><b>Do you really want to delete these %n route(s)?</b></p>", "", routes.count()) + showList, QMessageBox::Yes|QMessageBox::No);
-    if(msg != QMessageBox::Yes)
-        return;
-
-    undoStack->push(new CmdRoutesDelete(_currentLine, routes));
-    emit refreshRequested();
-}
-
-void WdgRoutes::actionExportProfiles() {
-    if(!_currentRoute)
-        return;
-
-    Route *r = _currentRoute;
-
-    QString result = "";
-
-    QList<TimeProfile *> profiles = r->timeProfiles();
-    for(int i = 0; i < profiles.count(); i++) {
-        TimeProfile *p = profiles[i];
-        result += "[profile]\r\n" + p->name() + "\r\n" + QString::number(p->duration()) + "\r\n\r\n";
-
-        for(int j = 0; j < r->busstopCount(); j++) {
-            Busstop *b = r->busstopAt(j);
-            TimeProfileItem *itm = p->busstop(b);
-            if(!itm)
-                continue;
-
-            result += "[profile_man_arr_time]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->depValue()) + "\r\n";
-            if(itm->busstopMode() != TimeProfileItem::BusstopModeNormal) {
-                result += "[profile_otherstopping]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->busstopMode()) + "\r\n";
-            }
-        }
-    }
-    DataExporter dlg;
-    dlg.setFileName(r->name());
-    dlg.setFolderName("profiles");
-    dlg.setText(result, "", "");
-    dlg.exec();
-}
-
-void WdgRoutes::setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDuplicate, QAction *actionDelete) {
-    _actionNew = actionNew;
-    _actionEdit = actionEdit;
-    _actionDuplicate = actionDuplicate;
-    _actionDelete = actionDelete;
-
-    refreshUI();
+QList<QAction *> WdgRoutes::actions() {
+    return ui->twRoutes->actions();
 }
 
 void WdgRoutes::refreshUI() {
     int selectionCount = ui->twRoutes->selectionModel()->selectedRows(0).count();
-
-    if(selectionCount == 0) {
-        ui->twRoutes->setCurrentItem(nullptr);
-        ui->pbEdit->setEnabled(false);
-        ui->pbDuplicate->setEnabled(false);
-        ui->pbDelete->setEnabled(false);
-        _actionEdit->setEnabled(false);
-        _actionDuplicate->setEnabled(false);
-        _actionDelete->setEnabled(false);
-    } else if(selectionCount == 1) {
-        ui->pbEdit->setEnabled(true);
-        ui->pbDuplicate->setEnabled(true);
-        ui->pbDelete->setEnabled(true);
-        _actionEdit->setEnabled(true);
-        _actionDuplicate->setEnabled(true);
-        _actionDelete->setEnabled(true);
-    } else {
-        ui->pbEdit->setEnabled(false);
-        ui->pbDuplicate->setEnabled(false);
-        ui->pbDelete->setEnabled(true);
-        _actionEdit->setEnabled(false);
-        _actionDuplicate->setEnabled(false);
-        _actionDelete->setEnabled(true);
-    }
+    _actionNew->setEnabled(selectionCount == 1);
+    _actionEdit->setEnabled(selectionCount == 1);
+    _actionDuplicate->setEnabled(selectionCount == 1);
+    _actionDelete->setEnabled(selectionCount >= 1);
 }
 
-void WdgRoutes::setCurrentLine(Line *l) {
-    if(!l) {
-        ui->pbNew->setEnabled(false);
-        _actionNew->setEnabled(false);
-        _currentLine = nullptr;
-    }
-
-    ui->pbNew->setEnabled(true);
-    _actionNew->setEnabled(true);
-
-    _currentLine = l;
-    refresh();
-}
-
-Route * WdgRoutes::currentRoute() {
-    return _currentRoute;
-}
-
-QAction *WdgRoutes::menubarActionNew() {
-    return _actionNew;
-}
-
-QAction *WdgRoutes::menubarActionEdit() {
-    return _actionEdit;
-}
-
-QAction *WdgRoutes::menubarActionDuplicate() {
-    return _actionDuplicate;
-}
-
-QAction *WdgRoutes::menubarActionDelete() {
-    return _actionDelete;
-}
-
-QAction *WdgRoutes::menubarActionExportListCurrent() {
-    return _actionExportListCurrent;
-}
-
-QAction *WdgRoutes::menubarActionExportListAll() {
-    return _actionExportListCurrent;
-}
-
-
-void WdgRoutes::refresh() {
+void WdgRoutes::refreshRouteList() {
     qDebug() << "refreshing route list...";
 
     refreshing = true;
@@ -299,7 +102,8 @@ void WdgRoutes::refresh() {
     int counter = 0;
     QList<LineDirection *> directions = _currentLine->directions();
 
-    foreach(LineDirection *ld, directions) {
+    // append nullptr to routes to also get all routes with no direction assigned
+    foreach(LineDirection *ld, directions << nullptr) {
         QList<Route *> routes = _currentLine->routesToDirection(ld);
         routes = ProjectData::sortItems(routes);
 
@@ -326,7 +130,7 @@ void WdgRoutes::refresh() {
 
             ui->twRoutes->insertRow(counter);
             ui->twRoutes->setItem(counter, 0, new QTableWidgetItem(code));
-            ui->twRoutes->setItem(counter, 1, new QTableWidgetItem(ld->description()));
+            if(ld) ui->twRoutes->setItem(counter, 1, new QTableWidgetItem(ld->description()));
             ui->twRoutes->setItem(counter, 2, new QTableWidgetItem(r->name()));
             ui->twRoutes->setItem(counter, 3, new QTableWidgetItem(firstBusstop));
             ui->twRoutes->setItem(counter, 4, new QTableWidgetItem(lastBusstop));
@@ -350,22 +154,90 @@ void WdgRoutes::refresh() {
     refreshing = false;
 }
 
-void WdgRoutes::on_twRoutes_itemSelectionChanged() {
-    if(refreshing)
+void WdgRoutes::setCurrentLine(Line *l) {
+    if(!l) {
+        ui->pbNew->setEnabled(false);
+        _actionNew->setEnabled(false);
+        _currentLine = nullptr;
+    }
+
+    ui->pbNew->setEnabled(true);
+    _actionNew->setEnabled(true);
+
+    _currentLine = l;
+    refreshRouteList();
+}
+
+Route * WdgRoutes::currentRoute() const {
+    return _currentRoute;
+}
+
+void WdgRoutes::actionNew() {
+    if(!_currentLine)
         return;
 
-    QTableWidgetItem *current = ui->twRoutes->currentItem();
+    Route *r = _currentLine->newRoute();
+    r->setDirection(_currentLine->directionAt(0));
 
-    int selectionCount = ui->twRoutes->selectionModel()->selectedRows().count();
+    DlgRouteEditor dlg(this, r, true);
 
-    if(!current || selectionCount == 0 || selectionCount > 1)
-        _currentRoute = nullptr;
-    else
-        _currentRoute = tableReference[current->row()];
+    if(dlg.exec() != QDialog::Accepted)
+        return;
 
-    refreshUI();
+    *r = dlg.route();
 
-    emit currentRouteChanged(_currentRoute);
+    projectData->undoStack()->push(new CmdRouteNew(_currentLine, r));
+    _currentRoute = r;
+    emit currentRouteChanged(r);
+    emit refreshRequested();
+}
+
+void WdgRoutes::actionEdit() {
+    if(!_currentLine || !_currentRoute)
+        return;
+    
+    DlgRouteEditor dlg(this, _currentRoute);
+    if(dlg.exec() != QDialog::Accepted)
+        return;
+
+    Route newR = dlg.route();
+
+    projectData->undoStack()->push(new CmdRouteEdit(_currentRoute, newR));
+    emit refreshRequested();
+}
+
+void WdgRoutes::actionDuplicate() {
+    if(!_currentLine || !_currentRoute)
+        return;
+    
+    DlgRouteEditor dlg(this, _currentRoute);
+    if(dlg.exec() != QDialog::Accepted)
+        return;
+
+    Route *newR = _currentLine->newRoute(dlg.route());
+
+    projectData->undoStack()->push(new CmdRouteNew(_currentLine, newR));
+    emit refreshRequested();
+}
+
+void WdgRoutes::actionDelete() {
+    QModelIndexList selection = ui->twRoutes->selectionModel()->selectedRows(0);
+
+    QString showList ="<ul>";
+    QList<Route *> routes;
+    for(int i = 0; i < selection.count(); i++) {
+        Route *r = tableReference[selection[i].row()];
+        routes << r;
+        showList += QString("<li>%1</li>").arg(r->name());
+    }
+    showList += "</ul>";
+
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("delete route(s)"), tr("<p><b>Do you really want to delete these %n route(s)?</b></p>", "", routes.count()) + showList, QMessageBox::Yes|QMessageBox::No);
+    if(msg != QMessageBox::Yes)
+        return;
+
+    projectData->undoStack()->push(new CmdRoutesDelete(_currentLine, routes));
+    emit refreshRequested();
 }
 
 void WdgRoutes::omsiExport() {
@@ -431,10 +303,52 @@ void WdgRoutes::omsiExport() {
     }
 }
 
+void WdgRoutes::on_twRoutes_itemSelectionChanged() {
+    if(refreshing)
+        return;
 
+    QTableWidgetItem *current = ui->twRoutes->currentItem();
 
+    int selectionCount = ui->twRoutes->selectionModel()->selectedRows().count();
 
+    if(!current || selectionCount == 0 || selectionCount > 1)
+        _currentRoute = nullptr;
+    else
+        _currentRoute = tableReference[current->row()];
 
+    refreshUI();
 
+    emit currentRouteChanged(_currentRoute);
+}
 
+/*void WdgRoutes::actionExportProfiles() {
+    if(!_currentRoute)
+        return;
 
+    Route *r = _currentRoute;
+
+    QString result = "";
+
+    QList<TimeProfile *> profiles = r->timeProfiles();
+    for(int i = 0; i < profiles.count(); i++) {
+        TimeProfile *p = profiles[i];
+        result += "[profile]\r\n" + p->name() + "\r\n" + QString::number(p->duration()) + "\r\n\r\n";
+
+        for(int j = 0; j < r->busstopCount(); j++) {
+            Busstop *b = r->busstopAt(j);
+            TimeProfileItem *itm = p->busstop(b);
+            if(!itm)
+                continue;
+
+            result += "[profile_man_arr_time]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->depValue()) + "\r\n";
+            if(itm->busstopMode() != TimeProfileItem::BusstopModeNormal) {
+                result += "[profile_otherstopping]\r\n" + QString::number(j) + "\r\n" + QString::number(itm->busstopMode()) + "\r\n";
+            }
+        }
+    }
+    DataExporter dlg;
+    dlg.setFileName(r->name());
+    dlg.setFolderName("profiles");
+    dlg.setText(result, "", "");
+    dlg.exec();
+}*/

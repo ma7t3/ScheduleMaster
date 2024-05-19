@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>routeEditor</class>
- <widget class="QDialog" name="routeEditor">
+ <class>DlgRouteEditor</class>
+ <widget class="QDialog" name="DlgRouteEditor">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -56,7 +56,7 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QComboBox" name="cbDirection"/>
+       <widget class="QComboBox" name="cbDirections"/>
       </item>
      </layout>
     </widget>
@@ -95,23 +95,13 @@
            </widget>
           </item>
           <item>
-           <widget class="QTreeWidget" name="twAllBusstops">
+           <widget class="QListWidget" name="lwAllBusstops">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <column>
-             <property name="text">
-              <string>ID</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Name</string>
-             </property>
-            </column>
            </widget>
           </item>
          </layout>
@@ -191,7 +181,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pbBusstopReverse">
+           <widget class="QPushButton" name="pbBusstopsReverse">
             <property name="toolTip">
              <string>Reverse</string>
             </property>
@@ -232,23 +222,13 @@
            </widget>
           </item>
           <item>
-           <widget class="QTreeWidget" name="twRouteBusstops">
+           <widget class="QListWidget" name="lwRouteBusstops">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <column>
-             <property name="text">
-              <string>ID</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Name</string>
-             </property>
-            </column>
            </widget>
           </item>
          </layout>
@@ -350,11 +330,6 @@
             </property>
             <column>
              <property name="text">
-              <string>ID</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
               <string>Name</string>
              </property>
             </column>
@@ -387,15 +362,15 @@
  <tabstops>
   <tabstop>leName</tabstop>
   <tabstop>sbCode</tabstop>
-  <tabstop>cbDirection</tabstop>
+  <tabstop>cbDirections</tabstop>
   <tabstop>leBusstopsSearch</tabstop>
-  <tabstop>twAllBusstops</tabstop>
-  <tabstop>twRouteBusstops</tabstop>
+  <tabstop>lwAllBusstops</tabstop>
+  <tabstop>lwRouteBusstops</tabstop>
   <tabstop>pbBusstopAdd</tabstop>
   <tabstop>pbBusstopRemove</tabstop>
   <tabstop>pbBusstopUp</tabstop>
   <tabstop>pbBusstopDown</tabstop>
-  <tabstop>pbBusstopReverse</tabstop>
+  <tabstop>pbBusstopsReverse</tabstop>
   <tabstop>twProfiles</tabstop>
   <tabstop>pbProfileNew</tabstop>
   <tabstop>pbProfileEdit</tabstop>
@@ -409,32 +384,32 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>routeEditor</receiver>
+   <receiver>DlgRouteEditor</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>755</y>
+     <x>599</x>
+     <y>743</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>599</x>
+     <y>382</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>routeEditor</receiver>
+   <receiver>DlgRouteEditor</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>755</y>
+     <x>599</x>
+     <y>743</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>599</x>
+     <y>382</y>
     </hint>
    </hints>
   </connection>

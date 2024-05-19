@@ -190,6 +190,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->menuBusstops->addActions(wdgBusstops->actions());
     ui->menuLines   ->addActions(wdgLines   ->actions());
+    ui->menuRoutes  ->addActions(wdgRoutes  ->actions());
 
     qDebug() << "adding toggleViewActions to menubar";
     ui->menuDocks->addAction(actDockBusstops);
@@ -202,9 +203,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuDocks->addSeparator();
     ui->menuDocks->addAction(actDockPublishedLines);
     ui->menuDocks->addAction(actDockFootnotes);
-
-    qDebug() << "setting menubarActions to widgets";
-    wdgRoutes   -> setMenubarActions(ui->actionRoutesNew, ui->actionRoutesEdit, ui->actionRoutesDuplicate, ui->actionRoutesDelete);
 
     qDebug() << "loading undo and redo action...";
     undoAction = undoStack()->createUndoAction(this, tr("Undo"));
@@ -297,12 +295,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(wdgBusstops, &WdgBusstops::busstopScheduleRequested, this, &MainWindow::actionOpenBusstopSchedule);
 
-    qDebug() << "\troutes";
-    connect(ui->actionRoutesNew,                   &QAction::triggered,                    wdgRoutes,          &WdgRoutes::actionNew);
-    connect(ui->actionRoutesEdit,                  &QAction::triggered,                    wdgRoutes,          &WdgRoutes::actionEdit);
-    connect(ui->actionRoutesDuplicate,             &QAction::triggered,                    wdgRoutes,          &WdgRoutes::actionDuplicate);
-    connect(ui->actionRoutesDelete,                &QAction::triggered,                    wdgRoutes,          &WdgRoutes::actionDelete);
-
     qDebug() << "\tschedule";
     connect(ui->actionScheduleAddTrip,             &QAction::triggered,                    wdgTripEditor,      &WdgTripEditor::actionNew);
     connect(ui->actionScheduleCopyTrip,            &QAction::triggered,                    wdgTripEditor,      &WdgTripEditor::actionCopy);
@@ -343,7 +335,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Busstops
     connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgBusstops,        &WdgBusstops::refreshBusstopList);
     connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgSchedule,        &WdgSchedule::refreshSchedule);
-    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgRoutes,          &WdgRoutes::refresh);
+    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgRoutes,          &WdgRoutes::refreshRouteList);
 
     // Lines
     connect(wdgLines,                              &WdgLines::refreshRequested,            wdgLines,           &WdgLines::refreshLineList);
@@ -351,7 +343,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(wdgLines,                              &WdgLines::refreshRequested,            wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);
 
     // Routes
-    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgRoutes,          &WdgRoutes::refresh);
+    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgRoutes,          &WdgRoutes::refreshRouteList);
     connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);
 
     // Schedule
@@ -418,7 +410,7 @@ void MainWindow::startupDialogHandler() {
 
     if(startupDialog->result() == QDialog::Accepted) {
         int action =startupDialog->getAction();
-        if(action == StartupDialog::OpenFile)
+        if (action == StartupDialog::OpenFile)
             actionFileOpen();
         else if(action == StartupDialog::OpenRecentFile)
             openFile(startupDialog->getFilePath());
@@ -519,7 +511,7 @@ bool MainWindow::actionFileClose() {
 
     wdgBusstops->refreshBusstopList();
     wdgLines->refreshLineList();
-    wdgRoutes->refresh();
+    wdgRoutes->refreshRouteList();
     wdgSchedule->refreshSchedule();
     wdgSchedule->refreshDirections();
     wdgSchedule->refreshDayTypes();
@@ -575,7 +567,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
     if(t == BusstopsType) {
         wdgBusstops->refreshBusstopList();
         wdgSchedule->refreshSchedule();
-        wdgRoutes->refresh();
+        wdgRoutes->refreshRouteList();
     }
     if(t == LinesType) {
         wdgLines->refreshLineList();
@@ -583,7 +575,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
         wdgPublishedLines->refreshRoutes();
     }
     if(t == RoutesType) {
-        wdgRoutes->refresh();
+        wdgRoutes->refreshRouteList();
         wdgPublishedLines->refreshRoutes();
     }
     if(t == ScheduleType) {

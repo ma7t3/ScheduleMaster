@@ -3,307 +3,237 @@
 
 #include "Dialogs/DlgTimeprofileeditor.h"
 
-#include "App/global.h"
-
+#include <QScrollBar>
 #include <QMessageBox>
 
-routeEditor::routeEditor(QWidget *parent, bool createMode, Route * r, QList<LineDirection *> ld, QList<Busstop*> l, QList<Route *> m) :
+DlgRouteEditor::DlgRouteEditor(QWidget *parent, Route *r, const bool &createMode) :
     QDialog(parent),
-    matchingRoutes(m),
-    ui(new Ui::routeEditor),
-    directions(ld),
-    routeData(r),
-    allBusstops(l)
-{
+    ui(new Ui::DlgRouteEditor),
+    _route(*r),
+    _routePtr(r),
+    _currentRouteBusstop(nullptr) {
     ui->setupUi(this);
 
-    ui->twAllBusstops->hideColumn(0);
-    ui->twRouteBusstops->hideColumn(0);
-    ui->twProfiles->hideColumn(0);
+    _allBusstops = dynamic_cast<ProjectData *>(r->parent()->parent())->busstops();
 
-    ui->twAllBusstops->header()->hide();
-    ui->twRouteBusstops->header()->hide();
+    ui->buttonBox->button(QDialogButtonBox::Apply)->setDisabled(true);
+    ui->buttonBox->button(QDialogButtonBox::Apply)->setToolTip(tr("This feature is not implemented now."));
 
-    if(createMode)
-        QDialog::setWindowTitle(tr("Create route"));
+    refreshAllBusstops();
 
-    for(int i = 0; i < ld.count(); i++) {
-        ui->cbDirection->addItem(ld[i]->description());
-        if(ld[i] == r->direction())
-            ui->cbDirection->setCurrentIndex(i);
-    }
+    setCreateMode(createMode);
+    setRoute(*r);
 
-    refreshAllBusstops("");
+    connect(ui->pbBusstopAdd,      &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopAdd);
+    connect(ui->lwAllBusstops,     &QListWidget::itemDoubleClicked, this, &DlgRouteEditor::actionBusstopAdd);
+    connect(ui->pbBusstopRemove,   &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopRemove);
+    connect(ui->pbBusstopUp,       &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopUp);
+    connect(ui->pbBusstopDown,     &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopDown);
+    connect(ui->pbBusstopsReverse, &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopsReverse);
+    connect(ui->pbProfileNew,      &QPushButton::clicked,           this, &DlgRouteEditor::actionProfileNew);
+    connect(ui->pbProfileEdit,     &QPushButton::clicked,           this, &DlgRouteEditor::actionProfileEdit);
+    connect(ui->twProfiles,        &QTreeWidget::itemDoubleClicked, this, &DlgRouteEditor::actionProfileEdit);
+    connect(ui->pbProfileDelete,   &QPushButton::clicked,           this, &DlgRouteEditor::actionProfileDelete);
 
-    ui->twAllBusstops->sortItems(1, Qt::AscendingOrder);
-
-    QString name = r->name();
-    int code = r->code();
-
-    ui->leName->setText(name);
-    ui->sbCode->setValue(code);
-    
-    for(int i = 0; i < r->busstopCount(); i++) {
-        Busstop *b = r->busstopAt(i);
-
-        QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twRouteBusstops);
-
-        itm->setText(0, b->id());
-        itm->setText(1, b->name());
-
-        ui->twRouteBusstops->addTopLevelItem(itm);
-    }
-
-    refreshProfiles();
+    connect(ui->leBusstopsSearch,  &QLineEdit::textChanged,         this, &DlgRouteEditor::refreshAllBusstops);
 
     ui->leName->setFocus();
 }
 
-routeEditor::~routeEditor()
+DlgRouteEditor::~DlgRouteEditor()
 {
     delete ui;
 }
 
-void routeEditor::refreshAllBusstops(QString filter)
-{
-    ui->twAllBusstops->clear();
-
-    for(int i = 0; i < allBusstops.count(); i++) {
-        if(!allBusstops[i]->name().contains(filter, Qt::CaseInsensitive))
-            continue;
-
-        QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twAllBusstops);
-        itm->setText(0, allBusstops[i]->id());
-        itm->setText(1, allBusstops[i]->name());
-
-        ui->twAllBusstops->addTopLevelItem(itm);
-    }
-
-    ui->twAllBusstops->sortItems(1, Qt::AscendingOrder);
+void DlgRouteEditor::setCreateMode(const bool &newCreateMode) {
+    if(newCreateMode)
+        setWindowTitle(tr("Create route"));
 }
 
-void routeEditor::refreshProfiles()
-{
-    ui->twProfiles->clear();
-    for(int i = 0; i < routeData->timeProfileCount(); i++) {
-        TimeProfile *p = routeData->timeProfileAt(i);
+Route DlgRouteEditor::route() const {
+    // set data here
+    Route r = _route;
+    r.setName(ui->leName->text());
+    r.setCode(ui->sbCode->value());
+    if(ui->cbDirections->currentIndex() == -1 || _directionsReference.isEmpty())
+        r.setDirection(nullptr);
+    else
+        r.setDirection(_directionsReference[ui->cbDirections->currentIndex()]);
 
-        QString id = p->id();
+    return r;
+}
+
+void DlgRouteEditor::setRoute(const Route &route) {
+    _route = route;
+    Line *l = dynamic_cast<Line *>(route.parent());
+
+    _route.setTimeProfiles(_routePtr->cloneTimeProfiles());
+
+    for(int i = 0; i < l->directionCount(); i++) {
+        LineDirection *ld = l->directionAt(i);
+        _directionsReference << ld;
+        ui->cbDirections->addItem(ld->description());
+        if(ld == _route.direction())
+            ui->cbDirections->setCurrentIndex(i);
+    }
+
+    ui->leName->setText(_route.name());
+    ui->sbCode->setValue(_route.code());
+
+    for(int i = 0; i < _route.busstopCount(); i++) {
+        Busstop *b = _route.busstopAt(i);        
+        ui->lwRouteBusstops->addItem(b->name());
+    }
+
+    _matchingRoutes = dynamic_cast<ProjectData *>(_routePtr->parent()->parent())->matchingRoutes(_routePtr);
+
+    refreshProfiles();
+}
+
+void DlgRouteEditor::refreshRouteBusstops() {
+    int scrollValue = ui->lwRouteBusstops->verticalScrollBar()->value();
+
+    Busstop *busstopToSelect = _currentRouteBusstop;
+
+    ui->lwRouteBusstops->clear();
+    for(int i = 0; i < _route.busstopCount(); i++) {
+        Busstop *b = _route.busstopAt(i);
+        QListWidgetItem *itm = new QListWidgetItem(b->name());
+        ui->lwRouteBusstops->addItem(itm);
+        if(b == busstopToSelect)
+            ui->lwRouteBusstops->setCurrentItem(itm);
+    }
+
+    ui->lwRouteBusstops->verticalScrollBar()->setValue(scrollValue);
+}
+
+void DlgRouteEditor::refreshAllBusstops() {
+    _allBusstopsReference.clear();
+    ui->lwAllBusstops->clear();
+    QString filterStr = ui->leBusstopsSearch->text();
+
+    for(int i = 0; i < _allBusstops.count(); i++) {
+        Busstop *b = _allBusstops[i];
+
+        if(!b->name().contains(filterStr, Qt::CaseInsensitive))
+            continue;
+
+        ui->lwAllBusstops->addItem(b->name());
+        _allBusstopsReference << b;
+    }
+
+    ui->lwAllBusstops->sortItems(Qt::AscendingOrder);
+    _allBusstopsReference = ProjectData::sortItems(_allBusstopsReference);
+}
+
+void DlgRouteEditor::refreshProfiles()
+{
+    _timeProfilesReference.clear();
+    ui->twProfiles->clear();
+    for(int i = 0; i < _route.timeProfileCount(); i++) {
+        TimeProfile *p = _route.timeProfileAt(i);
+
         QString name = p->name();
         float duration = p->duration();
 
         QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twProfiles);
 
-        itm->setText(0, id);
-        itm->setText(1, name);
-        itm->setText(2, QString::number(duration) + " min.");
+        itm->setText(0, name);
+        itm->setText(1, QString::number(duration) + " min.");
 
         ui->twProfiles->addTopLevelItem(itm);
+        _timeProfilesReference << p;
     }
 }
 
-QString routeEditor::name()
-{
-    return ui->leName->text();
-}
-
-int routeEditor::getCode()
-{
-    return ui->sbCode->value();
-}
-
-LineDirection *routeEditor::getDirection()
-{
-    return directions[ui->cbDirection->currentIndex()];
-}
-
-QStringList routeEditor::getBusstopList()
-{
-    QStringList busstopIDs;
-    for(int i = 0; i < ui->twRouteBusstops->topLevelItemCount(); i++) {
-        busstopIDs << ui->twRouteBusstops->topLevelItem(i)->text(0);
-    }
-    return busstopIDs;
-}
-
-QStringList routeEditor::getTimeProfileList()
-{
-    return {};
-}
-
-void routeEditor::on_leBusstopsSearch_textChanged(const QString &arg1)
-{
-    refreshAllBusstops(ui->leBusstopsSearch->text());
-}
-
-void routeEditor::on_twAllBusstops_itemDoubleClicked(QTreeWidgetItem *item, int column)
-{
-    on_pbBusstopAdd_clicked();
-}
-
-void routeEditor::on_pbBusstopAdd_clicked()
-{
-    if(!ui->twAllBusstops->currentItem())
+void DlgRouteEditor::actionBusstopAdd() {
+    if(!ui->lwAllBusstops->currentItem())
         return;
 
-    QString id = ui->twAllBusstops->currentItem()->text(0);
-    QString name = ui->twAllBusstops->currentItem()->text(1);
+    const int index = ui->lwAllBusstops->currentIndex().row();
+    Busstop *b = _allBusstopsReference[index];
 
-    QTreeWidgetItem * itm = new QTreeWidgetItem;
+    QListWidgetItem *currentTargetItem = ui->lwRouteBusstops->currentItem();
 
-    itm->setText(0, id);
-    itm->setText(1, name);
-
-    QTreeWidgetItem * currentTargetItem = ui->twRouteBusstops->currentItem();
-
-    int i;
+    int targetIndex;
     if(!currentTargetItem)
-        i = 0;
+        targetIndex = 0;
     else
-        i = ui->twRouteBusstops->indexOfTopLevelItem(currentTargetItem) + 1;
+        targetIndex = ui->lwRouteBusstops->currentIndex().row() + 1;
 
-    ui->twRouteBusstops->insertTopLevelItem(i, itm);
-    ui->twRouteBusstops->setCurrentItem(itm);
+    _route.insertBusstop(targetIndex, b);
+
+    _currentRouteBusstop = b;
+    refreshRouteBusstops();
 }
 
-
-
-void routeEditor::on_pbBusstopRemove_clicked()
-{
-    if(!ui->twRouteBusstops->currentItem())
+void DlgRouteEditor::actionBusstopRemove() {
+    if(!ui->lwRouteBusstops->currentItem())
         return;
 
-    delete ui->twRouteBusstops->currentItem();
+    const int removeIndex = ui->lwRouteBusstops->currentIndex().row();
+    _route.removeBusstop(removeIndex);
+
+    refreshRouteBusstops();
 }
 
-
-void routeEditor::on_pbBusstopUp_clicked()
-{
+void DlgRouteEditor::actionBusstopUp() {
     moveCurrentRouteBusstop(false);
+    refreshRouteBusstops();
 }
 
-
-void routeEditor::on_pbBusstopDown_clicked()
-{
+void DlgRouteEditor::actionBusstopDown() {
     moveCurrentRouteBusstop(true);
+    refreshRouteBusstops();
 }
 
-void routeEditor::moveCurrentRouteBusstop(bool direction)
-{
-    if(!ui->twRouteBusstops->currentItem())
-        return;
+void DlgRouteEditor::actionBusstopsReverse() {
+    QList<Busstop *> list;
 
-    int i = ui->twRouteBusstops->currentIndex().row();
-    int z = i + (direction ? 1 : -1);
+    const int busstopCount = _route.busstopCount();
+    for(int i = busstopCount - 1; i >= 0; i--)
+        list << _route.busstopAt(i);
 
-    if(z < 0 || z >= ui->twRouteBusstops->topLevelItemCount())
-        return;
+    _route.setBusstops(list);
 
-    QTreeWidgetItem *itm = ui->twRouteBusstops->takeTopLevelItem(i);
-    ui->twRouteBusstops->insertTopLevelItem(z, itm);
-    ui->twRouteBusstops->setCurrentItem(itm);
+    refreshRouteBusstops();
 }
 
+void DlgRouteEditor::actionProfileNew() {
+    TimeProfile *p = _route.newTimeProfile();
 
-void routeEditor::on_pbBusstopReverse_clicked()
-{
-    //QMessageBox::warning(this, "Not available", "This feature is currently not available");
-
-    QList<QPair<QString, QString>> l;
-
-    for(int i = 0; i < ui->twRouteBusstops->topLevelItemCount(); i++) {
-        QPair<QString, QString> p;
-        p.first = ui->twRouteBusstops->topLevelItem(i)->text(0);
-        p.second = ui->twRouteBusstops->topLevelItem(i)->text(1);
-        l << p;
+    DlgTimeProfileEditor dlg(this, p, &_route, true);
+    if(dlg.exec() != QDialog::Accepted) {
+        delete p;
+        return;
     }
 
-    ui->twRouteBusstops->clear();
-
-    for(int i = l.count() - 1; i >= 0; i--) {
-        QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twRouteBusstops);
-        itm->setText(0, l[i].first);
-        itm->setText(1, l[i].second);
-        ui->twRouteBusstops->addTopLevelItem(itm);
-    }
-
+    *p = dlg.timeProfile();
+    _route.addTimeProfile(p);
+    refreshProfiles();
 }
 
-
-
-void routeEditor::on_pbProfileNew_clicked()
-{
-    TimeProfileEditor dlg(this, true, "", 0, routeData, {});
-    dlg.exec();
-
-    if(dlg.result() != QDialog::Accepted)
+void DlgRouteEditor::actionProfileEdit() {
+    if(!ui->twProfiles->currentItem())
         return;
 
-    QString name = dlg.name();
-    float duration = dlg.getDuration();
-    QList<TimeProfileItem *> itemList = dlg.getTimeProfileItemList();
+    TimeProfile *p = _timeProfilesReference[ui->twProfiles->currentIndex().row()];
 
-    TimeProfile *t = routeData->newTimeProfile();
-    t->setName(name);
-    t->setDuration(duration);
-    t->addBusstops(itemList);
+    DlgTimeProfileEditor dlg(this, p, &_route);
+    if(dlg.exec() != QDialog::Accepted)
+        return;
 
-    routeData->addTimeProfile(t);
+    *p = dlg.timeProfile();
 
     refreshProfiles();
 }
 
-
-
-void routeEditor::on_twProfiles_itemDoubleClicked(QTreeWidgetItem *item, int column)
-{
-    on_pbProfileEdit_clicked();
-}
-
-
-void routeEditor::on_pbProfileEdit_clicked()
-{
+void DlgRouteEditor::actionProfileDelete() {
     if(!ui->twProfiles->currentItem())
         return;
 
     QString id = ui->twProfiles->currentItem()->text(0);
-    TimeProfile *p = routeData->timeProfile(id);
-    if(!p)
-        return;
-
-    QString name = p->name();
-    float duration = p->duration();
-    QList<TimeProfileItem *> itemList = p->busstops();
-
-
-    TimeProfileEditor dlg(this, false, name, duration, routeData, itemList, matchingRoutes);
-
-    dlg.exec();
-
-    if(dlg.result() != QDialog::Accepted)
-        return;
-
-    QString newName = dlg.name();
-    float newDuration = dlg.getDuration();
-    QList<TimeProfileItem *> newItemList = dlg.getTimeProfileItemList();
-
-    p->setName(newName);
-    p->setDuration(newDuration);
-    p->setBusstops(newItemList);
-
-    refreshProfiles();
-}
-
-
-
-
-void routeEditor::on_pbProfileDelete_clicked()
-{
-    if(!ui->twProfiles->currentItem())
-        return;
-
-    QString id = ui->twProfiles->currentItem()->text(0);
-    TimeProfile *p = routeData->timeProfile(id);
+    TimeProfile *p = _route.timeProfile(id);
     if(!p)
         return;
 
@@ -312,25 +242,33 @@ void routeEditor::on_pbProfileDelete_clicked()
     if(msg != QMessageBox::Yes)
         return;
 
-    routeData->removeTimeProfile(p);
+    _route.removeTimeProfile(p);
 
     refreshProfiles();
 }
 
+void DlgRouteEditor::moveCurrentRouteBusstop(bool direction) {
+    if(!_currentRouteBusstop)
+        return;
 
+    const int oldIndex = _route.indexOfBusstop(_currentRouteBusstop);
+    const int moveVal  = direction ? 1 : (-1);
 
+    if(direction && oldIndex >= _route.busstopCount() - 1)
+        return;
 
+    if(!direction && oldIndex < 1)
+        return;
 
+    _route.removeBusstop(oldIndex);
+    _route.insertBusstop(oldIndex + moveVal, _currentRouteBusstop);
 
+    refreshRouteBusstops();
+}
 
-
-
-
-
-
-
-
-
-
-
+void DlgRouteEditor::on_lwRouteBusstops_currentItemChanged(QListWidgetItem *current,
+                                                        QListWidgetItem *previous) {
+    Q_UNUSED(current); Q_UNUSED(previous);
+    _currentRouteBusstop = _route.busstopAt(ui->lwRouteBusstops->currentIndex().row());
+}
 

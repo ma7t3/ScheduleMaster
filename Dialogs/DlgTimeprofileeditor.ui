@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TimeProfileEditor</class>
- <widget class="QDialog" name="TimeProfileEditor">
+ <class>DlgTimeProfileEditor</class>
+ <widget class="QDialog" name="DlgTimeProfileEditor">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -55,12 +55,18 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QTableWidget" name="twProfile">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
         <property name="selectionMode">
          <enum>QAbstractItemView::NoSelection</enum>
         </property>
         <property name="selectionBehavior">
          <enum>QAbstractItemView::SelectRows</enum>
         </property>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
         <column>
          <property name="text">
           <string>ID</string>
@@ -113,32 +119,32 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>TimeProfileEditor</receiver>
+   <receiver>DlgTimeProfileEditor</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>655</x>
+     <y>617</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>655</x>
+     <y>319</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>TimeProfileEditor</receiver>
+   <receiver>DlgTimeProfileEditor</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>655</x>
+     <y>617</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>655</x>
+     <y>319</y>
     </hint>
    </hints>
   </connection>
