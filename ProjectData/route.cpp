@@ -70,7 +70,10 @@ QJsonObject Route::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.insert("code", code());
     jsonObject.insert("name", name());
-    jsonObject.insert("direction", direction()->id());
+    if(direction())
+        jsonObject.insert("direction", direction()->id());
+    else
+        jsonObject.insert("direction", QJsonValue::Null);
 
     QJsonArray jBusstops, jTimeProfiles;
     for(int i = 0; i < busstopCount(); ++i)
@@ -189,7 +192,7 @@ void Route::addBusstop(Busstop * b) {
 }
 
 void Route::insertBusstop(const int &index , Busstop * b) {
-    if(!b || index < 0 || index >= _busstops.count())
+    if(!b || index < 0 || index > _busstops.count())
         return;
     
     _busstops.insert(index, b);

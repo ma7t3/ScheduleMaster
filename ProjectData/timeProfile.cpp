@@ -39,6 +39,8 @@ void TimeProfileItem::copy(const TimeProfileItem &other) {
     ProjectDataItem::copy(other);
     _busstopId = other.busstopId();
 
+    _seperateTimes = false;
+
     if(other.hasSeperateTimes())
         setArrValue(other.arrValue());
 
