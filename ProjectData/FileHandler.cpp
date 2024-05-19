@@ -102,13 +102,6 @@ bool FileHandler::readFile() {
 }
 
 bool FileHandler::saveFile() {
-    QFile f(_filePath);
-    if(!f.open(QIODevice::WriteOnly)) {
-        qWarning() << "Failed reading file" << _filePath << "! Reason:" << f.errorString();
-        emit saveFileError(_filePath, f.errorString());
-        return false;
-    }
-
     bool compress = _filePath.endsWith(".smp");
     QJsonObject jFileInfo;
     jFileInfo.insert("appVersion", AppInfo::currentVersion() ? AppInfo::currentVersion()->name() : "UNKNOWN");
@@ -128,6 +121,13 @@ bool FileHandler::saveFile() {
     } else
         data = jDoc.toJson(QJsonDocument::Indented);
 
+    // open file
+    QFile f(_filePath);
+    if(!f.open(QIODevice::WriteOnly)) {
+        qWarning() << "Failed reading file" << _filePath << "! Reason:" << f.errorString();
+        emit saveFileError(_filePath, f.errorString());
+        return false;
+    }
 
     // write to file
     emit actionStarted(DlgProgressLogger::InfoType, tr("writing file..."), true);
