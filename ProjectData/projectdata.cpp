@@ -107,7 +107,7 @@ Busstop *ProjectData::busstopAt(int i) {
     return _busstops[i];
 }
 
-QList<Busstop *> ProjectData::busstops() {
+QList<Busstop *> ProjectData::busstops() const {
     return _busstops;
 }
 

@@ -36,7 +36,7 @@ public:
     int busstopCount();
     Busstop *busstop(QString);
     Busstop *busstopAt(int);
-    QList <Busstop*> busstops();
+    QList <Busstop*> busstops() const;
     Busstop *busstopWithName(const QString &name);
     bool busstopWithNameExists(const QString &name);
 
