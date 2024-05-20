@@ -57,5 +57,6 @@
         <file>versions.json</file>
         <file>icons/Changelog.ico</file>
         <file>icons/HourBreak.ico</file>
+        <file>icons/UndoRedo.ico</file>
     </qresource>
 </RCC>
