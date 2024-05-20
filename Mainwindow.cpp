@@ -157,6 +157,7 @@ MainWindow::MainWindow(QWidget *parent) :
     splashScreen.showMessage(tr("loading menubar..."), Qt::AlignBottom, messageColor);
 
     qDebug() << "loading toggleViewActions...";
+    QAction *actDockUndoView        = dwUndoView        -> toggleViewAction();
     QAction *actDockBusstops        = dwBusstops        -> toggleViewAction();
     QAction *actDockLines           = dwLines           -> toggleViewAction();
     QAction *actDockRoutes          = dwRoutes          -> toggleViewAction();
@@ -168,6 +169,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *actDockFootnotes       = dwFootnotes       -> toggleViewAction();
 
     qDebug() << "setting icons of toggleViewActions...";
+    actDockUndoView        -> setIcon(QIcon(":/icons/UndoRedo.ico"));
     actDockBusstops        -> setIcon(QIcon(":/icons/Busstop.ico"));
     actDockLines           -> setIcon(QIcon(":/icons/Line.ico"));
     actDockRoutes          -> setIcon(QIcon(":/icons/Route.ico"));
@@ -179,6 +181,7 @@ MainWindow::MainWindow(QWidget *parent) :
     actDockFootnotes       -> setIcon(QIcon(":/icons/Footnote.ico"));
 
     qDebug() << "setting shortcuts toggleViewActions...";
+    actDockUndoView        -> setShortcut(QKeySequence(tr("Alt+U")));
     actDockBusstops        -> setShortcut(QKeySequence(tr("Alt+B")));
     actDockLines           -> setShortcut(QKeySequence(tr("Alt+L")));
     actDockRoutes          -> setShortcut(QKeySequence(tr("Alt+R")));
@@ -203,6 +206,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuDocks->addSeparator();
     ui->menuDocks->addAction(actDockPublishedLines);
     ui->menuDocks->addAction(actDockFootnotes);
+    ui->menuDocks->addSeparator();
+    ui->menuDocks->addAction(actDockUndoView);
 
     qDebug() << "loading undo and redo action...";
     undoAction = undoStack()->createUndoAction(this, tr("Undo"));
@@ -256,6 +261,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tbGeneral->addAction(ui->actionFileNew);
     tbGeneral->addAction(ui->actionFileOpen);
     tbGeneral->addAction(ui->actionFileSave);
+    tbGeneral->addSeparator();
     tbGeneral->addAction(undoAction);
     tbGeneral->addAction(redoAction);
     tbGeneral->addSeparator();
@@ -273,6 +279,8 @@ MainWindow::MainWindow(QWidget *parent) :
     tbDocks->addAction(actDockTourEditor);
     tbDocks->addAction(actDockPublishedLines);
     tbDocks->addAction(actDockFootnotes);
+    tbDocks->addSeparator();
+    tbDocks->addAction(actDockUndoView);
 
     qDebug() << "\tworkspaces toolbar";
     tbWorkspaces->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
