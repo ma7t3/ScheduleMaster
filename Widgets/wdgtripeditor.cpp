@@ -106,6 +106,7 @@ void WdgTripEditor::actionCopy() {
         Trip *t = _currentLine->newTrip();
         t->setRoute(currentTrip->route());
         t->setStartTime(QTime::fromMSecsSinceStartOfDay(currentTrip->startTime().msecsSinceStartOfDay() + ((i + 1) * interval.msecsSinceStartOfDay())));
+        t->setWeekDays(currentTrip->weekDays());
         t->setTimeProfile(currentTrip->timeProfile());
         trips << t;
     }
