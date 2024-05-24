@@ -1,19 +1,20 @@
 #include "WdgRouteSelector.h"
-#include "ui_WdgRouteSelector.h"
 
-WdgRouteSelector::WdgRouteSelector(QWidget *parent, ProjectData *projectData) :
-    QWidget(parent),
-    ui(new Ui::WdgRouteSelector),
-    _projectData(projectData) {
 
-    ui->setupUi(this);
+#include "Mainwindow.h"
 
-    QObject::connect(ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(refreshCheckBoxRelations(QTreeWidgetItem*)));
-    QObject::connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(emitRoutesChangedSignal()));
-}
+WdgRouteSelector::WdgRouteSelector(QWidget *parent) :
+    QTreeWidget(parent),
+    _projectData(((MainWindow *)parent)->projectData()),
+    _filterBusstop(nullptr) {
 
-WdgRouteSelector::~WdgRouteSelector() {
-    delete ui;
+    setHeaderHidden(true);
+
+    connect(this, &QTreeWidget::itemChanged, this, &WdgRouteSelector::refreshCheckBoxRelations);
+    connect(this, &QTreeWidget::itemChanged, this, [this](){
+        if(!_userClicked)
+            emit routesChanged(routes());
+    });
 }
 
 void WdgRouteSelector::setProjectData(ProjectData *projectData) {
@@ -23,8 +24,8 @@ void WdgRouteSelector::setProjectData(ProjectData *projectData) {
 QList<Route *> WdgRouteSelector::routes() {
     QList<Route *> list;
 
-    for(int i = 0; i < ui->treeWidget->topLevelItemCount(); i++) {
-        QTreeWidgetItem *itm = ui->treeWidget->topLevelItem(i);
+    for(int i = 0; i < topLevelItemCount(); i++) {
+        QTreeWidgetItem *itm = topLevelItem(i);
         for(int j = 0; j < itm->childCount(); j++) {
             QTreeWidgetItem *subItm = itm->child(j);
             for(int k = 0; k < subItm->childCount(); k++) {
@@ -38,7 +39,7 @@ QList<Route *> WdgRouteSelector::routes() {
 }
 
 void WdgRouteSelector::refresh() {
-    ui->treeWidget->clear();
+    clear();
 
     _routesReference.clear();
     _routesDirectionsReference.clear();
@@ -46,7 +47,7 @@ void WdgRouteSelector::refresh() {
 
     for(int i = 0; i < _projectData->lineCount(); i++) {
         Line *l = _projectData->lineAt(i);
-        QTreeWidgetItem *lineItm = new QTreeWidgetItem({l->name()});
+        QTreeWidgetItem *lineItm = new QTreeWidgetItem(this, {l->name()});
         lineItm->setCheckState(0, Qt::Unchecked);
 
         QList<LineDirection *> directions = l->directions();
@@ -55,7 +56,7 @@ void WdgRouteSelector::refresh() {
 
         for(int j = 0; j < directions.count(); j++) {
             LineDirection *ld = directions[j];
-            QTreeWidgetItem *directionItm = new QTreeWidgetItem({tr("to ") + ld->description()});
+            QTreeWidgetItem *directionItm = new QTreeWidgetItem(lineItm, {tr("to ") + ld->description()});
             directionItm->setCheckState(0, Qt::Unchecked);
 
             QList<Route *> routes = l->routesToDirection(ld);
@@ -67,6 +68,7 @@ void WdgRouteSelector::refresh() {
                     continue;
 
                 QTreeWidgetItem *routeItm = new QTreeWidgetItem(directionItm, {r->name()});
+                directionItm->addChild(routeItm);
                 routeItm->setCheckState(0, Qt::Unchecked);
                 resultRoutes << r;
             }
@@ -80,7 +82,7 @@ void WdgRouteSelector::refresh() {
         }
 
         if(lineItm->childCount() != 0) {
-            ui->treeWidget->addTopLevelItem(lineItm);
+            addTopLevelItem(lineItm);
             _routesLinesReference << l;
             _routesDirectionsReference << resultDirections;
             _routesReference << resultRoutesParent;
@@ -89,23 +91,26 @@ void WdgRouteSelector::refresh() {
 }
 
 void WdgRouteSelector::setSelectedRoutes(QList<Route *> routeList) {
+    _userClicked = true;
+    addTopLevelItem(new QTreeWidgetItem({"Test"}));
     // clear
-    for(int i = 0; i < ui->treeWidget->topLevelItemCount(); i++) {
-        for(int j = 0; j < ui->treeWidget->topLevelItem(i)->childCount(); j++) {
-            for(int k = 0; k < ui->treeWidget->topLevelItem(i)->child(j)->childCount(); k++) {
-                ui->treeWidget->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Unchecked);
+    for(int i = 0; i < topLevelItemCount(); i++) {
+        for(int j = 0; j < topLevelItem(i)->childCount(); j++) {
+            for(int k = 0; k < topLevelItem(i)->child(j)->childCount(); k++) {
+                topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Unchecked);
             }
         }
     }
 
-    for(int i = 0; i < ui->treeWidget->topLevelItemCount(); i++)
-        for(int j = 0; j < ui->treeWidget->topLevelItem(i)->childCount(); j++)
-            for(int k = 0; k < ui->treeWidget->topLevelItem(i)->child(j)->childCount(); k++)
+    for(int i = 0; i < topLevelItemCount(); i++)
+        for(int j = 0; j < topLevelItem(i)->childCount(); j++)
+            for(int k = 0; k < topLevelItem(i)->child(j)->childCount(); k++)
                 foreach(Route *r, routeList)
                     if(_routesReference[i][j][k] == r) {
-                        ui->treeWidget->topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Checked);
+                        topLevelItem(i)->child(j)->child(k)->setCheckState(0, Qt::Checked);
                         break;
                     }
+    _userClicked = false;
 }
 
 void WdgRouteSelector::setFilterBusstop(Busstop *b) {
@@ -113,22 +118,19 @@ void WdgRouteSelector::setFilterBusstop(Busstop *b) {
 }
 
 void WdgRouteSelector::expandAll() {
-    for(int i = 0; i < ui->treeWidget->topLevelItemCount(); i++) {
-        ui->treeWidget->topLevelItem(i)->setExpanded(true);
-        for(int j = 0; j < ui->treeWidget->topLevelItem(i)->childCount(); j++)
-            ui->treeWidget->topLevelItem(i)->child(j)->setExpanded(true);
+    for(int i = 0; i < topLevelItemCount(); i++) {
+        topLevelItem(i)->setExpanded(true);
+        for(int j = 0; j < topLevelItem(i)->childCount(); j++)
+            topLevelItem(i)->child(j)->setExpanded(true);
     }
 }
 
 void WdgRouteSelector::refreshCheckBoxRelations(QTreeWidgetItem *changedItm) {
-    if(refreshingRouteCheckBoxes)
-        return;
-
-    refreshingRouteCheckBoxes = true;
+    blockSignals(true);
 
     // for each line
-    for(int i = 0; i < ui->treeWidget->topLevelItemCount(); i++) {
-        QTreeWidgetItem *lineItm = ui->treeWidget->topLevelItem(i);
+    for(int i = 0; i < topLevelItemCount(); i++) {
+        QTreeWidgetItem *lineItm = topLevelItem(i);
         bool lineChanged = lineItm == changedItm;
 
         bool checkedDirectionFound = false;
@@ -190,9 +192,5 @@ void WdgRouteSelector::refreshCheckBoxRelations(QTreeWidgetItem *changedItm) {
         }
     }
 
-    refreshingRouteCheckBoxes = false;
-}
-
-void WdgRouteSelector::emitRoutesChangedSignal() {
-    emit routesChanged(routes());
+    blockSignals(false);
 }

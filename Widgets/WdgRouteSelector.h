@@ -7,20 +7,13 @@
 
 #include "ProjectData/projectdata.h"
 
-namespace Ui {
-class WdgRouteSelector;
-}
-
-class WdgRouteSelector : public QWidget
+class WdgRouteSelector : public QTreeWidget
 {
     Q_OBJECT
 
 public:
-    explicit WdgRouteSelector(QWidget *parent = nullptr, ProjectData *projectData = nullptr);
-    ~WdgRouteSelector();
-
+    explicit WdgRouteSelector(QWidget *parent);
     void setProjectData(ProjectData *projectData);
-
     QList<Route *> routes();
 
 public slots:
@@ -31,21 +24,19 @@ public slots:
 
 private slots:
     void refreshCheckBoxRelations(QTreeWidgetItem *);
-    void emitRoutesChangedSignal();
 
 signals:
     void routesChanged(QList<Route *>);
 
 private:
-    Ui::WdgRouteSelector *ui;
-
     ProjectData *_projectData;
     Busstop *_filterBusstop;
 
     QList<QList<QList<Route *>>> _routesReference;
     QList<QList<LineDirection *>> _routesDirectionsReference;
     QList<Line *> _routesLinesReference;
-    bool refreshingRouteCheckBoxes = false;
+
+    bool _userClicked = false;
 };
 
 #endif // WDGROUTESELECTOR_H
