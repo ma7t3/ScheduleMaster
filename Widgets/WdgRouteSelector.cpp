@@ -47,7 +47,7 @@ void WdgRouteSelector::refresh() {
 
     for(int i = 0; i < _projectData->lineCount(); i++) {
         Line *l = _projectData->lineAt(i);
-        QTreeWidgetItem *lineItm = new QTreeWidgetItem(this, {l->name()});
+        QTreeWidgetItem *lineItm = new QTreeWidgetItem({l->name()});
         lineItm->setCheckState(0, Qt::Unchecked);
 
         QList<LineDirection *> directions = l->directions();
@@ -56,7 +56,7 @@ void WdgRouteSelector::refresh() {
 
         for(int j = 0; j < directions.count(); j++) {
             LineDirection *ld = directions[j];
-            QTreeWidgetItem *directionItm = new QTreeWidgetItem(lineItm, {tr("to ") + ld->description()});
+            QTreeWidgetItem *directionItm = new QTreeWidgetItem({tr("to ") + ld->description()});
             directionItm->setCheckState(0, Qt::Unchecked);
 
             QList<Route *> routes = l->routesToDirection(ld);
@@ -92,7 +92,6 @@ void WdgRouteSelector::refresh() {
 
 void WdgRouteSelector::setSelectedRoutes(QList<Route *> routeList) {
     _userClicked = true;
-    addTopLevelItem(new QTreeWidgetItem({"Test"}));
     // clear
     for(int i = 0; i < topLevelItemCount(); i++) {
         for(int j = 0; j < topLevelItem(i)->childCount(); j++) {
