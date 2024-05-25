@@ -98,7 +98,7 @@ public:
 
     static QList<Trip *> sortTrips(QList<Trip *> list, const int &hourBreak);
 
-    Publications *publications() const;
+    Publications *publications();
 
     QJsonObject toJson();
     void setJson(const QJsonObject &);
@@ -129,12 +129,12 @@ signals:
 
 private:
     QString _filePath;
-    ProjectSettings *_projectSettings;
+    ProjectSettings _projectSettings;
     QList<Busstop *> _busstops;
     QList<Line *> _lines;
     QList<Tour *> _tours;
     QList<Footnote *> _footnotes;
-    Publications *_publications;
+    Publications _publications;
 
     QUndoStack *_undoStack;
 

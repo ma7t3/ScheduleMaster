@@ -4,13 +4,6 @@ ProjectSettings::ProjectSettings(QObject *parent) :
     ProjectDataItem(parent) {
 }
 
-ProjectSettings::~ProjectSettings() {}
-
-ProjectSettings::ProjectSettings(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent) {
-    fromJson(jsonObject);
-}
-
 ProjectSettings::ProjectSettings(const ProjectSettings &other) :
     ProjectDataItem(other.parent()) {
     copy(other);

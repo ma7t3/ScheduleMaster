@@ -50,11 +50,10 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    _projectData(new ProjectData(this)),
     fileHandler(new FileHandler(this)),
     startupDialog(new StartupDialog(parent)),
     progressLogger(new DlgProgressLogger(this)),
-    pdfExporter(new DlgPdfExporter(this, _projectData)),
+    pdfExporter(new DlgPdfExporter(this, &_projectData)),
     knownFile(false)
 {
     pdfExporter->setModal(true);
@@ -114,9 +113,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(fileHandler, &FileHandler::unknownVersionDetected, this, &MainWindow::handleFileHandlerFileUnkownVersionWarning);
     connect(fileHandler, &FileHandler::oldVersionDetected, this, &MainWindow::handleFileHandlerFileOldVersionWarning);
 
-    connect(_projectData, &ProjectData::loadingProgressMaxValue, progressLogger, &DlgProgressLogger::setProgressMaximum);
-    connect(_projectData, &ProjectData::loadingProgressUpdated, progressLogger, &DlgProgressLogger::setProgressValue);
-    connect(_projectData, &ProjectData::loadingProgressTextUpdated, progressLogger, [&](const int &type, const QString &message, const bool &showAsCurrent = false){
+    connect(&_projectData, &ProjectData::loadingProgressMaxValue, progressLogger, &DlgProgressLogger::setProgressMaximum);
+    connect(&_projectData, &ProjectData::loadingProgressUpdated, progressLogger, &DlgProgressLogger::setProgressValue);
+    connect(&_projectData, &ProjectData::loadingProgressTextUpdated, progressLogger, [&](const int &type, const QString &message, const bool &showAsCurrent = false){
         DlgProgressLogger::EntryType enumType;
         switch(type) {
             case 0: enumType = DlgProgressLogger::SuccessType;  break;
@@ -404,12 +403,12 @@ void MainWindow::closeEvent(QCloseEvent * event) {
     }
 }
 
-ProjectData *MainWindow::projectData() const {
-    return _projectData;
+ProjectData *MainWindow::projectData() {
+    return &_projectData;
 }
 
 QUndoStack *MainWindow::undoStack() const {
-    return _projectData->undoStack();
+    return _projectData.undoStack();
 }
 
 void MainWindow::startupDialogHandler() {
@@ -438,7 +437,7 @@ bool MainWindow::actionFileNew() {
 bool MainWindow::actionFileOpen(QString path) {
     QDir dir;
     if(knownFile) {
-        QFileInfo fi(_projectData->filePath());
+        QFileInfo fi(_projectData.filePath());
         dir = fi.dir().absolutePath();
     } else {
         dir = LocalConfig::defaultProjectLocation();
@@ -465,14 +464,14 @@ bool MainWindow::actionFileSave() {
     if(!knownFile)
         return actionFileSaveAs();
 
-    return saveFile(_projectData->filePath());
+    return saveFile(_projectData.filePath());
     //return saveFile(projectFilePath);
 }
 
 bool MainWindow::actionFileSaveAs() {
     QDir dir;
     if(knownFile) {
-        QFileInfo fi(_projectData->filePath());
+        QFileInfo fi(_projectData.filePath());
         dir = fi.dir().absolutePath();
     } else {
         dir = LocalConfig::defaultProjectLocation();
@@ -488,7 +487,7 @@ bool MainWindow::actionFileSaveAs() {
     if(saveFile(path)) {
         knownFile = true;
         //projectFilePath = path;
-        _projectData->setFilePath(path);
+        _projectData.setFilePath(path);
         return true;
     }
     return false;
@@ -506,7 +505,7 @@ bool MainWindow::actionFileClose() {
         }
     }
     qInfo() << "closing current file...";
-    _projectData->reset();
+    _projectData.reset();
     qDebug() << "projectData reset";
     knownFile = false;
 
@@ -863,8 +862,8 @@ void MainWindow::actionOpenTour(Tour *o) {
 }
 
 void MainWindow::setSaved(bool b) {
-    QString displayName = _projectData->projectSettings()->displayName();
-    QString str = "ScheduleMaster" + (!displayName.isEmpty() ? " - " + _projectData->projectSettings()->displayName() : "");
+    QString displayName = _projectData.projectSettings()->displayName();
+    QString str = "ScheduleMaster" + (!displayName.isEmpty() ? " - " + _projectData.projectSettings()->displayName() : "");
     if(!b)
         str = "* " + str;
 
@@ -875,8 +874,8 @@ void MainWindow::setSaved(bool b) {
 bool MainWindow::openFile(QString path) {
     ui->statusbar->showMessage(tr("Opening project file..."));
 
-    _projectData->setParent(nullptr);
-    _projectData->moveToThread(fileHandler);
+    _projectData.setParent(nullptr);
+    _projectData.moveToThread(fileHandler);
 
     fileHandler->setAction(FileHandler::ReadFileAction);
     fileHandler->setFilePath(path);
@@ -891,8 +890,8 @@ bool MainWindow::openFile(QString path) {
 bool MainWindow::saveFile(QString path) {
     ui->statusbar->showMessage(tr("Saving project file..."));
 
-    _projectData->setParent(nullptr);
-    _projectData->moveToThread(fileHandler);
+    _projectData.setParent(nullptr);
+    _projectData.moveToThread(fileHandler);
 
     fileHandler->setAction(FileHandler::SaveFileAction);
     fileHandler->setFilePath(path);
@@ -920,7 +919,7 @@ void MainWindow::handleFileHandlerFileUnkownVersionWarning() {
 }
 
 void MainWindow::handleFileHandlerResult() {
-    _projectData->setParent(this);
+    _projectData.setParent(this);
     if(!fileHandler->success()) {
         progressLogger->finish();
         return;
@@ -941,7 +940,7 @@ void MainWindow::handleFileHandlerResult() {
         wdgPublishedLines->refreshDayTypes();
         wdgPublishedLines->refreshRoutes();
         wdgFootnotes->refreshFootnotes();
-        _projectData->setFilePath(filePath);
+        _projectData.setFilePath(filePath);
         ui->statusbar->showMessage(filePath);
         LocalConfig::addLastUsedFile(filePath);
         undoStack()->clear();
@@ -1043,7 +1042,7 @@ void MainWindow::on_actionCleanup_and_troubleshooting_triggered()
 
 
 void MainWindow::on_actionView_As_Tree_triggered() {
-    ProjectTreeViewer dlg(this, _projectData);
+    ProjectTreeViewer dlg(this, &_projectData);
     dlg.exec();
 }
 
@@ -1073,12 +1072,12 @@ void MainWindow::on_actionHelpAboutQt_triggered() {
 
 void MainWindow::on_actionEditProjectSettings_triggered() {
     QList<DayType> dayTypes;
-    for(int i = 0; i < _projectData->projectSettings()->dayTypeCount(); i++)
-        dayTypes << *_projectData->projectSettings()->dayTypeAt(i);
+    for(int i = 0; i < _projectData.projectSettings()->dayTypeCount(); i++)
+        dayTypes << *_projectData.projectSettings()->dayTypeAt(i);
 
     DlgProjectSettings *dlg = new DlgProjectSettings(this);
-    dlg->setNames(_projectData->projectSettings()->displayName(), _projectData->projectSettings()->shortName());
-    dlg->setIcon(_projectData->projectSettings()->icon());
+    dlg->setNames(_projectData.projectSettings()->displayName(), _projectData.projectSettings()->shortName());
+    dlg->setIcon(_projectData.projectSettings()->icon());
     dlg->setDayTypes(dayTypes);
 
     dlg->exec();
@@ -1086,12 +1085,12 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
     if(dlg->result() != QDialog::Accepted)
         return;
 
-    ProjectSettings newS(nullptr);
+    ProjectSettings newS(this);
     newS.setNames(dlg->displayName(), dlg->shortName());
     newS.setIcon(dlg->icon());
     newS.setDayTypes(dlg->dayTypes());
 
-    undoStack()->push(new CmdEditProjectSettings(_projectData->projectSettings(), newS));
+    undoStack()->push(new CmdEditProjectSettings(_projectData.projectSettings(), newS));
     wdgSchedule->refreshDayTypes();
 }
 
@@ -1219,11 +1218,11 @@ void MainWindow::on_actionViewToolbarWorkspaces_triggered() {
 }
 
 void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
-    DlgOmsiImport dlg(this, _projectData);
+    DlgOmsiImport dlg(this, &_projectData);
     dlg.exec();
 
-    for(int i = 0; i < _projectData->lineCount(); i++) {
-        Line *l = _projectData->lineAt(i);
+    for(int i = 0; i < _projectData.lineCount(); i++) {
+        Line *l = _projectData.lineAt(i);
         l->refreshChilds();
         for(int j = 0; j < l->routeCount(); j++) {
             Route *r = l->routeAt(j);
@@ -1252,8 +1251,8 @@ void MainWindow::on_actionFileExportRoutesWithProfilesCsv_triggered() {
     if(!dir.exists())
         return;
 
-    for(int i = 0; i < _projectData->lineCount(); i++) {
-        Line *l = _projectData->lineAt(i);
+    for(int i = 0; i < _projectData.lineCount(); i++) {
+        Line *l = _projectData.lineAt(i);
         QDir subDir = dir.path() + "/" + l->name();
         if(!subDir.exists()) {
             bool ok = dir.mkdir(l->name());

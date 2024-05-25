@@ -3,8 +3,8 @@
 
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
-    _projectSettings(new ProjectSettings(this)),
-    _publications(new Publications(this)),
+    _projectSettings(this),
+    _publications(this),
     _undoStack(new QUndoStack(this))
 {}
 
@@ -12,15 +12,15 @@ ProjectData::~ProjectData() {
 
 }
 
-ProjectSettings *ProjectData::projectSettings() { return _projectSettings; }
+ProjectSettings *ProjectData::projectSettings() { return &_projectSettings; }
 
 void ProjectData::reset() {
     _filePath = "";
 
-    _projectSettings->reset();
+    _projectSettings.reset();
     qDebug() << "projectSettings reset";
 
-    _publications->reset();
+    _publications.reset();
     qDebug() << "publications reset";
 
     qDeleteAll(_tours);
@@ -616,8 +616,8 @@ QList<Trip *> ProjectData::sortTrips(QList<Trip *> list, const int &hourBreak) {
     return list;
 }
 
-Publications *ProjectData::publications() const {
-    return _publications;
+Publications *ProjectData::publications() {
+    return &_publications;
 }
 
 QJsonObject ProjectData::toJson() {
