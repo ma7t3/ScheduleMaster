@@ -1,14 +1,12 @@
 #ifndef PUBLICATIONS_H
 #define PUBLICATIONS_H
 
-#include <QtCore>
 #include "publishedline.h"
 
 class Publications : public virtual ProjectDataItem {
     Q_OBJECT
 public:
     Publications(QObject *parent);
-    Publications(QObject *parent, const QJsonObject &);
     Publications(const Publications &);
     Publications operator=(const Publications &);
 

@@ -6,10 +6,8 @@
 class ProjectSettings : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    explicit ProjectSettings(QObject *parent);
-    ~ProjectSettings();
-    ProjectSettings(QObject *parent, const QJsonObject &);
-    ProjectSettings(const ProjectSettings&);
+    ProjectSettings(QObject *parent);
+    ProjectSettings(const ProjectSettings &);
     ProjectSettings operator=(const ProjectSettings &);
 
     void reset();
