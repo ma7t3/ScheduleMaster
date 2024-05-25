@@ -38,7 +38,7 @@ Logger::Logger(QObject *parent, const QDir &logfilesDir) : QObject(parent) {
         logfileModeInfo = "Detailed debug logging";
 
     s << "##########################################################################################\n";
-    s << "   ScheduleMaster | " << AppInfo::currentVersion() << " | " << "Qt " << qVersion() << " | " << logfileModeInfo << "\n";
+    s << "   ScheduleMaster | " << AppInfo::currentVersion()->name() << " | " << "Qt " << qVersion() << " | " << logfileModeInfo << "\n";
     s << "##########################################################################################\n";
     s << "Time:               " << now.toString("yyyy-MM-dd") << ", " << now.toString("hh:mm:ss") << "\n";
     s << "------------------------------------------------------------------------------------------\n";
