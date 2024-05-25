@@ -391,7 +391,6 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow() {
-    LocalConfig::setCrashDetected(false);
     delete ui;
 }
 

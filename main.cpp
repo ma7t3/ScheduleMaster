@@ -61,6 +61,7 @@ int main(int argc, char *argv[]) {
     w.show();
 
     int result = a.exec();
+    LocalConfig::setCrashDetected(false);
     qInfo() << "closing ScheduleMaster...";
     return result;
 }
