@@ -6,6 +6,28 @@
 #include "ProjectData/line.h"
 #include "Commands/CmdGeneral.h"
 
+class CmdScheduleChangeHourBreak: public CmdAbstract {
+
+public:
+    CmdScheduleChangeHourBreak(Line *l, int newHourBreak) :
+        CmdAbstract(QObject::tr("change hour break of line: %1").arg(l->name()), nullptr, ScheduleHourBreakType),
+        line(l),
+        oldValue(l->hourBreak()),
+        newValue(newHourBreak) {}
+
+    void undo() override {
+        line->setHourBreak(oldValue);
+    }
+
+    void redo() override {
+        line->setHourBreak(newValue);
+    }
+
+private:
+    Line *line;
+    int oldValue, newValue;
+};
+
 class CmdScheduleTripNew : public CmdAbstract {
 
 public:
