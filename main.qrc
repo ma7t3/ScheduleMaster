@@ -58,5 +58,6 @@
         <file>icons/Changelog.ico</file>
         <file>icons/HourBreak.ico</file>
         <file>icons/UndoRedo.ico</file>
+        <file>icons/ImportantBusstop.ico</file>
     </qresource>
 </RCC>
