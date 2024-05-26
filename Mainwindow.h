@@ -98,9 +98,6 @@ private slots:
     void on_actionHelpAboutQt_triggered();
     void on_actionHelpChangelog_triggered();
 
-    void refreshScheduleHourBreak(Line *);
-    void setScheduleLineHourBreak(const int &);
-
 signals:
     void projectSettingsChanged();
     void busstopsChanged();
@@ -128,7 +125,7 @@ private:
     WdgBusstops *wdgBusstops = new WdgBusstops(this);
     WdgLines *wdgLines = new WdgLines(this);
     WdgRoutes *wdgRoutes = new WdgRoutes(this);
-    WdgSchedule *wdgSchedule = new WdgSchedule(this, &_projectData, undoStack());
+    WdgSchedule *wdgSchedule = new WdgSchedule(this);
     WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, &_projectData, undoStack());
     WdgTours *wdgTours = new WdgTours(this, &_projectData, undoStack());
     WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, &_projectData, undoStack());

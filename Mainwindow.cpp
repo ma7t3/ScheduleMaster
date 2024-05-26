@@ -233,21 +233,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionEditProjectSettings->setShortcut(QKeySequence(Qt::CTRL|Qt::SHIFT|Qt::Key_Comma));
     ui->actionEditPreferences->setShortcuts({QKeySequence(Qt::CTRL|Qt::Key_Comma), QKeySequence::Preferences});
 
-    QMenu *hourBreakMenu = new QMenu(tr("Hour Break"), ui->menuSchedule);
-    hourBreakMenu->setIcon(QIcon(":/icons/HourBreak.ico"));
-    ui->menuSchedule->addSeparator();
-    ui->menuSchedule->addMenu(hourBreakMenu);
-
-    // load hour break menu
-    for(int i = 0; i < 24; i++) {
-        QAction *action = hourBreakMenu->addAction(QString::number(i));
-        hourBreakActions << action;
-        action->setCheckable(true);
-        if(i == 0)
-            action->setChecked(true);
-        connect(action, &QAction::triggered, this, [this, i](){setScheduleLineHourBreak(i);});
-    }
-
     qInfo() << "loading toolbars...";
     splashScreen.showMessage(tr("loading toolbars..."), Qt::AlignBottom, messageColor);
 
@@ -302,10 +287,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(wdgBusstops, &WdgBusstops::busstopScheduleRequested, this, &MainWindow::actionOpenBusstopSchedule);
 
-    qDebug() << "\tschedule";
-    connect(ui->actionScheduleAddTrip,             &QAction::triggered,                    wdgTripEditor,      &WdgTripEditor::actionNew);
-    connect(ui->actionScheduleCopyTrip,            &QAction::triggered,                    wdgTripEditor,      &WdgTripEditor::actionCopy);
-    connect(ui->actionScheduleDeleteSelectedTrips, &QAction::triggered,                    wdgTripEditor,      &WdgTripEditor::actionDelete);
+    QList<QAction *> scheduleActions = wdgSchedule->actions();
+    ui->menuSchedule->addActions(scheduleActions);
+
+    // FÜR DEN UMBAU/REWORK WICHTIG
+    // Wenn WdgTripEditor auch überarbeitet wird, am besten die ScheduleActions mit den jeweiligen WdgTripEditor-Actions (Slot trigger()) verbinden, die Aktions-Funktionen werden dann ja nicht mehr existieren :)
+    connect(scheduleActions[0], &QAction::triggered, wdgTripEditor, &WdgTripEditor::actionNew);
+    connect(scheduleActions[1], &QAction::triggered, wdgTripEditor, &WdgTripEditor::actionCopy);
+    connect(scheduleActions[3], &QAction::triggered, wdgTripEditor, &WdgTripEditor::actionDelete);
+
+    QMenu *hourBreakMenu = new QMenu(tr("Hour Break"), ui->menuSchedule);
+    hourBreakMenu->setEnabled(false);
+    hourBreakMenu->setIcon(QIcon(":/icons/HourBreak.ico"));
+    ui->menuSchedule->addSeparator();
+    ui->menuSchedule->addMenu(hourBreakMenu);
+
+    hourBreakMenu->addActions(wdgSchedule->hourBreakActions());
+
+    connect(wdgLines, &WdgLines::currentLineChanged, hourBreakMenu, &QMenu::setEnabled);
 
     qDebug() << "\tfile operations";
     connect(ui->actionFileNew,                     &QAction::triggered,                    this,               &MainWindow::actionFileNew);
@@ -332,9 +331,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(wdgSchedule,                           &WdgSchedule::busstopScheduleRequested, this,               &MainWindow::actionOpenBusstopSchedule);
     connect(wdgSchedule,                           &WdgSchedule::tourRequested,            this,               &MainWindow::actionOpenTour);
     connect(wdgSchedule,                           &WdgSchedule::currentLineChanged,       wdgTripEditor,      &WdgTripEditor::setCurrentLine);
-    connect(wdgSchedule,                           &WdgSchedule::currentLineChanged,       this,               &MainWindow::refreshScheduleHourBreak);
     connect(wdgSchedule,                           &WdgSchedule::currentDayTypeChanged,    wdgTripEditor,      &WdgTripEditor::setCurrentDayType);
     connect(wdgSchedule,                           &WdgSchedule::currentTripsChanged,      wdgTripEditor,      &WdgTripEditor::setCurrentTrips);
+    connect(wdgTripEditor,                         &WdgTripEditor::tripsChanged,           wdgSchedule,        &WdgSchedule::setCurrenTrips);
     connect(wdgTripEditor,                         &WdgTripEditor::tripsChanged,           wdgSchedule,        &WdgSchedule::refreshSchedule);
     connect(wdgTours,                              &WdgTours::currentTourChanged,          wdgTourEditor,      &WdgTourEditor::setCurrentTour);
 
@@ -589,7 +588,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
     }
     if(t == ScheduleHourBreakType) {
         wdgSchedule->refreshSchedule();
-        refreshScheduleHourBreak(wdgLines->currentLine());
+        wdgSchedule->refreshHourBreak();
     }
     if(t == ToursType) {
         wdgTours->refresh();
@@ -1301,20 +1300,4 @@ void MainWindow::on_actionFileExportRoutesWithProfilesCsv_triggered() {
 void MainWindow::on_actionHelpChangelog_triggered() {
     DlgChangelog dlg;
     dlg.exec();
-}
-
-void MainWindow::refreshScheduleHourBreak(Line *l) {
-    for(int i = 0; i < 24; i++)
-        hourBreakActions[i]->setChecked(false);
-    if(!l)
-        return;
-    int hour = l->hourBreak();
-    hourBreakActions[hour]->setChecked(true);
-}
-
-void MainWindow::setScheduleLineHourBreak(const int &hour) {
-    for(int i = 0; i < 24; i++)
-        hourBreakActions[i]->setChecked(false);
-    hourBreakActions[hour]->setChecked(true);
-    wdgSchedule->setLineHourBreak(hour);
 }
