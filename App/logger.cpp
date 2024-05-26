@@ -6,11 +6,6 @@
 #include <QDateTime>
 #include <QSysInfo>
 
-QString Logger::logfilePath;
-unsigned int Logger::counter;
-LocalConfig::LogfileMode Logger::logfileMode;
-bool Logger::active;
-
 static const QtMessageHandler QT_DEFAULT_MESSAGE_HANDLER = qInstallMessageHandler(nullptr);
 
 Logger::Logger(QObject *parent, const QDir &logfilesDir) : QObject(parent) {

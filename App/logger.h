@@ -14,10 +14,10 @@ public:
     static void handler(QtMsgType type, const QMessageLogContext & context, const QString &message);
 
 private:
-    static QString logfilePath;
-    static unsigned int counter;
-    static LocalConfig::LogfileMode logfileMode;
-    static bool active;
+    static inline QString logfilePath;
+    static inline unsigned int counter;
+    static inline LocalConfig::LogfileMode logfileMode;
+    static inline bool active;
 };
 
 #endif // LOGGER_H

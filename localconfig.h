@@ -50,7 +50,7 @@ public:
     static void setLogfileMode(const LogfileMode &);
 
 private:
-    static QSettings settingsGeneral;
-    static QString _lastLogfileName;
+    static inline QSettings settingsGeneral = QSettings("ScheduleMaster", "general");
+    static inline QString _lastLogfileName = "";
 };
 #endif // LOCALCONFIG_H

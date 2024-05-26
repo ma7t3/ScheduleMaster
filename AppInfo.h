@@ -29,10 +29,10 @@ public:
     static AppVersion *version(const QString &name);
     static bool fileFormatChangesSinceVersion(AppVersion *);
 
-    static const QRegularExpression VersionNameRegex;
+    static const inline QRegularExpression VersionNameRegex = QRegularExpression("^(?<major>[0-9]+)\\.(?<minor>[0-9]+)\\.(?<patch>[0-9]+)-(?<type>.+)$");
 
 private:
-    static QList<AppVersion *> _versions;
+    static inline QList<AppVersion *> _versions;
 
 signals:
 };
