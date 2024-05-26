@@ -48,7 +48,7 @@ Logger::Logger(QObject *parent, const QDir &logfilesDir) : QObject(parent) {
     s << "                    Kernel:           " << QSysInfo::kernelType() << " (" << QSysInfo::kernelVersion() << ")\n";
     s << "                    CPU architecture: " << QSysInfo::currentCpuArchitecture() << "\n";
     s << "------------------------------------------------------------------------------------------\n";
-    s << "No.    | Time     | Type                    | Message\n";
+    s << "No.    | Time     | Type                | Message\n";
 
     f.close();
 
@@ -67,19 +67,17 @@ void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QS
 
     QString typeStr;
     if(type == QtMsgType::QtDebugMsg)
-        typeStr = "            [debug]    ";
+        typeStr = "            [debug]";
     else if(type == QtMsgType::QtInfoMsg)
-        typeStr = "         [info]        ";
+        typeStr = "         [info]    ";
     else if(type == QtMsgType::QtWarningMsg)
-        typeStr = "      [warning]        ";
+        typeStr = "      [warning]    ";
     else if(type == QtMsgType::QtCriticalMsg)
-        typeStr = "   [critical]          ";
+        typeStr = "   [critical]      ";
     else if(type == QtMsgType::QtFatalMsg)
-        typeStr = "[fatal]                ";
-    else if(type == QtMsgType::QtSystemMsg)
-        typeStr = "               [system]";
+        typeStr = "[fatal]            ";
     else
-        typeStr = "[unknown]              ";
+        typeStr = "[unknown]          ";
 
     QString counterStr = QVariant(counter).toString() + ".";
     while(counterStr.length() < 6)
