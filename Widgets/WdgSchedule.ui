@@ -70,13 +70,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableWidget" name="twSchedule">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+    <widget class="WdgScheduleTable" name="twSchedule">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
@@ -134,6 +128,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WdgScheduleTable</class>
+   <extends>QTableWidget</extends>
+   <header>widgets\wdgscheduletable.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
