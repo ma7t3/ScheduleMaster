@@ -6,6 +6,8 @@
 #include "App/global.h"
 #include "Commands/CmdSchedule.h"
 
+#include "localconfig.h"
+
 #include "Dialogs/DlgCopyTrip.h"
 
 WdgTripEditor::WdgTripEditor(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
@@ -19,6 +21,8 @@ WdgTripEditor::WdgTripEditor(QWidget *parent, ProjectData *projectData, QUndoSta
     _currentRoute(nullptr)
 {
     ui->setupUi(this);
+
+    ui->teDepartureTime->setDisplayFormat(LocalConfig::timeFormatString(true, false));
 
     QObject::connect(ui->pbNew, SIGNAL(clicked()), this, SLOT(actionNew()));
     QObject::connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(actionCopy()));
@@ -327,10 +331,10 @@ void WdgTripEditor::refreshUI() {
 
     if(tripCount != 0) {
         ui->teDepartureTime->setTime(startTime);
-        ui->lArrivalTime->setText(endTime.toString("hh:mm:ss"));
+        ui->lArrivalTime->setText(endTime.toString(LocalConfig::timeFormatString(true, false)));
     } else {
         ui->teDepartureTime->setTime(QTime(0, 0, 0, 0));
-        ui->lArrivalTime->setText(QTime(0, 0, 0, 0).toString("hh:mm:ss"));
+        ui->lArrivalTime->setText(QTime(0, 0, 0, 0).toString(LocalConfig::timeFormatString(true, false)));
     }
 
     if(tripCount == 0) {

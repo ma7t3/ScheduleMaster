@@ -1,6 +1,7 @@
 #include "Dialogs/DlgTripselector.h"
 #include "ui_DlgTripselector.h"
 
+#include "localconfig.h"
 
 #include "App/global.h"
 #include "ProjectData\busstop.h"
@@ -126,7 +127,7 @@ void TripSelector::loadTrips()
             breakTime += 1440;
 
         itm->setText(0, t->id());
-        itm->setText(1, t->startTime().toString("hh:mm"));
+        itm->setText(1, t->startTime().toString(LocalConfig::timeFormatString(false, false)));
         itm->setText(2, QString::number(breakTime) + tr(" min."));
         itm->setText(3, t->route()->firstBusstop()->name());
         itm->setText(4, t->route()->lastBusstop()->name());

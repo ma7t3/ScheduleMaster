@@ -1,6 +1,8 @@
 #include "DlgCopyTrip.h"
 #include "ui_DlgCopyTrip.h"
 
+#include "localconfig.h"
+
 DlgCopyTrip::DlgCopyTrip(QWidget *parent, const QTime &startTime) :
     QDialog(parent),
     ui(new Ui::DlgCopyTrip),
@@ -9,7 +11,7 @@ DlgCopyTrip::DlgCopyTrip(QWidget *parent, const QTime &startTime) :
     ui->setupUi(this);
 
     ui->teEndTime->setTime(_startTime);
-    ui->lStartTime->setText(_startTime.toString("hh:mm"));
+    ui->lStartTime->setText(_startTime.toString(LocalConfig::timeFormatString(false, false)));
 
     ui->teInterval->setFocus();
 }
@@ -22,7 +24,7 @@ DlgCopyTrip::~DlgCopyTrip()
 void DlgCopyTrip::setStartTime(const QTime &startTime) {
     _startTime = startTime;
     ui->teEndTime->setTime(_startTime);
-    ui->lStartTime->setText(_startTime.toString("hh:mm"));
+    ui->lStartTime->setText(_startTime.toString(LocalConfig::timeFormatString(false, false)));
 }
 
 int DlgCopyTrip::copyCount() const {

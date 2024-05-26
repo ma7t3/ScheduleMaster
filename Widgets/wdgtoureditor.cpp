@@ -9,6 +9,8 @@
 #include "Dialogs/DlgDataexporter.h"
 #include "Commands/Cmdtours.h"
 
+#include "localconfig.h"
+
 #include "App/global.h"
 
 WdgTourEditor::WdgTourEditor(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
@@ -31,7 +33,7 @@ WdgTourEditor::WdgTourEditor(QWidget *parent, ProjectData *projectData, QUndoSta
 
     ui->twTour->setEditTriggers(QTableWidget::NoEditTriggers);
     ui->twTour->verticalHeader()->setVisible(false);
-    ui->twTour->setColumnWidth(0, 50);
+    ui->twTour->setColumnWidth(0, LocalConfig::timeFormat() == LocalConfig::Hours12 ? 60 : 50);
     ui->twTour->setColumnWidth(1, 50);
     ui->twTour->setColumnWidth(2, 100);
     ui->twTour->setColumnWidth(3, 400);
@@ -145,7 +147,7 @@ void WdgTourEditor::actionExport() {
                 break;
             }
         }
-        result += "  Dep.: " + t->startTime().toString("hh:mm:ss") + "\r\n[addtrip]\r\n" + t->route()->name() + "\r\n" + QString::number(timeProfileIndex) + "\r\n" + QString::number(time) + "\r\n\r\n";
+        result += "  Dep.: " + t->startTime().toString(LocalConfig::timeFormatString(true, false)) + "\r\n[addtrip]\r\n" + t->route()->name() + "\r\n" + QString::number(timeProfileIndex) + "\r\n" + QString::number(time) + "\r\n\r\n";
     }
 
     DataExporter dlg;
@@ -216,7 +218,7 @@ void WdgTourEditor::refresh() {
 
             tourTableReference << lastTrip;
 
-            QString time = lastTrip->endTime().toString("hh:mm") + "\r\n" + t->startTime().toString("hh:mm");
+            QString time = lastTrip->endTime().toString(LocalConfig::timeFormatString(false, false)) + "\r\n" + t->startTime().toString(LocalConfig::timeFormatString(false, false));
             QString route = tr("break");
             QString busstops = "";
             QColor color = Qt::black;
@@ -268,7 +270,7 @@ void WdgTourEditor::refresh() {
         int duration = t->duration().msecsSinceStartOfDay() / 60000;
         lines << projectData->lineOfRoute(t->route())->name();
         
-        ui->twTour->setItem(targetRow, 0, new QTableWidgetItem(t->startTime().toString("hh:mm") + "\r\n" + t->endTime().toString("hh:mm")));
+        ui->twTour->setItem(targetRow, 0, new QTableWidgetItem(t->startTime().toString(LocalConfig::timeFormatString(false, false)) + "\r\n" + t->endTime().toString(LocalConfig::timeFormatString(false, false))));
         ui->twTour->setItem(targetRow, 1, new QTableWidgetItem(QString::number(duration) + " min."));
         ui->twTour->setItem(targetRow, 2, new QTableWidgetItem(t->route()->name() + "\r\n(" + t->timeProfile()->name() + ")"));
 
@@ -297,12 +299,12 @@ void WdgTourEditor::refresh() {
 
     lines.removeDuplicates();
 
-    ui->lLines->setText(lines.join(", "));
-    ui->lStartTime->setText(_currentTour->startTime().toString("hh:mm"));
-    ui->lEndTime->setText(_currentTour->endTime().toString("hh:mm"));
-    ui->lTotalTime->setText(_currentTour->duration().toString("hh:mm"));
-    ui->lDrivingTime->setText(_currentTour->drivingTime().toString("hh:mm"));
-    ui->lBreakTime->setText(_currentTour->breakTime().toString("hh:mm"));
+    ui->lLines      ->setText(lines.join(", "));
+    ui->lStartTime  ->setText(_currentTour->startTime().toString(LocalConfig::timeFormatString(false, false)));
+    ui->lEndTime    ->setText(_currentTour->endTime().toString(LocalConfig::timeFormatString(false, false)));
+    ui->lTotalTime  ->setText(_currentTour->duration().toString(LocalConfig::timeFormatString(false, false)));
+    ui->lDrivingTime->setText(_currentTour->drivingTime().toString(LocalConfig::timeFormatString(false, false)));
+    ui->lBreakTime  ->setText(_currentTour->breakTime().toString(LocalConfig::timeFormatString(false, false)));
 }
 
 /*void WdgTourEditor::refreshTour(Tour *t) {
@@ -398,7 +400,7 @@ void WdgTourEditor::refreshTourNextTrips()
 
         QString breakDuration = QString::number(minutes) + " min.";
         QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twNextTrips);
-        itm->setText(1, t->startTime().toString("hh:mm"));
+        itm->setText(1, t->startTime().toString(LocalConfig::timeFormatString(false, false)));
         itm->setText(2, breakDuration);
         itm->setText(3, t->route()->name());
 

@@ -18,6 +18,8 @@ DlgPreferences::DlgPreferences(QWidget *parent) :
     if(LocalConfig::language() == LocalConfig::German)
         ui->cbLanguage->setCurrentIndex(1);
 
+    ui->cbTimeFormat->setCurrentIndex(LocalConfig::timeFormat());
+
     if(LocalConfig::style() == LocalConfig::Fusion)
         ui->cbApperance->setCurrentIndex(2);
     else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
@@ -44,6 +46,7 @@ void DlgPreferences::on_DlgPreferences_accepted() {
         QMessageBox::information(this, tr("Restart required"), tr("You'll need to restarted the application for all settings to be applied."));
     
     LocalConfig::setLanguage(ui->cbLanguage->currentIndex() == 1 ? LocalConfig::German : LocalConfig::English);
+    LocalConfig::setTimeFormat(ui->cbTimeFormat->currentIndex() == 0 ? LocalConfig::Hours12 : LocalConfig::Hours24);
     LocalConfig::setDefaultProjectLocation(ui->leDefaultProjectLocation->text());
 
     if(ui->cbApperance->currentIndex() == 2)
@@ -61,6 +64,7 @@ void DlgPreferences::on_DlgPreferences_accepted() {
         LocalConfig::setLogfileMode(LocalConfig::DebugLog);
     if(logfileMode == LocalConfig::DebugDetailLog)
         LocalConfig::setLogfileMode(LocalConfig::DebugDetailLog);
+
 }
 
 void DlgPreferences::on_DlgPreferences_rejected() {

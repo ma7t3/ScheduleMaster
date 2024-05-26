@@ -17,6 +17,40 @@ void LocalConfig::setLanguage(const Language &newLanguage) {
     settingsGeneral.setValue("Language", newLanguage == 1 ? "DE-de" : "EN-us");
 }
 
+LocalConfig::TimeFormat LocalConfig::timeFormat() {
+    if(!_currentTimeFormatInitialized) {
+        int value = settingsGeneral.value("TimeFormat", 24).toInt();
+        if(value == 12) {
+            _currentTimeFormat = Hours12;
+            return Hours12;
+        } else {
+            _currentTimeFormat = Hours24;
+            return Hours24;
+        }
+    }
+
+    return _currentTimeFormat;
+}
+
+void LocalConfig::setTimeFormat(const TimeFormat &newTimeFormat) {
+    _currentTimeFormat = newTimeFormat;
+    settingsGeneral.setValue("TimeFormat", newTimeFormat == Hours12 ? 12 : 24);
+}
+
+QString LocalConfig::timeFormatString(const bool &showSeconds, const bool &oneDigitHour) {
+    TimeFormat format = timeFormat();
+    if(format == Hours12)
+        if(oneDigitHour)
+            return showSeconds ? "h:mm:ss A" : "h:mm A";
+        else
+            return showSeconds ? "hh:mm:ss A" : "hh:mm A";
+    else
+        if(oneDigitHour)
+            return showSeconds ? "h:mm:ss" : "h:mm";
+        else
+            return showSeconds ? "hh:mm:ss" : "hh:mm";
+}
+
 LocalConfig::Style LocalConfig::style() {
     QString str = settingsGeneral.value("style").toString();
     if(str == "Fusion")

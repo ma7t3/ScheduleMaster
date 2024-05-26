@@ -11,6 +11,8 @@
 #include "Commands/CmdTours.h"
 #include "Dialogs/DlgDataexporter.h"
 
+#include "localconfig.h"
+
 WdgTours::WdgTours(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
     QWidget(parent),
     ui(new Ui::WdgTours),
@@ -154,7 +156,7 @@ void WdgTours::actionExport() {
                     break;
                 }
             }
-            result += "  Dep.: " + t->startTime().toString("hh:mm:ss") + "\r\n[addtrip]\r\n" + t->route()->name() + "\r\n" + QString::number(timeProfileIndex) + "\r\n" + QString::number(time) + "\r\n\r\n";
+            result += "  Dep.: " + t->startTime().toString(LocalConfig::timeFormatString(true, false)) + "\r\n[addtrip]\r\n" + t->route()->name() + "\r\n" + QString::number(timeProfileIndex) + "\r\n" + QString::number(time) + "\r\n\r\n";
         }
     }
 
@@ -293,8 +295,8 @@ void WdgTours::refresh() {
         tableReference << o;
         ui->twTours->setItem(row, 0, new QTableWidgetItem(o->name()));
         ui->twTours->setItem(row, 2, new QTableWidgetItem(o->weekDays().toString()));
-        ui->twTours->setItem(row, 3, new QTableWidgetItem(o->startTime().toString("hh:mm") + " - " + o->endTime().toString("hh:mm")));
-        ui->twTours->setItem(row, 4, new QTableWidgetItem(o->duration().toString("hh:mm")));
+        ui->twTours->setItem(row, 3, new QTableWidgetItem(o->startTime().toString(LocalConfig::timeFormatString(false, false)) + " - " + o->endTime().toString(LocalConfig::timeFormatString(false, false))));
+        ui->twTours->setItem(row, 4, new QTableWidgetItem(o->duration().toString(LocalConfig::timeFormatString(false, false))));
         ui->twTours->setItem(row, 5, previewItm);
         ui->twTours->item(row, 0)->setFont(bold);
 

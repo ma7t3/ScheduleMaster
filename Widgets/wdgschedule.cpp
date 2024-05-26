@@ -9,6 +9,8 @@
 #include "ProjectData/projectdata.h"
 #include "Commands/CmdSchedule.h"
 
+#include "localconfig.h"
+
 #include "Mainwindow.h"
 
 #include <QStyleHints>
@@ -152,7 +154,7 @@ void WdgSchedule::refreshSchedule() {
         ui->twSchedule->setRowHeight(i, 10);
 
     for(int i = 0; i <= ui->twSchedule->columnCount(); i++)
-        ui->twSchedule->setColumnWidth(i, 50);
+        ui->twSchedule->setColumnWidth(i, LocalConfig::timeFormat() == LocalConfig::Hours12 ? 60 : 50);
 
     if(ui->twSchedule->selectedItems().count() == 0) {
         _currentTrips = {};
@@ -251,7 +253,7 @@ void WdgSchedule::refreshAddTrip(Trip *t) {
     QTableWidgetItem *itmFootnotes   = new QTableWidgetItem();
     QTableWidgetItem *itmRoute       = new QTableWidgetItem(t->route()->name());
     QTableWidgetItem *itmTimeProfile = new QTableWidgetItem(t->timeProfile()->name());
-    QTableWidgetItem *itmStartTime   = new QTableWidgetItem(t->startTime().toString("hh:mm"));
+    QTableWidgetItem *itmStartTime   = new QTableWidgetItem(t->startTime().toString(LocalConfig::timeFormatString(false, false)));
 
     //------------------------------
 
@@ -370,7 +372,7 @@ void WdgSchedule::refreshAddTrip(Trip *t) {
         QTableWidgetItem *tableItm = new QTableWidgetItem;
         lastBusstopFound = i;
         float depVal = itm->depValue();
-        QString timeStr = t->startTime().addSecs(depVal * 60).toString("h:mm");
+        QString timeStr = t->startTime().addSecs(depVal * 60).toString(LocalConfig::timeFormatString(false, true));
         tableItm->setText(timeStr);
 
         // make bold if busstop is important
