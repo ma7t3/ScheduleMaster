@@ -1,6 +1,8 @@
 #include "DlgPdfExporter.h"
 #include "ui_DlgPdfExporter.h"
 
+#include "localconfig.h"
+
 #include <QPdfWriter>
 #include <QPainter>
 #include <QDesktopServices>
@@ -306,7 +308,7 @@ void DlgPdfExporter::writeNewPage() {
 
             lastBusstopIndex = j;
 
-            QString time = trips[i]->busstopTime(_currentDirection->busstopAt(j)->linkedBusstop()).toString("hh:mm");
+            QString time = trips[i]->busstopTime(_currentDirection->busstopAt(j)->linkedBusstop()).toString(LocalConfig::timeFormatString(false, false));
 
             painter->drawText(field, Qt::AlignCenter|Qt::AlignVCenter, time);
 
@@ -407,7 +409,7 @@ void DlgPdfExporter::exportTour(Tour *o) {
         firstBusstop = t->route()->firstBusstop();
         lastBusstop = t->route()->lastBusstop();
 
-        timeText += t->startTime().toString("hh:mm") + "\r\n";
+        timeText += t->startTime().toString(LocalConfig::timeFormatString(false, false)) + "\r\n";
         if(firstBusstop)
             tripText += t->route()->firstBusstop()->name() + "\r\n";
         else
@@ -422,12 +424,12 @@ void DlgPdfExporter::exportTour(Tour *o) {
             if(b == firstBusstop || b == lastBusstop)
                 continue;
 
-            timeText += t->busstopTime(b).toString("hh:mm") + "\r\n";
+            timeText += t->busstopTime(b).toString(LocalConfig::timeFormatString(false, false)) + "\r\n";
             tripText += b->name() + "\r\n";
             rowCount++;
         }
 
-        timeText += t->endTime().toString("hh:mm");
+        timeText += t->endTime().toString(LocalConfig::timeFormatString(false, false));
 
         if(lastBusstop)
             tripText += t->route()->lastBusstop()->name();

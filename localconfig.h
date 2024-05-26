@@ -26,8 +26,17 @@ public:
         Fusion
     };
 
+    enum TimeFormat {
+        Hours12,
+        Hours24
+    };
+
     static Language language();
     static void setLanguage(const Language &newLanguage);
+
+    static TimeFormat timeFormat();
+    static void setTimeFormat(const TimeFormat &newTimeFormat);
+    static QString timeFormatString(const bool &showSeconds, const bool &oneDigitHour);
 
     static Style style();
     static void setStyle(const Style &newStyle);
@@ -52,5 +61,7 @@ public:
 private:
     static inline QSettings settingsGeneral = QSettings("ScheduleMaster", "general");
     static inline QString _lastLogfileName = "";
+    static inline bool _currentTimeFormatInitialized = false;
+    static inline TimeFormat _currentTimeFormat;
 };
 #endif // LOCALCONFIG_H
