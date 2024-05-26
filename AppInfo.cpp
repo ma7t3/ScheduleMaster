@@ -9,10 +9,6 @@
 
 #include <QApplication>
 
-QList<AppInfo::AppVersion *> AppInfo::_versions;
-
-const QRegularExpression AppInfo::VersionNameRegex = QRegularExpression("^(?<major>[0-9]+)\\.(?<minor>[0-9]+)\\.(?<patch>[0-9]+)-(?<type>.+)$");
-
 AppInfo::AppInfo(QObject *parent) : QObject(parent) {
 
     QFile f(":versions.json");

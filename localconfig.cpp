@@ -1,7 +1,5 @@
 #include "localconfig.h"
 
-QSettings LocalConfig::settingsGeneral = QSettings("ScheduleMaster", "general");
-QString LocalConfig::_lastLogfileName = "";
 
 LocalConfig::LocalConfig(QObject *parent) :
     QObject(parent) {
