@@ -41,6 +41,7 @@ SOURCES += \
     Dialogs/DlgLineeditor.cpp \
     Widgets/WdgDaySelector.cpp \
     Widgets/WdgRouteSelector.cpp \
+    Widgets/WdgScheduleTable.cpp \
     Widgets/wdgbusstops.cpp \
     Widgets/wdglines.cpp \
     Widgets/wdgroutes.cpp \
@@ -105,6 +106,7 @@ HEADERS += \
     Widgets/WdgDaySelector.h \
     Widgets/WdgFootnotes.h \
     Widgets/WdgRouteSelector.h \
+    Widgets/WdgScheduleTable.h \
     Widgets/wdgbusstops.h \
     Widgets/wdglines.h \
     Widgets/wdgroutes.h \
