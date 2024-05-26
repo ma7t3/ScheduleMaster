@@ -7,119 +7,123 @@
 
 #include "App/global.h"
 #include "ProjectData/projectdata.h"
-#include "Commands/CmdLines.h"
 #include "Commands/CmdSchedule.h"
+
+#include "Mainwindow.h"
 
 #include <QStyleHints>
 
-WdgSchedule::WdgSchedule(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
+WdgSchedule::WdgSchedule(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgSchedule),
-    projectData(projectData),
-    undoStack(undoStack),
-    _currentLine(nullptr)
-{
+    projectData(((MainWindow *)parent)->projectData()),
+    _currentLine(nullptr),
+    _currentLineDirection(nullptr),
+    _scheduleStartTimeChanging(false) {
     ui->setupUi(this);
 
-    QObject::connect(ui->cmbDirections, SIGNAL(activated(int)), this, SLOT(actionChangeDirection()));
-    QObject::connect(ui->leSearchBusstop, SIGNAL(textChanged(QString)), this, SLOT(refreshSchedule()));
-    QObject::connect(ui->cbOnlyImportantBusstops, SIGNAL(stateChanged(int)), this, SLOT(refreshSchedule()));
+    // generate hour break actions
+    for(int i = 0; i < 24; i++) {
+        QAction *act = addAction(QString::number(i));
+        act->setCheckable(true);
+        connect(act, &QAction::triggered, this, [this, i]() {
+            actionSetHourBreak(i);
+        });
+        _hourBreakActions << act;
+    }
+
+    ui->twSchedule->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    _actionNew                       = ui->twSchedule->addAction(QIcon(":/icons/Add.ico"),              tr("Add Trip"));
+    _actionCopy                      = ui->twSchedule->addAction(QIcon(":/icons/Duplicate.ico"),        tr("Copy Trip"));
+    _actionOpenBusstopSchedule       = ui->twSchedule->addAction(QIcon(":/icons/BusstopSchedule.ico"),  tr("View Busstop Schedule"));
+    _actionDelete                    = ui->twSchedule->addAction(QIcon(":/icons/Delete.ico"),           tr("Delete Trip(s)"));
+    _actionShowOnlyImportantBusstops =                 addAction(QIcon(":/icons/ImportantBusstop.ico"), tr("Show only important Busstops"));
+    _actionShowOnlyImportantBusstops->setCheckable(true);
+
+    _actionDelete->setShortcut(Qt::Key_Delete);
+    _actionDelete->setShortcutContext(Qt::WidgetShortcut);
+
+    connect(ui->cbOnlyImportantBusstops, &QCheckBox::checkStateChanged, _actionShowOnlyImportantBusstops, [this](Qt::CheckState state){
+        _actionShowOnlyImportantBusstops->setChecked(state == Qt::Checked);
+    });
+
+    connect(_actionShowOnlyImportantBusstops, &QAction::toggled, ui->cbOnlyImportantBusstops, &QCheckBox::setChecked);
+
+    connect(ui->twSchedule,              &QTableWidget::itemSelectionChanged, this, &WdgSchedule::refreshReferences);
+    connect(ui->twSchedule,              &QTableWidget::currentItemChanged,   this, &WdgSchedule::refreshReferences);
+
+    connect(ui->twSchedule,              &QTableWidget::itemDoubleClicked,    this, &WdgSchedule::actionOpenBusstopSchedule);
+    connect(_actionOpenBusstopSchedule,  &QAction::triggered,                 this, &WdgSchedule::actionOpenBusstopSchedule);
+
+    connect(ui->cmbDirections,           &QComboBox::activated,               this, &WdgSchedule::actionChangeDirection);
+    connect(ui->leSearchBusstop,         &QLineEdit::textChanged,             this, &WdgSchedule::refreshSchedule);
+    connect(ui->cbOnlyImportantBusstops, &QCheckBox::stateChanged,            this, &WdgSchedule::refreshSchedule);
+
 
     ui->twSchedule->setRowHidden(0, true);
+
+    refreshUI();
 }
 
-WdgSchedule::~WdgSchedule()
-{
+WdgSchedule::~WdgSchedule() {
     delete ui;
 }
 
-void WdgSchedule::actionChangeDirection()
-{
-    _currentLineDirection = lineDirectionsReference[ui->cmbDirections->currentIndex()];
-    _currentTrips.clear();
-    refreshSchedule();
-    emit currentLineChanged(_currentLine, _currentLineDirection);
-    emit currentTripsChanged(_currentTrips);
+QList<QAction *> WdgSchedule::actions() {
+    return ui->twSchedule->actions() << _actionShowOnlyImportantBusstops;
 }
 
-void WdgSchedule::setCurrentLine(Line *l) {
-    _currentLine = l;
-    _currentTrips.clear();
-    refreshDirections();
-    refreshSchedule();
-    emit currentLineChanged(_currentLine, _currentLineDirection);
-    emit currentTripsChanged(_currentTrips);
+QList<QAction *> WdgSchedule::hourBreakActions() {
+    return _hourBreakActions;
 }
 
-void WdgSchedule::setLineHourBreak(const int &newLineHourBreak) {
-    if(!_currentLine)
+void WdgSchedule::refreshUI() {
+    if(!_currentLine) {
+        _actionNew                ->setEnabled(false);
+        _actionCopy               ->setEnabled(false);
+        _actionOpenBusstopSchedule->setEnabled(false);
+        _actionDelete             ->setEnabled(false);
         return;
-    undoStack->push(new CmdLineChangeHourBreak(_currentLine, newLineHourBreak));
-    refreshSchedule();
-}
-
-void WdgSchedule::refreshDirections() {
-    qDebug() << "refreshing line directions in schedule";
-
-    int lastIndex = ui->cmbDirections->currentIndex();
-
-    ui->cmbDirections->clear();
-    lineDirectionsReference.clear();
-
-    if(!_currentLine)
-        return;
-
-    for(int i = 0; i < _currentLine->directionCount(); i++) {
-        LineDirection *ld = _currentLine->directionAt(i);
-        lineDirectionsReference << ld;
-        ui->cmbDirections->addItem(ld->description());
     }
 
-    if(lineDirectionsReference.count() > lastIndex)
-        ui->cmbDirections->setCurrentIndex(lastIndex);
+    const int tripCount = _currentTrips.count();
+    QTableWidgetItem *currentItem = ui->twSchedule->currentItem();
+
+    _actionNew ->setEnabled(tripCount <= 1);
+    _actionCopy->setEnabled(tripCount == 1);
+    if(currentItem)
+        _actionOpenBusstopSchedule->setEnabled(currentItem->row() >= headerRowCount);
     else
-        ui->cmbDirections->setCurrentIndex(ui->cmbDirections->count() - 1);
-
-    if(lastIndex == -1)
-        ui->cmbDirections->setCurrentIndex(0);
-
-    int currentIndex = ui->cmbDirections->currentIndex();
-
-    if(!lineDirectionsReference.empty())
-        _currentLineDirection = lineDirectionsReference[currentIndex];
-    else
-        _currentLineDirection = nullptr;
+        _actionOpenBusstopSchedule->setEnabled(false);
+    _actionDelete->setEnabled(tripCount > 0);
 }
 
-void WdgSchedule::refreshDayTypes() {
-    qDebug() << "refreshing day types in schedule";
-    dayTypesReference = projectData->projectSettings()->dayTypes();
+void WdgSchedule::refreshHourBreak() {
+    for(int i = 0; i < 24; i++)
+        _hourBreakActions[i]->setChecked(false);
 
-    ui->cmbDayTypes->clear();
-    for(int i = 0; i < dayTypesReference.count(); i++)
-        ui->cmbDayTypes->addItem(dayTypesReference[i]->name());
+    if(!_currentLine)
+        return;
 
-    if(!dayTypesReference.empty()) {
-        ui->cmbDayTypes->setCurrentIndex(0);
-        _currentDayType = dayTypesReference[0];
-    }
+    _hourBreakActions[_currentLine->hourBreak()]->setChecked(true);
 }
 
 void WdgSchedule::refreshSchedule() {
     qDebug() << "refreshing schedule...";
 
-    refreshingSchedule = true;
+    ui->twSchedule->blockSignals(true);
 
-    int currentScrollValue = ui->twSchedule->horizontalScrollBar()->value();
+    const int currentScrollValue = ui->twSchedule->horizontalScrollBar()->value();
 
     ui->twSchedule->clearContents();
     ui->twSchedule->setColumnCount(0);
     ui->twSchedule->setRowCount(headerRowCount);
 
-    scheduleTableTripsReference.clear();
+    _scheduleTableTripsReference.clear();
 
     if(!_currentLine) {
-        refreshingSchedule = false;
+        ui->twSchedule->blockSignals(false);
         return;
     }
 
@@ -135,15 +139,13 @@ void WdgSchedule::refreshSchedule() {
         }
     }
 
-    //trips = filteredTrips;
-
-    refreshScheduleBusstopList(trips);
+    refreshBusstopList(trips);
 
     // get all repetitions and sort trips
     filteredTrips = ProjectData::sortTrips(filteredTrips, _currentLine->hourBreak());
 
     for(int i = 0; i < filteredTrips.count(); i++)
-        refreshScheduleAddTrip(filteredTrips[i]);
+        refreshAddTrip(filteredTrips[i]);
 
     // resize columns and rows
     for(int i = 0; i <= ui->twSchedule->rowCount(); i++)
@@ -158,11 +160,13 @@ void WdgSchedule::refreshSchedule() {
 
     ui->twSchedule->horizontalScrollBar()->setValue(currentScrollValue);
 
-    refreshingSchedule = false;
+    ui->twSchedule->blockSignals(false);
+
+    refreshUI();
 }
 
-void WdgSchedule::refreshScheduleBusstopList(QList<Trip *> trips) {
-    scheduleTableBusstopsReference.clear();
+void WdgSchedule::refreshBusstopList(QList<Trip *> trips) {
+    _scheduleTableBusstopsReference.clear();
 
     QList<Route *> routes;
     for(int i = 0; i < trips.count(); i++) {
@@ -170,7 +174,7 @@ void WdgSchedule::refreshScheduleBusstopList(QList<Trip *> trips) {
         if(!routes.contains(r))
             routes << r;
     }
-    
+
     routes = ProjectData::sortItems(routes);
 
     for(int i = 0; i < routes.count(); i++) {
@@ -192,8 +196,8 @@ void WdgSchedule::refreshScheduleBusstopList(QList<Trip *> trips) {
 
             // determine, if busstop was already added
             bool busstopAlreadyExists = false;
-            for(int k = 0; k < scheduleTableBusstopsReference.count(); k++) {
-                if(scheduleTableBusstopsReference[k] == b) {
+            for(int k = 0; k < _scheduleTableBusstopsReference.count(); k++) {
+                if(_scheduleTableBusstopsReference[k] == b) {
                     busstopAlreadyExists = true;
                     firstBusstopFound = true;
                     lastBusstop = b;
@@ -206,13 +210,13 @@ void WdgSchedule::refreshScheduleBusstopList(QList<Trip *> trips) {
 
             int targetIndex;
             if(firstBusstopFound) {
-                targetIndex = scheduleTableBusstopsReference.count();
+                targetIndex = _scheduleTableBusstopsReference.count();
             } else {
                 targetIndex = 0;
             }
 
-            for(int k = 0; k < scheduleTableBusstopsReference.count(); k++) {
-                if(scheduleTableBusstopsReference[k] == lastBusstop) {
+            for(int k = 0; k < _scheduleTableBusstopsReference.count(); k++) {
+                if(_scheduleTableBusstopsReference[k] == lastBusstop) {
                     targetIndex = k + 1;
                     break;
                 }
@@ -220,19 +224,19 @@ void WdgSchedule::refreshScheduleBusstopList(QList<Trip *> trips) {
 
             ui->twSchedule->insertRow(targetIndex + headerRowCount);
             ui->twSchedule->setVerticalHeaderItem(targetIndex + headerRowCount, new QTableWidgetItem(b->name()));
-            scheduleTableBusstopsReference.insert(targetIndex, b);
+            _scheduleTableBusstopsReference.insert(targetIndex, b);
             lastBusstop = b;
         }
     }
 }
 
-void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
+void WdgSchedule::refreshAddTrip(Trip *t) {
     if(!t)
         return;
 
     Trip *parentT = projectData->trip(t->id());
     if(parentT)
-        scheduleTableTripsReference << parentT;
+        _scheduleTableTripsReference << parentT;
 
     QFont bold;
     bold.setBold(true);
@@ -283,7 +287,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
             itmTour->setBackground(Qt::darkGreen);
             itmTour->setForeground(Qt::white);
         } else if(overlap) {
-            itmTour->setBackground(QColor("#ffa800"));
+            itmTour->setBackground(QColor(255, 168, 0));
             itmTour->setForeground(Qt::black);
             tourToolTip = tr("<p><b style=\"color: red;\">Multiple assignment at %1:</b><p>%2").arg(overlapStr, tourToolTip);
         } else {
@@ -320,7 +324,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     //------------------------------
 
     int timeProfileIndex = t->route()->indexOfTimeProfile(t->timeProfile());
-    QList<QColor> profileColors = {QColor("#00a3ff"), QColor("#b900ff"), QColor("#ff00b8"), QColor("#ff8600"), QColor("#80ff00")};
+    QList<QColor> profileColors = {QColor(0, 163, 255), QColor(185, 0, 255), QColor(255, 0, 184), QColor(255, 134, 0), QColor(128, 255, 0)};
     QColor currentProfileColor = (timeProfileIndex >= 4 || timeProfileIndex < 0) ? profileColors[4] : profileColors[timeProfileIndex];
     itmTimeProfile->setBackground(currentProfileColor);
     itmTimeProfile->setForeground(global::getContrastColor(currentProfileColor));
@@ -330,7 +334,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     //------------------------------
 
     itmStartTime->setFont(bold);
-    itmStartTime->setBackground(QColor("#555555"));
+    itmStartTime->setBackground(QColor(85, 85, 85));
     itmStartTime->setForeground(Qt::white);
 
     //------------------------------
@@ -347,7 +351,7 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
 
     int lastBusstopFound = -1;
     for(int i = headerRowCount; i < ui->twSchedule->rowCount(); i++) { // for each row in table
-        Busstop *b = scheduleTableBusstopsReference[i - headerRowCount];
+        Busstop *b = _scheduleTableBusstopsReference[i - headerRowCount];
         TimeProfileItem *itm = t->timeProfile()->busstop(b);
 
         // route does not contain busstop, skip
@@ -413,20 +417,98 @@ void WdgSchedule::refreshScheduleAddTrip(Trip *t) {
     }
 }
 
-bool WdgSchedule::checkMatchingWeekdays(WeekDays d) {
-    if(!_currentDayType)
-        return false;
+void WdgSchedule::refreshDirections() {
+    qDebug() << "refreshing line directions in schedule";
 
-    return WeekDays::overlap(d, *_currentDayType);
+    int lastIndex = ui->cmbDirections->currentIndex();
+
+    ui->cmbDirections->clear();
+    _lineDirectionsReference.clear();
+
+    if(!_currentLine)
+        return;
+
+    for(int i = 0; i < _currentLine->directionCount(); i++) {
+        LineDirection *ld = _currentLine->directionAt(i);
+        _lineDirectionsReference << ld;
+        ui->cmbDirections->addItem(ld->description());
+    }
+
+    if(_lineDirectionsReference.count() > lastIndex)
+        ui->cmbDirections->setCurrentIndex(lastIndex);
+    else
+        ui->cmbDirections->setCurrentIndex(ui->cmbDirections->count() - 1);
+
+    if(lastIndex == -1)
+        ui->cmbDirections->setCurrentIndex(0);
+
+    int currentIndex = ui->cmbDirections->currentIndex();
+
+    if(!_lineDirectionsReference.empty())
+        _currentLineDirection = _lineDirectionsReference[currentIndex];
+    else
+        _currentLineDirection = nullptr;
 }
 
-void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
+void WdgSchedule::refreshDayTypes() {
+    qDebug() << "refreshing day types in schedule";
+    _dayTypesReference = projectData->projectSettings()->dayTypes();
+
+    ui->cmbDayTypes->clear();
+    for(int i = 0; i < _dayTypesReference.count(); i++)
+        ui->cmbDayTypes->addItem(_dayTypesReference[i]->name());
+
+    if(!_dayTypesReference.empty()) {
+        ui->cmbDayTypes->setCurrentIndex(0);
+        _currentDayType = _dayTypesReference[0];
+    }
+}
+
+void WdgSchedule::setCurrentLine(Line *l) {
+    _currentLine = l;
+    _currentTrips.clear();
+    refreshDirections();
+    refreshSchedule();
+    refreshHourBreak();
+    emit currentLineChanged(_currentLine, _currentLineDirection);
+    emit currentTripsChanged(_currentTrips);
+    refreshUI();
+}
+
+void WdgSchedule::setCurrenTrips(const QList<Trip *> trips) {
+    _currentTrips = trips;
+    refreshUI();
+}
+
+void WdgSchedule::actionChangeDirection()
+{
+    _currentLineDirection = _lineDirectionsReference[ui->cmbDirections->currentIndex()];
+    _currentTrips.clear();
+    refreshSchedule();
+    emit currentLineChanged(_currentLine, _currentLineDirection);
+    emit currentTripsChanged(_currentTrips);
+}
+
+void WdgSchedule::actionSetHourBreak(const int &newLineHourBreak) {
+    if(!_currentLine)
+        return;
+
+    for(int i = 0; i < 24; i++)
+        _hourBreakActions[i]->setChecked(false);
+    _hourBreakActions[newLineHourBreak]->setChecked(true);
+
+    projectData->undoStack()->push(new CmdScheduleChangeHourBreak(_currentLine, newLineHourBreak));
+    refreshSchedule();
+}
+
+void WdgSchedule::actionOpenBusstopSchedule() {
+    QTableWidgetItem *item = ui->twSchedule->currentItem();
     if(!item)
         return;
 
     if(item->row() == 1) {
         int index = item->column();
-        Trip *t = scheduleTableTripsReference[index];
+        Trip *t = _scheduleTableTripsReference[index];
         QList<Tour *> tours = projectData->toursOfTrip(t);
 
         if(tours.count() == 0)
@@ -451,10 +533,10 @@ void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
         }
     } else {
         int index = item->row() - headerRowCount;
-        if(index < 0 || index >= scheduleTableBusstopsReference.count())
+        if(index < 0 || index >= _scheduleTableBusstopsReference.count())
             return;
 
-        Busstop *b = scheduleTableBusstopsReference[index];
+        Busstop *b = _scheduleTableBusstopsReference[index];
         QList<Route *> routes;
         for (int i = 0; i < _currentLine->routeCount(); ++i) {
             Route *r = _currentLine->routeAt(i);
@@ -465,28 +547,30 @@ void WdgSchedule::on_twSchedule_itemDoubleClicked(QTableWidgetItem *item) {
     }
 }
 
+bool WdgSchedule::checkMatchingWeekdays(WeekDays d) {
+    if(!_currentDayType)
+        return false;
+
+    return WeekDays::overlap(d, *_currentDayType);
+}
+
 void WdgSchedule::on_cmbDayTypes_activated(int index) {
-    _currentDayType = dayTypesReference[index];
+    _currentDayType = _dayTypesReference[index];
     _currentTrips.clear();
     refreshSchedule();
     emit currentDayTypeChanged(*_currentDayType);
     emit currentTripsChanged(_currentTrips);
 }
 
-
-
-void WdgSchedule::on_twSchedule_itemSelectionChanged() {
-    if(refreshingSchedule)
-        return;
-
+void WdgSchedule::refreshReferences() {
     _currentTrips.clear();
 
-    for(int i = 0; i < scheduleTableTripsReference.count(); i++) {
-
+    for(int i = 0; i < _scheduleTableTripsReference.count(); i++) {
         QTableWidgetItem *itm = ui->twSchedule->item(0, i);
         if(itm->isSelected())
-            _currentTrips << scheduleTableTripsReference[i];
+            _currentTrips << _scheduleTableTripsReference[i];
     }
 
+    refreshUI();
     emit currentTripsChanged(_currentTrips);
 }

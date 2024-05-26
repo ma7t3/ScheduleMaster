@@ -12,36 +12,36 @@ namespace Ui {
 class WdgSchedule;
 }
 
-class WdgSchedule : public QWidget
-{
+class WdgSchedule : public QWidget {
     Q_OBJECT
 
 public:
-    explicit WdgSchedule(QWidget *parent = nullptr, ProjectData *projectData = nullptr, QUndoStack *undoStack = nullptr);
+    explicit WdgSchedule(QWidget *parent);
     ~WdgSchedule();
 
-
+    QList<QAction *> actions();
+    QList<QAction *> hourBreakActions();
 
 public slots:
-    void actionChangeDirection();
-
-    void setCurrentLine(Line *);
-    void setLineHourBreak(const int &);
-
+    void refreshUI();
+    void refreshHourBreak();
+    void refreshSchedule();
     void refreshDirections();
     void refreshDayTypes();
-    void refreshSchedule();
+    void setCurrentLine(Line *);
+    void setCurrenTrips(const QList<Trip *>);
 
 private slots:
-    void refreshScheduleBusstopList(QList<Trip *>);
-    void refreshScheduleAddTrip(Trip *);
+    void actionChangeDirection();
+    void actionSetHourBreak(const int &);
+    void actionOpenBusstopSchedule();
+
+    void refreshBusstopList(QList<Trip *>);
+    void refreshAddTrip(Trip *);
+
     bool checkMatchingWeekdays(WeekDays);
-
-    void on_twSchedule_itemDoubleClicked(QTableWidgetItem *item);
-
     void on_cmbDayTypes_activated(int index);
-
-    void on_twSchedule_itemSelectionChanged();
+    void refreshReferences();
 
 signals:
     void currentLineChanged(Line *, LineDirection *);
@@ -51,36 +51,35 @@ signals:
     void busstopScheduleRequested(Busstop *, QList<Route *>, DayType *);
     void tourRequested(Tour *);
     void refreshRequested();
-    void currentHourBreakChanged(const int &);
 
 private:
     Ui::WdgSchedule *ui;
     ProjectData *projectData;
-    QUndoStack *undoStack;
 
-    int headerRowCount = 7;
+    static const inline int headerRowCount = 7;
 
-    Line *_currentLine = nullptr;
+    QList<QAction *> _hourBreakActions;
+
+    QAction *_actionNew;
+    QAction *_actionCopy;
+    QAction *_actionOpenBusstopSchedule;
+    QAction *_actionDelete;
+    QAction *_actionShowOnlyImportantBusstops;
+
+    Line *_currentLine;
     QList<Trip *> _currentTrips;
-    //Trip *_currentTrip;
-    Route *_currentRoute = nullptr;
-    QList<Trip *> scheduleTableTripsReference;
-    QList<Busstop *> scheduleTableBusstopsReference;
-    QList<Route *> routeTableReference;
+    QList<Trip *> _scheduleTableTripsReference;
+    QList<Busstop *> _scheduleTableBusstopsReference;
+    QList<Route *> _routeTableReference;
 
-    LineDirection *_currentLineDirection = nullptr;
-    QList<LineDirection *> lineDirectionsReference;
+    LineDirection *_currentLineDirection;
+    QList<LineDirection *> _lineDirectionsReference;
 
     DayType *_currentDayType;
-    QList<DayType *> dayTypesReference;
+    QList<DayType *> _dayTypesReference;
 
-    bool scheduleStartTimeChanging = false;
-    QTime ScheduleTmpOldStartTime;
-
-    bool refreshingSchedule = false;
-
-    void scheduleSaveProfile();
-    void scheduleSaveStartTime();
+    bool _scheduleStartTimeChanging;
+    QTime _ScheduleTmpOldStartTime;
 };
 
 #endif // WDGSCHEDULE_H

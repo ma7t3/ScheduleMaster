@@ -42,7 +42,7 @@ public slots:
     void refreshUI();
 
 signals:
-    void tripsChanged(QList<Trip *>);
+    void tripsChanged(const QList<Trip *> &);
     void refreshRequested();
 
 private slots:
