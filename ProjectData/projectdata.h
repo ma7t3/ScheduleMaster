@@ -119,24 +119,23 @@ public:
     Footnote *newFootnote(const QJsonObject &);
     Footnote *newFootnote(const Footnote &newFootnote);
 
-    QUndoStack *undoStack() const;
+    QUndoStack *undoStack();
 
 signals:
-    void test();
     void loadingProgressMaxValue(const int &maxValue);
     void loadingProgressUpdated(const int &currentValue);
     void loadingProgressTextUpdated(const int &type, const QString &message, const bool &showAsCurrent = false);
 
 private:
     QString _filePath;
-    ProjectSettings _projectSettings;
+    ProjectSettings *_projectSettings;
     QList<Busstop *> _busstops;
     QList<Line *> _lines;
     QList<Tour *> _tours;
     QList<Footnote *> _footnotes;
-    Publications _publications;
+    Publications *_publications;
 
-    QUndoStack *_undoStack;
+    QUndoStack _undoStack;
 
     std::unordered_map<Route *, Line *> _routeLineCacheMap;
     std::unordered_map<Trip *, Line *> _routeTripCacheMap;

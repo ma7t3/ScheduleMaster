@@ -43,26 +43,6 @@ void Publications::setJson(const QJsonObject &jsonObject) {
             addLine(newLine(jLineSchedules.at(i).toObject()));
 }
 
-void Publications::reset() {
-
-    for(int i = 0; i < _lines.count(); i++) {
-        qDebug() << i << _lines[i]->title();
-        for(int j = 0; j < _lines[i]->directionCount(); j++) {
-            PublishedLineDirection *d = _lines[i]->directionAt(j);
-            qDebug() << i << j << d->name();
-            for(int k = 0; k < d->busstopCount(); k++) {
-                PublishedBusstop *b = d->busstopAt(k);
-                qDebug() << b->label();
-            }
-        }
-    }
-
-
-    qDeleteAll(_lines);
-
-    _lines.clear();
-}
-
 QJsonObject Publications::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.remove("id");

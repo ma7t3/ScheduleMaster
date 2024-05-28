@@ -6,7 +6,7 @@
 class Publications : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    Publications(QObject *parent);
+    Publications(QObject *parent = nullptr);
     Publications(const Publications &);
     Publications operator=(const Publications &);
 
@@ -23,8 +23,6 @@ public:
 
     QJsonObject toJson() const;
     void setJson(const QJsonObject &);
-
-    void reset();
 
     PublishedLine *newLine(QString id = "");
     PublishedLine *newLine(const QJsonObject &);

@@ -3,42 +3,47 @@
 
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
-    _projectSettings(this),
-    _publications(this),
-    _undoStack(new QUndoStack(this))
-{}
+    _projectSettings(new ProjectSettings(this)),
+    _publications(new Publications(this)) {
+}
 
 ProjectData::~ProjectData() {
 
 }
 
-ProjectSettings *ProjectData::projectSettings() { return &_projectSettings; }
+ProjectSettings *ProjectData::projectSettings() { return _projectSettings; }
 
 void ProjectData::reset() {
     _filePath = "";
 
-    _projectSettings.reset();
+    qDebug() << "clearing undoStack...";
+    _undoStack.clear();
+
+
+    qDebug() << "deleting all childs...";
+    QObjectList childs = children();
+    for(QObject *c : childs)
+        c->deleteLater();
+
+    _projectSettings = new ProjectSettings(this);
     qDebug() << "projectSettings reset";
 
-    _publications.reset();
+    _publications = new Publications(this);
     qDebug() << "publications reset";
 
-    qDeleteAll(_tours);
     _tours.clear();
     qDebug() << "tours deleted";
 
-    qDeleteAll(_lines);
     _lines.clear();
     qDebug() << "lines deleted";
 
-    qDeleteAll(_footnotes);
     _footnotes.clear();
     qDebug() << "footnotes deleted";
 
-    qDeleteAll(_busstops);
     _busstops.clear();
     qDebug() << "busstops deleted";
 
+    qDebug() << "removing cache";
     _routeLineCacheMap.clear();
     _routeTripCacheMap.clear();
 }
@@ -617,7 +622,7 @@ QList<Trip *> ProjectData::sortTrips(QList<Trip *> list, const int &hourBreak) {
 }
 
 Publications *ProjectData::publications() {
-    return &_publications;
+    return _publications;
 }
 
 QJsonObject ProjectData::toJson() {
@@ -781,6 +786,6 @@ Footnote *ProjectData::newFootnote(const Footnote &newFootnote) {
     return f;
 }
 
-QUndoStack *ProjectData::undoStack() const {
-    return _undoStack;
+QUndoStack *ProjectData::undoStack() {
+    return &_undoStack;
 }
