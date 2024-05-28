@@ -43,11 +43,6 @@ void Publications::setJson(const QJsonObject &jsonObject) {
             addLine(newLine(jLineSchedules.at(i).toObject()));
 }
 
-void Publications::refreshChilds() {
-    foreach (PublishedLine *l, _lines)
-        l->setParent(this);
-}
-
 void Publications::reset() {
 
     for(int i = 0; i < _lines.count(); i++) {

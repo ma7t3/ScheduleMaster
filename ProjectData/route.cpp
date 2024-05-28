@@ -88,11 +88,6 @@ QJsonObject Route::toJson() const {
     return jsonObject;
 }
 
-void Route::refreshChilds() {
-    foreach (TimeProfile *p, _timeProfiles)
-        p->setParent(this);
-}
-
 QList<TimeProfile *> Route::cloneTimeProfiles() const {
     QList<TimeProfile *> result;
     for(int i = 0; i < timeProfileCount(); i++) {

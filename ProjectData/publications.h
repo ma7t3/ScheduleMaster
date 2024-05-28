@@ -24,8 +24,6 @@ public:
     QJsonObject toJson() const;
     void setJson(const QJsonObject &);
 
-    void refreshChilds();
-
     void reset();
 
     PublishedLine *newLine(QString id = "");

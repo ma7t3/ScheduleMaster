@@ -78,11 +78,6 @@ QJsonObject PublishedLineDirection::toJson() const {
     return jsonObject;
 }
 
-void PublishedLineDirection::refreshChilds() {
-    foreach (PublishedBusstop *b, _busstops)
-        b->setParent(this);
-}
-
 QString PublishedLineDirection::name() const {
     return _name;
 }

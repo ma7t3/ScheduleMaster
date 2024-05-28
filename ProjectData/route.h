@@ -58,8 +58,6 @@ public:
 
     QJsonObject toJson() const;
 
-    void refreshChilds();
-
     QList<TimeProfile *> cloneTimeProfiles() const;
 
     TimeProfile *newTimeProfile(QString id = "");

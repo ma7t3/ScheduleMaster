@@ -38,8 +38,6 @@ public:
     QJsonObject toJson() const;
     void setJson(const QJsonObject &);
 
-    void refreshChilds();
-
     DayType *newDayType(QString id = "");
     DayType *newDayType(const QJsonObject &);
     DayType *newDayType(const DayType &newDayType);

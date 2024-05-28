@@ -75,7 +75,6 @@ public:
     QJsonObject toJson() const;
 
     QList<TimeProfileItem *> cloneItems();
-    void refreshChilds();
 
 protected:
     void copy(const TimeProfile &);

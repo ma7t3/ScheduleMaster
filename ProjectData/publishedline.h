@@ -48,8 +48,6 @@ public:
 
     QJsonObject toJson() const;
 
-    void refreshChilds();
-
     PublishedLineDirection *newDirection(QString id = "");
     PublishedLineDirection *newDirection(const QJsonObject &);
     PublishedLineDirection *newDirection(const PublishedLineDirection &newDirection);

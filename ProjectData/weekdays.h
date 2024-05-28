@@ -57,8 +57,6 @@ public:
 
     QJsonObject toJson() const;
 
-    void refreshChilds();
-
 protected:
     void copy(const WeekDays &);
     void fromJson(QJsonObject const &);

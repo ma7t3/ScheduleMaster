@@ -174,11 +174,6 @@ QList<TimeProfileItem *> TimeProfile::cloneItems() {
     return result;
 }
 
-void TimeProfile::refreshChilds() {
-    foreach (TimeProfileItem *itm, _items)
-        itm->setParent(this);
-}
-
 QString TimeProfile::name() const {
     return _name;
 }

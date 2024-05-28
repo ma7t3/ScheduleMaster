@@ -44,10 +44,6 @@ QJsonObject ProjectDataItem::toJson() const {
     return jsonObject;
 }
 
-void ProjectDataItem::refreshChilds() {
-    //
-}
-
 QString ProjectDataItem::getNewID() {
     return QUuid::createUuid().toString(QUuid::WithoutBraces);
 }
