@@ -6,11 +6,9 @@
 class ProjectSettings : public virtual ProjectDataItem {
     Q_OBJECT
 public:
-    ProjectSettings(QObject *parent);
+    ProjectSettings(QObject *parent = nullptr);
     ProjectSettings(const ProjectSettings &);
     ProjectSettings operator=(const ProjectSettings &);
-
-    void reset();
 
     QString displayName() const;
     void setDisplayName(const QString &newDisplayName);

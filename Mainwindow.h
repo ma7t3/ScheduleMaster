@@ -45,7 +45,7 @@ public:
     ~MainWindow();
     void closeEvent(QCloseEvent *event) override;
 
-    ProjectData *projectData();
+    ProjectData *projectData() const;
     QUndoStack *undoStack() const;
 
 private slots:
@@ -111,7 +111,7 @@ signals:
 private:
     Ui::MainWindow *ui;
 
-    ProjectData _projectData;
+    ProjectData *_projectData;
 
     FileHandler *fileHandler;
     StartupDialog *startupDialog;
@@ -126,12 +126,12 @@ private:
     WdgLines *wdgLines = new WdgLines(this);
     WdgRoutes *wdgRoutes = new WdgRoutes(this);
     WdgSchedule *wdgSchedule = new WdgSchedule(this);
-    WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, &_projectData, undoStack());
-    WdgTours *wdgTours = new WdgTours(this, &_projectData, undoStack());
-    WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, &_projectData, undoStack());
-    WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, &_projectData);
-    WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, &_projectData, undoStack());
-    WdgFootnotes *wdgFootnotes = new WdgFootnotes(this, &_projectData, undoStack());
+    WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, _projectData, undoStack());
+    WdgTours *wdgTours = new WdgTours(this, _projectData, undoStack());
+    WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, _projectData, undoStack());
+    WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, _projectData);
+    WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, _projectData, undoStack());
+    WdgFootnotes *wdgFootnotes = new WdgFootnotes(this, _projectData, undoStack());
 
     QDockWidget *dwUndoView = new QDockWidget(tr("Undo View"), this);
     QDockWidget *dwBusstops = new QDockWidget(tr("Busstops"), this);
