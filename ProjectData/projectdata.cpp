@@ -16,36 +16,38 @@ ProjectSettings *ProjectData::projectSettings() { return _projectSettings; }
 void ProjectData::reset() {
     _filePath = "";
 
-    qDebug() << "clearing undoStack...";
+    qDebug() << "\tclearing undoStack...";
     _undoStack.clear();
 
 
-    qDebug() << "deleting all childs...";
+    qDebug() << "\tdeleting all childs...";
     QObjectList childs = children();
     for(QObject *c : childs)
         c->deleteLater();
 
+    qDebug() << "\tresetting projectSettings...";
     _projectSettings = new ProjectSettings(this);
-    qDebug() << "projectSettings reset";
 
+    qDebug() << "\tresetting publications...";
     _publications = new Publications(this);
-    qDebug() << "publications reset";
 
+    qDebug() << "\tdeleting tours...";
     _tours.clear();
-    qDebug() << "tours deleted";
 
+    qDebug() << "\tdeleting lines...";
     _lines.clear();
-    qDebug() << "lines deleted";
 
+    qDebug() << "\tdeleting footnotes...";
     _footnotes.clear();
-    qDebug() << "footnotes deleted";
 
+    qDebug() << "\tdeleting busstops...";
     _busstops.clear();
-    qDebug() << "busstops deleted";
 
-    qDebug() << "removing cache";
+    qDebug() << "\tremoving cache...";
     _routeLineCacheMap.clear();
     _routeTripCacheMap.clear();
+
+    qDebug() << "\tprojectData reset!";
 }
 
 void ProjectData::cleanup() {

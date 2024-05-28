@@ -506,7 +506,6 @@ bool MainWindow::actionFileClose() {
     }
     qInfo() << "closing current file...";
     _projectData->reset();
-    qDebug() << "projectData reset";
     knownFile = false;
 
     wdgRoutes->setCurrentLine(nullptr);
