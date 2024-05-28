@@ -21,7 +21,6 @@ public:
 
     void redo() override {
         d->addTour(tour);
-        tour->refreshChilds();
     }
 
 private:
@@ -45,7 +44,6 @@ public:
 
     void redo() override {
         *tour = newTour;
-        tour->refreshChilds();
     }
 
 private:
@@ -69,7 +67,6 @@ public:
 
     void redo() override {
         tour->insertTripAt(trip, index);
-        tour->refreshChilds();
     }
 
 private:

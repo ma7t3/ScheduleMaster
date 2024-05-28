@@ -86,11 +86,6 @@ QJsonObject PublishedLine::toJson() const {
     return jsonObject;
 }
 
-void PublishedLine::refreshChilds() {
-    foreach (PublishedLineDirection *ld, _directions)
-        ld->setParent(this);
-}
-
 QString PublishedLine::title() const {
     return _title;
 }

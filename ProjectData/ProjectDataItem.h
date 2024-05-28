@@ -14,8 +14,6 @@ public:
 
     QJsonObject toJson() const;
 
-    void refreshChilds();
-
     static QString getNewID();
 
 protected:

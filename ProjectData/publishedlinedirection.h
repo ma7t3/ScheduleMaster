@@ -42,8 +42,6 @@ public:
 
     QJsonObject toJson() const;
 
-    void refreshChilds();
-
     PublishedBusstop *newBusstop(QString id = "");
     PublishedBusstop *newBusstop(const QJsonObject &);
     PublishedBusstop *newBusstop(const PublishedBusstop &newBusstop);

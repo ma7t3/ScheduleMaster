@@ -55,11 +55,6 @@ void ProjectSettings::setJson(const QJsonObject &jsonObject) {
             addDayType(newDayType(jDayTypes.at(i).toObject()));
 }
 
-void ProjectSettings::refreshChilds() {
-    foreach(DayType *dt, _dayTypes)
-        dt->setParent(this);
-}
-
 DayType *ProjectSettings::newDayType(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
