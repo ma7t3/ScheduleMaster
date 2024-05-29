@@ -18,11 +18,12 @@ enum WeekDay {
     vacation  = 9
 };
 
-class WeekDays : public virtual ProjectDataItem {
+class WeekDays : public ProjectDataItem {
     Q_OBJECT
 public:
     WeekDays(QObject *parent = nullptr);
     WeekDays(QObject *parent, const int &code);
+    WeekDays(QObject *parent, const QString &id);
     WeekDays(QObject *parent, const bool & monday, const bool & tuesday, const bool & wednesday, const bool & thursday, const bool & friday, const bool & saturday, const bool & sunday, const bool & holiday, const bool & school, const bool & vacation);
     WeekDays(const WeekDays &);
 

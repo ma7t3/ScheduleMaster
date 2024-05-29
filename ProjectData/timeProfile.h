@@ -6,7 +6,7 @@
 #include "ProjectDataItem.h"
 #include "busstop.h"
 
-class TimeProfileItem : public virtual ProjectDataItem {
+class TimeProfileItem : public ProjectDataItem {
     Q_OBJECT
 public:
     TimeProfileItem(QObject *parent, const QString &busstopId);

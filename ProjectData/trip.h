@@ -8,7 +8,7 @@
 #include "weekdays.h"
 #include "route.h"
 
-class Trip : public virtual ProjectDataItem {
+class Trip : public ProjectDataItem {
     Q_OBJECT
 public:
     Trip(QObject *parent, const QString &id);

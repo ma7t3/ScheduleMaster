@@ -3,7 +3,7 @@
 
 #include "ProjectData/ProjectDataItem.h"
 
-class LineDirection : public virtual ProjectDataItem {
+class LineDirection : public ProjectDataItem {
     Q_OBJECT
 public:
     LineDirection(QObject *parent, const QString &id);

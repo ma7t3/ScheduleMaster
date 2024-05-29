@@ -7,7 +7,7 @@
 
 #include "weekdays.h"
 
-class Footnote : public virtual ProjectDataItem {
+class Footnote : public ProjectDataItem {
     Q_OBJECT
 public:
     Footnote(QObject *parent, const QString &id);

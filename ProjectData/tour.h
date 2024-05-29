@@ -7,7 +7,7 @@
 #include "trip.h"
 #include "weekdays.h"
 
-class Tour : public virtual ProjectDataItem {
+class Tour : public ProjectDataItem {
     Q_OBJECT
 public:
     Tour(QObject *parent, const QString &id);

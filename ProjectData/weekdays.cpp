@@ -8,6 +8,10 @@ WeekDays::WeekDays(QObject *parent, const int &code) : ProjectDataItem(parent) {
     setCode(code);
 }
 
+WeekDays::WeekDays(QObject *parent, const QString &id) :
+    ProjectDataItem(parent, id) {
+}
+
 WeekDays::WeekDays(QObject *parent,
                    const bool &monday,
                    const bool &tuesday,

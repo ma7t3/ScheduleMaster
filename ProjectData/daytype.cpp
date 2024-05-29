@@ -1,15 +1,14 @@
 #include "daytype.h"
 
 DayType::DayType(QObject *parent, const QString &id) :
-    ProjectDataItem(parent, id),
-    WeekDays(parent, 995) {
+    WeekDays(parent, id) {
 }
 
 DayType::DayType(QObject *parent, const QString &id, const QString &name, const int &code) :
-    ProjectDataItem(parent, id),
-    WeekDays(parent, code),
-    _name(name)
-{}
+    WeekDays(parent, id),
+    _name(name) {
+    setCode(code);
+}
 
 DayType::DayType(QObject *parent,
                  const QString &id,
@@ -24,19 +23,18 @@ DayType::DayType(QObject *parent,
                  const bool &holiday,
                  const bool &school,
                  const bool &noSchool) :
-    ProjectDataItem(parent, id),
     WeekDays(
         parent, monday, tuesday, wednesday, thursday, friday, saturday, sunday, holiday, school, noSchool),
-    _name(name) {}
+    _name(name) {
+    _id = id;
+}
 
 DayType::DayType(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent),
     WeekDays(parent, jsonObject.value("code").toInt(995)) {
     fromJson(jsonObject);
 }
 
 DayType::DayType(const DayType &other) :
-    ProjectDataItem(other.parent()),
     WeekDays(other.parent()) {
     copy(other);
 }

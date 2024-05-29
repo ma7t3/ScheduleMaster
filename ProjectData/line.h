@@ -11,7 +11,7 @@
 
 #include <QObject>
 
-class Line : public virtual ProjectDataItem {
+class Line : public ProjectDataItem {
     Q_OBJECT
 public:
     Line(QObject *parent, const QString &id);
