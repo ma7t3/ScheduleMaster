@@ -6,7 +6,7 @@
 #include "daytype.h"
 #include "publishedlinedirection.h"
 
-class PublishedLine : public virtual ProjectDataItem {
+class PublishedLine : public ProjectDataItem {
     Q_OBJECT
 public:
     PublishedLine(QObject *parent, const QString &id);

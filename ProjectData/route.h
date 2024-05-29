@@ -8,7 +8,7 @@
 #include "linedirection.h"
 #include "ProjectDataItem.h"
 
-class Route : public virtual ProjectDataItem {
+class Route : public ProjectDataItem {
     Q_OBJECT
 public:
     Route(QObject *parent, const QString &id);

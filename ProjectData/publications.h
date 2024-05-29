@@ -3,7 +3,7 @@
 
 #include "publishedline.h"
 
-class Publications : public virtual ProjectDataItem {
+class Publications : public ProjectDataItem {
     Q_OBJECT
 public:
     Publications(QObject *parent = nullptr);

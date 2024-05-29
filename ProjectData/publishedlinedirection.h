@@ -7,7 +7,7 @@
 #include "publishedbusstop.h"
 #include "route.h"
 
-class PublishedLineDirection : public virtual ProjectDataItem {
+class PublishedLineDirection : public ProjectDataItem {
     Q_OBJECT
 public:
     PublishedLineDirection(QObject *parent, const QString &id);

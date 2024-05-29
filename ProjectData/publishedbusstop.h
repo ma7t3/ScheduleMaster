@@ -5,7 +5,7 @@
 
 #include "busstop.h"
 
-class PublishedBusstop : public virtual ProjectDataItem {
+class PublishedBusstop : public ProjectDataItem {
     Q_OBJECT
 public:
     PublishedBusstop(QObject *parent, const QString &id);

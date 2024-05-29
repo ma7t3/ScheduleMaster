@@ -3,7 +3,7 @@
 
 #include "daytype.h"
 
-class ProjectSettings : public virtual ProjectDataItem {
+class ProjectSettings : public ProjectDataItem {
     Q_OBJECT
 public:
     ProjectSettings(QObject *parent = nullptr);

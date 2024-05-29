@@ -1,10 +1,9 @@
 #ifndef DAYTYPE_H
 #define DAYTYPE_H
 
-#include "ProjectDataItem.h"
 #include "weekdays.h"
 
-class DayType : public virtual ProjectDataItem, public WeekDays {
+class DayType : public WeekDays {
     Q_OBJECT
 public:
     DayType(QObject *parent, const QString &id);
