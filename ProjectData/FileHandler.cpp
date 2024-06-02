@@ -85,6 +85,7 @@ bool FileHandler::readFile() {
 
     if(AppInfo::currentVersion()) {
         const QString appVersionName = jMainObj.value("_fileInfo").toObject().value("appVersion").toString();
+        qInfo() << "File Version:" << appVersionName;
         AppInfo::AppVersion *version = AppInfo::version(appVersionName);
         if(!version) {
             emit unknownVersionDetected();
