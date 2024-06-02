@@ -79,6 +79,9 @@ HEADERS += \
     Commands/CmdRoutes.h \
     Commands/CmdSchedule.h \
     Commands/CmdTours.h \
+    DataModels/ProjectDataRowBasedTableModel.h \
+    DataModels/ProjectDataTableModel.h \
+    DataModels/ProjectDataTableSignals.h \
     Dialogs/DlgChangelog.h \
     Dialogs/DlgCopyTrip.h \
     Dialogs/DlgFootnoteEditor.h \
