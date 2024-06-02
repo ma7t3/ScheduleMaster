@@ -4,7 +4,37 @@
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
     _projectSettings(new ProjectSettings(this)),
-    _publications(new Publications(this)) {
+    _publications(new Publications(this)),
+    _updateTimer(new QTimer(this)) {
+    _updateTimer->setSingleShot(true);
+
+    connect(_updateTimer, &QTimer::timeout, this, [this]() {
+        if(!_addedBusstops.isEmpty())
+            emit busstopsAdded(_addedBusstops);
+
+        if(!_changedBusstops.isEmpty())
+            emit busstopsChanged(_changedBusstops);
+
+        if(!_removedBusstops.isEmpty())
+            emit busstopsRemoved(_removedBusstops);
+
+        if(!_addedLines.isEmpty())
+            emit linesAdded(_addedLines);
+
+        if(!_changedLines.isEmpty())
+            emit linesChanged(_changedLines);
+
+        if(!_removedLines.isEmpty())
+            emit linesRemoved(_removedLines);
+
+        _addedBusstops.clear();
+        _changedBusstops.clear();
+        _removedBusstops.clear();
+
+        _addedLines.clear();
+        _changedLines.clear();
+        _removedLines.clear();
+    });
 }
 
 ProjectData::~ProjectData() {
@@ -19,11 +49,13 @@ void ProjectData::reset() {
     qDebug() << "\tclearing undoStack...";
     _undoStack.clear();
 
-
     qDebug() << "\tdeleting all childs...";
     QObjectList childs = children();
-    for(QObject *c : childs)
+    for(QObject *c : childs) {
+        if(c == _updateTimer)
+            continue;
         c->deleteLater();
+    }
 
     qDebug() << "\tresetting projectSettings...";
     _projectSettings = new ProjectSettings(this);
@@ -48,6 +80,8 @@ void ProjectData::reset() {
     _routeTripCacheMap.clear();
 
     qDebug() << "\tprojectData reset!";
+
+    emit wasReset();
 }
 
 void ProjectData::cleanup() {
@@ -78,24 +112,10 @@ void ProjectData::addBusstop(Busstop *b) {
     if(!b)
         return;
 
+    b->setInUse(true);
+    onBusstopAdded(b);
     _busstops << b;
 }
-void ProjectData::addLine(Line *l) {
-    if(!l)
-        return;
-
-    l->setParent(this);
-    _lines << l;
-}
-
-void ProjectData::addTour(Tour *o) {
-    if(!o)
-        return;
-
-    o->setParent(this);
-    _tours << o;
-}
-
 
 int ProjectData::busstopCount() { return _busstops.count(); }
 
@@ -132,6 +152,44 @@ bool ProjectData::busstopWithNameExists(const QString &name) {
             return true;
     }
     return false;
+}
+
+bool ProjectData::removeBusstop(Busstop *b) {
+    for(int i = 0; i < busstopCount(); i++) {
+        if(busstopAt(i) != b)
+            continue;
+
+        _busstops[i]->setInUse(false);
+        onBusstopRemoved(b);
+        _busstops.remove(i);
+        return true;
+    }
+
+    return false;
+}
+
+bool ProjectData::removeBusstop(QString id) {
+    for(int i = 0; i < busstopCount(); i++) {
+        if(busstopAt(i)->id() != id)
+            continue;
+
+        _busstops[i]->setInUse(false);
+        onBusstopRemoved(_busstops[i]);
+        _busstops.remove(i);
+        return true;
+    }
+
+    return false;
+}
+
+void ProjectData::addLine(Line *l) {
+    if(!l)
+        return;
+
+    l->setParent(this);
+    l->setInUse(true);
+    onLineAdded(l);
+    _lines << l;
 }
 
 int ProjectData::lineCount() { return _lines.count(); }
@@ -209,6 +267,14 @@ Trip *ProjectData::trip(QString id) {
 }
 
 
+void ProjectData::addTour(Tour *o) {
+    if(!o)
+        return;
+
+    o->setParent(this);
+    _tours << o;
+}
+
 int ProjectData::tourCount() { return _tours.count(); }
 
 Tour *ProjectData::tour(QString id) {
@@ -228,36 +294,13 @@ Tour *ProjectData::tourAt(int i) {
 
 QList<Tour *> ProjectData::tours() { return _tours; }
 
-
-bool ProjectData::removeBusstop(Busstop *b) {
-    for(int i = 0; i < busstopCount(); i++) {
-        if(busstopAt(i) != b)
-            continue;
-        
-        _busstops.remove(i);
-        return true;
-    }
-
-    return false;
-}
-
-bool ProjectData::removeBusstop(QString id) {
-    for(int i = 0; i < busstopCount(); i++) {
-        if(busstopAt(i)->id() != id)
-            continue;
-        
-        _busstops.remove(i);
-        return true;
-    }
-
-    return false;
-}
-
 bool ProjectData::removeLine(Line *l) {
     for(int i = 0; i < lineCount(); i++) {
         if(lineAt(i) != l)
             continue;
         
+        onLineRemoved(l);
+        l->setInUse(true);
         _lines.remove(i);
         return true;
     }
@@ -270,6 +313,8 @@ bool ProjectData::removeLine(QString id) {
         if(lineAt(i)->id() != id)
             continue;
         
+        onLineRemoved(lineAt(i));
+        lineAt(i)->setInUse(true);
         _lines.remove(i);
         return true;
     }
@@ -727,32 +772,42 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
 Busstop *ProjectData::newBusstop(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new Busstop(this, id);
+    Busstop *b = new Busstop(this, id);
+    connect(b, &Busstop::changed, this, &ProjectData::onBusstopChanged);
+    return b;
 }
 
 Busstop *ProjectData::newBusstop(const QJsonObject &obj) {
-    return new Busstop(this, obj);
+    Busstop *b = new Busstop(this, obj);
+    connect(b, &Busstop::changed, this, &ProjectData::onBusstopChanged);
+    return b;
 }
 
 Busstop *ProjectData::newBusstop(const Busstop &newBusstop) {
     Busstop *b = new Busstop(newBusstop);
     b->setParent(this);
+    connect(b, &Busstop::changed, this, &ProjectData::onBusstopChanged);
     return b;
 }
 
 Line *ProjectData::newLine(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new Line(this, id);
+    Line *l = new Line(this, id);
+    connect(l, &Line::changed, this, &ProjectData::onLineChanged);
+    return l;
 }
 
 Line *ProjectData::newLine(const QJsonObject &obj) {
-    return new Line(this, obj);
+    Line *l = new Line(this, obj);
+    connect(l, &Line::changed, this, &ProjectData::onLineChanged);
+    return l;
 }
 
 Line *ProjectData::newLine(const Line &newLine) {
     Line *l = new Line(newLine);
     l->setParent(this);
+    connect(l, &Line::changed, this, &ProjectData::onLineChanged);
     return l;
 }
 
@@ -790,4 +845,47 @@ Footnote *ProjectData::newFootnote(const Footnote &newFootnote) {
 
 QUndoStack *ProjectData::undoStack() {
     return &_undoStack;
+}
+
+void ProjectData::onBusstopAdded(Busstop *b) {
+    if(_addedBusstops.indexOf(b) == -1)
+        _addedBusstops << b;
+    if(!_updateTimer->isActive())
+        _updateTimer->start(0);
+}
+
+void ProjectData::onBusstopChanged(Busstop *b) {
+    if(_changedBusstops.indexOf(b) == -1)
+        _changedBusstops << b;
+    if(!_updateTimer->isActive())
+        _updateTimer->start(0);
+}
+
+void ProjectData::onBusstopRemoved(Busstop *b) {
+    if(_removedBusstops.indexOf(b) == -1)
+        _removedBusstops << b;
+    if(!_updateTimer->isActive())
+        _updateTimer->start(0);
+}
+
+void ProjectData::onLineAdded(Line *l) {
+    qDebug() << "add";
+    if(_addedLines.indexOf(l) == -1)
+        _addedLines << l;
+    if(!_updateTimer->isActive())
+        _updateTimer->start(0);
+}
+
+void ProjectData::onLineChanged(Line *l) {
+    if(_changedLines.indexOf(l) == -1)
+        _changedLines << l;
+    if(!_updateTimer->isActive())
+        _updateTimer->start(0);
+}
+
+void ProjectData::onLineRemoved(Line *l) {
+    if(_removedLines.indexOf(l) == -1)
+        _removedLines << l;
+    if(!_updateTimer->isActive())
+        _updateTimer->start(0);
 }

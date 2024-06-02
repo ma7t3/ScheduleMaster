@@ -26,6 +26,7 @@ void Busstop::copy(const Busstop &other) {
     ProjectDataItem::copy(other);
     setName(other.name());
     setImportant(other.important());
+    emit changed(this);
 }
 
 void Busstop::fromJson(const QJsonObject &jsonObject) {
@@ -48,6 +49,7 @@ QString Busstop::name() const {
 
 void Busstop::setName(const QString &name) {
     _name = name;
+    emit changed(this);
 }
 
 bool Busstop::isImportant() const {
@@ -60,4 +62,5 @@ bool Busstop::important() const {
 
 void Busstop::setImportant(const bool &important) {
     _important = important;
+    emit changed(this);
 }

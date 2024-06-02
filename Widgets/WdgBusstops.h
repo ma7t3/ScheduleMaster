@@ -7,6 +7,7 @@
 #include <QItemSelectionModel>
 
 #include "ProjectData/projectdata.h"
+#include "DataModels/BusstopTableModel.h"
 
 namespace Ui {
 class WdgBusstops;
@@ -24,7 +25,6 @@ public:
 
 public slots:
     void refreshUI();
-    void refreshBusstopList();
     Busstop *currentBusstop();
 
 private slots:
@@ -32,7 +32,7 @@ private slots:
     void actionEdit();
     void actionDelete();
 
-    void on_twBusstops_itemSelectionChanged();
+    void onSelectionChanged();
 
 signals:
     void currentBusstopChanged(Busstop *);
@@ -41,11 +41,10 @@ signals:
 
 private:
     Ui::WdgBusstops *ui;
-    ProjectData *projectData;
-    Busstop *_currentBusstop = nullptr;
-    QList<Busstop *> _tableReference;
 
-    bool _refreshing = false;
+    ProjectData *projectData;
+    BusstopTableModel *_model;
+    Busstop *_currentBusstop;
 
     QAction *_actionNew;
     QAction *_actionEdit;

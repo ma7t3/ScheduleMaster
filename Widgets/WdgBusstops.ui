@@ -69,29 +69,16 @@
     </widget>
    </item>
    <item>
-    <widget class="QTableWidget" name="twBusstops">
-     <property name="selectionMode">
-      <enum>QAbstractItemView::ExtendedSelection</enum>
-     </property>
+    <widget class="QTableView" name="twBusstops">
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
      <property name="horizontalScrollMode">
       <enum>QAbstractItemView::ScrollPerPixel</enum>
      </property>
-     <property name="columnCount">
-      <number>2</number>
-     </property>
-     <column>
-      <property name="text">
-       <string>Name</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Used by lines</string>
-      </property>
-     </column>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
     </widget>
    </item>
   </layout>
