@@ -19,7 +19,7 @@ Busstop Busstop::operator=(const Busstop &other) {
 }
 
 bool Busstop::operator<(const Busstop &other) {
-    return name() < other.name();
+    return name().toLower() < other.name().toLower();
 }
 
 void Busstop::copy(const Busstop &other) {
