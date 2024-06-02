@@ -78,6 +78,8 @@ void Line::copy(const Line &other) {
         }
     }
     setTrips(newTrips);
+
+    emit changed(this);
 }
 
 void Line::fromJson(const QJsonObject &jsonObject) {
@@ -138,24 +140,27 @@ QString Line::name() const {
     return _name;
 }
 
+void Line::setName(const QString &newName) {
+    _name = newName;
+    emit changed(this);
+}
+
 QString Line::description() const {
     return _description;
+}
+
+void Line::setDescription(const QString &newDescription) {
+    _description = newDescription;
+    emit changed(this);
 }
 
 QColor Line::color() const {
     return _color;
 }
 
-void Line::setName(const QString &newName) {
-    _name = newName;
-}
-
-void Line::setDescription(const QString &newDescription) {
-    _description = newDescription;
-}
-
 void Line::setColor(const QColor &newColor) {
     _color = newColor;
+    emit changed(this);
 }
 
 int Line::hourBreak() const {
@@ -164,6 +169,7 @@ int Line::hourBreak() const {
 
 void Line::setHourBreak(const int &newHourBreak) {
     _hourBreak = newHourBreak;
+    emit changed(this);
 }
 
 QList<LineDirection *> Line::directions() const {
@@ -210,6 +216,7 @@ int Line::indexOfDirection(const QString &id) const {
 
 void Line::setDirections(const QList<LineDirection *> &newDirections) {
     _directions = newDirections;
+    emit changed(this);
 }
 
 void Line::addDirection(LineDirection *ld) {
@@ -217,6 +224,7 @@ void Line::addDirection(LineDirection *ld) {
         return;
 
     _directions << ld;
+    emit changed(this);
 }
 
 void Line::removeDirection(LineDirection *direction) {
@@ -224,6 +232,7 @@ void Line::removeDirection(LineDirection *direction) {
         LineDirection *ld = directionAt(i);
         if(ld == direction) {
             _directions.remove(i);
+            emit changed(this);
             return;
         }
     }
@@ -234,6 +243,7 @@ void Line::removeDirection(const QString &id) {
         LineDirection *ld = directionAt(i);
         if(ld->id() == id) {
             _directions.remove(i);
+            emit changed(this);
             return;
         }
     }
@@ -282,6 +292,7 @@ QList<Route *> Line::routesToDirection(LineDirection *ld) const {
 
 void Line::setRoutes(const QList<Route *> &newRoutes) {
     _routes = newRoutes;
+    emit changed(this);
 }
 
 void Line::addRoute(Route *r) {
@@ -289,12 +300,14 @@ void Line::addRoute(Route *r) {
         return;
 
     _routes << r;
+    emit changed(this);
 }
 
 void Line::removeRoute(Route *r) {
     for(int i = 0; i < routeCount(); i++) {
         if(routeAt(i) == r) {
             _routes.remove(i);
+            emit changed(this);
             return;
         }
     }
@@ -304,6 +317,7 @@ void Line::removeRoute(const QString &id) {
     for(int i = 0; i < routeCount(); i++) {
         if(routeAt(i)->id() == id) {
             _routes.remove(i);
+            emit changed(this);
             return;
         }
     }
@@ -372,6 +386,7 @@ QList<Trip *> Line::tripsOfRoute(Route *r) const {
 
 void Line::setTrips(const QList<Trip *> &newTrips) {
     _trips = newTrips;
+    emit changed(this);
 }
 
 void Line::addTrip(Trip *t) {
@@ -379,12 +394,14 @@ void Line::addTrip(Trip *t) {
         return;
 
     _trips << t;
+    emit changed(this);
 }
 
 void Line::removeTrip(Trip *t) {
     for(int i = 0; i < tripCount(); i++) {
         if(tripAt(i) == t) {
             _trips.remove(i);
+            emit changed(this);
             return;
         }
     }
@@ -394,6 +411,7 @@ void Line::removeTrip(const QString &id) {
     for(int i = 0; i < tripCount(); i++) {
         if(tripAt(i)->id() == id) {
             _trips.remove(i);
+            emit changed(this);
             return;
         }
     }

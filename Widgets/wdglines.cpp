@@ -14,9 +14,19 @@ WdgLines::WdgLines(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgLines),
     projectData(((MainWindow *)parent)->projectData()),
-    _currentLine(nullptr),
-    refreshing(false) {
+    _model(new LineTableModel(this)),
+    _currentLine(nullptr) {
     ui->setupUi(this);
+
+    _model->setProjectData(projectData);
+    ui->twLines->verticalHeader()->setDefaultSectionSize(15);
+    ui->twLines->setModel(_model);
+
+    connect(_model, &LineTableModel::updateFinished, this, [this]() {
+        ui->twLines->resizeColumnsToContents();
+    });
+
+    connect(ui->twLines->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgLines::onSelectionChanged);
 
     _actionNew    = ui->twLines->addAction(QIcon(":/icons/Add.ico"),    tr("New"));
     _actionEdit   = ui->twLines->addAction(QIcon(":/icons/Edit.ico"),   tr("Edit"));
@@ -41,15 +51,10 @@ WdgLines::WdgLines(QWidget *parent) :
     connect(_actionEdit,      &QAction::enabledChanged,         ui->pbLineEdit,   &QPushButton::setEnabled);
     connect(_actionDelete,    &QAction::enabledChanged,         ui->pbLineDelete, &QPushButton::setEnabled);
 
-    connect(ui->pbLineNew,    &QPushButton::clicked,            this,             &WdgLines::actionNew);
-    connect(ui->pbLineEdit,   &QPushButton::clicked,            this,             &WdgLines::actionEdit);
-    connect(ui->twLines,      &QTableWidget::cellDoubleClicked, this,             &WdgLines::actionEdit);
-    connect(ui->pbLineDelete, &QPushButton::clicked,            this,             &WdgLines::actionDelete);
-
-    ui->twLines->verticalHeader()->setVisible(false);
-    ui->twLines->setEditTriggers(QTableWidget::NoEditTriggers);
-    ui->twLines->setColumnWidth(0, 50);
-    ui->twLines->setColumnWidth(1, 400);
+    connect(ui->pbLineNew,    &QPushButton::clicked,             this,             &WdgLines::actionNew);
+    connect(ui->pbLineEdit,   &QPushButton::clicked,             this,             &WdgLines::actionEdit);
+    connect(ui->twLines,      &QAbstractItemView::doubleClicked, this,             &WdgLines::actionEdit);
+    connect(ui->pbLineDelete, &QPushButton::clicked,             this,             &WdgLines::actionDelete);
 }
 
 WdgLines::~WdgLines() {
@@ -66,54 +71,6 @@ void WdgLines::refreshUI() {
 
     _actionEdit->setEnabled(selectionCount == 1);
     _actionDelete->setEnabled(selectionCount >= 1);
-}
-
-void WdgLines::refreshLineList() {
-    qDebug() << "refreshing line list...";
-
-    refreshing = true;
-
-    ui->twLines->setRowCount(0);
-    tableReference.clear();
-
-    QFont bold;
-    bold.setBold(true);
-
-    QList<Line *> lines = projectData->lines();
-    lines = ProjectData::sortItems(lines);
-
-    for(int i = 0; i < lines.count(); i++) {
-        Line * l = lines[i];
-
-        tableReference << l;
-
-        QString name = l->name();
-        QString description = l->description();
-        QColor color = l->color();
-
-        int currentRow = ui->twLines->rowCount();
-        ui->twLines->insertRow(currentRow);
-
-        QTableWidgetItem * nameItm = new QTableWidgetItem(name);
-        QTableWidgetItem * descriptionItm = new QTableWidgetItem(description);
-
-        nameItm->setBackground(QBrush(color));
-        nameItm->setForeground(global::getContrastColor(color));
-        nameItm->setFont(bold);
-
-        ui->twLines->setItem(currentRow, 0, nameItm);
-        ui->twLines->setItem(currentRow, 1, descriptionItm);
-
-        if(l == _currentLine)
-            ui->twLines->setCurrentCell(i, 0);
-    }
-
-    for(int i = 0; i < ui->twLines->rowCount(); i++) {
-        ui->twLines->setRowHeight(i, 15);
-    }
-
-    ui->twLines->resizeColumnsToContents();
-    refreshing = false;
 }
 
 Line * WdgLines::currentLine() {
@@ -158,7 +115,7 @@ void WdgLines::actionDelete() {
     const int maxShowCount = 15;
     bool hasMore = selection.count() > maxShowCount;
     for(int i = 0; i < selection.count(); i++) {
-        Line *l = tableReference[selection[i].row()];
+        Line *l = _model->itemAt(selection[i]);
         lines << l;
         if(i < maxShowCount) {
             QColor color = l->color();
@@ -181,101 +138,14 @@ void WdgLines::actionDelete() {
     emit refreshRequested();
 }
 
-void WdgLines::on_twLines_itemSelectionChanged() {
-    if(refreshing)
-        return;
+void WdgLines::onSelectionChanged() {
+    const QModelIndex current = ui->twLines->selectionModel()->currentIndex();
+    const int selectionCount = ui->twLines->selectionModel()->selectedRows().count();
 
-    QTableWidgetItem *current = ui->twLines->currentItem();
-
-    int selectionCount = ui->twLines->selectionModel()->selectedRows().count();
-
-    if(!current || selectionCount == 0 || selectionCount > 1)
+    if(selectionCount != 1)
         _currentLine = nullptr;
     else
-        _currentLine = tableReference[current->row()];
-
+        _currentLine = _model->itemAt(current.row());
     refreshUI();
     emit currentLineChanged(_currentLine);
 }
-
-void WdgLines::on_twLines_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous) {
-    Q_UNUSED(previous);
-    if(current && current->column() != 0)
-        ui->twLines->setCurrentCell(current->row(), 0);
-}
-
-/*void WdgLines::actionExportList() {
-    QString plainText, csvText, htmlText;
-
-    QFileInfo fi(projectData->filePath());
-
-    csvText = "Name;Description\r\n";
-
-    htmlText = "<!DOCTYPE HTML>\r\n<html>\r\n\t<head><title>All lines of project " + fi.baseName() + "</title></head>\r\n\t<body>\r\n\t\t<table cellspacing=\"2.5\">\r\n\t\t\t<thead><tr><th>Name</th><th>Description</th></tr></thead>\r\n\t\t\t\t<tbody>\r\n";
-
-    for(int i = 0; i < projectData->lineCount(); i++) {
-        Line *l = projectData->lineAt(i);
-        QString name = l->name();
-        QColor color = l->color();
-        QColor contrastColor = global::getContrastColor(color);
-        QString description = l->description();
-
-        plainText += "[" + name + "] " + description + "\r\n";
-        csvText += "\"" + name + "\";\"" + description + "\"\r\n";
-        htmlText += "\t\t\t\t\t<tr><td style=\"color: " + contrastColor.name(QColor::HexRgb) + "; background-color: " + color.name(QColor::HexRgb) + "\"><b>" + name + "</b></td><td>" + description + "</td></tr>\r\n";
-    }
-
-    htmlText += "\t\t\t</tbody>\r\n\t\t</table>\r\n\t</body>\r\n</html>";
-
-
-    DataExporter dlg;
-    dlg.setFolderName(fi.baseName());
-    dlg.setFileName("all_lines");
-    dlg.setText(plainText, csvText, htmlText);
-
-    dlg.exec();
-}
-
-void WdgLines::actionExportListAndRoutes() {
-    QString plainText, csvText, htmlText;
-
-    QFileInfo fi(projectData->filePath());
-
-    csvText = "Name;Description\r\n";
-
-    htmlText = "<!DOCTYPE HTML>\r\n<html>\r\n\t<head><title>All lines of project " + fi.baseName() + "</title></head>\r\n<body>\r\n";
-    htmlText+= "<style>        * {        font-family: sans-serif;    }        table {    border: 1px solid black;        border-collapse: collapse;}        td, th {    border: 1px solid black;    padding: 5px 10px;        text-align: left;    }    </style>";
-    for(int i = 0; i < projectData->lineCount(); i++) {
-        Line *l = projectData->lineAt(i);
-        QString name = l->name();
-        QColor color = l->color();
-        QColor contrastColor = global::getContrastColor(color);
-        QString description = l->description();
-
-        plainText += "[" + name + "] " + description + "\r\n";
-        csvText += "\"" + name + "\";\"" + description + "\"\r\n";
-        htmlText += "\t<h2 style=\"color: " + contrastColor.name(QColor::HexRgb) + "; background-color: " + color.name(QColor::HexRgb) + "\"><b>" + name + "</b> (" + description + ")</h2>\r\n";
-        htmlText += "\t<table style=\"border: 1px solid black; border-collapse: collapse;\">\r\n\t\t\t<thead><tr><th>Code</th><th>Name</th><th>First busstop</th><th>Last busstop</th></tr></thead>";
-
-        QList<Route *> routes = l->routes();
-        for(int j = 0; j < l->routeCount(); j++) {
-            Route *r = routes[j];
-            plainText += "\t\t[" + QString::number(r->code()) + "] " + r->name() + "\r\n";
-            csvText += ";" + QString::number(r->code()) + ";\"" + r->name() + "\"\r\n";
-
-            htmlText += "\t\t<tr><td>" + QString::number(r->code()) + "</td><td><b>" + r->name() + "</b></td><td>" + r->firstBusstop()->name() + "</td><td>" + r->lastBusstop()->name() + "</td></tr>\r\n";
-        }
-
-        htmlText += "\t\t</thead>\r\n\t</table>\r\n";
-    }
-
-    htmlText += "\t</body>\r\n</html>";
-
-
-    DataExporter dlg;
-    dlg.setFolderName(fi.baseName());
-    dlg.setFileName("all_lines_with_routes");
-    dlg.setText(plainText, csvText, htmlText);
-
-    dlg.exec();
-}*/
