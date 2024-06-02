@@ -22,7 +22,7 @@ public:
 public slots:
     void setCurrentLine(Line *, LineDirection *);
     void setCurrentTrips(QList<Trip *>);
-    void setCurrentDayType(DayType);
+    void setCurrentDayType(DayType *);
 
     void actionNew();
     void actionCopy();
@@ -57,7 +57,7 @@ private:
     Line *_currentLine;
     LineDirection *_currentDirection;
     QList<Trip *> _currentTrips;
-    DayType _currentDayType;
+    DayType *_currentDayType;
 
     QList<Route *> _routesListReference;
     Route *_currentRoute;

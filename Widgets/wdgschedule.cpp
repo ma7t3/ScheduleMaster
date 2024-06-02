@@ -454,6 +454,9 @@ void WdgSchedule::refreshDirections() {
 
 void WdgSchedule::refreshDayTypes() {
     qDebug() << "refreshing day types in schedule";
+    if(_dayTypesReference.isEmpty() && projectData->projectSettings()->dayTypeCount() > 0) {
+        emit currentDayTypeChanged(projectData->projectSettings()->dayTypeAt(0));
+    }
     _dayTypesReference = projectData->projectSettings()->dayTypes();
 
     ui->cmbDayTypes->clear();
@@ -560,7 +563,7 @@ void WdgSchedule::on_cmbDayTypes_activated(int index) {
     _currentDayType = _dayTypesReference[index];
     _currentTrips.clear();
     refreshSchedule();
-    emit currentDayTypeChanged(*_currentDayType);
+    emit currentDayTypeChanged(_currentDayType);
     emit currentTripsChanged(_currentTrips);
 }
 

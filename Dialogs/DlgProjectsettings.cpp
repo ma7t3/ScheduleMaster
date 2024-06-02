@@ -20,7 +20,7 @@ DlgProjectSettings::DlgProjectSettings(QWidget *parent) :
 
     ui->leDayTypesName->setEnabled(false);
     ui->daySelector->setEnabled(false);
-    ui->daySelector->setWeekDays(WeekDays(this, 0));
+    ui->daySelector->setWeekDays(WeekDays());
 }
 
 DlgProjectSettings::~DlgProjectSettings()
@@ -100,7 +100,7 @@ void DlgProjectSettings::refreshDayTypesTable() {
 void DlgProjectSettings::refreshTayTypesDetails() {
     if(!_currentDayType) {
         ui->leDayTypesName->setText("");
-        ui->daySelector->setWeekDays(WeekDays(this, 0));
+        ui->daySelector->setWeekDays(WeekDays());
 
         ui->leDayTypesName->setEnabled(false);
         ui->daySelector->setEnabled(false);
