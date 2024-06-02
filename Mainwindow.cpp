@@ -1219,6 +1219,7 @@ void MainWindow::on_actionViewToolbarWorkspaces_triggered() {
 void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
     DlgOmsiImport dlg(this, _projectData);
     dlg.exec();
+    _projectData->setParent(this);
 
     qDebug() << "refreshing ui...";
     //wdgBusstops->refreshBusstopList();
