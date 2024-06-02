@@ -88,6 +88,9 @@ public:
     Trip *newTrip(const QJsonObject &obj);
     Trip *newTrip(const Trip &newTrip);
 
+signals:
+    void changed(Line *);
+
 protected:
     void copy(const Line &);
     void fromJson(const QJsonObject &);

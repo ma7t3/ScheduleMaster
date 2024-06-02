@@ -345,9 +345,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgRoutes,          &WdgRoutes::refreshRouteList);*/
 
     // Lines
-    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgLines,           &WdgLines::refreshLineList);
+    /*connect(wdgLines,                              &WdgLines::refreshRequested,            wdgLines,           &WdgLines::refreshLineList);
     connect(wdgLines,                              &WdgLines::refreshRequested,            wdgSchedule,        &WdgSchedule::refreshSchedule);
-    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);
+    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);*/
 
     // Routes
     connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgRoutes,          &WdgRoutes::refreshRouteList);
@@ -514,8 +514,8 @@ bool MainWindow::actionFileClose() {
     wdgTourEditor->setCurrentTour(nullptr);
     wdgPublishedLines->setCurrentLine(nullptr);
 
-    wdgLines->refreshLineList();
     //wdgBusstops->refreshBusstopList();
+    //wdgLines->refreshLineList();
     wdgRoutes->refreshRouteList();
     wdgSchedule->refreshSchedule();
     wdgSchedule->refreshDirections();
@@ -575,7 +575,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
         wdgRoutes->refreshRouteList();
     }
     if(t == LinesType) {
-        wdgLines->refreshLineList();
+        //wdgLines->refreshLineList();
         wdgSchedule->refreshDirections();
         wdgPublishedLines->refreshRoutes();
     }
@@ -931,8 +931,8 @@ void MainWindow::handleFileHandlerResult() {
         QApplication::setOverrideCursor(Qt::WaitCursor);
         qApp->processEvents();
         qDebug() << "refreshing ui...";
-        wdgLines->refreshLineList();
         //wdgBusstops->refreshBusstopList();
+        //wdgLines->refreshLineList();
         wdgTours->refresh();
         wdgSchedule->refreshDayTypes();
         wdgPublishedLines->refreshLineList();
@@ -1221,8 +1221,8 @@ void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
     dlg.exec();
 
     qDebug() << "refreshing ui...";
-    wdgLines->refreshLineList();
     //wdgBusstops->refreshBusstopList();
+    //wdgLines->refreshLineList();
     wdgTours->refresh();
     wdgSchedule->refreshDayTypes();
     wdgPublishedLines->refreshLineList();
