@@ -717,48 +717,56 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
 
     emit loadingProgressMaxValue(totalCount);
 
-    emit loadingProgressTextUpdated(1, tr("Reading busstops..."), true);
-    int counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jBusstops.count(); ++i) {
+    QString progressText = tr("Reading busstops...");
+    emit loadingProgressTextUpdated(1, progressText, true);
+    int counter = 0, invalidCounter = 0, maxCount = jBusstops.count();
+    for(int i = 0; i < maxCount; ++i) {
         if(jBusstops[i].isObject()) {
             counter++;
             addBusstop(newBusstop(jBusstops[i].toObject()));
         } else invalidCounter++;
-        if(i % 10 == 0) emit loadingProgressUpdated(i + 1);
+        emit loadingProgressUpdated(i + 1);
+        emit loadingProgressTextUpdated(1, progressText + " (" + QString::number(counter) + "/" + QString::number(maxCount) + ")", true);
     }
 
     qInfo().noquote() << counter << "valid busstops found (" + QString::number(invalidCounter) + " invalid)";
 
-    emit loadingProgressTextUpdated(1, tr("Reading lines..."), true);
-    counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jLines.count(); ++i) {
+    progressText = tr("Reading lines...");
+    emit loadingProgressTextUpdated(1, progressText, true);
+    counter = 0, invalidCounter = 0, maxCount = jLines.count();
+    for(int i = 0; i < maxCount; ++i) {
         if(jLines[i].isObject()) {
             counter++;
             addLine(newLine(jLines[i].toObject()));
         } else invalidCounter++;
-        if(i % 10 == 0) emit loadingProgressUpdated(i + 1 + jBusstops.count());
+        emit loadingProgressUpdated(i + 1 + jLines.count());
+        emit loadingProgressTextUpdated(1, progressText + " (" + QString::number(counter) + "/" + QString::number(maxCount) + ")", true);
     }
 
     qInfo().noquote() << counter << "valid lines found (" + QString::number(invalidCounter) + " invalid)";
-    emit loadingProgressTextUpdated(1, tr("Reading tours..."), true);
-    counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jTours.count(); ++i) {
+    progressText = tr("Reading tours...");
+    emit loadingProgressTextUpdated(1, progressText, true);
+    counter = 0, invalidCounter = 0, maxCount = jTours.count();
+    for(int i = 0; i < maxCount; ++i) {
         if(jTours[i].isObject()) {
             counter++;
             addTour(newTour(jTours[i].toObject()));
         } else invalidCounter++;
-        if(i % 10 == 0) emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count());
+        emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count());
+        emit loadingProgressTextUpdated(1, progressText + " (" + QString::number(counter) + "/" + QString::number(maxCount) + ")", true);
     }
 
     qInfo().noquote() << counter << "valid tours found (" + QString::number(invalidCounter) + " invalid)";
-    emit loadingProgressTextUpdated(1, tr("Reading footnotes..."), true);
-    counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jFootnotes.count(); ++i) {
+    progressText = tr("Reading footnotes...");
+    emit loadingProgressTextUpdated(1, progressText, true);
+    counter = 0, invalidCounter = 0, maxCount = jFootnotes.count();
+    for(int i = 0; i < maxCount; ++i) {
         if(jFootnotes[i].isObject()) {
             counter++;
             addFootnote(newFootnote(jFootnotes[i].toObject()));
         } else invalidCounter++;
-        if(i % 10 == 0) emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count() + jTours.count());
+        emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count() + jTours.count());
+        emit loadingProgressTextUpdated(1, progressText + " (" + QString::number(counter) + "/" + QString::number(maxCount) + ")", true);
     }
 
     qInfo().noquote() << counter << "valid footnotes found (" + QString::number(invalidCounter) + " invalid)";
@@ -869,7 +877,6 @@ void ProjectData::onBusstopRemoved(Busstop *b) {
 }
 
 void ProjectData::onLineAdded(Line *l) {
-    qDebug() << "add";
     if(_addedLines.indexOf(l) == -1)
         _addedLines << l;
     if(!_updateTimer->isActive())
