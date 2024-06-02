@@ -25,6 +25,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pbLineEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Edit...</string>
        </property>
@@ -32,6 +35,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pbLineDelete">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Delete</string>
        </property>

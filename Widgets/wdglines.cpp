@@ -140,7 +140,7 @@ void WdgLines::actionDelete() {
 
 void WdgLines::onSelectionChanged() {
     const QModelIndex current = ui->twLines->selectionModel()->currentIndex();
-    const int selectionCount = ui->twLines->selectionModel()->selectedRows().count();
+    const int selectionCount  = ui->twLines->selectionModel()->selectedRows().count();
 
     if(selectionCount != 1)
         _currentLine = nullptr;

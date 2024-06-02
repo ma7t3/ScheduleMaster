@@ -33,7 +33,7 @@ public:
     Busstop *lastBusstop() const;
     bool hasBusstop(Busstop *) const;
     bool hasBusstop(const QString &) const;
-    Busstop *firstCommonBusstop(Route *);
+    Busstop *firstCommonBusstop(Route *) const;
     int indexOfBusstop(Busstop *) const;
 
     void setBusstops(const QList<Busstop *> &);
@@ -63,6 +63,9 @@ public:
     TimeProfile *newTimeProfile(QString id = "");
     TimeProfile *newTimeProfile(const QJsonObject &);
     TimeProfile *newTimeProfile(const TimeProfile &newTimeProfile);
+
+signals:
+    void changed(Route *);
 
 protected:
     void copy(const Route &);

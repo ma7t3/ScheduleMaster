@@ -7,6 +7,7 @@
 #include <QTableWidgetItem>
 
 #include "ProjectData/projectdata.h"
+#include "DataModels/RouteTableModel.h"
 
 namespace Ui {
 class WdgRoutes;
@@ -24,7 +25,6 @@ public:
 
 public slots:
     void refreshUI();
-    void refreshRouteList();
     void setCurrentLine(Line *);
 
 public:
@@ -38,7 +38,7 @@ private slots:
 
     void omsiExport();
 
-    void on_twRoutes_itemSelectionChanged();
+    void onSelectionChanged();
 
 signals:
     void currentRouteChanged(Route *);
@@ -48,11 +48,9 @@ private:
     Ui::WdgRoutes *ui;
 
     ProjectData *projectData;
+    RouteTableModel *_model;
     Line *_currentLine;
     Route *_currentRoute;
-    QList<Route *> tableReference;
-
-    bool refreshing;
 
     QAction *_actionNew;
     QAction *_actionEdit;
