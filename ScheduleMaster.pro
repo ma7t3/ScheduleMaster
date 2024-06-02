@@ -11,6 +11,7 @@ CONFIG += c++11 rtti
 SOURCES += \
     App/logger.cpp \
     AppInfo.cpp \
+    DataModels/BusstopTableModel.cpp \
     Dialogs/DlgChangelog.cpp \
     Dialogs/DlgCopyTrip.cpp \
     Dialogs/DlgFootnoteEditor.cpp \
@@ -79,6 +80,7 @@ HEADERS += \
     Commands/CmdRoutes.h \
     Commands/CmdSchedule.h \
     Commands/CmdTours.h \
+    DataModels/BusstopTableModel.h \
     DataModels/ProjectDataRowBasedTableModel.h \
     DataModels/ProjectDataTableModel.h \
     DataModels/ProjectDataTableSignals.h \
