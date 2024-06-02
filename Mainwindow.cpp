@@ -927,7 +927,7 @@ void MainWindow::handleFileHandlerResult() {
     QString filePath = fileHandler->filePath();
 
     if(fileHandler->action() == FileHandler::ReadFileAction) {
-        progressLogger->addEntry(DlgProgressLogger::InfoType, tr("Updating ui"), true);
+        progressLogger->addEntry(DlgProgressLogger::InfoType, tr("Updating ui..."), true);
         QApplication::setOverrideCursor(Qt::WaitCursor);
         qApp->processEvents();
         qDebug() << "refreshing ui...";
