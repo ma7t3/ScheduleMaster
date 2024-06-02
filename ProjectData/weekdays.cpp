@@ -1,19 +1,18 @@
 #include "ProjectData\weekdays.h"
 
-WeekDays::WeekDays(QObject *parent) : ProjectDataItem(parent) {
-    setCode(995);
+WeekDays::WeekDays() : ProjectDataItem(nullptr) {
 }
 
-WeekDays::WeekDays(QObject *parent, const int &code) : ProjectDataItem(parent) {
+WeekDays::WeekDays(const int &code) : ProjectDataItem(nullptr) {
     setCode(code);
 }
 
-WeekDays::WeekDays(QObject *parent, const QString &id) :
-    ProjectDataItem(parent, id) {
+WeekDays::WeekDays(const WeekDay &w) :
+    ProjectDataItem(nullptr) {
+    _days = w;
 }
 
-WeekDays::WeekDays(QObject *parent,
-                   const bool &monday,
+WeekDays::WeekDays(const bool &monday,
                    const bool &tuesday,
                    const bool &wednesday,
                    const bool &thursday,
@@ -23,7 +22,7 @@ WeekDays::WeekDays(QObject *parent,
                    const bool &holiday,
                    const bool &school,
                    const bool &vacation) :
-    ProjectDataItem(parent) {
+    ProjectDataItem(nullptr) {
 
     setDay(WeekDay::monday, monday);
     setDay(WeekDay::tuesday, tuesday);
@@ -187,7 +186,7 @@ QString WeekDays::toString() const {
 
 WeekDays WeekDays::shfitedToNextDay() const {
     if(day(WeekDay::sunday) != day(WeekDay::holiday))
-        return WeekDays(parent(),
+        return WeekDays(
             day(WeekDay::sunday),
             day(WeekDay::monday),
             day(WeekDay::tuesday),
@@ -200,7 +199,7 @@ WeekDays WeekDays::shfitedToNextDay() const {
             day(WeekDay::vacation)
         );
     else
-        return WeekDays(parent(),
+        return WeekDays(
             day(WeekDay::sunday),
             day(WeekDay::monday),
             day(WeekDay::tuesday),
@@ -307,7 +306,7 @@ WeekDays WeekDays::intersection(const QList<WeekDays> &list) {
                 continue;
 
             WeekDays w2 = list[j];
-            WeekDays r(nullptr, 0);
+            WeekDays r;
 
             r.setDay(monday,    w1.day(monday)    && w2.day(monday));
             r.setDay(tuesday,   w1.day(tuesday)   && w2.day(tuesday));

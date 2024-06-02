@@ -3,7 +3,6 @@
 
 #include <QMessageBox>
 
-#include "App/global.h"
 #include "Commands/CmdSchedule.h"
 
 #include "localconfig.h"
@@ -17,7 +16,7 @@ WdgTripEditor::WdgTripEditor(QWidget *parent, ProjectData *projectData, QUndoSta
     undoStack(undoStack),
     _currentLine(nullptr),
     _currentDirection(nullptr),
-    _currentDayType(nullptr, global::getNewID()),
+    _currentDayType(nullptr),
     _currentRoute(nullptr)
 {
     ui->setupUi(this);
@@ -62,7 +61,7 @@ void WdgTripEditor::setCurrentTrips(QList<Trip *> trips) {
     changingTrips = false;
 }
 
-void WdgTripEditor::setCurrentDayType(DayType dt) {
+void WdgTripEditor::setCurrentDayType(DayType *dt) {
     _currentDayType = dt;
 }
 
@@ -71,6 +70,9 @@ void WdgTripEditor::actionNew() {
         return;
 
     if(_currentRoute->timeProfileCount() == 0)
+        return;
+
+    if(!_currentDayType)
         return;
 
     TimeProfile *p = _currentRoute->timeProfileAt(0);
@@ -83,7 +85,7 @@ void WdgTripEditor::actionNew() {
     t->setRoute(_currentRoute);
     t->setStartTime(startTime);
     t->setTimeProfile(p);
-    t->setWeekDays(_currentDayType);
+    t->setWeekDays(*_currentDayType);
     undoStack->push(new CmdScheduleTripNew(_currentLine, t));
     _currentTrips = {t};
     emit tripsChanged(_currentTrips);
@@ -278,7 +280,7 @@ void WdgTripEditor::refreshUI() {
     QStringList profileNames;
 
     QTime startTime, endTime;
-    WeekDays weekDays(nullptr);
+    WeekDays weekDays;
 
     for(int i = 0; i < _currentTrips.count(); i++) {
         Trip *t = _currentTrips[i];
@@ -342,7 +344,7 @@ void WdgTripEditor::refreshUI() {
         ui->pbDelete->setEnabled(false);
         ui->gbTiming->setEnabled(false);
         ui->gbDays->setEnabled(false);
-        ui->daySelector->setWeekDays(WeekDays(0));
+        ui->daySelector->setWeekDays(WeekDays());
     } else if(tripCount == 1) {
         ui->pbCopy->setEnabled(true);
         ui->pbDelete->setEnabled(true);
