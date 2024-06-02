@@ -858,41 +858,35 @@ QUndoStack *ProjectData::undoStack() {
 void ProjectData::onBusstopAdded(Busstop *b) {
     if(_addedBusstops.indexOf(b) == -1)
         _addedBusstops << b;
-    if(!_updateTimer->isActive())
-        _updateTimer->start(0);
+    _updateTimer->start(0);
 }
 
 void ProjectData::onBusstopChanged(Busstop *b) {
     if(_changedBusstops.indexOf(b) == -1)
         _changedBusstops << b;
-    if(!_updateTimer->isActive())
-        _updateTimer->start(0);
+    _updateTimer->start(0);
 }
 
 void ProjectData::onBusstopRemoved(Busstop *b) {
     if(_removedBusstops.indexOf(b) == -1)
         _removedBusstops << b;
-    if(!_updateTimer->isActive())
-        _updateTimer->start(0);
+    _updateTimer->start(0);
 }
 
 void ProjectData::onLineAdded(Line *l) {
     if(_addedLines.indexOf(l) == -1)
         _addedLines << l;
-    if(!_updateTimer->isActive())
-        _updateTimer->start(0);
+    _updateTimer->start(0);
 }
 
 void ProjectData::onLineChanged(Line *l) {
     if(_changedLines.indexOf(l) == -1)
         _changedLines << l;
-    if(!_updateTimer->isActive())
-        _updateTimer->start(0);
+    _updateTimer->start(0);
 }
 
 void ProjectData::onLineRemoved(Line *l) {
     if(_removedLines.indexOf(l) == -1)
         _removedLines << l;
-    if(!_updateTimer->isActive())
-        _updateTimer->start(0);
+    _updateTimer->start(0);
 }

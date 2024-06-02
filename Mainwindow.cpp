@@ -350,8 +350,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(wdgLines,                              &WdgLines::refreshRequested,            wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);*/
 
     // Routes
-    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgRoutes,          &WdgRoutes::refreshRouteList);
-    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);
+    /*connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgRoutes,          &WdgRoutes::refreshRouteList);
+    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);*/
 
     // Schedule
     connect(wdgSchedule,                           &WdgSchedule::refreshRequested,         wdgSchedule,        &WdgSchedule::refreshSchedule);
@@ -516,7 +516,7 @@ bool MainWindow::actionFileClose() {
 
     //wdgBusstops->refreshBusstopList();
     //wdgLines->refreshLineList();
-    wdgRoutes->refreshRouteList();
+    //wdgRoutes->refreshRouteList();
     wdgSchedule->refreshSchedule();
     wdgSchedule->refreshDirections();
     wdgSchedule->refreshDayTypes();
@@ -572,7 +572,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
     if(t == BusstopsType) {
         //wdgBusstops->refreshBusstopList();
         wdgSchedule->refreshSchedule();
-        wdgRoutes->refreshRouteList();
+        //wdgRoutes->refreshRouteList();
     }
     if(t == LinesType) {
         //wdgLines->refreshLineList();
@@ -580,7 +580,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
         wdgPublishedLines->refreshRoutes();
     }
     if(t == RoutesType) {
-        wdgRoutes->refreshRouteList();
+        //wdgRoutes->refreshRouteList();
         wdgPublishedLines->refreshRoutes();
     }
     if(t == ScheduleType) {

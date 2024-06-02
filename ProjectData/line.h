@@ -90,10 +90,18 @@ public:
 
 signals:
     void changed(Line *);
+    void routesAdded(QList<Route *>);
+    void routesChanged(QList<Route *>);
+    void routesRemoved(QList<Route *>);
 
 protected:
     void copy(const Line &);
     void fromJson(const QJsonObject &);
+
+    void onRouteAdded(Route *);
+    void onRouteChanged(Route *);
+    void onRouteRemoved(Route *);
+
 
 private:
     QString _name;
@@ -103,6 +111,12 @@ private:
     QList<Route*> _routes;
     QList<Trip *> _trips;
     int _hourBreak;
+
+    QList<Route *> _addedRoutes;
+    QList<Route *> _changedRoutes;
+    QList<Route *> _removedRoutes;
+
+    QTimer *_updateTimer;
 };
 
 #endif // LINE_H

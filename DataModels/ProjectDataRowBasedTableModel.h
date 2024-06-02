@@ -20,8 +20,6 @@ public:
 
     virtual int      columnCount(const QModelIndex &parent = QModelIndex())     const override = 0;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override = 0;
-    virtual T *      itemAt(const QModelIndex &index)                           const override {return itemAt(index.row());}
-    virtual T *      itemAt(const int &row)                                     const override {return ProjectDataTableModel<T>::_items[row];}
 
 public slots:
     void setSearchFilter(const QString &search) override {
@@ -117,6 +115,7 @@ protected slots:
     void reset() override {
         QAbstractTableModel::beginResetModel();
         ProjectDataTableModel<T>::_items.clear();
+        ProjectDataTableModel<T>::_items = fetchData();;
         QAbstractTableModel::endResetModel();
 
         emit ProjectDataTableSignals::updateFinished();

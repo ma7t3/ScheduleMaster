@@ -1,16 +1,65 @@
 #include "ProjectData\line.h"
 
 Line::Line(QObject *parent, const QString &id) :
-    ProjectDataItem(parent, id), _hourBreak(0) {}
+    ProjectDataItem(parent, id),
+    _hourBreak(0),
+    _updateTimer(new QTimer(this)) {
+    connect(_updateTimer, &QTimer::timeout, this, [this]() {
+        if(!_addedRoutes.isEmpty())
+            emit routesAdded(_addedRoutes);
+
+        if(!_changedRoutes.isEmpty())
+            emit routesChanged(_changedRoutes);
+
+        if(!_removedRoutes.isEmpty())
+            emit routesRemoved(_removedRoutes);
+
+        _addedRoutes.clear();
+        _changedRoutes.clear();
+        _removedRoutes.clear();
+    });
+}
 
 Line::Line(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent) {
+    ProjectDataItem(parent),
+    _updateTimer(new QTimer(this)) {
     fromJson(jsonObject);
+
+    connect(_updateTimer, &QTimer::timeout, this, [this]() {
+        if(!_addedRoutes.isEmpty())
+            emit routesAdded(_addedRoutes);
+
+        if(!_changedRoutes.isEmpty())
+            emit routesChanged(_changedRoutes);
+
+        if(!_removedRoutes.isEmpty())
+            emit routesRemoved(_removedRoutes);
+
+        _addedRoutes.clear();
+        _changedRoutes.clear();
+        _removedRoutes.clear();
+    });
 }
 
 Line::Line(const Line &other) :
-    ProjectDataItem(other.parent()) {
+    ProjectDataItem(other.parent()),
+    _updateTimer(new QTimer(this)) {
     copy(other);
+
+    connect(_updateTimer, &QTimer::timeout, this, [this]() {
+        if(!_addedRoutes.isEmpty())
+            emit routesAdded(_addedRoutes);
+
+        if(!_changedRoutes.isEmpty())
+            emit routesChanged(_changedRoutes);
+
+        if(!_removedRoutes.isEmpty())
+            emit routesRemoved(_removedRoutes);
+
+        _addedRoutes.clear();
+        _changedRoutes.clear();
+        _removedRoutes.clear();
+    });
 }
 
 Line Line::operator=(const Line &other) {
@@ -301,6 +350,7 @@ void Line::addRoute(Route *r) {
 
     _routes << r;
     emit changed(this);
+    onRouteAdded(r);
 }
 
 void Line::removeRoute(Route *r) {
@@ -308,6 +358,7 @@ void Line::removeRoute(Route *r) {
         if(routeAt(i) == r) {
             _routes.remove(i);
             emit changed(this);
+            onRouteRemoved(r);
             return;
         }
     }
@@ -318,6 +369,7 @@ void Line::removeRoute(const QString &id) {
         if(routeAt(i)->id() == id) {
             _routes.remove(i);
             emit changed(this);
+            onRouteRemoved(routeAt(i));
             return;
         }
     }
@@ -452,16 +504,21 @@ QList<LineDirection *> Line::cloneDirections() const {
 Route *Line::newRoute(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new Route(this, id);
+    Route *r = new Route(this, id);
+    connect(r, &Route::changed, this, &::Line::onRouteChanged);
+    return r;
 }
 
 Route *Line::newRoute(const QJsonObject &obj) {
-    return new Route(this, obj);
+    Route *r = new Route(this, obj);
+    connect(r, &Route::changed, this, &::Line::onRouteChanged);
+    return r;
 }
 
 Route *Line::newRoute(const Route &newRoute) {
     Route *r = new Route(newRoute);
     r->setParent(this);
+    connect(r, &Route::changed, this, &::Line::onRouteChanged);
     return r;
 }
 
@@ -479,4 +536,25 @@ Trip *Line::newTrip(const Trip &newTrip) {
     Trip *t = new Trip(newTrip);
     t->setParent(this);
     return t;
+}
+
+void Line::onRouteAdded(Route *r) {
+    qDebug() << "add";
+    if(_addedRoutes.indexOf(r) == -1)
+        _addedRoutes << r;
+    _updateTimer->start(0);
+}
+
+void Line::onRouteChanged(Route *r) {
+    qDebug() << "change";
+    if(_changedRoutes.indexOf(r) == -1)
+        _changedRoutes << r;
+    _updateTimer->start(0);
+}
+
+void Line::onRouteRemoved(Route *r) {
+    qDebug() << "remove";
+    if(_removedRoutes.indexOf(r) == -1)
+        _removedRoutes << r;
+    _updateTimer->start(0);
 }

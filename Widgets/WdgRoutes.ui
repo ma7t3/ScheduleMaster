@@ -18,6 +18,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QPushButton" name="pbNew">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>New...</string>
        </property>
@@ -25,6 +28,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pbEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Edit...</string>
        </property>
@@ -32,6 +38,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pbDuplicate">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Duplicate...</string>
        </property>
@@ -39,6 +48,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pbDelete">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Delete</string>
        </property>
@@ -77,7 +89,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QTableWidget" name="twRoutes">
+    <widget class="QTableView" name="twRoutes">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
@@ -90,36 +102,9 @@
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
      </attribute>
-     <column>
-      <property name="text">
-       <string>Code</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Direction</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Name</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>First Busstop</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Last Busstop</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Busstop Count</string>
-      </property>
-     </column>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>20</number>
+     </attribute>
     </widget>
    </item>
   </layout>
