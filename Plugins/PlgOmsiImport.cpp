@@ -385,6 +385,8 @@ void PlgOmsiImport::run() {
     projectData->projectSettings()->addDayType(d1);
     projectData->projectSettings()->addDayType(d2);
     projectData->projectSettings()->addDayType(d3);
+
+    projectData->moveToThread(qApp->thread());
 }
 
 void PlgOmsiImport::setMapDirectory(const QString &path) {
