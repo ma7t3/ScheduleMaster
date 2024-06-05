@@ -13,9 +13,10 @@ public:
     virtual  int rowCount(const QModelIndex &parent = QModelIndex())                                   const override = 0;
     virtual  int columnCount(const QModelIndex &parent = QModelIndex())                                const override = 0;
     virtual  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole)                       const override = 0;
-             int      itemCount()                                                                      const          {return ProjectDataTableModel<T>::_items.count(); }
-             T *      itemAt(const QModelIndex &index)                                                 const          {return itemAt(index.row());}
-             T *      itemAt(const int &row)                                                           const          {return ProjectDataTableModel<T>::_items[row];}
+             int        itemCount()                                                                    const          {return ProjectDataTableModel<T>::_items.count(); }
+             T *        itemAt(const QModelIndex &index)                                               const          {return itemAt(index.row());}
+             T *        itemAt(const int &row)                                                         const          {return ProjectDataTableModel<T>::_items[row];}
+             QList<T *> itemList()                                                                     const          {return _items;}
 
 public slots:
     virtual void setSearchFilter(const QString &) = 0;
