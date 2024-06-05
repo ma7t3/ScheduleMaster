@@ -58,7 +58,7 @@ WdgBusstops::WdgBusstops(QWidget *parent) :
 
     connect(ui->pbBusstopNew,    &QPushButton::clicked,             this,                &WdgBusstops::actionNew);
     connect(ui->pbBusstopEdit,   &QPushButton::clicked,             this,                &WdgBusstops::actionEdit);
-    connect(ui->twBusstops,  &QAbstractItemView::doubleClicked, this,                &WdgBusstops::actionEdit);
+    connect(ui->twBusstops,      &QAbstractItemView::doubleClicked, this,                &WdgBusstops::actionEdit);
     connect(ui->pbBusstopDelete, &QPushButton::clicked,             this,                &WdgBusstops::actionDelete);
     connect(ui->leBusstopSearch, &QLineEdit::textChanged,           _model,              &BusstopTableModel::setSearchFilter);
 

@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QListWidgetItem>
 
-#include "ProjectData\projectdata.h"
+#include "DataModels/SimpleBusstopListModel.h"
 
 namespace Ui {
 class DlgRouteEditor;
@@ -24,7 +24,6 @@ public:
     void setRoute(const Route &);
 
 private slots:
-    void refreshAllBusstops();
     void refreshProfiles();
     void refreshRouteBusstops();
 
@@ -38,21 +37,19 @@ private slots:
     void actionProfileDelete();
     void moveCurrentRouteBusstop(bool);
 
-    void on_lwRouteBusstops_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void onSelectionChanged();
 
 private:
     Ui::DlgRouteEditor *ui;
 
+    SimpleBusstopListModel *_model;
+
     Route _route;
     Route *_routePtr;
     QList<LineDirection *> _directionsReference;
-    QList<Busstop *> _allBusstops;
-    QList<Busstop *> _allBusstopsReference;
     QList<Route *> _matchingRoutes;
     Busstop *_currentRouteBusstop;
     QList<TimeProfile *> _timeProfilesReference;
-
-    //QList<LineDirection *> directions;
 };
 
 #endif // ROUTEEDITOR_H
