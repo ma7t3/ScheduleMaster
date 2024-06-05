@@ -16,6 +16,7 @@ void BusstopTableModel::setProjectData(ProjectData *newProjectData) {
     connect(projectData, &ProjectData::busstopsAdded,   this, &BusstopTableModel::addItems);
     connect(projectData, &ProjectData::busstopsChanged, this, &BusstopTableModel::changeItems);
     connect(projectData, &ProjectData::busstopsRemoved, this, &BusstopTableModel::removeItems);
+    reset();
 }
 
 QVariant BusstopTableModel::headerData(int section, Qt::Orientation orientation, int role) const {

@@ -12,6 +12,7 @@ void LineTableModel::setProjectData(ProjectData *newProjectData) {
     connect(projectData, &ProjectData::linesAdded,   this, &LineTableModel::addItems);
     connect(projectData, &ProjectData::linesChanged, this, &LineTableModel::changeItems);
     connect(projectData, &ProjectData::linesRemoved, this, &LineTableModel::removeItems);
+    reset();
 }
 
 QVariant LineTableModel::headerData(int section, Qt::Orientation orientation, int role) const {
