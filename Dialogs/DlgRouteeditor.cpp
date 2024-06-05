@@ -3,39 +3,42 @@
 
 #include "Dialogs/DlgTimeprofileeditor.h"
 
+#include <QAbstractItemModel>
+
 #include <QScrollBar>
 #include <QMessageBox>
 
 DlgRouteEditor::DlgRouteEditor(QWidget *parent, Route *r, const bool &createMode) :
     QDialog(parent),
     ui(new Ui::DlgRouteEditor),
+    _model(new SimpleBusstopListModel(this)),
     _route(*r),
     _routePtr(r),
     _currentRouteBusstop(nullptr) {
     ui->setupUi(this);
 
-    _allBusstops = dynamic_cast<ProjectData *>(r->parent()->parent())->busstops();
+    _model->setProjectData(dynamic_cast<ProjectData *>(r->parent()->parent()));
+
+    ui->lwAllBusstops->setModel(_model);
+    connect(ui->lwAllBusstops->selectionModel(), &QItemSelectionModel::selectionChanged, this, &DlgRouteEditor::onSelectionChanged);
 
     ui->buttonBox->button(QDialogButtonBox::Apply)->setDisabled(true);
     ui->buttonBox->button(QDialogButtonBox::Apply)->setToolTip(tr("This feature is not implemented now."));
 
-    refreshAllBusstops();
-
     setCreateMode(createMode);
     setRoute(*r);
 
-    connect(ui->pbBusstopAdd,      &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopAdd);
-    connect(ui->lwAllBusstops,     &QListWidget::itemDoubleClicked, this, &DlgRouteEditor::actionBusstopAdd);
-    connect(ui->pbBusstopRemove,   &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopRemove);
-    connect(ui->pbBusstopUp,       &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopUp);
-    connect(ui->pbBusstopDown,     &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopDown);
-    connect(ui->pbBusstopsReverse, &QPushButton::clicked,           this, &DlgRouteEditor::actionBusstopsReverse);
-    connect(ui->pbProfileNew,      &QPushButton::clicked,           this, &DlgRouteEditor::actionProfileNew);
-    connect(ui->pbProfileEdit,     &QPushButton::clicked,           this, &DlgRouteEditor::actionProfileEdit);
-    connect(ui->twProfiles,        &QTreeWidget::itemDoubleClicked, this, &DlgRouteEditor::actionProfileEdit);
-    connect(ui->pbProfileDelete,   &QPushButton::clicked,           this, &DlgRouteEditor::actionProfileDelete);
-
-    connect(ui->leBusstopsSearch,  &QLineEdit::textChanged,         this, &DlgRouteEditor::refreshAllBusstops);
+    connect(ui->pbBusstopAdd,      &QPushButton::clicked,           this,   &DlgRouteEditor::actionBusstopAdd);
+    connect(ui->lwAllBusstops,     &QListWidget::doubleClicked,     this,   &DlgRouteEditor::actionBusstopAdd);
+    connect(ui->pbBusstopRemove,   &QPushButton::clicked,           this,   &DlgRouteEditor::actionBusstopRemove);
+    connect(ui->pbBusstopUp,       &QPushButton::clicked,           this,   &DlgRouteEditor::actionBusstopUp);
+    connect(ui->pbBusstopDown,     &QPushButton::clicked,           this,   &DlgRouteEditor::actionBusstopDown);
+    connect(ui->pbBusstopsReverse, &QPushButton::clicked,           this,   &DlgRouteEditor::actionBusstopsReverse);
+    connect(ui->pbProfileNew,      &QPushButton::clicked,           this,   &DlgRouteEditor::actionProfileNew);
+    connect(ui->pbProfileEdit,     &QPushButton::clicked,           this,   &DlgRouteEditor::actionProfileEdit);
+    connect(ui->twProfiles,        &QTreeWidget::itemDoubleClicked, this,   &DlgRouteEditor::actionProfileEdit);
+    connect(ui->pbProfileDelete,   &QPushButton::clicked,           this,   &DlgRouteEditor::actionProfileDelete);
+    connect(ui->leBusstopsSearch,  &QLineEdit::textChanged,         _model, &SimpleBusstopListModel::setSearchFilter);
 
     ui->leName->setFocus();
 }
@@ -107,25 +110,6 @@ void DlgRouteEditor::refreshRouteBusstops() {
     ui->lwRouteBusstops->verticalScrollBar()->setValue(scrollValue);
 }
 
-void DlgRouteEditor::refreshAllBusstops() {
-    _allBusstopsReference.clear();
-    ui->lwAllBusstops->clear();
-    QString filterStr = ui->leBusstopsSearch->text();
-
-    for(int i = 0; i < _allBusstops.count(); i++) {
-        Busstop *b = _allBusstops[i];
-
-        if(!b->name().contains(filterStr, Qt::CaseInsensitive))
-            continue;
-
-        ui->lwAllBusstops->addItem(b->name());
-        _allBusstopsReference << b;
-    }
-
-    ui->lwAllBusstops->sortItems(Qt::AscendingOrder);
-    _allBusstopsReference = ProjectData::sortItems(_allBusstopsReference);
-}
-
 void DlgRouteEditor::refreshProfiles()
 {
     _timeProfilesReference.clear();
@@ -146,12 +130,12 @@ void DlgRouteEditor::refreshProfiles()
     }
 }
 
-void DlgRouteEditor::actionBusstopAdd() {
-    if(!ui->lwAllBusstops->currentItem())
+void DlgRouteEditor::actionBusstopAdd() {    
+    if(!ui->lwAllBusstops->currentIndex().isValid())
         return;
 
     const int index = ui->lwAllBusstops->currentIndex().row();
-    Busstop *b = _allBusstopsReference[index];
+    Busstop *b = _model->itemAt(index);
 
     QListWidgetItem *currentTargetItem = ui->lwRouteBusstops->currentItem();
 
@@ -266,9 +250,12 @@ void DlgRouteEditor::moveCurrentRouteBusstop(bool direction) {
     refreshRouteBusstops();
 }
 
-void DlgRouteEditor::on_lwRouteBusstops_currentItemChanged(QListWidgetItem *current,
-                                                        QListWidgetItem *previous) {
-    Q_UNUSED(current); Q_UNUSED(previous);
-    _currentRouteBusstop = _route.busstopAt(ui->lwRouteBusstops->currentIndex().row());
-}
+void DlgRouteEditor::onSelectionChanged() {
+    const QModelIndex current = ui->lwAllBusstops->selectionModel()->currentIndex();
+    const int selectionCount = ui->lwAllBusstops->selectionModel()->selectedRows().count();
 
+    if(selectionCount != 1)
+        _currentRouteBusstop = nullptr;
+    else
+        _currentRouteBusstop = _model->itemAt(current.row());
+}
