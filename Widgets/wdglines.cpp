@@ -15,15 +15,23 @@ WdgLines::WdgLines(QWidget *parent) :
     ui(new Ui::WdgLines),
     projectData(((MainWindow *)parent)->projectData()),
     _model(new LineTableModel(this)),
+    _proxyModel(new QSortFilterProxyModel(this)),
     _currentLine(nullptr) {
     ui->setupUi(this);
 
     _model->setProjectData(projectData);
-    ui->twLines->setModel(_model);
 
-    connect(_model, &LineTableModel::updateFinished, this, [this]() {
-        ui->twLines->resizeColumnsToContents();
-    });
+    _proxyModel->setSourceModel(_model);
+    _proxyModel->setSortLocaleAware(true);
+    _proxyModel->sort(0, Qt::AscendingOrder);
+
+    ui->twLines->setSortingEnabled(true);
+    ui->twLines->horizontalHeader()->setSortIndicator(0, Qt::AscendingOrder);
+    ui->twLines->setModel(_proxyModel);
+
+
+    ui->twLines->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->twLines->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
     connect(ui->twLines->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgLines::onSelectionChanged);
 
@@ -114,7 +122,7 @@ void WdgLines::actionDelete() {
     const int maxShowCount = 15;
     bool hasMore = selection.count() > maxShowCount;
     for(int i = 0; i < selection.count(); i++) {
-        Line *l = _model->itemAt(selection[i].row());
+        Line *l = _model->itemAt(_proxyModel->mapToSource(selection[i]).row());
         lines << l;
         if(i < maxShowCount) {
             QColor color = l->color();
@@ -144,7 +152,7 @@ void WdgLines::onSelectionChanged() {
     if(selectionCount != 1)
         _currentLine = nullptr;
     else
-        _currentLine = _model->itemAt(current.row());
+        _currentLine = _model->itemAt(_proxyModel->mapToSource(current).row());
     refreshUI();
     emit currentLineChanged(_currentLine);
 }
