@@ -15,16 +15,27 @@ WdgBusstops::WdgBusstops(QWidget *parent) :
     ui(new Ui::WdgBusstops),
     projectData(((MainWindow *)parent)->projectData()),
     _model(new BusstopTableModel(this)),
+    _proxyModel(new QSortFilterProxyModel(this)),
     _currentBusstop(nullptr) {
     ui->setupUi(this);
 
+
     _model->setProjectData(projectData);
 
-    ui->twBusstops->setModel(_model);
+    _proxyModel->setSourceModel(_model);
+    _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    _proxyModel->setFilterKeyColumn(0);
+    _proxyModel->setSortRole(0x0100);
+    _proxyModel->setSortLocaleAware(true);
+    _proxyModel->sort(0, Qt::AscendingOrder);
 
-    connect(_model, &BusstopTableModel::updateFinished, this, [this]() {
-        ui->twBusstops->resizeColumnsToContents();
-    });
+    ui->twBusstops->setSortingEnabled(true);
+    ui->twBusstops->horizontalHeader()->setSortIndicator(0, Qt::AscendingOrder);
+    ui->twBusstops->setModel(_proxyModel);
+
+
+    ui->twBusstops->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->twBusstops->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
     connect(ui->twBusstops->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgBusstops::onSelectionChanged);
 
@@ -59,7 +70,7 @@ WdgBusstops::WdgBusstops(QWidget *parent) :
     connect(ui->pbBusstopEdit,   &QPushButton::clicked,             this,                &WdgBusstops::actionEdit);
     connect(ui->twBusstops,      &QAbstractItemView::doubleClicked, this,                &WdgBusstops::actionEdit);
     connect(ui->pbBusstopDelete, &QPushButton::clicked,             this,                &WdgBusstops::actionDelete);
-    connect(ui->leBusstopSearch, &QLineEdit::textChanged,           _model,              &BusstopTableModel::setSearchFilter);
+    connect(ui->leBusstopSearch, &QLineEdit::textChanged,           _proxyModel,         &QSortFilterProxyModel::setFilterFixedString);
 
     connect(_actionViewSchedule, &QAction::triggered,               this,                [this](){
         if(_currentBusstop && projectData->projectSettings()->dayTypeCount() > 0)
@@ -123,7 +134,7 @@ void WdgBusstops::actionDelete() {
     const int maxShowCount = 15;
     bool hasMore = selection.count() > maxShowCount;
     for(int i = 0; i < selection.count(); i++) {
-        Busstop *b = _model->itemAt(selection[i].row());
+        Busstop *b = _model->itemAt(_proxyModel->mapToSource(selection[i]).row());
         busstops << b;
         if(i < maxShowCount)
             showList += QString("<li>%1</li>").arg(b->name());
@@ -147,7 +158,7 @@ void WdgBusstops::onSelectionChanged() {
     if(selectionCount != 1)
         _currentBusstop = nullptr;
     else
-        _currentBusstop = _model->itemAt(current.row());
+        _currentBusstop = _model->itemAt(_proxyModel->mapToSource(current).row());
     refreshUI();
     emit currentBusstopChanged(_currentBusstop);
 }

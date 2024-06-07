@@ -44,6 +44,7 @@ private:
 
     ProjectData *projectData;
     BusstopTableModel *_model;
+    QSortFilterProxyModel *_proxyModel;
     Busstop *_currentBusstop;
 
     QAction *_actionNew;

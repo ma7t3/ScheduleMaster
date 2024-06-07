@@ -51,7 +51,8 @@ QVariant BusstopTableModel::data(const QModelIndex &index, int role) const {
         switch(role) {
             case Qt::DisplayRole:
                 return b->name();
-
+            case 0x0100:
+                return b->name();
             case Qt::FontRole:
                 QFont f;
                 if(b->isImportant())
@@ -61,6 +62,8 @@ QVariant BusstopTableModel::data(const QModelIndex &index, int role) const {
     case 1:
         switch(role) {
         case Qt::DecorationRole: return generateLinesPixmap(b);
+        case 0x0100:
+            return generateUsedLinesSortString(b);
         } break;
     }
 
@@ -106,4 +109,13 @@ QPixmap BusstopTableModel::generateLinesPixmap(Busstop *b) const {
     }
 
     return pixmap;
+}
+
+QString BusstopTableModel::generateUsedLinesSortString(Busstop *b) const {
+    QStringList result;
+    QList<Line *> usedLines = projectData->linesAtBusstop(b);
+    for(Line *l : usedLines)
+        result << l->name();
+
+    return result.join(",");
 }
