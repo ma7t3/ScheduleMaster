@@ -43,6 +43,7 @@ private:
 
     ProjectData *projectData;
     LineTableModel *_model;
+    QSortFilterProxyModel *_proxyModel;
     Line *_currentLine;
 
     QAction *_actionNew;
