@@ -4,7 +4,7 @@
 #include <QBrush>
 #include "App/global.h"
 
-LineTableModel::LineTableModel(QObject *parent) : ProjectDataRowBasedTableModel(parent) {}
+LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel(parent) {}
 
 void LineTableModel::setProjectData(ProjectData *newProjectData) {
     projectData = newProjectData;

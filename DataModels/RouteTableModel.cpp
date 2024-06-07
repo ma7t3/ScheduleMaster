@@ -2,7 +2,7 @@
 
 #include <QFont>
 
-RouteTableModel::RouteTableModel(QObject *parent) : ProjectDataRowBasedTableModel<Route>(parent), _line(nullptr) {}
+RouteTableModel::RouteTableModel(QObject *parent) : UnorderedProjectDataRowModel<Route>(parent), _line(nullptr) {}
 
 void RouteTableModel::setLine(Line *l) {
     if(_line)

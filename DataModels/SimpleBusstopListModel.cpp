@@ -2,7 +2,7 @@
 
 #include <QFont>
 
-SimpleBusstopListModel::SimpleBusstopListModel(QObject *parent) : ProjectDataRowBasedTableModel(parent) {}
+SimpleBusstopListModel::SimpleBusstopListModel(QObject *parent) : UnorderedProjectDataRowModel(parent) {}
 
 void SimpleBusstopListModel::setProjectData(ProjectData *newProjectData) {
     projectData = newProjectData;
