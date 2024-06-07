@@ -133,6 +133,10 @@ TimeProfile TimeProfile::operator=(const TimeProfile &other) {
     return *this;
 }
 
+bool TimeProfile::operator<(const TimeProfile &other) {
+    return name().toLower() < other.name().toLower();
+}
+
 void TimeProfile::copy(const TimeProfile &other) {
     ProjectDataItem::copy(other);
     setName(other.name());
