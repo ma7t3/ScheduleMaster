@@ -77,6 +77,9 @@ public:
 
     QList<TimeProfileItem *> cloneItems();
 
+signals:
+    void changed(TimeProfile *);
+
 protected:
     void copy(const TimeProfile &);
     void fromJson(const QJsonObject &);
