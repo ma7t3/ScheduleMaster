@@ -102,6 +102,9 @@ protected:
     void onRouteChanged(Route *);
     void onRouteRemoved(Route *);
 
+protected slots:
+    void onUpdateTimerTimeout();
+
 
 private:
     QString _name;
