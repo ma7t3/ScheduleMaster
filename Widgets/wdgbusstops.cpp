@@ -20,7 +20,6 @@ WdgBusstops::WdgBusstops(QWidget *parent) :
 
     _model->setProjectData(projectData);
 
-    ui->twBusstops->verticalHeader()->setDefaultSectionSize(15);
     ui->twBusstops->setModel(_model);
 
     connect(_model, &BusstopTableModel::updateFinished, this, [this]() {
@@ -124,7 +123,7 @@ void WdgBusstops::actionDelete() {
     const int maxShowCount = 15;
     bool hasMore = selection.count() > maxShowCount;
     for(int i = 0; i < selection.count(); i++) {
-        Busstop *b = _model->itemAt(selection[i]);
+        Busstop *b = _model->itemAt(selection[i].row());
         busstops << b;
         if(i < maxShowCount)
             showList += QString("<li>%1</li>").arg(b->name());

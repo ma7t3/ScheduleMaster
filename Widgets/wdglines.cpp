@@ -19,7 +19,6 @@ WdgLines::WdgLines(QWidget *parent) :
     ui->setupUi(this);
 
     _model->setProjectData(projectData);
-    ui->twLines->verticalHeader()->setDefaultSectionSize(15);
     ui->twLines->setModel(_model);
 
     connect(_model, &LineTableModel::updateFinished, this, [this]() {
@@ -115,7 +114,7 @@ void WdgLines::actionDelete() {
     const int maxShowCount = 15;
     bool hasMore = selection.count() > maxShowCount;
     for(int i = 0; i < selection.count(); i++) {
-        Line *l = _model->itemAt(selection[i]);
+        Line *l = _model->itemAt(selection[i].row());
         lines << l;
         if(i < maxShowCount) {
             QColor color = l->color();

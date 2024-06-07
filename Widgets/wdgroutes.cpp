@@ -21,7 +21,7 @@ WdgRoutes::WdgRoutes(QWidget *parent) :
 
     ui->twRoutes->setModel(_model);
 
-    connect(_model, &LineTableModel::updateFinished, this, [this]() {
+    connect(_model, &RouteTableModel::updateFinished, this, [this]() {
         ui->twRoutes->resizeColumnsToContents();
     });
 
@@ -66,10 +66,6 @@ WdgRoutes::WdgRoutes(QWidget *parent) :
     connect(ui->leSearch,     &QLineEdit::textChanged,      _model,          &RouteTableModel::setSearchFilter);
 
     QObject::connect(ui->pbExportProfilesOMSITrips, &QPushButton::clicked, this, &WdgRoutes::omsiExport);
-
-    ui->twRoutes->setColumnWidth(0, 50);
-    ui->twRoutes->setColumnWidth(1, 50);
-    ui->twRoutes->setColumnWidth(2, 400);
 }
 
 WdgRoutes::~WdgRoutes()
@@ -162,7 +158,7 @@ void WdgRoutes::actionDelete() {
     QString showList ="<ul>";
     QList<Route *> routes;
     for(int i = 0; i < selection.count(); i++) {
-        Route *r = _model->itemAt(selection[i]);
+        Route *r = _model->itemAt(selection[i].row());
         routes << r;
         showList += QString("<li>%1</li>").arg(r->name());
     }

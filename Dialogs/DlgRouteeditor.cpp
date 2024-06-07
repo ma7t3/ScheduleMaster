@@ -12,15 +12,19 @@ DlgRouteEditor::DlgRouteEditor(QWidget *parent, Route *r, const bool &createMode
     QDialog(parent),
     ui(new Ui::DlgRouteEditor),
     _allBusstopsModel(new SimpleBusstopListModel(this)),
-    _routeBusstopsModel(new SimpleCustomBusstopListModel(this)),
+    _routeBusstopsModel(new SimpleRouteBusstopListModel(this)),
+    _timeProfilesModel(new TimeProfileTableModel(this)),
     _route(*r),
     _routePtr(r) {
     ui->setupUi(this);
 
     _allBusstopsModel->setProjectData(dynamic_cast<ProjectData *>(r->parent()->parent()));
+    _routeBusstopsModel->setRoute(&_route);
+    _timeProfilesModel->setRoute(&_route);
 
     ui->lwAllBusstops->setModel(_allBusstopsModel);
     ui->lwRouteBusstops->setModel(_routeBusstopsModel);
+    ui->twProfiles->setModel(_timeProfilesModel);
 
     ui->buttonBox->button(QDialogButtonBox::Apply)->setDisabled(true);
     ui->buttonBox->button(QDialogButtonBox::Apply)->setToolTip(tr("This feature is not implemented now."));
@@ -28,17 +32,17 @@ DlgRouteEditor::DlgRouteEditor(QWidget *parent, Route *r, const bool &createMode
     setCreateMode(createMode);
     setRoute(*r);
 
-    connect(ui->pbBusstopAdd,      &QPushButton::clicked,           this,              &DlgRouteEditor::actionBusstopAdd);
-    connect(ui->lwAllBusstops,     &QListWidget::doubleClicked,     this,              &DlgRouteEditor::actionBusstopAdd);
-    connect(ui->pbBusstopRemove,   &QPushButton::clicked,           this,              &DlgRouteEditor::actionBusstopRemove);
-    connect(ui->pbBusstopUp,       &QPushButton::clicked,           this,              &DlgRouteEditor::actionBusstopUp);
-    connect(ui->pbBusstopDown,     &QPushButton::clicked,           this,              &DlgRouteEditor::actionBusstopDown);
-    connect(ui->pbBusstopsReverse, &QPushButton::clicked,           this,              &DlgRouteEditor::actionBusstopsReverse);
-    connect(ui->pbProfileNew,      &QPushButton::clicked,           this,              &DlgRouteEditor::actionProfileNew);
-    connect(ui->pbProfileEdit,     &QPushButton::clicked,           this,              &DlgRouteEditor::actionProfileEdit);
-    connect(ui->twProfiles,        &QTreeWidget::itemDoubleClicked, this,              &DlgRouteEditor::actionProfileEdit);
-    connect(ui->pbProfileDelete,   &QPushButton::clicked,           this,              &DlgRouteEditor::actionProfileDelete);
-    connect(ui->leBusstopsSearch,  &QLineEdit::textChanged,         _allBusstopsModel, &SimpleBusstopListModel::setSearchFilter);
+    connect(ui->pbBusstopAdd,      &QPushButton::clicked,       this,              &DlgRouteEditor::actionBusstopAdd);
+    connect(ui->lwAllBusstops,     &QListView::doubleClicked,   this,              &DlgRouteEditor::actionBusstopAdd);
+    connect(ui->pbBusstopRemove,   &QPushButton::clicked,       this,              &DlgRouteEditor::actionBusstopRemove);
+    connect(ui->pbBusstopUp,       &QPushButton::clicked,       this,              &DlgRouteEditor::actionBusstopUp);
+    connect(ui->pbBusstopDown,     &QPushButton::clicked,       this,              &DlgRouteEditor::actionBusstopDown);
+    connect(ui->pbBusstopsReverse, &QPushButton::clicked,       this,              &DlgRouteEditor::actionBusstopsReverse);
+    connect(ui->pbProfileNew,      &QPushButton::clicked,       this,              &DlgRouteEditor::actionProfileNew);
+    connect(ui->pbProfileEdit,     &QPushButton::clicked,       this,              &DlgRouteEditor::actionProfileEdit);
+    connect(ui->twProfiles,        &QTreeView::doubleClicked,   this,              &DlgRouteEditor::actionProfileEdit);
+    connect(ui->pbProfileDelete,   &QPushButton::clicked,       this,              &DlgRouteEditor::actionProfileDelete);
+    connect(ui->leBusstopsSearch,  &QLineEdit::textChanged,     _allBusstopsModel, &SimpleBusstopListModel::setSearchFilter);
 
     ui->leName->setFocus();
 }
@@ -82,32 +86,9 @@ void DlgRouteEditor::setRoute(const Route &route) {
     ui->leName->setText(_route.name());
     ui->sbCode->setValue(_route.code());
 
-    for(int i = 0; i < _route.busstopCount(); i++)
-        _routeBusstopsModel->addBusstop(_route.busstopAt(i));
-
     _matchingRoutes = dynamic_cast<ProjectData *>(_routePtr->parent()->parent())->matchingRoutes(_routePtr);
 
-    refreshProfiles();
-}
-
-void DlgRouteEditor::refreshProfiles()
-{
-    _timeProfilesReference.clear();
-    ui->twProfiles->clear();
-    for(int i = 0; i < _route.timeProfileCount(); i++) {
-        TimeProfile *p = _route.timeProfileAt(i);
-
-        QString name = p->name();
-        float duration = p->duration();
-
-        QTreeWidgetItem *itm = new QTreeWidgetItem(ui->twProfiles);
-
-        itm->setText(0, name);
-        itm->setText(1, QString::number(duration) + " min.");
-
-        ui->twProfiles->addTopLevelItem(itm);
-        _timeProfilesReference << p;
-    }
+    _timeProfilesModel->setRoute(&_route);
 }
 
 void DlgRouteEditor::actionBusstopAdd() {    
@@ -126,7 +107,7 @@ void DlgRouteEditor::actionBusstopAdd() {
         targetIndex = ui->lwRouteBusstops->currentIndex().row() + 1;
 
     _route.insertBusstop(targetIndex, b);
-    _routeBusstopsModel->addBusstop(b, targetIndex);
+    qApp->processEvents();
     ui->lwRouteBusstops->setCurrentIndex(_routeBusstopsModel->index(targetIndex, 0, QModelIndex()));
 }
 
@@ -136,8 +117,6 @@ void DlgRouteEditor::actionBusstopRemove() {
 
     const int removeIndex = ui->lwRouteBusstops->currentIndex().row();
     _route.removeBusstop(removeIndex);
-    _routeBusstopsModel->removeBusstop(removeIndex);
-    ui->lwRouteBusstops->setCurrentIndex(QModelIndex());
 }
 
 void DlgRouteEditor::actionBusstopUp() {
@@ -156,8 +135,6 @@ void DlgRouteEditor::actionBusstopsReverse() {
         list << _route.busstopAt(i);
 
     _route.setBusstops(list);
-
-    _routeBusstopsModel->setBusstops(list);
 }
 
 void DlgRouteEditor::actionProfileNew() {
@@ -171,32 +148,26 @@ void DlgRouteEditor::actionProfileNew() {
 
     *p = dlg.timeProfile();
     _route.addTimeProfile(p);
-    refreshProfiles();
 }
 
 void DlgRouteEditor::actionProfileEdit() {
-    if(!ui->twProfiles->currentItem())
+    if(!ui->twProfiles->currentIndex().isValid())
         return;
 
-    TimeProfile *p = _timeProfilesReference[ui->twProfiles->currentIndex().row()];
+    TimeProfile *p = _timeProfilesModel->itemAt(ui->twProfiles->currentIndex().row());
 
     DlgTimeProfileEditor dlg(this, p, &_route);
     if(dlg.exec() != QDialog::Accepted)
         return;
 
     *p = dlg.timeProfile();
-
-    refreshProfiles();
 }
 
 void DlgRouteEditor::actionProfileDelete() {
-    if(!ui->twProfiles->currentItem())
+    if(!ui->twProfiles->currentIndex().isValid())
         return;
 
-    QString id = ui->twProfiles->currentItem()->text(0);
-    TimeProfile *p = _route.timeProfile(id);
-    if(!p)
-        return;
+    TimeProfile *p = _timeProfilesModel->itemAt(ui->twProfiles->currentIndex().row());
 
     QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete profile"), tr("<p>Do you really want to delete this profile?</p><table><tr><td><b>Name:</b></td><td>%1</td></tr><tr><td><b>Duration:</b></td><td>%2 min.</td></tr></table><p><b>You cannot undo this action!</b></p>").arg(p->name(), QString::number(p->duration())), QMessageBox::Yes|QMessageBox::No);
 
@@ -205,14 +176,13 @@ void DlgRouteEditor::actionProfileDelete() {
 
     _route.removeTimeProfile(p);
 
-    refreshProfiles();
 }
 
 void DlgRouteEditor::moveCurrentRouteBusstop(bool direction) {
     if(!ui->lwRouteBusstops->currentIndex().isValid())
         return;
 
-    Busstop *b = _routeBusstopsModel->itemAt(ui->lwRouteBusstops->currentIndex());
+    Busstop *b = _routeBusstopsModel->itemAt(ui->lwRouteBusstops->currentIndex().row());
 
     const int oldIndex = _route.indexOfBusstop(b);
     const int moveVal  = direction ? 1 : (-1);
@@ -224,9 +194,9 @@ void DlgRouteEditor::moveCurrentRouteBusstop(bool direction) {
         return;
 
     _route.removeBusstop(oldIndex);
+    qApp->processEvents();
     _route.insertBusstop(oldIndex + moveVal, b);
 
-    _routeBusstopsModel->removeBusstop(oldIndex);
-    _routeBusstopsModel->addBusstop(b, oldIndex + moveVal);
+    qApp->processEvents();
     ui->lwRouteBusstops->setCurrentIndex(_routeBusstopsModel->index(oldIndex + moveVal, 0, QModelIndex()));
 }

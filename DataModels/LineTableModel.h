@@ -1,9 +1,9 @@
 #ifndef LINETABLEMODEL_H
 #define LINETABLEMODEL_H
 
-#include "DataModels/ProjectDataRowBasedTableModel.h"
+#include "DataModels/UnorderedProjectDataRowModel.h"
 
-class LineTableModel : public ProjectDataRowBasedTableModel<Line> {
+class LineTableModel : public UnorderedProjectDataRowModel<Line> {
     Q_OBJECT
 
 public:

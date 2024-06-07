@@ -15,7 +15,8 @@ SOURCES += \
     DataModels/LineTableModel.cpp \
     DataModels/RouteTableModel.cpp \
     DataModels/SimpleBusstopListModel.cpp \
-    DataModels/SimpleCustomBusstopListModel.cpp \
+    DataModels/SimpleRouteBusstopListModel.cpp \
+    DataModels/TimeProfileTableModel.cpp \
     Dialogs/DlgChangelog.cpp \
     Dialogs/DlgCopyTrip.cpp \
     Dialogs/DlgFootnoteEditor.cpp \
@@ -86,12 +87,14 @@ HEADERS += \
     Commands/CmdTours.h \
     DataModels/BusstopTableModel.h \
     DataModels/LineTableModel.h \
-    DataModels/ProjectDataRowBasedTableModel.h \
-    DataModels/ProjectDataTableModel.h \
-    DataModels/ProjectDataTableSignals.h \
+    DataModels/OrderedProjectDataRowModel.h \
+    DataModels/ProjectDataModel.h \
+    DataModels/ProjectDataModelSignals.h \
     DataModels/RouteTableModel.h \
     DataModels/SimpleBusstopListModel.h \
-    DataModels/SimpleCustomBusstopListModel.h \
+    DataModels/SimpleRouteBusstopListModel.h \
+    DataModels/TimeProfileTableModel.h \
+    DataModels/UnorderedProjectDataRowModel.h \
     Dialogs/DlgChangelog.h \
     Dialogs/DlgCopyTrip.h \
     Dialogs/DlgFootnoteEditor.h \

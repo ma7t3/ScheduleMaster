@@ -3,9 +3,9 @@
 
 #include <QAbstractTableModel>
 
-#include "DataModels/ProjectDataRowBasedTableModel.h"
+#include "DataModels/UnorderedProjectDataRowModel.h"
 
-class BusstopTableModel : public ProjectDataRowBasedTableModel<Busstop> {
+class BusstopTableModel : public UnorderedProjectDataRowModel<Busstop> {
     Q_OBJECT
 
 public:

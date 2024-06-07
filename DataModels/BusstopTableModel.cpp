@@ -7,7 +7,7 @@
 #include <QFontMetrics>
 
 BusstopTableModel::BusstopTableModel(QObject *parent) :
-    ProjectDataRowBasedTableModel<Busstop>(parent) {
+    UnorderedProjectDataRowModel<Busstop>(parent) {
 }
 
 void BusstopTableModel::setProjectData(ProjectData *newProjectData) {

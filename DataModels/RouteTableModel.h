@@ -3,9 +3,9 @@
 
 #include <QAbstractItemModel>
 
-#include "ProjectDataRowBasedTableModel.h"
+#include "UnorderedProjectDataRowModel.h"
 
-class RouteTableModel : public ProjectDataRowBasedTableModel<Route> {
+class RouteTableModel : public UnorderedProjectDataRowModel<Route> {
     Q_OBJECT
 
 public:

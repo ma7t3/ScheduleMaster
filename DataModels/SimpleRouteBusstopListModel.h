@@ -1,16 +1,16 @@
-#ifndef SIMPLEBUSSTOPLISTMODEL_H
-#define SIMPLEBUSSTOPLISTMODEL_H
+#ifndef SIMPLEROUTEBUSSTOPLISTMODEL_H
+#define SIMPLEROUTEBUSSTOPLISTMODEL_H
 
 #include <QAbstractItemModel>
 
-#include "DataModels/UnorderedProjectDataRowModel.h"
+#include "DataModels/OrderedProjectDataRowModel.h"
 
-class SimpleBusstopListModel : public UnorderedProjectDataRowModel<Busstop> {
+class SimpleRouteBusstopListModel : public OrderedProjectDataRowModel<Busstop> {
     Q_OBJECT
 
 public:
-    explicit SimpleBusstopListModel(QObject *parent);
-    void     setProjectData(ProjectData *);
+    explicit SimpleRouteBusstopListModel(QObject *parent);
+    void setRoute(Route *);
 
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override {Q_UNUSED(section);Q_UNUSED(orientation);Q_UNUSED(role);return QVariant();};
     int      columnCount(const QModelIndex &parent = QModelIndex())                           const override {Q_UNUSED(parent);return 1;};
@@ -18,10 +18,10 @@ public:
 
 protected:
     QList<Busstop *> fetchData()                const override;
-    bool             testSearchMatch(Busstop *) const override;
+    bool             testSearchMatch(Busstop *) const override {return true;};
 
 private:
-    ProjectData *projectData;
+    Route *_route;
 };
 
-#endif // SIMPLEBUSSTOPLISTMODEL_H
+#endif // SIMPLEROUTEBUSSTOPLISTMODEL_H
