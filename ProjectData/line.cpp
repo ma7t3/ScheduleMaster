@@ -231,6 +231,14 @@ bool Line::hasDirection(const QString &id) const {
     return false;
 }
 
+int Line::indexOfDirection(LineDirection *ld) const {
+    for(int i = 0; i < directionCount(); i++)
+        if(directionAt(i) == ld)
+            return i;
+
+    return -1;
+}
+
 int Line::indexOfDirection(const QString &id) const {
     for(int i = 0; i < directionCount(); i++)
         if(directionAt(i)->id() == id)

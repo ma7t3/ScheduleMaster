@@ -49,6 +49,7 @@ private:
 
     ProjectData *projectData;
     RouteTableModel *_model;
+    QSortFilterProxyModel *_proxyModel;
     Line *_currentLine;
     Route *_currentRoute;
 
