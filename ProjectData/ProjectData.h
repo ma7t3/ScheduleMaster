@@ -122,6 +122,10 @@ public:
 
     QUndoStack *undoStack();
 
+    bool isLoadingFromFile() const;
+
+protected:
+
     void onBusstopAdded(Busstop *);
     void onBusstopChanged(Busstop *);
     void onBusstopRemoved(Busstop *);
@@ -168,6 +172,9 @@ private:
     std::unordered_map<Trip *, Line *> _routeTripCacheMap;
 
     QTimer *_updateTimer;
+
+    bool _loadingFromFile;
+    bool _afterLoadingFromFile;
 };
 
 #endif // PROJECTDATA_H
