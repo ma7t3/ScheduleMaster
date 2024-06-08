@@ -2,7 +2,7 @@
 
 #include <QFont>
 
-RouteTableModel::RouteTableModel(QObject *parent) : UnorderedProjectDataRowModel<Route>(parent), _line(nullptr) {}
+RouteTableModel::RouteTableModel(QObject *parent) : UnorderedProjectDataRowModel<Route>(parent), _line(nullptr), _refreshSorting(false) {}
 
 void RouteTableModel::setLine(Line *l) {
     if(_line)
@@ -122,6 +122,10 @@ bool RouteTableModel::testSearchMatch(Route *r) const {
 }
 
 void RouteTableModel::refreshDefaultSortIndexes() {
+    if(_refreshSorting)
+        return;
+
+    _refreshSorting = true;
     defaultSortIndexes.clear();
 
     QList<Route *> sortedList = _items;
@@ -138,4 +142,9 @@ void RouteTableModel::refreshDefaultSortIndexes() {
         Route *r = sortedList[i];
         defaultSortIndexes.insert(r, i);
     }
+
+    // emit data changed to trigger re-sort by proxy models
+    emit dataChanged(index(0, 1), index(_items.count() - 1, 1), {0x0100});
+
+    _refreshSorting = false;
 }

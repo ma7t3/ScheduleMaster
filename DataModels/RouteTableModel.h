@@ -24,6 +24,8 @@ protected:
 private:
     Line *_line;
     QMap<Route *, int> defaultSortIndexes;
+
+    bool _refreshSorting;
 };
 
 #endif // ROUTETABLEMODEL_H
