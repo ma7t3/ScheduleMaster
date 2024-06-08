@@ -54,6 +54,7 @@ public slots:
 
 protected slots:
     void addItems(const QList<T *> list) override {
+        ProjectDataModel<T>::_updating = true;
         QList<T *> allItems = ProjectDataModel<T>::_items;
         QList<T *> sortedList = ProjectData::sortItems(list);
         for(T *t : sortedList) {
@@ -70,10 +71,12 @@ protected slots:
             QAbstractTableModel::endInsertRows();
         }
 
+        ProjectDataModel<T>::_updating = false;
         emit ProjectDataModelSignals::updateFinished();
     }
 
     void changeItems(const QList<T *> list) override {
+        ProjectDataModel<T>::_updating = true;
         QList<T *> allItems = ProjectData::sortItems(ProjectDataModel<T>::_items);
         QList<T *> sortedList = ProjectData::sortItems(list);
 
@@ -82,7 +85,7 @@ protected slots:
             int newIndex = allItems.indexOf(t);
 
             if(oldIndex == newIndex) {
-                emit QAbstractTableModel::dataChanged(QAbstractTableModel::index(oldIndex, 0), QAbstractTableModel::index(oldIndex, 1));
+                emit QAbstractTableModel::dataChanged(QAbstractTableModel::index(oldIndex, 0), QAbstractTableModel::index(oldIndex, columnCount() - 1));
                 continue;
             }
 
@@ -97,10 +100,12 @@ protected slots:
             QAbstractTableModel::endMoveRows();
         }
 
+        ProjectDataModel<T>::_updating = false;
         emit ProjectDataModelSignals::updateFinished();
     }
 
     void removeItems(const QList<T *> list) override {
+        ProjectDataModel<T>::_updating = true;
         QList<T *> sortedList = ProjectData::sortItems(list);
         for(T *t : sortedList) {
             const int index = ProjectDataModel<T>::_items.indexOf(t);
@@ -109,6 +114,7 @@ protected slots:
             QAbstractTableModel::endRemoveRows();
         }
 
+        ProjectDataModel<T>::_updating = false;
         emit ProjectDataModelSignals::updateFinished();
     }
 
