@@ -34,6 +34,7 @@ WdgLines::WdgLines(QWidget *parent) :
     ui->twLines->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
     connect(ui->twLines->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgLines::onSelectionChanged);
+    connect(_proxyModel, &QAbstractItemModel::rowsInserted, this, &WdgLines::onRowsInserted);
 
     _actionNew    = ui->twLines->addAction(QIcon(":/icons/Add.ico"),    tr("New"));
     _actionEdit   = ui->twLines->addAction(QIcon(":/icons/Edit.ico"),   tr("Edit"));
@@ -155,4 +156,11 @@ void WdgLines::onSelectionChanged() {
         _currentLine = _model->itemAt(_proxyModel->mapToSource(current).row());
     refreshUI();
     emit currentLineChanged(_currentLine);
+}
+
+void WdgLines::onRowsInserted(QModelIndex parent, int first, int last) {
+    Q_UNUSED(parent);
+    ui->twLines->setCurrentIndex(_proxyModel->index(first, 0));
+    ui->twLines->selectionModel()->select(QItemSelection(_proxyModel->index(first, 0), _proxyModel->index(last, 1)), QItemSelectionModel::ClearAndSelect);
+    ui->twLines->setFocus();
 }

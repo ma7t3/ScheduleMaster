@@ -33,6 +33,7 @@ private slots:
     void actionDelete();
 
     void onSelectionChanged();
+    void onRowsInserted(QModelIndex parent, int first, int last);
 
 signals:
     void currentBusstopChanged(Busstop *);

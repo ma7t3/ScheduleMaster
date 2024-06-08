@@ -39,6 +39,7 @@ private slots:
     void omsiExport();
 
     void onSelectionChanged();
+    void onRowsInserted(QModelIndex parent, int first, int last);
 
 signals:
     void currentRouteChanged(Route *);
