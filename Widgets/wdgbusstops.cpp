@@ -34,7 +34,7 @@ WdgBusstops::WdgBusstops(QWidget *parent) :
     ui->twBusstops->setModel(_proxyModel);
 
 
-    ui->twBusstops->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->twBusstops->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->twBusstops->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
     connect(ui->twBusstops->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgBusstops::onSelectionChanged);
