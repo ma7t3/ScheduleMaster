@@ -57,6 +57,15 @@ public slots:
 protected slots:
     void addItems(QList<T *> addList) override {
         QList<T *> newItems = fetchData();
+
+        if(newItems.count() == ProjectDataModel<T>::_items.count()) {
+            emit ProjectDataModelSignals::updateFinished();
+            return;
+        } else if(newItems.count() < ProjectDataModel<T>::_items.count()) {
+            ProjectDataModel<T>::reset();
+            return;
+        }
+
         std::sort(addList.begin(), addList.end(), [newItems](T *a, T *b){return newItems.indexOf(a) < newItems.indexOf(b);});
 
         for(T *t : addList) {
@@ -102,6 +111,15 @@ protected slots:
 
     void removeItems(QList<T *> changelist) override {
         QList<T *> newItems = fetchData();
+
+        if(newItems.count() == ProjectDataModel<T>::_items.count()) {
+            emit ProjectDataModelSignals::updateFinished();
+            return;
+        } else if(newItems.count() > ProjectDataModel<T>::_items.count()) {
+            ProjectDataModel<T>::reset();
+            return;
+        }
+
         std::sort(changelist.begin(), changelist.end(), [newItems](T *a, T *b){return newItems.indexOf(a) < newItems.indexOf(b);});
 
         for(T *t : changelist) {
