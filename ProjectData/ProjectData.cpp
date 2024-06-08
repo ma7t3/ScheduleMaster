@@ -5,27 +5,34 @@ ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
     _projectSettings(new ProjectSettings(this)),
     _publications(new Publications(this)),
-    _updateTimer(new QTimer(this)) {
+    _updateTimer(new QTimer(this)),
+    _loadingFromFile(false),
+    _afterLoadingFromFile(false) {
     _updateTimer->setSingleShot(true);
 
     connect(_updateTimer, &QTimer::timeout, this, [this]() {
-        if(!_addedBusstops.isEmpty())
-            emit busstopsAdded(_addedBusstops);
+        if(_afterLoadingFromFile) {
+            _afterLoadingFromFile = false;
+            emit wasReset();
+        } else {
+            if(!_addedBusstops.isEmpty())
+                emit busstopsAdded(_addedBusstops);
 
-        if(!_changedBusstops.isEmpty())
-            emit busstopsChanged(_changedBusstops);
+            if(!_changedBusstops.isEmpty())
+                emit busstopsChanged(_changedBusstops);
 
-        if(!_removedBusstops.isEmpty())
-            emit busstopsRemoved(_removedBusstops);
+            if(!_removedBusstops.isEmpty())
+                emit busstopsRemoved(_removedBusstops);
 
-        if(!_addedLines.isEmpty())
-            emit linesAdded(_addedLines);
+            if(!_addedLines.isEmpty())
+                emit linesAdded(_addedLines);
 
-        if(!_changedLines.isEmpty())
-            emit linesChanged(_changedLines);
+            if(!_changedLines.isEmpty())
+                emit linesChanged(_changedLines);
 
-        if(!_removedLines.isEmpty())
-            emit linesRemoved(_removedLines);
+            if(!_removedLines.isEmpty())
+                emit linesRemoved(_removedLines);
+        }
 
         _addedBusstops.clear();
         _changedBusstops.clear();
@@ -703,6 +710,7 @@ QJsonObject ProjectData::toJson() {
 }
 
 void ProjectData::setJson(const QJsonObject &jsonObject) {
+    _loadingFromFile = true;
     QJsonArray jBusstops, jLines, jTours, jFootnotes;
 
     jBusstops = jsonObject.value("busstops").toArray();
@@ -775,6 +783,8 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
 
     projectSettings()->setJson(jsonObject.value("projectSettings").toObject());
     publications()->setJson(jsonObject.value("publications").toObject());
+    _loadingFromFile = false;
+    _afterLoadingFromFile = true;
 }
 
 Busstop *ProjectData::newBusstop(QString id) {
@@ -853,6 +863,10 @@ Footnote *ProjectData::newFootnote(const Footnote &newFootnote) {
 
 QUndoStack *ProjectData::undoStack() {
     return &_undoStack;
+}
+
+bool ProjectData::isLoadingFromFile() const {
+    return _loadingFromFile;
 }
 
 void ProjectData::onBusstopAdded(Busstop *b) {
