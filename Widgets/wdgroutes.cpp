@@ -15,15 +15,31 @@ WdgRoutes::WdgRoutes(QWidget *parent) :
     ui(new Ui::WdgRoutes),
     projectData(((MainWindow *)parent)->projectData()),
     _model(new RouteTableModel(this)),
+    _proxyModel(new QSortFilterProxyModel(this)),
     _currentLine(nullptr),
     _currentRoute(nullptr) {
     ui->setupUi(this);
 
     ui->twRoutes->setModel(_model);
 
-    connect(_model, &RouteTableModel::updateFinished, this, [this]() {
-        ui->twRoutes->resizeColumnsToContents();
-    });
+    _proxyModel->setSourceModel(_model);
+    _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    _proxyModel->setFilterKeyColumn(-1);
+    _proxyModel->setSortRole(0x0100);
+    _proxyModel->setSortLocaleAware(true);
+    _proxyModel->sort(1, Qt::AscendingOrder);
+
+    ui->twRoutes->setSortingEnabled(true);
+    ui->twRoutes->horizontalHeader()->setSortIndicator(1, Qt::AscendingOrder);
+    ui->twRoutes->setModel(_proxyModel);
+
+
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+
 
     connect(ui->twRoutes->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgRoutes::onSelectionChanged);
 
@@ -63,7 +79,7 @@ WdgRoutes::WdgRoutes(QWidget *parent) :
     connect(ui->pbDuplicate,  &QPushButton::clicked,        this,            &WdgRoutes::actionDuplicate);
     connect(ui->pbDelete,     &QPushButton::clicked,        this,            &WdgRoutes::actionDelete);
 
-    connect(ui->leSearch,     &QLineEdit::textChanged,      _model,          &RouteTableModel::setSearchFilter);
+    connect(ui->leSearch,     &QLineEdit::textChanged,      _proxyModel,     &QSortFilterProxyModel::setFilterFixedString);
 
     QObject::connect(ui->pbExportProfilesOMSITrips, &QPushButton::clicked, this, &WdgRoutes::omsiExport);
 }
@@ -158,7 +174,7 @@ void WdgRoutes::actionDelete() {
     QString showList ="<ul>";
     QList<Route *> routes;
     for(int i = 0; i < selection.count(); i++) {
-        Route *r = _model->itemAt(selection[i].row());
+        Route *r = _model->itemAt(_proxyModel->mapToSource(selection[i]).row());
         routes << r;
         showList += QString("<li>%1</li>").arg(r->name());
     }
@@ -242,7 +258,7 @@ void WdgRoutes::onSelectionChanged() {
     if(selectionCount != 1)
         _currentRoute = nullptr;
     else
-        _currentRoute = _model->itemAt(current.row());
+        _currentRoute = _model->itemAt(_proxyModel->mapToSource(current).row());
     refreshUI();
     emit currentRouteChanged(_currentRoute);
 }

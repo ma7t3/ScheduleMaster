@@ -39,6 +39,7 @@ public:
     LineDirection *direction(const QString &id) const;
     LineDirection *directionAt(const int &index) const;
     bool hasDirection(const QString &id) const;
+    int indexOfDirection(LineDirection *) const;
     int indexOfDirection(const QString &id) const;
 
     void setDirections(const QList<LineDirection *> &newDirections);

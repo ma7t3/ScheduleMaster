@@ -14,6 +14,11 @@ void RouteTableModel::setLine(Line *l) {
         connect(_line, &Line::routesAdded,   this, &RouteTableModel::addItems);
         connect(_line, &Line::routesChanged, this, &RouteTableModel::changeItems);
         connect(_line, &Line::routesRemoved, this, &RouteTableModel::removeItems);
+
+        connect(this, &QAbstractTableModel::rowsInserted, this, &RouteTableModel::refreshDefaultSortIndexes);
+        connect(this, &QAbstractTableModel::dataChanged,  this, &RouteTableModel::refreshDefaultSortIndexes);
+        connect(this, &QAbstractTableModel::rowsRemoved,  this, &RouteTableModel::refreshDefaultSortIndexes);
+        connect(this, &QAbstractTableModel::modelReset,   this, &RouteTableModel::refreshDefaultSortIndexes);
     }
 
     reset();
@@ -51,18 +56,22 @@ QVariant RouteTableModel::data(const QModelIndex &index, int role) const {
     switch(index.column()) {
         case 0:
             switch(role) {
+            case 0x0100:
             case Qt::DisplayRole:
-                return QString::number(r->code());
+                return r->code();
             } break;
 
         case 1:
             switch(role) {
             case Qt::DisplayRole:
                 return r->direction()->description();
+            case 0x0100:
+                return defaultSortIndexes[r];
             } break;
 
         case 2:
             switch(role) {
+            case 0x0100:
             case Qt::DisplayRole:
                 return r->name();
 
@@ -74,6 +83,7 @@ QVariant RouteTableModel::data(const QModelIndex &index, int role) const {
 
         case 3:
             switch(role) {
+                case 0x0100:
             case Qt::DisplayRole:
                 if(r->busstopCount() != 0)
                     return r->firstBusstop()->name();
@@ -83,6 +93,7 @@ QVariant RouteTableModel::data(const QModelIndex &index, int role) const {
 
         case 4:
             switch(role) {
+            case 0x0100:
             case Qt::DisplayRole:
                 if(r->busstopCount() != 0)
                     return r->lastBusstop()->name();
@@ -92,8 +103,9 @@ QVariant RouteTableModel::data(const QModelIndex &index, int role) const {
 
         case 5:
             switch(role) {
+            case 0x0100:
             case Qt::DisplayRole:
-                return QString::number(r->busstopCount());
+                return r->busstopCount();
             } break;
     }
 
@@ -107,4 +119,23 @@ QList<Route *> RouteTableModel::fetchData() const {
 
 bool RouteTableModel::testSearchMatch(Route *r) const {
     return r->name().contains(_search, Qt::CaseInsensitive);
+}
+
+void RouteTableModel::refreshDefaultSortIndexes() {
+    defaultSortIndexes.clear();
+
+    QList<Route *> sortedList = _items;
+    std::sort(sortedList.begin(), sortedList.end(), [this](Route *a, Route *b){
+        if(a->direction() == b->direction())
+            return a->code() < b->code();
+
+        const int indexA = _line->indexOfDirection(a->direction());
+        const int indexB = _line->indexOfDirection(b->direction());
+        return indexA < indexB;
+    });
+
+    for(int i = 0; i < sortedList.count(); i++) {
+        Route *r = sortedList[i];
+        defaultSortIndexes.insert(r, i);
+    }
 }
