@@ -42,7 +42,7 @@ WdgRoutes::WdgRoutes(QWidget *parent) :
 
 
     connect(ui->twRoutes->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgRoutes::onSelectionChanged);
-    connect(_proxyModel, &QAbstractItemModel::rowsInserted, this, &WdgRoutes::onRowsInserted);
+    connect(_model, &QAbstractItemModel::rowsInserted, this, &WdgRoutes::onRowsInserted);
 
     _actionNew       = ui->twRoutes->addAction(QIcon(":/icons/Add.ico"),       tr("New"));
     _actionEdit      = ui->twRoutes->addAction(QIcon(":/icons/Edit.ico"),      tr("Edit"));
@@ -266,8 +266,8 @@ void WdgRoutes::onSelectionChanged() {
 
 void WdgRoutes::onRowsInserted(QModelIndex parent, int first, int last) {
     Q_UNUSED(parent);
-    ui->twRoutes->setCurrentIndex(_proxyModel->index(first, 0));
-    ui->twRoutes->selectionModel()->select(QItemSelection(_proxyModel->index(first, 0), _proxyModel->index(last, 5)), QItemSelectionModel::ClearAndSelect);
+    ui->twRoutes->setCurrentIndex(_proxyModel->mapFromSource(_model->index(first, 0)));
+    ui->twRoutes->selectionModel()->select(QItemSelection(_proxyModel->mapFromSource(_model->index(first, 0)), _proxyModel->mapFromSource(_model->index(last, 1))), QItemSelectionModel::ClearAndSelect);
     ui->twRoutes->setFocus();
 }
 
