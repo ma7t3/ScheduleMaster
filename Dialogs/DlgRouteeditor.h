@@ -25,9 +25,10 @@ public:
     Route route() const;
     void setRoute(const Route &);
 
-private slots:
-    //void refreshProfiles();
+    void onRouteBusstopsRowsInserted(QModelIndex parent, int first, int last);
+    void onTimeProfilesRowsInserted(QModelIndex parent, int first, int last);
 
+private slots:
     void actionBusstopAdd();
     void actionBusstopRemove();
     void actionBusstopUp();
@@ -45,10 +46,11 @@ private:
     SimpleRouteBusstopListModel *_routeBusstopsModel;
     TimeProfileTableModel *_timeProfilesModel;
 
+    QSortFilterProxyModel *_allBusstopsProxyModel;
+
     Route _route;
     Route *_routePtr;
     QList<LineDirection *> _directionsReference;
-    QList<Route *> _matchingRoutes;
 };
 
 #endif // ROUTEEDITOR_H
