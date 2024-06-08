@@ -38,6 +38,7 @@ WdgBusstops::WdgBusstops(QWidget *parent) :
     ui->twBusstops->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
     connect(ui->twBusstops->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgBusstops::onSelectionChanged);
+    connect(_proxyModel, &QAbstractItemModel::rowsInserted, this, &WdgBusstops::onRowsInserted);
 
     _actionNew          = ui->twBusstops->addAction(QIcon(":/icons/Add.ico"),             tr("New"));
     _actionEdit         = ui->twBusstops->addAction(QIcon(":/icons/Edit.ico"),            tr("Edit"));
@@ -148,6 +149,8 @@ void WdgBusstops::actionDelete() {
         return;
 
     projectData->undoStack()->push(new CmdBusstopsDelete(projectData, busstops));
+    ui->twBusstops->setCurrentIndex(QModelIndex());
+    ui->twBusstops->setFocus();
     emit refreshRequested();
 }
 
@@ -161,4 +164,11 @@ void WdgBusstops::onSelectionChanged() {
         _currentBusstop = _model->itemAt(_proxyModel->mapToSource(current).row());
     refreshUI();
     emit currentBusstopChanged(_currentBusstop);
+}
+
+void WdgBusstops::onRowsInserted(QModelIndex parent, int first, int last) {
+    Q_UNUSED(parent);
+    ui->twBusstops->setCurrentIndex(_proxyModel->index(first, 0));
+    ui->twBusstops->selectionModel()->select(QItemSelection(_proxyModel->index(first, 0), _proxyModel->index(last, 1)), QItemSelectionModel::ClearAndSelect);
+    ui->twBusstops->setFocus();
 }
