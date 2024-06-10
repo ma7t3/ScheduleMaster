@@ -117,10 +117,6 @@ QList<Route *> RouteTableModel::fetchData() const {
     return ProjectData::sortItems(_line->routes());
 }
 
-bool RouteTableModel::testSearchMatch(Route *r) const {
-    return r->name().contains(_search, Qt::CaseInsensitive);
-}
-
 void RouteTableModel::refreshDefaultSortIndexes() {
     if(_refreshSorting)
         return;

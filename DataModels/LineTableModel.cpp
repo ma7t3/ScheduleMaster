@@ -71,7 +71,3 @@ QVariant LineTableModel::data(const QModelIndex &index, int role) const {
 QList<Line *> LineTableModel::fetchData() const {
     return ProjectData::sortItems(projectData->lines());
 }
-
-bool LineTableModel::testSearchMatch(Line *l) const {
-    return l->name().contains(_search, Qt::CaseInsensitive) || l->description().contains(_search, Qt::CaseInsensitive);
-}

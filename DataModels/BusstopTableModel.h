@@ -18,7 +18,6 @@ public:
 
 protected:
     QList<Busstop *> fetchData()                            const override;
-    bool             testSearchMatch(Busstop *)             const override;
     QPixmap          generateLinesPixmap(Busstop *)         const;
     QString          generateUsedLinesSortString(Busstop *) const;
 

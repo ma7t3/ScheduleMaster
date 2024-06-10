@@ -18,7 +18,6 @@ public:
 
 protected:
     QList<TimeProfile *> fetchData()                    const override;
-    bool                 testSearchMatch(TimeProfile *) const override;
 
 private:
     Route *_route;

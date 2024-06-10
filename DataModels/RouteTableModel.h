@@ -17,8 +17,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole)                       const override;
 
 protected:
-    QList<Route *> fetchData()                               const override;
-    bool           testSearchMatch(Route *)                  const override;
+    QList<Route *> fetchData() const override;
     void           refreshDefaultSortIndexes();
 
 private:

@@ -17,8 +17,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole)                       const override;
 
 protected:
-    QList<Busstop *> fetchData()                const override;
-    bool             testSearchMatch(Busstop *) const override;
+    QList<Busstop *> fetchData() const override;
 
 private:
     ProjectData *projectData;

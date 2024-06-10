@@ -56,7 +56,3 @@ QVariant TimeProfileTableModel::data(const QModelIndex &index, int role) const {
 QList<TimeProfile *> TimeProfileTableModel::fetchData() const {
     return _route->timeProfiles();
 }
-
-bool TimeProfileTableModel::testSearchMatch(TimeProfile *p) const {
-    return p->name().contains(_search, Qt::CaseInsensitive);
-}
