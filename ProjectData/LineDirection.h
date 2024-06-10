@@ -16,6 +16,9 @@ public:
 
     QJsonObject toJson()  const;
 
+signals:
+    void changed(LineDirection *);
+
 protected:
     void copy(const LineDirection &);
     void fromJson(const QJsonObject &);

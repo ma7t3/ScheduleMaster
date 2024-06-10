@@ -36,6 +36,7 @@ QJsonObject LineDirection::toJson() const {
 
 void LineDirection::setDescription(const QString &description) {
     _description = description;
+    return changed(this);
 }
 
 QString LineDirection::description() const {

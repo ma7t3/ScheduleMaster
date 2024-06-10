@@ -7,6 +7,8 @@
 #include "App/global.h"
 #include "ProjectData/line.h"
 
+#include "DataModels/LineDirectionListModel.h"
+
 namespace Ui {
 class DlgLineEditor;
 }
@@ -33,12 +35,16 @@ private slots:
     void actionDirectionUp();
     void actionDirectionDown();
 
-    void refreshDirections();
+    void onDirectionInserted(QModelIndex parent, int first, int last);
+
+    // void refreshDirections();
 
 private:
     Ui::DlgLineEditor *ui;
     Line _line;
     Line *_linePtr;
+
+    LineDirectionListModel *_directionsModel;
 };
 
 #endif // LINEEDITOR_H

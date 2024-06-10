@@ -44,6 +44,7 @@ public:
 
     void setDirections(const QList<LineDirection *> &newDirections);
     void addDirection(LineDirection *);
+    void insertDirection(const int &, LineDirection *);
     void removeDirection(LineDirection *);
     void removeDirection(const QString &id);
 
@@ -95,6 +96,10 @@ signals:
     void routesChanged(QList<Route *>);
     void routesRemoved(QList<Route *>);
 
+    void directionsAdded(QList<LineDirection *>);
+    void directionsChanged(QList<LineDirection *>);
+    void directionsRemoved(QList<LineDirection *>);
+
 protected:
     void copy(const Line &);
     void fromJson(const QJsonObject &);
@@ -102,6 +107,10 @@ protected:
     void onRouteAdded(Route *);
     void onRouteChanged(Route *);
     void onRouteRemoved(Route *);
+
+    void onDirectionAdded(LineDirection *);
+    void onDirectionChanged(LineDirection *);
+    void onDirectionRemoved(LineDirection *);
 
 protected slots:
     void onUpdateTimerTimeout();
@@ -119,6 +128,10 @@ private:
     QList<Route *> _addedRoutes;
     QList<Route *> _changedRoutes;
     QList<Route *> _removedRoutes;
+
+    QList<LineDirection *> _addedDirections;
+    QList<LineDirection *> _changedDirections;
+    QList<LineDirection *> _removedDirections;
 
     QTimer *_updateTimer;
 };
