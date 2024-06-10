@@ -12,6 +12,7 @@ SOURCES += \
     App/logger.cpp \
     AppInfo.cpp \
     DataModels/BusstopTableModel.cpp \
+    DataModels/LineDirectionListModel.cpp \
     DataModels/LineTableModel.cpp \
     DataModels/RouteTableModel.cpp \
     DataModels/SimpleBusstopListModel.cpp \
@@ -86,6 +87,7 @@ HEADERS += \
     Commands/CmdSchedule.h \
     Commands/CmdTours.h \
     DataModels/BusstopTableModel.h \
+    DataModels/LineDirectionListModel.h \
     DataModels/LineTableModel.h \
     DataModels/OrderedProjectDataRowModel.h \
     DataModels/ProjectDataModel.h \

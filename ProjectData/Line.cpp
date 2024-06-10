@@ -128,9 +128,22 @@ void Line::onUpdateTimerTimeout() {
     if(!_removedRoutes.isEmpty())
         emit routesRemoved(_removedRoutes);
 
+    if(!_addedDirections.isEmpty())
+        emit directionsAdded(_addedDirections);
+
+    if(!_changedDirections.isEmpty())
+        emit directionsChanged(_changedDirections);
+
+    if(!_removedDirections.isEmpty())
+        emit directionsRemoved(_removedDirections);
+
     _addedRoutes.clear();
     _changedRoutes.clear();
     _removedRoutes.clear();
+
+    _addedDirections.clear();
+    _changedDirections.clear();
+    _removedDirections.clear();
 }
 
 QJsonObject Line::toJson() const {
@@ -257,6 +270,16 @@ void Line::addDirection(LineDirection *ld) {
         return;
 
     _directions << ld;
+    onDirectionAdded(ld);
+    emit changed(this);
+}
+
+void Line::insertDirection(const int &index, LineDirection *ld) {
+    if(ld == nullptr || index < 0 || index > directionCount())
+        return;
+
+    _directions.insert(index, ld);
+    onDirectionAdded(ld);
     emit changed(this);
 }
 
@@ -265,6 +288,7 @@ void Line::removeDirection(LineDirection *direction) {
         LineDirection *ld = directionAt(i);
         if(ld == direction) {
             _directions.remove(i);
+            onDirectionRemoved(ld);
             emit changed(this);
             return;
         }
@@ -276,6 +300,7 @@ void Line::removeDirection(const QString &id) {
         LineDirection *ld = directionAt(i);
         if(ld->id() == id) {
             _directions.remove(i);
+            onDirectionRemoved(ld);
             emit changed(this);
             return;
         }
@@ -464,16 +489,21 @@ LineDirection *Line::directionOfTrip(Trip *t) const {
 LineDirection *Line::newDirection(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new LineDirection(this, id);
+    LineDirection *ld = new LineDirection(this, id);
+    connect(ld, &LineDirection::changed, this, &Line::onDirectionChanged);
+    return ld;
 }
 
 LineDirection *Line::newDirection(const QJsonObject &obj) {
-    return new LineDirection(this, obj);
+    LineDirection *ld = new LineDirection(this, obj);
+    connect(ld, &LineDirection::changed, this, &Line::onDirectionChanged);
+    return ld;
 }
 
 LineDirection *Line::newDirection(const LineDirection &newDirection) {
     LineDirection *ld = new LineDirection(newDirection);
     ld->setParent(this);
+    connect(ld, &LineDirection::changed, this, &Line::onDirectionChanged);
     return ld;
 }
 
@@ -539,3 +569,22 @@ void Line::onRouteRemoved(Route *r) {
         _removedRoutes << r;
     _updateTimer->start(0);
 }
+
+void Line::onDirectionAdded(LineDirection *ld) {
+    if(_addedDirections.indexOf(ld) == -1)
+        _addedDirections << ld;
+    _updateTimer->start(0);
+}
+
+void Line::onDirectionChanged(LineDirection *ld) {
+    if(_changedDirections.indexOf(ld) == -1)
+        _changedDirections << ld;
+    _updateTimer->start(0);
+}
+
+void Line::onDirectionRemoved(LineDirection *ld) {
+    if(_removedDirections.indexOf(ld) == -1)
+        _removedDirections << ld;
+    _updateTimer->start(0);
+}
+

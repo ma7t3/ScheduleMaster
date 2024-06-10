@@ -11,6 +11,7 @@
 DlgRouteEditor::DlgRouteEditor(QWidget *parent, Route *r, const bool &createMode) :
     QDialog(parent),
     ui(new Ui::DlgRouteEditor),
+    _directionsModel(new LineDirectionListModel(this)),
     _allBusstopsModel(new SimpleBusstopListModel(this)),
     _routeBusstopsModel(new SimpleRouteBusstopListModel(this)),
     _timeProfilesModel(new TimeProfileTableModel(this)),
@@ -41,6 +42,8 @@ DlgRouteEditor::DlgRouteEditor(QWidget *parent, Route *r, const bool &createMode
     setCreateMode(createMode);
     setRoute(*r);
 
+    ui->cbDirections->setModel(_directionsModel);
+
     connect(ui->pbBusstopAdd,      &QPushButton::clicked,       this,                   &DlgRouteEditor::actionBusstopAdd);
     connect(ui->lwAllBusstops,     &QListView::doubleClicked,   this,                   &DlgRouteEditor::actionBusstopAdd);
     connect(ui->pbBusstopRemove,   &QPushButton::clicked,       this,                   &DlgRouteEditor::actionBusstopRemove);
@@ -70,10 +73,10 @@ Route DlgRouteEditor::route() const {
     Route r = _route;
     r.setName(ui->leName->text());
     r.setCode(ui->sbCode->value());
-    if(ui->cbDirections->currentIndex() == -1 || _directionsReference.isEmpty())
-        r.setDirection(nullptr);
+    if(_directionsModel->itemCount() > 0)
+        r.setDirection(_directionsModel->itemAt(ui->cbDirections->currentIndex()));
     else
-        r.setDirection(_directionsReference[ui->cbDirections->currentIndex()]);
+        r.setDirection(nullptr);
 
     return r;
 }
@@ -84,13 +87,7 @@ void DlgRouteEditor::setRoute(const Route &route) {
 
     _route.setTimeProfiles(_routePtr->cloneTimeProfiles());
 
-    for(int i = 0; i < l->directionCount(); i++) {
-        LineDirection *ld = l->directionAt(i);
-        _directionsReference << ld;
-        ui->cbDirections->addItem(ld->description());
-        if(ld == _route.direction())
-            ui->cbDirections->setCurrentIndex(i);
-    }
+    _directionsModel->setLine(l);
 
     ui->leName->setText(_route.name());
     ui->sbCode->setValue(_route.code());

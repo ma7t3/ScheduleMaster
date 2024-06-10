@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QListWidgetItem>
 
+#include "DataModels/LineDirectionListModel.h"
 #include "DataModels/SimpleBusstopListModel.h"
 #include "DataModels/SimpleRouteBusstopListModel.h"
 #include "DataModels/TimeProfileTableModel.h"
@@ -42,6 +43,7 @@ private slots:
 private:
     Ui::DlgRouteEditor *ui;
 
+    LineDirectionListModel *_directionsModel;
     SimpleBusstopListModel *_allBusstopsModel;
     SimpleRouteBusstopListModel *_routeBusstopsModel;
     TimeProfileTableModel *_timeProfilesModel;
@@ -50,7 +52,7 @@ private:
 
     Route _route;
     Route *_routePtr;
-    QList<LineDirection *> _directionsReference;
+    // QList<LineDirection *> _directionsReference;
 };
 
 #endif // ROUTEEDITOR_H

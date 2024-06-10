@@ -254,7 +254,7 @@ color: white;</string>
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="lwDirections"/>
+         <widget class="QListView" name="lwDirections"/>
         </item>
        </layout>
       </widget>
