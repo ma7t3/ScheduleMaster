@@ -36,7 +36,3 @@ QVariant SimpleBusstopListModel::data(const QModelIndex &index, int role) const 
 QList<Busstop *> SimpleBusstopListModel::fetchData() const {
     return ProjectData::sortItems(projectData->busstops());
 }
-
-bool SimpleBusstopListModel::testSearchMatch(Busstop *b) const {
-    return b->name().contains(_search, Qt::CaseInsensitive);
-}

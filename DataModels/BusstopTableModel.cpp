@@ -74,10 +74,6 @@ QList<Busstop *> BusstopTableModel::fetchData() const {
     return ProjectData::sortItems(projectData->busstops());
 }
 
-bool BusstopTableModel::testSearchMatch(Busstop *b) const {
-    return b->name().contains(_search, Qt::CaseInsensitive);
-}
-
 QPixmap BusstopTableModel::generateLinesPixmap(Busstop *b) const {
     QList<Line *> usedLines = projectData->linesAtBusstop(b);
 

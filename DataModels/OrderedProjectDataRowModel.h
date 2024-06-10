@@ -21,39 +21,6 @@ public:
     virtual int      columnCount(const QModelIndex &parent = QModelIndex())     const override = 0;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override = 0;
 
-public slots:
-    void setSearchFilter(const QString &search) override {
-        // TODO: reimplement
-        /*
-        const int oldLength = ProjectDataModel<T>::_search.length();
-        const int newLength = search.length();
-        ProjectDataModel<T>::_search = search;
-        if(newLength < oldLength) {
-            // add
-            QList<T *> allItems = fetchData();
-            for(T *t : allItems) {
-                if(testSearchMatch(t) && ProjectDataModel<T>::_items.indexOf(t) == -1) {
-                    QList<T *> addedList = ProjectData::sortItems(ProjectDataModel<T>::_items << t);
-                    int index = addedList.indexOf(t);
-                    QAbstractTableModel::beginInsertRows(QModelIndex(), index, index);
-                    ProjectDataModel<T>::_items = addedList;
-                    QAbstractTableModel::endInsertRows();
-                }
-            }
-        } else if(newLength > oldLength) {
-            // remove
-            for(int i = 0; i < ProjectDataModel<T>::_items.count(); i++) {
-                T *t = ProjectDataModel<T>::_items[i];
-                if(!testSearchMatch(t)) {
-                    QAbstractTableModel::beginRemoveRows(QModelIndex(), i, i);
-                    ProjectDataModel<T>::_items.remove(i);
-                    QAbstractTableModel::endRemoveRows();
-                    i--;
-                }
-            }
-        }*/
-    }
-
 protected slots:
     void addItems(QList<T *> addList) override {
         QList<T *> newItems = fetchData();
@@ -134,7 +101,6 @@ protected slots:
 
 protected:
     virtual QList<T *> fetchData()    const override = 0;
-    virtual bool testSearchMatch(T *) const override = 0;
 };
 
 #endif // ORDEREDPROJECTDATAROWMODEL_H

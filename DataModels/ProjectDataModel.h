@@ -20,7 +20,6 @@ public:
              bool       updating()                                                                     const          {return _updating;}
 
 public slots:
-    virtual void setSearchFilter(const QString &)  = 0;
     virtual void addItems       (const QList<T *>) = 0;
     virtual void changeItems    (const QList<T *>) = 0;
     virtual void removeItems    (const QList<T *>) = 0;
@@ -37,11 +36,7 @@ public slots:
 protected:
     virtual QList<T *> fetchData() const = 0;
 
-    virtual bool testSearchMatch(T *) const = 0;
-
     QList<T *> _items;
-    QString    _search;
-
     bool _updating;
 };
 
