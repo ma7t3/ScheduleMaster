@@ -237,6 +237,7 @@ void Route::setBusstops(const QList<Busstop *> &newBusstops) {
     for(Busstop *b : _busstops)
         connect(b, &Busstop::changed, this, &Route::onBusstopChanged);
     emit changed(this);
+    emit busstopListReset();
 }
 
 void Route::addBusstop(Busstop * b) {
