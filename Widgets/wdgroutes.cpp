@@ -267,7 +267,7 @@ void WdgRoutes::onSelectionChanged() {
 void WdgRoutes::onRowsInserted(QModelIndex parent, int first, int last) {
     Q_UNUSED(parent);
     ui->twRoutes->setCurrentIndex(_proxyModel->mapFromSource(_model->index(first, 0)));
-    ui->twRoutes->selectionModel()->select(QItemSelection(_proxyModel->mapFromSource(_model->index(first, 0)), _proxyModel->mapFromSource(_model->index(last, 1))), QItemSelectionModel::ClearAndSelect);
+    ui->twRoutes->selectionModel()->select(QItemSelection(_proxyModel->mapFromSource(_model->index(first, 0)), _proxyModel->mapFromSource(_model->index(last, 5))), QItemSelectionModel::ClearAndSelect);
     ui->twRoutes->setFocus();
 }
 
