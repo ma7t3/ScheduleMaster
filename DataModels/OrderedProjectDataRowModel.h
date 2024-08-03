@@ -58,7 +58,7 @@ protected slots:
             const int newIndex = newItems.indexOf(t);
 
             if(oldIndex == newIndex) {
-                emit QAbstractTableModel::dataChanged(QAbstractTableModel::index(oldIndex, 0), QAbstractTableModel::index(oldIndex, 1));
+                emit QAbstractTableModel::dataChanged(QAbstractTableModel::index(oldIndex, 0), QAbstractTableModel::index(oldIndex, _dataFieldsCount - 1));
                 continue;
             }
 
@@ -100,7 +100,8 @@ protected slots:
     }
 
 protected:
-    virtual QList<T *> fetchData()    const override = 0;
+    virtual QList<T *> fetchData() const override = 0;
+    int _dataFieldsCount;
 };
 
 #endif // ORDEREDPROJECTDATAROWMODEL_H

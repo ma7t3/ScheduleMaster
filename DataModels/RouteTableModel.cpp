@@ -2,7 +2,9 @@
 
 #include <QFont>
 
-RouteTableModel::RouteTableModel(QObject *parent) : UnorderedProjectDataRowModel<Route>(parent), _line(nullptr), _refreshSorting(false) {}
+RouteTableModel::RouteTableModel(QObject *parent) : UnorderedProjectDataRowModel<Route>(parent), _line(nullptr), _refreshSorting(false) {
+    _dataFieldsCount = 6;
+}
 
 void RouteTableModel::setLine(Line *l) {
     if(_line)
@@ -44,7 +46,7 @@ int RouteTableModel::columnCount(const QModelIndex &parent) const {
     if (parent.isValid())
         return 0;
 
-    return 6;
+    return _dataFieldsCount;
 }
 
 QVariant RouteTableModel::data(const QModelIndex &index, int role) const {

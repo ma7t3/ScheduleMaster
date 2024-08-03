@@ -4,7 +4,9 @@
 #include <QBrush>
 #include "App/global.h"
 
-LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel(parent) {}
+LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel(parent) {
+    _dataFieldsCount = 2;
+}
 
 void LineTableModel::setProjectData(ProjectData *newProjectData) {
     projectData = newProjectData;
@@ -33,7 +35,7 @@ int LineTableModel::columnCount(const QModelIndex &parent) const {
     if (parent.isValid())
         return 0;
 
-    return 2;
+    return _dataFieldsCount;
 }
 
 QVariant LineTableModel::data(const QModelIndex &index, int role) const {
