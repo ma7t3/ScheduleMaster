@@ -6,9 +6,10 @@ SimpleRouteBusstopListModel::SimpleRouteBusstopListModel(QObject *parent) : Orde
 
 void SimpleRouteBusstopListModel::setRoute(Route *newRoute) {
     _route = newRoute;
-    connect(_route, &Route::busstopsAdded,   this, &SimpleRouteBusstopListModel::addItems);
-    connect(_route, &Route::busstopsChanged, this, &SimpleRouteBusstopListModel::changeItems);
-    connect(_route, &Route::busstopsRemoved, this, &SimpleRouteBusstopListModel::removeItems);
+    connect(_route, &Route::busstopsAdded,    this, &SimpleRouteBusstopListModel::addItems);
+    connect(_route, &Route::busstopsChanged,  this, &SimpleRouteBusstopListModel::changeItems);
+    connect(_route, &Route::busstopsRemoved,  this, &SimpleRouteBusstopListModel::removeItems);
+    connect(_route, &Route::busstopListReset, this, &SimpleRouteBusstopListModel::reset);
     reset();
 }
 

@@ -39,10 +39,11 @@ DlgRouteEditor::DlgRouteEditor(QWidget *parent, Route *r, const bool &createMode
     ui->buttonBox->button(QDialogButtonBox::Apply)->setDisabled(true);
     ui->buttonBox->button(QDialogButtonBox::Apply)->setToolTip(tr("This feature is not implemented now."));
 
+    ui->cbDirections->setModel(_directionsModel);
+
     setCreateMode(createMode);
     setRoute(*r);
 
-    ui->cbDirections->setModel(_directionsModel);
 
     connect(ui->pbBusstopAdd,      &QPushButton::clicked,       this,                   &DlgRouteEditor::actionBusstopAdd);
     connect(ui->lwAllBusstops,     &QListView::doubleClicked,   this,                   &DlgRouteEditor::actionBusstopAdd);
@@ -89,13 +90,15 @@ void DlgRouteEditor::setRoute(const Route &route) {
 
     _directionsModel->setLine(l);
 
+    ui->cbDirections->setCurrentIndex(_directionsModel->indexOf(route.direction()));
+
     ui->leName->setText(_route.name());
     ui->sbCode->setValue(_route.code());
 
     _timeProfilesModel->setRoute(&_route);
 }
 
-void DlgRouteEditor::actionBusstopAdd() {    
+void DlgRouteEditor::actionBusstopAdd() {
     if(!ui->lwAllBusstops->currentIndex().isValid())
         return;
 

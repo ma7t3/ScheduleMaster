@@ -66,6 +66,7 @@ public:
 
 signals:
     void changed(Route *);
+    void busstopListReset();
 
     void busstopsAdded(QList<Busstop*>);
     void busstopsChanged(QList<Busstop*>);
