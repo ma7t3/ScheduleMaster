@@ -33,7 +33,7 @@ QVariant RouteTableModel::headerData(int section, Qt::Orientation orientation, i
     switch(section) {
         case 0: return tr("Code");
         case 1: return tr("Direction");
-        case 2: return tr("Nane");
+        case 2: return tr("Name");
         case 3: return tr("First Busstop");
         case 4: return tr("Last Busstop");
         case 5: return tr("Busstop Count");
