@@ -7,7 +7,8 @@
 #include <QFontMetrics>
 
 BusstopTableModel::BusstopTableModel(QObject *parent) :
-    UnorderedProjectDataRowModel<Busstop>(parent) {
+    UnorderedProjectDataRowModel<Busstop>(parent){
+    _dataFieldsCount = 2;
 }
 
 void BusstopTableModel::setProjectData(ProjectData *newProjectData) {
@@ -37,7 +38,7 @@ int BusstopTableModel::columnCount(const QModelIndex &parent) const {
     if (parent.isValid())
         return 0;
 
-    return 2;
+    return _dataFieldsCount;
 }
 
 QVariant BusstopTableModel::data(const QModelIndex &index, int role) const {

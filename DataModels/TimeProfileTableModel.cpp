@@ -1,6 +1,8 @@
 #include "TimeProfileTableModel.h"
 
-TimeProfileTableModel::TimeProfileTableModel(QObject *parent) : OrderedProjectDataRowModel(parent) {}
+TimeProfileTableModel::TimeProfileTableModel(QObject *parent) : OrderedProjectDataRowModel(parent) {
+    _dataFieldsCount = 2;
+}
 
 void TimeProfileTableModel::setRoute(Route *newRoute) {
     _route = newRoute;
@@ -28,7 +30,7 @@ int TimeProfileTableModel::columnCount(const QModelIndex &parent) const {
     if (parent.isValid())
         return 0;
 
-    return 2;
+    return _dataFieldsCount;
 }
 
 QVariant TimeProfileTableModel::data(const QModelIndex &index, int role) const {

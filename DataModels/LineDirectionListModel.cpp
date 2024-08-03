@@ -1,6 +1,8 @@
 #include "LineDirectionListModel.h"
 
-LineDirectionListModel::LineDirectionListModel(QObject *parent) : OrderedProjectDataRowModel<LineDirection>(parent) {}
+LineDirectionListModel::LineDirectionListModel(QObject *parent) : OrderedProjectDataRowModel<LineDirection>(parent) {
+    _dataFieldsCount = 1;
+}
 
 void LineDirectionListModel::setLine(Line *newLine) {
     _line = newLine;
@@ -19,7 +21,7 @@ int LineDirectionListModel::columnCount(const QModelIndex &parent) const {
     if (parent.isValid())
         return 0;
 
-    return 1;
+    return _dataFieldsCount;
 }
 
 QVariant LineDirectionListModel::data(const QModelIndex &index, int role) const {
