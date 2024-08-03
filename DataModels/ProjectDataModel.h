@@ -23,7 +23,7 @@ public slots:
     virtual void addItems       (const QList<T *>) = 0;
     virtual void changeItems    (const QList<T *>) = 0;
     virtual void removeItems    (const QList<T *>) = 0;
-    void reset() {
+    virtual void reset() {
         _updating = true;
         QAbstractTableModel::beginResetModel();
         _items.clear();
@@ -38,6 +38,7 @@ protected:
 
     QList<T *> _items;
     bool _updating;
+    int _dataFieldsCount;
 };
 
 #endif // PROJECTDATAMODEL_H
