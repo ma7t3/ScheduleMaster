@@ -33,9 +33,9 @@ QString ProjectDataItem::id() const {
 
 void ProjectDataItem::fromJson(const QJsonObject &jsonObject) {
     if(!jsonObject.contains("id") || !jsonObject.find("id")->isString())
-        _id = global::getNewID();
+        _id = getNewID();
     else
-        _id = jsonObject.value("id").toString(global::getNewID());
+        _id = jsonObject.value("id").toString(getNewID());
 }
 
 QJsonObject ProjectDataItem::toJson() const {
