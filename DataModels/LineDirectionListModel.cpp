@@ -6,9 +6,11 @@ LineDirectionListModel::LineDirectionListModel(QObject *parent) : OrderedProject
 
 void LineDirectionListModel::setLine(Line *newLine) {
     _line = newLine;
-    connect(_line, &Line::directionsAdded,   this, &LineDirectionListModel::addItems);
-    connect(_line, &Line::directionsChanged, this, &LineDirectionListModel::changeItems);
-    connect(_line, &Line::directionsRemoved, this, &LineDirectionListModel::removeItems);
+    if(_line) {
+        connect(_line, &Line::directionsAdded,   this, &LineDirectionListModel::addItems);
+        connect(_line, &Line::directionsChanged, this, &LineDirectionListModel::changeItems);
+        connect(_line, &Line::directionsRemoved, this, &LineDirectionListModel::removeItems);
+    }
     reset();
 }
 
@@ -42,5 +44,7 @@ QVariant LineDirectionListModel::data(const QModelIndex &index, int role) const 
 }
 
 QList<LineDirection *> LineDirectionListModel::fetchData() const {
-    return _line->directions();
+    if(_line)
+        return _line->directions();
+    return {};
 }
