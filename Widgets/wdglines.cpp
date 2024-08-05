@@ -22,6 +22,7 @@ WdgLines::WdgLines(QWidget *parent) :
     _model->setProjectData(projectData);
 
     _proxyModel->setSourceModel(_model);
+    _proxyModel->setSortRole(0x0100);
     _proxyModel->setSortLocaleAware(true);
     _proxyModel->sort(0, Qt::AscendingOrder);
 

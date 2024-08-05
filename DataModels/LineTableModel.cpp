@@ -4,8 +4,12 @@
 #include <QBrush>
 #include "App/global.h"
 
-LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel(parent) {
+LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel(parent), _refreshSorting(false) {
     _dataFieldsCount = 2;
+    connect(this, &QAbstractTableModel::rowsInserted, this, &LineTableModel::refreshDefaultSortIndexes);
+    connect(this, &QAbstractTableModel::dataChanged,  this, &LineTableModel::refreshDefaultSortIndexes);
+    connect(this, &QAbstractTableModel::rowsRemoved,  this, &LineTableModel::refreshDefaultSortIndexes);
+    connect(this, &QAbstractTableModel::modelReset,   this, &LineTableModel::refreshDefaultSortIndexes);
 }
 
 void LineTableModel::setProjectData(ProjectData *newProjectData) {
@@ -56,6 +60,9 @@ QVariant LineTableModel::data(const QModelIndex &index, int role) const {
             case Qt::BackgroundRole:
                 return QBrush(l->color());
 
+            case 0x0100:
+                return _defaultSortIndexes[l];
+
             case Qt::FontRole:
                 QFont f;
                 f.setBold(true);
@@ -63,6 +70,7 @@ QVariant LineTableModel::data(const QModelIndex &index, int role) const {
         } break;
     case 1:
         switch(role) {
+            case 0x0100:
             case Qt::DisplayRole: return l->description();
         }
     }
@@ -73,3 +81,19 @@ QVariant LineTableModel::data(const QModelIndex &index, int role) const {
 QList<Line *> LineTableModel::fetchData() const {
     return ProjectData::sortItems(projectData->lines());
 }
+
+void LineTableModel::refreshDefaultSortIndexes() {
+    if(_refreshSorting)
+        return;
+
+    _refreshSorting = true;
+    _defaultSortIndexes.clear();
+
+    for(int i = 0; i < _items.count(); i++)
+        _defaultSortIndexes.insert(_items[i], i);
+
+    _refreshSorting = false;
+}
+
+
+

@@ -17,8 +17,13 @@ public:
 protected:
     QList<Line *> fetchData() const override;
 
+    void refreshDefaultSortIndexes();
+
 private:
     ProjectData *projectData;
+    QMap<Line *, int> _defaultSortIndexes;
+
+    bool _refreshSorting;
 };
 
 #endif // LINETABLEMODEL_H
