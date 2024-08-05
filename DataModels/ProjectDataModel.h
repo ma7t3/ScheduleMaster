@@ -15,7 +15,7 @@ public:
     virtual  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole)                       const override = 0;
              int        indexOf(T *t)                                                                  const          {return _items.indexOf(t);}
              int        itemCount()                                                                    const          {return ProjectDataModel<T>::_items.count(); }
-             T *        itemAt(const int &index)                                                       const          {return ProjectDataModel<T>::_items[index];}
+             T *        itemAt(const int &index)                                                       const          {if(index < 0 || index >= itemCount()) return nullptr; else return ProjectDataModel<T>::_items[index];}
              QList<T *> itemList()                                                                     const          {return _items;}
              bool       updating()                                                                     const          {return _updating;}
 
