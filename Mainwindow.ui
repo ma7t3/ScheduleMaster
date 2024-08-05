@@ -93,10 +93,10 @@
       <iconset resource="main.qrc">
        <normaloff>:/icons/Workspaces.ico</normaloff>:/icons/Workspaces.ico</iconset>
      </property>
-     <addaction name="actionWorkspaceTrackLayout"/>
+     <addaction name="actionWorkspaceRouting"/>
      <addaction name="actionWorkspaceBusstopSchedule"/>
      <addaction name="actionWorkspaceScheduling"/>
-     <addaction name="actionWorkspaceTourPlanning"/>
+     <addaction name="actionWorkspaceTours"/>
      <addaction name="actionWorkspacePublish"/>
     </widget>
     <widget class="QMenu" name="menuToolbars">
@@ -251,7 +251,7 @@
     <string>View As Tree</string>
    </property>
   </action>
-  <action name="actionWorkspaceTrackLayout">
+  <action name="actionWorkspaceRouting">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -260,7 +260,10 @@
      <normaloff>:/icons/Route.ico</normaloff>:/icons/Route.ico</iconset>
    </property>
    <property name="text">
-    <string>Track Layout</string>
+    <string>Routing</string>
+   </property>
+   <property name="toolTip">
+    <string>Create and manage busstops, lines and routes</string>
    </property>
    <property name="shortcut">
     <string>Alt+1</string>
@@ -277,11 +280,14 @@
    <property name="text">
     <string>Scheduling</string>
    </property>
+   <property name="toolTip">
+    <string>Create powerful schedules for all of your lines</string>
+   </property>
    <property name="shortcut">
-    <string>Alt+3</string>
+    <string>Alt+2</string>
    </property>
   </action>
-  <action name="actionWorkspaceTourPlanning">
+  <action name="actionWorkspaceTours">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -290,7 +296,10 @@
      <normaloff>:/icons/Tour.ico</normaloff>:/icons/Tour.ico</iconset>
    </property>
    <property name="text">
-    <string>Tour Planning</string>
+    <string>Tours</string>
+   </property>
+   <property name="toolTip">
+    <string>Divide your trips from the schedule into efficient tours</string>
    </property>
    <property name="shortcut">
     <string>Alt+4</string>
@@ -306,9 +315,6 @@
    </property>
    <property name="text">
     <string>Busstop Schedule</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+2</string>
    </property>
   </action>
   <action name="actionPublishLineSchedules">
@@ -418,8 +424,11 @@
    <property name="text">
     <string>Publish</string>
    </property>
+   <property name="toolTip">
+    <string>Export and publish all your data as PDF</string>
+   </property>
    <property name="shortcut">
-    <string>Alt+5</string>
+    <string>Alt+4</string>
    </property>
   </action>
   <action name="actionPublishAll">
