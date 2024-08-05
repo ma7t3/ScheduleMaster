@@ -140,3 +140,19 @@ LocalConfig::LogfileMode LocalConfig::logfileMode() {
 void LocalConfig::setLogfileMode(const LogfileMode &newLogmode) {
     settingsGeneral.setValue("logfileMode", newLogmode);
 }
+
+Qt::ToolBarArea LocalConfig::workspacesToolbarPosition() {
+    int i = settingsGeneral.value("workspacesToolbarPosition").toInt();
+    switch(i) {
+        case 0x1: return Qt::LeftToolBarArea;
+        case 0x2: return Qt::RightToolBarArea;
+        case 0x4: return Qt::TopToolBarArea;
+        case 0x8: return Qt::BottomToolBarArea;
+    }
+
+    return Qt::TopToolBarArea;
+}
+
+void LocalConfig::setWorkspacesToolbarPosition(const Qt::ToolBarArea &position) {
+    settingsGeneral.setValue("workspacesToolbarPosition", position);
+}
