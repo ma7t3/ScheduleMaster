@@ -30,6 +30,14 @@ DlgPreferences::DlgPreferences(QWidget *parent) :
     ui->leDefaultProjectLocation->setText(LocalConfig::defaultProjectLocation());
     ui->cbLogfileMode->setCurrentIndex(LocalConfig::logfileMode());
 
+    switch(LocalConfig::workspacesToolbarPosition()) {
+        default:
+        case Qt::TopToolBarArea:    ui->cbWorkspacesToolbarPosition->setCurrentIndex(0); break;
+        case Qt::BottomToolBarArea: ui->cbWorkspacesToolbarPosition->setCurrentIndex(1); break;
+        case Qt::LeftToolBarArea:   ui->cbWorkspacesToolbarPosition->setCurrentIndex(2); break;
+        case Qt::RightToolBarArea:  ui->cbWorkspacesToolbarPosition->setCurrentIndex(3); break;
+    }
+
     connect(ui->cbApperance, &QComboBox::currentIndexChanged, this, &DlgPreferences::refreshStylePreview);
 }
 
@@ -64,6 +72,13 @@ void DlgPreferences::on_DlgPreferences_accepted() {
         LocalConfig::setLogfileMode(LocalConfig::DebugLog);
     if(logfileMode == LocalConfig::DebugDetailLog)
         LocalConfig::setLogfileMode(LocalConfig::DebugDetailLog);
+
+    switch(ui->cbWorkspacesToolbarPosition->currentIndex()) {
+        case 0: LocalConfig::setWorkspacesToolbarPosition(Qt::TopToolBarArea)   ; break;
+        case 1: LocalConfig::setWorkspacesToolbarPosition(Qt::BottomToolBarArea); break;
+        case 2: LocalConfig::setWorkspacesToolbarPosition(Qt::LeftToolBarArea)  ; break;
+        case 3: LocalConfig::setWorkspacesToolbarPosition(Qt::RightToolBarArea) ; break;
+    }
 
 }
 

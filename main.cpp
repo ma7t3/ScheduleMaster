@@ -33,9 +33,10 @@ int main(int argc, char *argv[]) {
     qInfo() << "   loading stylesheet...";
     if(LocalConfig::style() == LocalConfig::Fusion)
         a.setStyle(QStyleFactory::create("Fusion"));
-    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
+    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle) {
         a.setStyle(QStyleFactory::create("Windows"));
-    else
+        a.setStyleSheet("* {font-family:Tahoma;}");
+    } else
         a.setStyle(QStyleFactory::create("windowsvista"));
     
     qInfo() << "   loading language...";
