@@ -43,11 +43,30 @@ public:
 protected:
     void copy(const ProjectSettings &);
 
+    void onDayTypeAdded(DayType *);
+    void onDayTypeChanged(DayType *);
+    void onDayTypeRemoved(DayType *);
+
+protected slots:
+    void onUpdateTimerTimeout();
+
+signals:
+    void changed(ProjectSettings *);
+    void dayTypesAdded(const QList<DayType *>);
+    void dayTypesChanged(const QList<DayType *>);
+    void dayTypesRemoved(const QList<DayType *>);
+
 private:
     QString _displayName;
     QString _shortName;
     QString _icon;
     QList<DayType *> _dayTypes;
+
+    QList<DayType *> _addedDayTypes;
+    QList<DayType *> _changedDayTypes;
+    QList<DayType *> _removedDayTypes;
+
+    QTimer *_updateTimer;
 };
 
 #endif // PROJECTSETTINGS_H

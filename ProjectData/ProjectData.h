@@ -125,7 +125,6 @@ public:
     bool isLoadingFromFile() const;
 
 protected:
-
     void onBusstopAdded(Busstop *);
     void onBusstopChanged(Busstop *);
     void onBusstopRemoved(Busstop *);

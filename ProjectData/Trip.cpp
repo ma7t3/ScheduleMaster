@@ -39,6 +39,8 @@ void Trip::copy(const Trip &other) {
     setStartTime(other.startTime());
     setWeekDays(other.weekDays());
     setTimeProfile(other.timeProfile());
+
+    emit changed(this);
 }
 
 void Trip::fromJson(const QJsonObject &jsonObject) {
@@ -68,6 +70,7 @@ Route *Trip::route() const {
 
 void Trip::setRoute(Route *r) {
     _route = r;
+    emit changed(this);
 }
 
 QTime Trip::startTime() const {
@@ -76,6 +79,7 @@ QTime Trip::startTime() const {
 
 void Trip::setStartTime(const QTime &newStartTime) {
     _startTime = newStartTime;
+    emit changed(this);
 }
 
 QTime Trip::endTime() const {
@@ -92,7 +96,7 @@ QTime Trip::duration() const {
 QTime Trip::busstopTime(Busstop *b) const {
     TimeProfileItem *itm = _timeProfile->busstop(b);
     if(!itm)
-        return QTime(0, 0, 0, 0);
+        return QTime();
     
     return _startTime.addSecs(itm->depValue() * 60);
 }
@@ -100,7 +104,7 @@ QTime Trip::busstopTime(Busstop *b) const {
 QTime Trip::busstopTime(const QString &id) const {
     TimeProfileItem *itm = _timeProfile->busstop(id);
     if(!itm)
-        return QTime(0, 0, 0, 0);
+        return QTime();
     
     return _startTime.addSecs(itm->depValue() * 60);
 }
@@ -111,6 +115,7 @@ TimeProfile * Trip::timeProfile() const {
 
 void Trip::setTimeProfile(TimeProfile *p) {
     _timeProfile = p;
+    emit changed(this);
 }
 
 WeekDays Trip::weekDays() const {
@@ -119,6 +124,8 @@ WeekDays Trip::weekDays() const {
 
 void Trip::setWeekDays(const WeekDays &w) {
     _weekDays = w;
+    emit changed(this);
+    qDebug() << "weekdays updated";
 }
 
 bool Trip::goesPastMidnight() const {

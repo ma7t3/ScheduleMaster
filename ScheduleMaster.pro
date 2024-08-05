@@ -12,9 +12,12 @@ SOURCES += \
     App/logger.cpp \
     AppInfo.cpp \
     DataModels/BusstopTableModel.cpp \
+    DataModels/DayTypeListModel.cpp \
     DataModels/LineDirectionListModel.cpp \
     DataModels/LineTableModel.cpp \
     DataModels/RouteTableModel.cpp \
+    DataModels/ScheduleTableFilterProxyModel.cpp \
+    DataModels/ScheduleTableModel.cpp \
     DataModels/SimpleBusstopListModel.cpp \
     DataModels/SimpleRouteBusstopListModel.cpp \
     DataModels/TimeProfileTableModel.cpp \
@@ -87,12 +90,16 @@ HEADERS += \
     Commands/CmdSchedule.h \
     Commands/CmdTours.h \
     DataModels/BusstopTableModel.h \
+    DataModels/DayTypeListModel.h \
     DataModels/LineDirectionListModel.h \
     DataModels/LineTableModel.h \
+    DataModels/OrderedProjectDataColumnModel.h \
     DataModels/OrderedProjectDataRowModel.h \
     DataModels/ProjectDataModel.h \
     DataModels/ProjectDataModelSignals.h \
     DataModels/RouteTableModel.h \
+    DataModels/ScheduleTableFilterProxyModel.h \
+    DataModels/ScheduleTableModel.h \
     DataModels/SimpleBusstopListModel.h \
     DataModels/SimpleRouteBusstopListModel.h \
     DataModels/TimeProfileTableModel.h \

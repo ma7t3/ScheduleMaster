@@ -100,6 +100,12 @@ signals:
     void directionsChanged(QList<LineDirection *>);
     void directionsRemoved(QList<LineDirection *>);
 
+    void tripsAdded(QList<Trip *>);
+    void tripsChanged(QList<Trip *>);
+    void tripsRemoved(QList<Trip *>);
+
+    void hourBreakChanged(int);
+
 protected:
     void copy(const Line &);
     void fromJson(const QJsonObject &);
@@ -111,6 +117,10 @@ protected:
     void onDirectionAdded(LineDirection *);
     void onDirectionChanged(LineDirection *);
     void onDirectionRemoved(LineDirection *);
+
+    void onTripAdded(Trip *);
+    void onTripChanged(Trip *);
+    void onTripRemoved(Trip *);
 
 protected slots:
     void onUpdateTimerTimeout();
@@ -132,6 +142,10 @@ private:
     QList<LineDirection *> _addedDirections;
     QList<LineDirection *> _changedDirections;
     QList<LineDirection *> _removedDirections;
+
+    QList<Trip *> _addedTrips;
+    QList<Trip *> _changedTrips;
+    QList<Trip *> _removedTrips;
 
     QTimer *_updateTimer;
 };
