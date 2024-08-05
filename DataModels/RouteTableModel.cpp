@@ -4,6 +4,10 @@
 
 RouteTableModel::RouteTableModel(QObject *parent) : UnorderedProjectDataRowModel<Route>(parent), _line(nullptr), _refreshSorting(false) {
     _dataFieldsCount = 6;
+    connect(this, &QAbstractTableModel::rowsInserted, this, &RouteTableModel::refreshDefaultSortIndexes);
+    connect(this, &QAbstractTableModel::dataChanged,  this, &RouteTableModel::refreshDefaultSortIndexes);
+    connect(this, &QAbstractTableModel::rowsRemoved,  this, &RouteTableModel::refreshDefaultSortIndexes);
+    connect(this, &QAbstractTableModel::modelReset,   this, &RouteTableModel::refreshDefaultSortIndexes);
 }
 
 void RouteTableModel::setLine(Line *l) {
@@ -16,11 +20,6 @@ void RouteTableModel::setLine(Line *l) {
         connect(_line, &Line::routesAdded,   this, &RouteTableModel::addItems);
         connect(_line, &Line::routesChanged, this, &RouteTableModel::changeItems);
         connect(_line, &Line::routesRemoved, this, &RouteTableModel::removeItems);
-
-        connect(this, &QAbstractTableModel::rowsInserted, this, &RouteTableModel::refreshDefaultSortIndexes);
-        connect(this, &QAbstractTableModel::dataChanged,  this, &RouteTableModel::refreshDefaultSortIndexes);
-        connect(this, &QAbstractTableModel::rowsRemoved,  this, &RouteTableModel::refreshDefaultSortIndexes);
-        connect(this, &QAbstractTableModel::modelReset,   this, &RouteTableModel::refreshDefaultSortIndexes);
     }
 
     reset();
