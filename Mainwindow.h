@@ -65,8 +65,9 @@ private slots:
     void refreshRedo();
     void refreshAfterUndoRedo(CmdType t);
 
+    void updateWorkspacesToolbarPosition();
+
     void actionWorkspaceTrackLayout();
-    void actionWorkspaceBusstopSchedule();
     void actionWorkspaceScheduling();
     void actionWorkspaceTourPlanning();
     void actionWorkspacePublish();
@@ -131,6 +132,9 @@ private:
     WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, _projectData);
     WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, _projectData, undoStack());
     WdgFootnotes *wdgFootnotes = new WdgFootnotes(this, _projectData, undoStack());
+
+    QWidget *toolBarSpacer1;
+    QWidget *toolBarSpacer2;
 
     QDockWidget *dwUndoView = new QDockWidget(tr("Undo View"), this);
     QDockWidget *dwBusstops = new QDockWidget(tr("Busstops"), this);

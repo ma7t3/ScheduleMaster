@@ -22,7 +22,7 @@
      <x>0</x>
      <y>0</y>
      <width>999</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -94,7 +94,6 @@
        <normaloff>:/icons/Workspaces.ico</normaloff>:/icons/Workspaces.ico</iconset>
      </property>
      <addaction name="actionWorkspaceRouting"/>
-     <addaction name="actionWorkspaceBusstopSchedule"/>
      <addaction name="actionWorkspaceScheduling"/>
      <addaction name="actionWorkspaceTours"/>
      <addaction name="actionWorkspacePublish"/>
@@ -303,18 +302,6 @@
    </property>
    <property name="shortcut">
     <string>Alt+4</string>
-   </property>
-  </action>
-  <action name="actionWorkspaceBusstopSchedule">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="main.qrc">
-     <normaloff>:/icons/BusstopSchedule.ico</normaloff>:/icons/BusstopSchedule.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Busstop Schedule</string>
    </property>
   </action>
   <action name="actionPublishLineSchedules">
