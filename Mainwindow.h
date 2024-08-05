@@ -74,7 +74,6 @@ private slots:
     void actionOpenBusstopSchedule(Busstop *, QList<Route *>, DayType *);
     void actionOpenTour(Tour *);
 
-    void setSaved(bool b);
     bool openFile(QString);
     bool saveFile(QString);
     void handleFileHandlerFileError(const QString &filePath, const QString errorString);

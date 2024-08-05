@@ -314,7 +314,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionFileSaveAs,                  &QAction::triggered,                    this,               &MainWindow::actionFileSaveAs);
     connect(ui->actionFileClose,                   &QAction::triggered,                    this,               &MainWindow::actionFileClose);
     connect(ui->actionFileQuit,                    &QAction::triggered,                    this,               &MainWindow::actionQuit);
-    connect(undoStack(),                           &QUndoStack::cleanChanged,              this,               &MainWindow::setSaved);
+    connect(undoStack(),                           &QUndoStack::cleanChanged,              this,               [this](bool b){setWindowModified(!b);});
+    connect(undoStack(),                           &QUndoStack::cleanChanged,              ui->actionFileSave, &QAction::setDisabled);
     connect(undoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshUndo);
     connect(redoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshRedo);
 
@@ -860,16 +861,6 @@ void MainWindow::actionOpenTour(Tour *o) {
     dwTourEditor->show();
 }
 
-void MainWindow::setSaved(bool b) {
-    QString displayName = _projectData->projectSettings()->displayName();
-    QString str = "ScheduleMaster" + (!displayName.isEmpty() ? " - " + _projectData->projectSettings()->displayName() : "");
-    if(!b)
-        str = "* " + str;
-
-    QMainWindow::setWindowTitle(str);
-    ui->actionFileSave->setDisabled(b);
-}
-
 bool MainWindow::openFile(QString path) {
     ui->statusbar->showMessage(tr("Opening project file..."));
 
@@ -950,7 +941,10 @@ void MainWindow::handleFileHandlerResult() {
         ui->statusbar->showMessage(tr("File saved!"), 5000);
     }
 
-    setSaved(true);
+    QString projectName = _projectData->projectSettings()->displayName();
+    setWindowTitle("[*] " + projectName + " - ScheduleMaster");
+    ui->actionFileSave->setEnabled(false);
+
     knownFile = true;
     progressLogger->finish();
 }
