@@ -272,12 +272,12 @@ MainWindow::MainWindow(QWidget *parent) :
     tbWorkspaces->addAction(ui->actionWorkspaceTrackLayout);
     tbWorkspaces->addAction(ui->actionWorkspaceBusstopSchedule);
     tbWorkspaces->addAction(ui->actionWorkspaceScheduling);
-    tbWorkspaces->addAction(ui->actionWorkspaceTourPlanning);
+    tbWorkspaces->addAction(ui->actionWorkspaceTours);
     tbWorkspaces->addAction(ui->actionWorkspacePublish);
 
     this->addToolBar(Qt::TopToolBarArea,  tbGeneral);
-    this->addToolBar(Qt::LeftToolBarArea, tbDocks);
-    this->addToolBar(Qt::TopToolBarArea,  tbWorkspaces);
+    this->addToolBar(Qt::TopToolBarArea,  tbDocks);
+    this->addToolBar(Qt::BottomToolBarArea, tbWorkspaces);
 
     ui->actionViewToolbarGeneral    ->setChecked(true);
     ui->actionViewToolbarDocks      ->setChecked(true);
@@ -314,15 +314,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionFileSaveAs,                  &QAction::triggered,                    this,               &MainWindow::actionFileSaveAs);
     connect(ui->actionFileClose,                   &QAction::triggered,                    this,               &MainWindow::actionFileClose);
     connect(ui->actionFileQuit,                    &QAction::triggered,                    this,               &MainWindow::actionQuit);
-    connect(undoStack(),                           &QUndoStack::cleanChanged,              this,               &MainWindow::setSaved);
+    connect(undoStack(),                           &QUndoStack::cleanChanged,              this,               [this](bool b){setWindowModified(!b);});
+    connect(undoStack(),                           &QUndoStack::cleanChanged,              ui->actionFileSave, &QAction::setDisabled);
     connect(undoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshUndo);
     connect(redoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshRedo);
 
     qDebug() << "\tworkspace actions";
-    connect(ui->actionWorkspaceTrackLayout,        &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTrackLayout);
+    connect(ui->actionWorkspaceRouting,        &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTrackLayout);
     connect(ui->actionWorkspaceBusstopSchedule,    &QAction::triggered,                    this,               &MainWindow::actionWorkspaceBusstopSchedule);
     connect(ui->actionWorkspaceScheduling,         &QAction::triggered,                    this,               &MainWindow::actionWorkspaceScheduling);
-    connect(ui->actionWorkspaceTourPlanning,       &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTourPlanning);
+    connect(ui->actionWorkspaceTours,       &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTourPlanning);
     connect(ui->actionWorkspacePublish,            &QAction::triggered,                    this,               &MainWindow::actionWorkspacePublish);
 
     qDebug() << "\tdock-to-dock actions";
@@ -652,10 +653,10 @@ void MainWindow::actionWorkspaceTrackLayout() {
     this->resizeDocks({dwBusstops, dwLines}, {static_cast<int>(this->width() * 0.4), static_cast<int>(this->width() * 0.5)}, Qt::Horizontal);
     this->resizeDocks({dwLines, dwRoutes}, {static_cast<int>(this->width() * 0.5), static_cast<int>(this->width() * 0.5)}, Qt::Vertical);
 
-    ui->actionWorkspaceTrackLayout->setChecked(true);
+    ui->actionWorkspaceRouting->setChecked(true);
     ui->actionWorkspaceBusstopSchedule->setChecked(false);
     ui->actionWorkspaceScheduling->setChecked(false);
-    ui->actionWorkspaceTourPlanning->setChecked(false);
+    ui->actionWorkspaceTours->setChecked(false);
     ui->actionWorkspacePublish->setChecked(false);
 }
 
@@ -696,10 +697,10 @@ void MainWindow::actionWorkspaceBusstopSchedule() {
 
     this->resizeDocks({dwBusstops, dwBusstopSchedule}, {static_cast<int>(this->width() * 0.4), static_cast<int>(this->width() * 0.6)}, Qt::Horizontal);
 
-    ui->actionWorkspaceTrackLayout->setChecked(false);
+    ui->actionWorkspaceRouting->setChecked(false);
     ui->actionWorkspaceBusstopSchedule->setChecked(true);
     ui->actionWorkspaceScheduling->setChecked(false);
-    ui->actionWorkspaceTourPlanning->setChecked(false);
+    ui->actionWorkspaceTours->setChecked(false);
     ui->actionWorkspacePublish->setChecked(false);
 }
 
@@ -749,10 +750,10 @@ void MainWindow::actionWorkspaceScheduling() {
     this->resizeDocks({dwSchedule, dwTripEditor}, {static_cast<int>(this->width() * 0.9), static_cast<int>(this->width() * 0.1)}, Qt::Horizontal);
     this->resizeDocks({dwLines, dwUndoView}, {static_cast<int>(this->height() * 0.8), static_cast<int>(this->height() * 0.2)}, Qt::Vertical);
 
-    ui->actionWorkspaceTrackLayout->setChecked(false);
+    ui->actionWorkspaceRouting->setChecked(false);
     ui->actionWorkspaceBusstopSchedule->setChecked(false);
     ui->actionWorkspaceScheduling->setChecked(true);
-    ui->actionWorkspaceTourPlanning->setChecked(false);
+    ui->actionWorkspaceTours->setChecked(false);
     ui->actionWorkspacePublish->setChecked(false);
 }
 
@@ -797,10 +798,10 @@ void MainWindow::actionWorkspaceTourPlanning() {
     this->resizeDocks({dwTours, dwTourEditor}, {static_cast<int>(this->width() * 0.5), static_cast<int>(this->width() * 0.5)}, Qt::Horizontal);
     this->resizeDocks({dwTours, dwUndoView}, {static_cast<int>(this->width() * 0.8), static_cast<int>(this->width() * 0.2)}, Qt::Vertical);
 
-    ui->actionWorkspaceTrackLayout->setChecked(false);
+    ui->actionWorkspaceRouting->setChecked(false);
     ui->actionWorkspaceBusstopSchedule->setChecked(false);
     ui->actionWorkspaceScheduling->setChecked(false);
-    ui->actionWorkspaceTourPlanning->setChecked(true);
+    ui->actionWorkspaceTours->setChecked(true);
     ui->actionWorkspacePublish->setChecked(false);
 }
 
@@ -839,10 +840,10 @@ void MainWindow::actionWorkspacePublish() {
     dwPublishedLines->show();
     dwPublishedLines->setFloating(false);
 
-    ui->actionWorkspaceTrackLayout->setChecked(false);
+    ui->actionWorkspaceRouting->setChecked(false);
     ui->actionWorkspaceBusstopSchedule->setChecked(false);
     ui->actionWorkspaceScheduling->setChecked(false);
-    ui->actionWorkspaceTourPlanning->setChecked(false);
+    ui->actionWorkspaceTours->setChecked(false);
     ui->actionWorkspacePublish->setChecked(true);
 }
 
@@ -855,16 +856,6 @@ void MainWindow::actionOpenTour(Tour *o) {
     wdgTours->setCurrentTour(o);
     wdgTourEditor->setCurrentTour(o);
     dwTourEditor->show();
-}
-
-void MainWindow::setSaved(bool b) {
-    QString displayName = _projectData->projectSettings()->displayName();
-    QString str = "ScheduleMaster" + (!displayName.isEmpty() ? " - " + _projectData->projectSettings()->displayName() : "");
-    if(!b)
-        str = "* " + str;
-
-    QMainWindow::setWindowTitle(str);
-    ui->actionFileSave->setDisabled(b);
 }
 
 bool MainWindow::openFile(QString path) {
@@ -945,7 +936,10 @@ void MainWindow::handleFileHandlerResult() {
         ui->statusbar->showMessage(tr("File saved!"), 5000);
     }
 
-    setSaved(true);
+    QString projectName = _projectData->projectSettings()->displayName();
+    setWindowTitle("[*] " + projectName + " - ScheduleMaster");
+    ui->actionFileSave->setEnabled(false);
+
     knownFile = true;
     progressLogger->finish();
 }
