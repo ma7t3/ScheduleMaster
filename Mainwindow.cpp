@@ -267,17 +267,23 @@ MainWindow::MainWindow(QWidget *parent) :
     tbDocks->addSeparator();
     tbDocks->addAction(actDockUndoView);
 
+    toolBarSpacer1 = new QWidget(this);
+    toolBarSpacer2 = new QWidget(this);
+
     qDebug() << "\tworkspaces toolbar";
-    tbWorkspaces->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    tbWorkspaces->addAction(ui->actionWorkspaceTrackLayout);
-    tbWorkspaces->addAction(ui->actionWorkspaceBusstopSchedule);
+    tbWorkspaces->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    tbWorkspaces->addWidget(toolBarSpacer1);
+    tbWorkspaces->addAction(ui->actionWorkspaceRouting);
     tbWorkspaces->addAction(ui->actionWorkspaceScheduling);
     tbWorkspaces->addAction(ui->actionWorkspaceTours);
     tbWorkspaces->addAction(ui->actionWorkspacePublish);
+    tbWorkspaces->addWidget(toolBarSpacer2);
 
-    this->addToolBar(Qt::TopToolBarArea,  tbGeneral);
-    this->addToolBar(Qt::TopToolBarArea,  tbDocks);
-    this->addToolBar(Qt::BottomToolBarArea, tbWorkspaces);
+    tbWorkspaces->setStyleSheet(QString("QToolButton { width: 100px; }"));
+
+    addToolBar(Qt::TopToolBarArea,    tbGeneral);
+    addToolBar(Qt::TopToolBarArea,    tbDocks);
+    updateWorkspacesToolbarPosition();
 
     ui->actionViewToolbarGeneral    ->setChecked(true);
     ui->actionViewToolbarDocks      ->setChecked(true);
@@ -320,10 +326,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(redoAction,                            &QAction::triggered,                    this,               &MainWindow::refreshRedo);
 
     qDebug() << "\tworkspace actions";
-    connect(ui->actionWorkspaceRouting,        &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTrackLayout);
-    connect(ui->actionWorkspaceBusstopSchedule,    &QAction::triggered,                    this,               &MainWindow::actionWorkspaceBusstopSchedule);
+    connect(ui->actionWorkspaceRouting,            &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTrackLayout);
     connect(ui->actionWorkspaceScheduling,         &QAction::triggered,                    this,               &MainWindow::actionWorkspaceScheduling);
-    connect(ui->actionWorkspaceTours,       &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTourPlanning);
+    connect(ui->actionWorkspaceTours,              &QAction::triggered,                    this,               &MainWindow::actionWorkspaceTourPlanning);
     connect(ui->actionWorkspacePublish,            &QAction::triggered,                    this,               &MainWindow::actionWorkspacePublish);
 
     qDebug() << "\tdock-to-dock actions";
@@ -605,6 +610,26 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
     }
 }
 
+void MainWindow::updateWorkspacesToolbarPosition() {
+    tbWorkspaces->setMovable(false);
+    tbWorkspaces->setFloatable(false);
+    Qt::ToolBarArea area = LocalConfig::workspacesToolbarPosition();
+    addToolBar(area, tbWorkspaces);
+
+    if(area == Qt::TopToolBarArea) {
+        tbWorkspaces->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+        tbWorkspaces->setStyleSheet("");
+        toolBarSpacer1->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        toolBarSpacer2->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    } else {
+        tbWorkspaces->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+        tbWorkspaces->setStyleSheet("QToolButton { width: 100px; }");
+        toolBarSpacer1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+        toolBarSpacer2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    }
+
+}
+
 /* Notiz an mich:
  * Am besten erst alle nicht-gewollten Docks schlie??en und dann die gewollten ??ffnen.
  * Sieht im Code zwar un??bersichtlicher aus, aber sonst kann es passiern, dass im MainWindow nicht genug Platz ist.
@@ -657,51 +682,6 @@ void MainWindow::actionWorkspaceTrackLayout() {
     this->resizeDocks({dwLines, dwRoutes}, {static_cast<int>(this->width() * 0.5), static_cast<int>(this->width() * 0.5)}, Qt::Vertical);
 
     ui->actionWorkspaceRouting->setChecked(true);
-    ui->actionWorkspaceBusstopSchedule->setChecked(false);
-    ui->actionWorkspaceScheduling->setChecked(false);
-    ui->actionWorkspaceTours->setChecked(false);
-    ui->actionWorkspacePublish->setChecked(false);
-}
-
-void MainWindow::actionWorkspaceBusstopSchedule() {
-    this->tabifyDockWidget(dwBusstops, dwTours);
-    this->addDockWidget(Qt::LeftDockWidgetArea, dwBusstops);
-    this->addDockWidget(Qt::RightDockWidgetArea, dwBusstopSchedule);
-
-    dwLines->setFloating(false);
-    dwLines->close();
-
-    dwRoutes->setFloating(false);
-    dwRoutes->close();
-
-    dwSchedule->setFloating(true);
-    dwSchedule->close();
-
-    dwTripEditor->close();
-    dwTripEditor->setFloating(true);
-
-    dwTours->setFloating(false);
-    dwTours->close();
-
-    dwTourEditor->setFloating(true);
-    dwTourEditor->close();
-
-    dwUndoView->setFloating(true);
-    dwUndoView->close();
-
-    dwPublishedLines->setFloating(true);
-    dwPublishedLines->close();
-
-    dwBusstops->show();
-    dwBusstops->setFloating(false);
-
-    dwBusstopSchedule->show();
-    dwBusstopSchedule->setFloating(false);
-
-    this->resizeDocks({dwBusstops, dwBusstopSchedule}, {static_cast<int>(this->width() * 0.4), static_cast<int>(this->width() * 0.6)}, Qt::Horizontal);
-
-    ui->actionWorkspaceRouting->setChecked(false);
-    ui->actionWorkspaceBusstopSchedule->setChecked(true);
     ui->actionWorkspaceScheduling->setChecked(false);
     ui->actionWorkspaceTours->setChecked(false);
     ui->actionWorkspacePublish->setChecked(false);
@@ -754,7 +734,6 @@ void MainWindow::actionWorkspaceScheduling() {
     this->resizeDocks({dwLines, dwUndoView}, {static_cast<int>(this->height() * 0.8), static_cast<int>(this->height() * 0.2)}, Qt::Vertical);
 
     ui->actionWorkspaceRouting->setChecked(false);
-    ui->actionWorkspaceBusstopSchedule->setChecked(false);
     ui->actionWorkspaceScheduling->setChecked(true);
     ui->actionWorkspaceTours->setChecked(false);
     ui->actionWorkspacePublish->setChecked(false);
@@ -802,7 +781,6 @@ void MainWindow::actionWorkspaceTourPlanning() {
     this->resizeDocks({dwTours, dwUndoView}, {static_cast<int>(this->width() * 0.8), static_cast<int>(this->width() * 0.2)}, Qt::Vertical);
 
     ui->actionWorkspaceRouting->setChecked(false);
-    ui->actionWorkspaceBusstopSchedule->setChecked(false);
     ui->actionWorkspaceScheduling->setChecked(false);
     ui->actionWorkspaceTours->setChecked(true);
     ui->actionWorkspacePublish->setChecked(false);
@@ -844,7 +822,6 @@ void MainWindow::actionWorkspacePublish() {
     dwPublishedLines->setFloating(false);
 
     ui->actionWorkspaceRouting->setChecked(false);
-    ui->actionWorkspaceBusstopSchedule->setChecked(false);
     ui->actionWorkspaceScheduling->setChecked(false);
     ui->actionWorkspaceTours->setChecked(false);
     ui->actionWorkspacePublish->setChecked(true);
@@ -1091,6 +1068,7 @@ void MainWindow::on_actionEditProjectSettings_triggered() {
 void MainWindow::on_actionEditPreferences_triggered() {
     DlgPreferences* dlg = new DlgPreferences(this);
     dlg->exec();
+    updateWorkspacesToolbarPosition();
 }
 
 /*

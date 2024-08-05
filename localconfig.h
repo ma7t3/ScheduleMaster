@@ -58,6 +58,9 @@ public:
     static LogfileMode logfileMode();
     static void setLogfileMode(const LogfileMode &);
 
+    static Qt::ToolBarArea workspacesToolbarPosition();
+    static void setWorkspacesToolbarPosition(const Qt::ToolBarArea &);
+
 private:
     static inline QSettings settingsGeneral = QSettings("ScheduleMaster", "general");
     static inline QString _lastLogfileName = "";
