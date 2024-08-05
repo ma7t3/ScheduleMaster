@@ -125,8 +125,6 @@ void DlgTimeProfileEditor::loadBusstopList(Route *r) {
         TimeProfileItem *itm = _timeProfile.busstop(b);
 
         if(itm) {
-            qDebug() << itm->hasSeperateTimes();
-            qDebug() << itm->arrValue();
             sepBox->setChecked(itm->hasSeperateTimes());
             if(itm->hasSeperateTimes()) {
                 dsbArr->setValue(itm->arrValue());
@@ -194,8 +192,6 @@ void DlgTimeProfileEditor::executeCopy()
     QStringList itemList;
 
     int presetProfileIndex = 0;
-
-    qDebug() << r->name();
     
     for(int i = 0; i < r->timeProfileCount(); i++) {
         itemList << r->timeProfileAt(i)->name();
