@@ -3,7 +3,7 @@
 #include <QScrollBar>
 
 WdgScheduleTable::WdgScheduleTable(QWidget *parent) :
-    QTableWidget(parent),
+    QTableView(parent),
     _shiftPressed(false) {
 }
 

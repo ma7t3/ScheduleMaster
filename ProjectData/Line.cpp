@@ -137,6 +137,15 @@ void Line::onUpdateTimerTimeout() {
     if(!_removedDirections.isEmpty())
         emit directionsRemoved(_removedDirections);
 
+    if(!_addedTrips.isEmpty())
+        emit tripsAdded(_addedTrips);
+
+    if(!_changedTrips.isEmpty())
+        emit tripsChanged(_changedTrips);
+
+    if(!_removedTrips.isEmpty())
+        emit tripsRemoved(_removedTrips);
+
     _addedRoutes.clear();
     _changedRoutes.clear();
     _removedRoutes.clear();
@@ -144,6 +153,10 @@ void Line::onUpdateTimerTimeout() {
     _addedDirections.clear();
     _changedDirections.clear();
     _removedDirections.clear();
+
+    _addedTrips.clear();
+    _changedTrips.clear();
+    _removedTrips.clear();
 }
 
 QJsonObject Line::toJson() const {
@@ -208,6 +221,7 @@ int Line::hourBreak() const {
 void Line::setHourBreak(const int &newHourBreak) {
     _hourBreak = newHourBreak;
     emit changed(this);
+    emit hourBreakChanged(newHourBreak);
 }
 
 QList<LineDirection *> Line::directions() const {
@@ -376,9 +390,10 @@ void Line::removeRoute(Route *r) {
 void Line::removeRoute(const QString &id) {
     for(int i = 0; i < routeCount(); i++) {
         if(routeAt(i)->id() == id) {
+            Route *r = routeAt(i);
             _routes.remove(i);
             emit changed(this);
-            onRouteRemoved(routeAt(i));
+            onRouteRemoved(r);
             return;
         }
     }
@@ -456,6 +471,7 @@ void Line::addTrip(Trip *t) {
 
     _trips << t;
     emit changed(this);
+    onTripAdded(t);
 }
 
 void Line::removeTrip(Trip *t) {
@@ -463,6 +479,7 @@ void Line::removeTrip(Trip *t) {
         if(tripAt(i) == t) {
             _trips.remove(i);
             emit changed(this);
+            onTripRemoved(t);
             return;
         }
     }
@@ -471,8 +488,10 @@ void Line::removeTrip(Trip *t) {
 void Line::removeTrip(const QString &id) {
     for(int i = 0; i < tripCount(); i++) {
         if(tripAt(i)->id() == id) {
+            Trip *t = tripAt(i);
             _trips.remove(i);
             emit changed(this);
+            onTripRemoved(t);
             return;
         }
     }
@@ -519,36 +538,41 @@ Route *Line::newRoute(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
     Route *r = new Route(this, id);
-    connect(r, &Route::changed, this, &::Line::onRouteChanged);
+    connect(r, &Route::changed, this, &Line::onRouteChanged);
     return r;
 }
 
 Route *Line::newRoute(const QJsonObject &obj) {
     Route *r = new Route(this, obj);
-    connect(r, &Route::changed, this, &::Line::onRouteChanged);
+    connect(r, &Route::changed, this, &Line::onRouteChanged);
     return r;
 }
 
 Route *Line::newRoute(const Route &newRoute) {
     Route *r = new Route(newRoute);
     r->setParent(this);
-    connect(r, &Route::changed, this, &::Line::onRouteChanged);
+    connect(r, &Route::changed, this, &Line::onRouteChanged);
     return r;
 }
 
 Trip *Line::newTrip(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new Trip(this, id);
+    Trip *t = new Trip(this, id);
+    connect(t, &Trip::changed, this, &Line::onTripChanged);
+    return t;
 }
 
 Trip *Line::newTrip(const QJsonObject &obj) {
-    return new Trip(this, obj);
+    Trip *t = new Trip(this, obj);
+    connect(t, &Trip::changed, this, &Line::onTripChanged);
+    return t;
 }
 
 Trip *Line::newTrip(const Trip &newTrip) {
     Trip *t = new Trip(newTrip);
     t->setParent(this);
+    connect(t, &Trip::changed, this, &Line::onTripChanged);
     return t;
 }
 
@@ -588,3 +612,20 @@ void Line::onDirectionRemoved(LineDirection *ld) {
     _updateTimer->start(0);
 }
 
+void Line::onTripAdded(Trip *t) {
+    if(_addedTrips.indexOf(t) == -1)
+        _addedTrips << t;
+    _updateTimer->start(0);
+}
+
+void Line::onTripChanged(Trip *t) {
+    if(_changedTrips.indexOf(t) == -1)
+        _changedTrips << t;
+    _updateTimer->start(0);
+}
+
+void Line::onTripRemoved(Trip *t) {
+    if(_removedTrips.indexOf(t) == -1)
+        _removedTrips << t;
+    _updateTimer->start(0);
+}

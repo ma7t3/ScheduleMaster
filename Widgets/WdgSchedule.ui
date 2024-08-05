@@ -89,41 +89,12 @@
      <attribute name="horizontalHeaderVisible">
       <bool>false</bool>
      </attribute>
-     <row>
-      <property name="text">
-       <string>selectionRow</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>Tour</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>Info</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>Footnotes</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>Route Name</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>Time Profile</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>Start Time</string>
-      </property>
-     </row>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>39</number>
+     </attribute>
+     <attribute name="verticalHeaderHighlightSections">
+      <bool>false</bool>
+     </attribute>
     </widget>
    </item>
   </layout>
@@ -131,8 +102,8 @@
  <customwidgets>
   <customwidget>
    <class>WdgScheduleTable</class>
-   <extends>QTableWidget</extends>
-   <header>widgets\wdgscheduletable.h</header>
+   <extends>QTableView</extends>
+   <header>Widgets/WdgScheduleTable.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
