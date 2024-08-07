@@ -15,7 +15,7 @@ DlgLineEditor::DlgLineEditor(QWidget *parent, Line *line, bool createMode) :
     ui->setupUi(this);
 
     setCreateMode(createMode);
-    setLine(*line);
+    loadLine();
     ui->lwDirections->setModel(_directionsModel);
 
     connect(_directionsModel, &QAbstractItemModel::rowsInserted, this, &DlgLineEditor::onDirectionInserted);
@@ -48,8 +48,7 @@ Line DlgLineEditor::line() const {
     return l;
 }
 
-void DlgLineEditor::setLine(const Line &l) {
-    _line = l;
+void DlgLineEditor::loadLine() {
     _line.setDirections(_linePtr->cloneDirections());
 
     ui->leName->setText(_line.name());

@@ -28,7 +28,7 @@ DlgTimeProfileEditor::DlgTimeProfileEditor(QWidget *parent, TimeProfile *timePro
     ui->twProfile->setColumnWidth(5, 175);
 
 
-    setTimeProfile(*timeProfile);
+    loadTimeProfile();
     loadBusstopList(route);
 
     ui->leName->setFocus();
@@ -81,9 +81,7 @@ TimeProfile DlgTimeProfileEditor::timeProfile() const {
     return timeProfile;
 }
 
-void DlgTimeProfileEditor::setTimeProfile(const TimeProfile &timeProfile) {
-    _timeProfile = timeProfile;
-
+void DlgTimeProfileEditor::loadTimeProfile() {
     ui->leName->setText(_timeProfile.name());
     ui->dsbDuration->setValue(_timeProfile.duration());
 }
