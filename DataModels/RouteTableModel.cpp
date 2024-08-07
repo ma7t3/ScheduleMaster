@@ -65,7 +65,10 @@ QVariant RouteTableModel::data(const QModelIndex &index, int role) const {
         case 1:
             switch(role) {
             case Qt::DisplayRole:
-                return r->direction()->description();
+                if(r->direction())
+                    return r->direction()->description();
+                else
+                    return "";
             case 0x0100:
                 return defaultSortIndexes[r];
             } break;
