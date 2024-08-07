@@ -37,7 +37,8 @@ DayType::DayType(QObject *parent, const QJsonObject &jsonObject) :
     fromJson(jsonObject);
 }
 
-DayType::DayType(const DayType &other) {
+DayType::DayType(const DayType &other) :
+    WeekDays(other) {
     setParent(other.parent());
     copy(other);
 }
