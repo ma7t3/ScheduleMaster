@@ -4,7 +4,6 @@
 #include <QDialog>
 #include <QListWidgetItem>
 
-#include "App/global.h"
 #include "ProjectData/line.h"
 
 #include "DataModels/LineDirectionListModel.h"
@@ -36,8 +35,6 @@ private slots:
     void actionDirectionDown();
 
     void onDirectionInserted(QModelIndex parent, int first, int last);
-
-    // void refreshDirections();
 
 private:
     Ui::DlgLineEditor *ui;
