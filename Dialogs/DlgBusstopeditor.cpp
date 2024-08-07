@@ -12,7 +12,7 @@ busstopEditor::busstopEditor(QWidget *parent, Busstop busstop, bool createMode) 
     ui->setupUi(this);
 
     setCreateNewMode(createMode);
-    setBusstop(busstop);
+    loadBusstop();
     ui->leName->setFocus();
 }
 busstopEditor::~busstopEditor() {
@@ -31,8 +31,7 @@ Busstop busstopEditor::busstop() const {
     return b;
 }
 
-void busstopEditor::setBusstop(const Busstop &b) {
-    _busstop = b;
-    ui->leName->setText(b.name());
-    ui->cbImportant->setChecked(b.isImportant());
+void busstopEditor::loadBusstop() {
+    ui->leName->setText(_busstop.name());
+    ui->cbImportant->setChecked(_busstop.isImportant());
 }

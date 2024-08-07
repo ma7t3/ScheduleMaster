@@ -42,7 +42,7 @@ DlgRouteEditor::DlgRouteEditor(QWidget *parent, Route *r, const bool &createMode
     ui->cbDirections->setModel(_directionsModel);
 
     setCreateMode(createMode);
-    setRoute(*r);
+    loadRoute();
 
 
     connect(ui->pbBusstopAdd,      &QPushButton::clicked,       this,                   &DlgRouteEditor::actionBusstopAdd);
@@ -82,15 +82,14 @@ Route DlgRouteEditor::route() const {
     return r;
 }
 
-void DlgRouteEditor::setRoute(const Route &route) {
-    _route = route;
-    Line *l = dynamic_cast<Line *>(route.parent());
+void DlgRouteEditor::loadRoute() {
+    Line *l = dynamic_cast<Line *>(_route.parent());
 
     _route.setTimeProfiles(_routePtr->cloneTimeProfiles());
 
     _directionsModel->setLine(l);
 
-    ui->cbDirections->setCurrentIndex(_directionsModel->indexOf(route.direction()));
+    ui->cbDirections->setCurrentIndex(_directionsModel->indexOf(_route.direction()));
 
     ui->leName->setText(_route.name());
     ui->sbCode->setValue(_route.code());

@@ -24,7 +24,7 @@ public:
     void setCreateMode(const bool &);
 
     Line line() const;
-    void setLine(const Line &);
+    void loadLine();
 
 private slots:
     void on_pbColor_clicked();

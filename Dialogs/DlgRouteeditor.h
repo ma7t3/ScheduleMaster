@@ -24,7 +24,7 @@ public:
     void setCreateMode(const bool &);
 
     Route route() const;
-    void setRoute(const Route &);
+    void loadRoute();
 
     void onRouteBusstopsRowsInserted(QModelIndex parent, int first, int last);
     void onTimeProfilesRowsInserted(QModelIndex parent, int first, int last);
