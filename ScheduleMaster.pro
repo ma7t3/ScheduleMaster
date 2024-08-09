@@ -15,6 +15,7 @@ SOURCES += \
     DataModels/DayTypeListModel.cpp \
     DataModels/LineDirectionListModel.cpp \
     DataModels/LineTableModel.cpp \
+    DataModels/RouteListModel.cpp \
     DataModels/RouteTableModel.cpp \
     DataModels/ScheduleTableFilterProxyModel.cpp \
     DataModels/ScheduleTableModel.cpp \
@@ -97,6 +98,7 @@ HEADERS += \
     DataModels/OrderedProjectDataRowModel.h \
     DataModels/ProjectDataModel.h \
     DataModels/ProjectDataModelSignals.h \
+    DataModels/RouteListModel.h \
     DataModels/RouteTableModel.h \
     DataModels/ScheduleTableFilterProxyModel.h \
     DataModels/ScheduleTableModel.h \

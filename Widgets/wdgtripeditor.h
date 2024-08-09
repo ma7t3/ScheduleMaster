@@ -5,6 +5,7 @@
 #include <QUndoStack>
 #include <QListWidgetItem>
 
+#include "DataModels/RouteListModel.h"
 #include "ProjectData/projectdata.h"
 
 namespace Ui {
@@ -16,7 +17,7 @@ class WdgTripEditor : public QWidget
     Q_OBJECT
 
 public:
-    explicit WdgTripEditor(QWidget *parent = nullptr, ProjectData *projectData = nullptr, QUndoStack *undoStack = nullptr);
+    explicit WdgTripEditor(QWidget *parent);
     ~WdgTripEditor();
 
 public slots:
@@ -28,45 +29,39 @@ public slots:
     void actionCopy();
     void actionDelete();
 
-    void actionChangeRoute();
+private slots:
+    void refreshUI();
 
+    void actionChangeRoute();
     void actionChangeTimeProfile();
     void actionChangeStartTime();
-
     void actionChangeDays();
 
     void saveStartTime();
 
-    void refreshRoutes();
-
-    void refreshUI();
+    void onCurrentRouteChanged(const QModelIndex &current, const QModelIndex &previous);
 
 signals:
     void tripsChanged(const QList<Trip *> &);
     void refreshRequested();
 
-private slots:
-    void on_lwRoutes_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-
 private:
     Ui::WdgTripEditor *ui;
 
     ProjectData *projectData;
-    QUndoStack *undoStack;
+    RouteListModel *_model;
 
     Line *_currentLine;
     LineDirection *_currentDirection;
     QList<Trip *> _currentTrips;
     DayType *_currentDayType;
 
-    QList<Route *> _routesListReference;
     Route *_currentRoute;
 
-    bool refreshingRoutes = false;
-    bool changingTrips = false;
-    bool startTimeChanging = false;
-    QList<QTime> oldStartTimes;
-    QTime lastStartTime;
+    bool _changingTrips = false;
+    bool _startTimeChanging = false;
+    QList<QTime> _oldStartTimes;
+    QTime _lastStartTime;
 };
 
 #endif // WDGTRIPEDITOR_H
