@@ -19,6 +19,9 @@ public:
 
     QJsonObject toJson() const;
 
+signals:
+    void changed(DayType *);
+
 protected:
     void copy(const DayType &);
     void fromJson(const QJsonObject &);
