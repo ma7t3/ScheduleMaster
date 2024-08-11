@@ -1036,27 +1036,15 @@ void MainWindow::on_actionHelpAboutQt_triggered() {
 
 
 void MainWindow::on_actionEditProjectSettings_triggered() {
-    QList<DayType> dayTypes;
-    for(int i = 0; i < _projectData->projectSettings()->dayTypeCount(); i++)
-        dayTypes << *_projectData->projectSettings()->dayTypeAt(i);
-
-    DlgProjectSettings *dlg = new DlgProjectSettings(this);
-    dlg->setNames(_projectData->projectSettings()->displayName(), _projectData->projectSettings()->shortName());
-    dlg->setIcon(_projectData->projectSettings()->icon());
-    dlg->setDayTypes(dayTypes);
+    DlgProjectSettings *dlg = new DlgProjectSettings(this, _projectData->projectSettings());
 
     dlg->exec();
 
     if(dlg->result() != QDialog::Accepted)
         return;
 
-    ProjectSettings newS(this);
-    newS.setNames(dlg->displayName(), dlg->shortName());
-    newS.setIcon(dlg->icon());
-    newS.setDayTypes(dlg->dayTypes());
-
+    ProjectSettings newS = dlg->projectSettings();
     undoStack()->push(new CmdEditProjectSettings(_projectData->projectSettings(), newS));
-    // wdgSchedule->refreshDayTypes();
 }
 
 

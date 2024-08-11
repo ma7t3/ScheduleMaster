@@ -1,17 +1,47 @@
 #include "DayTypeListModel.h"
 
-DayTypeListModel::DayTypeListModel(QObject *parent) : OrderedProjectDataRowModel<DayType>(parent) {
+DayTypeListModel::DayTypeListModel(QObject *parent) :
+    OrderedProjectDataRowModel<DayType>(parent),
+    _projectData(nullptr),
+    _projectSettings(nullptr),
+    _mode(false) {
     _dataFieldsCount = 1;
 }
 
 void DayTypeListModel::setProjectData(ProjectData *newProjectData) {
-    projectData = newProjectData;
+    if(_projectData)
+        this->disconnect(_projectData);
+    if(_projectSettings)
+        this->disconnect(_projectSettings);
 
-    connect(projectData->projectSettings(), &ProjectSettings::dayTypesAdded,   this, &DayTypeListModel::addItems);
-    connect(projectData->projectSettings(), &ProjectSettings::dayTypesChanged, this, &DayTypeListModel::changeItems);
-    connect(projectData->projectSettings(), &ProjectSettings::dayTypesRemoved, this, &DayTypeListModel::removeItems);
-    connect(projectData->projectSettings(), &ProjectSettings::changed,         this, &DayTypeListModel::reset);
-    connect(projectData,                    &ProjectData::wasReset,            this, &DayTypeListModel::reset);
+    _projectData = newProjectData;
+    _projectSettings = nullptr;
+
+    connect(_projectData->projectSettings(), &ProjectSettings::dayTypesAdded,   this, &DayTypeListModel::addItems);
+    connect(_projectData->projectSettings(), &ProjectSettings::dayTypesChanged, this, &DayTypeListModel::changeItems);
+    connect(_projectData->projectSettings(), &ProjectSettings::dayTypesRemoved, this, &DayTypeListModel::removeItems);
+    connect(_projectData->projectSettings(), &ProjectSettings::changed,         this, &DayTypeListModel::reset);
+    connect(_projectData,                    &ProjectData::wasReset,            this, &DayTypeListModel::reset);
+
+    _mode = true;
+    reset();
+}
+
+void DayTypeListModel::setProjectSettings(ProjectSettings *newProjectSettings) {
+    if(_projectData)
+        this->disconnect(_projectData);
+    if(_projectSettings)
+        this->disconnect(_projectSettings);
+
+    _projectSettings = newProjectSettings;
+    _projectData = dynamic_cast<ProjectData *>(_projectSettings->parent());
+
+    connect(_projectSettings,                &ProjectSettings::dayTypesAdded,   this, &DayTypeListModel::addItems);
+    connect(_projectSettings,                &ProjectSettings::dayTypesChanged, this, &DayTypeListModel::changeItems);
+    connect(_projectSettings,                &ProjectSettings::dayTypesRemoved, this, &DayTypeListModel::removeItems);
+
+    _mode = false;
+    reset();
 }
 
 QVariant DayTypeListModel::headerData(int section, Qt::Orientation orientation, int role) const {
@@ -44,7 +74,9 @@ QVariant DayTypeListModel::data(const QModelIndex &index, int role) const {
 }
 
 QList<DayType *> DayTypeListModel::fetchData() const {
-    if(projectData)
-        return projectData->projectSettings()->dayTypes();
+    if(_mode && _projectData)
+        return _projectData->projectSettings()->dayTypes();
+    if(!_mode && _projectSettings)
+        return _projectSettings->dayTypes();
     return {};
 }

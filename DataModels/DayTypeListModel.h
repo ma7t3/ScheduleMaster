@@ -10,6 +10,7 @@ class DayTypeListModel : public OrderedProjectDataRowModel<DayType> {
 public:
     explicit DayTypeListModel(QObject *parent);
     void     setProjectData(ProjectData *);
+    void     setProjectSettings(ProjectSettings *);
 
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     int      columnCount(const QModelIndex &parent = QModelIndex())                           const override;
@@ -19,7 +20,11 @@ protected:
     QList<DayType *> fetchData() const override;
 
 private:
-    ProjectData *projectData;
+    ProjectData *_projectData;
+    ProjectSettings *_projectSettings;
+
+    // sets mode (true = take DayTypes from ProjectData, false = take DayTypes from ProjectSettings)
+    bool _mode;
 };
 
 #endif // DAYTYPELISTMODEL_H

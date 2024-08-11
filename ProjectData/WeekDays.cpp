@@ -104,6 +104,8 @@ void WeekDays::setDay(const WeekDaysFlag &day, const bool &value) {
         _days |= day;
     else
         _days &= ~day;
+
+    emit changed(this);
 }
 
 void WeekDays::setDayAtIndex(const int &index, const bool &value) {
@@ -135,6 +137,7 @@ void WeekDays::setCode(const int &code) {
     _days = QFlags<WeekDay>::fromInt(reverse_num);*/
 
     _days = QFlags<WeekDay>::fromInt(code);
+    emit changed(this);
 }
 
 int WeekDays::toCode() const {

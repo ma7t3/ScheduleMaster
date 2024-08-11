@@ -27,14 +27,17 @@ public:
     DayType *dayTypeAt(const int &index) const;
     bool hasDaytype(const QString &id) const;
 
-    void setDayTypes(const QList<DayType *> &newDayTypes);
-    void addDayType(DayType *);
+    void setDayTypes(const QList<DayType *> &newDayTypes, const bool &doSignalConnect = false);
+    void addDayType(DayType *, const bool &doSignalConnect = false);
+    void insertDayType(DayType *, const int &index, const bool &doSignalConnect = false);
     void removeDayType(DayType *);
     void removeDayType(const QString &id);
     void clearDayTypes();
 
     QJsonObject toJson() const;
     void setJson(const QJsonObject &);
+
+    QList<DayType *> cloneDayTypes() const;
 
     DayType *newDayType(QString id = "");
     DayType *newDayType(const QJsonObject &);

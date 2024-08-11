@@ -71,6 +71,7 @@ QJsonObject DayType::toJson() const {
 
 void DayType::setName(const QString &name) {
     _name = name;
+    emit changed(this);
 }
 
 QString DayType::name() const {

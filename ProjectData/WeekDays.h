@@ -63,13 +63,14 @@ public:
 
     QJsonObject toJson() const;
 
+signals:
+    void changed(WeekDays *);
+
 protected:
     void copy(const WeekDays &);
     void fromJson(QJsonObject const &);
 
 private:
-    //std::unordered_map<int, bool> _days;
-
     QFlags<WeekDay> _days;
 };
 
