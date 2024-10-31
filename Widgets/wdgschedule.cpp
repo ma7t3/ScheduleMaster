@@ -54,6 +54,7 @@ WdgSchedule::WdgSchedule(QWidget *parent) :
     connect(ui->twSchedule,                   &QWidget::customContextMenuRequested,   this,                        &WdgSchedule::showContextMenu);
     connect(ui->twSchedule->selectionModel(), &QItemSelectionModel::currentChanged,   this,                        &WdgSchedule::onCurrentCellChanged);
     connect(ui->twSchedule->selectionModel(), &QItemSelectionModel::selectionChanged, this,                        &WdgSchedule::onSelectionChanged);
+    // TODO: Open Tour
     connect(ui->twSchedule,                   &QTableWidget::doubleClicked,           this,                        &WdgSchedule::actionOpenBusstopSchedule);
 
     connect(projectData->projectSettings(),   &ProjectSettings::changed,              this, [this](){

@@ -59,10 +59,12 @@ QJsonObject Tour::toJson() const {
 
 void Tour::setName(const QString &newName) {
     _name = newName;
+    emit changed(this);
 }
 
 void Tour::setWeekDays(const WeekDays &newWeekDays) {
     _weekDays = newWeekDays;
+    emit changed(this);
 }
 
 QString Tour::name() const {
@@ -86,10 +88,12 @@ void Tour::addTrip(Trip *t) {
         return;
 
     _trips << t;
+    emit changed(this);
 }
 
 void Tour::insertTripAt(Trip *t, const int &index) {
     _trips.insert(index, t);
+    emit changed(this);
 }
 
 void Tour::insertTripAfter(Trip *lt, Trip *t) {
@@ -101,10 +105,12 @@ void Tour::insertTripAfter(Trip *lt, Trip *t) {
     }
 
     _trips << t;
+    emit changed(this);
 }
 
 void Tour::setTrips(const QList<Trip *> &newTrips) {
     _trips = newTrips;
+    emit changed(this);
 }
 
 void Tour::removeTrip(Trip *t)
@@ -116,6 +122,7 @@ void Tour::removeTrip(Trip *t)
         _trips.remove(i);
         return;
     }
+    emit changed(this);
 }
 
 int Tour::tripCount() const {

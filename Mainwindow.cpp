@@ -360,8 +360,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // Tours
-    connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTours,           &WdgTours::refresh);
-    connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTourEditor,      &WdgTourEditor::refresh);
+    // connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTours,           &WdgTours::refresh);
+    // connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTourEditor,      &WdgTourEditor::refresh);
 
     // Published Lines
     connect(wdgPublishedLines,                     &WdgPublishedLines::refreshRequested,   wdgPublishedLines,  &WdgPublishedLines::refreshDayTypes);
@@ -513,7 +513,7 @@ bool MainWindow::actionFileClose() {
 
     wdgRoutes->setCurrentLine(nullptr);
     wdgSchedule->setCurrentLine(nullptr);
-    wdgTours->setCurrentTour(nullptr);
+    // wdgTours->setCurrentTour(nullptr);
     wdgTourEditor->setCurrentTour(nullptr);
     wdgPublishedLines->setCurrentLine(nullptr);
 
@@ -523,7 +523,7 @@ bool MainWindow::actionFileClose() {
     // wdgSchedule->refreshSchedule();
     // wdgSchedule->refreshDirections();
     // wdgSchedule->refreshDayTypes();
-    wdgTours->refresh();
+    // wdgTours->refresh();
     wdgTourEditor->refresh();
     wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRoutes();
@@ -594,7 +594,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
         wdgSchedule->refreshHourBreak();
     }
     if(t == ToursType) {
-        wdgTours->refresh();
+        // wdgTours->refresh();
         wdgTourEditor->refresh();
     }
     if(t == PublicationsType) {
@@ -896,7 +896,7 @@ void MainWindow::handleFileHandlerResult() {
         QApplication::setOverrideCursor(Qt::WaitCursor);
         qApp->processEvents();
         qDebug() << "refreshing ui...";
-        wdgTours->refresh();
+        // wdgTours->refresh();
         // wdgSchedule->refreshDayTypes();
         wdgPublishedLines->refreshLineList();
         wdgPublishedLines->refreshDayTypes();
@@ -1179,7 +1179,7 @@ void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
     qDebug() << "refreshing ui...";
     //wdgBusstops->refreshBusstopList();
     //wdgLines->refreshLineList();
-    wdgTours->refresh();
+    // wdgTours->refresh();
     // wdgSchedule->refreshDayTypes();
     wdgPublishedLines->refreshLineList();
     wdgPublishedLines->refreshDayTypes();

@@ -127,7 +127,7 @@ private:
     WdgRoutes          *wdgRoutes          = new WdgRoutes          (this);
     WdgSchedule        *wdgSchedule        = new WdgSchedule        (this);
     WdgTripEditor      *wdgTripEditor      = new WdgTripEditor      (this);
-    WdgTours           *wdgTours           = new WdgTours           (this, _projectData, undoStack());
+    WdgTours           *wdgTours           = new WdgTours           (this);
     WdgTourEditor      *wdgTourEditor      = new WdgTourEditor      (this, _projectData, undoStack());
     WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule (this, _projectData);
     WdgPublishedLines  *wdgPublishedLines  = new WdgPublishedLines  (this, _projectData, undoStack());

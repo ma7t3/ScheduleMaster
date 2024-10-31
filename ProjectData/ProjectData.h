@@ -5,6 +5,10 @@
 #include <QJsonDocument>
 #include <QColor>
 #include <QUndoStack>
+#include <QPixmap>
+#include <QPainter>
+
+#include "App/global.h"
 
 #include "projectData/busstop.h"
 #include "projectData/line.h"
@@ -99,6 +103,10 @@ public:
 
     static QList<Trip *> sortTrips(QList<Trip *> list, const int &hourBreak);
 
+    static QPixmap linesPixmap(const QList<Line *>);
+    QPixmap linesPixmap(Busstop *);
+    QPixmap linesPixmap(Tour *);
+
     Publications *publications();
 
     QJsonObject toJson();
@@ -133,6 +141,10 @@ protected:
     void onLineChanged(Line *);
     void onLineRemoved(Line *);
 
+    void onTourAdded(Tour *);
+    void onTourChanged(Tour *);
+    void onTourRemoved(Tour *);
+
 signals:
     void loadingProgressMaxValue(const int &maxValue);
     void loadingProgressUpdated(const int &currentValue);
@@ -147,6 +159,10 @@ signals:
     void linesAdded(const QList<Line *>);
     void linesChanged(const QList<Line *>);
     void linesRemoved(const QList<Line *>);
+
+    void toursAdded(const QList<Tour *>);
+    void toursChanged(const QList<Tour *>);
+    void toursRemoved(const QList<Tour *>);
 
 private:
     QString _filePath;
@@ -164,6 +180,10 @@ private:
     QList<Line *> _addedLines;
     QList<Line *> _changedLines;
     QList<Line *> _removedLines;
+
+    QList<Tour *> _addedTours;
+    QList<Tour *> _changedTours;
+    QList<Tour *> _removedTours;
 
     QUndoStack _undoStack;
 
