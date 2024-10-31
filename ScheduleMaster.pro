@@ -22,6 +22,7 @@ SOURCES += \
     DataModels/SimpleBusstopListModel.cpp \
     DataModels/SimpleRouteBusstopListModel.cpp \
     DataModels/TimeProfileTableModel.cpp \
+    DataModels/TourTableModel.cpp \
     Dialogs/DlgBusstopeditor.cpp \
     Dialogs/DlgChangelog.cpp \
     Dialogs/DlgDataexporter.cpp \
@@ -105,6 +106,7 @@ HEADERS += \
     DataModels/SimpleBusstopListModel.h \
     DataModels/SimpleRouteBusstopListModel.h \
     DataModels/TimeProfileTableModel.h \
+    DataModels/TourTableModel.h \
     DataModels/UnorderedProjectDataRowModel.h \
     Dialogs/DlgBusstopeditor.h \
     Dialogs/DlgChangelog.h \

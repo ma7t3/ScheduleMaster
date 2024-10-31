@@ -32,6 +32,15 @@ ProjectData::ProjectData(QObject *parent) :
 
             if(!_removedLines.isEmpty())
                 emit linesRemoved(_removedLines);
+
+            if(!_addedTours.isEmpty())
+                emit toursAdded(_addedTours);
+
+            if(!_changedTours.isEmpty())
+                emit toursChanged(_changedTours);
+
+            if(!_removedTours.isEmpty())
+                emit toursRemoved(_removedTours);
         }
 
         _addedBusstops.clear();
@@ -41,6 +50,10 @@ ProjectData::ProjectData(QObject *parent) :
         _addedLines.clear();
         _changedLines.clear();
         _removedLines.clear();
+
+        _addedTours.clear();
+        _changedTours.clear();
+        _removedTours.clear();
     });
 }
 
@@ -279,6 +292,7 @@ void ProjectData::addTour(Tour *o) {
         return;
 
     o->setParent(this);
+    onTourAdded(o);
     _tours << o;
 }
 
@@ -333,8 +347,9 @@ bool ProjectData::removeTour(Tour *o) {
     for(int i = 0; i < tourCount(); i++) {
         if(tourAt(i) != o)
             continue;
-        
+
         _tours.remove(i);
+        onTourRemoved(o);
         return true;
     }
 
@@ -346,7 +361,9 @@ bool ProjectData::removeTour(QString id) {
         if(tourAt(i)->id() != id)
             continue;
         
+        Tour *o = tourAt(i);
         _tours.remove(i);
+        onTourRemoved(o);
         return true;
     }
 
@@ -675,6 +692,53 @@ QList<Trip *> ProjectData::sortTrips(QList<Trip *> list, const int &hourBreak) {
     return list;
 }
 
+QPixmap ProjectData::linesPixmap(const QList<Line *> lines) {
+    QFont f;
+    QFontMetrics fm(f);
+
+    int xValue = 5;
+    for(int j = 0; j < lines.count(); j++) {
+        int width = fm.boundingRect(lines[j]->name()).width();
+        xValue += (width + 20);
+    }
+
+    QPixmap pixmap(xValue, 15);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    xValue = 5;
+    for(int j = 0; j < lines.count(); j++) {
+        int width = fm.boundingRect(lines[j]->name()).width();
+        QColor color = lines[j]->color();
+        QRect rect(xValue, 0, width + 15, 15);
+        xValue += (width + 20);
+        painter.setBrush(color);
+        painter.setPen(Qt::NoPen);
+        painter.drawRoundedRect(rect, 7.5, 7.5);
+        painter.setPen(global::getContrastColor(color));
+        painter.drawText(rect, Qt::AlignCenter, lines[j]->name());
+    }
+
+    return pixmap;
+}
+
+QPixmap ProjectData::linesPixmap(Busstop *b) {
+    return linesPixmap(linesAtBusstop(b));
+}
+
+QPixmap ProjectData::linesPixmap(Tour *o) {
+    QList<Line *> lines;
+    QList<Trip *> trips = o->trips();
+    for(Trip *t : trips) {
+        Line *l = lineOfTrip(t);
+        if(!lines.contains(l))
+            lines << l;
+    }
+    lines = sortItems(lines);
+    return linesPixmap(lines);
+}
+
 Publications *ProjectData::publications() {
     return _publications;
 }
@@ -832,16 +896,21 @@ Line *ProjectData::newLine(const Line &newLine) {
 Tour *ProjectData::newTour(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new Tour(this, id);
+    Tour *o = new Tour(this, id);
+    connect(o, &Tour::changed, this, &ProjectData::onTourChanged);
+    return o;
 }
 
 Tour *ProjectData::newTour(const QJsonObject &obj) {
-    return new Tour(this, obj);
+    Tour *o = new Tour(this, obj);
+    connect(o, &Tour::changed, this, &ProjectData::onTourChanged);
+    return o;
 }
 
 Tour *ProjectData::newTour(const Tour &newTour) {
     Tour *o = new Tour(newTour);
     o->setParent(this);
+    connect(o, &Tour::changed, this, &ProjectData::onTourChanged);
     return o;
 }
 
@@ -902,5 +971,23 @@ void ProjectData::onLineChanged(Line *l) {
 void ProjectData::onLineRemoved(Line *l) {
     if(_removedLines.indexOf(l) == -1)
         _removedLines << l;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onTourAdded(Tour *o) {
+    if(_addedTours.indexOf(o) == -1)
+        _addedTours << o;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onTourChanged(Tour *o) {
+    if(_changedTours.indexOf(o) == -1)
+        _changedTours << o;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onTourRemoved(Tour *o) {
+    if(_removedTours.indexOf(o) == -1)
+        _removedTours << o;
     _updateTimer->start(0);
 }

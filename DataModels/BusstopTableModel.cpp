@@ -62,7 +62,7 @@ QVariant BusstopTableModel::data(const QModelIndex &index, int role) const {
         } break;
     case 1:
         switch(role) {
-        case Qt::DecorationRole: return generateLinesPixmap(b);
+        case Qt::DecorationRole: return projectData->linesPixmap(b);
         case 0x0100:
             return generateUsedLinesSortString(b);
         } break;
