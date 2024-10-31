@@ -52,6 +52,7 @@ WdgTours::WdgTours(QWidget *parent) :
     _actionExport       = ui->twTours->addAction(QIcon(":/icons/Export.ico"),          tr("Export"));
 
     _actionEdit->setDisabled(true);
+    _actionDuplicate->setDisabled(true);
     _actionDelete->setDisabled(true);
     _actionExport->setDisabled(true);
 
@@ -87,6 +88,10 @@ WdgTours::WdgTours(QWidget *parent) :
 
 WdgTours::~WdgTours() {
     delete ui;
+}
+
+QList<QAction *> WdgTours::actions() {
+    return ui->twTours->actions();
 }
 
 void WdgTours::actionNew() {

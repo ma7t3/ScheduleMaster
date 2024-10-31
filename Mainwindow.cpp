@@ -194,6 +194,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuBusstops->addActions(wdgBusstops->actions());
     ui->menuLines   ->addActions(wdgLines   ->actions());
     ui->menuRoutes  ->addActions(wdgRoutes  ->actions());
+    ui->menuTours   ->addActions(wdgTours   ->actions());
 
     qDebug() << "adding toggleViewActions to menubar";
     ui->menuDocks->addAction(actDockBusstops);
