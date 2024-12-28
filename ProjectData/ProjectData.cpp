@@ -577,32 +577,27 @@ QList<Trip *> ProjectData::sortTrips(QList<Trip *> list, const int &hourBreak) {
         return *a < *b;
     });
 
-    // 2nd run: gnome sort by first common busstop
-    int i = 0;
-    while(true) {
-        if(i + 1 >= list.count()) // finish if we reached the end
-            break;
+    // 2nd run: insertion sort by first common busstop
+    int n = list.count();
+    for(int i = 1; i < n; i++) {
+        Trip *insertTrip = list[i];
 
-        // compare
-        Trip *t1 = list[i];
-        Trip *t2 = list[i + 1];
-        Busstop *b = t1->route()->firstCommonBusstop(t2->route());
+        for(int j = i - 1; j >= 0; j--) {
+            Trip *currentTrip = list[j];
+            Busstop *b = insertTrip->route()->firstCommonBusstop(currentTrip->route());
 
-        bool swap;
-        if(!b)
-            swap = t1->startTime() > t2->startTime();
-        else
-            swap = t1->busstopTime(b) > t2->busstopTime(b);
+            bool ok;
+            if(b)
+                ok = currentTrip->busstopTime(b) < insertTrip->busstopTime(b);
+            else
+                ok = currentTrip->startTime() < insertTrip->startTime();
 
-        if(swap) {
-            list[i] = t2;
-            list[i + 1] = t1;
-
-            if(i > 0) i--;
-            else      i++;
-
-        } else {
-            i++;
+            if(ok) {
+                list[j + 1] = insertTrip;
+                break;
+            } else {
+                list[j + 1] = list[j];
+            }
         }
     }
 
