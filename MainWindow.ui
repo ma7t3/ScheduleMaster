@@ -49,6 +49,8 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionEditPreferences"/>
+    <addaction name="actionEditProjectSettings"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">

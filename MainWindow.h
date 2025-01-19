@@ -5,6 +5,7 @@
 #include <QToolBar>
 #include <QDockWidget>
 
+#include "ProjectData/ProjectData.h"
 #include "Widgets/WdgWelcome.h"
 
 QT_BEGIN_NAMESPACE
@@ -44,6 +45,10 @@ protected slots:
 
 private:
     Ui::MainWindow *ui;
+
+    ProjectData *_projectData;
+
+    QAction *_undoAction, *_redoAction;
 
     QToolBar *_toolbarGeneral, *_toolbarDocks, *_toolbarWorkspaces;
 
