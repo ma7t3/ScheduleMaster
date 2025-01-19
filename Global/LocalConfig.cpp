@@ -77,7 +77,9 @@ void LocalConfig::addLastUsedFile(const QString &filePath) {
 }
 
 void LocalConfig::setLastUsedFiles(const QStringList &list) {
-    settingsGeneral.setValue("lastUsedFiles", list);
+    QStringList modifiedList = list;
+    modifiedList.replaceInStrings("\\", "/");
+    settingsGeneral.setValue("lastUsedFiles", modifiedList);
 }
 
 void LocalConfig::removeLastUsedFile(const QString &filePath) {
