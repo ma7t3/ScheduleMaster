@@ -56,7 +56,7 @@ void MainWindow::initDockWidgets() {
     _wdgWelcome = new WdgWelcome(this);
     connect(_wdgWelcome, &WdgWelcome::newProject,          this, &MainWindow::newProject);
     connect(_wdgWelcome, &WdgWelcome::openProject,         this, &MainWindow::openProject);
-    connect(_wdgWelcome, &WdgWelcome::openProfileFromFile, this, &MainWindow::openProject);
+    connect(_wdgWelcome, &WdgWelcome::openProjectFromFile, this, &MainWindow::openProject);
     connect(_wdgWelcome, &WdgWelcome::openPreferences,     this, &MainWindow::openPreferences);
     connect(_wdgWelcome, &WdgWelcome::quitApplication,     this, &MainWindow::quitApplication);
 

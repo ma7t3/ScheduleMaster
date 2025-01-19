@@ -25,10 +25,10 @@ private slots:
 signals:
     void newProject();
     void openProject();
-    void openProfileFromFile(const QString &);
     void openPreferences();
     void quitApplication();
 
+    void openProjectFromFile(const QString &);
 private:
     Ui::WdgWelcome *ui;
 
