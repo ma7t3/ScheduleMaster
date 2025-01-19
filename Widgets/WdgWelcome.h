@@ -22,6 +22,13 @@ public:
 private slots:
     void on_pbToggleNews_clicked();
 
+signals:
+    void newProject();
+    void openProject();
+    void openProfileFromFile(const QString &);
+    void openPreferences();
+    void quitApplication();
+
 private:
     Ui::WdgWelcome *ui;
 
