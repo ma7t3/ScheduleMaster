@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QDesktopServices>
+#include <QScrollBar>
 
 #include "Global/LocalConfig.h"
 #include "WdgWelcomeRecentProjectEntry.h"
@@ -24,27 +25,25 @@ WdgWelcome::WdgWelcome(QWidget *parent) :
     connect(_recentFileOpen,         &QAction::triggered, this, &WdgWelcome::onRecentFileOpen);
     connect(_recentFileOpenLocation, &QAction::triggered, this, &WdgWelcome::onRecentFileOpenLocation);
     connect(_recentFileRemove,       &QAction::triggered, this, &WdgWelcome::onRecentFileRemove);
-
-    _lastUsedFiles = LocalConfig::lastUsedFiles();
-
-    updateRecentFilesList();
+    updateRecentProjectsList();
 
     connect(ui->clbNewProject,  &QCommandLinkButton::clicked, this, &WdgWelcome::newProject);
     connect(ui->clbOpenProject, &QCommandLinkButton::clicked, this, &WdgWelcome::openProject);
     connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &WdgWelcome::openPreferences);
     connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &WdgWelcome::quitApplication);
-
-
 }
 
 WdgWelcome::~WdgWelcome() {
     delete ui;
 }
 
-void WdgWelcome::updateRecentFilesList() {
+void WdgWelcome::updateRecentProjectsList() {
+    QStringList lastUsedFiles = LocalConfig::lastUsedFiles();
+
+    int scrollbarPos = ui->lwRecentProjects->verticalScrollBar()->value();
     ui->lwRecentProjects->clear();
 
-    for(QString current : _lastUsedFiles) {
+    for(QString current : lastUsedFiles) {
         QListWidgetItem *itm = new QListWidgetItem(ui->lwRecentProjects);
         ui->lwRecentProjects->addItem(itm);
         WdgWelcomeRecentProjectEntry *wdg = new WdgWelcomeRecentProjectEntry(ui->lwRecentProjects);
@@ -66,6 +65,8 @@ void WdgWelcome::updateRecentFilesList() {
         connect(wdg, &WdgWelcomeRecentProjectEntry::open,           this, &WdgWelcome::openProjectFromFile);
         connect(wdg, &WdgWelcomeRecentProjectEntry::removeFromList, this, &WdgWelcome::removeProjectFromList);
     }
+
+    ui->lwRecentProjects->verticalScrollBar()->setValue(scrollbarPos);
 }
 
 void WdgWelcome::on_pbToggleNews_clicked() {
