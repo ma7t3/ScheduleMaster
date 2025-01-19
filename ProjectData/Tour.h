@@ -48,6 +48,9 @@ public:
 
     QJsonObject toJson() const;
 
+signals:
+    void changed(Tour *);
+
 protected:
     void copy(const Tour &);
     void fromJson(const QJsonObject &);

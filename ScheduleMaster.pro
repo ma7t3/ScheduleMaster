@@ -11,6 +11,18 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 SOURCES += \
     App/logger.cpp \
     AppInfo.cpp \
+    DataModels/BusstopTableModel.cpp \
+    DataModels/DayTypeListModel.cpp \
+    DataModels/LineDirectionListModel.cpp \
+    DataModels/LineTableModel.cpp \
+    DataModels/RouteListModel.cpp \
+    DataModels/RouteTableModel.cpp \
+    DataModels/ScheduleTableFilterProxyModel.cpp \
+    DataModels/ScheduleTableModel.cpp \
+    DataModels/SimpleBusstopListModel.cpp \
+    DataModels/SimpleRouteBusstopListModel.cpp \
+    DataModels/TimeProfileTableModel.cpp \
+    DataModels/TourTableModel.cpp \
     Dialogs/DlgBusstopeditor.cpp \
     Dialogs/DlgChangelog.cpp \
     Dialogs/DlgDataexporter.cpp \
@@ -79,6 +91,23 @@ HEADERS += \
     Commands/CmdRoutes.h \
     Commands/CmdSchedule.h \
     Commands/CmdTours.h \
+    DataModels/BusstopTableModel.h \
+    DataModels/DayTypeListModel.h \
+    DataModels/LineDirectionListModel.h \
+    DataModels/LineTableModel.h \
+    DataModels/OrderedProjectDataColumnModel.h \
+    DataModels/OrderedProjectDataRowModel.h \
+    DataModels/ProjectDataModel.h \
+    DataModels/ProjectDataModelSignals.h \
+    DataModels/RouteListModel.h \
+    DataModels/RouteTableModel.h \
+    DataModels/ScheduleTableFilterProxyModel.h \
+    DataModels/ScheduleTableModel.h \
+    DataModels/SimpleBusstopListModel.h \
+    DataModels/SimpleRouteBusstopListModel.h \
+    DataModels/TimeProfileTableModel.h \
+    DataModels/TourTableModel.h \
+    DataModels/UnorderedProjectDataRowModel.h \
     Dialogs/DlgBusstopeditor.h \
     Dialogs/DlgChangelog.h \
     Dialogs/DlgCopyTrip.h \
@@ -135,17 +164,18 @@ HEADERS += \
     Widgets/WdgUndoView.h
 
 FORMS += \
-    Dialogs/DlgBusstopeditor.ui \
     Dialogs/DlgChangelog.ui \
     Dialogs/DlgCopyTrip.ui \
-    Dialogs/DlgDataexporter.ui \
     Dialogs/DlgFootnoteEditor.ui \
-    Dialogs/DlgLineeditor.ui \
+    Dialogs/DlgProgressLogger.ui \
+    Widgets/WdgFootnotes.ui \
     Dialogs/DlgOmsiImport.ui \
     Dialogs/DlgPdfExporter.ui \
     Dialogs/DlgPreferences.ui \
-    Dialogs/DlgProgressLogger.ui \
     Dialogs/DlgProjectsettings.ui \
+    Dialogs/DlgBusstopeditor.ui \
+    Dialogs/DlgDataexporter.ui \
+    Dialogs/DlgLineeditor.ui \
     Dialogs/DlgProjecttreeviewer.ui \
     Dialogs/DlgRouteeditor.ui \
     Dialogs/DlgStartupdialog.ui \
@@ -154,23 +184,19 @@ FORMS += \
     Dialogs/DlgTripselector.ui \
     Dialogs/DlgTroubleshooter.ui \
     Mainwindow.ui \
-    Widgets/Publications/WdgPublishedLines.ui \
-    Widgets/WdgBusstops.ui \
-    Widgets/WdgBusstopSchedule.ui \
+    Widgets/Publications/wdgpublishedlines.ui \
     Widgets/WdgDaySelector.ui \
-    Widgets/WdgFootnotes.ui \
-    Widgets/WdgLines.ui \
-    Widgets/WdgRoutes.ui \
     Widgets/WdgRouteSelector.ui \
-    Widgets/WdgSchedule.ui \
-    Widgets/WdgTourEditor.ui \
-    Widgets/WdgTours.ui \
-    Widgets/WdgTripEditor.ui \
-    Widgets/WdgUndoView.ui
+    Widgets/wdgbusstops.ui \
+    Widgets/wdglines.ui \
+    Widgets/wdgroutes.ui \
+    Widgets/wdgschedule.ui \
+    Widgets/wdgtoureditor.ui \
+    Widgets/wdgtours.ui \
+    Widgets/wdgtripeditor.ui \
+    Widgets/wdgundoview.ui \
+    Widgets/wdgbusstopschedule.ui \
 
-RESOURCES += \
-    main.qrc
-	
 RC_ICONS = appIcon/Icon_64px.ico
 
 # Default rules for deployment.
@@ -178,3 +204,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+RESOURCES += \
+    main.qrc

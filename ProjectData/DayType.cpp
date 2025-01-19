@@ -1,13 +1,15 @@
 #include "daytype.h"
 
-DayType::DayType(QObject *parent, const QString &id) :
-    WeekDays(parent, id) {
+DayType::DayType(QObject *parent, const QString &id) {
+    setParent(parent);
+    _id = id;
 }
 
 DayType::DayType(QObject *parent, const QString &id, const QString &name, const int &code) :
-    WeekDays(parent, id),
+    WeekDays(code),
     _name(name) {
-    setCode(code);
+    setParent(parent);
+    _id = id;
 }
 
 DayType::DayType(QObject *parent,
@@ -23,19 +25,21 @@ DayType::DayType(QObject *parent,
                  const bool &holiday,
                  const bool &school,
                  const bool &noSchool) :
-    WeekDays(
-        parent, monday, tuesday, wednesday, thursday, friday, saturday, sunday, holiday, school, noSchool),
+    WeekDays(monday, tuesday, wednesday, thursday, friday, saturday, sunday, holiday, school, noSchool),
     _name(name) {
+    setParent(parent);
     _id = id;
 }
 
 DayType::DayType(QObject *parent, const QJsonObject &jsonObject) :
-    WeekDays(parent, jsonObject.value("code").toInt(995)) {
+    WeekDays(jsonObject.value("code").toInt(799)) {
+    setParent(parent);
     fromJson(jsonObject);
 }
 
 DayType::DayType(const DayType &other) :
-    WeekDays(other.parent()) {
+    WeekDays(other) {
+    setParent(other.parent());
     copy(other);
 }
 
@@ -67,6 +71,7 @@ QJsonObject DayType::toJson() const {
 
 void DayType::setName(const QString &name) {
     _name = name;
+    emit changed(this);
 }
 
 QString DayType::name() const {

@@ -1,5 +1,4 @@
 #include "dlgprojectsettings.h"
-#include "App/global.h"
 #include "ui_dlgprojectsettings.h"
 
 
@@ -7,20 +6,31 @@
 #include <QFileDialog>
 #include <QInputDialog>
 
-DlgProjectSettings::DlgProjectSettings(QWidget *parent) :
+DlgProjectSettings::DlgProjectSettings(QWidget *parent, ProjectSettings *projectSettings) :
     QDialog(parent),
     ui(new Ui::DlgProjectSettings),
-    _icon("")
-{
+    _projectSettingsPtr(projectSettings),
+    _projectSettings(*projectSettings),
+    _model(new DayTypeListModel(this)),
+    _icon("") {
     ui->setupUi(this);
 
-    QObject::connect(ui->pbSelectIcon, SIGNAL(clicked()), this, SLOT(actionSelectIcon()));
+    _projectSettings.setParent(nullptr);
+
+    ui->lwDays->setModel(_model);
+
+    connect(_model,                       &QAbstractItemModel::rowsInserted,       this, &DlgProjectSettings::onDayTypeInserted);
+    connect(ui->pbSelectIcon,             &QPushButton::clicked,                   this, &DlgProjectSettings::actionSelectIcon);
+    connect(ui->lwDays->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &DlgProjectSettings::onSelectionChanged);
+
+
+    loadProjectSettings();
 
     ui->tabWidget->setCurrentIndex(0);
 
     ui->leDayTypesName->setEnabled(false);
     ui->daySelector->setEnabled(false);
-    ui->daySelector->setWeekDays(WeekDays(this, 0));
+    ui->daySelector->setWeekDays(WeekDays());
 }
 
 DlgProjectSettings::~DlgProjectSettings()
@@ -28,29 +38,24 @@ DlgProjectSettings::~DlgProjectSettings()
     delete ui;
 }
 
-void DlgProjectSettings::setDisplayName(QString name) { ui->leDisplayName->setText(name); }
-void DlgProjectSettings::setShortName(QString name)   { ui->leShortName->setText(name); }
-void DlgProjectSettings::setNames(QString displayName, QString shortName) {
-    setDisplayName(displayName);
-    setShortName(shortName);
+ProjectSettings DlgProjectSettings::projectSettings() const {
+    ProjectSettings p = _projectSettings;
+    p.setDisplayName(ui->leDisplayName->text());
+    p.setShortName(ui->leShortName->text());
+    p.setIcon(ui->leIconPath->text());
+    return p;
 }
-void DlgProjectSettings::setIcon(QString fileName) {
-    _icon.setFileName(fileName);
-    ui->leIconPath->setText(fileName);
+
+void DlgProjectSettings::loadProjectSettings() {
+    ui->leDisplayName->setText(_projectSettings.displayName());
+    ui->leShortName->setText(_projectSettings.shortName());
+    ui->leIconPath->setText(_projectSettings.icon());
+
+    _projectSettings.setDayTypes(_projectSettingsPtr->cloneDayTypes(), true);
+    _model->setProjectSettings(&_projectSettings);
+
     reloadIconPreview();
 }
-
-void DlgProjectSettings::setDayTypes(QList<DayType> dayTypes) {
-    for(int i = 0; i < dayTypes.count(); i++)
-        tableReference << new DayType(dayTypes[i]);
-
-    refreshDayTypesTable();
-}
-
-QString DlgProjectSettings::displayName()       { return ui->leDisplayName->text(); }
-QString DlgProjectSettings::shortName()         { return ui->leShortName->text(); }
-QString DlgProjectSettings::icon()              { return _icon.fileName(); }
-QList<DayType *> DlgProjectSettings::dayTypes() { return tableReference; }
 
 void DlgProjectSettings::actionSelectIcon() {
     QString filename = QFileDialog::getOpenFileName(this, "", "", tr("Images (*.png *.jpg *.bmp *.ico)"));
@@ -83,24 +88,11 @@ void DlgProjectSettings::reloadIconPreview() {
     ui->lIcon->setPixmap(pixmap);
 }
 
-void DlgProjectSettings::refreshDayTypesTable() {
-    refreshingDayTypes = true;
-    ui->lwDays->clear();
-    for(int i = 0; i < tableReference.count(); i++) {
-        DayType *d = tableReference[i];
-        ui->lwDays->insertItem(i, new QListWidgetItem(d->name()));
-
-        if(d == _currentDayType)
-            ui->lwDays->setCurrentRow(i);
-    }
-
-    refreshingDayTypes = false;
-}
-
 void DlgProjectSettings::refreshTayTypesDetails() {
-    if(!_currentDayType) {
+    QModelIndex index = ui->lwDays->selectionModel()->currentIndex();
+    if(!index.isValid()){
         ui->leDayTypesName->setText("");
-        ui->daySelector->setWeekDays(WeekDays(this, 0));
+        ui->daySelector->setWeekDays(WeekDays());
 
         ui->leDayTypesName->setEnabled(false);
         ui->daySelector->setEnabled(false);
@@ -108,31 +100,36 @@ void DlgProjectSettings::refreshTayTypesDetails() {
         return;
     }
 
-    ui->leDayTypesName->setText(_currentDayType->name());
-    ui->daySelector->setWeekDays(WeekDays(*_currentDayType));
+    DayType *dt = _model->itemAt(index.row());
+
+    ui->leDayTypesName->setText(dt->name());
+    ui->daySelector->setWeekDays(WeekDays(*dt));
 
     ui->leDayTypesName->setEnabled(true);
     ui->daySelector->setEnabled(true);
 }
 
-void DlgProjectSettings::on_lwDays_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {
-    Q_UNUSED(previous);
-    if(refreshingDayTypes)
-        return;
-
-    if(!current)
-        _currentDayType = nullptr;
-    else
-        _currentDayType = tableReference[ui->lwDays->row(current)];
+void DlgProjectSettings::onSelectionChanged(QModelIndex current, QModelIndex previous) {
+    Q_UNUSED(current);Q_UNUSED(previous);
 
     refreshTayTypesDetails();
 }
 
+void DlgProjectSettings::onDayTypeInserted(QModelIndex parent, int first, int last) {
+    Q_UNUSED(parent);Q_UNUSED(last);
+    ui->lwDays->setCurrentIndex(_model->index(first, 0));
+    ui->lwDays->selectionModel()->select(_model->index(first, 0), QItemSelectionModel::ClearAndSelect);
+    ui->lwDays->setFocus();
+}
+
 void DlgProjectSettings::on_leDayTypesName_textEdited(const QString &arg1) {
-    if(_currentDayType) {
-        _currentDayType->setName(arg1);
-        refreshDayTypesTable();
-    }
+    QModelIndex index = ui->lwDays->selectionModel()->currentIndex();
+    if(!index.isValid())
+        return;
+
+    DayType *dt = _model->itemAt(index.row());
+    if(dt)
+        dt->setName(arg1);
 }
 
 void DlgProjectSettings::on_pbDayNew_clicked() {
@@ -141,76 +138,67 @@ void DlgProjectSettings::on_pbDayNew_clicked() {
     if(!ok)
         return;
 
-    DayType *d = new DayType(nullptr, ProjectDataItem::getNewID(), name, 0);
-    tableReference << d;
-    _currentDayType = d;
-    refreshDayTypesTable();
+    DayType *dt = _projectSettingsPtr->newDayType();
+    dt->setName(name);
+    dt->setCode(0);
+    _projectSettings.addDayType(dt, true);
     refreshTayTypesDetails();
 }
 
 
 void DlgProjectSettings::on_pbDaysDelete_clicked() {
-    if(!_currentDayType)
+    QModelIndex index = ui->lwDays->selectionModel()->currentIndex();
+    if(!index.isValid())
         return;
 
-    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete day type"), tr("<p><b>Do you really want to delete this dayType?</b></p><p>%1</p>").arg(_currentDayType->name()), QMessageBox::Yes|QMessageBox::No);
+    DayType *dt = _model->itemAt(index.row());
+
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete day type"), tr("<p><b>Do you really want to delete this dayType?</b></p><p>%1</p>").arg(dt->name()), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
 
-    for(int i = 0; i < tableReference.count(); i++) {
-        if(tableReference[i] == _currentDayType) {
-            tableReference.remove(i);
-            _currentDayType = nullptr;
-            refreshDayTypesTable();
-            refreshTayTypesDetails();
-            return;
-        }
-    }
+    _projectSettings.removeDayType(dt);
 }
 
 
 void DlgProjectSettings::on_pbDaysUp_clicked() {
-    int index = -1;
-
-    for(int i = 0; i < tableReference.count(); i++) {
-        if(tableReference[i] == _currentDayType) {
-            index = i - 1;
-        }
-    }
-
-    if(index < 0 || index >= tableReference.count())
+    QModelIndex index = ui->lwDays->selectionModel()->currentIndex();
+    if(!index.isValid())
         return;
 
-    tableReference.remove(index + 1);
-    tableReference.insert(index, _currentDayType);
+    DayType *dt = _model->itemAt(index.row());
+    if(index.row() < 1)
+        return;
 
-    refreshDayTypesTable();
+    int targetIndex = index.row() - 1;
+
+    _projectSettings.removeDayType(dt);
+    qApp->processEvents();
+    _projectSettings.insertDayType(dt, targetIndex, true);
 }
 
 
 void DlgProjectSettings::on_pbDaysDown_clicked() {
-    int index = -1;
-
-    for(int i = 0; i < tableReference.count(); i++) {
-        if(tableReference[i] == _currentDayType) {
-            index = i + 1;
-        }
-    }
-
-    if(index < 0 || index >= tableReference.count())
+    QModelIndex index = ui->lwDays->selectionModel()->currentIndex();
+    if(!index.isValid())
         return;
 
-    tableReference.remove(index - 1);
-    tableReference.insert(index, _currentDayType);
+    DayType *dt = _model->itemAt(index.row());
+    if(index.row() >= _model->itemCount() - 1)
+        return;
 
-    refreshDayTypesTable();
+    int targetIndex = index.row() + 1;
+
+    _projectSettings.removeDayType(dt);
+    qApp->processEvents();
+    _projectSettings.insertDayType(dt, targetIndex, true);
 }
 
 void DlgProjectSettings::on_daySelector_weekDaysChanged() {
-    if(!_currentDayType)
+    QModelIndex index = ui->lwDays->currentIndex();
+    if(!index.isValid())
         return;
 
-    *_currentDayType = ui->daySelector->weekDays();
-
-    refreshDayTypesTable();
+    DayType *dt = _model->itemAt(index.row());
+    *dt = ui->daySelector->weekDays();
 }

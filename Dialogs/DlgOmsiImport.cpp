@@ -170,6 +170,9 @@ void DlgOmsiImport::on_pbStart_clicked() {
 
     ui->progressBar->setValue(0);
     ui->progressBar->setMaximum(trips.count() + lines.count());
+
+    projectData->setParent(nullptr);
+    projectData->moveToThread(_importer);
     _importer->start();
 }
 
@@ -178,7 +181,7 @@ void DlgOmsiImport::refreshProgress(int index, QString filePath) {
     ui->progressBar->setValue(index);
 }
 
-void DlgOmsiImport::finish() {
+void DlgOmsiImport::finish() {    
     ui->gbMapDir ->setEnabled(true);
     ui->gbOptions->setEnabled(true);
     ui->gbTrips  ->setEnabled(true);

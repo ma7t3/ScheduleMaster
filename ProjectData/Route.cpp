@@ -4,15 +4,26 @@
 #include "projectdata.h"
 
 Route::Route(QObject *parent, const QString &id) :
-    ProjectDataItem(parent, id), _code(1) {}
+    ProjectDataItem(parent, id),
+    _code(1),
+    _updateTimer(new QTimer(this)) {
+    _updateTimer->setSingleShot(true);
+    connect(_updateTimer, &QTimer::timeout, this, &Route::onUpdateTimerTimeout);
+}
 
 Route::Route(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent) {
+    ProjectDataItem(parent),
+    _updateTimer(new QTimer(this)) {
+    _updateTimer->setSingleShot(true);
+    connect(_updateTimer, &QTimer::timeout, this, &Route::onUpdateTimerTimeout);
     fromJson(jsonObject);
 }
 
 Route::Route(const Route &other) :
-    ProjectDataItem(other.parent()) {
+    ProjectDataItem(other.parent()),
+    _updateTimer(new QTimer(this)) {
+    _updateTimer->setSingleShot(true);
+    connect(_updateTimer, &QTimer::timeout, this, &Route::onUpdateTimerTimeout);
     copy(other);
 }
 
@@ -45,6 +56,8 @@ void Route::copy(const Route &other) {
         }
     }
     setTimeProfiles(newTimeProfiles);
+
+    emit changed(this);
 }
 
 void Route::fromJson(const QJsonObject &jsonObject) {
@@ -64,6 +77,35 @@ void Route::fromJson(const QJsonObject &jsonObject) {
     for(int i = 0; i < jTimeProfiles.count(); ++i)
         if(jTimeProfiles[i].isObject())
             addTimeProfile(newTimeProfile(jTimeProfiles[i].toObject()));
+}
+
+void Route::onUpdateTimerTimeout() {
+    if(!_addedTimeProfiles.isEmpty())
+        emit timeProfilesAdded(_addedTimeProfiles);
+
+    if(!_changedTimeProfiles.isEmpty())
+        emit timeProfilesChanged(_changedTimeProfiles);
+
+    if(!_removedTimeProfiles.isEmpty())
+        emit timeProfilesRemoved(_removedTimeProfiles);
+
+    if(!_addedBusstops.isEmpty())
+        emit busstopsAdded(_addedBusstops);
+
+    if(!_changedBusstops.isEmpty())
+        emit busstopsChanged(_changedBusstops);
+
+    if(!_removedBusstops.isEmpty()) {
+        emit busstopsRemoved(_removedBusstops);
+    }
+
+    _addedTimeProfiles.clear();
+    _changedTimeProfiles.clear();
+    _removedTimeProfiles.clear();
+
+    _addedBusstops.clear();
+    _changedBusstops.clear();
+    _removedBusstops.clear();
 }
 
 QJsonObject Route::toJson() const {
@@ -105,6 +147,7 @@ int Route::code() const {
 
 void Route::setCode(const int &newCode) {
     _code = newCode;
+    emit changed(this);
 }
 
 QString Route::name() const {
@@ -113,6 +156,7 @@ QString Route::name() const {
 
 void Route::setName(const QString &newName) {
     _name = newName;
+    emit changed(this);
 }
 
 LineDirection *Route::direction() const {
@@ -168,7 +212,7 @@ bool Route::hasBusstop(const QString &id) const {
     return false;
 }
 
-Busstop *Route::firstCommonBusstop(Route *other) {
+Busstop *Route::firstCommonBusstop(Route *other) const {
     foreach(Busstop *b, _busstops) {
         if(other->hasBusstop(b))
             return b;
@@ -186,7 +230,14 @@ int Route::indexOfBusstop(Busstop *b) const {
 }
 
 void Route::setBusstops(const QList<Busstop *> &newBusstops) {
+    for(Busstop *b : _busstops)
+        b->disconnect(this);
+
     _busstops = newBusstops;
+    for(Busstop *b : _busstops)
+        connect(b, &Busstop::changed, this, &Route::onBusstopChanged);
+    emit changed(this);
+    emit busstopListReset();
 }
 
 void Route::addBusstop(Busstop * b) {
@@ -194,6 +245,9 @@ void Route::addBusstop(Busstop * b) {
         return;
 
     _busstops << b;
+    connect(b, &Busstop::changed, this, &Route::onBusstopChanged);
+    emit changed(this);
+    onBusstopAdded(b);
 }
 
 void Route::insertBusstop(const int &index , Busstop * b) {
@@ -201,16 +255,24 @@ void Route::insertBusstop(const int &index , Busstop * b) {
         return;
     
     _busstops.insert(index, b);
+    connect(b, &Busstop::changed, this, &Route::onBusstopChanged);
+    emit changed(this);
+    onBusstopAdded(b);
 }
 
 void Route::removeBusstop(const int &index) {
     if(index < 0 || index >= _busstops.count())
         return;
+    Busstop *b = _busstops[index];
     _busstops.remove(index);
+    b->disconnect(this);
+    emit changed(this);
+    onBusstopRemoved(b);
 }
 
 void Route::clearBusstops() {
     _busstops.clear();
+    emit changed(this);
 }
 
 QList<TimeProfile *> Route::timeProfiles() const {
@@ -254,6 +316,7 @@ bool Route::hasTimeProfile(const QString &id) const {
 
 void Route::setTimeProfiles(QList<TimeProfile *> list) {
     _timeProfiles = list;
+    emit changed(this);
 }
 
 void Route::addTimeProfile(TimeProfile *p) {
@@ -261,28 +324,29 @@ void Route::addTimeProfile(TimeProfile *p) {
         return;
 
     _timeProfiles << p;
+    emit changed(this);
+    onTimeProfileAdded(p);
 }
 
 void Route::addTimeProfiles(QList<TimeProfile *> list) {
     for(int i = 0; i < list.count(); i++)
-        if(list[i])
+        if(list[i]) {
             _timeProfiles << list[i];
+            onTimeProfileAdded(list[i]);
+        }
+    emit changed(this);
 }
 
-void Route::removeTimeProfile(TimeProfile *p)
-{
+void Route::removeTimeProfile(TimeProfile *p) {
     if(!p)
         return;
     
     for(int i = 0; i < timeProfileCount(); i++)
         if(timeProfileAt(i) == p)
             _timeProfiles.removeAt(i);
-}
 
-void Route::removeTimeProfile(const QString &id) {
-    for(int i = 0; i < timeProfileCount(); i++)
-        if(timeProfileAt(i)->id() == id)
-            _timeProfiles.removeAt(i);
+    emit changed(this);
+    onTimeProfileRemoved(p);
 }
 
 int Route::indexOfTimeProfile(TimeProfile* p) const {
@@ -296,15 +360,57 @@ int Route::indexOfTimeProfile(TimeProfile* p) const {
 TimeProfile *Route::newTimeProfile(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new TimeProfile(this, id);
+
+    TimeProfile *p = new TimeProfile(this, id);
+    connect(p, &TimeProfile::changed, this, &Route::onTimeProfileChanged);
+    return p;
 }
 
 TimeProfile *Route::newTimeProfile(const QJsonObject &obj) {
-    return new TimeProfile(this, obj);
+    TimeProfile *p = new TimeProfile(this, obj);
+    connect(p, &TimeProfile::changed, this, &Route::onTimeProfileChanged);
+    return p;
 }
 
 TimeProfile *Route::newTimeProfile(const TimeProfile &newTimeProfile) {
     TimeProfile *p = new TimeProfile(newTimeProfile);
     p->setParent(this);
+    connect(p, &TimeProfile::changed, this, &Route::onTimeProfileChanged);
     return p;
+}
+
+void Route::onBusstopAdded(Busstop *b) {
+    if(_addedBusstops.indexOf(b) == -1)
+        _addedBusstops << b;
+    _updateTimer->start();
+}
+
+void Route::onBusstopChanged(Busstop *b) {
+    if(_changedBusstops.indexOf(b) == -1)
+        _changedBusstops << b;
+    _updateTimer->start();
+}
+
+void Route::onBusstopRemoved(Busstop *b) {
+    if(_removedBusstops.indexOf(b) == -1)
+        _removedBusstops << b;
+    _updateTimer->start();
+}
+
+void Route::onTimeProfileAdded(TimeProfile *p) {
+    if(_addedTimeProfiles.indexOf(p) == -1)
+        _addedTimeProfiles << p;
+    _updateTimer->start(0);
+}
+
+void Route::onTimeProfileChanged(TimeProfile *p) {
+    if(_changedTimeProfiles.indexOf(p) == -1)
+        _changedTimeProfiles << p;
+    _updateTimer->start(0);
+}
+
+void Route::onTimeProfileRemoved(TimeProfile *p) {
+    if(_removedTimeProfiles.indexOf(p) == -1)
+        _removedTimeProfiles << p;
+    _updateTimer->start(0);
 }

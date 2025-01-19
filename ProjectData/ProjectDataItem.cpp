@@ -4,17 +4,20 @@
 
 ProjectDataItem::ProjectDataItem(QObject *parent, const QString &id) :
     QObject(parent),
-    _id(id) {
+    _id(id),
+    _inUse(false) {
     if(this->id().isEmpty())
         _id = getNewID();
 }
 
 ProjectDataItem::ProjectDataItem(QObject *parent, const QJsonObject &jsonObject) :
-    QObject(parent) {
+    QObject(parent),
+    _inUse(false) {
     fromJson(jsonObject);
 }
 
-ProjectDataItem::ProjectDataItem(const ProjectDataItem &other) : QObject(other.parent()) {
+ProjectDataItem::ProjectDataItem(const ProjectDataItem &other) :
+    QObject(other.parent()) {
     copy(other);
 }
 
@@ -29,6 +32,14 @@ void ProjectDataItem::copy(const ProjectDataItem &other) {
 
 QString ProjectDataItem::id() const {
     return _id;
+}
+
+bool ProjectDataItem::inUse() const {
+    return _inUse;
+}
+
+void ProjectDataItem::setInUse(const bool &newInUse) {
+    _inUse = newInUse;
 }
 
 void ProjectDataItem::fromJson(const QJsonObject &jsonObject) {

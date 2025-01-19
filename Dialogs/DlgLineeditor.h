@@ -4,8 +4,9 @@
 #include <QDialog>
 #include <QListWidgetItem>
 
-#include "App/global.h"
 #include "ProjectData/line.h"
+
+#include "DataModels/LineDirectionListModel.h"
 
 namespace Ui {
 class DlgLineEditor;
@@ -22,7 +23,7 @@ public:
     void setCreateMode(const bool &);
 
     Line line() const;
-    void setLine(const Line &);
+    void loadLine();
 
 private slots:
     void on_pbColor_clicked();
@@ -33,12 +34,14 @@ private slots:
     void actionDirectionUp();
     void actionDirectionDown();
 
-    void refreshDirections();
+    void onDirectionInserted(QModelIndex parent, int first, int last);
 
 private:
     Ui::DlgLineEditor *ui;
     Line _line;
     Line *_linePtr;
+
+    LineDirectionListModel *_directionsModel;
 };
 
 #endif // LINEEDITOR_H

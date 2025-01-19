@@ -133,6 +133,10 @@ TimeProfile TimeProfile::operator=(const TimeProfile &other) {
     return *this;
 }
 
+bool TimeProfile::operator<(const TimeProfile &other) {
+    return name().toLower() < other.name().toLower();
+}
+
 void TimeProfile::copy(const TimeProfile &other) {
     ProjectDataItem::copy(other);
     setName(other.name());
@@ -180,6 +184,7 @@ QString TimeProfile::name() const {
 
 void TimeProfile::setName(const QString &newName) {
     _name = newName;
+    emit changed(this);
 }
 
 float TimeProfile::duration() const {
@@ -188,6 +193,7 @@ float TimeProfile::duration() const {
 
 void TimeProfile::setDuration(const float &newDuration) {
     _duration = newDuration;
+    emit changed(this);
 }
 
 QList<TimeProfileItem *> TimeProfile::busstops() const {
@@ -211,6 +217,7 @@ TimeProfileItem *TimeProfile::busstop(const QString &id) const {
 
 void TimeProfile::setBusstops(const QList<TimeProfileItem *> &newBusstops) {
     _items = newBusstops;
+    emit changed(this);
 }
 
 void TimeProfile::addBusstop(TimeProfileItem * itm) {
@@ -219,6 +226,7 @@ void TimeProfile::addBusstop(TimeProfileItem * itm) {
 
     itm->setParent(this);
     _items << itm;
+    emit changed(this);
 }
 
 void TimeProfile::addBusstops(const QList<TimeProfileItem *> &busstops) {
@@ -227,11 +235,13 @@ void TimeProfile::addBusstops(const QList<TimeProfileItem *> &busstops) {
             busstops[i]->setParent(this);
             this->addBusstop(busstops[i]);
         }
+    emit changed(this);
 }
 
 void TimeProfile::removeBusstop(const QString &id) {
     for(int i = 0; i < _items.count(); i++)
         if(_items[i]->busstopId() == id)
             _items.remove(i);
+    emit changed(this);
 }
 

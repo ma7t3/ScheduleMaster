@@ -6,6 +6,7 @@
 #include <QTableWidget>
 
 #include "ProjectData/projectdata.h"
+#include "DataModels/TourTableModel.h"
 
 namespace Ui {
 class WdgTours;
@@ -16,28 +17,25 @@ class WdgTours : public QWidget
     Q_OBJECT
 
 public:
-    explicit WdgTours(QWidget *parent = nullptr, ProjectData *projectData = nullptr, QUndoStack *undoStack = nullptr);
+    explicit WdgTours(QWidget *parent);
     ~WdgTours();
 
+    QList<QAction *> actions();
+
 public slots:
-    void actionTourNew();
-    void actionTourEdit();
-    void actionTourDuplicate();
-    void actionTourDelete();
-    void actionExport();
-
-    void setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDuplicate, QAction *actionDelete);
-
+    void refreshUI();
+    Tour *currentTour() const;
     void setCurrentTour(Tour *);
 
-    void refreshUI();
-
-    void refresh();
-
-    Tour *currentTour();
-
 private slots:
-    void on_twTours_itemSelectionChanged();
+    void actionNew();
+    void actionEdit();
+    void actionDuplicate();
+    void actionDelete();
+    void actionExport();
+
+    void onSelectionChanged();
+    void onRowsInserted(QModelIndex parent, int first, int last);
 
 signals:
     void currentTourChanged(Tour *);
@@ -47,18 +45,15 @@ private:
     Ui::WdgTours *ui;
 
     ProjectData *projectData;
-    QUndoStack *undoStack;
-    QList<Tour *> tableReference;
+    TourTableModel *_model;
+    QSortFilterProxyModel *_proxyModel;
     Tour *_currentTour = nullptr;
 
-    bool refreshing = false;
-
-    QAction *_actionNew = new QAction;
-    QAction *_actionEdit = new QAction;
-    QAction *_actionDuplicate = new QAction;
-    QAction *_actionDelete = new QAction;
-
-    //QString currentTourId;
+    QAction *_actionNew;
+    QAction *_actionEdit;
+    QAction *_actionDuplicate;
+    QAction *_actionDelete;
+    QAction *_actionExport;
 };
 
 #endif // WDGTOURS_H

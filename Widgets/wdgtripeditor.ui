@@ -67,7 +67,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QListWidget" name="lwRoutes"/>
+           <widget class="QListView" name="lwRoutes"/>
           </item>
          </layout>
         </widget>

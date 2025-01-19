@@ -5,7 +5,7 @@
 
 #include "ProjectDataItem.h"
 
-class Busstop : public virtual ProjectDataItem {
+class Busstop : public ProjectDataItem {
     Q_OBJECT
 public:
     Busstop(QObject *parent, const QString &id);
@@ -22,6 +22,9 @@ public:
     bool important() const;
 
     QJsonObject toJson() const;
+
+signals:
+    void changed(Busstop *);
 
 protected:
     void copy(const Busstop &other);

@@ -5,6 +5,10 @@
 #include <QJsonDocument>
 #include <QColor>
 #include <QUndoStack>
+#include <QPixmap>
+#include <QPainter>
+
+#include "App/global.h"
 
 #include "projectData/busstop.h"
 #include "projectData/line.h"
@@ -29,17 +33,18 @@ public:
     void setFilePath(QString);
     QString filePath();
 
-    void addBusstop(Busstop *);
-    void addLine(Line *);
-    void addTour(Tour *);
 
+    void addBusstop(Busstop *);
     int busstopCount();
     Busstop *busstop(QString);
     Busstop *busstopAt(int);
     QList <Busstop*> busstops() const;
     Busstop *busstopWithName(const QString &name);
     bool busstopWithNameExists(const QString &name);
+    bool removeBusstop(Busstop *);
+    bool removeBusstop(QString);
 
+    void addLine(Line *);
     int lineCount();
     Line *line(QString);
     Line *lineAt(int);
@@ -51,13 +56,13 @@ public:
     Route *routeWithName(QString);
     Trip *trip(QString);
 
+    void addTour(Tour *);
     int tourCount();
     Tour *tour(QString);
     Tour *tourAt(int);
     QList<Tour *> tours();
 
-    bool removeBusstop(Busstop *);
-    bool removeBusstop(QString);
+
 
     bool removeLine(Line *);
     bool removeLine(QString);
@@ -98,6 +103,10 @@ public:
 
     static QList<Trip *> sortTrips(QList<Trip *> list, const int &hourBreak);
 
+    static QPixmap linesPixmap(const QList<Line *>);
+    QPixmap linesPixmap(Busstop *);
+    QPixmap linesPixmap(Tour *);
+
     Publications *publications();
 
     QJsonObject toJson();
@@ -121,10 +130,39 @@ public:
 
     QUndoStack *undoStack();
 
+    bool isLoadingFromFile() const;
+
+protected:
+    void onBusstopAdded(Busstop *);
+    void onBusstopChanged(Busstop *);
+    void onBusstopRemoved(Busstop *);
+
+    void onLineAdded(Line *);
+    void onLineChanged(Line *);
+    void onLineRemoved(Line *);
+
+    void onTourAdded(Tour *);
+    void onTourChanged(Tour *);
+    void onTourRemoved(Tour *);
+
 signals:
     void loadingProgressMaxValue(const int &maxValue);
     void loadingProgressUpdated(const int &currentValue);
     void loadingProgressTextUpdated(const int &type, const QString &message, const bool &showAsCurrent = false);
+
+    void wasReset();
+
+    void busstopsAdded(const QList<Busstop *>);
+    void busstopsChanged(const QList<Busstop *>);
+    void busstopsRemoved(const QList<Busstop *>);
+
+    void linesAdded(const QList<Line *>);
+    void linesChanged(const QList<Line *>);
+    void linesRemoved(const QList<Line *>);
+
+    void toursAdded(const QList<Tour *>);
+    void toursChanged(const QList<Tour *>);
+    void toursRemoved(const QList<Tour *>);
 
 private:
     QString _filePath;
@@ -135,10 +173,27 @@ private:
     QList<Footnote *> _footnotes;
     Publications *_publications;
 
+    QList<Busstop *> _addedBusstops;
+    QList<Busstop *> _changedBusstops;
+    QList<Busstop *> _removedBusstops;
+
+    QList<Line *> _addedLines;
+    QList<Line *> _changedLines;
+    QList<Line *> _removedLines;
+
+    QList<Tour *> _addedTours;
+    QList<Tour *> _changedTours;
+    QList<Tour *> _removedTours;
+
     QUndoStack _undoStack;
 
     std::unordered_map<Route *, Line *> _routeLineCacheMap;
     std::unordered_map<Trip *, Line *> _routeTripCacheMap;
+
+    QTimer *_updateTimer;
+
+    bool _loadingFromFile;
+    bool _afterLoadingFromFile;
 };
 
 #endif // PROJECTDATA_H
