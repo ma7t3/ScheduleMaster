@@ -63,6 +63,9 @@ public:
     static QByteArray mainWindowGeometry();
     static void setMainWindowGeomentry(const QByteArray &geometry);
 
+signals:
+    void lastUsedFilesChanged();
+
 private:
     static inline QSettings settingsGeneral = QSettings("ScheduleMaster", "general");
     static inline QString _lastLogfileName = "";
