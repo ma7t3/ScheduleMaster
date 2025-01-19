@@ -28,6 +28,11 @@ public:
     void removeBusstop(Busstop *);
     void removeBusstop(const QUuid &id);
 
+    QJsonObject toJson() const;
+
+protected:
+    void fromJson(const QJsonObject &);
+
 signals:
 
 private:

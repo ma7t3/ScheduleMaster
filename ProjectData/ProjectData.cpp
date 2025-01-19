@@ -1,5 +1,7 @@
 #include "ProjectData.h"
 
+#include <QJsonArray>
+
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
     _undoStack(new QUndoStack(this)) {
@@ -58,4 +60,17 @@ void ProjectData::removeBusstop(Busstop *busstop) {
 
 void ProjectData::removeBusstop(const QUuid &id) {
     _busstops.remove(id);
+}
+
+QJsonObject ProjectData::toJson() const {
+    return {};
+}
+
+void ProjectData::fromJson(const QJsonObject &jsonObject) {
+    QJsonArray jBusstops = jsonObject.value("busstops").toArray(QJsonArray());
+
+    for(int i = 0; i < jBusstops.count(); i++) {
+        Busstop *b = new Busstop(this, jBusstops[i].toObject());
+        _busstops.insert(b->id(), b);
+    }
 }
