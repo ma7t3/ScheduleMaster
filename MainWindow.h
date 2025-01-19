@@ -24,6 +24,19 @@ protected:
     void initToolbars();
     void initDockWidgets();
 
+protected slots:
+    void newProject();
+    void openProject();
+    void openProjectFromFile(const QString &filePath);
+    void saveProject();
+    void saveProjectAs();
+    void saveProjectToFile(const QString &filePath);
+    void closeProject();
+
+    void openPreferences();
+
+    void quitApplication();
+
 private:
     Ui::MainWindow *ui;
 

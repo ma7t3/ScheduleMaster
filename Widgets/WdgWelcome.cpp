@@ -21,6 +21,11 @@ WdgWelcome::WdgWelcome(QWidget *parent) :
     _lastUsedFiles = LocalConfig::lastUsedFiles();
 
     updateRecentFilesList();
+
+    connect(ui->clbNewProject,  &QCommandLinkButton::clicked, this, &WdgWelcome::newProject);
+    connect(ui->clbOpenProject, &QCommandLinkButton::clicked, this, &WdgWelcome::openProject);
+    connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &WdgWelcome::openPreferences);
+    connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &WdgWelcome::quitApplication);
 }
 
 WdgWelcome::~WdgWelcome() {

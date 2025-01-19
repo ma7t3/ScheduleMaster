@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuEdit->addAction(ui->actionEditProjectSettings);
 
     initDockWidgets();
+
+    connect(ui->actionFileQuit, &QAction::triggered, this, &MainWindow::quitApplication);
+
+    connect(ui->actionEditPreferences, &QAction::triggered, this, &MainWindow::openPreferences);
 }
 
 MainWindow::~MainWindow() {
@@ -50,8 +54,35 @@ void MainWindow::initDockWidgets() {
     _dwWelcome = new QDockWidget(tr("Welcome"), this);
 
     _wdgWelcome = new WdgWelcome(this);
+    connect(_wdgWelcome, &WdgWelcome::newProject,          this, &MainWindow::newProject);
+    connect(_wdgWelcome, &WdgWelcome::openProject,         this, &MainWindow::openProject);
+    connect(_wdgWelcome, &WdgWelcome::openProfileFromFile, this, &MainWindow::openProject);
+    connect(_wdgWelcome, &WdgWelcome::openPreferences,     this, &MainWindow::openPreferences);
+    connect(_wdgWelcome, &WdgWelcome::quitApplication,     this, &MainWindow::quitApplication);
 
     _dwWelcome->setWidget(_wdgWelcome);
 
     addDockWidget(Qt::TopDockWidgetArea, _dwWelcome);
+}
+
+void MainWindow::newProject() {}
+
+void MainWindow::openProject() {}
+
+void MainWindow::openProjectFromFile(const QString &filePath) {}
+
+void MainWindow::saveProject() {}
+
+void MainWindow::saveProjectAs() {}
+
+void MainWindow::saveProjectToFile(const QString &filePath) {}
+
+void MainWindow::closeProject() {}
+
+void MainWindow::openPreferences() {
+    qInfo() << "open prefs";
+}
+
+void MainWindow::quitApplication() {
+    QApplication::quit();
 }
