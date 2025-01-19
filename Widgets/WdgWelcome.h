@@ -2,6 +2,7 @@
 #define WDGWELCOME_H
 
 #include <QWidget>
+#include <QListWidgetItem>
 
 #include "WdgAbstract.h"
 
@@ -22,6 +23,15 @@ public:
 private slots:
     void on_pbToggleNews_clicked();
 
+    void onRecentFileOpen();
+    void onRecentFileOpenLocation();
+    void onRecentFileRemove();
+
+    void on_lwRecentProjects_itemDoubleClicked(QListWidgetItem *item);
+
+private:
+    QString currentRecentFilePath() const;
+
 signals:
     void newProject();
     void openProject();
@@ -29,11 +39,13 @@ signals:
     void quitApplication();
 
     void openProjectFromFile(const QString &);
+    void removeProjectFromList(const QString &);
+
 private:
     Ui::WdgWelcome *ui;
 
     QStringList _lastUsedFiles;
-    QAction *_recentFileOpen, *_recentFileRemove;
+    QAction *_recentFileOpen, *_recentFileOpenLocation, *_recentFileRemove;
 };
 
 #endif // WDGWELCOME_H

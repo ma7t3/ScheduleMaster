@@ -3,6 +3,8 @@
 
 #include <QDateTime>
 #include <QFileInfo>
+#include <QDir>
+#include <QDesktopServices>
 
 #include "Global/LocalConfig.h"
 #include "WdgWelcomeRecentProjectEntry.h"
@@ -14,9 +16,14 @@ WdgWelcome::WdgWelcome(QWidget *parent) :
 
     ui->lIcon->setPixmap(QPixmap(":/Icons/ScheduleMaster_64px.ico"));
 
-    _recentFileOpen   = ui->lwRecentProjects->addAction(QPixmap(":/Icons/FileOpen.ico"), tr("Open"));
-    _recentFileRemove = ui->lwRecentProjects->addAction(QPixmap(":/Icons/Quit.ico"),     tr("Remove from list"));
+    _recentFileOpen         = ui->lwRecentProjects->addAction(QPixmap(":/Icons/FileOpen.ico"), tr("Open"));
+    _recentFileOpenLocation = ui->lwRecentProjects->addAction(QPixmap(":/Icons/FileOpen.ico"), tr("Open Directory"));
+    _recentFileRemove       = ui->lwRecentProjects->addAction(QPixmap(":/Icons/Quit.ico"),     tr("Remove from list"));
     ui->lwRecentProjects->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    connect(_recentFileOpen,         &QAction::triggered, this, &WdgWelcome::onRecentFileOpen);
+    connect(_recentFileOpenLocation, &QAction::triggered, this, &WdgWelcome::onRecentFileOpenLocation);
+    connect(_recentFileRemove,       &QAction::triggered, this, &WdgWelcome::onRecentFileRemove);
 
     _lastUsedFiles = LocalConfig::lastUsedFiles();
 
@@ -26,6 +33,8 @@ WdgWelcome::WdgWelcome(QWidget *parent) :
     connect(ui->clbOpenProject, &QCommandLinkButton::clicked, this, &WdgWelcome::openProject);
     connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &WdgWelcome::openPreferences);
     connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &WdgWelcome::quitApplication);
+
+
 }
 
 WdgWelcome::~WdgWelcome() {
@@ -53,6 +62,9 @@ void WdgWelcome::updateRecentFilesList() {
 
         ui->lwRecentProjects->setItemWidget(itm, wdg);
         itm->setSizeHint(wdg->sizeHint());
+
+        connect(wdg, &WdgWelcomeRecentProjectEntry::open,           this, &WdgWelcome::openProjectFromFile);
+        connect(wdg, &WdgWelcomeRecentProjectEntry::removeFromList, this, &WdgWelcome::removeProjectFromList);
     }
 }
 
@@ -60,4 +72,46 @@ void WdgWelcome::on_pbToggleNews_clicked() {
     bool visible = ui->gbNews->isVisible();
     ui->pbToggleNews->setText(visible ? tr("Show News") : tr("Hide News"));
     ui->gbNews->setVisible(!visible);
+}
+
+void WdgWelcome::onRecentFileOpen() {
+    QString path = currentRecentFilePath();
+    if(path.isEmpty())
+        return;
+
+    emit openProjectFromFile(path);
+}
+
+void WdgWelcome::onRecentFileOpenLocation() {
+    QString path = currentRecentFilePath();
+    if(path.isEmpty())
+        return;
+
+    QFileInfo fi(path);
+    QString dirPath = fi.dir().path();
+    QDesktopServices::openUrl(QUrl(dirPath));
+}
+
+void WdgWelcome::onRecentFileRemove() {
+    QString path = currentRecentFilePath();
+    if(path.isEmpty())
+        return;
+
+    // TODO
+}
+
+QString WdgWelcome::currentRecentFilePath() const {
+    if(!ui->lwRecentProjects->currentItem())
+        return "";
+
+    return qobject_cast<WdgWelcomeRecentProjectEntry *>(ui->lwRecentProjects->itemWidget(ui->lwRecentProjects->currentItem()))->path();
+}
+
+void WdgWelcome::on_lwRecentProjects_itemDoubleClicked(QListWidgetItem *item) {
+    if(!item || !item->flags().testFlag(Qt::ItemIsEnabled))
+        return;
+
+    QString path = qobject_cast<WdgWelcomeRecentProjectEntry *>(ui->lwRecentProjects->itemWidget(item))->path();
+
+    emit openProjectFromFile(path);
 }
