@@ -27,9 +27,14 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuFileOpenRecent">
+     <property name="title">
+      <string>Open Recent</string>
+     </property>
+    </widget>
     <addaction name="actionFileNewProject"/>
     <addaction name="actionFileOpenProject"/>
-    <addaction name="actionFileOpenRecent"/>
+    <addaction name="menuFileOpenRecent"/>
     <addaction name="separator"/>
     <addaction name="actionFileSaveProject"/>
     <addaction name="actionFileSaveProjectAs"/>
@@ -94,15 +99,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
-   </property>
-  </action>
-  <action name="actionFileOpenRecent">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/LastUSedFiles.ico</normaloff>:/Icons/LastUSedFiles.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Open Recent</string>
    </property>
   </action>
   <action name="actionFileSaveProject">

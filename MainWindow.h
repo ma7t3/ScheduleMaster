@@ -24,6 +24,8 @@ protected:
     void initToolbars();
     void initDockWidgets();
 
+    void updateRecentProjectsList();
+
 protected slots:
     void newProject();
     void openProject();
@@ -33,6 +35,8 @@ protected slots:
     void saveProjectToFile(const QString &filePath);
     void closeProject();
     void quitApplication();
+
+    void removeProjectFromRecentList(const QString &filePath);
 
     void openPreferences();
     void openProjectSettings();

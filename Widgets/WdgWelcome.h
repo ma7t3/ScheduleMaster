@@ -18,7 +18,7 @@ public:
     explicit WdgWelcome(QWidget *parent = nullptr);
     ~WdgWelcome();
 
-    void updateRecentFilesList();
+    void updateRecentProjectsList();
 
 private slots:
     void on_pbToggleNews_clicked();
@@ -44,7 +44,6 @@ signals:
 private:
     Ui::WdgWelcome *ui;
 
-    QStringList _lastUsedFiles;
     QAction *_recentFileOpen, *_recentFileOpenLocation, *_recentFileRemove;
 };
 

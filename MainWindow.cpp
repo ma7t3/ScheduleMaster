@@ -1,6 +1,11 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include <QMessageBox>
+#include <QFileDialog>
+
+#include "Global/LocalConfig.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow) {
@@ -15,15 +20,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initDockWidgets();
 
-    connect(ui->actionFileNewProject,      &QAction::triggered, this, &MainWindow::newProject);
-    connect(ui->actionFileOpenProject,     &QAction::triggered, this, &MainWindow::openProject);
-    connect(ui->actionFileSaveProject,     &QAction::triggered, this, &MainWindow::saveProject);
-    connect(ui->actionFileSaveProjectAs,   &QAction::triggered, this, &MainWindow::saveProjectAs);
-    connect(ui->actionFileCloseProject,    &QAction::triggered, this, &MainWindow::closeProject);
-    connect(ui->actionFileQuit,            &QAction::triggered, this, &MainWindow::quitApplication);
+    updateRecentProjectsList();
 
-    connect(ui->actionEditPreferences,     &QAction::triggered, this, &MainWindow::openPreferences);
-    connect(ui->actionEditProjectSettings, &QAction::triggered, this, &MainWindow::openProjectSettings);
+    connect(ui->actionFileNewProject,      &QAction::triggered,                this,        &MainWindow::newProject);
+    connect(ui->actionFileOpenProject,     &QAction::triggered,                this,        &MainWindow::openProject);
+    connect(ui->actionFileSaveProject,     &QAction::triggered,                this,        &MainWindow::saveProject);
+    connect(ui->actionFileSaveProjectAs,   &QAction::triggered,                this,        &MainWindow::saveProjectAs);
+    connect(ui->actionFileCloseProject,    &QAction::triggered,                this,        &MainWindow::closeProject);
+    connect(ui->actionFileQuit,            &QAction::triggered,                this,        &MainWindow::quitApplication);
+
+    connect(ui->actionEditPreferences,     &QAction::triggered,                this,        &MainWindow::openPreferences);
+    connect(ui->actionEditProjectSettings, &QAction::triggered,                this,        &MainWindow::openProjectSettings);
+
+    connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, this,        &MainWindow::updateRecentProjectsList);
+    connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, _wdgWelcome, &WdgWelcome::updateRecentProjectsList);
 }
 
 MainWindow::~MainWindow() {
@@ -60,27 +70,50 @@ void MainWindow::initDockWidgets() {
     _dwWelcome = new QDockWidget(tr("Welcome"), this);
 
     _wdgWelcome = new WdgWelcome(this);
-    connect(_wdgWelcome, &WdgWelcome::newProject,          this, &MainWindow::newProject);
-    connect(_wdgWelcome, &WdgWelcome::openProject,         this, &MainWindow::openProject);
-    connect(_wdgWelcome, &WdgWelcome::openProjectFromFile, this, &MainWindow::openProjectFromFile);
-    connect(_wdgWelcome, &WdgWelcome::openPreferences,     this, &MainWindow::openPreferences);
-    connect(_wdgWelcome, &WdgWelcome::quitApplication,     this, &MainWindow::quitApplication);
+    connect(_wdgWelcome, &WdgWelcome::newProject,            this, &MainWindow::newProject);
+    connect(_wdgWelcome, &WdgWelcome::openProject,           this, &MainWindow::openProject);
+    connect(_wdgWelcome, &WdgWelcome::openProjectFromFile,   this, &MainWindow::openProjectFromFile);
+    connect(_wdgWelcome, &WdgWelcome::openPreferences,       this, &MainWindow::openPreferences);
+    connect(_wdgWelcome, &WdgWelcome::quitApplication,       this, &MainWindow::quitApplication);
 
-    connect(_wdgWelcome, &WdgWelcome::removeProjectFromList,     this, [](){qInfo() << "test";});
-
-
+    connect(_wdgWelcome, &WdgWelcome::removeProjectFromList, this, &MainWindow::removeProjectFromRecentList);
 
     _dwWelcome->setWidget(_wdgWelcome);
 
     addDockWidget(Qt::TopDockWidgetArea, _dwWelcome);
 }
 
+void MainWindow::updateRecentProjectsList() {
+    QMenu *menu = ui->menuFile->findChild<QMenu *>("menuFileOpenRecent");
+    if(!menu)
+        return;
+
+    menu->clear();
+
+    QStringList list = LocalConfig::lastUsedFiles();
+
+    int i = 0;
+    for(QString path : list) {
+        if(i > 9)
+            return;
+
+        QAction *action = menu->addAction(QString::number(i) + ": " + path);
+        connect(action, &QAction::triggered, this, [this, path](){openProjectFromFile(path);});
+        i++;
+    }
+}
+
 void MainWindow::newProject() {
-    qDebug() << "new project";
+    closeProject();
+    qInfo() << "create new project...";
 }
 
 void MainWindow::openProject() {
-    qDebug() << "open project with dialog";
+    QString path = QFileDialog::getOpenFileName(this, tr("Open Project File"), LocalConfig::defaultProjectLocation(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
+    if(path.isEmpty())
+        return;
+
+    openProjectFromFile(path);
 }
 
 void MainWindow::openProjectFromFile(const QString &filePath) {
@@ -105,6 +138,18 @@ void MainWindow::closeProject() {
 
 void MainWindow::quitApplication() {
     QApplication::quit();
+}
+
+void MainWindow::removeProjectFromRecentList(const QString &filePath) {
+    QMessageBox::StandardButton msg = QMessageBox::warning(this,
+                         tr("Remove item from recent projects"),
+                         tr("<p>Do you really want to remove this item from your recent projects list?</p><p><b>%1</b></p>").arg(filePath),
+                         QMessageBox::Yes|QMessageBox::No);
+
+    if(msg != QMessageBox::Yes)
+        return;
+
+    LocalConfig::removeLastUsedFile(filePath);
 }
 
 void MainWindow::openPreferences() {
