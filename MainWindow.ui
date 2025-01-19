@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ScheduleMaster</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionFileNewProject"/>
+    <addaction name="actionFileOpenProject"/>
+    <addaction name="actionFileOpenRecent"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileSaveProject"/>
+    <addaction name="actionFileSaveProjectAs"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileImport"/>
+    <addaction name="actionFileExport"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileCloseProject"/>
+    <addaction name="actionFileQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <widget class="QMenu" name="menuWorkspaces">
+     <property name="title">
+      <string>Workspaces</string>
+     </property>
+     <property name="icon">
+      <iconset resource="Resources.qrc">
+       <normaloff>:/Icons/Workspaces.ico</normaloff>:/Icons/Workspaces.ico</iconset>
+     </property>
+     <addaction name="actionViewWorkspaceHome"/>
+     <addaction name="actionViewWorkspaceRouting"/>
+     <addaction name="actionViewWorkspaceScheduling"/>
+     <addaction name="actionViewWorkspaceTours"/>
+     <addaction name="actionViewWorkspacePublish"/>
+    </widget>
+    <addaction name="actionViewDocs"/>
+    <addaction name="menuWorkspaces"/>
+    <addaction name="actionViewToolbars"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionFileNewProject">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileNew.ico</normaloff>:/Icons/FileNew.ico</iconset>
+   </property>
+   <property name="text">
+    <string>New Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionFileOpenProject">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileOpen.ico</normaloff>:/Icons/FileOpen.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Open Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionFileOpenRecent">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/LastUSedFiles.ico</normaloff>:/Icons/LastUSedFiles.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Open Recent</string>
+   </property>
+  </action>
+  <action name="actionFileSaveProject">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileSave.ico</normaloff>:/Icons/FileSave.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Save Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionFileSaveProjectAs">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileSave.ico</normaloff>:/Icons/FileSave.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Save Project As</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionFileImport">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileImport.ico</normaloff>:/Icons/FileImport.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionFileExport">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileExport.ico</normaloff>:/Icons/FileExport.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
+  <action name="actionFileCloseProject">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileClose.ico</normaloff>:/Icons/FileClose.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Close Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionFileQuit">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Quit.ico</normaloff>:/Icons/Quit.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::QuitRole</enum>
+   </property>
+  </action>
+  <action name="actionViewDocs">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Docks.ico</normaloff>:/Icons/Docks.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Docs</string>
+   </property>
+  </action>
+  <action name="actionViewToolbars">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Toolbars.ico</normaloff>:/Icons/Toolbars.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Toolbars</string>
+   </property>
+  </action>
+  <action name="actionViewWorkspaceRouting">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Route.ico</normaloff>:/Icons/Route.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Routing</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+2</string>
+   </property>
+  </action>
+  <action name="actionViewWorkspaceScheduling">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Schedule.ico</normaloff>:/Icons/Schedule.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Scheduling</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+3</string>
+   </property>
+  </action>
+  <action name="actionViewWorkspaceTours">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Tour.ico</normaloff>:/Icons/Tour.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Tours</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+4</string>
+   </property>
+  </action>
+  <action name="actionViewWorkspacePublish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/PublishedLines.ico</normaloff>:/Icons/PublishedLines.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Publish</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+5</string>
+   </property>
+  </action>
+  <action name="actionEditPreferences">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Preferences.ico</normaloff>:/Icons/Preferences.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+,</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::PreferencesRole</enum>
+   </property>
+  </action>
+  <action name="actionEditProjectSettings">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/ProjectSettings.ico</normaloff>:/Icons/ProjectSettings.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Project Settings</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+,</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionViewWorkspaceHome">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Home.ico</normaloff>:/Icons/Home.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Home</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+1</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
