@@ -31,6 +31,10 @@
      <property name="title">
       <string>Open Recent</string>
      </property>
+     <property name="icon">
+      <iconset resource="Resources.qrc">
+       <normaloff>:/Icons/LastUSedFiles.ico</normaloff>:/Icons/LastUSedFiles.ico</iconset>
+     </property>
     </widget>
     <addaction name="actionFileNewProject"/>
     <addaction name="actionFileOpenProject"/>
