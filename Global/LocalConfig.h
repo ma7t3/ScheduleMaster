@@ -42,6 +42,7 @@ public:
     static QStringList lastUsedFiles();
     static void addLastUsedFile(const QString &);
     static void setLastUsedFiles(const QStringList &);
+    static void removeLastUsedFile(const QString &);
     static void resetLastUsedFiles();
 
     static bool crashDetected();

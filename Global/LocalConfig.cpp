@@ -71,12 +71,8 @@ QStringList LocalConfig::lastUsedFiles() {
 
 void LocalConfig::addLastUsedFile(const QString &filePath) {
     QStringList list = lastUsedFiles();
-
-    if(list.contains(filePath))
-        list.removeAll(filePath);
-
+    list.removeAll(filePath);
     list.insert(0, filePath);
-
     setLastUsedFiles(list);
 }
 
@@ -84,8 +80,14 @@ void LocalConfig::setLastUsedFiles(const QStringList &list) {
     settingsGeneral.setValue("lastUsedFiles", list);
 }
 
+void LocalConfig::removeLastUsedFile(const QString &filePath) {
+    QStringList list = lastUsedFiles();
+    list.removeAll(filePath);
+    setLastUsedFiles(list);
+}
+
 void LocalConfig::resetLastUsedFiles() {
-    settingsGeneral.setValue("lastUsedFiles", {});
+    settingsGeneral.setValue("lastUsedFiles", QStringList());
 }
 
 bool LocalConfig::crashDetected() {
