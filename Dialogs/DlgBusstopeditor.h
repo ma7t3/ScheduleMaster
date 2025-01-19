@@ -21,7 +21,7 @@ public:
     void setCreateNewMode(const bool &);
 
     Busstop busstop() const;
-    void setBusstop(const Busstop &);
+    void loadBusstop();
 
 private:
     Ui::busstopEditor *ui;

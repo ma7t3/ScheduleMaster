@@ -21,7 +21,7 @@ public:
     void setCreateMode(const bool &);
 
     TimeProfile timeProfile() const;
-    void setTimeProfile(const TimeProfile &);
+    void loadTimeProfile();
 
 
 private slots:

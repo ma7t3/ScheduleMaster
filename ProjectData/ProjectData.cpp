@@ -4,7 +4,57 @@
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
     _projectSettings(new ProjectSettings(this)),
-    _publications(new Publications(this)) {
+    _publications(new Publications(this)),
+    _updateTimer(new QTimer(this)),
+    _loadingFromFile(false),
+    _afterLoadingFromFile(false) {
+    _updateTimer->setSingleShot(true);
+
+    connect(_updateTimer, &QTimer::timeout, this, [this]() {
+        if(_afterLoadingFromFile) {
+            _afterLoadingFromFile = false;
+            emit wasReset();
+        } else {
+            if(!_addedBusstops.isEmpty())
+                emit busstopsAdded(_addedBusstops);
+
+            if(!_changedBusstops.isEmpty())
+                emit busstopsChanged(_changedBusstops);
+
+            if(!_removedBusstops.isEmpty())
+                emit busstopsRemoved(_removedBusstops);
+
+            if(!_addedLines.isEmpty())
+                emit linesAdded(_addedLines);
+
+            if(!_changedLines.isEmpty())
+                emit linesChanged(_changedLines);
+
+            if(!_removedLines.isEmpty())
+                emit linesRemoved(_removedLines);
+
+            if(!_addedTours.isEmpty())
+                emit toursAdded(_addedTours);
+
+            if(!_changedTours.isEmpty())
+                emit toursChanged(_changedTours);
+
+            if(!_removedTours.isEmpty())
+                emit toursRemoved(_removedTours);
+        }
+
+        _addedBusstops.clear();
+        _changedBusstops.clear();
+        _removedBusstops.clear();
+
+        _addedLines.clear();
+        _changedLines.clear();
+        _removedLines.clear();
+
+        _addedTours.clear();
+        _changedTours.clear();
+        _removedTours.clear();
+    });
 }
 
 ProjectData::~ProjectData() {
@@ -19,11 +69,13 @@ void ProjectData::reset() {
     qDebug() << "\tclearing undoStack...";
     _undoStack.clear();
 
-
     qDebug() << "\tdeleting all childs...";
     QObjectList childs = children();
-    for(QObject *c : childs)
+    for(QObject *c : childs) {
+        if(c == _updateTimer)
+            continue;
         c->deleteLater();
+    }
 
     qDebug() << "\tresetting projectSettings...";
     _projectSettings = new ProjectSettings(this);
@@ -48,6 +100,8 @@ void ProjectData::reset() {
     _routeTripCacheMap.clear();
 
     qDebug() << "\tprojectData reset!";
+
+    emit wasReset();
 }
 
 void ProjectData::cleanup() {
@@ -78,24 +132,10 @@ void ProjectData::addBusstop(Busstop *b) {
     if(!b)
         return;
 
+    b->setInUse(true);
+    onBusstopAdded(b);
     _busstops << b;
 }
-void ProjectData::addLine(Line *l) {
-    if(!l)
-        return;
-
-    l->setParent(this);
-    _lines << l;
-}
-
-void ProjectData::addTour(Tour *o) {
-    if(!o)
-        return;
-
-    o->setParent(this);
-    _tours << o;
-}
-
 
 int ProjectData::busstopCount() { return _busstops.count(); }
 
@@ -132,6 +172,44 @@ bool ProjectData::busstopWithNameExists(const QString &name) {
             return true;
     }
     return false;
+}
+
+bool ProjectData::removeBusstop(Busstop *b) {
+    for(int i = 0; i < busstopCount(); i++) {
+        if(busstopAt(i) != b)
+            continue;
+
+        _busstops[i]->setInUse(false);
+        onBusstopRemoved(b);
+        _busstops.remove(i);
+        return true;
+    }
+
+    return false;
+}
+
+bool ProjectData::removeBusstop(QString id) {
+    for(int i = 0; i < busstopCount(); i++) {
+        if(busstopAt(i)->id() != id)
+            continue;
+
+        _busstops[i]->setInUse(false);
+        onBusstopRemoved(_busstops[i]);
+        _busstops.remove(i);
+        return true;
+    }
+
+    return false;
+}
+
+void ProjectData::addLine(Line *l) {
+    if(!l)
+        return;
+
+    l->setParent(this);
+    l->setInUse(true);
+    onLineAdded(l);
+    _lines << l;
 }
 
 int ProjectData::lineCount() { return _lines.count(); }
@@ -209,6 +287,15 @@ Trip *ProjectData::trip(QString id) {
 }
 
 
+void ProjectData::addTour(Tour *o) {
+    if(!o)
+        return;
+
+    o->setParent(this);
+    onTourAdded(o);
+    _tours << o;
+}
+
 int ProjectData::tourCount() { return _tours.count(); }
 
 Tour *ProjectData::tour(QString id) {
@@ -228,36 +315,13 @@ Tour *ProjectData::tourAt(int i) {
 
 QList<Tour *> ProjectData::tours() { return _tours; }
 
-
-bool ProjectData::removeBusstop(Busstop *b) {
-    for(int i = 0; i < busstopCount(); i++) {
-        if(busstopAt(i) != b)
-            continue;
-        
-        _busstops.remove(i);
-        return true;
-    }
-
-    return false;
-}
-
-bool ProjectData::removeBusstop(QString id) {
-    for(int i = 0; i < busstopCount(); i++) {
-        if(busstopAt(i)->id() != id)
-            continue;
-        
-        _busstops.remove(i);
-        return true;
-    }
-
-    return false;
-}
-
 bool ProjectData::removeLine(Line *l) {
     for(int i = 0; i < lineCount(); i++) {
         if(lineAt(i) != l)
             continue;
         
+        onLineRemoved(l);
+        l->setInUse(true);
         _lines.remove(i);
         return true;
     }
@@ -270,6 +334,8 @@ bool ProjectData::removeLine(QString id) {
         if(lineAt(i)->id() != id)
             continue;
         
+        onLineRemoved(lineAt(i));
+        lineAt(i)->setInUse(true);
         _lines.remove(i);
         return true;
     }
@@ -281,8 +347,9 @@ bool ProjectData::removeTour(Tour *o) {
     for(int i = 0; i < tourCount(); i++) {
         if(tourAt(i) != o)
             continue;
-        
+
         _tours.remove(i);
+        onTourRemoved(o);
         return true;
     }
 
@@ -294,7 +361,9 @@ bool ProjectData::removeTour(QString id) {
         if(tourAt(i)->id() != id)
             continue;
         
+        Tour *o = tourAt(i);
         _tours.remove(i);
+        onTourRemoved(o);
         return true;
     }
 
@@ -623,6 +692,53 @@ QList<Trip *> ProjectData::sortTrips(QList<Trip *> list, const int &hourBreak) {
     return list;
 }
 
+QPixmap ProjectData::linesPixmap(const QList<Line *> lines) {
+    QFont f;
+    QFontMetrics fm(f);
+
+    int xValue = 5;
+    for(int j = 0; j < lines.count(); j++) {
+        int width = fm.boundingRect(lines[j]->name()).width();
+        xValue += (width + 20);
+    }
+
+    QPixmap pixmap(xValue, 15);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    xValue = 5;
+    for(int j = 0; j < lines.count(); j++) {
+        int width = fm.boundingRect(lines[j]->name()).width();
+        QColor color = lines[j]->color();
+        QRect rect(xValue, 0, width + 15, 15);
+        xValue += (width + 20);
+        painter.setBrush(color);
+        painter.setPen(Qt::NoPen);
+        painter.drawRoundedRect(rect, 7.5, 7.5);
+        painter.setPen(global::getContrastColor(color));
+        painter.drawText(rect, Qt::AlignCenter, lines[j]->name());
+    }
+
+    return pixmap;
+}
+
+QPixmap ProjectData::linesPixmap(Busstop *b) {
+    return linesPixmap(linesAtBusstop(b));
+}
+
+QPixmap ProjectData::linesPixmap(Tour *o) {
+    QList<Line *> lines;
+    QList<Trip *> trips = o->trips();
+    for(Trip *t : trips) {
+        Line *l = lineOfTrip(t);
+        if(!lines.contains(l))
+            lines << l;
+    }
+    lines = sortItems(lines);
+    return linesPixmap(lines);
+}
+
 Publications *ProjectData::publications() {
     return _publications;
 }
@@ -658,6 +774,7 @@ QJsonObject ProjectData::toJson() {
 }
 
 void ProjectData::setJson(const QJsonObject &jsonObject) {
+    _loadingFromFile = true;
     QJsonArray jBusstops, jLines, jTours, jFootnotes;
 
     jBusstops = jsonObject.value("busstops").toArray();
@@ -672,48 +789,56 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
 
     emit loadingProgressMaxValue(totalCount);
 
-    emit loadingProgressTextUpdated(1, tr("Reading busstops..."), true);
-    int counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jBusstops.count(); ++i) {
+    QString progressText = tr("Reading busstops...");
+    emit loadingProgressTextUpdated(1, progressText, true);
+    int counter = 0, invalidCounter = 0, maxCount = jBusstops.count();
+    for(int i = 0; i < maxCount; ++i) {
         if(jBusstops[i].isObject()) {
             counter++;
             addBusstop(newBusstop(jBusstops[i].toObject()));
         } else invalidCounter++;
-        if(i % 10 == 0) emit loadingProgressUpdated(i + 1);
+        emit loadingProgressUpdated(i + 1);
+        emit loadingProgressTextUpdated(1, progressText + " (" + QString::number(counter) + "/" + QString::number(maxCount) + ")", true);
     }
 
     qInfo().noquote() << counter << "valid busstops found (" + QString::number(invalidCounter) + " invalid)";
 
-    emit loadingProgressTextUpdated(1, tr("Reading lines..."), true);
-    counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jLines.count(); ++i) {
+    progressText = tr("Reading lines...");
+    emit loadingProgressTextUpdated(1, progressText, true);
+    counter = 0, invalidCounter = 0, maxCount = jLines.count();
+    for(int i = 0; i < maxCount; ++i) {
         if(jLines[i].isObject()) {
             counter++;
             addLine(newLine(jLines[i].toObject()));
         } else invalidCounter++;
-        if(i % 10 == 0) emit loadingProgressUpdated(i + 1 + jBusstops.count());
+        emit loadingProgressUpdated(i + 1 + jLines.count());
+        emit loadingProgressTextUpdated(1, progressText + " (" + QString::number(counter) + "/" + QString::number(maxCount) + ")", true);
     }
 
     qInfo().noquote() << counter << "valid lines found (" + QString::number(invalidCounter) + " invalid)";
-    emit loadingProgressTextUpdated(1, tr("Reading tours..."), true);
-    counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jTours.count(); ++i) {
+    progressText = tr("Reading tours...");
+    emit loadingProgressTextUpdated(1, progressText, true);
+    counter = 0, invalidCounter = 0, maxCount = jTours.count();
+    for(int i = 0; i < maxCount; ++i) {
         if(jTours[i].isObject()) {
             counter++;
             addTour(newTour(jTours[i].toObject()));
         } else invalidCounter++;
-        if(i % 10 == 0) emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count());
+        emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count());
+        emit loadingProgressTextUpdated(1, progressText + " (" + QString::number(counter) + "/" + QString::number(maxCount) + ")", true);
     }
 
     qInfo().noquote() << counter << "valid tours found (" + QString::number(invalidCounter) + " invalid)";
-    emit loadingProgressTextUpdated(1, tr("Reading footnotes..."), true);
-    counter = 0, invalidCounter = 0;
-    for(int i = 0; i < jFootnotes.count(); ++i) {
+    progressText = tr("Reading footnotes...");
+    emit loadingProgressTextUpdated(1, progressText, true);
+    counter = 0, invalidCounter = 0, maxCount = jFootnotes.count();
+    for(int i = 0; i < maxCount; ++i) {
         if(jFootnotes[i].isObject()) {
             counter++;
             addFootnote(newFootnote(jFootnotes[i].toObject()));
         } else invalidCounter++;
-        if(i % 10 == 0) emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count() + jTours.count());
+        emit loadingProgressUpdated(i + 1 + jBusstops.count() + jLines.count() + jTours.count());
+        emit loadingProgressTextUpdated(1, progressText + " (" + QString::number(counter) + "/" + QString::number(maxCount) + ")", true);
     }
 
     qInfo().noquote() << counter << "valid footnotes found (" + QString::number(invalidCounter) + " invalid)";
@@ -722,53 +847,70 @@ void ProjectData::setJson(const QJsonObject &jsonObject) {
 
     projectSettings()->setJson(jsonObject.value("projectSettings").toObject());
     publications()->setJson(jsonObject.value("publications").toObject());
+    _loadingFromFile = false;
+    _afterLoadingFromFile = true;
 }
 
 Busstop *ProjectData::newBusstop(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new Busstop(this, id);
+    Busstop *b = new Busstop(this, id);
+    connect(b, &Busstop::changed, this, &ProjectData::onBusstopChanged);
+    return b;
 }
 
 Busstop *ProjectData::newBusstop(const QJsonObject &obj) {
-    return new Busstop(this, obj);
+    Busstop *b = new Busstop(this, obj);
+    connect(b, &Busstop::changed, this, &ProjectData::onBusstopChanged);
+    return b;
 }
 
 Busstop *ProjectData::newBusstop(const Busstop &newBusstop) {
     Busstop *b = new Busstop(newBusstop);
     b->setParent(this);
+    connect(b, &Busstop::changed, this, &ProjectData::onBusstopChanged);
     return b;
 }
 
 Line *ProjectData::newLine(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new Line(this, id);
+    Line *l = new Line(this, id);
+    connect(l, &Line::changed, this, &ProjectData::onLineChanged);
+    return l;
 }
 
 Line *ProjectData::newLine(const QJsonObject &obj) {
-    return new Line(this, obj);
+    Line *l = new Line(this, obj);
+    connect(l, &Line::changed, this, &ProjectData::onLineChanged);
+    return l;
 }
 
 Line *ProjectData::newLine(const Line &newLine) {
     Line *l = new Line(newLine);
     l->setParent(this);
+    connect(l, &Line::changed, this, &ProjectData::onLineChanged);
     return l;
 }
 
 Tour *ProjectData::newTour(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new Tour(this, id);
+    Tour *o = new Tour(this, id);
+    connect(o, &Tour::changed, this, &ProjectData::onTourChanged);
+    return o;
 }
 
 Tour *ProjectData::newTour(const QJsonObject &obj) {
-    return new Tour(this, obj);
+    Tour *o = new Tour(this, obj);
+    connect(o, &Tour::changed, this, &ProjectData::onTourChanged);
+    return o;
 }
 
 Tour *ProjectData::newTour(const Tour &newTour) {
     Tour *o = new Tour(newTour);
     o->setParent(this);
+    connect(o, &Tour::changed, this, &ProjectData::onTourChanged);
     return o;
 }
 
@@ -790,4 +932,62 @@ Footnote *ProjectData::newFootnote(const Footnote &newFootnote) {
 
 QUndoStack *ProjectData::undoStack() {
     return &_undoStack;
+}
+
+bool ProjectData::isLoadingFromFile() const {
+    return _loadingFromFile;
+}
+
+void ProjectData::onBusstopAdded(Busstop *b) {
+    if(_addedBusstops.indexOf(b) == -1)
+        _addedBusstops << b;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onBusstopChanged(Busstop *b) {
+    if(_changedBusstops.indexOf(b) == -1)
+        _changedBusstops << b;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onBusstopRemoved(Busstop *b) {
+    if(_removedBusstops.indexOf(b) == -1)
+        _removedBusstops << b;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onLineAdded(Line *l) {
+    if(_addedLines.indexOf(l) == -1)
+        _addedLines << l;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onLineChanged(Line *l) {
+    if(_changedLines.indexOf(l) == -1)
+        _changedLines << l;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onLineRemoved(Line *l) {
+    if(_removedLines.indexOf(l) == -1)
+        _removedLines << l;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onTourAdded(Tour *o) {
+    if(_addedTours.indexOf(o) == -1)
+        _addedTours << o;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onTourChanged(Tour *o) {
+    if(_changedTours.indexOf(o) == -1)
+        _changedTours << o;
+    _updateTimer->start(0);
+}
+
+void ProjectData::onTourRemoved(Tour *o) {
+    if(_removedTours.indexOf(o) == -1)
+        _removedTours << o;
+    _updateTimer->start(0);
 }

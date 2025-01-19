@@ -4,7 +4,10 @@
 #include <QDialog>
 #include <QListWidgetItem>
 
-#include "ProjectData\projectdata.h"
+#include "DataModels/LineDirectionListModel.h"
+#include "DataModels/SimpleBusstopListModel.h"
+#include "DataModels/SimpleRouteBusstopListModel.h"
+#include "DataModels/TimeProfileTableModel.h"
 
 namespace Ui {
 class DlgRouteEditor;
@@ -21,13 +24,12 @@ public:
     void setCreateMode(const bool &);
 
     Route route() const;
-    void setRoute(const Route &);
+    void loadRoute();
+
+    void onRouteBusstopsRowsInserted(QModelIndex parent, int first, int last);
+    void onTimeProfilesRowsInserted(QModelIndex parent, int first, int last);
 
 private slots:
-    void refreshAllBusstops();
-    void refreshProfiles();
-    void refreshRouteBusstops();
-
     void actionBusstopAdd();
     void actionBusstopRemove();
     void actionBusstopUp();
@@ -38,21 +40,19 @@ private slots:
     void actionProfileDelete();
     void moveCurrentRouteBusstop(bool);
 
-    void on_lwRouteBusstops_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-
 private:
     Ui::DlgRouteEditor *ui;
 
+    LineDirectionListModel *_directionsModel;
+    SimpleBusstopListModel *_allBusstopsModel;
+    SimpleRouteBusstopListModel *_routeBusstopsModel;
+    TimeProfileTableModel *_timeProfilesModel;
+
+    QSortFilterProxyModel *_allBusstopsProxyModel;
+
     Route _route;
     Route *_routePtr;
-    QList<LineDirection *> _directionsReference;
-    QList<Busstop *> _allBusstops;
-    QList<Busstop *> _allBusstopsReference;
-    QList<Route *> _matchingRoutes;
-    Busstop *_currentRouteBusstop;
-    QList<TimeProfile *> _timeProfilesReference;
-
-    //QList<LineDirection *> directions;
+    // QList<LineDirection *> _directionsReference;
 };
 
 #endif // ROUTEEDITOR_H

@@ -40,6 +40,9 @@ public:
 
     QJsonObject toJson() const;
 
+signals:
+    void changed(Trip *);
+
 protected:
     void copy(const Trip &);
     void fromJson(const QJsonObject &);

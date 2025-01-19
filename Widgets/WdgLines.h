@@ -5,6 +5,8 @@
 #include <QUndoStack>
 #include <QTableWidgetItem>
 
+#include "DataModels/LineTableModel.h"
+
 #include "ProjectData/projectdata.h"
 
 namespace Ui {
@@ -23,7 +25,6 @@ public:
 
 public slots:
     void refreshUI();
-    void refreshLineList();
     Line *currentLine();
 
 private slots:
@@ -31,8 +32,8 @@ private slots:
     void actionEdit();
     void actionDelete();
 
-    void on_twLines_itemSelectionChanged();
-    void on_twLines_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
+    void onSelectionChanged();
+    void onRowsInserted(QModelIndex parent, int first, int last);
 
 signals:
     void currentLineChanged(Line *);
@@ -42,10 +43,9 @@ private:
     Ui::WdgLines *ui;
 
     ProjectData *projectData;
+    LineTableModel *_model;
+    QSortFilterProxyModel *_proxyModel;
     Line *_currentLine;
-    QList<Line *> tableReference;
-
-    bool refreshing;
 
     QAction *_actionNew;
     QAction *_actionEdit;

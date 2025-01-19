@@ -1,19 +1,18 @@
 #include "ProjectData\weekdays.h"
 
-WeekDays::WeekDays(QObject *parent) : ProjectDataItem(parent) {
-    setCode(995);
+WeekDays::WeekDays() : ProjectDataItem(nullptr) {
 }
 
-WeekDays::WeekDays(QObject *parent, const int &code) : ProjectDataItem(parent) {
+WeekDays::WeekDays(const int &code) : ProjectDataItem(nullptr) {
     setCode(code);
 }
 
-WeekDays::WeekDays(QObject *parent, const QString &id) :
-    ProjectDataItem(parent, id) {
+WeekDays::WeekDays(const WeekDay &w) :
+    ProjectDataItem(nullptr) {
+    _days = w;
 }
 
-WeekDays::WeekDays(QObject *parent,
-                   const bool &monday,
+WeekDays::WeekDays(const bool &monday,
                    const bool &tuesday,
                    const bool &wednesday,
                    const bool &thursday,
@@ -23,7 +22,7 @@ WeekDays::WeekDays(QObject *parent,
                    const bool &holiday,
                    const bool &school,
                    const bool &vacation) :
-    ProjectDataItem(parent) {
+    ProjectDataItem(nullptr) {
 
     setDay(WeekDay::monday, monday);
     setDay(WeekDay::tuesday, tuesday);
@@ -65,16 +64,7 @@ WeekDays WeekDays::operator=(const WeekDays &other) {
 
 void WeekDays::copy(const WeekDays &other) {
     ProjectDataItem::copy(other);
-    setDay(WeekDay::monday,    other.day(WeekDay::monday));
-    setDay(WeekDay::tuesday,   other.day(WeekDay::tuesday));
-    setDay(WeekDay::wednesday, other.day(WeekDay::wednesday));
-    setDay(WeekDay::thursday,  other.day(WeekDay::thursday));
-    setDay(WeekDay::friday,    other.day(WeekDay::friday));
-    setDay(WeekDay::saturday,  other.day(WeekDay::saturday));
-    setDay(WeekDay::sunday,    other.day(WeekDay::sunday));
-    setDay(WeekDay::holiday,   other.day(WeekDay::holiday));
-    setDay(WeekDay::school,    other.day(WeekDay::school));
-    setDay(WeekDay::vacation,  other.day(WeekDay::vacation));
+    _days = other._days;
 }
 
 void WeekDays::fromJson(const QJsonObject &jsonObject) {
@@ -87,57 +77,71 @@ QJsonObject WeekDays::toJson() const {
     return jsonObject;
 }
 
-bool WeekDays::day(const WeekDay &day) const {
-    return _days.at(day);
+bool WeekDays::day(const WeekDaysFlag &day) const {
+    return _days & day;
 }
 
-void WeekDays::setDay(const WeekDay &day, const bool &value) {
-    _days[day] = value;
+bool WeekDays::dayAtIndex(const int &index) const {
+    WeekDay w;
+    switch(index) {
+        case 0: w = WeekDay(0x001); break;
+        case 1: w = WeekDay(0x002); break;
+        case 2: w = WeekDay(0x004); break;
+        case 3: w = WeekDay(0x008); break;
+        case 4: w = WeekDay(0x010); break;
+        case 5: w = WeekDay(0x020); break;
+        case 6: w = WeekDay(0x040); break;
+        case 7: w = WeekDay(0x080); break;
+        case 8: w = WeekDay(0x100); break;
+        case 9: w = WeekDay(0x200); break;
+    }
+
+    return day(w);
 }
 
-bool WeekDays::day(const int &index) const {
-    return _days.at(index);
+void WeekDays::setDay(const WeekDaysFlag &day, const bool &value) {
+    if(value)
+        _days |= day;
+    else
+        _days &= ~day;
+
+    emit changed(this);
 }
 
-void WeekDays::setDay(const int &index, const bool &value) {
-    _days[index] = value;
-}
+void WeekDays::setDayAtIndex(const int &index, const bool &value) {
+    WeekDay w;
+    switch(index) {
+    case 0: w = WeekDay(0x001); break;
+    case 1: w = WeekDay(0x002); break;
+    case 2: w = WeekDay(0x004); break;
+    case 3: w = WeekDay(0x008); break;
+    case 4: w = WeekDay(0x010); break;
+    case 5: w = WeekDay(0x020); break;
+    case 6: w = WeekDay(0x040); break;
+    case 7: w = WeekDay(0x080); break;
+    case 8: w = WeekDay(0x100); break;
+    case 9: w = WeekDay(0x200); break;
+    }
 
+    setDay(w, value);
+}
 void WeekDays::setCode(const int &code) {
-    QString bin = QString::number(code, 2);
 
-    while(bin.length() < 10)
-        bin = "0" + bin;
+    // use this code to convert from old file format
+    /*unsigned int reverse_num = 0;
+    for (unsigned int i = 0; i < 10; i++) {
+        if (code & (1 << i)) {
+            reverse_num |= 1 << (9 - i);
+        }
+    }
+    _days = QFlags<WeekDay>::fromInt(reverse_num);*/
 
-    setDay(WeekDay::monday,    bin[0] == '1' ? true : false);
-    setDay(WeekDay::tuesday,   bin[1] == '1' ? true : false);
-    setDay(WeekDay::wednesday, bin[2] == '1' ? true : false);
-    setDay(WeekDay::thursday,  bin[3] == '1' ? true : false);
-    setDay(WeekDay::friday,    bin[4] == '1' ? true : false);
-    setDay(WeekDay::saturday,  bin[5] == '1' ? true : false);
-    setDay(WeekDay::sunday,    bin[6] == '1' ? true : false);
-    setDay(WeekDay::holiday,   bin[7] == '1' ? true : false);
-    setDay(WeekDay::school,    bin[8] == '1' ? true : false);
-    setDay(WeekDay::vacation,  bin[9] == '1' ? true : false);
+    _days = QFlags<WeekDay>::fromInt(code);
+    emit changed(this);
 }
 
 int WeekDays::toCode() const {
-    QString bin = "";
-
-    bin += day(WeekDay::monday)    ? "1" : "0";
-    bin += day(WeekDay::tuesday)   ? "1" : "0";
-    bin += day(WeekDay::wednesday) ? "1" : "0";
-    bin += day(WeekDay::thursday)  ? "1" : "0";
-    bin += day(WeekDay::friday)    ? "1" : "0";
-    bin += day(WeekDay::saturday)  ? "1" : "0";
-    bin += day(WeekDay::sunday)    ? "1" : "0";
-    bin += day(WeekDay::holiday)   ? "1" : "0";
-    bin += day(WeekDay::school)    ? "1" : "0";
-    bin += day(WeekDay::vacation)  ? "1" : "0";
-
-    bool ok;
-    int r = bin.toInt(&ok, 2);
-    return r;
+    return _days.toInt();
 }
 
 QString WeekDays::toString() const {
@@ -155,9 +159,9 @@ QString WeekDays::toString() const {
     };
 
     for(int i = 0; i < 7; i++) {
-        bool previous = i > 0 ? day(i - 1) : false;
-        bool current  = day(i);
-        bool next     = i < 6 ? day(i + 1) : false;
+        bool previous = i > 0 ? dayAtIndex(i - 1) : false;
+        bool current  = dayAtIndex(i);
+        bool next     = i < 6 ? dayAtIndex(i + 1) : false;
 
         if(!previous && current && next)
             currentStr = weekDayNames[i] + "-";
@@ -185,7 +189,7 @@ QString WeekDays::toString() const {
 
 WeekDays WeekDays::shfitedToNextDay() const {
     if(day(WeekDay::sunday) != day(WeekDay::holiday))
-        return WeekDays(parent(),
+        return WeekDays(
             day(WeekDay::sunday),
             day(WeekDay::monday),
             day(WeekDay::tuesday),
@@ -198,7 +202,7 @@ WeekDays WeekDays::shfitedToNextDay() const {
             day(WeekDay::vacation)
         );
     else
-        return WeekDays(parent(),
+        return WeekDays(
             day(WeekDay::sunday),
             day(WeekDay::monday),
             day(WeekDay::tuesday),
@@ -252,7 +256,7 @@ WeekDays WeekDays::combine(const QList<WeekDays> &list) {
         WeekDays w = list[i];
 
         for(int i = 0; i < 10; i++) {
-            result.setDay(i, (result.day(i) || w.day(i)));
+            result.setDayAtIndex(i, (result.dayAtIndex(i) || w.dayAtIndex(i)));
         }
     }
 
@@ -272,7 +276,7 @@ bool WeekDays::overlap(const QList<WeekDays> &list) {
 
     for(int i = 0; i < list.count(); i++) {
         for(int j = 0; j < 8; j++) {
-            if(list[i].day(j)) {
+            if(list[i].dayAtIndex(j)) {
 
                 if(list[i].day(school))
                     matches[j]++;
@@ -305,7 +309,7 @@ WeekDays WeekDays::intersection(const QList<WeekDays> &list) {
                 continue;
 
             WeekDays w2 = list[j];
-            WeekDays r(nullptr, 0);
+            WeekDays r;
 
             r.setDay(monday,    w1.day(monday)    && w2.day(monday));
             r.setDay(tuesday,   w1.day(tuesday)   && w2.day(tuesday));

@@ -39,10 +39,12 @@ public:
     LineDirection *direction(const QString &id) const;
     LineDirection *directionAt(const int &index) const;
     bool hasDirection(const QString &id) const;
+    int indexOfDirection(LineDirection *) const;
     int indexOfDirection(const QString &id) const;
 
     void setDirections(const QList<LineDirection *> &newDirections);
     void addDirection(LineDirection *);
+    void insertDirection(const int &, LineDirection *);
     void removeDirection(LineDirection *);
     void removeDirection(const QString &id);
 
@@ -88,9 +90,41 @@ public:
     Trip *newTrip(const QJsonObject &obj);
     Trip *newTrip(const Trip &newTrip);
 
+signals:
+    void changed(Line *);
+    void routesAdded(QList<Route *>);
+    void routesChanged(QList<Route *>);
+    void routesRemoved(QList<Route *>);
+
+    void directionsAdded(QList<LineDirection *>);
+    void directionsChanged(QList<LineDirection *>);
+    void directionsRemoved(QList<LineDirection *>);
+
+    void tripsAdded(QList<Trip *>);
+    void tripsChanged(QList<Trip *>);
+    void tripsRemoved(QList<Trip *>);
+
+    void hourBreakChanged(int);
+
 protected:
     void copy(const Line &);
     void fromJson(const QJsonObject &);
+
+    void onRouteAdded(Route *);
+    void onRouteChanged(Route *);
+    void onRouteRemoved(Route *);
+
+    void onDirectionAdded(LineDirection *);
+    void onDirectionChanged(LineDirection *);
+    void onDirectionRemoved(LineDirection *);
+
+    void onTripAdded(Trip *);
+    void onTripChanged(Trip *);
+    void onTripRemoved(Trip *);
+
+protected slots:
+    void onUpdateTimerTimeout();
+
 
 private:
     QString _name;
@@ -100,6 +134,20 @@ private:
     QList<Route*> _routes;
     QList<Trip *> _trips;
     int _hourBreak;
+
+    QList<Route *> _addedRoutes;
+    QList<Route *> _changedRoutes;
+    QList<Route *> _removedRoutes;
+
+    QList<LineDirection *> _addedDirections;
+    QList<LineDirection *> _changedDirections;
+    QList<LineDirection *> _removedDirections;
+
+    QList<Trip *> _addedTrips;
+    QList<Trip *> _changedTrips;
+    QList<Trip *> _removedTrips;
+
+    QTimer *_updateTimer;
 };
 
 #endif // LINE_H

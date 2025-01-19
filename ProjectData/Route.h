@@ -33,7 +33,7 @@ public:
     Busstop *lastBusstop() const;
     bool hasBusstop(Busstop *) const;
     bool hasBusstop(const QString &) const;
-    Busstop *firstCommonBusstop(Route *);
+    Busstop *firstCommonBusstop(Route *) const;
     int indexOfBusstop(Busstop *) const;
 
     void setBusstops(const QList<Busstop *> &);
@@ -64,9 +64,32 @@ public:
     TimeProfile *newTimeProfile(const QJsonObject &);
     TimeProfile *newTimeProfile(const TimeProfile &newTimeProfile);
 
+signals:
+    void changed(Route *);
+    void busstopListReset();
+
+    void busstopsAdded(QList<Busstop*>);
+    void busstopsChanged(QList<Busstop*>);
+    void busstopsRemoved(QList<Busstop*>);
+
+    void timeProfilesAdded(QList<TimeProfile *>);
+    void timeProfilesChanged(QList<TimeProfile *>);
+    void timeProfilesRemoved(QList<TimeProfile *>);
+
 protected:
     void copy(const Route &);
     void fromJson(const QJsonObject &);
+
+    void onBusstopAdded(Busstop *);
+    void onBusstopChanged(Busstop *);
+    void onBusstopRemoved(Busstop *);
+
+    void onTimeProfileAdded(TimeProfile *);
+    void onTimeProfileChanged(TimeProfile *);
+    void onTimeProfileRemoved(TimeProfile *);
+
+protected slots:
+    void onUpdateTimerTimeout();
 
 private:
     int _code;
@@ -74,6 +97,16 @@ private:
     QString _name;
     QList<Busstop *> _busstops;
     QList<TimeProfile *> _timeProfiles;
+
+    QList<Busstop *> _addedBusstops;
+    QList<Busstop *> _changedBusstops;
+    QList<Busstop *> _removedBusstops;
+
+    QList<TimeProfile *> _addedTimeProfiles;
+    QList<TimeProfile *> _changedTimeProfiles;
+    QList<TimeProfile *> _removedTimeProfiles;
+
+    QTimer *_updateTimer;
 };
 
 #endif // ROUTE_H

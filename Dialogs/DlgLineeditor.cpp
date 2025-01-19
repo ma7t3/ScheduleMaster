@@ -10,15 +10,19 @@ DlgLineEditor::DlgLineEditor(QWidget *parent, Line *line, bool createMode) :
     QDialog(parent),
     ui(new Ui::DlgLineEditor),
     _line(*line),
-    _linePtr(line) {
+    _linePtr(line),
+    _directionsModel(new LineDirectionListModel(this)) {
     ui->setupUi(this);
 
     setCreateMode(createMode);
-    setLine(*line);
+    loadLine();
+    ui->lwDirections->setModel(_directionsModel);
+
+    connect(_directionsModel, &QAbstractItemModel::rowsInserted, this, &DlgLineEditor::onDirectionInserted);
 
     connect(ui->pbDirectionNew,    &QPushButton::clicked,           this, &DlgLineEditor::actionNewDirection);
     connect(ui->pbDirectionRename, &QPushButton::clicked,           this, &DlgLineEditor::actionRenameDirection);
-    connect(ui->lwDirections,      &QListWidget::itemDoubleClicked, this, &DlgLineEditor::actionRenameDirection);
+    connect(ui->lwDirections,      &QListWidget::doubleClicked,     this, &DlgLineEditor::actionRenameDirection);
     connect(ui->pbDirectionDelete, &QPushButton::clicked,           this, &DlgLineEditor::actionDeleteDirection);
 
     connect(ui->pbDirectionUp,     &QPushButton::clicked,           this, &DlgLineEditor::actionDirectionUp);
@@ -44,8 +48,7 @@ Line DlgLineEditor::line() const {
     return l;
 }
 
-void DlgLineEditor::setLine(const Line &l) {
-    _line = l;
+void DlgLineEditor::loadLine() {
     _line.setDirections(_linePtr->cloneDirections());
 
     ui->leName->setText(_line.name());
@@ -54,7 +57,7 @@ void DlgLineEditor::setLine(const Line &l) {
     ui->lColor->setStyleSheet("background-color: " + hex + ";");
     ui->lColorName->setText(hex);
 
-    refreshDirections();
+    _directionsModel->setLine(&_line);
 }
 
 void DlgLineEditor::on_pbColor_clicked() {
@@ -78,14 +81,13 @@ void DlgLineEditor::actionNewDirection() {
     LineDirection *ld = _linePtr->newDirection();
     ld->setDescription(newName);
     _line.addDirection(ld);
-    ui->lwDirections->addItem(newName);
 }
 
 void DlgLineEditor::actionRenameDirection() {
-    if(!ui->lwDirections->currentItem())
+    if(!ui->lwDirections->currentIndex().isValid())
         return;
 
-    LineDirection *ld = _line.directionAt(ui->lwDirections->currentRow());
+    LineDirection *ld = _directionsModel->itemAt(ui->lwDirections->currentIndex().row());
 
     bool ok = false;
     QString newName = QInputDialog::getText(this, tr("Rename direction"), tr("Enter a new direction description:"), QLineEdit::Normal, ld->description(), &ok);
@@ -93,87 +95,54 @@ void DlgLineEditor::actionRenameDirection() {
         return;
 
     ld->setDescription(newName);
-    ui->lwDirections->currentItem()->setText(newName);
 }
 
 void DlgLineEditor::actionDeleteDirection() {
-    if(!ui->lwDirections->currentItem())
+    if(!ui->lwDirections->currentIndex().isValid())
         return;
 
-    LineDirection *ld = _line.directionAt(ui->lwDirections->currentRow());
+    LineDirection *ld = _directionsModel->itemAt(ui->lwDirections->currentIndex().row());
 
     QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Delete Direction"), tr("<p><b>Do you really want to delete this direction?</b></p><ul><li>%1</li></ul>").arg(ld->description()), QMessageBox::Yes|QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
 
     _line.removeDirection(ld);
-    ui->lwDirections->takeItem(ui->lwDirections->currentRow());
 }
 
 void DlgLineEditor::actionDirectionUp() {
-    if(!ui->lwDirections->currentItem())
+    if(!ui->lwDirections->currentIndex().isValid())
         return;
 
-    int row = ui->lwDirections->currentRow();
+    int row = ui->lwDirections->currentIndex().row();
     if(row == 0)
         return;
 
-    QList<LineDirection *> directions = _line.directions();
-    LineDirection *ld = directions[row];
-    directions.remove(row);
-    directions.insert(row - 1, ld);
-    _line.setDirections(directions);
-    ui->lwDirections->setCurrentRow(row - 1);
+    LineDirection *ld = _directionsModel->itemAt(ui->lwDirections->currentIndex().row());
 
-    refreshDirections();
+    _line.removeDirection(ld);
+    qApp->processEvents();
+    _line.insertDirection(row - 1, ld);
 }
 
 void DlgLineEditor::actionDirectionDown() {
-    if(!ui->lwDirections->currentItem())
+    if(!ui->lwDirections->currentIndex().isValid())
         return;
 
-    int row = ui->lwDirections->currentRow();
+    int row = ui->lwDirections->currentIndex().row();
     if(row == _line.directionCount() - 1)
         return;
 
-    QList<LineDirection *> directions = _line.directions();
-    LineDirection *ld = directions[row];
-    directions.remove(row);
-    directions.insert(row + 1, ld);
-    _line.setDirections(directions);
+    LineDirection *ld = _directionsModel->itemAt(ui->lwDirections->currentIndex().row());
 
-    ui->lwDirections->setCurrentRow(row + 1);
-
-    refreshDirections();
+    _line.removeDirection(ld);
+    qApp->processEvents();
+    _line.insertDirection(row + 1, ld);
 }
 
-void DlgLineEditor::refreshDirections() {
-    int row = ui->lwDirections->currentRow();
-    ui->lwDirections->clear();
-    for(int i = 0; i < _line.directionCount(); i++) {
-        ui->lwDirections->addItem(_line.directionAt(i)->description());
-    }
-    ui->lwDirections->setCurrentRow(row);
+void DlgLineEditor::onDirectionInserted(QModelIndex parent, int first, int last) {
+    Q_UNUSED(parent);Q_UNUSED(last);
+    ui->lwDirections->setCurrentIndex(_directionsModel->index(first, 0));
+    ui->lwDirections->selectionModel()->select(_directionsModel->index(first, 0), QItemSelectionModel::ClearAndSelect);
+    ui->lwDirections->setFocus();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

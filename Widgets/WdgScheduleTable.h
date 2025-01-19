@@ -7,7 +7,7 @@
 
 #include <QScrollEvent>
 
-class WdgScheduleTable : public QTableWidget {
+class WdgScheduleTable : public QTableView {
     Q_OBJECT
 public:
     WdgScheduleTable(QWidget *);

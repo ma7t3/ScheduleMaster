@@ -374,17 +374,19 @@ void PlgOmsiImport::run() {
     DayType *d3 = projectData->projectSettings()->newDayType();
 
     d1->setName(tr("Monday - Friday"));
-    d1->setCode(995);
+    d1->setCode(WeekDay::monday|WeekDay::tuesday|WeekDay::wednesday|WeekDay::thursday|WeekDay::friday|WeekDay::school|WeekDay::vacation);
 
     d2->setName(tr("Saturday"));
-    d2->setCode(19);
+    d1->setCode(WeekDay::saturday|WeekDay::school|WeekDay::vacation);
 
     d3->setName(tr("Sunday & Holiday"));
-    d3->setCode(15);
+    d1->setCode(WeekDay::sunday|WeekDay::holiday|WeekDay::school|WeekDay::vacation);
 
     projectData->projectSettings()->addDayType(d1);
     projectData->projectSettings()->addDayType(d2);
     projectData->projectSettings()->addDayType(d3);
+
+    projectData->moveToThread(qApp->thread());
 }
 
 void PlgOmsiImport::setMapDirectory(const QString &path) {
@@ -407,7 +409,7 @@ WeekDays PlgOmsiImport::importWeekDays(const QString &str) {
     bool ok;
     int num = str.toInt(&ok);
     if(!ok)
-        return WeekDays(nullptr, 995);
+        return WeekDays(WeekDay::monday|WeekDay::tuesday|WeekDay::wednesday|WeekDay::thursday|WeekDay::friday|WeekDay::school|WeekDay::vacation);
 
     QString bin = QString::number(num, 2);
 

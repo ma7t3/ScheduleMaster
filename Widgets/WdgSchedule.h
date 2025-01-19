@@ -6,6 +6,10 @@
 #include <QListWidget>
 #include <QTableWidget>
 
+#include "DataModels/ScheduleTableModel.h"
+#include "DataModels/ScheduleTableFilterProxyModel.h"
+#include "DataModels/LineDirectionListModel.h"
+#include "DataModels/DayTypeListModel.h"
 #include "ProjectData/projectdata.h"
 
 namespace Ui {
@@ -25,9 +29,6 @@ public:
 public slots:
     void refreshUI();
     void refreshHourBreak();
-    void refreshSchedule();
-    void refreshDirections();
-    void refreshDayTypes();
     void setCurrentLine(Line *);
     void setCurrenTrips(const QList<Trip *>);
 
@@ -36,18 +37,20 @@ private slots:
     void actionSetHourBreak(const int &);
     void actionOpenBusstopSchedule();
 
-    void refreshBusstopList(QList<Trip *>);
-    void refreshAddTrip(Trip *);
-
     bool checkMatchingWeekdays(WeekDays);
     void on_cmbDayTypes_activated(int index);
-    void refreshReferences();
+
+    void onSelectionChanged();
+    void onCurrentCellChanged();
+    void onColumnsInserted(QModelIndex parent, int first, int last);
+
+    void showContextMenu();
 
 signals:
     void currentLineChanged(Line *, LineDirection *);
     void currentDirectionChanged(LineDirection *);
     void currentTripsChanged(QList<Trip *>);
-    void currentDayTypeChanged(DayType);
+    void currentDayTypeChanged(DayType *);
     void busstopScheduleRequested(Busstop *, QList<Route *>, DayType *);
     void tourRequested(Tour *);
     void refreshRequested();
@@ -56,10 +59,15 @@ private:
     Ui::WdgSchedule *ui;
     ProjectData *projectData;
 
-    static const inline int headerRowCount = 7;
+    ScheduleTableModel *_model;
+    ScheduleTableFilterProxyModel *_proxyModel;
+
+    LineDirectionListModel *_directionsModel;
+
+    DayTypeListModel *_dayTypesModel;
 
     QList<QAction *> _hourBreakActions;
-
+    QAction *_actionCurrentBusstopName;
     QAction *_actionNew;
     QAction *_actionCopy;
     QAction *_actionOpenBusstopSchedule;
@@ -68,15 +76,6 @@ private:
 
     Line *_currentLine;
     QList<Trip *> _currentTrips;
-    QList<Trip *> _scheduleTableTripsReference;
-    QList<Busstop *> _scheduleTableBusstopsReference;
-    QList<Route *> _routeTableReference;
-
-    LineDirection *_currentLineDirection;
-    QList<LineDirection *> _lineDirectionsReference;
-
-    DayType *_currentDayType;
-    QList<DayType *> _dayTypesReference;
 
     bool _scheduleStartTimeChanging;
     QTime _ScheduleTmpOldStartTime;

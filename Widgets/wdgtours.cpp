@@ -6,58 +6,95 @@
 
 #include <QPainter>
 
-#include "App/global.h"
+#include "Mainwindow.h"
 #include "Dialogs/DlgToureditor.h"
 #include "Commands/CmdTours.h"
 #include "Dialogs/DlgDataexporter.h"
 
 #include "localconfig.h"
 
-WdgTours::WdgTours(QWidget *parent, ProjectData *projectData, QUndoStack *undoStack) :
+WdgTours::WdgTours(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgTours),
-    projectData(projectData),
-    undoStack(undoStack)
-{
+    projectData(((MainWindow *)parent)->projectData()),
+    _model(new TourTableModel(this)),
+    _proxyModel(new QSortFilterProxyModel(this)),
+    _currentTour(nullptr) {
     ui->setupUi(this);
 
-    QAction *actionEdit = new QAction(ui->twTours);
-    actionEdit->setShortcuts({QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return), QKeySequence(Qt::Key_Enter)});
-    actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ui->twTours->addAction(actionEdit);
 
-    QAction *actionDelete = new QAction(ui->twTours);
-    actionDelete->setShortcut(QKeySequence::Delete);
-    actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ui->twTours->addAction(actionDelete);
+    _model->setProjectData(projectData);
 
-    QObject::connect(actionEdit, &QAction::triggered, this, &WdgTours::actionTourEdit);
-    QObject::connect(actionDelete, &QAction::triggered, this, &WdgTours::actionTourDelete);
+    _proxyModel->setSourceModel(_model);
+    _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    _proxyModel->setFilterKeyColumn(0);
+    _proxyModel->setSortLocaleAware(true);
+    _proxyModel->sort(0, Qt::AscendingOrder);
 
-    QObject::connect(ui->pbTourNew, SIGNAL(clicked()), this, SLOT(actionTourNew()));
-    QObject::connect(ui->pbTourEdit, SIGNAL(clicked()), this, SLOT(actionTourEdit()));
-    QObject::connect(ui->twTours, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(actionTourEdit()));
-    QObject::connect(ui->pbTourDuplicate, SIGNAL(clicked()), this, SLOT(actionTourDuplicate()));
-    QObject::connect(ui->pbTourDelete, SIGNAL(clicked()), this, SLOT(actionTourDelete()));
-    QObject::connect(ui->pbExport, SIGNAL(clicked()), this, SLOT(actionExport()));
-    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(refresh()));
+    ui->twTours->setSortingEnabled(true);
+    ui->twTours->horizontalHeader()->setSortIndicator(0, Qt::AscendingOrder);
+    ui->twTours->setModel(_proxyModel);
 
-    ui->twTours->setEditTriggers(QTableWidget::NoEditTriggers);
-    ui->twTours->verticalHeader()->setVisible(false);
+    ui->twTours->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->twTours->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    ui->twTours->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    ui->twTours->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+    ui->twTours->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    ui->twTours->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
 
-    ui->twTours->setColumnWidth(0, 150);
-    ui->twTours->setColumnWidth(1, 75);
-    ui->twTours->setColumnWidth(2, 25);
-    ui->twTours->setColumnWidth(3, 80);
-    ui->twTours->setColumnWidth(4, 150);
+    connect(ui->twTours->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgTours::onSelectionChanged);
+    connect(_model, &QAbstractItemModel::rowsInserted, this, &WdgTours::onRowsInserted);
+
+    _actionNew          = ui->twTours->addAction(QIcon(":/icons/Add.ico"),             tr("New"));
+    _actionEdit         = ui->twTours->addAction(QIcon(":/icons/Edit.ico"),            tr("Edit"));
+    _actionDuplicate    = ui->twTours->addAction(QIcon(":/icons/Duplicate.ico"),       tr("Duplicate"));
+    _actionDelete       = ui->twTours->addAction(QIcon(":/icons/Delete.ico"),          tr("Delete"));
+    _actionExport       = ui->twTours->addAction(QIcon(":/icons/Export.ico"),          tr("Export"));
+
+    _actionEdit->setDisabled(true);
+    _actionDuplicate->setDisabled(true);
+    _actionDelete->setDisabled(true);
+    _actionExport->setDisabled(true);
+
+    _actionEdit->setShortcuts({QKeySequence(Qt::Key_Enter), QKeySequence(Qt::Key_Space), QKeySequence(Qt::Key_Return)});
+    _actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
+    _actionDelete->setShortcut(QKeySequence::Delete);
+    _actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
+    ui->twTours->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    connect(_actionNew,       &QAction::triggered,               this,                &WdgTours::actionNew);
+    connect(_actionEdit,      &QAction::triggered,               this,                &WdgTours::actionEdit);
+    connect(_actionDuplicate, &QAction::triggered,               this,                &WdgTours::actionDuplicate);
+    connect(_actionDelete,    &QAction::triggered,               this,                &WdgTours::actionDelete);
+    connect(_actionExport,    &QAction::triggered,               this,                &WdgTours::actionExport);
+
+    connect(_actionNew,       &QAction::enabledChanged,          ui->pbTourNew,       &QPushButton::setEnabled);
+    connect(_actionEdit,      &QAction::enabledChanged,          ui->pbTourEdit,      &QPushButton::setEnabled);
+    connect(_actionDuplicate, &QAction::enabledChanged,          ui->pbTourDuplicate, &QPushButton::setEnabled);
+    connect(_actionDelete,    &QAction::enabledChanged,          ui->pbTourDelete,    &QPushButton::setEnabled);
+    connect(_actionExport,    &QAction::enabledChanged,          ui->pbExport,        &QPushButton::setEnabled);
+
+    connect(ui->pbTourNew,    &QPushButton::clicked,             this,                &WdgTours::actionNew);
+    connect(ui->pbTourNew,    &QPushButton::clicked,             this,                &WdgTours::actionNew);
+    connect(ui->pbTourEdit,   &QPushButton::clicked,             this,                &WdgTours::actionEdit);
+    connect(ui->twTours,      &QAbstractItemView::doubleClicked, this,                &WdgTours::actionEdit);
+    connect(ui->pbTourDelete, &QPushButton::clicked,             this,                &WdgTours::actionDelete);
+    connect(ui->pbExport,     &QPushButton::clicked,             this,                &WdgTours::actionExport);
+    connect(ui->leSearch,     &QLineEdit::textChanged,           _proxyModel,         [this](const QString &text){_proxyModel->setFilterRegularExpression(text);});
+    connect(ui->pbExport,     &QPushButton::clicked,             this,                &WdgTours::actionExport);
 }
 
-WdgTours::~WdgTours()
-{
+WdgTours::~WdgTours() {
     delete ui;
 }
 
-void WdgTours::actionTourNew() {
+QList<QAction *> WdgTours::actions() {
+    return ui->twTours->actions();
+}
+
+void WdgTours::actionNew() {
     TourEditor dlg(this, true, "", WeekDays(), projectData->projectSettings()->dayTypes());
     dlg.exec();
 
@@ -67,30 +104,30 @@ void WdgTours::actionTourNew() {
     Tour *o = projectData->newTour();
     o->setName(dlg.name());
     o->setWeekDays(dlg.weekDays());
-    undoStack->push(new CmdTourNew(projectData, o));
-    refresh();
+    projectData->undoStack()->push(new CmdTourNew(projectData, o));
+    emit refreshRequested();
 }
 
-void WdgTours::actionTourEdit() {
-    Tour *o = currentTour();
-    if(!o)
+// TODO: Rework TourEditor window to new system
+void WdgTours::actionEdit() {
+    if(!_currentTour)
         return;
     
-    TourEditor dlg(this, false, o->name(), o->weekDays(), projectData->projectSettings()->dayTypes());
+    TourEditor dlg(this, false, _currentTour->name(), _currentTour->weekDays(), projectData->projectSettings()->dayTypes());
     dlg.exec();
 
     if(dlg.result() != QDialog::Accepted)
         return;
 
-    Tour newO = *o;
+    Tour newO = *_currentTour;
 
     newO.setName(dlg.name());
     newO.setWeekDays(dlg.weekDays());
-    undoStack->push(new CmdTourEdit(o, newO));
-    refresh();
+    projectData->undoStack()->push(new CmdTourEdit(_currentTour, newO));
+    emit refreshRequested();
 }
 
-void WdgTours::actionTourDuplicate() {
+void WdgTours::actionDuplicate() {
     Tour *o = currentTour();
     if(!o)
         return;
@@ -104,17 +141,17 @@ void WdgTours::actionTourDuplicate() {
     Tour *nO = projectData->newTour();
     nO->setName(dlg.name());
     nO->setWeekDays(dlg.weekDays());
-    undoStack->push(new CmdTourNew(projectData, nO));
-    refresh();
+    projectData->undoStack()->push(new CmdTourNew(projectData, nO));
+    emit refreshRequested();
 }
 
-void WdgTours::actionTourDelete() {
+void WdgTours::actionDelete() {
     QModelIndexList selection = ui->twTours->selectionModel()->selectedRows(0);
 
     QString showList ="<ul>";
     QList<Tour *> tours;
     for(int i = 0; i < selection.count(); i++) {
-        Tour *o = tableReference[selection[i].row()];
+        Tour *o = _model->itemAt(_proxyModel->mapToSource(selection[i]).row());
         tours << o;
         showList += QString("<li>%1</li>").arg(o->name());
     }
@@ -125,8 +162,8 @@ void WdgTours::actionTourDelete() {
     if(msg != QMessageBox::Yes)
         return;
 
-    undoStack->push(new CmdToursDelete(projectData, tours));
-    refresh();
+    projectData->undoStack()->push(new CmdToursDelete(projectData, tours));
+    emit refreshRequested();
 }
 
 void WdgTours::actionExport() {
@@ -140,7 +177,7 @@ void WdgTours::actionExport() {
     QModelIndexList selection = ui->twTours->selectionModel()->selectedRows(0);
 
     for(int i = 0; i < selection.count(); i++) {
-        Tour *o = tableReference[selection[i].row()];
+        Tour *o = _model->itemAt(_proxyModel->mapToSource(selection[i]).row());
 
         result += "[newtour]\r\n" + o->name() + "\r\n" + aiGroupName + "\r\n799\r\n\r\n";
 
@@ -167,213 +204,39 @@ void WdgTours::actionExport() {
     dlg.exec();
 }
 
-void WdgTours::setMenubarActions(QAction *actionNew, QAction *actionEdit, QAction *actionDuplicate, QAction *actionDelete) {
-    _actionNew = actionNew;
-    _actionEdit = actionEdit;
-    _actionDuplicate = actionDuplicate;
-    _actionDelete = actionDelete;
+void WdgTours::onSelectionChanged() {
+    const QModelIndex current = ui->twTours->selectionModel()->currentIndex();
+    const int selectionCount = ui->twTours->selectionModel()->selectedRows().count();
+
+    if(selectionCount != 1)
+        _currentTour = nullptr;
+    else
+        _currentTour = _model->itemAt(_proxyModel->mapToSource(current).row());
+    refreshUI();
+    emit currentTourChanged(_currentTour);
 }
 
-void WdgTours::setCurrentTour(Tour *o) {
-    _currentTour = o;
-    refresh();
+void WdgTours::onRowsInserted(QModelIndex parent, int first, int last) {
+    Q_UNUSED(parent);
+    ui->twTours->setCurrentIndex(_proxyModel->mapFromSource(_model->index(first, 0)));
+    ui->twTours->selectionModel()->select(QItemSelection(_proxyModel->mapFromSource(_model->index(first, 0)), _proxyModel->mapFromSource(_model->index(last, 5))), QItemSelectionModel::ClearAndSelect);
+    ui->twTours->setFocus();
+}
+
+// TODO: reimplement
+void WdgTours::setCurrentTour(Tour *) {
+
 }
 
 void WdgTours::refreshUI() {
     int selectionCount = ui->twTours->selectionModel()->selectedRows(0).count();
 
-    if(selectionCount == 0) {
-        ui->twTours->setCurrentItem(nullptr);
-        ui->pbTourEdit->setEnabled(false);
-        ui->pbTourDuplicate->setEnabled(false);
-        ui->pbTourDelete->setEnabled(false);
-        _actionEdit->setEnabled(false);
-        _actionDuplicate->setEnabled(false);
-        _actionDelete->setEnabled(false);
-    } else if(selectionCount == 1) {
-        ui->pbTourEdit->setEnabled(true);
-        ui->pbTourDuplicate->setEnabled(true);
-        ui->pbTourDelete->setEnabled(true);
-        _actionEdit->setEnabled(true);
-        _actionDuplicate->setEnabled(true);
-        _actionDelete->setEnabled(true);
-    } else {
-        ui->pbTourEdit->setEnabled(false);
-        ui->pbTourDuplicate->setEnabled(false);
-        ui->pbTourDelete->setEnabled(true);
-        _actionEdit->setEnabled(false);
-        _actionDuplicate->setEnabled(false);
-        _actionDelete->setEnabled(true);
-    }
+    _actionEdit->setEnabled(selectionCount == 1);
+    _actionDuplicate->setEnabled(selectionCount == 1);
+    _actionDelete->setEnabled(selectionCount >= 1);
+    _actionExport->setEnabled(selectionCount >= 1);
 }
 
-Tour * WdgTours::currentTour() {
+Tour * WdgTours::currentTour() const {
     return _currentTour;
 }
-
-void WdgTours::refresh() {
-    qDebug() << "refreshing tour list...";
-
-    refreshing = true;
-
-    ui->twTours->clearContents();
-    ui->twTours->setRowCount(0);
-    tableReference.clear();
-
-    QFont bold;
-    bold.setBold(true);
-
-    QList<Tour *> tours = projectData->tours();
-    tours = ProjectData::sortItems(tours);
-
-    QRegularExpression regex(ui->leSearch->text());
-    regex.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    
-    for(int i = 0; i < tours.count(); i++) {
-        Tour *o = tours[i];
-
-        if(!regex.match(o->name()).hasMatch())
-            continue;
-
-        int row = ui->twTours->rowCount();
-
-        ui->twTours->insertRow(row);
-
-        QTableWidgetItem *previewItm = new QTableWidgetItem;
-        QPixmap preview(480, 20);
-        preview.fill(Qt::transparent);
-        QPainter p(&preview);
-        p.setPen(Qt::NoPen);
-        p.setBrush(Qt::black);
-        int startPixel, endPixel;
-        startPixel = o->startTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
-        endPixel = o->endTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
-
-        if(endPixel < startPixel) {
-            p.drawRect(startPixel - 2,
-                       0,
-                       480 - startPixel + 4,
-                       20);
-            p.drawRect(0,
-                       0,
-                       endPixel + 4,
-                       20);
-        } else {
-            p.drawRect(startPixel - 2,
-                       0,
-                       endPixel - startPixel + 4,
-                       20);
-        }
-
-        for(int j = 0; j < o->tripCount(); j++) {
-            Trip *t = o->tripAt(j);
-            p.setBrush(projectData->lineOfTrip(t)->color());
-            int startPixel, endPixel;
-            startPixel = t->startTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
-            endPixel = t->endTime().msecsSinceStartOfDay() / 1000 / 60 / 3;
-
-            if(endPixel < startPixel) {
-                p.drawRect(startPixel,
-                           2,
-                           480 - startPixel,
-                           16);
-                p.drawRect(0,
-                           2,
-                           endPixel,
-                           16);
-            } else {
-                p.drawRect(startPixel,
-                           2,
-                           endPixel - startPixel,
-                           16);
-            }
-        }
-
-
-        previewItm->setData(Qt::DecorationRole, preview);
-
-        tableReference << o;
-        ui->twTours->setItem(row, 0, new QTableWidgetItem(o->name()));
-        ui->twTours->setItem(row, 2, new QTableWidgetItem(o->weekDays().toString()));
-        ui->twTours->setItem(row, 3, new QTableWidgetItem(o->startTime().toString(LocalConfig::timeFormatString(false, false)) + " - " + o->endTime().toString(LocalConfig::timeFormatString(false, false))));
-        ui->twTours->setItem(row, 4, new QTableWidgetItem(o->duration().toString(LocalConfig::timeFormatString(false, false))));
-        ui->twTours->setItem(row, 5, previewItm);
-        ui->twTours->item(row, 0)->setFont(bold);
-
-        int startTime = o->startTime().msecsSinceStartOfDay(), endTime = o->endTime().msecsSinceStartOfDay(), diff = 0, time = 0;
-
-        if(endTime < startTime)
-            endTime += 86400000;
-
-        diff = endTime - startTime;
-        time = startTime + diff;
-
-        if(time > 86400000)
-            time -= 86400000;
-
-        int timeColorCode = 360 - (time / 240000);
-        QColor timeColor;
-        timeColor.setHsv(timeColorCode, 128, 255);
-        ui->twTours->item(row, 3)->setBackground(timeColor);
-        ui->twTours->item(row, 3)->setForeground(Qt::black);
-        ui->twTours->setRowHeight(row, 23);
-
-
-        int durationColorCode = 255 - o->duration().msecsSinceStartOfDay() / 168750;
-        if(durationColorCode < 0)
-            durationColorCode = 0;
-
-        QColor durationColor;
-        durationColor.setHsv(0, 0, durationColorCode);
-        ui->twTours->item(row, 4)->setBackground(durationColor);
-        if(durationColorCode < 128)
-            ui->twTours->item(row, 4)->setForeground(Qt::white);
-
-        QStringList lines;
-
-        for(int j = 0; j < o->tripCount(); j++) {
-            QString lineName = projectData->lineOfTrip(o->tripAt(j))->name();
-            if(!lines.contains(lineName))
-                lines << lineName;
-        }
-        lines.sort();
-
-        ui->twTours->setItem(row, 1, new QTableWidgetItem(lines.join(", ")));
-    }
-
-    ui->twTours->resizeColumnsToContents();
-    ui->twTours->setColumnWidth(5, 484);
-
-    refreshing = false;
-}
-
-void WdgTours::on_twTours_itemSelectionChanged() {
-    if(refreshing)
-        return;
-
-    QTableWidgetItem *current = ui->twTours->currentItem();
-
-    int selectionCount = ui->twTours->selectionModel()->selectedRows().count();
-
-    if(!current || selectionCount == 0 || selectionCount > 1)
-        _currentTour = nullptr;
-    else
-        _currentTour = tableReference[current->row()];
-
-    refreshUI();
-    emit currentTourChanged(_currentTour);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

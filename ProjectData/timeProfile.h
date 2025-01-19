@@ -56,6 +56,7 @@ public:
     TimeProfile(QObject *parent, const QJsonObject &);
     TimeProfile(const TimeProfile &);
     TimeProfile operator=(const TimeProfile &);
+    bool operator<(const TimeProfile &);
 
     QString name() const;
     void setName(const QString &);
@@ -75,6 +76,9 @@ public:
     QJsonObject toJson() const;
 
     QList<TimeProfileItem *> cloneItems();
+
+signals:
+    void changed(TimeProfile *);
 
 protected:
     void copy(const TimeProfile &);

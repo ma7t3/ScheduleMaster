@@ -121,32 +121,33 @@ private:
     QStringList _lastUsedFileNames;
     QList<QAction *> _lastUsedFileActions;
 
-    WdgUndoView *wdgUndoView = new WdgUndoView(this);
-    WdgBusstops *wdgBusstops = new WdgBusstops(this);
-    WdgLines *wdgLines = new WdgLines(this);
-    WdgRoutes *wdgRoutes = new WdgRoutes(this);
-    WdgSchedule *wdgSchedule = new WdgSchedule(this);
-    WdgTripEditor *wdgTripEditor = new WdgTripEditor(this, _projectData, undoStack());
-    WdgTours *wdgTours = new WdgTours(this, _projectData, undoStack());
-    WdgTourEditor *wdgTourEditor = new WdgTourEditor(this, _projectData, undoStack());
-    WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule(this, _projectData);
-    WdgPublishedLines *wdgPublishedLines = new WdgPublishedLines(this, _projectData, undoStack());
-    WdgFootnotes *wdgFootnotes = new WdgFootnotes(this, _projectData, undoStack());
+    WdgUndoView        *wdgUndoView        = new WdgUndoView        (this);
+    WdgBusstops        *wdgBusstops        = new WdgBusstops        (this);
+    WdgLines           *wdgLines           = new WdgLines           (this);
+    WdgRoutes          *wdgRoutes          = new WdgRoutes          (this);
+    WdgSchedule        *wdgSchedule        = new WdgSchedule        (this);
+    WdgTripEditor      *wdgTripEditor      = new WdgTripEditor      (this);
+    WdgTours           *wdgTours           = new WdgTours           (this);
+    WdgTourEditor      *wdgTourEditor      = new WdgTourEditor      (this, _projectData, undoStack());
+    WdgBusstopSchedule *wdgBusstopSchedule = new WdgBusstopSchedule (this, _projectData);
+    WdgPublishedLines  *wdgPublishedLines  = new WdgPublishedLines  (this, _projectData, undoStack());
+    WdgFootnotes       *wdgFootnotes       = new WdgFootnotes       (this, _projectData, undoStack());
+
+
+    QDockWidget *dwUndoView        = new QDockWidget(tr("Undo View"), this);
+    QDockWidget *dwBusstops        = new QDockWidget(tr("Busstops"), this);
+    QDockWidget *dwLines           = new QDockWidget(tr("Lines"), this);
+    QDockWidget *dwRoutes          = new QDockWidget(tr("Routes"), this);
+    QDockWidget *dwSchedule        = new QDockWidget(tr("Schedule"), this);
+    QDockWidget *dwTripEditor      = new QDockWidget(tr("Current trips"), this);
+    QDockWidget *dwTours           = new QDockWidget(tr("Tours"), this);
+    QDockWidget *dwTourEditor      = new QDockWidget(tr("Current tour"), this);
+    QDockWidget *dwBusstopSchedule = new QDockWidget(tr("Busstop schedule"), this);
+    QDockWidget *dwPublishedLines  = new QDockWidget(tr("Published lines"), this);
+    QDockWidget *dwFootnotes       = new QDockWidget(tr("Footnotes"), this);
 
     QWidget *toolBarSpacer1;
     QWidget *toolBarSpacer2;
-
-    QDockWidget *dwUndoView = new QDockWidget(tr("Undo View"), this);
-    QDockWidget *dwBusstops = new QDockWidget(tr("Busstops"), this);
-    QDockWidget *dwLines = new QDockWidget(tr("Lines"), this);
-    QDockWidget *dwRoutes = new QDockWidget(tr("Routes"), this);
-    QDockWidget *dwSchedule = new QDockWidget(tr("Schedule"), this);
-    QDockWidget *dwTripEditor = new QDockWidget(tr("Current trips"), this);
-    QDockWidget *dwTours = new QDockWidget(tr("Tours"), this);
-    QDockWidget *dwTourEditor = new QDockWidget(tr("Current tour"), this);
-    QDockWidget *dwBusstopSchedule = new QDockWidget(tr("Busstop schedule"), this);
-    QDockWidget *dwPublishedLines = new QDockWidget(tr("Published lines"), this);
-    QDockWidget *dwFootnotes = new QDockWidget(tr("Footnotes"), this);
 
     QToolBar *tbGeneral, *tbDocks, *tbWorkspaces;
     QList<QAction *> hourBreakActions;

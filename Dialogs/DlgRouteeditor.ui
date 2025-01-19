@@ -95,7 +95,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="lwAllBusstops">
+           <widget class="QListView" name="lwAllBusstops">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -222,7 +222,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="lwRouteBusstops">
+           <widget class="QListView" name="lwRouteBusstops">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -321,23 +321,13 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QTreeWidget" name="twProfiles">
+           <widget class="QTreeView" name="twProfiles">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <column>
-             <property name="text">
-              <string>Name</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Time (min.)</string>
-             </property>
-            </column>
            </widget>
           </item>
          </layout>

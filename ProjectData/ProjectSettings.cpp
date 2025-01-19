@@ -1,11 +1,17 @@
 #include "projectsettings.h"
 
 ProjectSettings::ProjectSettings(QObject *parent) :
-    ProjectDataItem(parent) {
+    ProjectDataItem(parent),
+    _updateTimer(new QTimer(this)) {
+    _updateTimer->setSingleShot(true);
+    connect(_updateTimer, &QTimer::timeout, this, &ProjectSettings::onUpdateTimerTimeout);
 }
 
 ProjectSettings::ProjectSettings(const ProjectSettings &other) :
-    ProjectDataItem(other.parent()) {
+    ProjectDataItem(other.parent()),
+    _updateTimer(new QTimer(this)) {
+    _updateTimer->setSingleShot(true);
+    connect(_updateTimer, &QTimer::timeout, this, &ProjectSettings::onUpdateTimerTimeout);
     copy(other);
 }
 
@@ -33,6 +39,35 @@ void ProjectSettings::copy(const ProjectSettings &other) {
     setDayTypes(newDayTypes);
 }
 
+void ProjectSettings::onDayTypeAdded(DayType *dt) {
+    if(!_addedDayTypes.contains(dt))
+        _addedDayTypes << dt;
+    _updateTimer->start(0);
+}
+
+void ProjectSettings::onDayTypeChanged(DayType *dt) {
+    if(!_changedDayTypes.contains(dt))
+        _changedDayTypes << dt;
+    _updateTimer->start(0);
+}
+
+void ProjectSettings::onDayTypeRemoved(DayType *dt) {
+    if(!_removedDayTypes.contains(dt))
+        _removedDayTypes << dt;
+    _updateTimer->start(0);
+}
+
+void ProjectSettings::onUpdateTimerTimeout() {
+    if(!_addedDayTypes.isEmpty())
+        emit dayTypesAdded(_addedDayTypes);
+
+    if(!_changedDayTypes.isEmpty())
+        emit dayTypesChanged(_changedDayTypes);
+
+    if(!_removedDayTypes.isEmpty())
+        emit dayTypesRemoved(_removedDayTypes);
+}
+
 void ProjectSettings::setJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
 
@@ -47,19 +82,35 @@ void ProjectSettings::setJson(const QJsonObject &jsonObject) {
             addDayType(newDayType(jDayTypes.at(i).toObject()));
 }
 
+QList<DayType *> ProjectSettings::cloneDayTypes() const {
+    QList<DayType *> result;
+    for(DayType *dt : dayTypes()) {
+        DayType *newDt = new DayType(*dt);
+        result << newDt;
+    }
+
+    return result;
+}
+
 DayType *ProjectSettings::newDayType(QString id) {
     if(id.isEmpty())
         id = ProjectDataItem::getNewID();
-    return new DayType(this, id);
+
+    DayType *dt = new DayType(this, id);
+    connect(dt, &DayType::changed, this, &ProjectSettings::onDayTypeChanged);
+    return dt;
 }
 
 DayType *ProjectSettings::newDayType(const QJsonObject &obj) {
-    return new DayType(this, obj);
+    DayType *dt = new DayType(this, obj);
+    connect(dt, &DayType::changed, this, &ProjectSettings::onDayTypeChanged);
+    return dt;
 }
 
 DayType *ProjectSettings::newDayType(const DayType &newDayType) {
     DayType *dt = new DayType(newDayType);
     dt->setParent(this);
+    connect(dt, &DayType::changed, this, &ProjectSettings::onDayTypeChanged);
     return dt;
 }
 
@@ -144,15 +195,38 @@ bool ProjectSettings::hasDaytype(const QString &id) const {
     return false;
 }
 
-void ProjectSettings::setDayTypes(const QList<DayType *> &list) {
+void ProjectSettings::setDayTypes(const QList<DayType *> &list, const bool &doSignalConnect) {
     _dayTypes = list;
+
+    if(doSignalConnect)
+        for(DayType *dt : _dayTypes)
+            connect(dt, &DayType::changed, this, &ProjectSettings::onDayTypeChanged);
+
+    emit changed(this);
 }
 
-void ProjectSettings::addDayType(DayType *dayType) {
+void ProjectSettings::addDayType(DayType *dayType, const bool &doSignalConnect) {
     if(!dayType)
         return;
 
     _dayTypes << dayType;
+    if(doSignalConnect)
+        connect(dayType, &DayType::changed, this, &ProjectSettings::onDayTypeChanged);
+
+    emit changed(this);
+    onDayTypeAdded(dayType);
+}
+
+void ProjectSettings::insertDayType(DayType *dayType, const int &index, const bool &doSignalConnect) {
+    if(!dayType || index < 0 || index > _dayTypes.count())
+        return;
+
+    _dayTypes.insert(index, dayType);
+    if(doSignalConnect)
+        connect(dayType, &DayType::changed, this, &ProjectSettings::onDayTypeChanged);
+
+    emit changed(this);
+    onDayTypeAdded(dayType);
 }
 
 void ProjectSettings::removeDayType(DayType *dayType) {
@@ -160,6 +234,8 @@ void ProjectSettings::removeDayType(DayType *dayType) {
         DayType *d = dayTypeAt(i);
         if(d == dayType) {
             _dayTypes.remove(i);
+            emit changed(this);
+            onDayTypeRemoved(dayType);
             return;
         }
     }
@@ -170,6 +246,8 @@ void ProjectSettings::removeDayType(const QString &id) {
         DayType *d = dayTypeAt(i);
         if(d->id() == id) {
             _dayTypes.remove(i);
+            emit changed(this);
+            onDayTypeRemoved(d);
             return;
         }
     }

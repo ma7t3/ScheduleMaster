@@ -194,6 +194,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuBusstops->addActions(wdgBusstops->actions());
     ui->menuLines   ->addActions(wdgLines   ->actions());
     ui->menuRoutes  ->addActions(wdgRoutes  ->actions());
+    ui->menuTours   ->addActions(wdgTours   ->actions());
 
     qDebug() << "adding toggleViewActions to menubar";
     ui->menuDocks->addAction(actDockBusstops);
@@ -301,7 +302,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Wenn WdgTripEditor auch überarbeitet wird, am besten die ScheduleActions mit den jeweiligen WdgTripEditor-Actions (Slot trigger()) verbinden, die Aktions-Funktionen werden dann ja nicht mehr existieren :)
     connect(scheduleActions[0], &QAction::triggered, wdgTripEditor, &WdgTripEditor::actionNew);
     connect(scheduleActions[1], &QAction::triggered, wdgTripEditor, &WdgTripEditor::actionCopy);
-    connect(scheduleActions[3], &QAction::triggered, wdgTripEditor, &WdgTripEditor::actionDelete);
+    connect(scheduleActions[2], &QAction::triggered, wdgTripEditor, &WdgTripEditor::actionDelete);
 
     QMenu *hourBreakMenu = new QMenu(tr("Hour Break"), ui->menuSchedule);
     hourBreakMenu->setEnabled(false);
@@ -341,30 +342,27 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(wdgSchedule,                           &WdgSchedule::currentDayTypeChanged,    wdgTripEditor,      &WdgTripEditor::setCurrentDayType);
     connect(wdgSchedule,                           &WdgSchedule::currentTripsChanged,      wdgTripEditor,      &WdgTripEditor::setCurrentTrips);
     connect(wdgTripEditor,                         &WdgTripEditor::tripsChanged,           wdgSchedule,        &WdgSchedule::setCurrenTrips);
-    connect(wdgTripEditor,                         &WdgTripEditor::tripsChanged,           wdgSchedule,        &WdgSchedule::refreshSchedule);
     connect(wdgTours,                              &WdgTours::currentTourChanged,          wdgTourEditor,      &WdgTourEditor::setCurrentTour);
 
     qDebug() << "\tundo/redo refreshs";
     // Busstops
-    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgBusstops,        &WdgBusstops::refreshBusstopList);
+    /*connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgBusstops,        &WdgBusstops::refreshBusstopList);
     connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgSchedule,        &WdgSchedule::refreshSchedule);
-    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgRoutes,          &WdgRoutes::refreshRouteList);
+    connect(wdgBusstops,                           &WdgBusstops::refreshRequested,         wdgRoutes,          &WdgRoutes::refreshRouteList);*/
 
     // Lines
-    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgLines,           &WdgLines::refreshLineList);
+    /*connect(wdgLines,                              &WdgLines::refreshRequested,            wdgLines,           &WdgLines::refreshLineList);
     connect(wdgLines,                              &WdgLines::refreshRequested,            wdgSchedule,        &WdgSchedule::refreshSchedule);
-    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);
+    connect(wdgLines,                              &WdgLines::refreshRequested,            wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);*/
 
     // Routes
-    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgRoutes,          &WdgRoutes::refreshRouteList);
-    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);
+    /*connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgRoutes,          &WdgRoutes::refreshRouteList);
+    connect(wdgRoutes,                             &WdgRoutes::refreshRequested,           wdgPublishedLines,  &WdgPublishedLines::refreshRoutes);*/
 
-    // Schedule
-    connect(wdgSchedule,                           &WdgSchedule::refreshRequested,         wdgSchedule,        &WdgSchedule::refreshSchedule);
 
     // Tours
-    connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTours,           &WdgTours::refresh);
-    connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTourEditor,      &WdgTourEditor::refresh);
+    // connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTours,           &WdgTours::refresh);
+    // connect(wdgTours,                              &WdgTours::refreshRequested,            wdgTourEditor,      &WdgTourEditor::refresh);
 
     // Published Lines
     connect(wdgPublishedLines,                     &WdgPublishedLines::refreshRequested,   wdgPublishedLines,  &WdgPublishedLines::refreshDayTypes);
@@ -372,7 +370,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Footnotes
     connect(wdgFootnotes,                          &WdgFootnotes::refreshRequested,        wdgFootnotes,       &WdgFootnotes::refreshFootnotes);
-    connect(wdgFootnotes,                          &WdgFootnotes::refreshRequested,        wdgSchedule,        &WdgSchedule::refreshSchedule);
 
 
     qInfo() << "loading last used files...";
@@ -513,20 +510,21 @@ bool MainWindow::actionFileClose() {
     qInfo() << "closing current file...";
     _projectData->reset();
     knownFile = false;
+    ui->actionFileSave->setEnabled(true);
 
     wdgRoutes->setCurrentLine(nullptr);
     wdgSchedule->setCurrentLine(nullptr);
-    wdgTours->setCurrentTour(nullptr);
+    // wdgTours->setCurrentTour(nullptr);
     wdgTourEditor->setCurrentTour(nullptr);
     wdgPublishedLines->setCurrentLine(nullptr);
 
-    wdgBusstops->refreshBusstopList();
-    wdgLines->refreshLineList();
-    wdgRoutes->refreshRouteList();
-    wdgSchedule->refreshSchedule();
-    wdgSchedule->refreshDirections();
-    wdgSchedule->refreshDayTypes();
-    wdgTours->refresh();
+    //wdgBusstops->refreshBusstopList();
+    //wdgLines->refreshLineList();
+    //wdgRoutes->refreshRouteList();
+    // wdgSchedule->refreshSchedule();
+    // wdgSchedule->refreshDirections();
+    // wdgSchedule->refreshDayTypes();
+    // wdgTours->refresh();
     wdgTourEditor->refresh();
     wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRoutes();
@@ -573,31 +571,31 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
     qDebug() << "refreshing views because of undo/redo command. Type:" << t;
 
     if(t == GeneralType) {
-        wdgSchedule->refreshDayTypes();
+        // wdgSchedule->refreshDayTypes();
     }
     if(t == BusstopsType) {
-        wdgBusstops->refreshBusstopList();
-        wdgSchedule->refreshSchedule();
-        wdgRoutes->refreshRouteList();
+        //wdgBusstops->refreshBusstopList();
+        // wdgSchedule->refreshSchedule();
+        //wdgRoutes->refreshRouteList();
     }
     if(t == LinesType) {
-        wdgLines->refreshLineList();
-        wdgSchedule->refreshDirections();
+        //wdgLines->refreshLineList();
+        // wdgSchedule->refreshDirections();
         wdgPublishedLines->refreshRoutes();
     }
     if(t == RoutesType) {
-        wdgRoutes->refreshRouteList();
+        //wdgRoutes->refreshRouteList();
         wdgPublishedLines->refreshRoutes();
     }
     if(t == ScheduleType) {
-        wdgSchedule->refreshSchedule();
+        // wdgSchedule->refreshSchedule();
     }
     if(t == ScheduleHourBreakType) {
-        wdgSchedule->refreshSchedule();
+        // wdgSchedule->refreshSchedule();
         wdgSchedule->refreshHourBreak();
     }
     if(t == ToursType) {
-        wdgTours->refresh();
+        // wdgTours->refresh();
         wdgTourEditor->refresh();
     }
     if(t == PublicationsType) {
@@ -606,7 +604,7 @@ void MainWindow::refreshAfterUndoRedo(CmdType t) {
     }
     if(t == FootnotesType) {
         wdgFootnotes->refreshFootnotes();
-        wdgSchedule->refreshSchedule();
+        // wdgSchedule->refreshSchedule();
     }
 }
 
@@ -895,14 +893,12 @@ void MainWindow::handleFileHandlerResult() {
     QString filePath = fileHandler->filePath();
 
     if(fileHandler->action() == FileHandler::ReadFileAction) {
-        progressLogger->addEntry(DlgProgressLogger::InfoType, tr("Updating ui"), true);
+        progressLogger->addEntry(DlgProgressLogger::InfoType, tr("Updating ui..."), true);
         QApplication::setOverrideCursor(Qt::WaitCursor);
         qApp->processEvents();
         qDebug() << "refreshing ui...";
-        wdgBusstops->refreshBusstopList();
-        wdgLines->refreshLineList();
-        wdgTours->refresh();
-        wdgSchedule->refreshDayTypes();
+        // wdgTours->refresh();
+        // wdgSchedule->refreshDayTypes();
         wdgPublishedLines->refreshLineList();
         wdgPublishedLines->refreshDayTypes();
         wdgPublishedLines->refreshRoutes();
@@ -1041,27 +1037,15 @@ void MainWindow::on_actionHelpAboutQt_triggered() {
 
 
 void MainWindow::on_actionEditProjectSettings_triggered() {
-    QList<DayType> dayTypes;
-    for(int i = 0; i < _projectData->projectSettings()->dayTypeCount(); i++)
-        dayTypes << *_projectData->projectSettings()->dayTypeAt(i);
-
-    DlgProjectSettings *dlg = new DlgProjectSettings(this);
-    dlg->setNames(_projectData->projectSettings()->displayName(), _projectData->projectSettings()->shortName());
-    dlg->setIcon(_projectData->projectSettings()->icon());
-    dlg->setDayTypes(dayTypes);
+    DlgProjectSettings *dlg = new DlgProjectSettings(this, _projectData->projectSettings());
 
     dlg->exec();
 
     if(dlg->result() != QDialog::Accepted)
         return;
 
-    ProjectSettings newS(this);
-    newS.setNames(dlg->displayName(), dlg->shortName());
-    newS.setIcon(dlg->icon());
-    newS.setDayTypes(dlg->dayTypes());
-
+    ProjectSettings newS = dlg->projectSettings();
     undoStack()->push(new CmdEditProjectSettings(_projectData->projectSettings(), newS));
-    wdgSchedule->refreshDayTypes();
 }
 
 
@@ -1191,12 +1175,13 @@ void MainWindow::on_actionViewToolbarWorkspaces_triggered() {
 void MainWindow::on_actionFileImportOmsiSchedule_triggered() {
     DlgOmsiImport dlg(this, _projectData);
     dlg.exec();
+    _projectData->setParent(this);
 
     qDebug() << "refreshing ui...";
-    wdgBusstops->refreshBusstopList();
-    wdgLines->refreshLineList();
-    wdgTours->refresh();
-    wdgSchedule->refreshDayTypes();
+    //wdgBusstops->refreshBusstopList();
+    //wdgLines->refreshLineList();
+    // wdgTours->refresh();
+    // wdgSchedule->refreshDayTypes();
     wdgPublishedLines->refreshLineList();
     wdgPublishedLines->refreshDayTypes();
     wdgPublishedLines->refreshRoutes();

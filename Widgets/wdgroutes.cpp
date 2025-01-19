@@ -14,10 +14,35 @@ WdgRoutes::WdgRoutes(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgRoutes),
     projectData(((MainWindow *)parent)->projectData()),
+    _model(new RouteTableModel(this)),
+    _proxyModel(new QSortFilterProxyModel(this)),
     _currentLine(nullptr),
-    _currentRoute(nullptr),
-    refreshing(false) {
+    _currentRoute(nullptr) {
     ui->setupUi(this);
+
+    ui->twRoutes->setModel(_model);
+
+    _proxyModel->setSourceModel(_model);
+    _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    _proxyModel->setFilterKeyColumn(-1);
+    _proxyModel->setSortRole(0x0100);
+    _proxyModel->setSortLocaleAware(true);
+    _proxyModel->sort(1, Qt::AscendingOrder);
+
+    ui->twRoutes->setSortingEnabled(true);
+    ui->twRoutes->horizontalHeader()->setSortIndicator(1, Qt::AscendingOrder);
+    ui->twRoutes->setModel(_proxyModel);
+
+
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+    ui->twRoutes->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+
+
+    connect(ui->twRoutes->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WdgRoutes::onSelectionChanged);
+    connect(_model, &QAbstractItemModel::rowsInserted, this, &WdgRoutes::onRowsInserted);
 
     _actionNew       = ui->twRoutes->addAction(QIcon(":/icons/Add.ico"),       tr("New"));
     _actionEdit      = ui->twRoutes->addAction(QIcon(":/icons/Edit.ico"),      tr("Edit"));
@@ -39,29 +64,25 @@ WdgRoutes::WdgRoutes(QWidget *parent) :
 
     ui->twRoutes->setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    connect(_actionNew,       &QAction::triggered,             this,             &WdgRoutes::actionNew);
-    connect(_actionEdit,      &QAction::triggered,             this,             &WdgRoutes::actionEdit);
-    connect(_actionDuplicate, &QAction::triggered,             this,             &WdgRoutes::actionDuplicate);
-    connect(_actionDelete,    &QAction::triggered,             this,             &WdgRoutes::actionDelete);
+    connect(_actionNew,       &QAction::triggered,          this,            &WdgRoutes::actionNew);
+    connect(_actionEdit,      &QAction::triggered,          this,            &WdgRoutes::actionEdit);
+    connect(_actionDuplicate, &QAction::triggered,          this,            &WdgRoutes::actionDuplicate);
+    connect(_actionDelete,    &QAction::triggered,          this,            &WdgRoutes::actionDelete);
 
-    connect(_actionNew,       &QAction::enabledChanged,         ui->pbNew,       &QPushButton::setEnabled);
-    connect(_actionEdit,      &QAction::enabledChanged,         ui->pbEdit,      &QPushButton::setEnabled);
-    connect(_actionDuplicate, &QAction::enabledChanged,         ui->pbDuplicate, &QPushButton::setEnabled);
-    connect(_actionDelete,    &QAction::enabledChanged,         ui->pbDelete,    &QPushButton::setEnabled);
+    connect(_actionNew,       &QAction::enabledChanged,     ui->pbNew,       &QPushButton::setEnabled);
+    connect(_actionEdit,      &QAction::enabledChanged,     ui->pbEdit,      &QPushButton::setEnabled);
+    connect(_actionDuplicate, &QAction::enabledChanged,     ui->pbDuplicate, &QPushButton::setEnabled);
+    connect(_actionDelete,    &QAction::enabledChanged,     ui->pbDelete,    &QPushButton::setEnabled);
 
-    connect(ui->pbNew,        &QPushButton::clicked,            this,            &WdgRoutes::actionNew);
-    connect(ui->pbEdit,       &QPushButton::clicked,            this,            &WdgRoutes::actionEdit);
-    connect(ui->twRoutes,     &QTableWidget::cellDoubleClicked, this,            &WdgRoutes::actionEdit);
-    connect(ui->pbDuplicate,  &QPushButton::clicked,            this,            &WdgRoutes::actionDuplicate);
-    connect(ui->pbDelete,     &QPushButton::clicked,            this,            &WdgRoutes::actionDelete);
+    connect(ui->pbNew,        &QPushButton::clicked,        this,            &WdgRoutes::actionNew);
+    connect(ui->pbEdit,       &QPushButton::clicked,        this,            &WdgRoutes::actionEdit);
+    connect(ui->twRoutes,     &QTableWidget::doubleClicked, this,            &WdgRoutes::actionEdit);
+    connect(ui->pbDuplicate,  &QPushButton::clicked,        this,            &WdgRoutes::actionDuplicate);
+    connect(ui->pbDelete,     &QPushButton::clicked,        this,            &WdgRoutes::actionDelete);
 
-    connect(ui->leSearch,     &QLineEdit::textChanged,          this,            &WdgRoutes::refreshRouteList);
+    connect(ui->leSearch,     &QLineEdit::textChanged,      _proxyModel,     &QSortFilterProxyModel::setFilterFixedString);
 
     QObject::connect(ui->pbExportProfilesOMSITrips, &QPushButton::clicked, this, &WdgRoutes::omsiExport);
-
-    ui->twRoutes->setColumnWidth(0, 50);
-    ui->twRoutes->setColumnWidth(1, 50);
-    ui->twRoutes->setColumnWidth(2, 400);
 }
 
 WdgRoutes::~WdgRoutes()
@@ -75,83 +96,10 @@ QList<QAction *> WdgRoutes::actions() {
 
 void WdgRoutes::refreshUI() {
     int selectionCount = ui->twRoutes->selectionModel()->selectedRows(0).count();
-    _actionNew->setEnabled(selectionCount == 1);
+    _actionNew->setEnabled(_currentLine);
     _actionEdit->setEnabled(selectionCount == 1);
     _actionDuplicate->setEnabled(selectionCount == 1);
     _actionDelete->setEnabled(selectionCount >= 1);
-}
-
-void WdgRoutes::refreshRouteList() {
-    qDebug() << "refreshing route list...";
-
-    refreshing = true;
-
-    ui->twRoutes->setRowCount(0);
-    tableReference.clear();
-
-    if(!_currentLine)
-        return;
-
-    QList<Route *> routes = _currentLine->routes();
-    routes = ProjectData::sortItems(routes);
-
-    bool searchCodeEnabled;
-    QString search = ui->leSearch->text();
-    int searchCode = search.toInt(&searchCodeEnabled);
-
-    int counter = 0;
-    QList<LineDirection *> directions = _currentLine->directions();
-
-    // append nullptr to routes to also get all routes with no direction assigned
-    foreach(LineDirection *ld, directions << nullptr) {
-        QList<Route *> routes = _currentLine->routesToDirection(ld);
-        routes = ProjectData::sortItems(routes);
-
-        foreach(Route *r, routes) {
-            if(!r->name().contains(search, Qt::CaseInsensitive))
-                if(!searchCodeEnabled || r->code() != searchCode)
-                    continue;
-
-            tableReference << r;
-
-            QString code = QString::number(r->code());
-
-            QString firstBusstop, lastBusstop;
-            if(r->busstopCount() != 0) {
-                firstBusstop = r->firstBusstop()->name();
-                lastBusstop = r->lastBusstop()->name();
-            }
-
-            if(code.length() == 1)
-                code = "0" + code;
-
-            QFont bold;
-            bold.setBold(true);
-
-            ui->twRoutes->insertRow(counter);
-            ui->twRoutes->setItem(counter, 0, new QTableWidgetItem(code));
-            if(ld) ui->twRoutes->setItem(counter, 1, new QTableWidgetItem(ld->description()));
-            ui->twRoutes->setItem(counter, 2, new QTableWidgetItem(r->name()));
-            ui->twRoutes->setItem(counter, 3, new QTableWidgetItem(firstBusstop));
-            ui->twRoutes->setItem(counter, 4, new QTableWidgetItem(lastBusstop));
-            ui->twRoutes->setItem(counter, 5, new QTableWidgetItem(QString::number(r->busstopCount())));
-
-            ui->twRoutes->item(counter, 2)->setFont(bold);
-
-            if(_currentRoute == r)
-                ui->twRoutes->setCurrentCell(counter, 2);
-
-            counter++;
-        }
-    }
-
-    for(int i = 0; i < ui->twRoutes->rowCount(); i++) {
-        ui->twRoutes->setRowHeight(i, 15);
-    }
-
-    ui->twRoutes->resizeColumnsToContents();
-
-    refreshing = false;
 }
 
 void WdgRoutes::setCurrentLine(Line *l) {
@@ -165,7 +113,8 @@ void WdgRoutes::setCurrentLine(Line *l) {
     _actionNew->setEnabled(true);
 
     _currentLine = l;
-    refreshRouteList();
+    _model->setLine(l);
+    refreshUI();
 }
 
 Route * WdgRoutes::currentRoute() const {
@@ -226,7 +175,7 @@ void WdgRoutes::actionDelete() {
     QString showList ="<ul>";
     QList<Route *> routes;
     for(int i = 0; i < selection.count(); i++) {
-        Route *r = tableReference[selection[i].row()];
+        Route *r = _model->itemAt(_proxyModel->mapToSource(selection[i]).row());
         routes << r;
         showList += QString("<li>%1</li>").arg(r->name());
     }
@@ -249,8 +198,8 @@ void WdgRoutes::omsiExport() {
     if(!dir.exists())
         return;
 
-    for(int i = 0; i < tableReference.count(); i++) {
-        Route *r = tableReference[i];
+    for(int i = 0; i < _model->itemCount(); i++) {
+        Route *r = _model->itemAt(i);
         QFile f(dir.path() + "/" + r->name() + ".ttp");
         if(!f.exists()) {
             qDebug() << "not found: " << r->name();
@@ -303,22 +252,23 @@ void WdgRoutes::omsiExport() {
     }
 }
 
-void WdgRoutes::on_twRoutes_itemSelectionChanged() {
-    if(refreshing)
-        return;
+void WdgRoutes::onSelectionChanged() {
+    const QModelIndex current = ui->twRoutes->selectionModel()->currentIndex();
+    int selectionCount        = ui->twRoutes->selectionModel()->selectedRows().count();
 
-    QTableWidgetItem *current = ui->twRoutes->currentItem();
-
-    int selectionCount = ui->twRoutes->selectionModel()->selectedRows().count();
-
-    if(!current || selectionCount == 0 || selectionCount > 1)
+    if(selectionCount != 1)
         _currentRoute = nullptr;
     else
-        _currentRoute = tableReference[current->row()];
-
+        _currentRoute = _model->itemAt(_proxyModel->mapToSource(current).row());
     refreshUI();
-
     emit currentRouteChanged(_currentRoute);
+}
+
+void WdgRoutes::onRowsInserted(QModelIndex parent, int first, int last) {
+    Q_UNUSED(parent);
+    ui->twRoutes->setCurrentIndex(_proxyModel->mapFromSource(_model->index(first, 0)));
+    ui->twRoutes->selectionModel()->select(QItemSelection(_proxyModel->mapFromSource(_model->index(first, 0)), _proxyModel->mapFromSource(_model->index(last, 5))), QItemSelectionModel::ClearAndSelect);
+    ui->twRoutes->setFocus();
 }
 
 /*void WdgRoutes::actionExportProfiles() {
