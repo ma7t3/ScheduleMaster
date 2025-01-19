@@ -8,15 +8,26 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow) {
+    ui(new Ui::MainWindow),
+    _projectData(new ProjectData(this)) {
     ui->setupUi(this);
 
     ui->centralwidget->hide();
 
-    initToolbars();
+    _undoAction = _projectData->undoStack()->createUndoAction(this, tr("Undo"));
+    _redoAction = _projectData->undoStack()->createRedoAction(this, tr("Redo"));
 
-    ui->menuEdit->addAction(ui->actionEditPreferences);
-    ui->menuEdit->addAction(ui->actionEditProjectSettings);
+    _undoAction->setShortcut(QKeySequence(QKeySequence::Undo));
+    _redoAction->setShortcut(QKeySequence(QKeySequence::Redo));
+
+    _undoAction->setIcon(QIcon(":/Icons/Undo.ico"));
+    _redoAction->setIcon(QIcon(":/Icons/Redo.ico"));
+
+    ui->menuEdit->insertAction(ui->actionEditPreferences, _undoAction);
+    ui->menuEdit->insertAction(ui->actionEditPreferences, _redoAction);
+    ui->menuEdit->insertSeparator(ui->actionEditPreferences);
+
+    initToolbars();
 
     initDockWidgets();
 
@@ -48,7 +59,10 @@ void MainWindow::initToolbars() {
     _toolbarGeneral->addAction(ui->actionFileNewProject);
     _toolbarGeneral->addAction(ui->actionFileOpenProject);
     _toolbarGeneral->addAction(ui->actionFileSaveProject);
-    // undo/redo
+    _toolbarGeneral->addSeparator();
+    _toolbarGeneral->addAction(_undoAction);
+    _toolbarGeneral->addAction(_redoAction);
+    _toolbarGeneral->addSeparator();
     _toolbarGeneral->addAction(ui->actionEditProjectSettings);
     _toolbarGeneral->addAction(ui->actionEditPreferences);
 
