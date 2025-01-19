@@ -16,6 +16,7 @@ SOURCES += \
     Global/LocalConfig.cpp \
     Global/Logger.cpp \
     ProjectData/ProjectData.cpp \
+    ProjectData/ProjectDataItem.cpp \
     Widgets/WdgAbstract.cpp \
     Widgets/WdgWelcome.cpp \
     Widgets/WdgWelcomeRecentProjectEntry.cpp
@@ -27,6 +28,7 @@ HEADERS += \
     Global/LocalConfig.h \
     Global/Logger.h \
     ProjectData/ProjectData.h \
+    ProjectData/ProjectDataItem.h \
     Widgets/WdgAbstract.h \
     Widgets/WdgWelcome.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
