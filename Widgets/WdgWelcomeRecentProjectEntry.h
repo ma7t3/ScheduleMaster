@@ -21,6 +21,12 @@ public:
 
     void setFileMissing();
 
+    QString path() const;
+
+signals:
+    void open(const QString &);
+    void removeFromList(const QString &);
+
 private:
     Ui::WdgWelcomeRecentProjectEntry *ui;
 };

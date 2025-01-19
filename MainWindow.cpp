@@ -15,9 +15,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initDockWidgets();
 
-    connect(ui->actionFileQuit, &QAction::triggered, this, &MainWindow::quitApplication);
+    connect(ui->actionFileNewProject,      &QAction::triggered, this, &MainWindow::newProject);
+    connect(ui->actionFileOpenProject,     &QAction::triggered, this, &MainWindow::openProject);
+    connect(ui->actionFileSaveProject,     &QAction::triggered, this, &MainWindow::saveProject);
+    connect(ui->actionFileSaveProjectAs,   &QAction::triggered, this, &MainWindow::saveProjectAs);
+    connect(ui->actionFileCloseProject,    &QAction::triggered, this, &MainWindow::closeProject);
+    connect(ui->actionFileQuit,            &QAction::triggered, this, &MainWindow::quitApplication);
 
-    connect(ui->actionEditPreferences, &QAction::triggered, this, &MainWindow::openPreferences);
+    connect(ui->actionEditPreferences,     &QAction::triggered, this, &MainWindow::openPreferences);
+    connect(ui->actionEditProjectSettings, &QAction::triggered, this, &MainWindow::openProjectSettings);
 }
 
 MainWindow::~MainWindow() {
@@ -56,33 +62,56 @@ void MainWindow::initDockWidgets() {
     _wdgWelcome = new WdgWelcome(this);
     connect(_wdgWelcome, &WdgWelcome::newProject,          this, &MainWindow::newProject);
     connect(_wdgWelcome, &WdgWelcome::openProject,         this, &MainWindow::openProject);
-    connect(_wdgWelcome, &WdgWelcome::openProjectFromFile, this, &MainWindow::openProject);
+    connect(_wdgWelcome, &WdgWelcome::openProjectFromFile, this, &MainWindow::openProjectFromFile);
     connect(_wdgWelcome, &WdgWelcome::openPreferences,     this, &MainWindow::openPreferences);
     connect(_wdgWelcome, &WdgWelcome::quitApplication,     this, &MainWindow::quitApplication);
+
+    connect(_wdgWelcome, &WdgWelcome::removeProjectFromList,     this, [](){qInfo() << "test";});
+
+
 
     _dwWelcome->setWidget(_wdgWelcome);
 
     addDockWidget(Qt::TopDockWidgetArea, _dwWelcome);
 }
 
-void MainWindow::newProject() {}
+void MainWindow::newProject() {
+    qDebug() << "new project";
+}
 
-void MainWindow::openProject() {}
+void MainWindow::openProject() {
+    qDebug() << "open project with dialog";
+}
 
-void MainWindow::openProjectFromFile(const QString &filePath) {}
+void MainWindow::openProjectFromFile(const QString &filePath) {
+    qDebug() << "open project file" << filePath;
+}
 
-void MainWindow::saveProject() {}
+void MainWindow::saveProject() {
+    qDebug() << "save project";
+}
 
-void MainWindow::saveProjectAs() {}
+void MainWindow::saveProjectAs() {
+    qDebug() << "save project as";
+}
 
-void MainWindow::saveProjectToFile(const QString &filePath) {}
+void MainWindow::saveProjectToFile(const QString &filePath) {
+    qDebug() << "save project to file" << filePath;
+}
 
-void MainWindow::closeProject() {}
-
-void MainWindow::openPreferences() {
-    qInfo() << "open prefs";
+void MainWindow::closeProject() {
+    qDebug() << "close project";
 }
 
 void MainWindow::quitApplication() {
     QApplication::quit();
 }
+
+void MainWindow::openPreferences() {
+    qDebug() << "open preferences";
+}
+
+void MainWindow::openProjectSettings() {
+    qDebug() << "open project settings";
+}
+

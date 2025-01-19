@@ -12,6 +12,9 @@ WdgWelcomeRecentProjectEntry::WdgWelcomeRecentProjectEntry(QWidget *parent) :
 
     ui->lIcon->setScaledContents(true);
     ui->lLastUsed->setStyleSheet("color: grey;");
+
+    connect(ui->pbOpen,   &QPushButton::clicked, this, [this](){emit open(path());});
+    connect(ui->pbRemove, &QPushButton::clicked, this, [this](){emit removeFromList(path());});
 }
 
 WdgWelcomeRecentProjectEntry::~WdgWelcomeRecentProjectEntry() {
@@ -40,4 +43,8 @@ void WdgWelcomeRecentProjectEntry::setFileMissing() {
     ui->lName->setDisabled(true);
     ui->lPath->setDisabled(true);
     ui->pbOpen->setDisabled(true);
+}
+
+QString WdgWelcomeRecentProjectEntry::path() const {
+    return ui->lPath->text();
 }

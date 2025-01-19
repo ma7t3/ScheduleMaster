@@ -32,10 +32,11 @@ protected slots:
     void saveProjectAs();
     void saveProjectToFile(const QString &filePath);
     void closeProject();
+    void quitApplication();
 
     void openPreferences();
+    void openProjectSettings();
 
-    void quitApplication();
 
 private:
     Ui::MainWindow *ui;
