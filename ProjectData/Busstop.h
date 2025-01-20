@@ -3,7 +3,18 @@
 
 #include <QObject>
 
-#include "ProjectDataItem.h"
+#include "BusstopPlatform.h"
+
+enum class BusstopFlag {
+    StandardBusstop = 0x0,
+    FinalBusstop = 0x1,
+    TransferBusstop = 0x2,
+    CentralTransferBusstop = 0x4,
+    InternalBusstopPlatform = 0x8
+};
+
+Q_DECLARE_FLAGS(BusstopFlags, BusstopFlag)
+Q_DECLARE_OPERATORS_FOR_FLAGS(BusstopFlags)
 
 class Busstop : public ProjectDataItem {
     Q_OBJECT
@@ -11,11 +22,13 @@ public:
     Busstop(QObject *parent, const QUuid &id = QUuid());
     Busstop(QObject *parent, const QJsonObject &);
 
-    bool operator<(const Busstop &);
+    bool operator<(const Busstop &) const;
 
     struct Data {
         QString name;
-        bool important = false;
+        BusstopFlags flags;
+        QHash<QUuid, BusstopPlatform *> platforms;
+        BusstopPlatform *defaultPlatform;
     };
 
     Data data() const;
@@ -24,8 +37,21 @@ public:
     QString name() const;
     void setName(const QString &);
 
-    bool important() const;
-    void setImportant(const bool &);
+    BusstopFlags flags() const;
+    void setFlags(const BusstopFlags &);
+
+    int platformCount() const;
+    BusstopPlatform *platform(const QUuid &id) const;
+    QList<BusstopPlatform *> platforms() const;
+    void addPlatform(BusstopPlatform *);
+    void removePlatform(BusstopPlatform *);
+    void removePlatform(const QUuid &id);
+
+    QList<BusstopPlatform *> platformsWithFlag(const BusstopPlatformFlag &flag);
+
+    BusstopPlatform *defaultPlatform() const;
+    bool isDefaultPlatform(BusstopPlatform *) const;
+    void setDefaultPlatform(BusstopPlatform *);
 
     QJsonObject toJson() const;
 
