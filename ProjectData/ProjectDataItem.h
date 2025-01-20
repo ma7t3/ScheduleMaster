@@ -8,7 +8,6 @@ class ProjectDataItem : public QObject {
     Q_OBJECT
 public:
     ProjectDataItem(QObject *parent, const QUuid &id = QUuid());
-    ProjectDataItem(QObject *parent, const QJsonObject &);
 
     QUuid id() const;
     QString idAsString() const;

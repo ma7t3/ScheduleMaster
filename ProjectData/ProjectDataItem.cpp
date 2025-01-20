@@ -5,11 +5,6 @@ ProjectDataItem::ProjectDataItem(QObject *parent, const QUuid &id) :
     _id(id.isNull() ? generateID() : id) {
 }
 
-ProjectDataItem::ProjectDataItem(QObject *parent, const QJsonObject &jsonObject) :
-    QObject(parent) {
-    fromJson(jsonObject);
-}
-
 QUuid ProjectDataItem::id() const {
     return _id;
 }
