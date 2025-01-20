@@ -18,6 +18,7 @@ SOURCES += \
     ProjectData/ProjectData.cpp \
     ProjectData/ProjectDataItem.cpp \
     ProjectData/Busstop.cpp \
+    ProjectData/BusstopPlatform.cpp \
     Widgets/WdgAbstract.cpp \
     Widgets/WdgWelcome.cpp \
     Widgets/WdgWelcomeRecentProjectEntry.cpp
@@ -31,6 +32,7 @@ HEADERS += \
     ProjectData/ProjectData.h \
     ProjectData/ProjectDataItem.h \
     ProjectData/Busstop.h \
+    ProjectData/BusstopPlatform.h \
     Widgets/WdgAbstract.h \
     Widgets/WdgWelcome.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
