@@ -33,11 +33,11 @@ int ProjectData::busstopCount() const {
     return _busstops.count();
 }
 
-Busstop *ProjectData::busstop(const QUuid &id) {
+Busstop *ProjectData::busstop(const QUuid &id) const {
     return _busstops.contains(id) ? _busstops[id] : nullptr;
 }
 
-Busstop *ProjectData::findBusstopByName(const QString &name) {
+Busstop *ProjectData::findBusstopByName(const QString &name) const {
     auto it = std::find_if(_busstops.begin(), _busstops.end(),
                            [name](Busstop* busstop) {
                                return busstop->name() == name;

@@ -21,8 +21,8 @@ public:
     void reset();
 
     int busstopCount() const;
-    Busstop *busstop(const QUuid &id);
-    Busstop *findBusstopByName(const QString &name);
+    Busstop *busstop(const QUuid &id) const;
+    Busstop *findBusstopByName(const QString &name) const;
     QList<Busstop *> busstops() const;
     void addBusstop(Busstop *);
     void removeBusstop(Busstop *);
