@@ -19,6 +19,7 @@ BusstopPlatform::Data BusstopPlatform::data() const {
 
 void BusstopPlatform::setData(const Data &newData) {
     _data = newData;
+    emit changed();
 }
 
 QString BusstopPlatform::name() const {
