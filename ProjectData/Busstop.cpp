@@ -89,7 +89,7 @@ BusstopPlatform *Busstop::defaultPlatform() const {
 }
 
 bool Busstop::isDefaultPlatform(BusstopPlatform *platform) const {
-    return platform = defaultPlatform();
+    return platform == defaultPlatform();
 }
 
 void Busstop::setDefaultPlatform(BusstopPlatform *platform) {
