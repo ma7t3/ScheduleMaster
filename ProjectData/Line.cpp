@@ -1,5 +1,6 @@
 #include "Line.h"
 
+#include <QJsonArray>
 
 Line::Line(QObject *parent, const QUuid &id) :
     ProjectDataItem(parent, id) {
@@ -49,13 +50,60 @@ void Line::setColor(const QColor &newColor) {
     emit changed();
 }
 
+int Line::directionCount() const {
+    return _data.directions.count();
+}
+
+LineDirection *Line::direction(const QUuid &id) const {
+    auto it = std::find_if(_data.directions.cbegin(), _data.directions.cend(),
+                           [&id](LineDirection* ld) { return ld->id() == id; });
+    return (it != _data.directions.cend()) ? *it : nullptr;
+}
+
+QVector<LineDirection *> Line::directions() const {
+    return _data.directions;
+}
+
+void Line::appendDirection(LineDirection *lineDirection) {
+    _data.directions << lineDirection;
+}
+
+void Line::insertDirection(const int &index, LineDirection *lineDirection) {
+    if(index < 0 || index > _data.directions.count())
+        return;
+
+    _data.directions.insert(index, lineDirection);
+}
+
+void Line::removeDirection(LineDirection *lineDirection) {
+    _data.directions.removeIf([&lineDirection](LineDirection *ld){return ld == lineDirection;});
+}
+
+void Line::removeDirection(const QUuid &id) {
+    _data.directions.removeIf([&id](LineDirection *ld){return ld->id() == id;});
+}
+
 QJsonObject Line::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
-    // TODO
+    jsonObject.insert("name",        _data.name);
+    jsonObject.insert("description", _data.description);
+    jsonObject.insert("color",       _data.color.name());
+
+    QJsonArray jsonDirections;
+    for(LineDirection *current : _data.directions)
+        jsonDirections.append(current->toJson());
+
+    jsonObject.insert("directions", jsonDirections);
     return jsonObject;
 }
 
 void Line::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
+    _data.name        = jsonObject.value("name").toString(tr("Unnamed line"));
+    _data.description = jsonObject.value("description").toString();
+    _data.color       = QColor(jsonObject.value("color").toString());
+    QJsonArray jsonDirections = jsonObject.value("directions").toArray();
+    for(QJsonValue val : jsonDirections)
+        _data.directions << new LineDirection(this, val.toObject());
 }
 
