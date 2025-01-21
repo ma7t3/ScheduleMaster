@@ -67,7 +67,7 @@ QJsonObject ProjectData::toJson() const {
 }
 
 void ProjectData::fromJson(const QJsonObject &jsonObject) {
-    QJsonArray jBusstops = jsonObject.value("busstops").toArray(QJsonArray());
+    QJsonArray jBusstops = jsonObject.value("busstops").toArray();
 
     for(int i = 0; i < jBusstops.count(); i++) {
         Busstop *b = new Busstop(this, jBusstops[i].toObject());
