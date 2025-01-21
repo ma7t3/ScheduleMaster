@@ -31,7 +31,7 @@ void BusstopPlatform::setName(const QString &newName) {
     emit changed();
 }
 
-BusstopPlatformFlags BusstopPlatform::flags() const {
+BusstopPlatform::BusstopPlatformFlags BusstopPlatform::flags() const {
     return _data.flags;
 }
 
