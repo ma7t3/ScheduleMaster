@@ -24,7 +24,7 @@ public:
      * @param parent The QObject-parent
      * @param id The optional ID to be used. It can't be changed later.
      */
-    Busstop(QObject *parent, const QUuid &id = QUuid());
+    explicit Busstop(QObject *parent, const QUuid &id = QUuid());
 
     /**
      * @brief Constructs a new Busstop object by parsing a JSON object.
@@ -33,7 +33,7 @@ public:
      * @param parent The QObject-parent
      * @param jsonObject The JSON object to parse.
      */
-    Busstop(QObject *parent, const QJsonObject &jsonObject);
+    explicit Busstop(QObject *parent, const QJsonObject &jsonObject);
 
     /**
      * @brief Compares this Busstop with other by their names.

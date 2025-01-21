@@ -21,7 +21,7 @@ public:
      * @param parent The QObject-parent
      * @param id The optional ID to be used. It can't be changed later.
      */
-    ProjectDataItem(QObject *parent, const QUuid &id = QUuid());
+    explicit ProjectDataItem(QObject *parent, const QUuid &id = QUuid());
 
     /**
      * @brief Returns the UUID of the ProjectDataItem.

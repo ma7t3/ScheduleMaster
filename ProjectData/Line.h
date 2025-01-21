@@ -8,8 +8,8 @@
 class Line : public ProjectDataItem {
     Q_OBJECT
 public:
-    Line(QObject *parent, const QUuid &id = QUuid());
-    Line(QObject *parent, const QJsonObject&);
+    explicit Line(QObject *parent, const QUuid &id = QUuid());
+    explicit Line(QObject *parent, const QJsonObject&);
 
     bool operator<(const Line &other) const;
 

@@ -6,8 +6,8 @@
 class BusstopPlatform : public ProjectDataItem {
     Q_OBJECT
 public:
-    BusstopPlatform(QObject *parent, const QUuid &id = QUuid());
-    BusstopPlatform(QObject *parent, const QJsonObject &);
+    explicit BusstopPlatform(QObject *parent, const QUuid &id = QUuid());
+    explicit BusstopPlatform(QObject *parent, const QJsonObject &);
 
     bool operator<(const BusstopPlatform &) const;
 
