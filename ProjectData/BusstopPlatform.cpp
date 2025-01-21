@@ -42,8 +42,8 @@ void BusstopPlatform::setFlags(const BusstopPlatformFlags &newFlags) {
 
 QJsonObject BusstopPlatform::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
-    jsonObject.insert("name",  _data.name);
-    jsonObject.insert("flags", _data.flags.toInt());
+    jsonObject.insert("name",  name());
+    jsonObject.insert("flags", flags().toInt());
     return jsonObject;
 }
 
