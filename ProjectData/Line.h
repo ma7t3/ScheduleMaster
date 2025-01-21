@@ -1,7 +1,7 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include "ProjectDataItem.h"
+#include "LineDirection.h"
 
 #include <QColor>
 
@@ -17,6 +17,7 @@ public:
     struct Data {
         QString name, description;
         QColor color;
+        QVector<LineDirection *> directions;
         // directions, routes, trips
     };
 
@@ -31,6 +32,15 @@ public:
 
     QColor color() const;
     void setColor(const QColor &);
+
+    int directionCount() const;
+    LineDirection *direction(const QUuid &id) const;
+    QVector<LineDirection *> directions() const;
+    void appendDirection(LineDirection *);
+    void insertDirection(const int &index, LineDirection *);
+    void removeDirection(LineDirection *);
+    void removeDirection(const QUuid &id);
+
 
     QJsonObject toJson() const;
 
