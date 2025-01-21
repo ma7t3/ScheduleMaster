@@ -6,8 +6,8 @@
 class LineDirection : public ProjectDataItem {
     Q_OBJECT
 public:
-    LineDirection(QObject *parent, const QUuid &id = QUuid());
-    LineDirection(QObject *parent, const QJsonObject &);
+    explicit LineDirection(QObject *parent, const QUuid &id = QUuid());
+    explicit LineDirection(QObject *parent, const QJsonObject &);
 
     struct Data {
         QString description;
