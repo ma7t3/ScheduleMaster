@@ -36,7 +36,7 @@ public:
     /**
      * @brief Returns whether the project is associated with a project file.
      *
-     * This is equivalent to calling !filePath().isEmpty().
+     * This is equivalent to calling `!filePath().isEmpty()`.
      * See also filePath() and setFilePath().
      * @return whether the project is associated with a project file or not.
      */

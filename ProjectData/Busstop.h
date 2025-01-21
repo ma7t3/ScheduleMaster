@@ -76,6 +76,9 @@ public:
          * @brief The Busstop's default platform.
          *
          * This can be nullptr if the Busstop has no default BusstopPlatform set.
+         *
+         * **Important Note:** Always use the Busstop::defaultPlatform() method to get the default platform.
+         * This pointer may point to a platform that is not part of the Busstop's platforms list.
          */
         BusstopPlatform *defaultPlatform;
     };
@@ -113,10 +116,10 @@ public:
     void setName(const QString &newName);
 
     /**
-     * @brief Returns the Busstop's name.
+     * @brief Returns the Busstop's flags.
      *
      * See also setFlags().
-     * @return The Busstop's name
+     * @return The Busstop's flags
      */
     BusstopFlags flags() const;
 
