@@ -33,7 +33,7 @@ void Busstop::setName(const QString &newName) {
     emit changed();
 }
 
-BusstopFlags Busstop::flags() const {
+Busstop::BusstopFlags Busstop::flags() const {
     return _data.flags;
 }
 
@@ -72,7 +72,7 @@ void Busstop::removePlatform(const QUuid &id) {
     _data.platforms.remove(id);
 }
 
-QList<BusstopPlatform *> Busstop::platformsWithFlag(const BusstopPlatformFlag &flag) {
+QList<BusstopPlatform *> Busstop::platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag) {
     QList<BusstopPlatform *> result;
     for(BusstopPlatform *platform : _data.platforms)
         if(platform->flags().testFlag(flag))

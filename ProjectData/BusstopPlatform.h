@@ -3,18 +3,6 @@
 
 #include "ProjectDataItem.h"
 
-enum class BusstopPlatformFlag {
-    StandardBusstopPlatform = 0x0,
-    ArrivalBusstopPlatform = 0x1,
-    BreakBusstopPlatform = 0x2,
-    DepartureBusstopPlatform = 0x4,
-    WaitBusstopPlatform = 0x8,
-    InternalBusstopPlatform = 0x10
-};
-
-Q_DECLARE_FLAGS(BusstopPlatformFlags, BusstopPlatformFlag)
-Q_DECLARE_OPERATORS_FOR_FLAGS(BusstopPlatformFlags)
-
 class BusstopPlatform : public ProjectDataItem {
     Q_OBJECT
 public:
@@ -22,6 +10,16 @@ public:
     BusstopPlatform(QObject *parent, const QJsonObject &);
 
     bool operator<(const BusstopPlatform &) const;
+
+    enum class BusstopPlatformFlag : int {
+        StandardBusstopPlatform = 0x0,
+        ArrivalBusstopPlatform = 0x1,
+        BreakBusstopPlatform = 0x2,
+        DepartureBusstopPlatform = 0x4,
+        WaitBusstopPlatform = 0x8,
+        InternalBusstopPlatform = 0x10
+    };
+    Q_DECLARE_FLAGS(BusstopPlatformFlags, BusstopPlatformFlag)
 
     struct Data {
         QString name;
@@ -48,5 +46,7 @@ signals:
 private:
     BusstopPlatform::Data _data;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(BusstopPlatform::BusstopPlatformFlags)
 
 #endif // BUSSTOPPLATFORM_H
