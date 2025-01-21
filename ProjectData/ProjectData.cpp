@@ -63,6 +63,7 @@ void ProjectData::removeBusstop(const QUuid &id) {
 }
 
 QJsonObject ProjectData::toJson() const {
+    // TODO: implement
     return {};
 }
 
