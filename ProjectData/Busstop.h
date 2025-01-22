@@ -44,7 +44,7 @@ public:
 
     /**
      * @enum BusstopFlag
-     * @brief The BusstopFlag enum describes flags that busstops can have. You can understand it as certain features at busstop can have or not.
+     * @brief The BusstopFlag enum describes flags that Busstops can have. You can understand it as certain features a Busstop can have or not.
      */
     enum BusstopFlag : int {
         StandardBusstop = 0x0, ///< Standard busstop without special features.
