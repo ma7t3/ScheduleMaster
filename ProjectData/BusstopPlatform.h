@@ -77,11 +77,11 @@ public:
 
     /**
      * @brief Replaces the BusstopPlatform's data.
-     * @param data The new data
+     * @param newData The new data
      *
      * See also data().
      */
-    void setData(const Data &);
+    void setData(const Data &newData);
 
     /**
      * @brief Returns the BusstopPlatform's name.
