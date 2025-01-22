@@ -62,6 +62,15 @@ void ProjectData::removeBusstop(const QUuid &id) {
     _busstops.remove(id);
 }
 
+Busstop *ProjectData::busstopOfPlatform(BusstopPlatform *busstopPlatform) {
+    auto it = std::find_if(_busstops.begin(), _busstops.end(),
+                           [busstopPlatform](Busstop* busstop) {
+                               return busstop->platforms().contains(busstopPlatform);
+                           });
+
+    return (it != _busstops.end()) ? it.value() : nullptr;
+}
+
 QJsonObject ProjectData::toJson() const {
     // TODO: implement
     return {};
