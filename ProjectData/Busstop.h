@@ -93,7 +93,7 @@ public:
 
     /**
      * @brief Replaces the Busstop's data.
-     * @param data The new data
+     * @param newData The new data
      *
      * See also data().
      */
