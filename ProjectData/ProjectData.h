@@ -113,6 +113,14 @@ public:
     void removeBusstop(const QUuid &id);
 
     /**
+     * @brief Returns the busstop that contains a given platform.
+     *
+     * This can return nullptr if the platform does not belong to any busstop.
+     * @return The Busstop that contains the platform or nullptr if not found.
+     */
+    Busstop *busstopOfPlatform(BusstopPlatform *);
+
+    /**
      * @brief Converts the entire ProjectData to a JSON object (e.g. to save it to a file).
      * @return The QJsonObject
      */
