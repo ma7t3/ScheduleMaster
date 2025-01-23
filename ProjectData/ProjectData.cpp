@@ -5,7 +5,6 @@
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
     _undoStack(new QUndoStack(this)) {
-
 }
 
 QString ProjectData::filePath() const {
@@ -34,28 +33,23 @@ int ProjectData::busstopCount() const {
 }
 
 Busstop *ProjectData::busstop(const QUuid &id) const {
-    return _busstops.contains(id) ? _busstops[id] : nullptr;
+    return _busstops.find(id);
 }
 
 Busstop *ProjectData::findBusstopByName(const QString &name) const {
-    auto it = std::find_if(_busstops.begin(), _busstops.end(),
-                           [name](Busstop* busstop) {
-                               return busstop->name() == name;
-                           });
-
-    return (it != _busstops.end()) ? it.value() : nullptr;
+    return _busstops.filterOne([name](Busstop *b){return b->name() == name;});
 }
 
-QList<Busstop *> ProjectData::busstops() const {
-    return _busstops.values();
+PDISet<Busstop *> ProjectData::busstops() const {
+    return _busstops;
 }
 
 void ProjectData::addBusstop(Busstop *busstop) {
-    _busstops.insert(busstop->id(), busstop);
+    _busstops.add(busstop);
 }
 
 void ProjectData::removeBusstop(Busstop *busstop) {
-    removeBusstop(busstop->id());
+    _busstops.remove(busstop);
 }
 
 void ProjectData::removeBusstop(const QUuid &id) {
@@ -63,12 +57,7 @@ void ProjectData::removeBusstop(const QUuid &id) {
 }
 
 Busstop *ProjectData::busstopOfPlatform(BusstopPlatform *busstopPlatform) {
-    auto it = std::find_if(_busstops.begin(), _busstops.end(),
-                           [busstopPlatform](Busstop* busstop) {
-                               return busstop->platforms().contains(busstopPlatform);
-                           });
-
-    return (it != _busstops.end()) ? it.value() : nullptr;
+    return _busstops.filterOne([busstopPlatform](Busstop *b){return b->platforms().contains(busstopPlatform);});
 }
 
 QJsonObject ProjectData::toJson() const {

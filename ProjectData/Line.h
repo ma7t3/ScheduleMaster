@@ -2,6 +2,7 @@
 #define LINE_H
 
 #include "LineDirection.h"
+#include "ProjectDataItemList.h"
 
 #include <QColor>
 
@@ -59,7 +60,7 @@ public:
         QColor color;
 
         /// The Line's directions
-        QVector<LineDirection *> directions;
+        PDIList<LineDirection *> directions;
         // routes, trips
     };
 
@@ -138,9 +139,9 @@ public:
      * @brief Returns a list of all Directions in the Line.
      *
      * See also directionCount().
-     * @return A QList of all Directions in the Line.
+     * @return A ProjectDataItemList of all Directions in the Line.
      */
-    QVector<LineDirection *> directions() const;
+    PDIList<LineDirection *> directions() const;
 
     /**
      * @brief Appends a LineDirection to the end of the Line's LineDirection list.

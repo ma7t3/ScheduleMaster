@@ -47,18 +47,18 @@ int Busstop::platformCount() const {
 }
 
 BusstopPlatform *Busstop::platform(const QUuid &id) const {
-    return _data.platforms.contains(id) ? _data.platforms[id] : nullptr;
+    return _data.platforms.find(id);
 }
 
-QList<BusstopPlatform *> Busstop::platforms() const {
-    return _data.platforms.values();
+PDISet<BusstopPlatform *> Busstop::platforms() const {
+    return _data.platforms;
 }
 
 void Busstop::addPlatform(BusstopPlatform *platform) {
     if(!platform)
         return;
 
-    _data.platforms.insert(platform->id(), platform);
+    _data.platforms.add(platform, true);
 }
 
 void Busstop::removePlatform(BusstopPlatform *platform) {
@@ -69,14 +69,14 @@ void Busstop::removePlatform(BusstopPlatform *platform) {
 }
 
 void Busstop::removePlatform(const QUuid &id) {
-    _data.platforms.remove(id);
+    _data.platforms.remove(id, true);
 }
 
-QList<BusstopPlatform *> Busstop::platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag) {
-    QList<BusstopPlatform *> result;
+PDISet<BusstopPlatform *> Busstop::platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag) {
+    PDISet<BusstopPlatform *> result;
     for(BusstopPlatform *platform : _data.platforms)
         if(platform->flags().testFlag(flag))
-            result << platform;
+            result.add(platform);
 
     return result;
 }
@@ -85,7 +85,7 @@ BusstopPlatform *Busstop::defaultPlatform() const {
     if(!_data.defaultPlatform)
         return nullptr;
 
-    return _data.platforms.contains(_data.defaultPlatform->id()) ? _data.defaultPlatform : nullptr;
+    return _data.platforms.find(_data.defaultPlatform->id());
 }
 
 bool Busstop::isDefaultPlatform(BusstopPlatform *platform) const {
@@ -93,7 +93,7 @@ bool Busstop::isDefaultPlatform(BusstopPlatform *platform) const {
 }
 
 void Busstop::setDefaultPlatform(BusstopPlatform *platform) {
-    if(!platform || !_data.platforms.contains(platform->id()))
+    if(!platform || !_data.platforms.contains(platform))
         return;
 
     _data.defaultPlatform = platform;
@@ -125,7 +125,7 @@ void Busstop::fromJson(const QJsonObject &jsonObject) {
     for(QJsonValue val : jsonPlatforms) {
         QJsonObject obj = val.toObject();
         BusstopPlatform *bp = new BusstopPlatform(this, obj);
-        _data.platforms.insert(bp->id(), bp);
+        _data.platforms.add(bp, true);
         if(bp->id() == defaultPlatformID)
             _data.defaultPlatform = bp;
     }
