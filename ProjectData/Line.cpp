@@ -55,32 +55,30 @@ int Line::directionCount() const {
 }
 
 LineDirection *Line::direction(const QUuid &id) const {
-    auto it = std::find_if(_data.directions.cbegin(), _data.directions.cend(),
-                           [&id](LineDirection* ld) { return ld->id() == id; });
-    return (it != _data.directions.cend()) ? *it : nullptr;
+    return _data.directions.find(id);
 }
 
-QVector<LineDirection *> Line::directions() const {
+PDIList<LineDirection *> Line::directions() const {
     return _data.directions;
 }
 
 void Line::appendDirection(LineDirection *lineDirection) {
-    _data.directions << lineDirection;
+    _data.directions.append(lineDirection, true);
 }
 
 void Line::insertDirection(const int &index, LineDirection *lineDirection) {
     if(index < 0 || index > _data.directions.count())
         return;
 
-    _data.directions.insert(index, lineDirection);
+    _data.directions.insert(index, lineDirection, true);
 }
 
 void Line::removeDirection(LineDirection *lineDirection) {
-    _data.directions.removeIf([&lineDirection](LineDirection *ld){return ld == lineDirection;});
+    _data.directions.remove(lineDirection, true);
 }
 
 void Line::removeDirection(const QUuid &id) {
-    _data.directions.removeIf([&id](LineDirection *ld){return ld->id() == id;});
+    _data.directions.remove(id, true);
 }
 
 QJsonObject Line::toJson() const {
@@ -104,6 +102,6 @@ void Line::fromJson(const QJsonObject &jsonObject) {
     _data.color       = QColor(jsonObject.value("color").toString());
     QJsonArray jsonDirections = jsonObject.value("directions").toArray();
     for(QJsonValue val : jsonDirections)
-        _data.directions << new LineDirection(this, val.toObject());
+        _data.directions.append(new LineDirection(this, val.toObject()), true);
 }
 

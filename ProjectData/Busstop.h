@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "BusstopPlatform.h"
+#include "ProjectDataItemSet.h"
 
 
 /**
@@ -70,7 +71,7 @@ public:
         BusstopFlags flags;
 
         /// The Busstop's platforms
-        QHash<QUuid, BusstopPlatform *> platforms;
+        PDISet<BusstopPlatform *> platforms;
 
         /**
          * @brief The Busstop's default platform.
@@ -150,9 +151,9 @@ public:
      * @brief Returns a list of all platforms in the busstop.
      *
      * See also platformCount().
-     * @return A QList of all platforms in the busstop.
+     * @return A ProjectDataItemSet of all platforms in the busstop.
      */
-    QList<BusstopPlatform *> platforms() const;
+    PDISet<BusstopPlatform *> platforms() const;
 
     /**
      * @brief Adds a platform to the busstop.
@@ -175,9 +176,9 @@ public:
     /**
      * @brief Finds all platforms that have a certain flag set.
      * @param flag The flag to filter by
-     * @return A QList of all platforms that have the flag set.
+     * @return A ProjectDataItemSet of all platforms that have the flag set.
      */
-    QList<BusstopPlatform *> platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag);
+    PDISet<BusstopPlatform *> platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag);
 
     /**
      * @brief Returns the default platform of the busstop.

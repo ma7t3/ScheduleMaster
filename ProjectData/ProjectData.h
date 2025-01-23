@@ -6,6 +6,7 @@
 #include <QUuid>
 
 #include "Busstop.h"
+#include "ProjectDataItemSet.h"
 
 /**
  * @class ProjectData
@@ -90,9 +91,9 @@ public:
      * @brief Returns a list of all busstops in the project.
      *
      * See also busstopCount().
-     * @return A QList of all busstops in the project.
+     * @return A ProjectDataItemSet of all busstops in the project.
      */
-    QList<Busstop *> busstops() const;
+    PDISet<Busstop *> busstops() const;
 
     /**
      * @brief Adds a busstop to the project.
@@ -155,7 +156,7 @@ private:
      *
      * See also busstopCount(), busstops(), busstop(), addBusstop() and removeBusstop().
      */
-    QHash<QUuid, Busstop *> _busstops;
+    PDISet<Busstop *> _busstops;
 };
 
 #endif // PROJECTDATA_H

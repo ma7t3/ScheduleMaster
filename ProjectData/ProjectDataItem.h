@@ -48,6 +48,18 @@ public:
     static QUuid generateID();
 
     /**
+     * @brief Returns if the item is currently in use.
+     * @return Whether the item is in use or not.
+     */
+    bool inUse() const;
+
+    /**
+     * @brief Change the isUsed status of the item.
+     * @param newInUse The new isUsed status
+     */
+    void setInUse(const bool &newInUse);
+
+    /**
      * @brief Converts the ProjectDataItem to a JSON object
      *
      * This only converts the general ProjectDatItem-specific data. Derived classes should override this method to add their own data.
@@ -72,12 +84,21 @@ protected:
      */
     void fromJson(const QJsonObject &jsonObject);
 
+    /**
+     * @brief Sets a new id.
+     *
+     * **Attention:** Be careful with using this. You should only set the id if the item is created. But the it never should change later!
+     * @param newID The new id
+     */
+    void setID(const QUuid &newID);
+
 private:
 
     /**
      * @brief The UUID of the ProjectDataItem.
      */
     QUuid _id;
+    bool _inUse;
 };
 
 #endif // PROJECTDATAITEM_H
