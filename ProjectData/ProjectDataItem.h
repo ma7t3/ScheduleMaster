@@ -98,6 +98,18 @@ private:
      * @brief The UUID of the ProjectDataItem.
      */
     QUuid _id;
+
+    /**
+     * @brief The inUse property.
+     *
+     * This property specified whether the item is used by other items at the moment.
+     * This only includes other items are parents of this item but not other items that just reference it.
+     *
+     * This means:
+     * - If a route is part of a line, inUse should be true.
+     * - If the route is removed from the line (but stays in the memeory because of undo support), inUse should be false.
+     * - If the route is used by a trip or not should not be releant for inUse.
+     */
     bool _inUse;
 };
 
