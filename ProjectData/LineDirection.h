@@ -70,31 +70,10 @@ public:
      */
     void setDescription(const QString &newDescription);
 
-    /**
-     * @brief Converts the Direction to a JSON object
-     *
-     * See also fromJson().
-     * @return the QJsonObject
-     */
-    QJsonObject toJson() const;
+    QJsonObject toJson() const override;
 
 protected:
-
-    /**
-     * @brief Reads a JSON object and fills the Direction with the data from the JSON object.
-     *
-     * See also toJson().
-     * @param jsonObject The QJsonObject to read from.
-     */
-    void fromJson(const QJsonObject &jsonObject);
-
-signals:
-    /**
-     * @brief This signal is emited whenever the _data is changed.
-     *
-     * This can be just one data property to be changed or the entire data object being replaced.
-     */
-    void changed();
+    void fromJson(const QJsonObject &jsonObject) override;
 
 private:
     /// The LineDirection's data
