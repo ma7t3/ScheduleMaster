@@ -8,6 +8,7 @@
 
 
 /**
+ * @class Line
  * @brief The Line class represents one line.
  *
  * A line contains of multiple routes which represent a certain order of busstops.
