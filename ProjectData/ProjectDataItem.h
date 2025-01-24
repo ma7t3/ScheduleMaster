@@ -68,7 +68,7 @@ public:
      * See also fromJson().
      * @return the QJsonObject
      */
-    QJsonObject toJson() const;
+    virtual QJsonObject toJson() const;
 
 signals:
     /**
@@ -88,7 +88,7 @@ protected:
      * See also toJson().
      * @param jsonObject The QJsonObject to read from.
      */
-    void fromJson(const QJsonObject &jsonObject);
+    virtual void fromJson(const QJsonObject &jsonObject);
 
     /**
      * @brief Sets a new id.
