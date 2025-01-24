@@ -71,6 +71,12 @@ public:
     QJsonObject toJson() const;
 
 signals:
+    /**
+     * @brief This signal is emited whenever the data is changed.
+     *
+     * This can be just one data property to be changed or the entire data object being replaced.
+     */
+    void changed();
 
 protected:
     /**
