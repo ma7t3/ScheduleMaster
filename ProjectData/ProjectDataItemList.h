@@ -32,6 +32,15 @@ public:
     }
 
     /**
+     * @brief Checks if the ProjectDataItem is part of the list.
+     * @param item The item to search for
+     * @return Whether the item was found or not.
+     */
+    bool contains(T item) const {
+        return QList<T>::contains(item);
+    }
+
+    /**
      * @brief Searches for an item with the id within the list and returns it.
      *
      * If there was not item found that matches the id, nullptr will be returned.
@@ -47,7 +56,6 @@ public:
         return it != this->end() ? *it : nullptr;
     }
 
-
     /**
      * @brief Appends a new item to the end of the list.
      *
@@ -56,7 +64,7 @@ public:
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
     void append(T item, const bool &updateInUse = false) {
-        if(item == nullptr)
+        if(!item)
             return;
 
         QList<T>::append(item);
@@ -98,7 +106,7 @@ public:
     }
 
     /**
-     * @brief Works exactly the same like ProjectDataItemLit::filter() but it will only return the first item in the list that matches the given filter.
+     * @brief Works exactly the same like ProjectDataItemList::filter() but it will only return the first item in the list that matches the given filter.
      *
      * This is useful for filters where you expect to get only one item that matches the filter.
      * Returns nullptr if no item was found.
