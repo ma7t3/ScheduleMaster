@@ -93,7 +93,7 @@ public:
      * See also busstopCount().
      * @return A ProjectDataItemSet of all busstops in the project.
      */
-    PDISet<Busstop *> busstops() const;
+    PDISet<Busstop> busstops() const;
 
     /**
      * @brief Adds a busstop to the project.
@@ -156,7 +156,7 @@ private:
      *
      * See also busstopCount(), busstops(), busstop(), addBusstop() and removeBusstop().
      */
-    PDISet<Busstop *> _busstops;
+    PDISet<Busstop> _busstops;
 };
 
 #endif // PROJECTDATA_H
