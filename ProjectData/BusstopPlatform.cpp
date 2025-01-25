@@ -13,15 +13,6 @@ bool BusstopPlatform::operator<(const BusstopPlatform &other) const {
     return name() < other.name();
 }
 
-BusstopPlatform::Data BusstopPlatform::data() const {
-    return _data;
-}
-
-void BusstopPlatform::setData(const Data &newData) {
-    _data = newData;
-    emit changed();
-}
-
 QString BusstopPlatform::name() const {
     return _data.name;
 }
@@ -31,7 +22,7 @@ void BusstopPlatform::setName(const QString &newName) {
     emit changed();
 }
 
-BusstopPlatform::BusstopPlatformFlags BusstopPlatform::flags() const {
+BusstopPlatformFlags BusstopPlatform::flags() const {
     return _data.flags;
 }
 

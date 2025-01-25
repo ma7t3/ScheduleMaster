@@ -15,15 +15,6 @@ bool Route::operator<(const Route &other) const {
     return code() < other.code();
 }
 
-Route::Data Route::data() const {
-    return _data;
-}
-
-void Route::setData(const Data &newData) {
-    _data = newData;
-    emit changed();
-}
-
 QString Route::name() const {
     return _data.name;
 }

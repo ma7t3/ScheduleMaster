@@ -4,7 +4,21 @@
 #include "Busstop.h"
 #include "BusstopPlatform.h"
 
-class RouteBusstopItem : public ProjectDataItem {
+/**
+ * @struct RouteBusstopItemData
+ * @brief The RouteBusstopItemData class contains the actual data of a RouteBusstopItem object.
+ *
+ * It is seperated from the class logic to make it easier to change or completly replace it.
+ */
+struct RouteBusstopItemData {
+    /// The RouteBusstopItem's Busstop
+    Busstop *busstop = nullptr;
+
+    /// The busstop's defaultPlatform in this RouteBusstopItem
+    BusstopPlatform *defaultPlatform = nullptr;
+};
+
+class RouteBusstopItem : public ProjectDataItem<RouteBusstopItemData> {
     Q_OBJECT
 public:
     /**
@@ -25,36 +39,6 @@ public:
      * @param jsonObject The JSON object to parse.
      */
     explicit RouteBusstopItem(QObject *parent, const QJsonObject &jsonObject);
-
-    /**
-     * @struct RouteBusstopItem::Data
-     * @brief The RouteBusstopItem::Data class contains the actual data of a RouteBusstopItem object.
-     *
-     * It is seperated from the class logic to make it easier to change or completly replace it.
-     */
-    struct Data {
-        /// The RouteBusstopItem's Busstop
-        Busstop *busstop = nullptr;
-
-        /// The busstop's defaultPlatform in this RouteBusstopItem
-        BusstopPlatform *defaultPlatform = nullptr;
-    };
-
-    /**
-     * @brief Returns the RouteBusstopItem's data.
-     *
-     * See also setData().
-     * @return The RouteBusstopItem's data.
-     */
-    Data data() const;
-
-    /**
-     * @brief Replaces the RouteBusstopItem's data.
-     * @param newData The new data
-     *
-     * See also data().
-     */
-    void setData(const Data &newData);
 
     /**
      * @brief Returns the RouteBusstopItem's Busstop.
@@ -79,10 +63,6 @@ public:
 
 protected:
     void fromJson(const QJsonObject &jsonObject) override;
-
-private:
-    /// The RouteBusstopItem's data.
-    RouteBusstopItem::Data _data;
 };
 
 #endif // ROUTEBUSSTOPITEM_H

@@ -3,6 +3,35 @@
 
 #include "ProjectDataItem.h"
 
+/**
+ * @enum BusstopPlatformFlag
+ * @brief The BusstopPlatformFlag enum describes flags that BusstopPlatforms can have. You can understand it as certain features a BusstopPlatform can have or not.
+ */
+enum class BusstopPlatformFlag : int {
+    StandardBusstopPlatform = 0x0, ///< Standard platform without special features.
+    ArrivalBusstopPlatform = 0x1, ///< Platform can be used by ending routes to arrive.
+    BreakBusstopPlatform = 0x2, ///< Platform can be used by buses for breaks between trips.
+    DepartureBusstopPlatform = 0x4, ///< Platform can be used by starting routes to departure.
+    WaitBusstopPlatform = 0x8, ///< Platform can be used by buses to wait (e.g. if they are too early).
+    InternalBusstopPlatform = 0x10 ///< Platform is used internally but not by passengers.
+};
+Q_DECLARE_FLAGS(BusstopPlatformFlags, BusstopPlatformFlag)
+Q_DECLARE_OPERATORS_FOR_FLAGS(BusstopPlatformFlags)
+
+/**
+ * @struct BusstopPlatformData
+ * @brief The BusstopPlatformData class contains the actual data of a BusstopPlatform object.
+ *
+ * It is seperated from the class logic to make it easier to change or completly replace it.
+ */
+struct BusstopPlatformData {
+    /// The BusstopPlatform's name
+    QString name;
+
+    /// The BusstopPlatform's flags
+    BusstopPlatformFlags flags;
+};
+
 
 /**
  * @class BusstopPlatform
@@ -11,7 +40,7 @@
  * One busstop has a name and certain flags that describe its features.
  */
 
-class BusstopPlatform : public ProjectDataItem {
+class BusstopPlatform : public ProjectDataItem<BusstopPlatformData> {
     Q_OBJECT
 public:
     /**
@@ -38,50 +67,6 @@ public:
      * @return Whether this BusstopPlatform's name is smaller than the other's name.
      */
     bool operator<(const BusstopPlatform &other) const;
-
-    /**
-     * @enum BusstopPlatformFlag
-     * @brief The BusstopPlatformFlag enum describes flags that BusstopPlatforms can have. You can understand it as certain features a BusstopPlatform can have or not.
-     */
-    enum class BusstopPlatformFlag : int {
-        StandardBusstopPlatform = 0x0, ///< Standard platform without special features.
-        ArrivalBusstopPlatform = 0x1, ///< Platform can be used by ending routes to arrive.
-        BreakBusstopPlatform = 0x2, ///< Platform can be used by buses for breaks between trips.
-        DepartureBusstopPlatform = 0x4, ///< Platform can be used by starting routes to departure.
-        WaitBusstopPlatform = 0x8, ///< Platform can be used by buses to wait (e.g. if they are too early).
-        InternalBusstopPlatform = 0x10 ///< Platform is used internally but not by passengers.
-    };
-    Q_DECLARE_FLAGS(BusstopPlatformFlags, BusstopPlatformFlag)
-
-    /**
-     * @struct BusstopPlatform::Data
-     * @brief The BusstopPlatform::Data class contains the actual data of a BusstopPlatform object.
-     *
-     * It is seperated from the class logic to make it easier to change or completly replace it.
-     */
-    struct Data {
-        /// The BusstopPlatform's name
-        QString name;
-
-        /// The BusstopPlatform's flags
-        BusstopPlatformFlags flags;
-    };
-
-    /**
-     * @brief Returns the BusstopPlatform's data.
-     *
-     * See also setData().
-     * @return The Busstop's data.
-     */
-    Data data() const;
-
-    /**
-     * @brief Replaces the BusstopPlatform's data.
-     * @param newData The new data
-     *
-     * See also data().
-     */
-    void setData(const Data &newData);
 
     /**
      * @brief Returns the BusstopPlatform's name.
@@ -119,12 +104,6 @@ public:
 
 protected:
     void fromJson(const QJsonObject &jsonObject) override;
-
-private:
-    /// The BusstopPlatform's data.
-    BusstopPlatform::Data _data;
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(BusstopPlatform::BusstopPlatformFlags)
 
 #endif // BUSSTOPPLATFORM_H

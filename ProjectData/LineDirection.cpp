@@ -9,15 +9,6 @@ LineDirection::LineDirection(QObject *parent, const QJsonObject &jsonObject) :
     fromJson(jsonObject);
 }
 
-LineDirection::Data LineDirection::data() const {
-    return _data;
-}
-
-void LineDirection::setData(const Data &newData) {
-    _data = newData;
-    emit changed();
-}
-
 QString LineDirection::description() const {
     return _data.description;
 }

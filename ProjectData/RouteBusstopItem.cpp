@@ -10,15 +10,6 @@ RouteBusstopItem::RouteBusstopItem(QObject *parent, const QJsonObject &jsonObjec
     fromJson(jsonObject);
 }
 
-RouteBusstopItem::Data RouteBusstopItem::data() const {
-    return _data;
-}
-
-void RouteBusstopItem::setData(const Data &newData) {
-    _data = newData;
-    emit changed();
-}
-
 Busstop *RouteBusstopItem::busstop() const {
     return _data.busstop;
 }
