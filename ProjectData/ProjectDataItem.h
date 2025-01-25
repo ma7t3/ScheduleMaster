@@ -112,7 +112,9 @@ protected:
      * See also setData().
      * @return The ProjectDataItem's data.
      */
-    DataType data() const;
+    DataType data() const {
+        return _data;
+    }
 
     /**
      * @brief Replaces the ProjectDataItem's data.
@@ -120,7 +122,9 @@ protected:
      *
      * See also data().
      */
-    void setData(const DataType &newData);
+    void setData(const DataType &newData) {
+        _data = newData;
+    }
 
 protected:
     /// The ProjectDataItem's data
