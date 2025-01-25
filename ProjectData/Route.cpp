@@ -21,6 +21,7 @@ Route::Data Route::data() const {
 
 void Route::setData(const Data &newData) {
     _data = newData;
+    emit changed();
 }
 
 QString Route::name() const {
@@ -29,6 +30,7 @@ QString Route::name() const {
 
 void Route::setName(const QString &newName) {
     _data.name = newName;
+    emit changed();
 }
 
 int Route::code() const {
@@ -37,6 +39,7 @@ int Route::code() const {
 
 void Route::setCode(const int &newCode) {
     _data.code = newCode;
+    emit changed();
 }
 
 LineDirection *Route::direction() const {
@@ -50,6 +53,7 @@ LineDirection *Route::direction() const {
 void Route::setDirection(LineDirection *newDirection) {
     if(newDirection && newDirection->inUse())
         _data.direction = newDirection;
+    emit changed();
 }
 
 QJsonObject Route::toJson() const {

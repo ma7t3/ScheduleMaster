@@ -15,6 +15,7 @@ LineDirection::Data LineDirection::data() const {
 
 void LineDirection::setData(const Data &newData) {
     _data = newData;
+    emit changed();
 }
 
 QString LineDirection::description() const {
@@ -23,6 +24,7 @@ QString LineDirection::description() const {
 
 void LineDirection::setDescription(const QString &newDescription) {
     _data.description = newDescription;
+    emit changed();
 }
 
 QJsonObject LineDirection::toJson() const {
