@@ -15,15 +15,6 @@ bool Busstop::operator<(const Busstop &other) const {
     return name() < other.name();
 }
 
-Busstop::Data Busstop::data() const {
-    return _data;
-}
-
-void Busstop::setData(const Data &newData) {
-    _data = newData;
-    emit changed();
-}
-
 QString Busstop::name() const {
     return _data.name;
 }
@@ -33,7 +24,7 @@ void Busstop::setName(const QString &newName) {
     emit changed();
 }
 
-Busstop::BusstopFlags Busstop::flags() const {
+BusstopFlags Busstop::flags() const {
     return _data.flags;
 }
 
@@ -72,7 +63,7 @@ void Busstop::removePlatform(const QUuid &id) {
     _data.platforms.remove(id, true);
 }
 
-PDISet<BusstopPlatform> Busstop::platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag) {
+PDISet<BusstopPlatform> Busstop::platformsWithFlag(const BusstopPlatformFlag &flag) {
     PDISet<BusstopPlatform> result;
     for(BusstopPlatform *platform : _data.platforms)
         if(platform->flags().testFlag(flag))

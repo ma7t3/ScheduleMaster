@@ -6,6 +6,32 @@
 #include "ProjectDataItemList.h"
 
 /**
+ * @struct RouteData
+ * @brief The RouteData class contains the actual data of a Route object.
+ *
+ * It is seperated from the class logic to make it easier to change or completly replace it.
+ */
+struct RouteData {
+    /// The Route's name
+    QString name;
+
+    /// The Route's code
+    int code = 0;
+
+    /**
+     * @brief The Route's LineDirection
+     * This can be nullptr if the Route has no LineDirection assigned.
+     *
+     * **Important Note:** Always use the Route::direction() method to get the LineDirection.
+     * This pointer may point to a platform that is not part of the Line's direction list.
+     */
+    LineDirection *direction = nullptr;
+
+    /// The Route's busstops
+    PDIList<RouteBusstopItem> busstops;
+};
+
+/**
  * @class Route
  * @brief The Route class represents one route.
  *
@@ -15,7 +41,7 @@
  * Every route is assigned to one LineDirection as well but it doesn't take ownership of the direction since multiple routes can be assigned to the same direction.
  */
 
-class Route : public ProjectDataItem {
+class Route : public ProjectDataItem<RouteData> {
     Q_OBJECT
 public:
     /**
@@ -42,48 +68,6 @@ public:
      * @return Whether this Route's name is smaller than the other's name.
      */
     bool operator<(const Route &other) const;
-
-    /**
-     * @struct Route::Data
-     * @brief The Route::Data class contains the actual data of a Route object.
-     *
-     * It is seperated from the class logic to make it easier to change or completly replace it.
-     */
-    struct Data {
-        /// The Route's name
-        QString name;
-
-        /// The Route's code
-        int code = 0;
-
-        /**
-         * @brief The Route's LineDirection
-         * This can be nullptr if the Route has no LineDirection assigned.
-         *
-         * **Important Note:** Always use the Route::direction() method to get the LineDirection.
-         * This pointer may point to a platform that is not part of the Line's direction list.
-         */
-        LineDirection *direction = nullptr;
-
-        /// The Route's busstops
-        PDIList<RouteBusstopItem> busstops;
-    };
-
-    /**
-     * @brief Returns the Route's data.
-     *
-     * See also setData().
-     * @return The Route's data.
-     */
-    Data data() const;
-
-    /**
-     * @brief Replaces the Route's data.
-     * @param newData The new data
-     *
-     * See also data().
-     */
-    void setData(const Data &newData);
 
     /**
      * @brief Returns the Route's name.
@@ -158,10 +142,6 @@ public:
 
 protected:
     void fromJson(const QJsonObject &jsonObject) override;
-
-private:
-    /// The Route's data.
-    Route::Data _data;
 };
 
 #endif // ROUTE_H

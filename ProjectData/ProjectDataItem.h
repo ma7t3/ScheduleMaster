@@ -1,6 +1,8 @@
 #ifndef PROJECTDATAITEM_H
 #define PROJECTDATAITEM_H
 
+#include "ProjectDataItemSignals.h"
+
 #include <QObject>
 #include <QJsonObject>
 
@@ -11,8 +13,8 @@
  * It especially provides a unique ID for each item.
  */
 
-class ProjectDataItem : public QObject {
-    Q_OBJECT
+template <typename DataType>
+class ProjectDataItem : public ProjectDataItemSignals {
 public:
     /**
      * @brief Constructs a new ProjectDataItem object.
@@ -21,7 +23,11 @@ public:
      * @param parent The QObject-parent
      * @param id The optional ID to be used. It can't be changed later.
      */
-    explicit ProjectDataItem(QObject *parent, const QUuid &id = QUuid());
+    explicit ProjectDataItem(QObject *parent, const QUuid &id = QUuid()) :
+        ProjectDataItemSignals(parent),
+        _id(id.isNull() ? generateID() : id),
+        _inUse(false) {
+    }
 
     /**
      * @brief Returns the UUID of the ProjectDataItem.
@@ -29,7 +35,7 @@ public:
      * See also idAsString() and generateID().
      * @return The UUID
      */
-    QUuid id() const;
+    QUuid id() const { return _id; }
 
     /**
      * @brief Returns the UUID of the ProjectDataItem as a string.
@@ -37,7 +43,7 @@ public:
      * See also id() and generateID().
      * @return The UUID as a string
      */
-    QString idAsString() const;
+    QString idAsString() const { return _id.toString(QUuid::WithoutBraces); }
 
     /**
      * @brief Generates and returns a new UUID.
@@ -45,19 +51,19 @@ public:
      * See also id() and idAsString().
      * @return The generated UUID
      */
-    static QUuid generateID();
+    static QUuid generateID() { return QUuid::createUuid(); }
 
     /**
      * @brief Returns if the item is currently in use.
      * @return Whether the item is in use or not.
      */
-    bool inUse() const;
+    bool inUse() const { return _inUse; }
 
     /**
      * @brief Change the isUsed status of the item.
      * @param newInUse The new isUsed status
      */
-    void setInUse(const bool &newInUse);
+    void setInUse(const bool &newInUse) { _inUse = newInUse; }
 
     /**
      * @brief Converts the ProjectDataItem to a JSON object
@@ -68,15 +74,11 @@ public:
      * See also fromJson().
      * @return the QJsonObject
      */
-    virtual QJsonObject toJson() const;
-
-signals:
-    /**
-     * @brief This signal is emited whenever the data is changed.
-     *
-     * This can be just one data property to be changed or the entire data object being replaced.
-     */
-    void changed();
+    virtual QJsonObject toJson() const {
+        QJsonObject jsonObject;
+        jsonObject.insert("id", idAsString());
+        return jsonObject;
+    }
 
 protected:
     /**
@@ -88,7 +90,10 @@ protected:
      * See also toJson().
      * @param jsonObject The QJsonObject to read from.
      */
-    virtual void fromJson(const QJsonObject &jsonObject);
+    virtual void fromJson(const QJsonObject &jsonObject) {
+        QUuid id = QUuid::fromString(jsonObject.value("id").toString());
+        _id = id.isNull() ? generateID() : id;
+    }
 
     /**
      * @brief Sets a new id.
@@ -96,10 +101,32 @@ protected:
      * **Attention:** Be careful with using this. You should only set the id if the item is created. But the it never should change later!
      * @param newID The new id
      */
-    void setID(const QUuid &newID);
+    void setID(const QUuid &newID)     {
+        _id = newID;
+        QObject::setObjectName(idAsString());
+    }
+
+    /**
+     * @brief Returns the ProjectDataItem's data.
+     *
+     * See also setData().
+     * @return The ProjectDataItem's data.
+     */
+    DataType data() const;
+
+    /**
+     * @brief Replaces the ProjectDataItem's data.
+     * @param newData The new data
+     *
+     * See also data().
+     */
+    void setData(const DataType &newData);
+
+protected:
+    /// The ProjectDataItem's data
+    DataType _data;
 
 private:
-
     /**
      * @brief The UUID of the ProjectDataItem.
      */

@@ -6,6 +6,48 @@
 #include "BusstopPlatform.h"
 #include "ProjectDataItemSet.h"
 
+/**
+ * @enum BusstopFlag
+ * @brief The BusstopFlag enum describes flags that Busstops can have. You can understand it as certain features a Busstop can have or not.
+ */
+enum BusstopFlag : int {
+    StandardBusstop = 0x0, ///< Standard busstop without special features.
+    FinalBusstop = 0x1, ///< Busstop is final busstop (Routes can end here).
+    TransferBusstop = 0x2, ///< Busstop is transfer busstop (Passengers are recommended to change here).
+    CentralTransferBusstop = 0x4, ///< Busstop is central transfer busstop (Multiple routes come together here; Passengers are recommended to change here).
+    InternalBusstop = 0x8 ///< Busstop is used internally but not by passengers.
+};
+
+Q_DECLARE_FLAGS(BusstopFlags, BusstopFlag)
+Q_DECLARE_OPERATORS_FOR_FLAGS(BusstopFlags)
+
+/**
+ * @struct BusstopData
+ * @brief The BusstopData class contains the actual data of a Busstop object.
+ *
+ * It is seperated from the class logic to make it easier to change or completly replace it.
+ */
+struct BusstopData {
+    /// The Busstop's name
+    QString name;
+
+    /// The Busstop's flags
+    BusstopFlags flags;
+
+    /// The Busstop's platforms
+    PDISet<BusstopPlatform> platforms;
+
+    /**
+         * @brief The Busstop's default platform.
+         *
+         * This can be nullptr if the Busstop has no default BusstopPlatform set.
+         *
+         * **Important Note:** Always use the Busstop::defaultPlatform() method to get the default platform.
+         * This pointer may point to a platform that is not part of the Busstop's platforms list.
+         */
+    BusstopPlatform *defaultPlatform = nullptr;
+};
+
 
 /**
  * @class Busstop
@@ -15,7 +57,7 @@
  * It can have multiple platforms where buses can stop.
  */
 
-class Busstop : public ProjectDataItem {
+class Busstop : public ProjectDataItem<BusstopData> {
     Q_OBJECT
 public:
     /**
@@ -42,63 +84,6 @@ public:
      * @return Whether this Busstop's name is smaller than the other's name.
      */
     bool operator<(const Busstop &other) const;
-
-    /**
-     * @enum BusstopFlag
-     * @brief The BusstopFlag enum describes flags that Busstops can have. You can understand it as certain features a Busstop can have or not.
-     */
-    enum BusstopFlag : int {
-        StandardBusstop = 0x0, ///< Standard busstop without special features.
-        FinalBusstop = 0x1, ///< Busstop is final busstop (Routes can end here).
-        TransferBusstop = 0x2, ///< Busstop is transfer busstop (Passengers are recommended to change here).
-        CentralTransferBusstop = 0x4, ///< Busstop is central transfer busstop (Multiple routes come together here; Passengers are recommended to change here).
-        InternalBusstop = 0x8 ///< Busstop is used internally but not by passengers.
-    };
-
-    Q_DECLARE_FLAGS(BusstopFlags, Busstop::BusstopFlag)
-
-    /**
-     * @struct Busstop::Data
-     * @brief The Busstop::Data class contains the actual data of a Busstop object.
-     *
-     * It is seperated from the class logic to make it easier to change or completly replace it.
-     */
-    struct Data {
-        /// The Busstop's name
-        QString name;
-
-        /// The Busstop's flags
-        BusstopFlags flags;
-
-        /// The Busstop's platforms
-        PDISet<BusstopPlatform> platforms;
-
-        /**
-         * @brief The Busstop's default platform.
-         *
-         * This can be nullptr if the Busstop has no default BusstopPlatform set.
-         *
-         * **Important Note:** Always use the Busstop::defaultPlatform() method to get the default platform.
-         * This pointer may point to a platform that is not part of the Busstop's platforms list.
-         */
-        BusstopPlatform *defaultPlatform = nullptr;
-    };
-
-    /**
-     * @brief Returns the Busstop's data.
-     *
-     * See also setData().
-     * @return The Busstop's data.
-     */
-    Data data() const;
-
-    /**
-     * @brief Replaces the Busstop's data.
-     * @param newData The new data
-     *
-     * See also data().
-     */
-    void setData(const Data &newData);
 
     /**
      * @brief Returns the Busstop's name.
@@ -178,7 +163,7 @@ public:
      * @param flag The flag to filter by
      * @return A ProjectDataItemSet of all platforms that have the flag set.
      */
-    PDISet<BusstopPlatform> platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag);
+    PDISet<BusstopPlatform> platformsWithFlag(const BusstopPlatformFlag &flag);
 
     /**
      * @brief Returns the default platform of the busstop.
@@ -207,13 +192,7 @@ public:
 
 protected:
     void fromJson(const QJsonObject &jsonObject) override;
-
-private:
-    /// The Busstop's data.
-    Busstop::Data _data;
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(Busstop::BusstopFlags)
 
 #endif // BUSSTOP_H
 

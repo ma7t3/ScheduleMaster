@@ -4,13 +4,24 @@
 #include "ProjectDataItem.h"
 
 /**
+ * @struct LineDirectionData
+ * @brief The LineDirectionData class contains the actual data of a LineDirection object.
+ *
+ * It is seperated from the class logic to make it easier to change or completly replace it.
+ */
+struct LineDirectionData {
+    /// The LineDirection's description
+    QString description;
+};
+
+/**
  * @class LineDirection
  * @brief The LineDirection class represents a travel direction inside a line.
  *
  * Every line can have multiple LineDirections (usually 1 or 2) which specify, which travel directions the Line has.
  * Every Line's Route has one specific direction it is connected to.
  */
-class LineDirection : public ProjectDataItem {
+class LineDirection : public ProjectDataItem<LineDirectionData> {
     Q_OBJECT
 public:
     /**
@@ -32,33 +43,6 @@ public:
     explicit LineDirection(QObject *parent, const QJsonObject &);
 
     /**
-     * @struct LineDirection::Data
-     * @brief The LineDirection::Data class contains the actual data of a LineDirection object.
-     *
-     * It is seperated from the class logic to make it easier to change or completly replace it.
-     */
-    struct Data {
-        /// The LineDirection's description
-        QString description;
-    };
-
-    /**
-     * @brief Returns the LineDirection's data.
-     *
-     * See also setData().
-     * @return The LineDirection's data.
-     */
-    Data data() const;
-
-    /**
-     * @brief Replaces the LineDirection's data.
-     * @param newData The new data
-     *
-     * See also data().
-     */
-    void setData(const Data &newData);
-
-    /**
      * @brief Returns the LineDirection's description.
      * @return The LineDirection's description
      */
@@ -74,10 +58,6 @@ public:
 
 protected:
     void fromJson(const QJsonObject &jsonObject) override;
-
-private:
-    /// The LineDirection's data
-    LineDirection::Data _data;
 };
 
 #endif // LINEDIRECTION_H

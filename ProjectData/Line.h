@@ -6,6 +6,26 @@
 
 #include <QColor>
 
+/**
+ * @struct LineData
+ * @brief The LineData class contains the actual data of a Line object.
+ *
+ * It is seperated from the class logic to make it easier to change or completly replace it.
+ */
+struct LineData {
+    /// The Line's name
+    QString name;
+
+    /// The Line's description
+    QString description;
+
+    /// The Line's color
+    QColor color;
+
+    /// The Line's directions
+    PDIList<LineDirection> directions;
+    // routes, trips
+};
 
 /**
  * @class Line
@@ -16,7 +36,7 @@
  * Every line also has multiple trips which you can think of as instances of one route with a certain time.
  */
 
-class Line : public ProjectDataItem {
+class Line : public ProjectDataItem<LineData> {
     Q_OBJECT
 public:
     /**
@@ -43,43 +63,6 @@ public:
      * @return Whether this Line's name is smaller than the other's name.
      */
     bool operator<(const Line &other) const;
-
-    /**
-     * @struct Line::Data
-     * @brief The Line::Data class contains the actual data of a Line object.
-     *
-     * It is seperated from the class logic to make it easier to change or completly replace it.
-     */
-    struct Data {
-        /// The Line's name
-        QString name;
-
-        /// The Line's description
-        QString description;
-
-        /// The Line's color
-        QColor color;
-
-        /// The Line's directions
-        PDIList<LineDirection> directions;
-        // routes, trips
-    };
-
-    /**
-     * @brief Returns the Line's data.
-     *
-     * See also setData().
-     * @return The Line's data.
-     */
-    Data data() const;
-
-    /**
-     * @brief Replaces the Line's data.
-     * @param newData The new data
-     *
-     * See also data().
-     */
-    void setData(const Data &newData);
 
     /**
      * @brief Returns the Line's name.
@@ -175,10 +158,6 @@ public:
 
 protected:
     void fromJson(const QJsonObject &jsonObject) override;
-
-private:
-    /// The Line's data.
-    Line::Data _data;
 };
 
 #endif // LINE_H

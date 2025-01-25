@@ -15,15 +15,6 @@ bool Line::operator<(const Line &other) const {
     return name() < other.name();
 }
 
-Line::Data Line::data() const {
-    return _data;
-}
-
-void Line::setData(const Data &newData) {
-    _data = newData;
-    emit changed();
-}
-
 QString Line::name() const {
     return _data.name;
 }

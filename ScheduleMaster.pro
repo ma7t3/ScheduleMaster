@@ -16,7 +16,6 @@ SOURCES += \
     Global/LocalConfig.cpp \
     Global/Logger.cpp \
     ProjectData/ProjectData.cpp \
-    ProjectData/ProjectDataItem.cpp \
     ProjectData/Busstop.cpp \
     ProjectData/BusstopPlatform.cpp \
     ProjectData/Line.cpp \
@@ -37,6 +36,7 @@ HEADERS += \
     ProjectData/ProjectDataItem.h \
     ProjectData/ProjectDataItemList.h \
     ProjectData/ProjectDataItemSet.h \
+    ProjectData/ProjectDataItemSignals.h \
     ProjectData/Busstop.h \
     ProjectData/BusstopPlatform.h \
     ProjectData/Line.h \
