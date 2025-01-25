@@ -81,7 +81,7 @@ public:
          * **Important Note:** Always use the Busstop::defaultPlatform() method to get the default platform.
          * This pointer may point to a platform that is not part of the Busstop's platforms list.
          */
-        BusstopPlatform *defaultPlatform;
+        BusstopPlatform *defaultPlatform = nullptr;
     };
 
     /**
