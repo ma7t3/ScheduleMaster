@@ -2,7 +2,8 @@
 #define ROUTE_H
 
 #include "LineDirection.h"
-
+#include "RouteBusstopItem.h"
+#include "ProjectDataItemList.h"
 
 /**
  * @class Route
@@ -63,6 +64,9 @@ public:
          * This pointer may point to a platform that is not part of the Line's direction list.
          */
         LineDirection *direction = nullptr;
+
+        /// The Route's busstops
+        PDIList<RouteBusstopItem> busstops;
     };
 
     /**
@@ -130,6 +134,25 @@ public:
      * See also direction().
      */
     void setDirection(LineDirection *newDirection);
+
+    int busstopCount() const;
+    RouteBusstopItem *busstop(const QUuid &id) const;
+    PDIList<RouteBusstopItem> busstops() const;
+    bool containsBusstop(Busstop *busstop) const;
+    bool containsBusstop(const QUuid &id) const;
+    PDIList<RouteBusstopItem> itemsWithBusstop(Busstop *busstop) const;
+    PDIList<RouteBusstopItem> itemsWithBusstop(const QUuid &id) const;
+    RouteBusstopItem *firstBusstop() const;
+    RouteBusstopItem *lastBusstop() const;
+    PDIList<RouteBusstopItem> commonBusstops(Route *route, const bool &sameDefaultPlatform) const;
+    Busstop *firstCommonBusstop(Route *route, const bool &sameDefaultPlatform = false) const;
+    Busstop *lastCommonBusstop(Route *route, const bool &sameDefaultPlatform = false) const;
+
+    void appendBusstop(RouteBusstopItem *busstop);
+    void insertBusstop(const int &index, RouteBusstopItem *busstop);
+    void removeBusstop(RouteBusstopItem *busstop);
+    void removeBusstop(const QUuid &id);
+    void removeBusstopAt(const int &index);
 
     QJsonObject toJson() const override;
 

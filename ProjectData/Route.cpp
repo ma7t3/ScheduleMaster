@@ -56,6 +56,104 @@ void Route::setDirection(LineDirection *newDirection) {
     emit changed();
 }
 
+int Route::busstopCount() const {
+    return _data.busstops.count();
+}
+
+RouteBusstopItem *Route::busstop(const QUuid &id) const {
+    return _data.busstops.find(id);
+}
+
+PDIList<RouteBusstopItem> Route::busstops() const {
+    return _data.busstops;
+}
+
+bool Route::containsBusstop(Busstop *busstop) const {
+    return _data.busstops.filterOne([busstop](RouteBusstopItem *item){return item->busstop() == busstop;});
+}
+
+bool Route::containsBusstop(const QUuid &id) const {
+    return _data.busstops.filterOne([id](RouteBusstopItem *item){return item->id() == id;});
+}
+
+PDIList<RouteBusstopItem> Route::itemsWithBusstop(Busstop *busstop) const {
+    return _data.busstops.filter([busstop](RouteBusstopItem *item){return item->busstop() == busstop;});
+}
+
+PDIList<RouteBusstopItem> Route::itemsWithBusstop(const QUuid &id) const {
+    return _data.busstops.filter([id](RouteBusstopItem *item){return item->id() == id;});
+}
+
+RouteBusstopItem *Route::firstBusstop() const {
+    if(!_data.busstops.isEmpty())
+        return _data.busstops.first();
+    else
+        return nullptr;
+}
+
+RouteBusstopItem *Route::lastBusstop() const {
+    if(!_data.busstops.isEmpty())
+        return _data.busstops.last();
+    else
+        return nullptr;
+}
+
+PDIList<RouteBusstopItem> Route::commonBusstops(Route *route, const bool &sameDefaultPlatform) const {
+    PDIList<RouteBusstopItem> busstops = _data.busstops.filter([route](RouteBusstopItem *item){return route->containsBusstop(item->busstop());});
+
+    if(!sameDefaultPlatform)
+        return busstops;
+
+    return busstops.filter([route](RouteBusstopItem *item){
+        BusstopPlatform *platform = item->defaultPlatform();
+
+        return route->busstops().some([platform](RouteBusstopItem *item){
+            return item->defaultPlatform() == platform;
+        });
+    });
+}
+
+Busstop *Route::firstCommonBusstop(Route *route, const bool &sameDefaultPlatform) const {
+    PDIList<RouteBusstopItem> busstops = commonBusstops(route, sameDefaultPlatform);
+    if(busstops.isEmpty())
+        return nullptr;
+
+    return busstops.first()->busstop();
+}
+
+Busstop *Route::lastCommonBusstop(Route *route, const bool &sameDefaultPlatform) const {
+    PDIList<RouteBusstopItem> busstops = commonBusstops(route, sameDefaultPlatform);
+    if(busstops.isEmpty())
+        return nullptr;
+
+    return busstops.last()->busstop();
+}
+
+void Route::appendBusstop(RouteBusstopItem *busstop) {
+    _data.busstops.append(busstop, true);
+    emit changed();
+}
+
+void Route::insertBusstop(const int &index, RouteBusstopItem *busstop) {
+    _data.busstops.insert(index, busstop, true);
+    emit changed();
+}
+
+void Route::removeBusstop(RouteBusstopItem *busstop) {
+    _data.busstops.remove(busstop, true);
+    emit changed();
+}
+
+void Route::removeBusstop(const QUuid &id) {
+    _data.busstops.remove(id, true);
+    emit changed();
+}
+
+void Route::removeBusstopAt(const int &index) {
+    _data.busstops.removeAt(index, true);
+    emit changed();
+}
+
 QJsonObject Route::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.insert("name", name());
