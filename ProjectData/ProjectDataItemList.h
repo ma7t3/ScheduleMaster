@@ -15,12 +15,12 @@
  */
 
 template <typename T>
-class ProjectDataItemList : public QList<T> {
+class ProjectDataItemList : public QList<T *> {
 public:
     /**
      * @brief Constructs a new and empty ProjectDataItemList
      */
-    ProjectDataItemList() : QList<T>() {};
+    ProjectDataItemList() : QList<T *>() {};
 
     /**
      * @brief Checks if the ProjectDataItem with the id is part of the list.
@@ -36,8 +36,8 @@ public:
      * @param item The item to search for
      * @return Whether the item was found or not.
      */
-    bool contains(T item) const {
-        return QList<T>::contains(item);
+    bool contains(T *item) const {
+        return QList<T *>::contains(item);
     }
 
     /**
@@ -47,9 +47,9 @@ public:
      * @param id The id to search for
      * @return The item that was found or nullptr if no item was found.
      */
-    T find(const QUuid &id) const {
+    T *find(const QUuid &id) const {
         auto it = std::find_if(this->begin(), this->end(),
-                               [id](T current) {
+                               [id](T *current) {
             return current->id() == id;
         });
 
@@ -63,11 +63,11 @@ public:
      * @param item The item to add
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void append(T item, const bool &updateInUse = false) {
+    void append(T *item, const bool &updateInUse = false) {
         if(!item)
             return;
 
-        QList<T>::append(item);
+        QList<T *>::append(item);
         if(updateInUse)
             item->setInUse(true);
     }
@@ -81,8 +81,8 @@ public:
      * @param item The item to insert
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void insert(const int &index, T item, const bool &updateInUse = false) {
-        QList<T>::insert(index, item);
+    void insert(const int &index, T *item, const bool &updateInUse = false) {
+        QList<T *>::insert(index, item);
         if(updateInUse)
             item->setInUse(true);
     }
@@ -98,7 +98,7 @@ public:
     template <typename Filter>
     ProjectDataItemList<T> filter(Filter filter) const {
         ProjectDataItemList<T> result;
-        for(T current : *this)
+        for(T *current : *this)
             if(filter(current))
                 result.append(current);
 
@@ -117,8 +117,8 @@ public:
      * @return The first item that matched the filter or nullptr if no matching item was found.
      */
     template <typename Filter>
-    T filterOne(Filter filter) const {
-        for(T current : *this)
+    T *filterOne(Filter filter) const {
+        for(T *current : *this)
             if(filter(current))
                 return current;
 
@@ -166,8 +166,8 @@ public:
      * @param item The item to remove
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void remove(T item, const bool &updateInUse = false) {
-        QList<T>::removeAll(item);
+    void remove(T* item, const bool &updateInUse = false) {
+        QList<T *>::removeAll(item);
         if(updateInUse)
             item->setInUse(false);
     }
@@ -202,8 +202,8 @@ public:
         if(index < 0 || index >= this->count())
             return;
 
-        T current = this->value(index);
-        QList<T>::remove(index);
+        T *current = this->value(index);
+        QList<T *>::remove(index);
         if(updateInUse)
             current->setInUse(false);
     }
@@ -217,7 +217,7 @@ public:
             for(T current : *this)
                 current->setInUse(false);
 
-        QList<T>::clear();
+        QList<T *>::clear();
     }
 };
 

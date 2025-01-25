@@ -15,12 +15,12 @@
  */
 
 template <typename T>
-class ProjectDataItemSet : public QHash<QUuid, T> {
+class ProjectDataItemSet : public QHash<QUuid, T *> {
 public:
     /**
      * @brief Constructs a new and empty ProjectDataItemSet
      */
-    ProjectDataItemSet() : QHash<QUuid, T>() {};
+    ProjectDataItemSet() : QHash<QUuid, T *>() {};
 
     /**
      * @brief Checks if the ProjectDataItem with the id is part of the set.
@@ -36,8 +36,8 @@ public:
      * @param item The item to search for
      * @return Whether the item was found or not.
      */
-    bool contains(T item) const {
-        return QHash<QUuid, T>::values().contains(item);
+    bool contains(T *item) const {
+        return QHash<QUuid, T *>::values().contains(item);
     }
 
     /**
@@ -47,8 +47,8 @@ public:
      * @param id The id to search for
      * @return The item that was found or nullptr if no item was found.
      */
-    T find(const QUuid &id) const {
-        return QHash<QUuid, T>::contains(id) ? QHash<QUuid, T>::value(id) : nullptr;
+    T *find(const QUuid &id) const {
+        return QHash<QUuid, T *>::contains(id) ? QHash<QUuid, T *>::value(id) : nullptr;
     }
 
     /**
@@ -58,11 +58,11 @@ public:
      * @param item The item to add
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void add(T item, const bool &updateInUse = false) {
+    void add(T *item, const bool &updateInUse = false) {
         if(!item || contains(item))
             return;
 
-        QHash<QUuid, T>::insert(item->id(), item);
+        QHash<QUuid, T *>::insert(item->id(), item);
         if(updateInUse)
             item->setInUse(true);
     }
@@ -78,7 +78,7 @@ public:
     template <typename Filter>
     ProjectDataItemSet<T> filter(Filter filter) const {
         ProjectDataItemSet<T> result;
-        for(T current : *this) {
+        for(T *current : *this) {
             if(filter(current))
                 result.add(current);
         }
@@ -97,8 +97,8 @@ public:
      * @return The first item that matched the filter or nullptr if no matching item was found.
      */
     template <typename Filter>
-    T filterOne(Filter filter) const {
-        for(T current : *this) {
+    T *filterOne(Filter filter) const {
+        for(T *current : *this) {
             if(filter(current))
                 return current;
         }
@@ -115,7 +115,7 @@ public:
      */
     template <typename Filter>
     bool some(Filter filter) const {
-        for(T current : *this)
+        for(T *current : *this)
             if(filter(current))
                 return true;
 
@@ -132,7 +132,7 @@ public:
      */
     template <typename Filter>
     bool every(Filter filter) const {
-        for(T current : *this)
+        for(T *current : *this)
             if(!filter(current))
                 return false;
 
@@ -146,7 +146,7 @@ public:
      * @param item The item to remove
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void remove(T item, const bool &updateInUse = false) {
+    void remove(T *item, const bool &updateInUse = false) {
         if(updateInUse)
             item->setInUse(false);
         remove(item->id());
@@ -162,11 +162,11 @@ public:
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
     void remove(const QUuid &id, const bool &updateInUse = false) {
-        T item = QHash<QUuid, T>::value(id);
+        T *item = QHash<QUuid, T *>::value(id);
         if(item && updateInUse)
             item->setInUse(false);
 
-        QHash<QUuid, T>::remove(id);
+        QHash<QUuid, T *>::remove(id);
     }
 
     /**
@@ -175,10 +175,10 @@ public:
      */
     void clear(const bool &updateInUse = false) {
         if(updateInUse)
-            for(T current : *this)
+            for(T *current : *this)
                 current->setInUse(false);
 
-        QHash<QUuid, T>::clear();
+        QHash<QUuid, T *>::clear();
     }
 };
 

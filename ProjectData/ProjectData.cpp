@@ -40,7 +40,7 @@ Busstop *ProjectData::findBusstopByName(const QString &name) const {
     return _busstops.filterOne([name](Busstop *b){return b->name() == name;});
 }
 
-PDISet<Busstop *> ProjectData::busstops() const {
+PDISet<Busstop> ProjectData::busstops() const {
     return _busstops;
 }
 

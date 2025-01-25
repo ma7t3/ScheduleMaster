@@ -58,7 +58,7 @@ LineDirection *Line::direction(const QUuid &id) const {
     return _data.directions.find(id);
 }
 
-PDIList<LineDirection *> Line::directions() const {
+PDIList<LineDirection> Line::directions() const {
     return _data.directions;
 }
 

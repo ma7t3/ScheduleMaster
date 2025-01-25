@@ -61,7 +61,7 @@ public:
         QColor color;
 
         /// The Line's directions
-        PDIList<LineDirection *> directions;
+        PDIList<LineDirection> directions;
         // routes, trips
     };
 
@@ -142,7 +142,7 @@ public:
      * See also directionCount().
      * @return A ProjectDataItemList of all Directions in the Line.
      */
-    PDIList<LineDirection *> directions() const;
+    PDIList<LineDirection> directions() const;
 
     /**
      * @brief Appends a LineDirection to the end of the Line's LineDirection list.

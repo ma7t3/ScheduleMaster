@@ -50,7 +50,7 @@ BusstopPlatform *Busstop::platform(const QUuid &id) const {
     return _data.platforms.find(id);
 }
 
-PDISet<BusstopPlatform *> Busstop::platforms() const {
+PDISet<BusstopPlatform> Busstop::platforms() const {
     return _data.platforms;
 }
 
@@ -72,8 +72,8 @@ void Busstop::removePlatform(const QUuid &id) {
     _data.platforms.remove(id, true);
 }
 
-PDISet<BusstopPlatform *> Busstop::platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag) {
-    PDISet<BusstopPlatform *> result;
+PDISet<BusstopPlatform> Busstop::platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag) {
+    PDISet<BusstopPlatform> result;
     for(BusstopPlatform *platform : _data.platforms)
         if(platform->flags().testFlag(flag))
             result.add(platform);

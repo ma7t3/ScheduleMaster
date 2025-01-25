@@ -71,7 +71,7 @@ public:
         BusstopFlags flags;
 
         /// The Busstop's platforms
-        PDISet<BusstopPlatform *> platforms;
+        PDISet<BusstopPlatform> platforms;
 
         /**
          * @brief The Busstop's default platform.
@@ -153,7 +153,7 @@ public:
      * See also platformCount().
      * @return A ProjectDataItemSet of all platforms in the busstop.
      */
-    PDISet<BusstopPlatform *> platforms() const;
+    PDISet<BusstopPlatform> platforms() const;
 
     /**
      * @brief Adds a platform to the busstop.
@@ -178,7 +178,7 @@ public:
      * @param flag The flag to filter by
      * @return A ProjectDataItemSet of all platforms that have the flag set.
      */
-    PDISet<BusstopPlatform *> platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag);
+    PDISet<BusstopPlatform> platformsWithFlag(const BusstopPlatform::BusstopPlatformFlag &flag);
 
     /**
      * @brief Returns the default platform of the busstop.
