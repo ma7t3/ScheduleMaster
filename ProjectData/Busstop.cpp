@@ -97,6 +97,7 @@ void Busstop::setDefaultPlatform(BusstopPlatform *platform) {
         return;
 
     _data.defaultPlatform = platform;
+    emit changed();
 }
 
 QJsonObject Busstop::toJson() const {

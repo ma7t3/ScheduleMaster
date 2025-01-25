@@ -39,6 +39,7 @@ QString Line::description() const {
 
 void Line::setDescription(const QString &newDescription) {
     _data.description = newDescription;
+    emit changed();
 }
 
 QColor Line::color() const {
@@ -64,6 +65,7 @@ PDIList<LineDirection> Line::directions() const {
 
 void Line::appendDirection(LineDirection *lineDirection) {
     _data.directions.append(lineDirection, true);
+    emit changed();
 }
 
 void Line::insertDirection(const int &index, LineDirection *lineDirection) {
@@ -71,14 +73,17 @@ void Line::insertDirection(const int &index, LineDirection *lineDirection) {
         return;
 
     _data.directions.insert(index, lineDirection, true);
+    emit changed();
 }
 
 void Line::removeDirection(LineDirection *lineDirection) {
     _data.directions.remove(lineDirection, true);
+    emit changed();
 }
 
 void Line::removeDirection(const QUuid &id) {
     _data.directions.remove(id, true);
+    emit changed();
 }
 
 QJsonObject Line::toJson() const {
