@@ -14,6 +14,10 @@
  * See also ProjectDataItemSet. It mostly behaves exactly the same but it stores it's items without a defined order.
  */
 
+
+// TODO: Implement assignment operator to also update inUseProperty if the entire List was replaced!
+// TODO: Docs update
+
 template <typename T>
 class ProjectDataItemList : public QList<T *> {
 public:
@@ -82,6 +86,9 @@ public:
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
     void insert(const int &index, T *item, const bool &updateInUse = false) {
+        if(index < 0 || index > this->count() || !item)
+            return;
+
         QList<T *>::insert(index, item);
         if(updateInUse)
             item->setInUse(true);
@@ -135,7 +142,7 @@ public:
      */
     template <typename Filter>
     bool some(Filter filter) const {
-        for(T current : *this)
+        for(T *current : *this)
             if(filter(current))
                 return true;
 
@@ -152,7 +159,7 @@ public:
      */
     template <typename Filter>
     bool every(Filter filter) const {
-        for(T current : *this)
+        for(T *current : *this)
             if(!filter(current))
                 return false;
 
