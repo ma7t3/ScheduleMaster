@@ -137,6 +137,7 @@ protected:
     DerivedType *clone() const {
         DerivedType *clone = new DerivedType(parent(), _id, true);
         clone->setData(_data);
+        clone->setObjectName(objectName() + "-clone");
         return clone;
     }
 
