@@ -4,6 +4,8 @@
 #include <QHash>
 #include <QUuid>
 
+#include "ProjectDataItemContainer.h"
+
 /**
  * @class ProjectDataItemSet
  * @brief The ProjectDataItemSet class is container for storing ProjectDataItems without a defined order.
@@ -18,12 +20,26 @@
 // TODO: Docs update
 
 template <typename T>
-class ProjectDataItemSet : public QHash<QUuid, T *> {
+class ProjectDataItemSet : public QHash<QUuid, T *>, public ProjectDataItemContainer {
 public:
     /**
      * @brief Constructs a new and empty ProjectDataItemSet
      */
     ProjectDataItemSet() : QHash<QUuid, T *>() {};
+
+    ProjectDataItemSet<T>& operator=(const ProjectDataItemSet<T> &other) {
+        bool shouldUpdateInUse = this->shouldUpdateInUse();
+
+        if(shouldUpdateInUse)
+            for(T current : *this)
+                current->setInUse(false);
+
+        QHash<QUuid, T *>::operator=(other);
+
+        if(shouldUpdateInUse)
+            for(T current : *this)
+                current->setInUse(true);
+    }
 
     /**
      * @brief Checks if the ProjectDataItem with the id is part of the set.
@@ -61,12 +77,12 @@ public:
      * @param item The item to add
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void add(T *item, const bool &updateInUse = false) {
+    void add(T *item) {
         if(!item || contains(item))
             return;
 
         QHash<QUuid, T *>::insert(item->id(), item);
-        if(updateInUse)
+        if(shouldUpdateInUse())
             item->setInUse(true);
     }
 
@@ -149,8 +165,8 @@ public:
      * @param item The item to remove
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void remove(T *item, const bool &updateInUse = false) {
-        if(updateInUse)
+    void remove(T *item) {
+        if(shouldUpdateInUse())
             item->setInUse(false);
         remove(item->id());
     }
@@ -164,9 +180,9 @@ public:
      * @param id The id of the item to remove
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void remove(const QUuid &id, const bool &updateInUse = false) {
+    void remove(const QUuid &id) {
         T *item = QHash<QUuid, T *>::value(id);
-        if(item && updateInUse)
+        if(item && shouldUpdateInUse())
             item->setInUse(false);
 
         QHash<QUuid, T *>::remove(id);
@@ -176,8 +192,8 @@ public:
      * @brief Clears the entire set (i.e. removes all items)
      * @param updateInUse If set to true, all item's inUse property will be set to true.
      */
-    void clear(const bool &updateInUse = false) {
-        if(updateInUse)
+    void clear() {
+        if(shouldUpdateInUse())
             for(T *current : *this)
                 current->setInUse(false);
 

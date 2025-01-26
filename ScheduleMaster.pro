@@ -34,9 +34,11 @@ HEADERS += \
     Global/Logger.h \
     ProjectData/ProjectData.h \
     ProjectData/ProjectDataItem.h \
+    ProjectData/ProjectDataItemSignals.h \
+    ProjectData/ProjectDataItemData.h \
+    ProjectData/ProjectDataItemContainer.h \
     ProjectData/ProjectDataItemList.h \
     ProjectData/ProjectDataItemSet.h \
-    ProjectData/ProjectDataItemSignals.h \
     ProjectData/Busstop.h \
     ProjectData/BusstopPlatform.h \
     ProjectData/Line.h \

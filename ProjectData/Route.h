@@ -11,7 +11,10 @@
  *
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
-struct RouteData {
+struct RouteData : ProjectDataItemData {
+    RouteData() {updateParentOwnsItemsMembers();}
+    QList<ProjectDataItemContainer *> defineParentOwnsItemsMembers() override {return { &busstops };}
+
     /// The Route's name
     QString name;
 
@@ -41,7 +44,7 @@ struct RouteData {
  * Every route is assigned to one LineDirection as well but it doesn't take ownership of the direction since multiple routes can be assigned to the same direction.
  */
 
-class Route : public ProjectDataItem<RouteData> {
+class Route : public ProjectDataItem<Route, RouteData> {
     Q_OBJECT
 public:
     /**

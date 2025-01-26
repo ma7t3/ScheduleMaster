@@ -13,7 +13,7 @@
  * It especially provides a unique ID for each item.
  */
 
-template <typename DataType>
+template <typename DerivedType, typename DataType>
 class ProjectDataItem : public ProjectDataItemSignals {
 public:
     /**
@@ -23,10 +23,12 @@ public:
      * @param parent The QObject-parent
      * @param id The optional ID to be used. It can't be changed later.
      */
-    explicit ProjectDataItem(QObject *parent, const QUuid &id = QUuid()) :
+    explicit ProjectDataItem(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false) :
         ProjectDataItemSignals(parent),
         _id(id.isNull() ? generateID() : id),
-        _inUse(false) {
+        _inUse(false),
+        _isClone(isClone) {
+        _data.setIsClone(isClone);
     }
 
     /**
@@ -101,7 +103,7 @@ protected:
      * **Attention:** Be careful with using this. You should only set the id if the item is created. But the it never should change later!
      * @param newID The new id
      */
-    void setID(const QUuid &newID)     {
+    void setID(const QUuid &newID) {
         _id = newID;
         QObject::setObjectName(idAsString());
     }
@@ -123,7 +125,19 @@ protected:
      * See also data().
      */
     void setData(const DataType &newData) {
+        bool tmpIsClone = _data.isClone();
         _data = newData;
+        _data.setIsClone(tmpIsClone);
+    }
+
+    bool isClone() const {
+        return _isClone;
+    }
+
+    DerivedType *clone() const {
+        DerivedType *clone = new DerivedType(parent(), _id, true);
+        clone->setData(_data);
+        return clone;
     }
 
 protected:
@@ -148,6 +162,8 @@ private:
      * - If the route is used by a trip or not should not be releant for inUse.
      */
     bool _inUse;
+
+    bool _isClone;
 };
 
 #endif // PROJECTDATAITEM_H

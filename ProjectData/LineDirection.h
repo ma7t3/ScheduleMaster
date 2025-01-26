@@ -2,6 +2,7 @@
 #define LINEDIRECTION_H
 
 #include "ProjectDataItem.h"
+#include "ProjectDataItemData.h"
 
 /**
  * @struct LineDirectionData
@@ -9,7 +10,10 @@
  *
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
-struct LineDirectionData {
+struct LineDirectionData : ProjectDataItemData {
+    LineDirectionData() {updateParentOwnsItemsMembers();}
+    QList<ProjectDataItemContainer *> defineParentOwnsItemsMembers() override {return {};}
+
     /// The LineDirection's description
     QString description;
 };
@@ -21,7 +25,7 @@ struct LineDirectionData {
  * Every line can have multiple LineDirections (usually 1 or 2) which specify, which travel directions the Line has.
  * Every Line's Route has one specific direction it is connected to.
  */
-class LineDirection : public ProjectDataItem<LineDirectionData> {
+class LineDirection : public ProjectDataItem<LineDirection, LineDirectionData> {
     Q_OBJECT
 public:
     /**

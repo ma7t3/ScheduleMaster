@@ -121,27 +121,27 @@ Busstop *Route::lastCommonBusstop(Route *route, const bool &sameDefaultPlatform)
 }
 
 void Route::appendBusstop(RouteBusstopItem *busstop) {
-    _data.busstops.append(busstop, true);
+    _data.busstops.append(busstop);
     emit changed();
 }
 
 void Route::insertBusstop(const int &index, RouteBusstopItem *busstop) {
-    _data.busstops.insert(index, busstop, true);
+    _data.busstops.insert(index, busstop);
     emit changed();
 }
 
 void Route::removeBusstop(RouteBusstopItem *busstop) {
-    _data.busstops.remove(busstop, true);
+    _data.busstops.remove(busstop);
     emit changed();
 }
 
 void Route::removeBusstop(const QUuid &id) {
-    _data.busstops.remove(id, true);
+    _data.busstops.remove(id);
     emit changed();
 }
 
 void Route::removeBusstopAt(const int &index) {
-    _data.busstops.removeAt(index, true);
+    _data.busstops.removeAt(index);
     emit changed();
 }
 

@@ -55,7 +55,7 @@ PDIList<LineDirection> Line::directions() const {
 }
 
 void Line::appendDirection(LineDirection *lineDirection) {
-    _data.directions.append(lineDirection, true);
+    _data.directions.append(lineDirection);
     emit changed();
 }
 
@@ -63,17 +63,17 @@ void Line::insertDirection(const int &index, LineDirection *lineDirection) {
     if(index < 0 || index > _data.directions.count())
         return;
 
-    _data.directions.insert(index, lineDirection, true);
+    _data.directions.insert(index, lineDirection);
     emit changed();
 }
 
 void Line::removeDirection(LineDirection *lineDirection) {
-    _data.directions.remove(lineDirection, true);
+    _data.directions.remove(lineDirection);
     emit changed();
 }
 
 void Line::removeDirection(const QUuid &id) {
-    _data.directions.remove(id, true);
+    _data.directions.remove(id);
     emit changed();
 }
 
@@ -98,6 +98,6 @@ void Line::fromJson(const QJsonObject &jsonObject) {
     _data.color       = QColor(jsonObject.value("color").toString());
     QJsonArray jsonDirections = jsonObject.value("directions").toArray();
     for(QJsonValue val : jsonDirections)
-        _data.directions.append(new LineDirection(this, val.toObject()), true);
+        _data.directions.append(new LineDirection(this, val.toObject()));
 }
 

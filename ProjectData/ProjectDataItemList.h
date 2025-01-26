@@ -4,6 +4,8 @@
 #include <QList>
 #include <QUuid>
 
+#include "ProjectDataItemContainer.h"
+
 /**
  * @class ProjectDataItemList
  * @brief The ProjectDataItemList class is container for storing ProjectDataItems in a defined order.
@@ -19,12 +21,26 @@
 // TODO: Docs update
 
 template <typename T>
-class ProjectDataItemList : public QList<T *> {
+class ProjectDataItemList : public QList<T *>, public ProjectDataItemContainer {
 public:
     /**
      * @brief Constructs a new and empty ProjectDataItemList
      */
     ProjectDataItemList() : QList<T *>() {};
+
+    ProjectDataItemList<T>& operator=(const ProjectDataItemList<T> &other) {
+        bool shouldUpdateInUse = this->shouldUpdateInUse();
+
+        if(shouldUpdateInUse)
+            for(T current : *this)
+                current->setInUse(false);
+
+        QList<T *>::operator=(other);
+
+        if(shouldUpdateInUse)
+            for(T current : *this)
+                current->setInUse(true);
+    }
 
     /**
      * @brief Checks if the ProjectDataItem with the id is part of the list.
@@ -67,12 +83,12 @@ public:
      * @param item The item to add
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void append(T *item, const bool &updateInUse = false) {
+    void append(T *item) {
         if(!item)
             return;
 
         QList<T *>::append(item);
-        if(updateInUse)
+        if(shouldUpdateInUse())
             item->setInUse(true);
     }
 
@@ -85,12 +101,12 @@ public:
      * @param item The item to insert
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void insert(const int &index, T *item, const bool &updateInUse = false) {
+    void insert(const int &index, T *item) {
         if(index < 0 || index > this->count() || !item)
             return;
 
         QList<T *>::insert(index, item);
-        if(updateInUse)
+        if(shouldUpdateInUse())
             item->setInUse(true);
     }
 
@@ -173,9 +189,9 @@ public:
      * @param item The item to remove
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void remove(T* item, const bool &updateInUse = false) {
+    void remove(T* item) {
         QList<T *>::removeAll(item);
-        if(updateInUse)
+        if(shouldUpdateInUse())
             item->setInUse(false);
     }
 
@@ -188,11 +204,11 @@ public:
      * @param id The id of the item to remove
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void remove(const QUuid &id, const bool &updateInUse = false) {
+    void remove(const QUuid &id) {
         int i = 0;
         while(i < this->count()) {
             if(this->value(i)->id() == id)
-                removeAt(i, updateInUse);
+                removeAt(i);
             else
                 i++;
         }
@@ -205,13 +221,13 @@ public:
      * @param item The index of the item to remove
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
-    void removeAt(const int &index, const bool &updateInUse = false) {
+    void removeAt(const int &index) {
         if(index < 0 || index >= this->count())
             return;
 
         T *current = this->value(index);
         QList<T *>::remove(index);
-        if(updateInUse)
+        if(shouldUpdateInUse())
             current->setInUse(false);
     }
 
@@ -219,8 +235,8 @@ public:
      * @brief Clears the entire list (i.e. removes all items)
      * @param updateInUse If set to true, all item's inUse property will be set to true.
      */
-    void clear(const bool &updateInUse = false) {
-        if(updateInUse)
+    void clear() {
+        if(shouldUpdateInUse())
             for(T current : *this)
                 current->setInUse(false);
 
