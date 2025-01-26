@@ -12,7 +12,10 @@
  *
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
-struct LineData {
+struct LineData : ProjectDataItemData {
+    LineData() {updateParentOwnsItemsMembers();}
+    QList<ProjectDataItemContainer *> defineParentOwnsItemsMembers() override {return { &directions };}
+
     /// The Line's name
     QString name;
 
@@ -36,7 +39,7 @@ struct LineData {
  * Every line also has multiple trips which you can think of as instances of one route with a certain time.
  */
 
-class Line : public ProjectDataItem<LineData> {
+class Line : public ProjectDataItem<Line, LineData> {
     Q_OBJECT
 public:
     /**

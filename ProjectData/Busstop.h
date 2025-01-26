@@ -5,6 +5,7 @@
 
 #include "BusstopPlatform.h"
 #include "ProjectDataItemSet.h"
+#include "ProjectDataItemData.h"
 
 /**
  * @enum BusstopFlag
@@ -27,7 +28,10 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(BusstopFlags)
  *
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
-struct BusstopData {
+struct BusstopData : ProjectDataItemData {
+    BusstopData() {updateParentOwnsItemsMembers();}
+    QList<ProjectDataItemContainer *> defineParentOwnsItemsMembers() override {return { &platforms };}
+
     /// The Busstop's name
     QString name;
 
@@ -57,7 +61,7 @@ struct BusstopData {
  * It can have multiple platforms where buses can stop.
  */
 
-class Busstop : public ProjectDataItem<BusstopData> {
+class Busstop : public ProjectDataItem<Busstop, BusstopData> {
     Q_OBJECT
 public:
     /**

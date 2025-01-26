@@ -10,7 +10,10 @@
  *
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
-struct RouteBusstopItemData {
+struct RouteBusstopItemData : ProjectDataItemData {
+    RouteBusstopItemData() {updateParentOwnsItemsMembers();}
+    QList<ProjectDataItemContainer *> defineParentOwnsItemsMembers() override {return {};}
+
     /// The RouteBusstopItem's Busstop
     Busstop *busstop = nullptr;
 
@@ -18,7 +21,7 @@ struct RouteBusstopItemData {
     BusstopPlatform *defaultPlatform = nullptr;
 };
 
-class RouteBusstopItem : public ProjectDataItem<RouteBusstopItemData> {
+class RouteBusstopItem : public ProjectDataItem<RouteBusstopItem, RouteBusstopItemData> {
     Q_OBJECT
 public:
     /**
