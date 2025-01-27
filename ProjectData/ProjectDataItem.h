@@ -82,16 +82,48 @@ public:
         return jsonObject;
     }
 
-    QString dump() const {
+    QString dump(const QJsonDocument::JsonFormat &format = QJsonDocument::Compact) const {
         QJsonObject jsonObject = toJson();
         jsonObject.insert("_type", metaObject()->className());
         jsonObject.insert("_inUse", _inUse);
         jsonObject.insert("_isClone", _isClone);
-        return QJsonDocument(jsonObject).toJson();
+        return QJsonDocument(jsonObject).toJson(format);
     }
 
-    void dumpToDebug() const {
-        qDebug().noquote() << dump();
+    void dumpToDebug(const QJsonDocument::JsonFormat &format = QJsonDocument::Compact) const {
+        qDebug().noquote() << dump(format);
+    }
+
+    /**
+     * @brief Returns the ProjectDataItem's data.
+     *
+     * See also setData().
+     * @return The ProjectDataItem's data.
+     */
+    DataType data() const {
+        return _data;
+    }
+
+    /**
+     * @brief Replaces the ProjectDataItem's data.
+     * @param newData The new data
+     *
+     * See also data().
+     */
+    void setData(const DataType &newData) {
+        _data = newData;
+    }
+
+    bool isClone() const {
+        return _isClone;
+    }
+
+    // TODO: [DOCS] Mention that it sets the objectName
+    DerivedType *clone() const {
+        DerivedType *clone = new DerivedType(parent(), id(), true);
+        clone->setData(_data);
+        clone->setObjectName(objectName() + "-clone");
+        return clone;
     }
 
 protected:
@@ -122,41 +154,6 @@ protected:
         QObject::setObjectName(idAsString());
     }
 
-    /**
-     * @brief Returns the ProjectDataItem's data.
-     *
-     * See also setData().
-     * @return The ProjectDataItem's data.
-     */
-    DataType data() const {
-        return _data;
-    }
-
-    /**
-     * @brief Replaces the ProjectDataItem's data.
-     * @param newData The new data
-     *
-     * See also data().
-     */
-    void setData(const DataType &newData) {
-        bool tmpIsClone = _data.isClone();
-        _data = newData;
-        _data.setIsClone(tmpIsClone);
-    }
-
-    bool isClone() const {
-        return _isClone;
-    }
-
-    // TODO: [DOCS] Mention that it sets the objectName
-    DerivedType *clone() const {
-        DerivedType *clone = new DerivedType(parent(), _id, true);
-        clone->setData(_data);
-        clone->setObjectName(objectName() + "-clone");
-        return clone;
-    }
-
-protected:
     /// The ProjectDataItem's data
     DataType _data;
 
