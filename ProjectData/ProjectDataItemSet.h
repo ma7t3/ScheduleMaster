@@ -4,6 +4,8 @@
 #include <QHash>
 #include <QUuid>
 
+#include <QDebug>
+
 #include "ProjectDataItemContainer.h"
 
 /**
@@ -44,6 +46,14 @@ public:
                 current->setInUse(true);
 
         return *this;
+    }
+
+    void cloneItems() override {
+        for(T *item : *this) {
+            T* newItem = item->clone();
+            qDebug() << item << newItem;
+            QHash<QUuid, T* >::insert(item->id(), newItem);
+        }
     }
 
     /**

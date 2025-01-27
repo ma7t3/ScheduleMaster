@@ -47,6 +47,8 @@ public:
         _parentOwnsItems = parentOwnsItems;
     }
 
+    virtual void cloneItems() = 0;
+
 private:
     /**
      * @brief The _parentOwnsItems property saves, if the ProjectDataItemData class that contains this container takes ownership of the items in the container.

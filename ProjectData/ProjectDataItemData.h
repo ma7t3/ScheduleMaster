@@ -14,6 +14,13 @@ struct ProjectDataItemData {
             item->setParentOwnsItems(true);
     }
 
+    void cloneMembers() {
+        for(ProjectDataItemContainer *container : _parentOwnsItemsMembers) {
+            container->cloneItems();
+        }
+    }
+
+private:
     QList<ProjectDataItemContainer *> _parentOwnsItemsMembers;
 };
 

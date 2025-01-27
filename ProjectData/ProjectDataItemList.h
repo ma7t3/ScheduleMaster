@@ -47,6 +47,11 @@ public:
         return *this;
     }
 
+    void cloneItems() override {
+        for(int i = 0; i < this->count(); i++)
+            this->replace(i, this->at(i)->clone());
+    }
+
     /**
      * @brief Checks if the ProjectDataItem with the id is part of the list.
      * @param id The id to search for
