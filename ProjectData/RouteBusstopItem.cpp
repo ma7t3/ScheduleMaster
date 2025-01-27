@@ -5,6 +5,10 @@ RouteBusstopItem::RouteBusstopItem(QObject *parent, Busstop *busstop, const QUui
     _data.busstop = busstop;
 }
 
+RouteBusstopItem::RouteBusstopItem(QObject *parent, const QUuid &id, const bool &isClone) :
+    ProjectDataItem(parent, id, isClone) {
+}
+
 RouteBusstopItem::RouteBusstopItem(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {
     fromJson(jsonObject);

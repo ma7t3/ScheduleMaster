@@ -33,6 +33,8 @@ public:
      */
     explicit RouteBusstopItem(QObject *parent, Busstop *busstop, const QUuid &id = QUuid(), const bool &isClone = false);
 
+    explicit RouteBusstopItem(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
+
     /**
      * @brief Constructs a new RouteBusstopItem object by parsing a JSON object.
      *
