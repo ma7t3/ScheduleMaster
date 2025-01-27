@@ -70,7 +70,7 @@ public:
      * @param parent The QObject-parent
      * @param id The optional ID to be used. It can't be changed later.
      */
-    explicit Busstop(QObject *parent, const QUuid &id = QUuid());
+    explicit Busstop(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
 
     /**
      * @brief Constructs a new Busstop object by parsing a JSON object.

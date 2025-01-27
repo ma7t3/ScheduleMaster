@@ -1,7 +1,7 @@
 #include "RouteBusstopItem.h"
 
-RouteBusstopItem::RouteBusstopItem(QObject *parent, Busstop *busstop, const QUuid &id) :
-    ProjectDataItem(parent, id) {
+RouteBusstopItem::RouteBusstopItem(QObject *parent, Busstop *busstop, const QUuid &id, const bool &isClone) :
+    ProjectDataItem(parent, id, isClone) {
     _data.busstop = busstop;
 }
 
