@@ -43,6 +43,9 @@ protected slots:
     void openProjectSettings();
 
 
+private slots:
+    void on_actionDebugGeneralTestAction_triggered();
+
 private:
     Ui::MainWindow *ui;
 

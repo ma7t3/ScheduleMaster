@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->centralwidget->hide();
 
+#ifndef QT_DEBUG
+    ui->menuDebug->setHidden(true);
+#endif
+
     _undoAction = _projectData->undoStack()->createUndoAction(this, tr("Undo"));
     _redoAction = _projectData->undoStack()->createRedoAction(this, tr("Redo"));
 
@@ -174,3 +178,12 @@ void MainWindow::openProjectSettings() {
     qDebug() << "open project settings";
 }
 
+void MainWindow::on_actionDebugGeneralTestAction_triggered() {
+    #ifndef QT_DEBUG
+    return;
+    #endif
+
+    qDebug() << "Test action triggered!";
+
+    // test anything here!
+}

@@ -78,9 +78,16 @@
     <addaction name="menuWorkspaces"/>
     <addaction name="actionViewToolbars"/>
    </widget>
+   <widget class="QMenu" name="menuDebug">
+    <property name="title">
+     <string>Debug</string>
+    </property>
+    <addaction name="actionDebugGeneralTestAction"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
+   <addaction name="menuDebug"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionFileNewProject">
@@ -300,6 +307,14 @@
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionDebugGeneralTestAction">
+   <property name="text">
+    <string>General Test Action</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Shift+#</string>
    </property>
   </action>
  </widget>
