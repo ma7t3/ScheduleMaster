@@ -84,6 +84,7 @@ public:
 
     QString dump(const QJsonDocument::JsonFormat &format = QJsonDocument::Compact) const {
         QJsonObject jsonObject = toJson();
+        jsonObject.insert("_address", QString("0x%1").arg(reinterpret_cast<quintptr>(this), 0, 16).toUpper());
         jsonObject.insert("_type", metaObject()->className());
         jsonObject.insert("_inUse", _inUse);
         jsonObject.insert("_isClone", _isClone);
