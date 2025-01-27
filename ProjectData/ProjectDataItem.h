@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QJsonObject>
+#include "QJsonDocument"
 
 /**
  * @class ProjectDataItem
@@ -79,6 +80,18 @@ public:
         QJsonObject jsonObject;
         jsonObject.insert("id", idAsString());
         return jsonObject;
+    }
+
+    QString dump() const {
+        QJsonObject jsonObject = toJson();
+        jsonObject.insert("_type", metaObject()->className());
+        jsonObject.insert("_inUse", _inUse);
+        jsonObject.insert("_isClone", _isClone);
+        return QJsonDocument(jsonObject).toJson();
+    }
+
+    void dumpToDebug() const {
+        qDebug().noquote() << dump();
     }
 
 protected:
