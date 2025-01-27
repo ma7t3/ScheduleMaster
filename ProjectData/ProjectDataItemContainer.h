@@ -47,48 +47,13 @@ public:
         _parentOwnsItems = parentOwnsItems;
     }
 
-    /**
-     * @brief Returns if the _isInClone property is set to true.
-     * @return The value of _isInClone
-     */
-    bool isInClone() const {
-        return _isInClone;
-    }
-
-    /**
-     * @brief Changes the _isInClone property.
-     *
-     * **Attention:** You should only set this value once right after creating the list but later never again.
-     * @param parentOwnsItems The new value to set.
-     */
-    void setIsInClone(const bool &isInClone) {
-        _isInClone = isInClone;
-    }
-
-    /**
-     * @brief Returns if the container should update the item's inUse property or not.
-     *
-     * It will return true if _parentOwnsItems is true and _isInClone is false.
-     * @return Whether the container should update the item's inUse property or not.
-     */
-    bool shouldUpdateInUse() const {
-        return _parentOwnsItems && !_isInClone;
-    }
-
-protected:
+private:
     /**
      * @brief The _parentOwnsItems property saves, if the ProjectDataItemData class that contains this container takes ownership of the items in the container.
      *
      * See also parentOwnsItems() and setParentOwnsItems().
      */
     bool _parentOwnsItems;
-
-    /**
-     * @brief The _isInClone property saves, if the ProjectDataItemData class that contains this container (resp. the ProjectDataItem that contains the Data object with the container) is a cloned version and not the "original".
-     *
-     * See also isInClone() and setIsInClone().
-     */
-    bool _isInClone;
 };
 
 #endif // PROJECTDATAITEMCONTAINER_H

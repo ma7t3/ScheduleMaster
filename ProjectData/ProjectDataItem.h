@@ -28,7 +28,6 @@ public:
         _id(id.isNull() ? generateID() : id),
         _inUse(false),
         _isClone(isClone) {
-        _data.setIsClone(isClone);
     }
 
     /**

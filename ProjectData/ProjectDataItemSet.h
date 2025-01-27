@@ -82,7 +82,7 @@ public:
             return;
 
         QHash<QUuid, T *>::insert(item->id(), item);
-        if(shouldUpdateInUse())
+        if(parentOwnsItems())
             item->setInUse(true);
     }
 
@@ -166,7 +166,7 @@ public:
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
     void remove(T *item) {
-        if(shouldUpdateInUse())
+        if(parentOwnsItems())
             item->setInUse(false);
         remove(item->id());
     }
@@ -182,7 +182,7 @@ public:
      */
     void remove(const QUuid &id) {
         T *item = QHash<QUuid, T *>::value(id);
-        if(item && shouldUpdateInUse())
+        if(item && parentOwnsItems())
             item->setInUse(false);
 
         QHash<QUuid, T *>::remove(id);
@@ -193,7 +193,7 @@ public:
      * @param updateInUse If set to true, all item's inUse property will be set to true.
      */
     void clear() {
-        if(shouldUpdateInUse())
+        if(parentOwnsItems())
             for(T *current : *this)
                 current->setInUse(false);
 
