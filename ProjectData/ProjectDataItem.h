@@ -101,6 +101,8 @@ protected:
      * @brief Sets a new id.
      *
      * **Attention:** Be careful with using this. You should only set the id if the item is created. But the it never should change later!
+     *
+     * This also sets the QObject::objectName to the id formated as a string.
      * @param newID The new id
      */
     void setID(const QUuid &newID) {
@@ -134,6 +136,7 @@ protected:
         return _isClone;
     }
 
+    // TODO: [DOCS] Mention that it sets the objectName
     DerivedType *clone() const {
         DerivedType *clone = new DerivedType(parent(), _id, true);
         clone->setData(_data);

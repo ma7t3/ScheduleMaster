@@ -25,7 +25,7 @@ public:
     /**
      * @brief Constructs a new ProjectDataItemContainer with both members set to false at first.
      */
-    ProjectDataItemContainer() : _parentOwnsItems(false), _isInClone(false) {}
+    ProjectDataItemContainer() : _parentOwnsItems(false) {}
 
     ProjectDataItemContainer &operator=(const ProjectDataItemContainer &other) = delete;
 

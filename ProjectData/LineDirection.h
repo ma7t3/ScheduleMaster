@@ -11,8 +11,7 @@
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
 struct LineDirectionData : ProjectDataItemData {
-    LineDirectionData() {updateParentOwnsItemsMembers();}
-    QList<ProjectDataItemContainer *> defineParentOwnsItemsMembers() override {return {};}
+    LineDirectionData() {}
 
     /// The LineDirection's description
     QString description;
