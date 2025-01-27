@@ -102,7 +102,9 @@ public:
      * @return The ProjectDataItem's data.
      */
     DataType data() const {
-        return _data;
+        DataType newData(_data);
+        newData.cloneMembers();
+        return newData;
     }
 
     /**
@@ -122,7 +124,10 @@ public:
     // TODO: [DOCS] Mention that it sets the objectName
     DerivedType *clone() const {
         DerivedType *clone = new DerivedType(parent(), id(), true);
-        clone->setData(_data);
+
+        DataType cloneData = data();
+
+        clone->setData(cloneData);
         clone->setObjectName(objectName() + "-clone");
         return clone;
     }
