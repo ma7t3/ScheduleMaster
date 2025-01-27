@@ -5,6 +5,7 @@
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
     _undoStack(new QUndoStack(this)) {
+    _busstops.setParentOwnsItems(true);
 }
 
 QString ProjectData::filePath() const {
