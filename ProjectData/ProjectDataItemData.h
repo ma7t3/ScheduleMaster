@@ -8,18 +8,18 @@
 struct ProjectDataItemData {
     ProjectDataItemData() {};
 
-    void updateParentOwnsItemsMembers() {
-        for(ProjectDataItemContainer *item : defineParentOwnsItemsMembers())
+    void setParentOwnsItemsMembers(const QList<ProjectDataItemContainer *> &list) {
+        _parentOwnsItemsMembers = list;
+        for(ProjectDataItemContainer *item : list)
             item->setParentOwnsItems(true);
     }
 
     void setIsClone(const bool &isClone) {
-        for(ProjectDataItemContainer *item : defineParentOwnsItemsMembers())
+        for(ProjectDataItemContainer *item : _parentOwnsItemsMembers)
             item->setIsInClone(isClone);
     }
 
-protected:
-    virtual QList<ProjectDataItemContainer *> defineParentOwnsItemsMembers() = 0;
+    QList<ProjectDataItemContainer *> _parentOwnsItemsMembers;
 };
 
 #endif // PROJECTDATAITEMDATA_H
