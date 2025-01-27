@@ -29,17 +29,22 @@ public:
     ProjectDataItemList() : QList<T *>() {};
 
     ProjectDataItemList<T>& operator=(const ProjectDataItemList<T> &other) {
-        bool shouldUpdateInUse = this->shouldUpdateInUse();
+        if(this == &other)
+            return *this;
 
-        if(shouldUpdateInUse)
-            for(T current : *this)
+        bool parentOwnsItems = this->parentOwnsItems();
+
+        if(parentOwnsItems)
+            for(T *current : *this)
                 current->setInUse(false);
 
         QList<T *>::operator=(other);
 
-        if(shouldUpdateInUse)
-            for(T current : *this)
+        if(parentOwnsItems)
+            for(T *current : *this)
                 current->setInUse(true);
+
+        return *this;
     }
 
     /**
