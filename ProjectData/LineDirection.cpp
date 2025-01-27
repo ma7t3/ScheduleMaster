@@ -1,7 +1,7 @@
 #include "LineDirection.h"
 
-LineDirection::LineDirection(QObject *parent, const QUuid &id) :
-    ProjectDataItem(parent, id) {
+LineDirection::LineDirection(QObject *parent, const QUuid &id, const bool &isClone) :
+    ProjectDataItem(parent, id, isClone) {
 }
 
 LineDirection::LineDirection(QObject *parent, const QJsonObject &jsonObject) :

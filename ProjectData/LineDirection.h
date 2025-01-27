@@ -34,7 +34,7 @@ public:
      * @param parent The QObject-parent
      * @param id The optional ID to be used. It can't be changed later.
      */
-    explicit LineDirection(QObject *parent, const QUuid &id = QUuid());
+    explicit LineDirection(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
 
     /**
      * @brief Constructs a new LineDirection object by parsing a JSON object.

@@ -2,8 +2,8 @@
 
 #include "Line.h"
 
-Route::Route(QObject *parent, const QUuid &id) :
-    ProjectDataItem(parent, id) {
+Route::Route(QObject *parent, const QUuid &id, const bool &isClone) :
+    ProjectDataItem(parent, id, isClone) {
 }
 
 Route::Route(QObject *parent, const QJsonObject &jsonObject) :

@@ -2,8 +2,8 @@
 
 #include <QJsonArray>
 
-Line::Line(QObject *parent, const QUuid &id) :
-    ProjectDataItem(parent, id) {
+Line::Line(QObject *parent, const QUuid &id, const bool &isClone) :
+    ProjectDataItem(parent, id, isClone) {
 }
 
 Line::Line(QObject *parent, const QJsonObject &jsonObject) :

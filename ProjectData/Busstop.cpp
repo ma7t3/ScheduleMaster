@@ -2,8 +2,8 @@
 
 #include <QJsonArray>
 
-Busstop::Busstop(QObject *parent, const QUuid &id) :
-    ProjectDataItem(parent, id) {
+Busstop::Busstop(QObject *parent, const QUuid &id, const bool &isClone) :
+    ProjectDataItem(parent, id, isClone) {
 }
 
 Busstop::Busstop(QObject *parent, const QJsonObject &jsonObject) :
