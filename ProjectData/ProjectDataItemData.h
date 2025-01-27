@@ -14,11 +14,6 @@ struct ProjectDataItemData {
             item->setParentOwnsItems(true);
     }
 
-    void setIsClone(const bool &isClone) {
-        for(ProjectDataItemContainer *item : _parentOwnsItemsMembers)
-            item->setIsInClone(isClone);
-    }
-
     QList<ProjectDataItemContainer *> _parentOwnsItemsMembers;
 };
 

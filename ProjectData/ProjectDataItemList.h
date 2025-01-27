@@ -88,7 +88,7 @@ public:
             return;
 
         QList<T *>::append(item);
-        if(shouldUpdateInUse())
+        if(parentOwnsItems())
             item->setInUse(true);
     }
 
@@ -106,7 +106,7 @@ public:
             return;
 
         QList<T *>::insert(index, item);
-        if(shouldUpdateInUse())
+        if(parentOwnsItems())
             item->setInUse(true);
     }
 
@@ -191,7 +191,7 @@ public:
      */
     void remove(T* item) {
         QList<T *>::removeAll(item);
-        if(shouldUpdateInUse())
+        if(parentOwnsItems())
             item->setInUse(false);
     }
 
@@ -227,7 +227,7 @@ public:
 
         T *current = this->value(index);
         QList<T *>::remove(index);
-        if(shouldUpdateInUse())
+        if(parentOwnsItems())
             current->setInUse(false);
     }
 
@@ -236,7 +236,7 @@ public:
      * @param updateInUse If set to true, all item's inUse property will be set to true.
      */
     void clear() {
-        if(shouldUpdateInUse())
+        if(parentOwnsItems())
             for(T current : *this)
                 current->setInUse(false);
 
