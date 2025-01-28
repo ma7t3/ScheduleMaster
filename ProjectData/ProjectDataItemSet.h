@@ -30,11 +30,8 @@ public:
     ProjectDataItemSet() : QHash<QUuid, T *>() {};
 
     void cloneItems() override {
-        for(T *item : *this) {
-            T* newItem = item->clone();
-            qDebug() << item << newItem;
-            QHash<QUuid, T* >::insert(item->id(), newItem);
-        }
+        for(T *item : *this)
+            QHash<QUuid, T* >::insert(item->id(), item->clone());
     }
 
     /**
