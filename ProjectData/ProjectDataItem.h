@@ -26,9 +26,9 @@ public:
      */
     explicit ProjectDataItem(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false) :
         ProjectDataItemSignals(parent),
-        _id(id.isNull() ? generateID() : id),
         _inUse(false),
         _isClone(isClone) {
+        setID(id.isNull() ? generateID() : id);
     }
 
     /**
@@ -45,7 +45,7 @@ public:
      * See also id() and generateID().
      * @return The UUID as a string
      */
-    QString idAsString() const { return _id.toString(QUuid::WithoutBraces); }
+    QString idAsString() const { return id().toString(QUuid::WithoutBraces); }
 
     /**
      * @brief Generates and returns a new UUID.
@@ -126,10 +126,7 @@ public:
     // TODO: [DOCS] Mention that it sets the objectName
     DerivedType *clone() const {
         DerivedType *clone = new DerivedType(parent(), id(), true);
-
-        DataType cloneData = data();
-
-        clone->setData(cloneData);
+        clone->setData(cloneData());
         clone->setObjectName(objectName() + "-clone");
         return clone;
     }
@@ -146,7 +143,7 @@ protected:
      */
     virtual void fromJson(const QJsonObject &jsonObject) {
         QUuid id = QUuid::fromString(jsonObject.value("id").toString());
-        _id = id.isNull() ? generateID() : id;
+        setID(id.isNull() ? generateID() : id);
     }
 
     /**
