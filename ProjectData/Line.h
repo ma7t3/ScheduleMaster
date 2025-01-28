@@ -13,7 +13,9 @@
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
 struct LineData : ProjectDataItemData<LineData> {
-    LineData() {setParentOwnsItemsMembers({ &directions });}
+    LineData() {initParentOwnsItemMembers();}
+
+    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&directions};}
 
     /// The Line's name
     QString name;

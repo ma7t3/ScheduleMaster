@@ -11,7 +11,9 @@
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
 struct RouteBusstopItemData : ProjectDataItemData<RouteBusstopItemData> {
-    RouteBusstopItemData() {}
+    RouteBusstopItemData() {initParentOwnsItemMembers();}
+
+    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {};}
 
     /// The RouteBusstopItem's Busstop
     Busstop *busstop = nullptr;

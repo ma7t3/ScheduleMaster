@@ -11,13 +11,14 @@ template <typename DerivedType>
 struct ProjectDataItemData {
     ProjectDataItemData() {};
 
-    void setParentOwnsItemsMembers(const QList<ProjectDataItemContainer *> &list) {
-        _parentOwnsItemsMembers = list;
+    void initParentOwnsItemMembers() {
+        QList<ProjectDataItemContainer *> list = parentOwnsItemsMembersList();
         for(ProjectDataItemContainer *item : list)
             item->setParentOwnsItems(true);
     }
 
     DerivedType clone() const {
+        DerivedType ref = static_cast<const DerivedType &>(*this);
         DerivedType copy = static_cast<const DerivedType &>(*this);
         copy.cloneContainerItems();
         return copy;
@@ -25,13 +26,11 @@ struct ProjectDataItemData {
 
 protected:
     void cloneContainerItems() {
-        for(ProjectDataItemContainer *container : _parentOwnsItemsMembers)
+        for(ProjectDataItemContainer *container : parentOwnsItemsMembersList())
             container->cloneItems();
-        }
     }
 
-private:
-    QList<ProjectDataItemContainer *> _parentOwnsItemsMembers;
+    virtual QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() = 0;
 };
 
 #endif // PROJECTDATAITEMDATA_H

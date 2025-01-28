@@ -12,7 +12,9 @@
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
 struct RouteData : ProjectDataItemData<RouteData> {
-    RouteData() {setParentOwnsItemsMembers({ &busstops });}
+    RouteData() {initParentOwnsItemMembers();}
+
+    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&busstops};}
 
     /// The Route's name
     QString name;

@@ -29,7 +29,9 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(BusstopFlags)
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
 struct BusstopData : ProjectDataItemData<BusstopData> {
-    BusstopData() {setParentOwnsItemsMembers({ &platforms });}
+    BusstopData() {initParentOwnsItemMembers();}
+
+    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&platforms};}
 
     /// The Busstop's name
     QString name;
