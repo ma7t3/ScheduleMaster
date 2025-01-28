@@ -27,8 +27,6 @@ public:
      */
     ProjectDataItemContainer() : _parentOwnsItems(false) {}
 
-    ProjectDataItemContainer &operator=(const ProjectDataItemContainer &other) = delete;
-
     /**
      * @brief Returns if the _parentOwnsItems property is set to true.
      * @return The value of _parentOwnsItems
