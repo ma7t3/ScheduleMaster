@@ -5,8 +5,6 @@
 
 #include <QList>
 
-#include <QDebug>
-
 template <typename DerivedType>
 struct ProjectDataItemData {
     ProjectDataItemData() {};

@@ -4,8 +4,6 @@
 #include <QHash>
 #include <QUuid>
 
-#include <QDebug>
-
 #include "ProjectDataItemContainer.h"
 
 /**
