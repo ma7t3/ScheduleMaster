@@ -28,25 +28,6 @@ public:
      */
     ProjectDataItemList() : QList<T *>() {};
 
-    ProjectDataItemList<T>& operator=(const ProjectDataItemList<T> &other) {
-        if(this == &other)
-            return *this;
-
-        bool parentOwnsItems = this->parentOwnsItems();
-
-        if(parentOwnsItems)
-            for(T *current : *this)
-                current->setInUse(false);
-
-        QList<T *>::operator=(other);
-
-        if(parentOwnsItems)
-            for(T *current : *this)
-                current->setInUse(true);
-
-        return *this;
-    }
-
     void cloneItems() override {
         for(int i = 0; i < this->count(); i++)
             this->replace(i, this->at(i)->clone());
