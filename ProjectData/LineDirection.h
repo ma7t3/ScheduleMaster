@@ -10,7 +10,7 @@
  *
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
-struct LineDirectionData : ProjectDataItemData {
+struct LineDirectionData : ProjectDataItemData<LineDirectionData> {
     LineDirectionData() {}
 
     /// The LineDirection's description

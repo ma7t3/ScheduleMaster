@@ -12,7 +12,7 @@
  *
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
-struct LineData : ProjectDataItemData {
+struct LineData : ProjectDataItemData<LineData> {
     LineData() {setParentOwnsItemsMembers({ &directions });}
 
     /// The Line's name

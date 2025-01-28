@@ -5,6 +5,9 @@
 
 #include <QList>
 
+#include <QDebug>
+
+template <typename DerivedType>
 struct ProjectDataItemData {
     ProjectDataItemData() {};
 
@@ -14,8 +17,15 @@ struct ProjectDataItemData {
             item->setParentOwnsItems(true);
     }
 
-    void cloneMembers() {
-        for(ProjectDataItemContainer *container : _parentOwnsItemsMembers) {
+    DerivedType clone() const {
+        DerivedType copy = static_cast<const DerivedType &>(*this);
+        copy.cloneContainerItems();
+        return copy;
+    }
+
+protected:
+    void cloneContainerItems() {
+        for(ProjectDataItemContainer *container : _parentOwnsItemsMembers)
             container->cloneItems();
         }
     }
