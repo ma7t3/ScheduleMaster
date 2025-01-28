@@ -187,17 +187,5 @@ void MainWindow::on_actionDebugGeneralTestAction_triggered() {
 
     // test anything here!
 
-    Busstop *b = new Busstop(_projectData);
-    _projectData->addBusstop(b);
-    BusstopPlatform *bp = new BusstopPlatform(b);
-    b->addPlatform(bp);
-    b->dumpToDebug();
-    bp->dumpToDebug();
-
-    qDebug() << "===============NOW, THE CLONING STARTS!!!!========================";
-
-    Busstop *b2 = b->clone();
-    b->dumpToDebug();
-    b2->dumpToDebug();
-    b2->platforms().values()[0]->dumpToDebug();
+    qDebug() << "finished!";
 }
