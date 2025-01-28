@@ -10,7 +10,7 @@
  *
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
-struct RouteBusstopItemData : ProjectDataItemData {
+struct RouteBusstopItemData : ProjectDataItemData<RouteBusstopItemData> {
     RouteBusstopItemData() {}
 
     /// The RouteBusstopItem's Busstop

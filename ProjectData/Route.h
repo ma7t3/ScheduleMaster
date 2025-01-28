@@ -11,7 +11,7 @@
  *
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
-struct RouteData : ProjectDataItemData {
+struct RouteData : ProjectDataItemData<RouteData> {
     RouteData() {setParentOwnsItemsMembers({ &busstops });}
 
     /// The Route's name
