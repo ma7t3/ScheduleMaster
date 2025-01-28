@@ -102,9 +102,11 @@ public:
      * @return The ProjectDataItem's data.
      */
     DataType data() const {
-        DataType newData(_data);
-        newData.cloneMembers();
-        return newData;
+        return _data;
+    }
+
+    DataType cloneData() const {
+        return _data.clone();
     }
 
     /**
