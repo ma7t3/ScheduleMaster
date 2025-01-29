@@ -16,10 +16,6 @@
  * See also ProjectDataItemSet. It mostly behaves exactly the same but it stores it's items without a defined order.
  */
 
-
-// TODO: Implement assignment operator to also update inUseProperty if the entire List was replaced!
-// TODO: Docs update
-
 template <typename T>
 class ProjectDataItemList : public QList<T *>, public ProjectDataItemContainer {
 public:
