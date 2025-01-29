@@ -10,13 +10,8 @@
  *
  * ProjectDataItemContainers (respectively their derived classes) should primarily be used insde the ProjectDataItemData classes (resp. their derived classes).
  *
- * ProjectDataItemContainers shouldn't change their context.
- * That is why the ProjectDataItemContainer's assigment operator is implicitly deleted. This ensures that the members can not not overwritten.
- *
- * Because of the general code architecture and limits of C++ it's effectively not possible to set the correct member values through the constuctor directly.
- * So the constructor sets them to false as a fallback to avoid undefined behavior.
- *
- * Later, right after construction but before the container is filled with data, the actual values should be set using the setter methods. But then later, they shouldn't be changed anymore.
+ * In addition to QList and QHash they provide some additional features like automatically updating the item's inUse property when items are added or removed.
+ * It can also clone all it's items.
  */
 
 class ProjectDataItemContainer {
@@ -45,6 +40,11 @@ public:
         _parentOwnsItems = parentOwnsItems;
     }
 
+    /**
+     * @brief Creates clones (deep copies) of all items in the container and replaces the items.
+     *
+     * So the original items won't be part of the container anymore. You should always save them before or call this function only on clones.
+     */
     virtual void cloneItems() = 0;
 
 private:
