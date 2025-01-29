@@ -83,7 +83,6 @@ public:
             item->setInUse(true);
     }
 
-
     /**
      * @brief Inserts a new item at a certain position at the end of the list.
      *

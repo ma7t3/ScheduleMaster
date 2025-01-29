@@ -13,6 +13,7 @@
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
 struct LineData : ProjectDataItemData<LineData> {
+    /// Constructs a new LineData object. It should always call ProjectDataItemData::initParentOwnsItemMembers().
     LineData() {initParentOwnsItemMembers();}
 
     QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&directions};}
@@ -49,6 +50,7 @@ public:
      * If no ID was specified a new ID is generated.
      * @param parent The QObject-parent
      * @param id The optional ID to be used. It can't be changed later.
+     * @param isClone Specifies if the object is created as a clone.
      */
     explicit Line(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
 

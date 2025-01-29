@@ -26,6 +26,7 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(BusstopPlatformFlags)
  * It is seperated from the class logic to make it easier to change or completly replace it.
  */
 struct BusstopPlatformData : ProjectDataItemData<BusstopPlatformData> {
+    /// Constructs a new BusstopPlatformData object. It should always call ProjectDataItemData::initParentOwnsItemMembers().
     BusstopPlatformData() {initParentOwnsItemMembers();}
 
     QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {};}
@@ -54,6 +55,7 @@ public:
      * If no ID was specified a new ID is generated.
      * @param parent The QObject-parent
      * @param id The optional ID to be used. It can't be changed later.
+     * @param isClone Specifies if the object is created as a clone.
      */
     explicit BusstopPlatform(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
 

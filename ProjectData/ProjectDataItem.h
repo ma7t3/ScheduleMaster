@@ -57,6 +57,10 @@ public:
 
     /**
      * @brief Returns if the item is currently in use.
+     *
+     * It will always return true if the item is a clone.
+     *
+     * See also isClone().
      * @return Whether the item is in use or not.
      */
     bool inUse() const { return _isClone ? true : _inUse; }
@@ -82,6 +86,11 @@ public:
         return jsonObject;
     }
 
+    /**
+     * @brief Dumps the ProjectDataItem to a JSON string including additional information like the memory address, the Type (derived class name), inUse property and isClone property.
+     * @param format The JSON format to use
+     * @return
+     */
     QString dump(const QJsonDocument::JsonFormat &format = QJsonDocument::Compact) const {
         QJsonObject jsonObject = toJson();
         jsonObject.insert("_address", QString("0x%1").arg(reinterpret_cast<quintptr>(this), 0, 16).toUpper());
@@ -91,6 +100,10 @@ public:
         return QJsonDocument(jsonObject).toJson(format);
     }
 
+    /**
+     * @brief Runs dump() and writes the data to the qDebug() output.
+     * @param format The JSON format to use
+     */
     void dumpToDebug(const QJsonDocument::JsonFormat &format = QJsonDocument::Compact) const {
         qDebug().noquote() << dump(format);
     }
@@ -98,13 +111,25 @@ public:
     /**
      * @brief Returns the ProjectDataItem's data.
      *
-     * See also setData().
+     * See also cloneData() and setData().
+     *
+     * **Attention:** This does not clone the data.
+     * If you want to modify the data without changing "originals", you should use cloneData() instead.
      * @return The ProjectDataItem's data.
      */
     DataType data() const {
         return _data;
     }
 
+    /**
+     * @brief Returns a cloned version of the ProjectDataItem's data.
+     *
+     * Cloned means, that it will create a deep copy of the data (Recursively cloning all sub-items in containers).
+     * That means that the data can be modified without changing the original data.
+     *
+     * See also data() and setData().
+     * @return
+     */
     DataType cloneData() const {
         return _data.clone();
     }
@@ -113,17 +138,29 @@ public:
      * @brief Replaces the ProjectDataItem's data.
      * @param newData The new data
      *
-     * See also data().
+     * See also data() and cloneData().
      */
     void setData(const DataType &newData) {
         _data = newData;
     }
 
+    /**
+     * @brief Returns if the item is a clone.
+     * @return Whether the item is a clone or not.
+     */
     bool isClone() const {
         return _isClone;
     }
 
-    // TODO: [DOCS] Mention that it sets the objectName
+    /**
+     * @brief Returns a cloned version of the item.
+     *
+     * Cloned means, that it will also create a deep copy of the data (Recursively cloning all sub-items in containers).
+     * That means that the data can be modified without changing the original data.
+     *
+     * **Note:** This changes the objectName to the id formated as a string with "-clone" appended.
+     * @return
+     */
     DerivedType *clone() const {
         DerivedType *clone = new DerivedType(parent(), id(), true);
         clone->setData(cloneData());
@@ -181,6 +218,14 @@ private:
      */
     bool _inUse;
 
+    /**
+     * @brief The isClone property.
+     *
+     * This property specifies whether the item is a clone of another item.
+     *
+     * Clones are created when editing data. This is important when the user wants to edit some data inside the programm.
+     * They should always just edit a clone. Then the changed, cloned data can be merged into the original using ProjectDataItem::mergeData().
+     */
     bool _isClone;
 };
 
