@@ -59,7 +59,7 @@ public:
      * @brief Returns if the item is currently in use.
      * @return Whether the item is in use or not.
      */
-    bool inUse() const { return _inUse; }
+    bool inUse() const { return _isClone ? true : _inUse; }
 
     /**
      * @brief Change the isUsed status of the item.
