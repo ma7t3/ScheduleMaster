@@ -3,12 +3,19 @@
 
 #include <QObject>
 
+/**
+ * @brief The ProjectDataItemSignals class provides the signals for the ProjectDataItem class.
+ *
+ * This is because ProjectDataItem is a template class but Qt-Signals and Slots can't be defined inside template classes,
+ * so it needs to inherit it's signals from this class.
+ */
+
 class ProjectDataItemSignals : public QObject {
     Q_OBJECT
 public:
-    explicit ProjectDataItemSignals(QObject *parent) :
-        QObject(parent) {
-    }
+
+    /// Construcs a new ProjectDataItemSignals object.
+    explicit ProjectDataItemSignals(QObject *parent) : QObject(parent) {}
 
 signals:
     /**

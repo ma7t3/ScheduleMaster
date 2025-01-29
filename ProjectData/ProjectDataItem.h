@@ -12,6 +12,13 @@
  * @brief The ProjectDataItem class is an abstract parent class for all data items in the project (except the ProjectData itself).
  *
  * It especially provides a unique ID for each item.
+ *
+ * In addition, it holds information about whether the item is currently in use or not and if it is a clone.
+ *
+ * **Note:** This class is a template class. It takes the derived class and the data class as template parameters.
+ * For example, the Busstop class subclasses ProjectDataItem<Busstop, BusstopData>.
+ *
+ * Since Qt-Signals and Slots can't be defined inside template classes, this class inherits from ProjectDataItemSignals which just provides the signals.
  */
 
 template <typename DerivedType, typename DataType>
