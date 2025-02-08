@@ -50,6 +50,9 @@ public:
     virtual void cloneItems() = 0;
 
     //TODO: DOCS
+    virtual void replaceItems(ProjectDataItemContainer *otherContainer) = 0;
+
+    //TODO: DOCS
     virtual void clear() = 0;
 
 private:
