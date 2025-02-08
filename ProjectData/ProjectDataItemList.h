@@ -223,7 +223,7 @@ public:
      */
     void clear() {
         if(parentOwnsItems())
-            for(T current : *this)
+            for(T *current : *this)
                 current->setInUse(false);
 
         QList<T *>::clear();
