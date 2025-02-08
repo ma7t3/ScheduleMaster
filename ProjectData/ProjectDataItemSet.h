@@ -180,7 +180,7 @@ public:
      * @brief Clears the entire set (i.e. removes all items)
      * @param updateInUse If set to true, all item's inUse property will be set to true.
      */
-    void clear() {
+    void clear() override {
         if(parentOwnsItems())
             for(T *current : *this)
                 current->setInUse(false);
