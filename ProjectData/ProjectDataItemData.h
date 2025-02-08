@@ -70,8 +70,6 @@ struct ProjectDataItemData {
             ProjectDataItemContainer *selfContainer = selfList[i];
             ProjectDataItemContainer *otherContainer = selfCopyList[i];
             selfContainer->replaceItems(otherContainer);
-            selfContainer->dumpData();
-            otherContainer->dumpData();
         }
 
         // Speicher der Kopien freigeben
