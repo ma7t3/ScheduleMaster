@@ -219,6 +219,13 @@ public:
             current->setInUse(false);
     }
 
+    void replaceItems(ProjectDataItemContainer *otherContainer) override {
+        ProjectDataItemList *otherList = static_cast<ProjectDataItemList *>(otherContainer);
+        clear();
+        for(T *current : *otherList)
+            append(current);
+    }
+
     /**
      * @brief Clears the entire list (i.e. removes all items)
      * @param updateInUse If set to true, all item's inUse property will be set to true.

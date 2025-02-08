@@ -176,6 +176,13 @@ public:
         QHash<QUuid, T *>::remove(id);
     }
 
+    void replaceItems(ProjectDataItemContainer *otherContainer) override {
+        ProjectDataItemSet *otherSet = static_cast<ProjectDataItemSet *>(otherContainer);
+        clear();
+        for(T *current : *otherSet)
+            add(current);
+    }
+
     /**
      * @brief Clears the entire set (i.e. removes all items)
      * @param updateInUse If set to true, all item's inUse property will be set to true.
