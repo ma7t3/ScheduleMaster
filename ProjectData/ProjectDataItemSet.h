@@ -4,6 +4,8 @@
 #include <QHash>
 #include <QUuid>
 
+#include <QDebug>
+
 #include "ProjectDataItemContainer.h"
 
 /**
@@ -24,10 +26,33 @@ public:
      */
     ProjectDataItemSet() : QHash<QUuid, T *>() {};
 
+    ProjectDataItemContainer *clone() const {
+        return new ProjectDataItemSet(*this);
+    };
+
     void cloneItems() override {
         for(T *item : *this)
             QHash<QUuid, T* >::insert(item->id(), item->clone());
     }
+
+    void mergeItems(ProjectDataItemContainer *mergeContainer) override {
+        ProjectDataItemSet *otherSet = dynamic_cast<ProjectDataItemSet *>(mergeContainer);
+
+        // remove
+        for(T *current : *this)
+            if(!otherSet->contains(current->id()))
+                remove(current);
+
+        // update
+        for(T *current : *this)
+            if(otherSet->contains(current->id()))
+                current->mergeData(otherSet->find(current->id())->data());
+
+        // add
+        for(T *current : *otherSet)
+            if(!contains(current->id()))
+                add(current);
+    };
 
     void dumpData() const  {
         for(T *current : this->values()) {

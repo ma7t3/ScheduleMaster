@@ -3,6 +3,9 @@
 
 #include <QList>
 #include <QUuid>
+#include <QMap>
+
+#include <QDebug>
 
 #include "ProjectDataItemContainer.h"
 
@@ -26,10 +29,40 @@ public:
      */
     ProjectDataItemList() : QList<T *>() {};
 
+    ProjectDataItemContainer *clone() const {
+        return new ProjectDataItemList(*this);
+    };
+
     void cloneItems() override {
         for(int i = 0; i < this->count(); i++)
             this->replace(i, this->at(i)->clone());
     }
+
+    void mergeItems(ProjectDataItemContainer *mergeContainer) override {
+        ProjectDataItemList *otherList = dynamic_cast<ProjectDataItemList *>(mergeContainer);
+
+        // remove
+        for(T *current : *this)
+            if(!otherList->contains(current->id()))
+                remove(current->id());
+
+        // update
+        for(T *current : *this)
+            if(otherList->contains(current->id()))
+                current->mergeData(otherList->find(current->id())->data());
+
+        // add
+        for(T *current : *otherList)
+            if(!contains(current->id()))
+                append(current);
+
+        // reorder
+        QMap<QUuid, int> indexMap;
+        for (int i = 0; i < otherList->size(); ++i)
+            indexMap.insert(otherList->at(i)->id(), i);
+
+        std::sort(this->begin(), this->end(), [&](const auto &a, const auto &b) {return indexMap[a->id()] < indexMap[b->id()];});
+    };
 
     void dumpData() const  {
         int i = 0;

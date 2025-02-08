@@ -151,6 +151,15 @@ public:
         _data = newData;
     }
 
+    // TODO: DOCS
+    /**
+     * @brief Merges a new data object into the current one.
+     * @param mergeData The new data to merge
+     */
+    void mergeData(DataType mergeData) {
+        _data.merge(mergeData);
+    }
+
     /**
      * @brief Returns if the item is a clone.
      * @return Whether the item is a clone or not.
