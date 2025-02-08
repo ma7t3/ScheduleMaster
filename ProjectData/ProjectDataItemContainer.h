@@ -22,6 +22,8 @@ public:
      */
     ProjectDataItemContainer() : _parentOwnsItems(false) {}
 
+    virtual ~ProjectDataItemContainer() = default;
+
     /**
      * @brief Returns if the _parentOwnsItems property is set to true.
      * @return The value of _parentOwnsItems
