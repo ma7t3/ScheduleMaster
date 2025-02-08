@@ -31,6 +31,14 @@ public:
             this->replace(i, this->at(i)->clone());
     }
 
+    void dumpData() const  {
+        int i = 0;
+        for(T *current : *this) {
+            qDebug().noquote() << i << current->dump();
+            i++;
+        }
+    }
+
     /**
      * @brief Checks if the ProjectDataItem with the id is part of the list.
      * @param id The id to search for

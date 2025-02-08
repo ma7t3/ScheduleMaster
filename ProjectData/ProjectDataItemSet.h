@@ -29,6 +29,12 @@ public:
             QHash<QUuid, T* >::insert(item->id(), item->clone());
     }
 
+    void dumpData() const  {
+        for(T *current : this->values()) {
+            qDebug().noquote() << current->id() << current->dump();
+        }
+    }
+
     /**
      * @brief Checks if the ProjectDataItem with the id is part of the set.
      * @param id The id to search for
