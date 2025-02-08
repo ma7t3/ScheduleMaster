@@ -13,6 +13,8 @@
  * ProjectDataItemList inherits from QList and mostly behaves exactly like a QList with some additional features.
  * For example, it provides better find and filter functions as well as supoorts the isUsed property provided by ProjectDataItem.
  *
+ * Due to to the architecture of this class, lists cannot contain the same item multiple times if parentOwnsItems() is set to true.
+ *
  * See also ProjectDataItemSet. It mostly behaves exactly the same but it stores it's items without a defined order.
  */
 
@@ -71,7 +73,7 @@ public:
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
     void append(T *item) {
-        if(!item)
+        if(!item || (parentOwnsItems() && contains(item->id())))
             return;
 
         QList<T *>::append(item);
@@ -88,7 +90,7 @@ public:
      * @param updateInUse If set to true, the item's inUse property will be set to true.
      */
     void insert(const int &index, T *item) {
-        if(index < 0 || index > this->count() || !item)
+        if(index < 0 || index > this->count() || !item || (parentOwnsItems() && contains(item->id())))
             return;
 
         QList<T *>::insert(index, item);
