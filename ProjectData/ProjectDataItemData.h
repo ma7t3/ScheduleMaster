@@ -3,6 +3,8 @@
 
 #include "ProjectDataItemContainer.h"
 
+#include <QDebug>
+
 #include <QList>
 
 /**
@@ -41,6 +43,41 @@ struct ProjectDataItemData {
         DerivedType copy = static_cast<const DerivedType &>(*this);
         copy.cloneContainerItems();
         return copy;
+    }
+
+    void merge(DerivedType &mergeData) {
+        // Speichere die aktuellen Container-Referenzen
+        QList<ProjectDataItemContainer *> selfList = parentOwnsItemsMembersList();
+        QList<ProjectDataItemContainer *> selfCopyList;
+
+        for(ProjectDataItemContainer *container : selfList)
+            selfCopyList.append(container->clone());
+
+        QList<ProjectDataItemContainer *> otherCopyList = mergeData.parentOwnsItemsMembersList();
+
+        // Überschreiben der primitiven Daten
+        *static_cast<DerivedType *>(this) = mergeData;
+
+        // Merge der Container-Variablen (analog zu originalem Code)
+        for (int i = 0; i < selfList.size(); i++) {
+            selfCopyList[i]->mergeItems(otherCopyList[i]);
+        }
+
+        selfList = parentOwnsItemsMembersList();
+
+        // Wiederherstellen der ursprünglichen Container-Daten
+        for (int i = 0; i < selfList.size(); i++) {
+            ProjectDataItemContainer *selfContainer = selfList[i];
+            ProjectDataItemContainer *otherContainer = selfCopyList[i];
+            selfContainer->replaceItems(otherContainer);
+            selfContainer->dumpData();
+            otherContainer->dumpData();
+        }
+
+        // Speicher der Kopien freigeben
+        for (auto *copy : selfCopyList) {
+            delete copy;
+        }
     }
 
 protected:

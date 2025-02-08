@@ -42,12 +42,22 @@ public:
         _parentOwnsItems = parentOwnsItems;
     }
 
+    //TODO: DOCS
+    virtual ProjectDataItemContainer *clone() const = 0;
+
     /**
      * @brief Creates clones (deep copies) of all items in the container and replaces the items.
      *
      * So the original items won't be part of the container anymore. You should always save them before or call this function only on clones.
      */
     virtual void cloneItems() = 0;
+
+    //TODO: DOCS
+    /**
+     * @brief Merges another container into this one.
+     * @param mergeContainer The container to merge from
+     */
+    virtual void mergeItems(ProjectDataItemContainer *mergeContainer) = 0;
 
     //TODO: DOCS
     virtual void dumpData() const = 0;
