@@ -2,6 +2,7 @@
 #define PROJECTDATAITEM_H
 
 #include "ProjectDataItemSignals.h"
+#include "Global/Global.h"
 
 #include <QObject>
 #include <QJsonObject>
@@ -53,6 +54,24 @@ public:
      * @return The UUID as a string
      */
     QString idAsString() const { return id().toString(QUuid::WithoutBraces); }
+
+    /**
+     * @brief Returns a pointer to the root ProjectData object.
+     *
+     * Returns nullptr if this objects is not a child of a ProjectData object.
+     * @return The ProjectData pointer
+     */
+    QObject *projectDataRoot() const {
+        QObject *root = parent();
+        while(root) {
+            if(root->objectName() == Global::ProjectDataRootObjectName)
+                return root;
+
+            root = root->parent();
+        }
+
+        return nullptr;
+    }
 
     /**
      * @brief Generates and returns a new UUID.
