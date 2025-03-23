@@ -151,7 +151,6 @@ public:
         _data = newData;
     }
 
-    // TODO: DOCS
     /**
      * @brief Merges a new data object into the current one.
      * @param mergeData The new data to merge
