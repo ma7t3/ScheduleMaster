@@ -42,7 +42,10 @@ public:
         _parentOwnsItems = parentOwnsItems;
     }
 
-    //TODO: DOCS
+    /**
+     * @brief Clones the container and all it's items.
+     * @return A deep copy of the container.
+     */
     virtual ProjectDataItemContainer *clone() const = 0;
 
     /**
@@ -52,20 +55,39 @@ public:
      */
     virtual void cloneItems() = 0;
 
-    //TODO: DOCS
     /**
      * @brief Merges another container into this one.
+     *
+     * In contrast to replaceItems(), this function doesn't just replace the item pointers, instead it makes an ID based comparison and merges the data.
+     * But it doesn't change the pointers at all.
+     *
+     * This is a virtual function that is implemented by the subclassed PDIList and PDISet.
      * @param mergeContainer The container to merge from
      */
     virtual void mergeItems(ProjectDataItemContainer *mergeContainer) = 0;
 
-    //TODO: DOCS
+    /**
+     * @brief Write a debug output of the container's items to the console.
+     *
+     * This is a virtual function that is implemented by the subclassed PDIList and PDISet.
+     */
     virtual void dumpData() const = 0;
 
-    //TODO: DOCS
+    /**
+     * @brief Replaces all items in the container with the items of the otherContainer.
+     *
+     * In contrast to mergeItems(), this function just takes the literal item pointers from the otherContainer.
+     *
+     * This is a virtual function that is implemented by the subclassed PDIList and PDISet.
+     * @param otherContainer The container to replace the items with
+     */
     virtual void replaceItems(ProjectDataItemContainer *otherContainer) = 0;
 
-    //TODO: DOCS
+    /**
+     * @brief Clears the container completely
+     *
+     * This is a virtual function that is implemented by the subclassed PDIList and PDISet.
+     */
     virtual void clear() = 0;
 
 private:
