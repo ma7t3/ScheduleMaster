@@ -5,6 +5,8 @@
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
     _undoStack(new QUndoStack(this)) {
+    setObjectName(Global::ProjectDataRootObjectName);
+
     _busstops.setParentOwnsItems(true);
 }
 

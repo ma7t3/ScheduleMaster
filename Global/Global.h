@@ -16,6 +16,8 @@ public:
     static QColor contrastColor(const QColor &);
     /* add general application-wide methods here */
 
+    static const inline QString ProjectDataRootObjectName = "PROJECT_DATA_ROOT";
+
     Global(const Global&) = delete;
     Global& operator=(const Global&) = delete;
 };
