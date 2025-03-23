@@ -1,5 +1,7 @@
 #include "RouteBusstopItem.h"
 
+#include "ProjectData.h"
+
 RouteBusstopItem::RouteBusstopItem(QObject *parent, Busstop *busstop, const QUuid &id, const bool &isClone) :
     ProjectDataItem(parent, id, isClone) {
     _data.busstop = busstop;
@@ -27,6 +29,24 @@ void RouteBusstopItem::setDefaultPlatform(BusstopPlatform *platform) {
     emit changed();
 }
 
-QJsonObject RouteBusstopItem::toJson() const {}
+QJsonObject RouteBusstopItem::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    jsonObject.insert("busstop", _data.busstop->id().toString());
+    jsonObject.insert("defaultPlatform", _data.defaultPlatform->id().toString());
 
-void RouteBusstopItem::fromJson(const QJsonObject &jsonObject) {}
+    return jsonObject;
+}
+
+void RouteBusstopItem::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+
+    QUuid busstopID = QUuid::fromString(jsonObject.value("busstop").toString());
+    QUuid defaultPlatformID = QUuid::fromString(jsonObject.value("defaultPlatform").toString());
+
+    ProjectData *projectData = qobject_cast<ProjectData*>(projectDataRoot());
+    if(!projectData)
+        return;
+
+    _data.busstop = projectData->busstop(busstopID);
+    _data.defaultPlatform = _data.busstop->platform(defaultPlatformID);
+}
