@@ -15,6 +15,8 @@ SOURCES += \
     Global/Global.cpp \
     Global/LocalConfig.cpp \
     Global/Logger.cpp \
+    Global/Workspace.cpp \
+    Global/WorkspaceHandler.cpp \
     ProjectData/ProjectData.cpp \
     ProjectData/Busstop.cpp \
     ProjectData/BusstopPlatform.cpp \
@@ -32,6 +34,8 @@ HEADERS += \
     Global/Global.h \
     Global/LocalConfig.h \
     Global/Logger.h \
+    Global/Workspace.h \
+    Global/WorkspaceHandler.h \
     ProjectData/ProjectData.h \
     ProjectData/ProjectDataItem.h \
     ProjectData/ProjectDataItemSignals.h \

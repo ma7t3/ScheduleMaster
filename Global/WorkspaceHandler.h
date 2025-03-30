@@ -1,0 +1,160 @@
+#ifndef WORKSPACEHANDLER_H
+#define WORKSPACEHANDLER_H
+
+#include <QObject>
+#include <QMenu>
+#include <QToolBar>
+#include <QPointer>
+#include "Global/Workspace.h"
+
+/**
+ * @brief The WorkspaceHandler class is a manager for all existing workspaces (see Workspace).
+ *
+ * It provides a way to add, remove and access workspaces as well as generates the built-in standard workspaces.
+ *
+ * It also handles the communication between workspaces (e.g. when a workspace is activated, another workspaces is being deactivated automatically).
+ *
+ * WorkspaceHandler also provides a connection to a QMenu and QToolBar to display the workspaces in the UI allowing the user to switch workspaces.
+ */
+class WorkspaceHandler : public QObject
+{
+    Q_OBJECT
+public:
+
+    /**
+     * @brief Creates a new WorkspaceHandler with the given parent.
+     * @param parent The QObject-parent
+     */
+    explicit WorkspaceHandler(QObject *parent);
+
+    /**
+     * @brief The StandardWorkspaces enum
+     *
+     * The StandardWorkspaces are general built-in workspaces that are always available and can't be removed or changed by the user.
+     */
+    enum StandardWorkspaces {
+        HomeWorkspace,
+        RoutingWorkspace,
+        SchedulingWorkspace,
+        ToursWorkspace,
+        PublishWorkspace
+    };
+
+    /**
+     * @brief Returns a list of all available workspaces (standard and custom ones)
+     * @return The workspace list
+     */
+    QList<Workspace *> workspaces();
+
+    /**
+     * @brief Returns the pointer to a StandardWorkspace by its enum value.
+     *
+     * This should not return a nullptr since StandardWorkspaces are always available but if there is only an enum value defined but no coresponding workspace was created within the loadStandardWorkspaces function, this will return nullptr.
+     * @param workspace The enum value to identify the workspace.
+     * @return The workspace pointer (shouldn't but can be nullptr)
+     */
+    Workspace *workspace(StandardWorkspaces workspace);
+
+    /**
+     * @brief Adds a new workspace to the handler.
+     *
+     * The handler will take QObject-ownership of the workspace.
+     *
+     * The workspace will not be added if workspace is nullptr.
+     * @param workspace The workspace pointer to add.
+     */
+    void addWorkspace(Workspace *workspace);
+
+    /**
+     * @brief Adds multiple workspaces to the handler.
+     *
+     * This method does nothing different than calling addWorkspace() for every single list element.
+     * @param The list of workspaces to add
+     */
+    void addWorkspaces(QList<Workspace *> workspaces);
+
+    /**
+     * @brief Removes the given workspace from the handler.
+     *
+     * The handler will still keep QObject-ownership of the workspace.
+     *
+     * If the workspace is part of the standard workspaces, it will not be removed.
+     * If the workspace is not part of the handler, this method does nothing as well.
+     * @param The workspace to remove
+     */
+    void removeWorkspace(Workspace *workspace);
+
+    /**
+     * @brief sets the QMenu to display the workspaces in.
+     *
+     * It is safe to set a nullptr to remove the menu. The handler will not longer try to update any menu.
+     *
+     * The connection to the menu is also automatically disconnected when the menu is destroyed.
+     *
+     * The handler will not take ownership of the menu.
+     * @param newMenu The menu to set
+     */
+    void setWorkspacesMenu(QMenu *newMenu);
+
+    /**
+     * @brief sets the QToolBar to display the workspaces in.
+     *
+     * It is safe to set a nullptr to remove the toolbar. The handler will not longer try to update any toolbar.
+     *
+     * The connection to the toolbar is also automatically disconnected when the menu is destroyed.
+     *
+     * The handler will not take ownership of the toolbar.
+     * @param newToolBar The toolbar to set
+     */
+    void setWorkspacesToolbar(QToolBar *newToolBar);
+
+protected:
+    /**
+     * @brief Generates the set of built-in standard workspaces.
+     */
+    void setupStandardWorkspaces();
+
+    /**
+     * @brief Updates the linked QMenu whenever the workspace list changes.
+     *
+     * This method does nothing if there is no linked menu.
+     *
+     * See also setWorkspacesMenu().
+     */
+    void updateWorkspacesMenu();
+
+    /**
+     * @brief Updates the linked QToolBar whenever the workspace list changes.
+     *
+     * This method does nothing if there is no linked toolbar.
+     *
+     * See also setWorkspacesToolbar().
+     */
+    void updateWorkspacesToolbar();
+
+protected slots:
+    /**
+     * @brief This function is called whenever a workspace is activated.
+     *
+     * It deactivates all other workspaces.
+     * @param workspace The workspace that was activated
+     */
+    void onWorkspaceActivated(Workspace *workspace);
+
+signals:
+
+private:
+    /// The list of all registered workspaces
+    QList<Workspace *> _workspaces;
+
+    /// The list of all standardWorkspaces generated by the setupStandardWorkspaces function
+    QList<Workspace *> _standardWorkspaces;
+
+    /// The linked QMenu to display the workspaces. This can also be nullptr.
+    QPointer<QMenu> _workspacesMenu;
+
+    /// The linked QToolBar to display the workspaces. This can also be nullptr.
+    QPointer<QToolBar> _workspacesToolbar;
+};
+
+#endif // WORKSPACEHANDLER_H
