@@ -5,6 +5,7 @@
 #include <QToolBar>
 #include <QDockWidget>
 
+#include "Global/WorkspaceHandler.h"
 #include "ProjectData/ProjectData.h"
 #include "Widgets/WdgWelcome.h"
 
@@ -22,6 +23,7 @@ public:
     ~MainWindow();
 
 protected:
+    void loadWorkspaces();
     void initToolbars();
     void initDockWidgets();
 
@@ -48,6 +50,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    WorkspaceHandler *_workspaceHandler;
 
     ProjectData *_projectData;
 

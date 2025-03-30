@@ -9,6 +9,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    _workspaceHandler(nullptr),
     _projectData(new ProjectData(this)) {
     ui->setupUi(this);
 
@@ -30,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuEdit->insertAction(ui->actionEditPreferences, _undoAction);
     ui->menuEdit->insertAction(ui->actionEditPreferences, _redoAction);
     ui->menuEdit->insertSeparator(ui->actionEditPreferences);
+
+    loadWorkspaces();
 
     initToolbars();
 
@@ -55,6 +58,13 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::loadWorkspaces() {
+    qDebug() << "loading workspaces...";
+    _workspaceHandler = new WorkspaceHandler(this);
+    _workspaceHandler->setWorkspacesMenu(ui->menuWorkspaces);
+    _workspaceHandler->workspace(WorkspaceHandler::HomeWorkspace)->activate();
+}
+
 void MainWindow::initToolbars() {
     _toolbarGeneral    = new QToolBar(this);
     _toolbarDocks      = new QToolBar(this);
@@ -73,11 +83,7 @@ void MainWindow::initToolbars() {
     // docks
 
     _toolbarWorkspaces->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    _toolbarWorkspaces->addAction(ui->actionViewWorkspaceHome);
-    _toolbarWorkspaces->addAction(ui->actionViewWorkspaceRouting);
-    _toolbarWorkspaces->addAction(ui->actionViewWorkspaceScheduling);
-    _toolbarWorkspaces->addAction(ui->actionViewWorkspaceTours);
-    _toolbarWorkspaces->addAction(ui->actionViewWorkspacePublish);
+    _workspaceHandler->setWorkspacesToolbar(_toolbarWorkspaces);
 
     addToolBar(_toolbarGeneral);
     addToolBar(_toolbarDocks);
