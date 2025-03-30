@@ -66,9 +66,13 @@ void MainWindow::loadWorkspaces() {
 }
 
 void MainWindow::initToolbars() {
-    _toolbarGeneral    = new QToolBar(this);
-    _toolbarDocks      = new QToolBar(this);
-    _toolbarWorkspaces = new QToolBar(this);
+    _toolbarGeneral    = new QToolBar(tr("General"), this);
+    _toolbarDocks      = new QToolBar(tr("Docks"), this);
+    _toolbarWorkspaces = new QToolBar(tr("Workspaces"), this);
+
+    _toolbarGeneral   ->setObjectName("toolbarGeneral");
+    _toolbarDocks     ->setObjectName("toolbarDocks");
+    _toolbarWorkspaces->setObjectName("toolbarWorkspaces");
 
     _toolbarGeneral->addAction(ui->actionFileNewProject);
     _toolbarGeneral->addAction(ui->actionFileOpenProject);
@@ -92,6 +96,7 @@ void MainWindow::initToolbars() {
 
 void MainWindow::initDockWidgets() {
     _dwWelcome = new QDockWidget(tr("Welcome"), this);
+    _dwWelcome->setObjectName("dwWelcome");
 
     _wdgWelcome = new WdgWelcome(this);
     connect(_wdgWelcome, &WdgWelcome::newProject,            this, &MainWindow::newProject);
