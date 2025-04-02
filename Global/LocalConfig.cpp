@@ -5,6 +5,8 @@
 LocalConfig::LocalConfig() : QObject(nullptr) {}
 
 void LocalConfig::init() {
+    qInfo() << "Loading configuration...";
+
     loadSupportedLanguages();
 
     QString str = settingsGeneral.value("language", "system").toString();
@@ -37,13 +39,13 @@ QJsonArray LocalConfig::loadConfigResource(const QString &resource) {
 }
 
 void LocalConfig::loadSupportedLanguages() {
-    qInfo() << "Loading supported languages...";
+    qInfo() << "   Loading supported languages...";
     QJsonArray languages = loadConfigResource("Languages");
     for(const QJsonValue &val : std::as_const(languages)) {
         QString lang = val.toString();
         QLocale locale(lang);
         _supportedLanguages << locale.language();
-        qDebug().noquote() << "   - " + lang;
+        qDebug().noquote() << "      - " + lang;
     }
 }
 

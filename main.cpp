@@ -33,11 +33,10 @@ QPair<QColor, QString> splashScreenConfig() {
 }
 
 void loadStartupPreferences(QApplication *a) {
-    qInfo() << "loading preferences...";
-    LocalConfig::init();
+    qInfo() << "Loading preferences...";
 
     // style
-    qInfo() << "   loading ui style...";
+    qInfo() << "   Loading ui style...";
     switch(LocalConfig::style()) {
         case LocalConfig::FusionStyle:    a->setStyle(QStyleFactory::create("Fusion"));       break;
 
@@ -48,7 +47,7 @@ void loadStartupPreferences(QApplication *a) {
     }
 
     // language
-    qInfo() << "   loading language...";
+    qInfo() << "   Loading language...";
     // TODO: Reimplement ui translations; Work with QLocale instead!
 }
 
@@ -74,19 +73,22 @@ int main(int argc, char *argv[]) {
 
     // init logger
     Logger logger(&a, logDir);
-    qInfo() << "starting ScheduleMaster...";
+    qInfo() << "Starting ScheduleMaster...";
 
-    splashscreen.showMessage(QObject::tr("loading preferences..."), Qt::AlignBottom, ssConfig.first);
+    splashscreen.showMessage(QObject::tr("Loading configuration..."), Qt::AlignBottom, ssConfig.first);
+    LocalConfig::init();
+
+    splashscreen.showMessage(QObject::tr("Loading preferences..."), Qt::AlignBottom, ssConfig.first);
     loadStartupPreferences(&a);
 
-    splashscreen.showMessage(QObject::tr("loading main window..."), Qt::AlignBottom, ssConfig.first);
+    splashscreen.showMessage(QObject::tr("Loading main window..."), Qt::AlignBottom, ssConfig.first);
     MainWindow w;
 
 #ifndef QT_DEBUG
     a.thread()->sleep(2);
 #endif
 
-    qInfo() << "loading main window size and position";
+    qInfo() << "Loading main window size and position...";
     bool ok = w.restoreGeometry(LocalConfig::mainWindowGeometry());
     if(!ok)
         w.showMaximized();
@@ -100,6 +102,6 @@ int main(int argc, char *argv[]) {
     LocalConfig::setMainWindowGeomentry(w.saveGeometry());
 
     LocalConfig::setCrashDetected(false);
-    qInfo() << "closing ScheduleMaster...";
+    qInfo() << "Closing ScheduleMaster...";
     return result;
 }

@@ -14,12 +14,15 @@ MainWindow::MainWindow(QWidget *parent) :
     _projectData(new ProjectData(this)) {
     ui->setupUi(this);
 
+    qInfo() << "Loading MainWindow";
+
     ui->centralwidget->hide();
 
 #ifndef QT_DEBUG
     ui->menuDebug->setHidden(true);
 #endif
 
+    qDebug() << "   Loading Undo/redo actions...";
     _undoAction = _projectData->undoStack()->createUndoAction(this, tr("Undo"));
     _redoAction = _projectData->undoStack()->createRedoAction(this, tr("Redo"));
 
@@ -60,13 +63,14 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::loadWorkspaces() {
-    qDebug() << "loading workspaces...";
+    qInfo() << "   Loading workspaces...";
     _workspaceHandler = new WorkspaceHandler(this);
     _workspaceHandler->setWorkspacesMenu(ui->menuWorkspaces);
     _workspaceHandler->workspace(WorkspaceHandler::HomeWorkspace)->activate();
 }
 
 void MainWindow::initToolbars() {
+    qInfo() << "   Initializing toolbars...";
     _toolbarGeneral    = new QToolBar(tr("General"), this);
     _toolbarDocks      = new QToolBar(tr("Docks"), this);
     _toolbarWorkspaces = new QToolBar(tr("Workspaces"), this);
@@ -96,6 +100,7 @@ void MainWindow::initToolbars() {
 }
 
 void MainWindow::initDockWidgets() {
+    qInfo() << "Initializing docks";
     _dwWelcome = new QDockWidget(tr("Welcome"), this);
     _dwWelcome->setObjectName("dwWelcome");
 
@@ -114,6 +119,8 @@ void MainWindow::initDockWidgets() {
 }
 
 void MainWindow::updateRecentProjectsList() {
+    qInfo() << "Updating open recent projects list...";
+
     QMenu *menu = ui->menuFile->findChild<QMenu *>("menuFileOpenRecent");
     if(!menu)
         return;
@@ -135,7 +142,7 @@ void MainWindow::updateRecentProjectsList() {
 
 void MainWindow::newProject() {
     closeProject();
-    qInfo() << "create new project...";
+    qInfo() << "Create new project...";
 }
 
 void MainWindow::openProject() {
@@ -147,23 +154,23 @@ void MainWindow::openProject() {
 }
 
 void MainWindow::openProjectFromFile(const QString &filePath) {
-    qDebug() << "open project file" << filePath;
+    qInfo() << "Open project file" << filePath;
 }
 
 void MainWindow::saveProject() {
-    qDebug() << "save project";
+    qInfo() << "Save project";
 }
 
 void MainWindow::saveProjectAs() {
-    qDebug() << "save project as";
+    qInfo() << "Save project as";
 }
 
 void MainWindow::saveProjectToFile(const QString &filePath) {
-    qDebug() << "save project to file" << filePath;
+    qInfo() << "Save project to file" << filePath;
 }
 
 void MainWindow::closeProject() {
-    qDebug() << "close project";
+    qInfo() << "Close project";
 }
 
 void MainWindow::quitApplication() {
@@ -183,13 +190,13 @@ void MainWindow::removeProjectFromRecentList(const QString &filePath) {
 }
 
 void MainWindow::openPreferences() {
-    qDebug() << "open preferences";
+    qInfo() << "Open preferences";
     DlgPreferences dlg(this);
     dlg.exec();
 }
 
 void MainWindow::openProjectSettings() {
-    qDebug() << "open project settings";
+    qInfo() << "Open project settings";
 }
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {
