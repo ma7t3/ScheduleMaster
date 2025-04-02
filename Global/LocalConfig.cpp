@@ -2,9 +2,7 @@
 
 #include <QDir>
 
-LocalConfig::LocalConfig() : QObject(nullptr) {
-    init();
-}
+LocalConfig::LocalConfig() : QObject(nullptr) {}
 
 void LocalConfig::init() {
     QString str = settingsGeneral.value("language", "system").toString();
