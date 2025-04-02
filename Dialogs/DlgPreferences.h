@@ -20,6 +20,20 @@ public:
     explicit DlgPreferences(QWidget *parent);
     ~DlgPreferences();
 
+    enum Pages {
+        GeneralPage,
+        AppearancePage,
+        FolderLocationsPage,
+        PluginsPage,
+        WorkspacesPage,
+        MiscellaneousPage,
+        InfoPage,
+        DebugPage
+    };
+
+public:
+    void setCurrentPage(const int &index);
+
 private:
     void loadPreferences();
     void savePreferences();

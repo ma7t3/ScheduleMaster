@@ -22,6 +22,13 @@ DlgPreferences::~DlgPreferences() {
     delete ui;
 }
 
+void DlgPreferences::setCurrentPage(const int &index) {
+    if(index < 0 || index >= ui->lwList->count())
+        return;
+
+    ui->lwList->setCurrentRow(index);
+}
+
 void DlgPreferences::loadPreferences() {
     qInfo() << "Loading preferences...";
 

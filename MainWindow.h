@@ -41,6 +41,7 @@ protected slots:
 
     void removeProjectFromRecentList(const QString &filePath);
 
+    void openPlugins();
     void openPreferences();
     void openProjectSettings();
 

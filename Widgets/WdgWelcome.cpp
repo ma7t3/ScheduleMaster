@@ -29,6 +29,7 @@ WdgWelcome::WdgWelcome(QWidget *parent) :
 
     connect(ui->clbNewProject,  &QCommandLinkButton::clicked, this, &WdgWelcome::newProject);
     connect(ui->clbOpenProject, &QCommandLinkButton::clicked, this, &WdgWelcome::openProject);
+    connect(ui->clbPlugins,     &QCommandLinkButton::clicked, this, &WdgWelcome::openPlugins);
     connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &WdgWelcome::openPreferences);
     connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &WdgWelcome::quitApplication);
 }

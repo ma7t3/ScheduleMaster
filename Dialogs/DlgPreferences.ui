@@ -50,6 +50,15 @@
        </item>
        <item>
         <property name="text">
+         <string>Plugins</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resources.qrc">
+          <normaloff>:/Icons/Plugin.ico</normaloff>:/Icons/Plugin.ico</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Workspaces</string>
         </property>
         <property name="icon">
@@ -64,6 +73,15 @@
         <property name="icon">
          <iconset resource="../Resources.qrc">
           <normaloff>:/Icons/General.ico</normaloff>:/Icons/General.ico</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Info</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../Resources.qrc">
+          <normaloff>:/Icons/info.ico</normaloff>:/Icons/info.ico</iconset>
         </property>
        </item>
        <item>
@@ -124,7 +142,7 @@
        <item>
         <widget class="QStackedWidget" name="swContent">
          <property name="currentIndex">
-          <number>2</number>
+          <number>6</number>
          </property>
          <widget class="QWidget" name="pGeneral">
           <layout class="QFormLayout" name="formLayout">
@@ -348,8 +366,23 @@
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="pPlugins">
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>The plugin interface isn't available now!</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
          <widget class="QWidget" name="pWorkspaces"/>
          <widget class="QWidget" name="pMiscellaneous"/>
+         <widget class="QWidget" name="pInfo"/>
          <widget class="QWidget" name="pDebug"/>
         </widget>
        </item>
