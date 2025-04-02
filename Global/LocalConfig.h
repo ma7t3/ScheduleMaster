@@ -5,6 +5,10 @@
 #include <QSettings>
 #include <QLocale>
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+
 class LocalConfig : public QObject {
     Q_OBJECT
 private:
@@ -28,6 +32,9 @@ public:
     };
 
     static void init();
+
+    static QJsonArray loadConfigResource(const QString &resource);
+    static void loadSupportedLanguages();
 
     static LocalConfig *instance();
 
@@ -75,10 +82,7 @@ private:
 
     static inline QLocale _locale;
 
-    static inline QList<QLocale::Language> _supportedLanguages = {
-        QLocale::English,
-        QLocale::German
-    };
+    static inline QList<QLocale::Language> _supportedLanguages;
 
 };
 
