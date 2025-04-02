@@ -1,0 +1,17 @@
+[
+    {
+        "id": "base.projectFilesDefault",
+        "icon": ":/Icons/FileOpen.ico",
+        "multiple": false
+    },
+    {
+        "id": "base.logfile",
+        "icon": ":/Icons/File.ico",
+        "multiple": false
+    },
+    {
+        "id": "base.plugins",
+        "icon": ":/Icons/Plugin.ico",
+        "multiple": true
+    }
+]
