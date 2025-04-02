@@ -108,6 +108,7 @@ void MainWindow::initDockWidgets() {
     connect(_wdgWelcome, &WdgWelcome::newProject,            this, &MainWindow::newProject);
     connect(_wdgWelcome, &WdgWelcome::openProject,           this, &MainWindow::openProject);
     connect(_wdgWelcome, &WdgWelcome::openProjectFromFile,   this, &MainWindow::openProjectFromFile);
+    connect(_wdgWelcome, &WdgWelcome::openPlugins,           this, &MainWindow::openPlugins);
     connect(_wdgWelcome, &WdgWelcome::openPreferences,       this, &MainWindow::openPreferences);
     connect(_wdgWelcome, &WdgWelcome::quitApplication,       this, &MainWindow::quitApplication);
 
@@ -187,6 +188,13 @@ void MainWindow::removeProjectFromRecentList(const QString &filePath) {
         return;
 
     LocalConfig::removeLastUsedFile(filePath);
+}
+
+void MainWindow::openPlugins() {
+    qInfo() << "Open preferences with plugins page";
+    DlgPreferences dlg(this);
+    dlg.setCurrentPage(DlgPreferences::PluginsPage);
+    dlg.exec();
 }
 
 void MainWindow::openPreferences() {

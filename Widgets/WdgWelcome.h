@@ -35,6 +35,7 @@ private:
 signals:
     void newProject();
     void openProject();
+    void openPlugins();
     void openPreferences();
     void quitApplication();
 
