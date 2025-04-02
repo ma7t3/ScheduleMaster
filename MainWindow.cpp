@@ -5,6 +5,7 @@
 #include <QFileDialog>
 
 #include "Global/LocalConfig.h"
+#include "Dialogs/DlgPreferences.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -183,6 +184,8 @@ void MainWindow::removeProjectFromRecentList(const QString &filePath) {
 
 void MainWindow::openPreferences() {
     qDebug() << "open preferences";
+    DlgPreferences dlg(this);
+    dlg.exec();
 }
 
 void MainWindow::openProjectSettings() {

@@ -61,6 +61,7 @@
         <file>Icons/Home.ico</file>
         <file>Icons/Plugin.ico</file>
         <file>Icons/File.ico</file>
+        <file>Icons/Appearance.ico</file>
         <file>Config/Languages/base.json</file>
     </qresource>
 </RCC>
