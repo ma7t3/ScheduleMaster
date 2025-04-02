@@ -11,6 +11,9 @@ private:
     explicit LocalConfig();
 
 public:
+    LocalConfig(const LocalConfig &) = delete;
+    LocalConfig &operator=(const LocalConfig &) = delete;
+
     enum LogfileMode {
         NoLog,
         DefaultLog,
