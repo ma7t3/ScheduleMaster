@@ -22,6 +22,10 @@ public:
     virtual void reloadPreferences() override;
     virtual void savePreferences() override;
 
+    virtual QString id() override;
+    virtual QString name() override;
+    virtual QIcon icon() override;
+
 private slots:
     void on_cbLogfileMode_currentIndexChanged(int index);
 

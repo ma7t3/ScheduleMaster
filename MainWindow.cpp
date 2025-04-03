@@ -193,7 +193,7 @@ void MainWindow::removeProjectFromRecentList(const QString &filePath) {
 void MainWindow::openPlugins() {
     qInfo() << "Open preferences with plugins page";
     DlgPreferences dlg(this);
-    dlg.setCurrentPage(DlgPreferences::PluginsPage);
+    dlg.setCurrentPage("base.plugins");
     dlg.exec();
 }
 
