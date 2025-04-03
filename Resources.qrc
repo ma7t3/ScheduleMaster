@@ -63,6 +63,7 @@
         <file>Icons/File.ico</file>
         <file>Icons/Appearance.ico</file>
         <file>Config/Languages/base.json</file>
+        <file>Config/Styles/base.json</file>
         <file>Icons/Bug.ico</file>
         <file>Config/Locations/base.json</file>
     </qresource>
