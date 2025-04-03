@@ -1,0 +1,32 @@
+#include "WdgPreferencesPageUpdates.h"
+#include "ui_WdgPreferencesPageUpdates.h"
+
+WdgPreferencesPageUpdates::WdgPreferencesPageUpdates(QWidget *parent) :
+    WdgPreferencesPage(parent),
+    ui(new Ui::WdgPreferencesPageUpdates) {
+    ui->setupUi(this);
+}
+
+WdgPreferencesPageUpdates::~WdgPreferencesPageUpdates() {
+    delete ui;
+}
+
+void WdgPreferencesPageUpdates::reloadPreferences() {
+
+}
+
+void WdgPreferencesPageUpdates::savePreferences() {
+
+}
+
+QString WdgPreferencesPageUpdates::id() {
+    return "base.updates";
+}
+
+QString WdgPreferencesPageUpdates::name() {
+    return tr("Updates");
+}
+
+QIcon WdgPreferencesPageUpdates::icon() {
+    return QIcon(":/Icons/Updates.ico");
+}
