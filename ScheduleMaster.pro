@@ -76,7 +76,7 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
-    Widgets/DlgPreferencesPages/WdgPreferencesPluginsPage.ui \
+    Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
     Widgets/WdgWelcome.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
