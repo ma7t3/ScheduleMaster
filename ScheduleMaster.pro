@@ -10,8 +10,6 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 SOURCES += \
     Dialogs/DlgPreferences.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPage.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.cpp \
     main.cpp \
     MainWindow.cpp \
     Global/AppInfo.cpp \
@@ -27,6 +25,12 @@ SOURCES += \
     ProjectData/LineDirection.cpp \
     ProjectData/Route.cpp \
     ProjectData/RouteBusstopItem.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPage.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.cpp \
     Widgets/WdgAbstract.cpp \
     Widgets/WdgWelcome.cpp \
     Widgets/WdgWelcomeRecentProjectEntry.cpp
@@ -54,7 +58,11 @@ HEADERS += \
     ProjectData/Route.h \
     ProjectData/RouteBusstopItem.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPage.h \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h \
+    Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h \
     Widgets/WdgAbstract.h \
     Widgets/WdgWelcome.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
@@ -62,7 +70,11 @@ HEADERS += \
 FORMS += \
     Dialogs/DlgPreferences.ui \
     MainWindow.ui \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.ui \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
+    Widgets/DlgPreferencesPages/WdgPreferencesPluginsPage.ui \
     Widgets/WdgWelcome.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
 

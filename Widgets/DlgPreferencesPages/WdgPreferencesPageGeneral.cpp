@@ -35,6 +35,18 @@ void WdgPreferencesPageGeneral::savePreferences() {
     LocalConfig::setLogfileMode(static_cast<LocalConfig::LogfileMode>(ui->cbLogfileMode->currentIndex()));
 }
 
+QString WdgPreferencesPageGeneral::id() {
+    return "base.general";
+}
+
+QString WdgPreferencesPageGeneral::name() {
+    return tr("General");
+}
+
+QIcon WdgPreferencesPageGeneral::icon() {
+    return QIcon(":/Icons/Preferences.ico");
+}
+
 void WdgPreferencesPageGeneral::on_cbLogfileMode_currentIndexChanged(int index) {
     QString infoText;
 

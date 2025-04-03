@@ -10,6 +10,10 @@
 #include "Global/LocalConfig.h"
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
 
 namespace Ui {
 class DlgPreferences;
@@ -22,22 +26,13 @@ public:
     explicit DlgPreferences(QWidget *parent);
     ~DlgPreferences();
 
-    enum Pages {
-        GeneralPage,
-        AppearancePage,
-        FolderLocationsPage,
-        PluginsPage,
-        WorkspacesPage,
-        MiscellaneousPage,
-        InfoPage,
-        DebugPage
-    };
-
 public:
     void setCurrentPage(const int &index);
+    void setCurrentPage(const QString &id);
+
+    void addPage(WdgPreferencesPage *page);
 
 private:
-    void loadPreferences();
     void savePreferences();
 
 private slots:
@@ -46,22 +41,10 @@ private slots:
 
     void accept() override;
 
-    void on_lwLocationCategories_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-
-    void on_pbBrowseLocationSingleFolder_clicked();
-
-    void on_pbLocationMultipleFoldersAdd_clicked();
-
-    void on_pbLocationMultipleFoldersRemove_clicked();
-
-    void on_lwLocationMultipleFolders_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-
 private:
     Ui::DlgPreferences *ui;
 
     QList<WdgPreferencesPage *> _pages;
-
-    QHash<QString, FolderLocation> _folderLocations;
 };
 
 #endif // DLGPREFERENCES_H
