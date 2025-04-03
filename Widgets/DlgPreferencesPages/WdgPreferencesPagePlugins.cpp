@@ -1,5 +1,5 @@
 #include "WdgPreferencesPagePlugins.h"
-#include "ui_WdgPreferencesPluginsPage.h"
+#include "ui_WdgPreferencesPagePlugins.h"
 
 WdgPreferencesPagePlugins::WdgPreferencesPagePlugins(QWidget *parent) :
     WdgPreferencesPage(parent),
