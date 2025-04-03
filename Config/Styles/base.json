@@ -1,0 +1,18 @@
+[
+    {
+        "id": "base.Fusion",
+        "name": "Fusion",
+        "light_support": true,
+        "dark_support": true,
+        "type": "systemStyleFactory",
+        "systemStyleFactoryName": "Fusion"
+    },
+    {
+        "id": "base.WindowsXP",
+        "name": "Windows XP",
+        "light_support": true,
+        "dark_support": true,
+        "type": "systemStyleFactory",
+        "systemStyleFactoryName": "Windows"
+    }
+]
