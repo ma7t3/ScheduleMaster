@@ -10,6 +10,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 SOURCES += \
     Dialogs/DlgPreferences.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.cpp \
     main.cpp \
     MainWindow.cpp \
     Global/AppInfo.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h \
     Widgets/WdgAbstract.h \
     Widgets/WdgWelcome.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
@@ -75,6 +77,7 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPluginsPage.ui \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
     Widgets/WdgWelcome.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
 
