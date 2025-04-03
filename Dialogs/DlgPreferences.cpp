@@ -8,6 +8,12 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     for(int i = 0; i < ui->lwList->count(); i++)
         ui->lwList->item(i)->setSizeHint(QSize(0, 32));
 
+    _pages = {
+        new WdgPreferencesPageGeneral(this)
+    };
+
+    ui->swContent->insertWidget(0, _pages.first());
+
     ui->lwLocationMultipleFolders->setSortingEnabled(true);
 
     loadPreferences();
@@ -32,16 +38,7 @@ void DlgPreferences::setCurrentPage(const int &index) {
 void DlgPreferences::loadPreferences() {
     qInfo() << "Loading preferences...";
 
-    // available languages:
-    QList<QLocale::Language> languages = LocalConfig::supportedLanguages();
-    for(QLocale::Language language : std::as_const(languages)) {
-        QLocale locale(language);
-        ui->cbLanguage->addItem(locale.nativeLanguageName(), locale.name());
-        if(language == LocalConfig::language())
-            ui->cbLanguage->setCurrentIndex(ui->cbLanguage->count() - 1);
-    }
 
-    ui->cbLogfileMode->setCurrentIndex(LocalConfig::logfileMode());
 
     // locations
     QList<FolderLocation> locations = LocalConfig::folderLocations();
@@ -57,6 +54,10 @@ void DlgPreferences::loadPreferences() {
 
 void DlgPreferences::savePreferences() {
     qInfo() << "Saving preferences...";
+
+    for(WdgPreferencesPage *page : _pages) {
+        page->savePreferences();
+    }
 
     for(FolderLocation &loc : _folderLocations)
         LocalConfig::updateFolderLocation(loc);
@@ -78,27 +79,6 @@ void DlgPreferences::accept() {
     ui->lwLocationCategories->setCurrentItem(nullptr);
     savePreferences();
     QDialog::accept();
-}
-
-void DlgPreferences::on_cbLogfileMode_currentIndexChanged(int index) {
-    QString infoText;
-
-    switch(index) {
-    case LocalConfig::LogfileMode::NoLog:
-        infoText = tr("No log file will be created.");
-        break;
-    case LocalConfig::LogfileMode::DefaultLog:
-        infoText = tr("A normal logfile is generated, containing normal infos, warnings and error messages.");
-        break;
-    case LocalConfig::LogfileMode::DebugLog:
-        infoText = tr("An advanced log file will be created including additional debug information. Helpful for developers or testers.");
-        break;
-    case LocalConfig::LogfileMode::DebugDetailLog:
-        infoText = tr("An advanced log file will be created including additional debug information. Helpful for developers or testers. Also including exact code file names and line numers where the message was sent. Only works in debug builds.");
-        break;
-    }
-
-    ui->lLogfileModeInfo->setText(infoText);
 }
 
 void DlgPreferences::on_lwLocationCategories_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {

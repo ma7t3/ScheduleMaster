@@ -142,83 +142,8 @@
        <item>
         <widget class="QStackedWidget" name="swContent">
          <property name="currentIndex">
-          <number>6</number>
+          <number>0</number>
          </property>
-         <widget class="QWidget" name="pGeneral">
-          <layout class="QFormLayout" name="formLayout">
-           <item row="0" column="0">
-            <widget class="QLabel" name="lLanguage">
-             <property name="text">
-              <string>Language:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="cbLanguage"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="lLogfileMode">
-             <property name="text">
-              <string>Logfile Mode:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0">
-             <item>
-              <widget class="QComboBox" name="cbLogfileMode">
-               <item>
-                <property name="text">
-                 <string>No Logging</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Normal</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Debug</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Detailed Debug</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="lLogfileModeInfo">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
-               </property>
-               <property name="wordWrap">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="2" column="1">
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
          <widget class="QWidget" name="pAppearance">
           <layout class="QFormLayout" name="formLayout_2">
            <item row="0" column="0">

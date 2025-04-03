@@ -9,6 +9,8 @@
 
 #include "Global/LocalConfig.h"
 
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
+
 namespace Ui {
 class DlgPreferences;
 }
@@ -44,8 +46,6 @@ private slots:
 
     void accept() override;
 
-    void on_cbLogfileMode_currentIndexChanged(int index);
-
     void on_lwLocationCategories_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
     void on_pbBrowseLocationSingleFolder_clicked();
@@ -58,6 +58,8 @@ private slots:
 
 private:
     Ui::DlgPreferences *ui;
+
+    QList<WdgPreferencesPage *> _pages;
 
     QHash<QString, FolderLocation> _folderLocations;
 };
