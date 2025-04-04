@@ -15,10 +15,9 @@ WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
 
 void WdgPreferencesPageGeneral::reloadPreferences() {
     // available languages:
-    QList<QLocale::Language> languages = LocalConfig::supportedLanguages();
-    for(QLocale::Language language : std::as_const(languages)) {
-        QLocale locale(language);
-        ui->cbLanguage->addItem(locale.nativeLanguageName(), locale.name());
+    QList<QLocale> languages = GlobalConfig::supportedLanguages();
+    for(QLocale language : std::as_const(languages)) {
+        ui->cbLanguage->addItem(language.nativeLanguageName(), language.name());
         if(language == LocalConfig::language())
             ui->cbLanguage->setCurrentIndex(ui->cbLanguage->count() - 1);
     }

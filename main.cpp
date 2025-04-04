@@ -75,7 +75,10 @@ int main(int argc, char *argv[]) {
     Logger logger(&a, logDir);
     qInfo() << "Starting ScheduleMaster...";
 
-    splashscreen.showMessage(QObject::tr("Loading configuration..."), Qt::AlignBottom, ssConfig.first);
+    splashscreen.showMessage(QObject::tr("Loading global configuration..."), Qt::AlignBottom, ssConfig.first);
+    GlobalConfig::init();
+
+    splashscreen.showMessage(QObject::tr("Loading local configuration..."), Qt::AlignBottom, ssConfig.first);
     LocalConfig::init();
 
     splashscreen.showMessage(QObject::tr("Loading preferences..."), Qt::AlignBottom, ssConfig.first);

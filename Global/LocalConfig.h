@@ -12,16 +12,7 @@
 
 #include <QStandardPaths>
 
-class FolderLocation {
-public:
-    FolderLocation(){}
-    FolderLocation(const QString &id, const QString &name, const QString &icon, const bool &multiple, const QStringList &paths) : id(id), name(name), icon(icon), paths(paths), multiple(multiple) {}
-    FolderLocation(const QString &id, const bool &multiple, const QStringList &paths) : id(id), name(""), icon(""), paths(paths), multiple(multiple) {}
-
-    QString id, name, icon;
-    QStringList paths;
-    bool multiple;
-};
+#include "Global/GlobalConfig.h"
 
 class LocalConfig : public QObject {
     Q_OBJECT
@@ -49,21 +40,20 @@ public:
 
     static void init();
 
-    static QList<QLocale::Language> supportedLanguages();
-    static void addSupportedLanguage(const QLocale::Language &);
-
     static QLocale locale();
     static QLocale::Language language();
-    static void setLanguage(const QLocale::Language &);
+    static void setLanguage(const QLocale &);
     static void setLanguage(const QString &);
 
     static Style style();
     static void setStyle(const Style &newStyle);
 
-    static QList<FolderLocation> folderLocations();
+    static QMap<QString, QStringList> folderLocations();
+    static void setFolderLocations(const QMap<QString, QStringList> &locations);
+
     static QStringList folderLocationPaths(const QString &id);
-    static void updateFolderLocation(const FolderLocation &location);
-    static void setFolderLocationName(const QString &id, const QString &name);
+    static void setFolderLocationPaths(const QString &id, const QStringList &paths);
+
 
     static QStringList lastUsedFiles();
     static void addLastUsedFile(const QString &);
@@ -87,9 +77,7 @@ public:
     static void setMainWindowGeomentry(const QByteArray &geometry);
 
 protected:
-    static QJsonArray loadConfigResource(const QString &resource);
-    static void loadSupportedLanguages();
-    static void loadNativeFolderLocations();
+    void static loadFolderLocations();
 
 signals:
     void lastUsedFilesChanged();
@@ -101,9 +89,7 @@ private:
 
     static inline QLocale _locale;
 
-    static inline QList<QLocale::Language> _supportedLanguages;
-
-    static inline QMap<QString, FolderLocation> _folderLocations;
+    static inline QMap<QString, QStringList> _folderLocations;
 
 };
 
