@@ -1,6 +1,8 @@
 #include "WdgPreferencesPageLocations.h"
 #include "ui_WdgPreferencesPageLocations.h"
 
+// TODO: Review (variable names)
+
 WdgPreferencesPageLocations::WdgPreferencesPageLocations(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageLocations) {
@@ -18,7 +20,7 @@ WdgPreferencesPageLocations::~WdgPreferencesPageLocations() {
 }
 
 void WdgPreferencesPageLocations::reloadPreferences() {
-    QList<FolderLocation> locations = LocalConfig::folderLocations();
+    QList<FolderLocation> locations = GlobalConfig::folderLocations();
     for(FolderLocation &loc : locations) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
         item->setData(Qt::UserRole, loc.id);
@@ -28,13 +30,14 @@ void WdgPreferencesPageLocations::reloadPreferences() {
 
         _folderLocations.insert(loc.id, loc);
     }
+
+    _folderLocationsPaths = LocalConfig::folderLocations();
 }
 
 void WdgPreferencesPageLocations::savePreferences() {
     ui->lwLocationCategories->setCurrentItem(nullptr);
 
-    for(FolderLocation &loc : _folderLocations)
-        LocalConfig::updateFolderLocation(loc);
+    LocalConfig::setFolderLocations(_folderLocationsPaths);
 }
 
 QString WdgPreferencesPageLocations::id() {
@@ -53,15 +56,16 @@ void WdgPreferencesPageLocations::on_lwLocationCategories_currentItemChanged(QLi
     if(previous) {
         QString oldID = previous->data(Qt::UserRole).toString();
 
-        FolderLocation oldLoc = _folderLocations[oldID];
-        oldLoc.paths.clear();
-        if(oldLoc.multiple)
-            for(int i = 0; i < ui->lwLocationMultipleFolders->count(); i++)
-                oldLoc.paths << ui->lwLocationMultipleFolders->item(i)->text();
-        else
-            oldLoc.paths = {ui->leLocationSingleFolder->text()};
+        _folderLocationsPaths[oldID].clear();
+        QStringList newPaths;
 
-        _folderLocations[oldID] = oldLoc;
+        if(_folderLocations[oldID].multiple)
+            for(int i = 0; i < ui->lwLocationMultipleFolders->count(); i++)
+                newPaths << ui->lwLocationMultipleFolders->item(i)->text();
+        else
+            newPaths = {ui->leLocationSingleFolder->text()};
+
+        _folderLocationsPaths[oldID] = newPaths;
     }
 
     ui->lwLocationMultipleFolders->clear();
@@ -72,11 +76,13 @@ void WdgPreferencesPageLocations::on_lwLocationCategories_currentItemChanged(QLi
         FolderLocation loc = _folderLocations[id];
         ui->swLocationSelector->setCurrentIndex(_folderLocations[id].multiple ? 1 : 0);
 
+        QStringList paths = _folderLocationsPaths[id];
+
         // update data
         if(loc.multiple)
-            ui->lwLocationMultipleFolders->addItems(loc.paths);
+            ui->lwLocationMultipleFolders->addItems(paths);
         else
-            ui->leLocationSingleFolder->setText(loc.paths.isEmpty() ? "" : loc.paths.first());
+            ui->leLocationSingleFolder->setText(paths.isEmpty() ? "" : paths.first());
     }
 }
 

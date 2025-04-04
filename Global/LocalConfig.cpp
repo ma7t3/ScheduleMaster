@@ -2,6 +2,8 @@
 
 #include <QDir>
 
+// TODO: Review everything and fix registry reading/saving + default values
+
 LocalConfig::LocalConfig() : QObject(nullptr) {}
 
 LocalConfig *LocalConfig::instance() {
@@ -10,25 +12,16 @@ LocalConfig *LocalConfig::instance() {
 }
 
 void LocalConfig::init() {
-    qInfo() << "Loading configuration...";
-
-    loadSupportedLanguages();
-    loadNativeFolderLocations();
+    qInfo() << "Loading local configuration...";
 
     QString str = settingsGeneral.value("language", "system").toString();
     QLocale tmpLocale(str);
-    if(str == "system" || !_supportedLanguages.contains(tmpLocale.language()))
+    if(str == "system" || !GlobalConfig::languageIsSupported(tmpLocale.language()))
         _locale = QLocale::system();
     else
         _locale = QLocale(str);
-}
 
-QList<QLocale::Language> LocalConfig::supportedLanguages() {
-    return _supportedLanguages;
-}
-
-void LocalConfig::addSupportedLanguage(const QLocale::Language &newLanguage) {
-    _supportedLanguages << newLanguage;
+    loadFolderLocations();
 }
 
 QLocale LocalConfig::locale() {
@@ -39,8 +32,8 @@ QLocale::Language LocalConfig::language() {
     return locale().language();
 }
 
-void LocalConfig::setLanguage(const QLocale::Language &newLanguage) {
-    setLanguage(QLocale(newLanguage).name());
+void LocalConfig::setLanguage(const QLocale &newLanguage) {
+    setLanguage(newLanguage.name());
 }
 
 void LocalConfig::setLanguage(const QString &name) {
@@ -68,43 +61,32 @@ void LocalConfig::setStyle(const Style &newStyle) {
     settingsGeneral.setValue("style", str);
 }
 
-QList<FolderLocation> LocalConfig::folderLocations() {
-    // update from registry
-    for(FolderLocation &loc : _folderLocations) {
-        QStringList paths = settingsLocations.value(loc.id, {}).toStringList();
-        if(!paths.isEmpty())
-            loc.paths = paths;
-    }
+QMap<QString, QStringList> LocalConfig::folderLocations() {
+    QMap<QString, QStringList> data;
 
-    return _folderLocations.values();
+    for(const QString &id : _folderLocations.keys())
+        data[id] = folderLocationPaths(id);
+
+    return data;
+}
+
+void LocalConfig::setFolderLocations(const QMap<QString, QStringList> &locations) {
+    _folderLocations = locations;
+
+    for(const QString &key : locations.keys())
+        settingsLocations.setValue(key, locations.value(key));
 }
 
 QStringList LocalConfig::folderLocationPaths(const QString &id) {
-    return settingsLocations.value(id, {}).toStringList();
+    QStringList paths = settingsLocations.value(id, {}).toStringList();
+    _folderLocations.insert(id, paths);
+
+    return paths;
 }
 
-void LocalConfig::updateFolderLocation(const FolderLocation &location) {
-    if(!_folderLocations.contains(location.id))
-        _folderLocations.insert(location.id, location);
-    else {
-        FolderLocation oldLoc = _folderLocations[location.id];
-        FolderLocation newLoc = location;
-
-        // don't overwrite name or icon with empty values
-        if(location.name.isEmpty())
-            newLoc.name = oldLoc.name;
-        if(location.icon.isEmpty())
-            newLoc.icon = oldLoc.icon;
-
-        _folderLocations.insert(location.id, location);
-    }
-
-    settingsLocations.setValue(location.id, location.paths);
-}
-
-void LocalConfig::setFolderLocationName(const QString &id, const QString &name) {
-    if(_folderLocations.contains(id))
-        _folderLocations[id].name = name;
+void LocalConfig::setFolderLocationPaths(const QString &id, const QStringList &paths) {
+    _folderLocations.insert(id, paths);
+    settingsLocations.setValue(id, paths);
 }
 
 QStringList LocalConfig::lastUsedFiles() {
@@ -197,78 +179,29 @@ void LocalConfig::setMainWindowGeomentry(const QByteArray &geometry) {
     settingsGeneral.setValue("mainWindowGeometry", geometry);
 }
 
-
-QJsonArray LocalConfig::loadConfigResource(const QString &resource) {
-    QJsonArray data;
-
-    QDir dir(":/Config/" + resource);
-    QStringList entrys = dir.entryList();
-    for(const QString &entry : std::as_const(entrys)) {
-        QFile f(dir.path() + "/" + entry);
-        if(!f.open(QIODevice::ReadOnly))
-            continue;
-
-        QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
-        f.close();
-
-        QJsonArray array = doc.array();
-        for(const QJsonValue &val : std::as_const(array))
-            data.append(val);
-    }
-
-    return data;
-}
-
-void LocalConfig::loadSupportedLanguages() {
-    qInfo() << "   Loading supported languages...";
-    QJsonArray languages = loadConfigResource("Languages");
-    for(const QJsonValue &val : std::as_const(languages)) {
-        QString lang = val.toString();
-        QLocale locale(lang);
-        _supportedLanguages << locale.language();
-        qDebug().noquote() << "      - " + lang;
-    }
-}
-
-void LocalConfig::loadNativeFolderLocations() {
+void LocalConfig::loadFolderLocations() {
     qInfo() << "   Loading folder locations...";
-    QJsonArray locations = loadConfigResource("Locations");
-    for(const QJsonValue &val : std::as_const(locations)) {
-        QJsonObject obj = val.toObject();
 
-        QString id = obj.value("id").toString();
-        QString icon = obj.value("icon").toString();
-        bool multiple = obj.value("multiple").toBool();
+    QStringList keys = settingsLocations.allKeys();
+    for(const QString &key : std::as_const(keys)) {
+        QStringList value = settingsLocations.value(key).toStringList();
+        _folderLocations.insert(key, value);
+        qDebug().noquote() << "      - [" + key + "] (" + value.join(", ") + ")";
+    }
 
-        // fallback if no name is given
-        QString name = id;
+    for(FolderLocation &loc : GlobalConfig::folderLocations()) {
+        QStringList paths = folderLocationPaths(loc.id);
 
-        QStringList paths = folderLocationPaths(id);
-
-        if(id == "base.projectFilesDefault") {
-            name = tr("Default Location for Project Files");
-            if(paths.isEmpty())
+        if(!settingsLocations.contains(loc.id)) {
+            if(loc.id == "base.projectFilesDefault")
                 paths = {QDir::homePath() + "/ScheduleMaster/Projects"};
-
-        } else if(id == "base.logfile") {
-            name = tr("Logfiles");
-            if(paths.isEmpty())
+            else if(loc.id == "base.logfile")
                 paths = {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs"};
-
-        } else if(id == "base.plugins") {
-            name = tr("Plugins");
-            if(paths.isEmpty())
+            else if(loc.id == "base.plugins")
                 paths = {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/plugins", QCoreApplication::applicationDirPath() + "/plugins"};
+
+            setFolderLocationPaths(loc.id, paths);
+            qDebug().noquote() << "      - [" + loc.id + "] (" + paths.join(", ") + ")";
         }
-
-        qDebug() << paths;
-
-
-        QString singlePath = paths.isEmpty() ? "" : paths.first();
-
-        FolderLocation location(id, name, icon, multiple, (multiple ? paths : (QStringList() << singlePath)));
-
-        _folderLocations.insert(id, location);
-        qDebug().noquote() << "      - " + id + " (" + (paths.isEmpty() ? "empty" : paths.join(", ")) + ")";
     }
 }

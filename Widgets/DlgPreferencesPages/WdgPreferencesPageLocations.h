@@ -43,7 +43,8 @@ private slots:
 private:
     Ui::WdgPreferencesPageLocations *ui;
 
-    QHash<QString, FolderLocation> _folderLocations;
+    QMap<QString, FolderLocation> _folderLocations;
+    QMap<QString, QStringList> _folderLocationsPaths;
 };
 
 #endif // WDGPREFERENCESPAGELOCATIONS_H
