@@ -11,8 +11,8 @@ LocalConfig *LocalConfig::instance() {
     return &instance;
 }
 
-void LocalConfig::init() {
-    qInfo() << "Loading local configuration...";
+void LocalConfig::initLocale() {
+    qInfo() << "Loading local configuration (1/2)...";
 
     QString str = settingsGeneral.value("language", "system").toString();
     QLocale tmpLocale(str);
@@ -20,6 +20,13 @@ void LocalConfig::init() {
         _locale = QLocale::system();
     else
         _locale = QLocale(str);
+
+    QLocale::setDefault(_locale);
+
+}
+
+void LocalConfig::init() {
+    qInfo() << "Loading local configuration (2/2)...";
 
     loadFolderLocations();
 }

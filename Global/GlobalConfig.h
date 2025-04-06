@@ -31,6 +31,7 @@ public:
 
     static GlobalConfig *instance();
 
+    static void initLanguages();
     static void init();
 
     static QList<QLocale> supportedLanguages();
@@ -43,6 +44,8 @@ public:
 
 protected:
     static QJsonArray loadConfigResource(const QString &resource);
+    static QJsonValue resolveConfigResourceTranslatedStrings(QJsonObject jsonObject);
+    static QJsonArray resolveConfigResourceTranslatedStrings(QJsonArray jsonArray);
     static void loadSupportedLanguages();
     static void loadNativeFolderLocations();
 

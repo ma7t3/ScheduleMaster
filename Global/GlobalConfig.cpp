@@ -7,10 +7,15 @@ GlobalConfig *GlobalConfig::instance() {
     return &instance;
 }
 
-void GlobalConfig::init() {
-    qInfo() << "Loading global configuration...";
+void GlobalConfig::initLanguages() {
+    qInfo() << "Loading global configuration (1/2)...";
 
     loadSupportedLanguages();
+}
+
+void GlobalConfig::init() {
+    qInfo() << "Loading global configuration (2/2)...";
+
     loadNativeFolderLocations();
 }
 
@@ -51,15 +56,60 @@ QJsonArray GlobalConfig::loadConfigResource(const QString &resource) {
         if(!f.open(QIODevice::ReadOnly))
             continue;
 
-        QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
+        QJsonParseError error;
+        QJsonDocument doc = QJsonDocument::fromJson(f.readAll(), &error);
         f.close();
 
-        QJsonArray array = doc.array();
+        if(error.error != QJsonParseError::NoError)
+            qWarning().noquote() << "Error while parsing resource configuration file: \"" + f.fileName() + "\" (" + error.errorString() + ")";
+
+        QJsonArray rawArray = doc.array();
+        QJsonArray array = resolveConfigResourceTranslatedStrings(rawArray);
         for(const QJsonValue &val : std::as_const(array))
             data.append(val);
     }
 
     return data;
+}
+
+QJsonValue GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonObject jsonObject) {
+    if(jsonObject.value("object").toString() == "translated_string") {
+        QLocale l;
+        QString localeName = l.name();
+
+        QString resultString = "";
+
+        if(jsonObject.contains(localeName))
+            resultString = jsonObject.value(localeName).toString();
+        else if(jsonObject.contains("en_US"))
+            resultString = jsonObject.value("en_US").toString();
+
+        return resultString;
+    }
+
+    for(const QString &key : jsonObject.keys()) {
+        QJsonValue value = jsonObject.value(key);
+
+        if(value.isObject())
+            jsonObject.insert(key, resolveConfigResourceTranslatedStrings(value.toObject()));
+        else if(value.isArray())
+            jsonObject.insert(key, resolveConfigResourceTranslatedStrings(value.toArray()));
+    }
+
+    return jsonObject;
+}
+
+QJsonArray GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonArray jsonArray) {
+    for(int i = 0; i < jsonArray.count(); i++) {
+        QJsonValue value = jsonArray[i];
+
+        if(value.isObject())
+            jsonArray.replace(i, resolveConfigResourceTranslatedStrings(value.toObject()));
+        else if(value.isArray())
+            jsonArray.replace(i, resolveConfigResourceTranslatedStrings(value.toArray()));
+    }
+
+    return jsonArray;
 }
 
 void GlobalConfig::loadSupportedLanguages() {
@@ -80,18 +130,13 @@ void GlobalConfig::loadNativeFolderLocations() {
         QJsonObject obj = val.toObject();
 
         QString id = obj.value("id").toString();
+        QString name = obj.value("name").toString();
         QString icon = obj.value("icon").toString();
         bool multiple = obj.value("multiple").toBool();
 
         // fallback if no name is given
-        QString name = id;
-
-        if(id == "base.projectFilesDefault")
-            name = tr("Default Location for Project Files");
-        else if(id == "base.logfile")
-            name = tr("Logfiles");
-        else if(id == "base.plugins")
-            name = tr("Plugins");
+        if(name.isEmpty())
+            name = id;
 
         FolderLocation location(id, name, icon, multiple);
 

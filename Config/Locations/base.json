@@ -1,16 +1,31 @@
 [
     {
         "id": "base.projectFilesDefault",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Default location for project files",
+            "de_DE": "Standardspeicherort für Projektdateien"
+        },
         "icon": ":/Icons/FileOpen.ico",
         "multiple": false
     },
     {
         "id": "base.logfile",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Logfiles",
+            "de_DE": "Log-Dateien"
+        },
         "icon": ":/Icons/File.ico",
         "multiple": false
     },
     {
         "id": "base.plugins",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Plugins",
+            "de_DE": "Plugins"
+        },
         "icon": ":/Icons/Plugin.ico",
         "multiple": true
     }

@@ -38,6 +38,7 @@ public:
 
     static LocalConfig *instance();
 
+    static void initLocale();
     static void init();
 
     static QLocale locale();
