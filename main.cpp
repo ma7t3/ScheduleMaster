@@ -75,6 +75,11 @@ int main(int argc, char *argv[]) {
     Logger logger(&a, logDir);
     qInfo() << "Starting ScheduleMaster...";
 
+    splashscreen.showMessage("Loading localization...", Qt::AlignBottom, ssConfig.first);
+    qInfo() << "Loading localization...";
+    GlobalConfig::initLanguages();
+    LocalConfig::initLocale();
+
     splashscreen.showMessage(QObject::tr("Loading global configuration..."), Qt::AlignBottom, ssConfig.first);
     GlobalConfig::init();
 
