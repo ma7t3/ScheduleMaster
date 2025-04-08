@@ -67,5 +67,6 @@
         <file>Icons/Bug.ico</file>
         <file>Config/Locations/base.json</file>
         <file>Icons/Updates.ico</file>
+        <file>Config/versions.json</file>
     </qresource>
 </RCC>
