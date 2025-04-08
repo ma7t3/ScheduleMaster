@@ -16,7 +16,7 @@ void GlobalConfig::initLanguages() {
 void GlobalConfig::init() {
     qInfo() << "Loading global configuration (2/2)...";
 
-    loadNativeFolderLocations();
+    loadFolderLocations();
 }
 
 QList<QLocale> GlobalConfig::supportedLanguages() {
@@ -31,53 +31,62 @@ bool GlobalConfig::languageIsSupported(const QString &languageName) {
     return languageIsSupported(QLocale(languageName));
 }
 
-void GlobalConfig::addSupportedLanguage(const QLocale &newLanguage) {
-    _supportedLanguages.insert(newLanguage);
-}
-
 QList<FolderLocation> GlobalConfig::folderLocations() {
     return _folderLocations.values();
 }
 
-void GlobalConfig::setFolderLocationName(const QString &id, const QString &name) {
-    if(!_folderLocations.contains(id))
-        return;
-
-    _folderLocations[id].name = name;
+QJsonDocument GlobalConfig::loadSingleConfigResource(const QString &resource) {
+    return parseJsonFile(":/Config/" + resource + ".json");
 }
 
-QJsonArray GlobalConfig::loadConfigResource(const QString &resource) {
+QJsonArray GlobalConfig::loadMultiConfigResource(const QString &resource) {
     QJsonArray data;
 
-    QDir dir(":/Config/" + resource);
-    QStringList entrys = dir.entryList();
-    for(const QString &entry : std::as_const(entrys)) {
-        QFile f(dir.path() + "/" + entry);
-        if(!f.open(QIODevice::ReadOnly))
+    const QDir dir(":/Config/" + resource);
+    const QStringList entrys = dir.entryList();
+    for(const QString &entry : entrys) {
+        const QJsonDocument doc = parseJsonFile(dir.path() + "/" + entry);
+        if(doc.isNull())
             continue;
 
-        QJsonParseError error;
-        QJsonDocument doc = QJsonDocument::fromJson(f.readAll(), &error);
-        f.close();
-
-        if(error.error != QJsonParseError::NoError)
-            qWarning().noquote() << "Error while parsing resource configuration file: \"" + f.fileName() + "\" (" + error.errorString() + ")";
-
-        QJsonArray rawArray = doc.array();
-        QJsonArray array = resolveConfigResourceTranslatedStrings(rawArray);
-        for(const QJsonValue &val : std::as_const(array))
+        const QJsonArray array = doc.array();
+        for(const QJsonValue &val : array)
             data.append(val);
     }
 
     return data;
 }
 
+QJsonDocument GlobalConfig::parseJsonFile(const QString &fileName) {
+    QFile f(fileName);
+    if(!f.open(QIODevice::ReadOnly))
+        return QJsonDocument();
+
+    QJsonParseError error;
+    const QJsonDocument doc = QJsonDocument::fromJson(f.readAll(), &error);
+    f.close();
+
+    if(error.error != QJsonParseError::NoError) {
+        qWarning().noquote() << "Error while parsing resource configuration file: \"" + fileName + "\" (" + error.errorString() + ")";
+        return QJsonDocument();
+    }
+
+    if(doc.isArray())
+        return QJsonDocument(resolveConfigResourceTranslatedStrings(doc.array()));
+    else if(doc.isObject())
+        return QJsonDocument(resolveConfigResourceTranslatedStrings(doc.object()).toObject());
+    else {
+        qWarning().noquote() << "Error while loading resource configuration file: \"" + fileName + "\"";
+        return QJsonDocument();
+    }
+}
+
 QJsonValue GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonObject jsonObject) {
     if(jsonObject.value("object").toString() == "translated_string") {
-        QLocale l;
-        QString localeName = l.name();
+        const QLocale l;
+        const QString localeName = l.name();
 
-        QString resultString = "";
+        QString resultString;
 
         if(jsonObject.contains(localeName))
             resultString = jsonObject.value(localeName).toString();
@@ -87,7 +96,8 @@ QJsonValue GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonObject json
         return resultString;
     }
 
-    for(const QString &key : jsonObject.keys()) {
+    const QStringList keys = jsonObject.keys();
+    for(const QString &key : keys) {
         QJsonValue value = jsonObject.value(key);
 
         if(value.isObject())
@@ -101,7 +111,7 @@ QJsonValue GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonObject json
 
 QJsonArray GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonArray jsonArray) {
     for(int i = 0; i < jsonArray.count(); i++) {
-        QJsonValue value = jsonArray[i];
+        const QJsonValue value = jsonArray[i];
 
         if(value.isObject())
             jsonArray.replace(i, resolveConfigResourceTranslatedStrings(value.toObject()));
@@ -114,31 +124,31 @@ QJsonArray GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonArray jsonA
 
 void GlobalConfig::loadSupportedLanguages() {
     qInfo() << "   Loading supported languages...";
-    QJsonArray languages = loadConfigResource("Languages");
-    for(const QJsonValue &val : std::as_const(languages)) {
-        QString lang = val.toString();
-        QLocale locale(lang);
+    const QJsonArray languages = loadMultiConfigResource("Languages");
+    for(const QJsonValue &val : languages) {
+        const QString lang = val.toString();
+        const QLocale locale(lang);
         _supportedLanguages << locale.language();
         qDebug().noquote() << "      - " + lang;
     }
 }
 
-void GlobalConfig::loadNativeFolderLocations() {
+void GlobalConfig::loadFolderLocations() {
     qInfo() << "   Loading folder locations...";
-    QJsonArray locations = loadConfigResource("Locations");
+    const QJsonArray locations = loadMultiConfigResource("Locations");
     for(const QJsonValue &val : std::as_const(locations)) {
-        QJsonObject obj = val.toObject();
+        const QJsonObject obj = val.toObject();
 
-        QString id = obj.value("id").toString();
-        QString name = obj.value("name").toString();
-        QString icon = obj.value("icon").toString();
+        const QString id   = obj.value("id").toString();
+              QString name = obj.value("name").toString();
+        const QString icon = obj.value("icon").toString();
         bool multiple = obj.value("multiple").toBool();
 
         // fallback if no name is given
         if(name.isEmpty())
             name = id;
 
-        FolderLocation location(id, name, icon, multiple);
+        const FolderLocation location(id, name, icon, multiple);
 
         _folderLocations.insert(id, location);
         qDebug().noquote() << "      - " + id;
