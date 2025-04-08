@@ -1,0 +1,26 @@
+[
+    {
+        "name": "0.9.0",
+        "type": "alpha",
+        "date": "2025-01-19",
+        "enabled": true,
+        "compatibility": {
+            "file_format": true,
+            "local_config": true
+        },
+        "changelog": {
+            "compact": [
+            ],
+            "detailed": {
+                "features": [
+                ],
+                "improvements": [
+                ],
+                "bugfixes": [
+                ],
+                "miscellaneous": [
+                ]
+            }
+        }
+    }
+]
