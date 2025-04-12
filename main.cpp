@@ -52,6 +52,8 @@ void loadStartupPreferences(QApplication *a) {
 }
 
 int main(int argc, char *argv[]) {
+    qputenv("QT_QPA_PLATFORM", "windows:fontengine=gdi");
+
     QApplication a(argc, argv);
 
     a.setOverrideCursor(QCursor(Qt::WaitCursor));
