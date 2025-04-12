@@ -27,6 +27,9 @@ signals:
     void open(const QString &);
     void removeFromList(const QString &);
 
+protected:
+    void setupLastUsedLabel();
+
 private:
     Ui::WdgWelcomeRecentProjectEntry *ui;
 };

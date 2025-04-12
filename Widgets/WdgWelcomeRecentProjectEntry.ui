@@ -59,11 +59,6 @@
      </item>
      <item>
       <widget class="QLabel" name="lLastUsed">
-       <property name="font">
-        <font>
-         <italic>true</italic>
-        </font>
-       </property>
        <property name="text">
         <string>&lt;LastUsed&gt;</string>
        </property>
