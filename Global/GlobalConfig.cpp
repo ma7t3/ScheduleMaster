@@ -72,16 +72,16 @@ QJsonDocument GlobalConfig::parseJsonFile(const QString &fileName) {
     }
 
     if(doc.isArray())
-        return QJsonDocument(resolveConfigResourceTranslatedStrings(doc.array()));
+        return QJsonDocument(resolveTranslatedStrings(doc.array()));
     else if(doc.isObject())
-        return QJsonDocument(resolveConfigResourceTranslatedStrings(doc.object()).toObject());
+        return QJsonDocument(resolveTranslatedStrings(doc.object()).toObject());
     else {
         qWarning().noquote() << "Error while loading resource configuration file: \"" + fileName + "\"";
         return QJsonDocument();
     }
 }
 
-QJsonValue GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonObject jsonObject) {
+QJsonValue GlobalConfig::resolveTranslatedStrings(QJsonObject jsonObject) {
     if(jsonObject.value("object").toString() == "translated_string") {
         const QLocale l;
         const QString localeName = l.name();
@@ -101,22 +101,22 @@ QJsonValue GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonObject json
         QJsonValue value = jsonObject.value(key);
 
         if(value.isObject())
-            jsonObject.insert(key, resolveConfigResourceTranslatedStrings(value.toObject()));
+            jsonObject.insert(key, resolveTranslatedStrings(value.toObject()));
         else if(value.isArray())
-            jsonObject.insert(key, resolveConfigResourceTranslatedStrings(value.toArray()));
+            jsonObject.insert(key, resolveTranslatedStrings(value.toArray()));
     }
 
     return jsonObject;
 }
 
-QJsonArray GlobalConfig::resolveConfigResourceTranslatedStrings(QJsonArray jsonArray) {
+QJsonArray GlobalConfig::resolveTranslatedStrings(QJsonArray jsonArray) {
     for(int i = 0; i < jsonArray.count(); i++) {
         const QJsonValue value = jsonArray[i];
 
         if(value.isObject())
-            jsonArray.replace(i, resolveConfigResourceTranslatedStrings(value.toObject()));
+            jsonArray.replace(i, resolveTranslatedStrings(value.toObject()));
         else if(value.isArray())
-            jsonArray.replace(i, resolveConfigResourceTranslatedStrings(value.toArray()));
+            jsonArray.replace(i, resolveTranslatedStrings(value.toArray()));
     }
 
     return jsonArray;
