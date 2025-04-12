@@ -35,12 +35,14 @@ public:
 
 private:
     void savePreferences();
+    void discardPreferences();
 
 private slots:
     void on_lwList_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_pbReset_clicked();
 
     void accept() override;
+    void reject() override;
 
 private:
     Ui::DlgPreferences *ui;

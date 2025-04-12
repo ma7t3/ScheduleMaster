@@ -14,11 +14,17 @@ WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
 }
 
 void WdgPreferencesPageAppearance::reloadPreferences() {
-
+    ui->fcbFont->setCurrentFont(QFont(LocalConfig::uiFontFamily()));
+    ui->cbGDIEngine->setChecked(LocalConfig::useGdiEngine());
 }
 
 void WdgPreferencesPageAppearance::savePreferences() {
+    LocalConfig::setUiFontFamily(ui->fcbFont->currentFont().family());
+    LocalConfig::setUseGdiEngine(ui->cbGDIEngine->isChecked());
+}
 
+void WdgPreferencesPageAppearance::discardPreferences() {
+    LocalConfig::restoreUiFontFamilyPreview();
 }
 
 QString WdgPreferencesPageAppearance::id() {
@@ -31,4 +37,8 @@ QString WdgPreferencesPageAppearance::name() {
 
 QIcon WdgPreferencesPageAppearance::icon() {
     return QIcon(":/Icons/Appearance.ico");
+}
+
+void WdgPreferencesPageAppearance::on_fcbFont_currentFontChanged(const QFont &f) {
+    LocalConfig::previewUiFontFamily(f.family());
 }

@@ -49,6 +49,8 @@ protected slots:
 private slots:
     void on_actionDebugGeneralTestAction_triggered();
 
+    void setUiFont(const QString &fontFamily);
+
 private:
     Ui::MainWindow *ui;
 

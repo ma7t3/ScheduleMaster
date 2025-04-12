@@ -40,6 +40,8 @@ void WdgPreferencesPageLocations::savePreferences() {
     LocalConfig::setFolderLocations(_folderLocationsPaths);
 }
 
+void WdgPreferencesPageLocations::discardPreferences() {}
+
 QString WdgPreferencesPageLocations::id() {
     return "base.locations";
 }

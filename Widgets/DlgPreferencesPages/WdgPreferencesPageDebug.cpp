@@ -15,6 +15,8 @@ void WdgPreferencesPageDebug::reloadPreferences() {}
 
 void WdgPreferencesPageDebug::savePreferences() {}
 
+void WdgPreferencesPageDebug::discardPreferences() {}
+
 QString WdgPreferencesPageDebug::id() {
     return "base.debug";
 }

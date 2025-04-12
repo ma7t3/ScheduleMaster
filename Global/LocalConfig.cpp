@@ -68,6 +68,38 @@ void LocalConfig::setStyle(const Style &newStyle) {
     settingsGeneral.setValue("style", str);
 }
 
+QString LocalConfig::uiFontFamily() {
+    QString str = settingsGeneral.value("uiFontFamily").toString();
+    if(str.isEmpty())
+        return qGuiApp->font().family();
+    else
+        return str;
+}
+
+void LocalConfig::setUiFontFamily(const QString &fontFamily) {
+    settingsGeneral.setValue("uiFontFamily", fontFamily);
+}
+
+void LocalConfig::previewUiFontFamily(const QString &fontFamily) {
+    emit instance()->uiFontChanged(fontFamily);
+}
+
+void LocalConfig::previewUiFontFamily() {
+    previewUiFontFamily(uiFontFamily());
+}
+
+void LocalConfig::restoreUiFontFamilyPreview() {
+    previewUiFontFamily();
+}
+
+bool LocalConfig::useGdiEngine() {
+    return settingsGeneral.value("useGdiEngine", false).toBool();
+}
+
+void LocalConfig::setUseGdiEngine(const bool &useGdiEngine) {
+    settingsGeneral.setValue("useGdiEngine", useGdiEngine);
+}
+
 QMap<QString, QStringList> LocalConfig::folderLocations() {
     QMap<QString, QStringList> data;
 
