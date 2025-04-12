@@ -2,6 +2,8 @@
 #include "ui_WdgWelcomeRecentProjectEntry.h"
 
 #include <QDateTime>
+#include <QStyleHints>
+#include <QStyle>
 
 #include "Global/LocalConfig.h"
 
@@ -11,7 +13,8 @@ WdgWelcomeRecentProjectEntry::WdgWelcomeRecentProjectEntry(QWidget *parent) :
     ui->setupUi(this);
 
     ui->lIcon->setScaledContents(true);
-    ui->lLastUsed->setStyleSheet("color: grey;");
+
+    setupLastUsedLabel();
 
     connect(ui->pbOpen,   &QPushButton::clicked, this, [this](){emit open(path());});
     connect(ui->pbRemove, &QPushButton::clicked, this, [this](){emit removeFromList(path());});
@@ -47,4 +50,16 @@ void WdgWelcomeRecentProjectEntry::setFileMissing() {
 
 QString WdgWelcomeRecentProjectEntry::path() const {
     return ui->lPath->text();
+}
+
+void WdgWelcomeRecentProjectEntry::setupLastUsedLabel() {
+    QFont lastUsedFont = ui->lLastUsed->font();
+    lastUsedFont.setItalic(true);
+    ui->lLastUsed->setFont(lastUsedFont);
+    QPalette palette = qApp->style()->standardPalette();
+    palette.setBrush(QPalette::Text, palette.placeholderText());
+    ui->lLastUsed->setPalette(palette);
+
+    // update if the colorscheme changes at runtime
+    connect(qApp->styleHints(), &QStyleHints::colorSchemeChanged, this, [this](){setupLastUsedLabel();});
 }
