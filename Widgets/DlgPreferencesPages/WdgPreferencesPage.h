@@ -11,6 +11,7 @@ public:
 
     virtual void reloadPreferences() = 0;
     virtual void savePreferences() = 0;
+    virtual void discardPreferences() = 0;
 
     virtual QString id() = 0;
     virtual QString name() = 0;

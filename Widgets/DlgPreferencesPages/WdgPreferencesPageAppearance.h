@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "Global/LocalConfig.h"
+
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 namespace Ui {
@@ -19,11 +21,15 @@ public:
 
     virtual void reloadPreferences() override;
     virtual void savePreferences() override;
+    virtual void discardPreferences() override;
 
     virtual QString id() override;
     virtual QString name() override;
     virtual QIcon icon() override;
 
+
+private slots:
+    void on_fcbFont_currentFontChanged(const QFont &f);
 
 private:
     Ui::WdgPreferencesPageAppearance *ui;

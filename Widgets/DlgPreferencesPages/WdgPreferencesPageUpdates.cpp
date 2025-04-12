@@ -19,6 +19,8 @@ void WdgPreferencesPageUpdates::savePreferences() {
 
 }
 
+void WdgPreferencesPageUpdates::discardPreferences() {}
+
 QString WdgPreferencesPageUpdates::id() {
     return "base.updates";
 }

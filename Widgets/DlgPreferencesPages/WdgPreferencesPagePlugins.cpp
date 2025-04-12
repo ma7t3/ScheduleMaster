@@ -15,6 +15,8 @@ void WdgPreferencesPagePlugins::reloadPreferences() {}
 
 void WdgPreferencesPagePlugins::savePreferences() {}
 
+void WdgPreferencesPagePlugins::discardPreferences() {}
+
 QString WdgPreferencesPagePlugins::id() {
     return "base.plugins";
 }

@@ -1,6 +1,10 @@
 #ifndef LOCALCONFIG_H
 #define LOCALCONFIG_H
 
+#include <QGuiApplication>
+#include <QMainWindow>
+#include <QFont>
+
 #include <QObject>
 #include <QSettings>
 #include <QLocale>
@@ -49,6 +53,15 @@ public:
     static Style style();
     static void setStyle(const Style &newStyle);
 
+    static QString uiFontFamily();
+    static void setUiFontFamily(const QString &fontFamily);
+    static void previewUiFontFamily(const QString &fontFamily);
+    static void previewUiFontFamily();
+    static void restoreUiFontFamilyPreview();
+
+    static bool useGdiEngine();
+    static void setUseGdiEngine(const bool &useGdiEngine);
+
     static QMap<QString, QStringList> folderLocations();
     static void setFolderLocations(const QMap<QString, QStringList> &locations);
 
@@ -82,6 +95,7 @@ protected:
 
 signals:
     void lastUsedFilesChanged();
+    void uiFontChanged(const QString &fontFamily);
 
 private:
     static inline QSettings settingsGeneral   = QSettings("ScheduleMaster", "general");

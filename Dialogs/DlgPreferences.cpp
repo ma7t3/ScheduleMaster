@@ -53,6 +53,11 @@ void DlgPreferences::savePreferences() {
         page->savePreferences();
 }
 
+void DlgPreferences::discardPreferences() {
+    for(WdgPreferencesPage *page : std::as_const(_pages))
+        page->discardPreferences();
+}
+
 void DlgPreferences::on_lwList_currentItemChanged(QListWidgetItem *current,
                                                   QListWidgetItem *previous) {
     Q_UNUSED(previous);
@@ -68,4 +73,9 @@ void DlgPreferences::on_pbReset_clicked() {
 void DlgPreferences::accept() {
     savePreferences();
     QDialog::accept();
+}
+
+void DlgPreferences::reject() {
+    discardPreferences();
+    QDialog::reject();
 }

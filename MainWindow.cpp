@@ -56,6 +56,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, this,        &MainWindow::updateRecentProjectsList);
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, _wdgWelcome, &WdgWelcome::updateRecentProjectsList);
+    connect(LocalConfig::instance(),       &LocalConfig::uiFontChanged,        this,        &MainWindow::setUiFont);
+
+    LocalConfig::previewUiFontFamily();
 }
 
 MainWindow::~MainWindow() {
@@ -206,6 +209,14 @@ void MainWindow::openPreferences() {
 void MainWindow::openProjectSettings() {
     qInfo() << "Open project settings";
 }
+
+
+void MainWindow::setUiFont(const QString &fontFamily) {
+    QFont font = qApp->font();
+    font.setFamily(fontFamily);
+    qApp->setFont(font);
+}
+
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {
     #ifndef QT_DEBUG
