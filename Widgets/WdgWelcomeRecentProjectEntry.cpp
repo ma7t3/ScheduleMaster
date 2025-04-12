@@ -37,7 +37,7 @@ void WdgWelcomeRecentProjectEntry::setPath(const QString &newPath) {
 }
 
 void WdgWelcomeRecentProjectEntry::setLastUsed(const QDateTime &newLastUsed) {
-    ui->lLastUsed->setText(tr("Last used %1").arg(newLastUsed.toString(LocalConfig::locale().dateTimeFormat(QLocale::ShortFormat))));
+    ui->lLastUsed->setText(tr("Last used %1").arg(newLastUsed.toString(QLocale().dateTimeFormat(QLocale::ShortFormat))));
 }
 
 void WdgWelcomeRecentProjectEntry::setFileMissing() {
