@@ -14,7 +14,8 @@ LocalConfig *LocalConfig::instance() {
 void LocalConfig::initLocale() {
     qInfo() << "Loading local configuration (1/2)...";
 
-    QString str = settingsGeneral.value("language", "system").toString();
+    qInfo() << "   Loading current language...";
+    QString str = read("general.language").toString();
     QLocale tmpLocale(str);
     if(str == "system" || !GlobalConfig::languageIsSupported(tmpLocale.language()))
         _locale = QLocale::system();
@@ -31,6 +32,32 @@ void LocalConfig::init() {
     loadFolderLocations();
 }
 
+QVariant LocalConfig::read(const QString &id) {
+    PreferenceItem item = GlobalConfig::preferenceItem(id);
+
+    QVariant value = settings.value(id, item.defaultValue);
+
+    qDebug().noquote() << "Read setting: " << id << " << " << value;
+
+    return value;
+}
+
+void LocalConfig::write(const QString &id, const QVariant &value) {
+    qDebug().noquote() << "Save setting: " << id << " = " << value;
+    settings.setValue(id, value);
+}
+
+QStringList LocalConfig::readGroupKeys(const QString &group) {
+    settings.beginGroup(group);
+    QStringList keys = settings.childKeys();
+    settings.endGroup();
+    return keys;
+}
+
+bool LocalConfig::keyExsists(const QString &key) {
+    return settings.contains(key);
+}
+
 QLocale LocalConfig::locale() {
     return _locale;
 }
@@ -44,11 +71,12 @@ void LocalConfig::setLanguage(const QLocale &newLanguage) {
 }
 
 void LocalConfig::setLanguage(const QString &name) {
-    settingsGeneral.setValue("language", name);
+    write("general.language", name);
 }
 
 LocalConfig::Style LocalConfig::style() {
-    QString str = settingsGeneral.value("style").toString();
+    // TODO
+    QString str = read("appearance.theme").toString();
     if(str == "Fusion")
         return FusionStyle;
     else if(str == "WindowsXpStyle")
@@ -58,6 +86,7 @@ LocalConfig::Style LocalConfig::style() {
 }
 
 void LocalConfig::setStyle(const Style &newStyle) {
+    // TODO
     QString str;
     if(newStyle == FusionStyle)
         str = "Fusion";
@@ -65,11 +94,12 @@ void LocalConfig::setStyle(const Style &newStyle) {
         str = "WindowsXpStyle";
     else
         str = "System";
-    settingsGeneral.setValue("style", str);
+
+    write("appearance.theme", str);
 }
 
 QString LocalConfig::uiFontFamily() {
-    QString str = settingsGeneral.value("uiFontFamily").toString();
+    QString str = read("appearance.font").toString();
     if(str.isEmpty())
         return qGuiApp->font().family();
     else
@@ -77,7 +107,7 @@ QString LocalConfig::uiFontFamily() {
 }
 
 void LocalConfig::setUiFontFamily(const QString &fontFamily) {
-    settingsGeneral.setValue("uiFontFamily", fontFamily);
+    write("appearance.font", fontFamily);
 }
 
 void LocalConfig::previewUiFontFamily(const QString &fontFamily) {
@@ -93,17 +123,19 @@ void LocalConfig::restoreUiFontFamilyPreview() {
 }
 
 bool LocalConfig::useGdiEngine() {
-    return settingsGeneral.value("useGdiEngine", false).toBool();
+    return read("appearance.fontEngineGDI").toBool();
 }
 
 void LocalConfig::setUseGdiEngine(const bool &useGdiEngine) {
-    settingsGeneral.setValue("useGdiEngine", useGdiEngine);
+    write("appearance.fontEngineGDI", useGdiEngine);
 }
 
 QMap<QString, QStringList> LocalConfig::folderLocations() {
     QMap<QString, QStringList> data;
 
-    for(const QString &id : _folderLocations.keys())
+    const QStringList keys = _folderLocations.keys();
+
+    for(const QString &id : keys)
         data[id] = folderLocationPaths(id);
 
     return data;
@@ -113,11 +145,11 @@ void LocalConfig::setFolderLocations(const QMap<QString, QStringList> &locations
     _folderLocations = locations;
 
     for(const QString &key : locations.keys())
-        settingsLocations.setValue(key, locations.value(key));
+        write("locations/" + key, locations.value(key));
 }
 
 QStringList LocalConfig::folderLocationPaths(const QString &id) {
-    QStringList paths = settingsLocations.value(id, {}).toStringList();
+    QStringList paths = read("locations/" + id).toStringList();
     _folderLocations.insert(id, paths);
 
     return paths;
@@ -125,11 +157,11 @@ QStringList LocalConfig::folderLocationPaths(const QString &id) {
 
 void LocalConfig::setFolderLocationPaths(const QString &id, const QStringList &paths) {
     _folderLocations.insert(id, paths);
-    settingsLocations.setValue(id, paths);
+    write("locations/" + id, paths);
 }
 
 QStringList LocalConfig::lastUsedFiles() {
-    return settingsGeneral.value("lastUsedFiles", {}).toStringList();
+    return read("lastUsedFiles").toStringList();
 }
 
 void LocalConfig::addLastUsedFile(const QString &filePath) {
@@ -142,7 +174,7 @@ void LocalConfig::addLastUsedFile(const QString &filePath) {
 void LocalConfig::setLastUsedFiles(const QStringList &list) {
     QStringList modifiedList = list;
     modifiedList.replaceInStrings("\\", "/");
-    settingsGeneral.setValue("lastUsedFiles", modifiedList);
+    write("general.lastUsedFiles", modifiedList);
     emit instance()->lastUsedFilesChanged();
 }
 
@@ -153,15 +185,15 @@ void LocalConfig::removeLastUsedFile(const QString &filePath) {
 }
 
 void LocalConfig::resetLastUsedFiles() {
-    settingsGeneral.setValue("lastUsedFiles", QStringList());
+    write("general.lastUsedFiles", QStringList());
 }
 
 bool LocalConfig::crashDetected() {
-    return !settingsGeneral.value("closeCheck", true).toBool();
+    return !read("general.closeCheck").toBool();
 }
 
 void LocalConfig::setCrashDetected(const bool &newCrashDetected) {
-    settingsGeneral.setValue("closeCheck", !newCrashDetected);
+    write("general.closeCheck", !newCrashDetected);
 }
 
 QString LocalConfig::lastLogfileName() {
@@ -174,7 +206,7 @@ void LocalConfig::setLastLogfileName(const QString &newLastLogfileName) {
 
 LocalConfig::LogfileMode LocalConfig::logfileMode() {
     bool ok;
-    int i = settingsGeneral.value("logfileMode", DefaultLog).toInt(&ok);
+    int i = read("general.logfileMode").toInt(&ok);
     if(!ok)
         return DefaultLog;
 
@@ -191,11 +223,11 @@ LocalConfig::LogfileMode LocalConfig::logfileMode() {
 }
 
 void LocalConfig::setLogfileMode(const LogfileMode &newLogmode) {
-    settingsGeneral.setValue("logfileMode", newLogmode);
+    write("general.logfileMode", newLogmode);
 }
 
 Qt::ToolBarArea LocalConfig::workspacesToolbarPosition() {
-    int i = settingsGeneral.value("workspacesToolbarPosition").toInt();
+    int i = read("appearance.workspacesToolbarPosition").toInt();
     switch(i) {
     case 0x1: return Qt::LeftToolBarArea;
     case 0x2: return Qt::RightToolBarArea;
@@ -207,31 +239,31 @@ Qt::ToolBarArea LocalConfig::workspacesToolbarPosition() {
 }
 
 void LocalConfig::setWorkspacesToolbarPosition(const Qt::ToolBarArea &position) {
-    settingsGeneral.setValue("workspacesToolbarPosition", position);
+    write("appearance.workspacesToolbarPosition", position);
 }
 
 QByteArray LocalConfig::mainWindowGeometry() {
-    return settingsGeneral.value("mainWindowGeometry").toByteArray();
+    return read("general.mainWindowGeometry").toByteArray();
 }
 
 void LocalConfig::setMainWindowGeomentry(const QByteArray &geometry) {
-    settingsGeneral.setValue("mainWindowGeometry", geometry);
+    write("general.mainWindowGeometry", geometry);
 }
 
 void LocalConfig::loadFolderLocations() {
     qInfo() << "   Loading folder locations...";
 
-    QStringList keys = settingsLocations.allKeys();
+    QStringList keys = readGroupKeys("locations");
     for(const QString &key : std::as_const(keys)) {
-        QStringList value = settingsLocations.value(key).toStringList();
+        QStringList value = read("locations/" + key).toStringList();
         _folderLocations.insert(key, value);
-        qDebug().noquote() << "      - [" + key + "] (" + value.join(", ") + ")";
+        qInfo().noquote() << "      - [" + key + "] (" + value.join(", ") + ")";
     }
 
     for(FolderLocation &loc : GlobalConfig::folderLocations()) {
         QStringList paths = folderLocationPaths(loc.id);
 
-        if(!settingsLocations.contains(loc.id)) {
+        if(!keyExsists("locations/" + loc.id)) {
             if(loc.id == "base.projectFilesDefault")
                 paths = {QDir::homePath() + "/ScheduleMaster/Projects"};
             else if(loc.id == "base.logfile")
@@ -240,7 +272,7 @@ void LocalConfig::loadFolderLocations() {
                 paths = {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/plugins", QCoreApplication::applicationDirPath() + "/plugins"};
 
             setFolderLocationPaths(loc.id, paths);
-            qDebug().noquote() << "      - [" + loc.id + "] (" + paths.join(", ") + ")";
+            qInfo().noquote() << "      - [" + loc.id + "] (" + paths.join(", ") + ")";
         }
     }
 }
