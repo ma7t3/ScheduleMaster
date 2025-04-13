@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QToolBar>
 #include <QDockWidget>
+#include <QDesktopServices>
 
 #include "Global/WorkspaceHandler.h"
 #include "ProjectData/ProjectData.h"
@@ -30,6 +31,8 @@ protected:
     void updateRecentProjectsList();
 
 protected slots:
+    void showCrashWarning();
+
     void newProject();
     void openProject();
     void openProjectFromFile(const QString &filePath);
@@ -50,6 +53,8 @@ private slots:
     void on_actionDebugGeneralTestAction_triggered();
 
     void setUiFont(const QString &fontFamily);
+
+    void on_actionDebugSimulateCrash_triggered();
 
 private:
     Ui::MainWindow *ui;

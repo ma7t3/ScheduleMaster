@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(LocalConfig::instance(),       &LocalConfig::uiFontChanged,        this,        &MainWindow::setUiFont);
 
     LocalConfig::previewUiFontFamily();
+
+    showCrashWarning();
 }
 
 MainWindow::~MainWindow() {
@@ -142,6 +144,29 @@ void MainWindow::updateRecentProjectsList() {
         connect(action, &QAction::triggered, this, [this, path](){openProjectFromFile(path);});
         i++;
     }
+}
+
+void MainWindow::showCrashWarning() {
+    if(LocalConfig::crashDetected()) {
+        bool logfileSaved = QFile::exists(LocalConfig::lastLogfileName());
+
+        qInfo() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + LocalConfig::lastLogfileName() : "");
+        QString messageTitle = tr("Crash detected");
+        QString messageStr = tr("<p><b>Seems like ScheduleMaster crashed last time you used it</b></p><p>If this was unexpected (e.g. you didn't try to kill the process via the Windows Task Manager or something), please feel free to send a bug report!</p>");
+        QString messageStrAddition = tr("<p>The logfile of your last session was saved seperately. Do you want to open it?</p>");
+        qApp->restoreOverrideCursor();
+        if(QFile::exists(LocalConfig::lastLogfileName())) {
+            messageStr += messageStrAddition;
+            QMessageBox::StandardButton msg = QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Yes|QMessageBox::No);
+            if(msg == QMessageBox::Yes) {
+                QDesktopServices::openUrl(LocalConfig::lastLogfileName());
+            }
+        } else {
+            QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Ok);
+        }
+        qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
+    }
+    LocalConfig::setCrashDetected(true);
 }
 
 void MainWindow::newProject() {
@@ -228,4 +253,18 @@ void MainWindow::on_actionDebugGeneralTestAction_triggered() {
     // test anything here!
 
     qDebug() << "finished!";
+}
+
+void MainWindow::on_actionDebugSimulateCrash_triggered() {
+    #ifndef QT_DEBUG
+        return;
+    #endif
+
+    QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Simulate crash"), tr("<p><b>Do you really want to crash the application now?</b></p><p>All unsaved work will be lost!</p>"), QMessageBox::Yes | QMessageBox::No);
+    if(msg != QMessageBox::Yes)
+        return;
+
+    qWarning() << "Simulating crash...";
+    int *p = nullptr;
+    *p = 0;
 }
