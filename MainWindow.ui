@@ -78,6 +78,7 @@
      <string>Debug</string>
     </property>
     <addaction name="actionDebugGeneralTestAction"/>
+    <addaction name="actionDebugSimulateCrash"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -232,6 +233,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+Shift+#</string>
+   </property>
+  </action>
+  <action name="actionDebugSimulateCrash">
+   <property name="text">
+    <string>Simulate Crash</string>
    </property>
   </action>
  </widget>

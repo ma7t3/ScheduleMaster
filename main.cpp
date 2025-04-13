@@ -75,8 +75,6 @@ int main(int argc, char *argv[]) {
             LocalConfig::setLastLogfileName(newFileName);
     }
 
-    LocalConfig::setCrashDetected(true);
-
     // init logger
     Logger logger(&a, logDir);
     qInfo() << "Starting ScheduleMaster...";
