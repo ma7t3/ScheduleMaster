@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QColor>
+#include <QJsonArray>
 
 class Global : public QObject {
     Q_OBJECT
@@ -15,6 +16,9 @@ public:
 
     static QColor contrastColor(const QColor &);
     /* add general application-wide methods here */
+
+    static QJsonArray stringListToJsonArray(const QStringList &list);
+    static QStringList jsonArrayToStringList(const QJsonArray &array);
 
     static const inline QString ProjectDataRootObjectName = "PROJECT_DATA_ROOT";
 
