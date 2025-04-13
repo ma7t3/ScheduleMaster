@@ -20,3 +20,14 @@ QColor Global::contrastColor(const QColor &c) {
        0.114 * pow(c.blueF(), 2)
        ) >= 0.5 ? Qt::black : Qt::white;
 }
+
+QJsonArray Global::stringListToJsonArray(const QStringList &list) {
+    return QJsonArray::fromStringList(list);
+}
+
+QStringList Global::jsonArrayToStringList(const QJsonArray &array) {
+    QStringList list;
+    for(const QJsonValue &val : array)
+        list << val.toString();
+    return list;
+}
