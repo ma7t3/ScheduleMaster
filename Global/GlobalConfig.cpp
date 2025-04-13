@@ -52,6 +52,10 @@ QList<FolderLocation> GlobalConfig::folderLocations() {
     return _folderLocations.values();
 }
 
+QStringList GlobalConfig::folderLocationIDs() {
+    return _folderLocations.keys();
+}
+
 QJsonDocument GlobalConfig::loadSingleConfigResource(const QString &resource) {
     return parseJsonFile(":/Config/" + resource + ".json");
 }

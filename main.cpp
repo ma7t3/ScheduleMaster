@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
     splashscreen.show();
 
     // get logfile dir
-    QDir logDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs";
+    QDir logDir = LocalConfig::folderLocationPaths("base.logfile").first();
 
     // check if crash was detected. In this case copy logfile
     if(LocalConfig::crashDetected()) {
@@ -74,6 +74,8 @@ int main(int argc, char *argv[]) {
         if(QFile::copy(logDir.path() + "/logfile.txt", newFileName))
             LocalConfig::setLastLogfileName(newFileName);
     }
+
+    LocalConfig::setCrashDetected(true);
 
     // init logger
     Logger logger(&a, logDir);
