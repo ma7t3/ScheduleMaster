@@ -169,6 +169,12 @@ public:
      */
     static QList<FolderLocation> folderLocations();
 
+    /**
+     * @brief Returns a list of all folder location id values used by the app.
+     * @return The list of all folder location id values
+     */
+    static QStringList folderLocationIDs();
+
 protected:
     /**
      * @brief Loads a single config resource file and returns the parsed JSON document.

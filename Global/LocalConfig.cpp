@@ -28,8 +28,6 @@ void LocalConfig::initLocale() {
 
 void LocalConfig::init() {
     qInfo() << "Loading local configuration (2/2)...";
-
-    loadFolderLocations();
 }
 
 QVariant LocalConfig::read(const QString &id) {
@@ -133,7 +131,15 @@ void LocalConfig::setUseGdiEngine(const bool &useGdiEngine) {
 QMap<QString, QStringList> LocalConfig::folderLocations() {
     QMap<QString, QStringList> data;
 
-    const QStringList keys = _folderLocations.keys();
+    const QStringList keys = readGroupKeys("locations");
+
+    const QStringList standardKeys = GlobalConfig::folderLocationIDs();
+    for(const QString &key : standardKeys) {
+        if(!keys.contains(key)) {
+            data[key] = folderLocationDefaultValue(key);
+            write("locations/" + key, data[key]);
+        }
+    }
 
     for(const QString &id : keys)
         data[id] = folderLocationPaths(id);
@@ -142,21 +148,22 @@ QMap<QString, QStringList> LocalConfig::folderLocations() {
 }
 
 void LocalConfig::setFolderLocations(const QMap<QString, QStringList> &locations) {
-    _folderLocations = locations;
-
-    for(const QString &key : locations.keys())
+    QStringList locationKeys = locations.keys();
+    for(const QString &key : locationKeys)
         write("locations/" + key, locations.value(key));
 }
 
 QStringList LocalConfig::folderLocationPaths(const QString &id) {
-    QStringList paths = read("locations/" + id).toStringList();
-    _folderLocations.insert(id, paths);
+    QStringList values = read("locations/" + id).toStringList();
+    if(values.empty()) {
+        values = folderLocationDefaultValue(id);
+        write("locations/" + id, values);
+    }
 
-    return paths;
+    return values;
 }
 
 void LocalConfig::setFolderLocationPaths(const QString &id, const QStringList &paths) {
-    _folderLocations.insert(id, paths);
     write("locations/" + id, paths);
 }
 
@@ -250,29 +257,14 @@ void LocalConfig::setMainWindowGeomentry(const QByteArray &geometry) {
     write("general.mainWindowGeometry", geometry);
 }
 
-void LocalConfig::loadFolderLocations() {
-    qInfo() << "   Loading folder locations...";
-
-    QStringList keys = readGroupKeys("locations");
-    for(const QString &key : std::as_const(keys)) {
-        QStringList value = read("locations/" + key).toStringList();
-        _folderLocations.insert(key, value);
-        qInfo().noquote() << "      - [" + key + "] (" + value.join(", ") + ")";
-    }
-
-    for(FolderLocation &loc : GlobalConfig::folderLocations()) {
-        QStringList paths = folderLocationPaths(loc.id);
-
-        if(!keyExsists("locations/" + loc.id)) {
-            if(loc.id == "base.projectFilesDefault")
-                paths = {QDir::homePath() + "/ScheduleMaster/Projects"};
-            else if(loc.id == "base.logfile")
-                paths = {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs"};
-            else if(loc.id == "base.plugins")
-                paths = {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/plugins", QCoreApplication::applicationDirPath() + "/plugins"};
-
-            setFolderLocationPaths(loc.id, paths);
-            qInfo().noquote() << "      - [" + loc.id + "] (" + paths.join(", ") + ")";
-        }
-    }
+QStringList LocalConfig::folderLocationDefaultValue(const QString &id) {
+    qDebug() << id;
+    if(id == "base.projectFilesDefault")
+        return {QDir::homePath() + "/ScheduleMaster/Projects"};
+    else if(id == "base.logfile")
+        return {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs"};
+    else if(id == "base.plugins")
+        return {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/plugins", QCoreApplication::applicationDirPath() + "/plugins"};
+    else
+        return QStringList();
 }

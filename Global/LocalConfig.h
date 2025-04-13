@@ -97,7 +97,7 @@ public:
     static void setMainWindowGeomentry(const QByteArray &geometry);
 
 protected:
-    void static loadFolderLocations();
+    static QStringList folderLocationDefaultValue(const QString &id);
 
 signals:
     void lastUsedFilesChanged();
@@ -109,8 +109,6 @@ private:
     static inline QString _lastLogfileName = "";
 
     static inline QLocale _locale;
-
-    static inline QMap<QString, QStringList> _folderLocations;
 
 };
 
