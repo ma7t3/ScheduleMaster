@@ -161,7 +161,7 @@ void LocalConfig::setFolderLocationPaths(const QString &id, const QStringList &p
 }
 
 QStringList LocalConfig::lastUsedFiles() {
-    return read("lastUsedFiles").toStringList();
+    return read("general.lastUsedFiles").toStringList();
 }
 
 void LocalConfig::addLastUsedFile(const QString &filePath) {
