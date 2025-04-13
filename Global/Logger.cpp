@@ -5,6 +5,7 @@
 static const QtMessageHandler QT_DEFAULT_MESSAGE_HANDLER = qInstallMessageHandler(nullptr);
 
 Logger::Logger(QObject *parent, const QDir &logfilesDirectory) : QObject(parent) {
+    //logfileMode = LocalConfig::DebugLog; // use this to always enable debug logging - helpful if you broke the LocalConfig and need logging to fix it ^^
     logfileMode = LocalConfig::logfileMode();
 
     if(logfileMode == LocalConfig::NoLog)
@@ -75,12 +76,12 @@ void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QS
     QString timeStr = now.toString("hh:mm:ss");
 
     if(logfileMode == LocalConfig::DebugDetailLog) {
-        s << "       |          |                         | " << message << "\n";
+        s << "       |          |                     | " << message << "\n";
 
         s << counterStr << " | " << timeStr << " | " << typeStr << " | ";
         s << "in " << context.file << " (Line " << context.line << ")\n";
 
-        s << "       |          |                         | " << context.function << "\n\n";
+        s << "       |          |                     | " << context.function << "\n\n";
     } else {
         s << counterStr << " | " << timeStr << " | " << typeStr << " | " << message << "\n";
     }
