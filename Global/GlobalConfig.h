@@ -2,6 +2,8 @@
 #define GLOBALCONFIG_H
 
 #include <QObject>
+#include <QMetaType>
+#include <QColor>
 #include <QLocale>
 
 #include <QDir>
@@ -18,6 +20,67 @@ public:
 
     QString id, name, icon;
     bool multiple;
+};
+
+class PreferenceItem {
+public:
+    PreferenceItem(const QJsonObject &jsonObject = QJsonObject()) {
+        id = jsonObject.value("id").toString();
+        description = jsonObject.value("description").toString();
+
+        QString typeStr = jsonObject.value("type").toString();
+        if(typeStr == "group")
+            isGroup = true;
+
+        typeStr = isGroup ? jsonObject.value("content_type").toString() : typeStr;
+
+        if(typeStr == "bool")
+            type = QMetaType::Bool;
+        else if(typeStr == "int")
+            type = QMetaType::Int;
+        else if(typeStr == "float")
+            type = QMetaType::Float;
+        else if(typeStr == "string")
+            type = QMetaType::QString;
+        else if(typeStr == "stringlist")
+            type = QMetaType::QStringList;
+        else if(typeStr == "color")
+            type = QMetaType::QColor;
+        else if(typeStr == "date")
+            type = QMetaType::QDate;
+        else if(typeStr == "time")
+            type = QMetaType::QTime;
+        else if(typeStr == "datetime")
+            type = QMetaType::QDateTime;
+        else if(typeStr == "bin")
+            type = QMetaType::QByteArray;
+
+        if(isGroup) {
+            groupContentType = type;
+            type = QMetaType::Void;
+        }
+
+        if(!isGroup) {
+            defaultValue = jsonObject.value("default").toVariant();
+
+            if(type == QMetaType::QStringList)
+                defaultValue = defaultValue.toStringList();
+
+            if(type == QMetaType::QColor)
+                defaultValue = QColor(defaultValue.toString());
+
+            if(type == QMetaType::QDate || type == QMetaType::QTime || type == QMetaType::QDateTime)
+                defaultValue = QDate::fromString(defaultValue.toString(), Qt::ISODate);
+
+            if(type == QMetaType::QByteArray)
+                defaultValue = defaultValue.toByteArray();
+        }
+    }
+
+    QString id, description;
+    QVariant defaultValue;
+    QMetaType::Type type = QMetaType::Void, groupContentType = QMetaType::Void;
+    bool isGroup = false;
 };
 
 /**
@@ -50,6 +113,33 @@ public:
 
     /// Initializes all the rest excluding the supported languages
     static void init();
+
+    /**
+     * @brief Returns a list of all preference items.
+     * @return The List of PreferenceItem objects
+     */
+    static QList<PreferenceItem> preferenceItems();
+
+    /**
+     * @brief Checks if the preference item with the given ID exists.
+     * @param id The preference ID
+     * @return Whether the preference item exists or not
+     */
+    static bool preferenceItemExists(const QString &id);
+
+    /**
+     * @brief Returns a preference item by its ID.
+     * @param id The preference ID
+     * @return The PreferenceItem object or a null object if the ID is not found
+     */
+    static PreferenceItem preferenceItem(const QString &id);
+
+    /**
+     * @brief Returns the data type of the preference item specified by the given ID.
+     * @param id The preference ID
+     * @return The preference's data type or QMetaType::Void if the ID is not found
+     */
+    static QMetaType::Type preferenceItemDataType(const QString &id);
 
     /**
      * @brief Returns a list of all suported languages/locales.
@@ -127,6 +217,10 @@ protected:
      */
     static QJsonArray resolveTranslatedStrings(QJsonArray jsonArray);
 
+
+    /// Loads all preference items
+    static void loadPreferenceItems();
+
     /// Loads all supported languages
     static void loadSupportedLanguages();
 
@@ -136,11 +230,13 @@ protected:
 signals:
 
 private:
+    static inline QHash<QString, PreferenceItem> _preferenceItems;
+
     /// Set of all supported languages/locales
     static inline QSet<QLocale> _supportedLanguages;
 
     /// Map of all folder locations: <id, Folder Location object>
-    static inline QMap<QString, FolderLocation> _folderLocations;
+    static inline QHash<QString, FolderLocation> _folderLocations;
 };
 
 #endif // GLOBALCONFIG_H

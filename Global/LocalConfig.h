@@ -45,6 +45,12 @@ public:
     static void initLocale();
     static void init();
 
+    static QVariant read(const QString &id);
+    static void write(const QString &id, const QVariant &value = QVariant());
+    static QStringList readGroupKeys(const QString &group);
+    static bool keyExsists(const QString &key);
+
+public:
     static QLocale locale();
     static QLocale::Language language();
     static void setLanguage(const QLocale &);
@@ -98,8 +104,8 @@ signals:
     void uiFontChanged(const QString &fontFamily);
 
 private:
-    static inline QSettings settingsGeneral   = QSettings("ScheduleMaster", "general");
-    static inline QSettings settingsLocations = QSettings("ScheduleMaster", "locations");
+    static inline QSettings settings = QSettings("ScheduleMaster", "ScheduleMaster");
+
     static inline QString _lastLogfileName = "";
 
     static inline QLocale _locale;

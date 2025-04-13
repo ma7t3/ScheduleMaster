@@ -1,0 +1,107 @@
+[
+    {
+        "id": "general.language",
+        "type": "string",
+        "default": "system",
+        "description": {
+            "object": "translated_string",
+            "en_US": "The language to use for the application's UI",
+            "de_DE": "Sprache der Benutzeroberfläche"
+        }
+    },
+    {
+        "id": "general.logfileMode",
+        "type": "int",
+        "default": 1,
+        "description": {
+            "object": "translated_string",
+            "en_US": "Logfile mode:\n0 = disabled\n1 = normal\n2 = debug\n3 = detailed debug",
+            "de_DE": "Logfile-Modus\n0 = deaktiviert\n1 = normal\n2 = debug\n3 = debug (erweitert)"
+        }
+    },
+    {
+        "id": "general.mainWindowGeometry",
+        "type": "bin",
+        "default": "",
+        "description": {
+            "object": "translated_string",
+            "en_US": "The main window's size and position",
+            "de_DE": "Größe und Positoin des Hauptfensters"
+        }
+    },
+    {
+        "id": "general.closeCheck",
+        "type": "bool",
+        "default": true
+    },
+    {
+        "id": "general.lastUsedFiles",
+        "type": "stringlist",
+        "default": [],
+        "description": {
+            "object": "translated_string",
+            "en_US": "The last used project files",
+            "de_DE": "Zuletzt verwendete Projektdateien"
+        }
+    },
+    {
+        "id": "appearance.theme",
+        "type": "string",
+        "default": "system",
+        "description": {
+            "object": "translated_string",
+            "en_US": "The application's UI style",
+            "de_DE": "Stil der Benutzeroberfläche"
+        }
+    },
+    {
+        "id": "appearance.colorscheme",
+        "type": "int",
+        "default": 0,
+        "description": {
+            "object": "translated_string",
+            "en_US": "The colorscheme of the application's UI:\n0: auto/use system setting\n1: light\n2: dark",
+            "de_DE": "Farbschema der Benutzeroberfläche:\n0: automatisch/Systemeinstellung setting\n1: hell\n2: dunkel"
+        }
+    },
+    {
+        "id": "appearance.font",
+        "type": "string",
+        "default": "",
+        "description": {
+            "object": "translated_string",
+            "en_US": "The font family to use for the application's UI",
+            "de_DE": "Schriftart der Benutzeroberfläche"
+        }
+    },
+    {
+        "id": "appearance.fontEngineGDI",
+        "type": "bool",
+        "default": true,
+        "description": {
+            "object": "translated_string",
+            "en_US": "Force the use of GDI font engine for the application's UI",
+            "de_DE": "Erzwinge die GDI-Schriftart-Engine für die Benutzeroberfläche"
+        }
+    },
+    {
+        "id": "appearance.workspacesToolbarPosition",
+        "type": "int",
+        "default": 4,
+        "description": {
+            "object": "translated_string",
+            "en_US": "Position of the workspaces toolbar:\n1: left\n2: right\n4: top\n8: bottom",
+            "de_DE": "Position der Arbeitsbereiche-Toolbar:\n1: links\n2: rechts\n4: oben\n8: unten"
+        }
+    },
+    {
+        "id": "locations",
+        "type": "group",
+        "content_type":"stringlist",
+        "description": {
+            "object": "translated_string",
+            "en_US": "Folders & Locations categories",
+            "de_DE": "Ordner & Speicherorte - Kategorien"
+        }
+    }
+]

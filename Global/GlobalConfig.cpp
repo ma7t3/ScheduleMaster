@@ -16,7 +16,24 @@ void GlobalConfig::initLanguages() {
 void GlobalConfig::init() {
     qInfo() << "Loading global configuration (2/2)...";
 
+    loadPreferenceItems();
     loadFolderLocations();
+}
+
+QList<PreferenceItem> GlobalConfig::preferenceItems() {
+    return _preferenceItems.values();
+}
+
+bool GlobalConfig::preferenceItemExists(const QString &id) {
+    return _preferenceItems.contains(id);
+}
+
+PreferenceItem GlobalConfig::preferenceItem(const QString &id) {
+    return preferenceItemExists(id) ? _preferenceItems.value(id) : PreferenceItem();
+}
+
+QMetaType::Type GlobalConfig::preferenceItemDataType(const QString &id) {
+    return preferenceItemExists(id) ? preferenceItem(id).type : QMetaType::Void;
 }
 
 QList<QLocale> GlobalConfig::supportedLanguages() {
@@ -59,8 +76,10 @@ QJsonArray GlobalConfig::loadMultiConfigResource(const QString &resource) {
 
 QJsonDocument GlobalConfig::parseJsonFile(const QString &fileName) {
     QFile f(fileName);
-    if(!f.open(QIODevice::ReadOnly))
+    if(!f.open(QIODevice::ReadOnly)) {
+        qWarning().noquote() << "Error while reading resource configuration file: \"" + fileName + "\" (" + f.errorString() + ")";
         return QJsonDocument();
+    }
 
     QJsonParseError error;
     const QJsonDocument doc = QJsonDocument::fromJson(f.readAll(), &error);
@@ -122,6 +141,20 @@ QJsonArray GlobalConfig::resolveTranslatedStrings(QJsonArray jsonArray) {
     return jsonArray;
 }
 
+void GlobalConfig::loadPreferenceItems() {
+    qInfo() << "   Loading preference items...";
+    const QJsonArray items = loadMultiConfigResource("Settings");
+    for(const QJsonValue &val : items) {
+        const QJsonObject obj = val.toObject();
+        PreferenceItem item(obj);
+        if(item.id.isEmpty())
+            continue;
+
+        _preferenceItems.insert(item.id, item);
+        qInfo().noquote() << "      - " + item.id;
+    }
+}
+
 void GlobalConfig::loadSupportedLanguages() {
     qInfo() << "   Loading supported languages...";
     const QJsonArray languages = loadMultiConfigResource("Languages");
@@ -129,7 +162,7 @@ void GlobalConfig::loadSupportedLanguages() {
         const QString lang = val.toString();
         const QLocale locale(lang);
         _supportedLanguages << locale.language();
-        qDebug().noquote() << "      - " + lang;
+        qInfo().noquote() << "      - " + lang;
     }
 }
 
@@ -151,6 +184,6 @@ void GlobalConfig::loadFolderLocations() {
         const FolderLocation location(id, name, icon, multiple);
 
         _folderLocations.insert(id, location);
-        qDebug().noquote() << "      - " + id;
+        qInfo().noquote() << "      - " + id;
     }
 }
