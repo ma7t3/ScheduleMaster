@@ -56,7 +56,6 @@ public:
     static bool restartRequired();
     static QStringList restartRequiredSettings();
 
-public:
     static QLocale locale();
     static QLocale::Language language();
     static void setLanguage(const QLocale &);
@@ -105,6 +104,8 @@ public:
 protected:
     static QStringList folderLocationDefaultValue(const QString &id);
 
+    static QVariant readSilent(const QString &id);
+
 signals:
     void lastUsedFilesChanged();
     void uiFontChanged(const QString &fontFamily);
@@ -115,6 +116,8 @@ private:
     static inline QString _lastLogfileName = "";
 
     static inline QLocale _locale;
+
+    static inline QSet<QString> _modifiedRestartRequiredSettings;
 
 };
 
