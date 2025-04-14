@@ -46,7 +46,9 @@ public:
     static void init();
 
     static QVariant read(const QString &id);
-    static void write(const QString &id, const QVariant &value = QVariant());
+    static void write(const QString &id, const QVariant &value);
+    static void remove(const QString &id);
+    static void rename(const QString &oldID, const QString &newID);
     static bool keyExsists(const QString &key);
     static QStringList groupKeys(const QString &group);
     static QStringList groupSubGroups(const QString &group);

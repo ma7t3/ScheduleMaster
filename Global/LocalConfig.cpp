@@ -23,7 +23,6 @@ void LocalConfig::initLocale() {
         _locale = QLocale(str);
 
     QLocale::setDefault(_locale);
-
 }
 
 void LocalConfig::init() {
@@ -71,6 +70,22 @@ void LocalConfig::write(const QString &id, const QVariant &value) {
 
     qDebug().noquote() << "Save setting: " << id << " = " << convVal << (restartRequired ? " (requires restart)" : "");
     settings.setValue(id, convVal);
+}
+
+void LocalConfig::remove(const QString &id) {
+    bool restartRequired = GlobalConfig::settingRequiresRestart(id);
+
+    if(restartRequired)
+        _modifiedRestartRequiredSettings << id;
+
+    qDebug().noquote() << "Remove setting: " << id << (restartRequired ? " (requires restart)" : "");
+    settings.remove(id);
+}
+
+void LocalConfig::rename(const QString &oldID, const QString &newID) {
+    QVariant value = read(oldID);
+    write(newID, value);
+    remove(oldID);
 }
 
 QStringList LocalConfig::groupKeys(const QString &group) {
