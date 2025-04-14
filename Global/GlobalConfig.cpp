@@ -44,6 +44,17 @@ bool GlobalConfig::settingRequiresRestart(const QString &id) {
     return _restartRequiredSettings.contains(id);
 }
 
+void GlobalConfig::registerNewSettingsItem(const SettingsItem &item) {
+    if(item.id.isEmpty())
+        return;
+
+    if(item.requiresRestart)
+        _restartRequiredSettings << item.id;
+
+    _settingsItems.insert(item.id, item);
+    qInfo().noquote() << "Registered new settings item: " + item.id;
+}
+
 QList<QLocale> GlobalConfig::supportedLanguages() {
     return _supportedLanguages.values();
 }
@@ -201,4 +212,8 @@ void GlobalConfig::loadFolderLocations() {
         _folderLocations.insert(id, location);
         qInfo().noquote() << "      - " + id;
     }
+}
+
+QString GlobalConfig::defaultLogfileLocation() {
+    return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs";
 }

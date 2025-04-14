@@ -7,7 +7,8 @@
             "de_DE": "Standardspeicherort für Projektdateien"
         },
         "icon": ":/Icons/FileOpen.ico",
-        "multiple": false
+        "multiple": false,
+        "changeRequiresRestart": false
     },
     {
         "id": "base.logfile",
@@ -17,7 +18,8 @@
             "de_DE": "Log-Dateien"
         },
         "icon": ":/Icons/File.ico",
-        "multiple": false
+        "multiple": false,
+        "changeRequiresRestart": true
     },
     {
         "id": "base.plugins",
@@ -27,6 +29,7 @@
             "de_DE": "Plugins"
         },
         "icon": ":/Icons/Plugin.ico",
-        "multiple": true
+        "multiple": true,
+        "changeRequiresRestart": true
     }
 ]

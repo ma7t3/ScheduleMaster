@@ -102,8 +102,6 @@ public:
     static void setMainWindowGeomentry(const QByteArray &geometry);
 
 protected:
-    static QStringList folderLocationDefaultValue(const QString &id);
-
     static QVariant readSilent(const QString &id);
 
 signals:

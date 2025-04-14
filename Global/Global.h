@@ -2,8 +2,22 @@
 #define GLOBAL_H
 
 #include <QObject>
-#include <QColor>
+
+#include <QJsonValue>
 #include <QJsonArray>
+#include <QJsonObject>
+#include <QVariant>
+#include <QMetaType>
+#include <QStringList>
+#include <QDate>
+#include <QTime>
+#include <QDateTime>
+#include <QColor>
+#include <QSize>
+#include <QPoint>
+#include <QRect>
+#include <QDebug>
+
 
 class Global : public QObject {
     Q_OBJECT
@@ -19,6 +33,9 @@ public:
 
     static QJsonArray stringListToJsonArray(const QStringList &list);
     static QStringList jsonArrayToStringList(const QJsonArray &array);
+
+    static QVariant convertVariant(const QVariant &value, QMetaType::Type type);
+    static QVariant convertJsonToVariant(const QJsonValue &value, QMetaType::Type type);
 
     static const inline QString ProjectDataRootObjectName = "PROJECT_DATA_ROOT";
 

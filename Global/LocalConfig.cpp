@@ -37,23 +37,40 @@ QVariant LocalConfig::read(const QString &id) {
 }
 
 QVariant LocalConfig::readSilent(const QString &id) {
-    SettingsItem item = GlobalConfig::settingsItem(id);
-    QVariant value = settings.value(id, item.defaultValue);
-    return value;
+    QVariant value;
+    if(GlobalConfig::settingsItemExists(id)) {
+        SettingsItem item = GlobalConfig::settingsItem(id);
+        value = Global::convertVariant(settings.value(id, item.defaultValue), item.type);
+        if(!keyExsists(id) && !item.isGroup)
+            write(id, value);
+
+        return value;
+    } else {
+        return settings.value(id);
+    }
 }
 
 void LocalConfig::write(const QString &id, const QVariant &value) {
-    QVariant oldValue = readSilent(id);
+    bool exists = GlobalConfig::settingsItemExists(id);
 
-    if(oldValue == value)
-        return;
+    QVariant convVal;
+
+    if(exists)
+        convVal = Global::convertVariant(value, static_cast<QMetaType::Type>(GlobalConfig::settingsItem(id).type));
+    else
+        convVal = value;
+
+    if(keyExsists(id)) {
+        if(readSilent(id) == convVal)
+            return;
+    }
 
     bool restartRequired = GlobalConfig::settingRequiresRestart(id);
     if(restartRequired)
         _modifiedRestartRequiredSettings << id;
 
-    qDebug().noquote() << "Save setting: " << id << " = " << value << (restartRequired ? " (requires restart)" : "");
-    settings.setValue(id, value);
+    qDebug().noquote() << "Save setting: " << id << " = " << convVal << (restartRequired ? " (requires restart)" : "");
+    settings.setValue(id, convVal);
 }
 
 QStringList LocalConfig::groupKeys(const QString &group) {
@@ -172,7 +189,7 @@ QMap<QString, QStringList> LocalConfig::folderLocations() {
     const QStringList standardKeys = GlobalConfig::folderLocationIDs();
     for(const QString &key : standardKeys) {
         if(!keys.contains(key)) {
-            data[key] = folderLocationDefaultValue(key);
+            data[key] = GlobalConfig::settingsItem("locations/" + key).defaultValue.toStringList();
             write("locations/" + key, data[key]);
         }
     }
@@ -192,7 +209,9 @@ void LocalConfig::setFolderLocations(const QMap<QString, QStringList> &locations
 QStringList LocalConfig::folderLocationPaths(const QString &id) {
     QStringList values = read("locations/" + id).toStringList();
     if(values.empty()) {
-        values = folderLocationDefaultValue(id);
+        values = GlobalConfig::settingsItem("locations/" + id).defaultValue.toStringList();
+        if(values.isEmpty() && id == "base.logfile")
+            values = {GlobalConfig::defaultLogfileLocation()};
         write("locations/" + id, values);
     }
 
@@ -291,16 +310,4 @@ QByteArray LocalConfig::mainWindowGeometry() {
 
 void LocalConfig::setMainWindowGeomentry(const QByteArray &geometry) {
     write("general.mainWindowGeometry", geometry);
-}
-
-QStringList LocalConfig::folderLocationDefaultValue(const QString &id) {
-    qDebug() << id;
-    if(id == "base.projectFilesDefault")
-        return {QDir::homePath() + "/ScheduleMaster/Projects"};
-    else if(id == "base.logfile")
-        return {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs"};
-    else if(id == "base.plugins")
-        return {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/plugins", QCoreApplication::applicationDirPath() + "/plugins"};
-    else
-        return QStringList();
 }
