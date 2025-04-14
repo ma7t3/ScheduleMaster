@@ -22,9 +22,9 @@ public:
     bool multiple;
 };
 
-class PreferenceItem {
+class SettingsItem {
 public:
-    PreferenceItem(const QJsonObject &jsonObject = QJsonObject()) {
+    SettingsItem(const QJsonObject &jsonObject = QJsonObject()) {
         id = jsonObject.value("id").toString();
         description = jsonObject.value("description").toString();
 
@@ -82,7 +82,6 @@ public:
     QString id, description;
     QVariant defaultValue;
     QMetaType::Type type = QMetaType::Void, groupContentType = QMetaType::Void;
-    bool isGroup = false;
     bool isGroup = false, requiresRestart;
 };
 
@@ -119,30 +118,30 @@ public:
 
     /**
      * @brief Returns a list of all preference items.
-     * @return The List of PreferenceItem objects
+     * @return The List of SettingsItem objects
      */
-    static QList<PreferenceItem> preferenceItems();
+    static QList<SettingsItem> settingsItems();
 
     /**
      * @brief Checks if the preference item with the given ID exists.
      * @param id The preference ID
      * @return Whether the preference item exists or not
      */
-    static bool preferenceItemExists(const QString &id);
+    static bool settingsItemExists(const QString &id);
 
     /**
      * @brief Returns a preference item by its ID.
      * @param id The preference ID
-     * @return The PreferenceItem object or a null object if the ID is not found
+     * @return The SettingsItem object or a null object if the ID is not found
      */
-    static PreferenceItem preferenceItem(const QString &id);
+    static SettingsItem settingsItem(const QString &id);
 
     /**
      * @brief Returns the data type of the preference item specified by the given ID.
      * @param id The preference ID
      * @return The preference's data type or QMetaType::Void if the ID is not found
      */
-    static QMetaType::Type preferenceItemDataType(const QString &id);
+    static QMetaType::Type settingsItemDataType(const QString &id);
 
     /**
      * @brief Returns a list of all suported languages/locales.
@@ -228,7 +227,7 @@ protected:
 
 
     /// Loads all preference items
-    static void loadPreferenceItems();
+    static void loadSettingsItems();
 
     /// Loads all supported languages
     static void loadSupportedLanguages();
@@ -239,7 +238,7 @@ protected:
 signals:
 
 private:
-    static inline QHash<QString, PreferenceItem> _preferenceItems;
+    static inline QHash<QString, SettingsItem> _settingsItems;
 
     /// Set of all supported languages/locales
     static inline QSet<QLocale> _supportedLanguages;

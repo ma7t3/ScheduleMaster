@@ -16,24 +16,24 @@ void GlobalConfig::initLanguages() {
 void GlobalConfig::init() {
     qInfo() << "Loading global configuration (2/2)...";
 
-    loadPreferenceItems();
+    loadSettingsItems();
     loadFolderLocations();
 }
 
-QList<PreferenceItem> GlobalConfig::preferenceItems() {
-    return _preferenceItems.values();
+QList<SettingsItem> GlobalConfig::settingsItems() {
+    return _settingsItems.values();
 }
 
-bool GlobalConfig::preferenceItemExists(const QString &id) {
-    return _preferenceItems.contains(id);
+bool GlobalConfig::settingsItemExists(const QString &id) {
+    return _settingsItems.contains(id);
 }
 
-PreferenceItem GlobalConfig::preferenceItem(const QString &id) {
-    return preferenceItemExists(id) ? _preferenceItems.value(id) : PreferenceItem();
+SettingsItem GlobalConfig::settingsItem(const QString &id) {
+    return settingsItemExists(id) ? _settingsItems.value(id) : SettingsItem();
 }
 
-QMetaType::Type GlobalConfig::preferenceItemDataType(const QString &id) {
-    return preferenceItemExists(id) ? preferenceItem(id).type : QMetaType::Void;
+QMetaType::Type GlobalConfig::settingsItemDataType(const QString &id) {
+    return settingsItemExists(id) ? settingsItem(id).type : QMetaType::Void;
 }
 
 QList<QLocale> GlobalConfig::supportedLanguages() {
@@ -145,16 +145,16 @@ QJsonArray GlobalConfig::resolveTranslatedStrings(QJsonArray jsonArray) {
     return jsonArray;
 }
 
-void GlobalConfig::loadPreferenceItems() {
+void GlobalConfig::loadSettingsItems() {
     qInfo() << "   Loading preference items...";
     const QJsonArray items = loadMultiConfigResource("Settings");
     for(const QJsonValue &val : items) {
         const QJsonObject obj = val.toObject();
-        PreferenceItem item(obj);
+        SettingsItem item(obj);
         if(item.id.isEmpty())
             continue;
 
-        _preferenceItems.insert(item.id, item);
+        _settingsItems.insert(item.id, item);
         qInfo().noquote() << "      - " + item.id;
     }
 }
