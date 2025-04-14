@@ -43,7 +43,16 @@ QVariant LocalConfig::readSilent(const QString &id) {
 }
 
 void LocalConfig::write(const QString &id, const QVariant &value) {
-    qDebug().noquote() << "Save setting: " << id << " = " << value;
+    QVariant oldValue = readSilent(id);
+
+    if(oldValue == value)
+        return;
+
+    bool restartRequired = GlobalConfig::settingRequiresRestart(id);
+    if(restartRequired)
+        _modifiedRestartRequiredSettings << id;
+
+    qDebug().noquote() << "Save setting: " << id << " = " << value << (restartRequired ? " (requires restart)" : "");
     settings.setValue(id, value);
 }
 
