@@ -36,6 +36,14 @@ QMetaType::Type GlobalConfig::settingsItemDataType(const QString &id) {
     return settingsItemExists(id) ? settingsItem(id).type : QMetaType::Void;
 }
 
+QSet<QString> GlobalConfig::restartRequiredSettings() {
+    return _restartRequiredSettings;
+}
+
+bool GlobalConfig::settingRequiresRestart(const QString &id) {
+    return _restartRequiredSettings.contains(id);
+}
+
 QList<QLocale> GlobalConfig::supportedLanguages() {
     return _supportedLanguages.values();
 }
@@ -153,6 +161,9 @@ void GlobalConfig::loadSettingsItems() {
         SettingsItem item(obj);
         if(item.id.isEmpty())
             continue;
+
+        if(item.requiresRestart)
+            _restartRequiredSettings << item.id;
 
         _settingsItems.insert(item.id, item);
         qInfo().noquote() << "      - " + item.id;

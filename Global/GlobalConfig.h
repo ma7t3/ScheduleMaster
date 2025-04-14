@@ -144,6 +144,21 @@ public:
     static QMetaType::Type settingsItemDataType(const QString &id);
 
     /**
+     * @brief Returns a set of all setting keys that require a application restart.
+     * @return The set of restart requiring settings
+     */
+    static QSet<QString> restartRequiredSettings();
+
+    /**
+     * @brief Checks if the setting specified by the given ID requires a restart.
+     *
+     * Returns false if the ID is not found.
+     * @param id The setting ID
+     * @return Whether the settings requires a restart or not
+     */
+    static bool settingRequiresRestart(const QString &id);
+
+    /**
      * @brief Returns a list of all suported languages/locales.
      * @return The list of supported languages/locales
      */
@@ -238,7 +253,11 @@ protected:
 signals:
 
 private:
+    /// All settingsItems with their ID as key
     static inline QHash<QString, SettingsItem> _settingsItems;
+
+    /// Set of all settings that require a restart
+    static inline QSet<QString> _restartRequiredSettings;
 
     /// Set of all supported languages/locales
     static inline QSet<QLocale> _supportedLanguages;
