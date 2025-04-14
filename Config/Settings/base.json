@@ -1,7 +1,7 @@
 [
     {
         "id": "general.language",
-        "type": "string",
+        "type": "QString",
         "default": "system",
         "requireRestart": true,
         "description": {
@@ -23,7 +23,7 @@
     },
     {
         "id": "general.mainWindowGeometry",
-        "type": "bin",
+        "type": "QByteArray",
         "default": "",
         "requireRestart": false,
         "description": {
@@ -40,7 +40,7 @@
     },
     {
         "id": "general.lastUsedFiles",
-        "type": "stringlist",
+        "type": "QStringList",
         "default": [],
         "requireRestart": false,
         "description": {
@@ -51,7 +51,7 @@
     },
     {
         "id": "appearance.theme",
-        "type": "string",
+        "type": "QString",
         "default": "system",
         "requireRestart": false,
         "description": {
@@ -73,7 +73,7 @@
     },
     {
         "id": "appearance.font",
-        "type": "string",
+        "type": "QString",
         "default": "",
         "requireRestart": false,
         "description": {

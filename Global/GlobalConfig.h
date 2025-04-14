@@ -5,6 +5,7 @@
 #include <QMetaType>
 #include <QColor>
 #include <QLocale>
+#include <QStandardPaths>
 
 #include <QDir>
 
@@ -157,6 +158,12 @@ public:
      * @return Whether the settings requires a restart or not
      */
     static bool settingRequiresRestart(const QString &id);
+
+    /**
+     * @brief Registers a new SettingsItem to the global configuration
+     * @param item The item to register
+     */
+    static void registerNewSettingsItem(const SettingsItem &item);
 
     /**
      * @brief Returns a list of all suported languages/locales.
