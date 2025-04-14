@@ -50,6 +50,8 @@ Logger::Logger(QObject *parent, const QDir &logfilesDirectory) : QObject(parent)
 }
 
 void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QString &message) {
+    (*QT_DEFAULT_MESSAGE_HANDLER)(type, context, message);
+
     if(type == QtMsgType::QtDebugMsg && logfileMode != LocalConfig::DebugLog && logfileMode != LocalConfig::DebugDetailLog)
         return;
 
@@ -87,8 +89,6 @@ void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QS
     }
 
     f.close();
-
-    (*QT_DEFAULT_MESSAGE_HANDLER)(type, context, message);
 
     counter++;
 }
