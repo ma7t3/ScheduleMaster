@@ -45,15 +45,40 @@ void LocalConfig::write(const QString &id, const QVariant &value) {
     settings.setValue(id, value);
 }
 
-QStringList LocalConfig::readGroupKeys(const QString &group) {
+QStringList LocalConfig::groupKeys(const QString &group) {
     settings.beginGroup(group);
     QStringList keys = settings.childKeys();
     settings.endGroup();
     return keys;
 }
 
+QStringList LocalConfig::groupSubGroups(const QString &group) {
+    settings.beginGroup(group);
+    QStringList groups = settings.childGroups();
+    settings.endGroup();
+    return groups;
+}
+
 bool LocalConfig::keyExsists(const QString &key) {
     return settings.contains(key);
+}
+
+QStringList LocalConfig::allKeys() {
+    return settings.childKeys();
+}
+
+QStringList LocalConfig::allGroups() {
+    return settings.childGroups();
+}
+
+bool LocalConfig::restartRequired() {
+    return !_modifiedRestartRequiredSettings.isEmpty();
+}
+
+QStringList LocalConfig::restartRequiredSettings() {
+    QStringList list = _modifiedRestartRequiredSettings.values();
+    list.sort();
+    return list;
 }
 
 QLocale LocalConfig::locale() {
@@ -131,7 +156,7 @@ void LocalConfig::setUseGdiEngine(const bool &useGdiEngine) {
 QMap<QString, QStringList> LocalConfig::folderLocations() {
     QMap<QString, QStringList> data;
 
-    const QStringList keys = readGroupKeys("locations");
+    const QStringList keys = groupKeys("locations");
 
     const QStringList standardKeys = GlobalConfig::folderLocationIDs();
     for(const QString &key : standardKeys) {
