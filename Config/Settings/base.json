@@ -36,7 +36,7 @@
         "id": "general.closeCheck",
         "type": "bool",
         "default": true,
-        "requireRestart": false,
+        "requireRestart": false
     },
     {
         "id": "general.lastUsedFiles",
