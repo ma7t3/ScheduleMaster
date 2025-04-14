@@ -3,6 +3,7 @@
         "id": "general.language",
         "type": "string",
         "default": "system",
+        "requireRestart": true,
         "description": {
             "object": "translated_string",
             "en_US": "The language to use for the application's UI",
@@ -13,9 +14,10 @@
         "id": "general.logfileMode",
         "type": "int",
         "default": 1,
+        "requireRestart": true,
         "description": {
             "object": "translated_string",
-            "en_US": "Logfile mode:\n0 = disabled\n1 = normal\n2 = debug\n3 = detailed debug",
+            "en_US": "Logfile mode\n0 = disabled\n1 = normal\n2 = debug\n3 = detailed debug",
             "de_DE": "Logfile-Modus\n0 = deaktiviert\n1 = normal\n2 = debug\n3 = debug (erweitert)"
         }
     },
@@ -23,6 +25,7 @@
         "id": "general.mainWindowGeometry",
         "type": "bin",
         "default": "",
+        "requireRestart": false,
         "description": {
             "object": "translated_string",
             "en_US": "The main window's size and position",
@@ -32,12 +35,14 @@
     {
         "id": "general.closeCheck",
         "type": "bool",
-        "default": true
+        "default": true,
+        "requireRestart": false,
     },
     {
         "id": "general.lastUsedFiles",
         "type": "stringlist",
         "default": [],
+        "requireRestart": false,
         "description": {
             "object": "translated_string",
             "en_US": "The last used project files",
@@ -48,6 +53,7 @@
         "id": "appearance.theme",
         "type": "string",
         "default": "system",
+        "requireRestart": false,
         "description": {
             "object": "translated_string",
             "en_US": "The application's UI style",
@@ -58,6 +64,7 @@
         "id": "appearance.colorscheme",
         "type": "int",
         "default": 0,
+        "requireRestart": false,
         "description": {
             "object": "translated_string",
             "en_US": "The colorscheme of the application's UI:\n0: auto/use system setting\n1: light\n2: dark",
@@ -68,6 +75,7 @@
         "id": "appearance.font",
         "type": "string",
         "default": "",
+        "requireRestart": false,
         "description": {
             "object": "translated_string",
             "en_US": "The font family to use for the application's UI",
@@ -78,6 +86,7 @@
         "id": "appearance.fontEngineGDI",
         "type": "bool",
         "default": true,
+        "requireRestart": true,
         "description": {
             "object": "translated_string",
             "en_US": "Force the use of GDI font engine for the application's UI",
@@ -88,6 +97,7 @@
         "id": "appearance.workspacesToolbarPosition",
         "type": "int",
         "default": 4,
+        "requireRestart": false,
         "description": {
             "object": "translated_string",
             "en_US": "Position of the workspaces toolbar:\n1: left\n2: right\n4: top\n8: bottom",
@@ -97,6 +107,7 @@
     {
         "id": "locations",
         "type": "group",
+        "requireRestart": false,
         "content_type":"stringlist",
         "description": {
             "object": "translated_string",
