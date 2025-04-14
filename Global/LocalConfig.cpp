@@ -31,12 +31,14 @@ void LocalConfig::init() {
 }
 
 QVariant LocalConfig::read(const QString &id) {
-    PreferenceItem item = GlobalConfig::preferenceItem(id);
-
-    QVariant value = settings.value(id, item.defaultValue);
-
+    QVariant value = readSilent(id);
     qDebug().noquote() << "Read setting: " << id << " << " << value;
+    return value;
+}
 
+QVariant LocalConfig::readSilent(const QString &id) {
+    SettingsItem item = GlobalConfig::settingsItem(id);
+    QVariant value = settings.value(id, item.defaultValue);
     return value;
 }
 
