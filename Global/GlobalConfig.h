@@ -75,12 +75,15 @@ public:
             if(type == QMetaType::QByteArray)
                 defaultValue = defaultValue.toByteArray();
         }
+
+        requiresRestart = jsonObject.value("requireRestart").toBool(false);
     }
 
     QString id, description;
     QVariant defaultValue;
     QMetaType::Type type = QMetaType::Void, groupContentType = QMetaType::Void;
     bool isGroup = false;
+    bool isGroup = false, requiresRestart;
 };
 
 /**
