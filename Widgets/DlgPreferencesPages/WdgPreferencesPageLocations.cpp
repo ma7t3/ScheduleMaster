@@ -20,6 +20,8 @@ WdgPreferencesPageLocations::~WdgPreferencesPageLocations() {
 }
 
 void WdgPreferencesPageLocations::reloadPreferences() {
+    ui->lwLocationCategories->clear();
+
     QList<FolderLocation> locations = GlobalConfig::folderLocations();
     for(FolderLocation &loc : locations) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
@@ -32,15 +34,19 @@ void WdgPreferencesPageLocations::reloadPreferences() {
     }
 
     _folderLocationsPaths = LocalConfig::folderLocations();
+
+    WdgPreferencesPage::reloadPreferences();
 }
 
 void WdgPreferencesPageLocations::savePreferences() {
     ui->lwLocationCategories->setCurrentItem(nullptr);
 
     LocalConfig::setFolderLocations(_folderLocationsPaths);
+
+    WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPageLocations::discardPreferences() {}
+void WdgPreferencesPageLocations::discardPreviewPreferences() {}
 
 QString WdgPreferencesPageLocations::id() {
     return "base.locations";
@@ -68,6 +74,7 @@ void WdgPreferencesPageLocations::on_lwLocationCategories_currentItemChanged(QLi
             newPaths = {ui->leLocationSingleFolder->text()};
 
         _folderLocationsPaths[oldID] = newPaths;
+        setUnsaved();
     }
 
     ui->lwLocationMultipleFolders->clear();

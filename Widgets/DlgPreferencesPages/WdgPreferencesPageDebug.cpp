@@ -11,11 +11,15 @@ WdgPreferencesPageDebug::~WdgPreferencesPageDebug() {
     delete ui;
 }
 
-void WdgPreferencesPageDebug::reloadPreferences() {}
+void WdgPreferencesPageDebug::reloadPreferences() {
+    WdgPreferencesPage::reloadPreferences();
+}
 
-void WdgPreferencesPageDebug::savePreferences() {}
+void WdgPreferencesPageDebug::savePreferences() {
+    WdgPreferencesPage::savePreferences();
+}
 
-void WdgPreferencesPageDebug::discardPreferences() {}
+void WdgPreferencesPageDebug::discardPreviewPreferences() {}
 
 QString WdgPreferencesPageDebug::id() {
     return "base.debug";

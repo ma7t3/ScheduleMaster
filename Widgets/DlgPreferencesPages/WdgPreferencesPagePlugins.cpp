@@ -11,11 +11,15 @@ WdgPreferencesPagePlugins::~WdgPreferencesPagePlugins() {
     delete ui;
 }
 
-void WdgPreferencesPagePlugins::reloadPreferences() {}
+void WdgPreferencesPagePlugins::reloadPreferences() {
+    WdgPreferencesPage::reloadPreferences();
+}
 
-void WdgPreferencesPagePlugins::savePreferences() {}
+void WdgPreferencesPagePlugins::savePreferences() {
+    WdgPreferencesPage::savePreferences();
+}
 
-void WdgPreferencesPagePlugins::discardPreferences() {}
+void WdgPreferencesPagePlugins::discardPreviewPreferences() {}
 
 QString WdgPreferencesPagePlugins::id() {
     return "base.plugins";

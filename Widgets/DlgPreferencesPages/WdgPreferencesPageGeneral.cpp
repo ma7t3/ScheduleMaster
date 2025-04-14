@@ -7,6 +7,9 @@ WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     ui->setupUi(this);
 
     reloadPreferences();
+
+    connect(ui->cbLanguage, &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
+    connect(ui->cbLogfileMode, &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
 }
 
 WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
@@ -14,6 +17,8 @@ WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
 }
 
 void WdgPreferencesPageGeneral::reloadPreferences() {
+    ui->cbLanguage->clear();
+
     // available languages:
     QList<QLocale> languages = GlobalConfig::supportedLanguages();
     for(QLocale language : std::as_const(languages)) {
@@ -24,6 +29,8 @@ void WdgPreferencesPageGeneral::reloadPreferences() {
 
     // logfile mode
     ui->cbLogfileMode->setCurrentIndex(LocalConfig::logfileMode());
+
+    WdgPreferencesPage::reloadPreferences();
 }
 
 void WdgPreferencesPageGeneral::savePreferences() {
@@ -32,9 +39,11 @@ void WdgPreferencesPageGeneral::savePreferences() {
 
     // logfile mode
     LocalConfig::setLogfileMode(static_cast<LocalConfig::LogfileMode>(ui->cbLogfileMode->currentIndex()));
+
+    WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPageGeneral::discardPreferences() {}
+void WdgPreferencesPageGeneral::discardPreviewPreferences() {}
 
 QString WdgPreferencesPageGeneral::id() {
     return "base.general";
