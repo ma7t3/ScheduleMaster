@@ -7,6 +7,10 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     ui->setupUi(this);
 
     reloadPreferences();
+
+    connect(ui->cbAppearance, &QComboBox::currentIndexChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->fcbFont, &QFontComboBox::currentFontChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->cbGDIEngine, &QCheckBox::checkStateChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
 }
 
 WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
@@ -16,14 +20,16 @@ WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
 void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->fcbFont->setCurrentFont(QFont(LocalConfig::uiFontFamily()));
     ui->cbGDIEngine->setChecked(LocalConfig::useGdiEngine());
+    WdgPreferencesPage::reloadPreferences();
 }
 
 void WdgPreferencesPageAppearance::savePreferences() {
     LocalConfig::setUiFontFamily(ui->fcbFont->currentFont().family());
     LocalConfig::setUseGdiEngine(ui->cbGDIEngine->isChecked());
+    WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPageAppearance::discardPreferences() {
+void WdgPreferencesPageAppearance::discardPreviewPreferences() {
     LocalConfig::restoreUiFontFamilyPreview();
 }
 

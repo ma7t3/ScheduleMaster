@@ -12,14 +12,14 @@ WdgPreferencesPageUpdates::~WdgPreferencesPageUpdates() {
 }
 
 void WdgPreferencesPageUpdates::reloadPreferences() {
-
+    WdgPreferencesPage::reloadPreferences();
 }
 
 void WdgPreferencesPageUpdates::savePreferences() {
-
+    WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPageUpdates::discardPreferences() {}
+void WdgPreferencesPageUpdates::discardPreviewPreferences() {}
 
 QString WdgPreferencesPageUpdates::id() {
     return "base.updates";

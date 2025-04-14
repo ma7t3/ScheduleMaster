@@ -46,16 +46,39 @@ void DlgPreferences::addPage(WdgPreferencesPage *page) {
     ui->swContent->addWidget(page);
 }
 
+void DlgPreferences::reloadPreferences() {
+    qInfo() << "Reloading preferences...";
+
+    for(WdgPreferencesPage *page : std::as_const(_pages))
+        page->reloadPreferences();
+}
+
 void DlgPreferences::savePreferences() {
     qInfo() << "Saving preferences...";
 
     for(WdgPreferencesPage *page : std::as_const(_pages))
         page->savePreferences();
+
+    if(LocalConfig::restartRequired()) {
+        QStringList items = LocalConfig::restartRequiredSettings();
+
+        QString itemList = "<ul><li>" + items.join("</li><li>") + "</li></ul>";
+
+        QMessageBox::information(this, tr("Restart required"), tr("<p>Some settings require a application restart to be applied:</p>") + itemList);
+    }
 }
 
-void DlgPreferences::discardPreferences() {
+void DlgPreferences::discardPreviewPreferences() {
     for(WdgPreferencesPage *page : std::as_const(_pages))
-        page->discardPreferences();
+        page->discardPreviewPreferences();
+}
+
+bool DlgPreferences::unsavedChanges() {
+    bool unsaved = false;
+    for(WdgPreferencesPage *page : std::as_const(_pages))
+        unsaved |= page->unsavedChanges();
+
+    return unsaved;
 }
 
 void DlgPreferences::on_lwList_currentItemChanged(QListWidgetItem *current,
@@ -76,6 +99,16 @@ void DlgPreferences::accept() {
 }
 
 void DlgPreferences::reject() {
-    discardPreferences();
+    if(unsavedChanges()) {
+        QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved changes"), tr("<p><b>There are some changes in your preferences that aren't save now!</b></p><p>Do you want to save or discard them?</p>"), QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel, QMessageBox::Save);
+
+        switch(msg) {
+        case QMessageBox::Save: savePreferences(); QDialog::accept();
+        case QMessageBox::Discard: break;
+        default: return;
+        }
+    }
+
+    discardPreviewPreferences();
     QDialog::reject();
 }

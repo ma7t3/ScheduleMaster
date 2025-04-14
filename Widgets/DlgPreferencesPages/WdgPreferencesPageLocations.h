@@ -14,8 +14,7 @@ namespace Ui {
 class WdgPreferencesPageLocations;
 }
 
-class WdgPreferencesPageLocations : public WdgPreferencesPage
-{
+class WdgPreferencesPageLocations : public WdgPreferencesPage {
     Q_OBJECT
 
 public:
@@ -24,7 +23,7 @@ public:
 
     virtual void reloadPreferences() override;
     virtual void savePreferences() override;
-    virtual void discardPreferences() override;
+    virtual void discardPreviewPreferences() override;
 
     virtual QString id() override;
     virtual QString name() override;

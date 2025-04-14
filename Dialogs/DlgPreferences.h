@@ -7,6 +7,8 @@
 #include <QLocale>
 #include <QFileDialog>
 
+#include "Dialogs/DlgConfigEditor.h"
+
 #include "Global/LocalConfig.h"
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
@@ -34,8 +36,10 @@ public:
     void addPage(WdgPreferencesPage *page);
 
 private:
+    void reloadPreferences();
     void savePreferences();
-    void discardPreferences();
+    void discardPreviewPreferences();
+    bool unsavedChanges();
 
 private slots:
     void on_lwList_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
