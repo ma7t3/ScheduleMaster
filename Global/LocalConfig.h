@@ -108,6 +108,8 @@ protected:
     static QVariant readSilent(const QString &id);
 
 signals:
+    void settingChanged(const QString &id, const QVariant &value);
+
     void lastUsedFilesChanged();
     void uiFontChanged(const QString &fontFamily);
 
