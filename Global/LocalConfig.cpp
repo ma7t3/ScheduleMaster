@@ -56,7 +56,7 @@ QVariant LocalConfig::write(const QString &id, const QVariant &value) {
     QVariant convVal;
 
     if(exists)
-        convVal = Global::convertVariant(value, static_cast<QMetaType::Type>(GlobalConfig::settingsItem(id).type));
+        convVal = VariantConverter::convert(value, static_cast<QMetaType::Type>(GlobalConfig::settingsItem(id).type));
     else
         convVal = value;
 
