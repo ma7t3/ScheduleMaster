@@ -30,7 +30,7 @@ public:
     QString id, description;
     QVariant defaultValue;
     QMetaType::Type type = QMetaType::Void, groupContentType = QMetaType::Void;
-    bool isGroup = false, requiresRestart;
+    bool isGroup = false, requiresRestart = false;
 };
 
 /**
