@@ -40,6 +40,7 @@ private:
     void savePreferences();
     void discardPreviewPreferences();
     bool unsavedChanges();
+    void checkRestartRequired();
 
 private slots:
     void on_lwList_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
