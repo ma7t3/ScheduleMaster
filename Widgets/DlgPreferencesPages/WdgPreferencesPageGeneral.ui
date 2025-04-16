@@ -32,28 +32,43 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QComboBox" name="cbLogfileMode">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
      <item>
-      <property name="text">
-       <string>No Logging</string>
-      </property>
+      <widget class="QComboBox" name="cbLogfileMode">
+       <item>
+        <property name="text">
+         <string>No Logging</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Normal</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Debug</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Detailed Debug</string>
+        </property>
+       </item>
+      </widget>
      </item>
      <item>
-      <property name="text">
-       <string>Normal</string>
-      </property>
+      <widget class="QPushButton" name="pbLogfileLocation">
+       <property name="text">
+        <string>Open Logfile Location...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resources.qrc">
+         <normaloff>:/Icons/FileOpen.ico</normaloff>:/Icons/FileOpen.ico</iconset>
+       </property>
+      </widget>
      </item>
-     <item>
-      <property name="text">
-       <string>Debug</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Detailed Debug</string>
-      </property>
-     </item>
-    </widget>
+    </layout>
    </item>
    <item row="2" column="1">
     <widget class="QLabel" name="lLogfileModeInfo">
@@ -70,6 +85,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
