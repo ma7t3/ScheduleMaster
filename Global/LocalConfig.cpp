@@ -51,11 +51,11 @@ QVariant LocalConfig::readSilent(const QString &id) {
 }
 
 QVariant LocalConfig::write(const QString &id, const QVariant &value) {
-    bool exists = GlobalConfig::settingsItemExists(id);
+    bool itemExists = GlobalConfig::settingsItemExists(id);
 
     QVariant convVal;
 
-    if(exists)
+    if(itemExists)
         convVal = VariantConverter::convert(value, static_cast<QMetaType::Type>(GlobalConfig::settingsItem(id).type));
     else
         convVal = value;
@@ -70,8 +70,14 @@ QVariant LocalConfig::write(const QString &id, const QVariant &value) {
         _modifiedRestartRequiredSettings << id;
 
     qDebug().noquote() << "Save setting: " << id << " = " << convVal << (restartRequired ? " (requires restart)" : "");
+    bool exists = settings.contains(id);
     settings.setValue(id, convVal);
-    emit instance()->settingChanged(id, value);
+
+    if(exists)
+        emit instance()->settingChanged(id, value);
+    else
+        emit instance()->settingAdded(id, value);
+
     return convVal;
 }
 
@@ -83,6 +89,7 @@ void LocalConfig::remove(const QString &id) {
 
     qDebug().noquote() << "Remove setting: " << id << (restartRequired ? " (requires restart)" : "");
     settings.remove(id);
+    emit instance()->settingRemoved(id);
 }
 
 QVariant LocalConfig::restoreDefault(const QString &id) {
