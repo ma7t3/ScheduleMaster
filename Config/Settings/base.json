@@ -36,7 +36,12 @@
         "id": "general.closeCheck",
         "type": "bool",
         "default": true,
-        "requireRestart": false
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "The closeCheck is used to track the apps quiting process and to detect crashes",
+            "de_DE": "Der closeCheck dient dazu, den Beendigungsprozess der App zu verfolgen und Abstürze zu erkennen"
+        }
     },
     {
         "id": "general.lastUsedFiles",
@@ -108,7 +113,7 @@
         "id": "locations",
         "type": "group",
         "requireRestart": false,
-        "content_type":"stringlist",
+        "content_type":"QStringList",
         "description": {
             "object": "translated_string",
             "en_US": "Folders & Locations categories",
