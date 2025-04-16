@@ -25,60 +25,7 @@ public:
 
 class SettingsItem {
 public:
-    SettingsItem(const QJsonObject &jsonObject = QJsonObject()) {
-        id = jsonObject.value("id").toString();
-        description = jsonObject.value("description").toString();
-
-        QString typeStr = jsonObject.value("type").toString();
-        if(typeStr == "group")
-            isGroup = true;
-
-        typeStr = isGroup ? jsonObject.value("content_type").toString() : typeStr;
-
-        if(typeStr == "bool")
-            type = QMetaType::Bool;
-        else if(typeStr == "int")
-            type = QMetaType::Int;
-        else if(typeStr == "float")
-            type = QMetaType::Float;
-        else if(typeStr == "string")
-            type = QMetaType::QString;
-        else if(typeStr == "stringlist")
-            type = QMetaType::QStringList;
-        else if(typeStr == "color")
-            type = QMetaType::QColor;
-        else if(typeStr == "date")
-            type = QMetaType::QDate;
-        else if(typeStr == "time")
-            type = QMetaType::QTime;
-        else if(typeStr == "datetime")
-            type = QMetaType::QDateTime;
-        else if(typeStr == "bin")
-            type = QMetaType::QByteArray;
-
-        if(isGroup) {
-            groupContentType = type;
-            type = QMetaType::Void;
-        }
-
-        if(!isGroup) {
-            defaultValue = jsonObject.value("default").toVariant();
-
-            if(type == QMetaType::QStringList)
-                defaultValue = defaultValue.toStringList();
-
-            if(type == QMetaType::QColor)
-                defaultValue = QColor(defaultValue.toString());
-
-            if(type == QMetaType::QDate || type == QMetaType::QTime || type == QMetaType::QDateTime)
-                defaultValue = QDate::fromString(defaultValue.toString(), Qt::ISODate);
-
-            if(type == QMetaType::QByteArray)
-                defaultValue = defaultValue.toByteArray();
-        }
-
-        requiresRestart = jsonObject.value("requireRestart").toBool(false);
-    }
+    SettingsItem(const QJsonObject &jsonObject = QJsonObject());
 
     QString id, description;
     QVariant defaultValue;
