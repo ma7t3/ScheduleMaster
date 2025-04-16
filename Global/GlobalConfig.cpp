@@ -223,10 +223,11 @@ void GlobalConfig::loadFolderLocations() {
     for(const QJsonValue &val : std::as_const(locations)) {
         const QJsonObject obj = val.toObject();
 
-        const QString id   = obj.value("id").toString();
-              QString name = obj.value("name").toString();
-        const QString icon = obj.value("icon").toString();
-        bool multiple = obj.value("multiple").toBool();
+        const QString id     = obj.value("id").toString();
+              QString name   = obj.value("name").toString();
+        const QString icon   = obj.value("icon").toString();
+        bool multiple        = obj.value("multiple").toBool();
+        bool requiresRestart = obj.value("changeRequiresRestart").toBool();
 
         // fallback if no name is given
         if(name.isEmpty())
