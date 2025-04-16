@@ -190,7 +190,7 @@ QJsonArray GlobalConfig::resolveTranslatedStrings(QJsonArray jsonArray) {
 }
 
 void GlobalConfig::loadSettingsItems() {
-    qInfo() << "   Loading preference items...";
+    qInfo() << "   Loading settings items...";
     const QJsonArray items = loadMultiConfigResource("Settings");
     for(const QJsonValue &val : items) {
         const QJsonObject obj = val.toObject();
