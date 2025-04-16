@@ -2,6 +2,7 @@
 #define GLOBALCONFIG_H
 
 #include <QObject>
+#include <QCoreApplication>
 #include <QMetaType>
 #include <QColor>
 #include <QLocale>
@@ -12,6 +13,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+
+#include "Global/VariantConverter.h"
 
 class FolderLocation {
 public:
@@ -145,6 +148,9 @@ public:
      * @return The list of all folder location id values
      */
     static QStringList folderLocationIDs();
+
+    /// Provide defualt logfile location before initalization
+    static QString defaultLogfileLocation();
 
 protected:
     /**
