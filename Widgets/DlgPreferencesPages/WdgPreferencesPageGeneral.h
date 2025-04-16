@@ -2,6 +2,7 @@
 #define WDGPREFERENCESPAGEGENERAL_H
 
 #include <QWidget>
+#include <QDesktopServices>
 
 #include "Global/LocalConfig.h"
 
@@ -28,6 +29,8 @@ public:
 
 private slots:
     void on_cbLogfileMode_currentIndexChanged(int index);
+
+    void on_pbLogfileLocation_clicked();
 
 private:
     Ui::WdgPreferencesPageGeneral *ui;

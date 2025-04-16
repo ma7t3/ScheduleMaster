@@ -77,3 +77,12 @@ void WdgPreferencesPageGeneral::on_cbLogfileMode_currentIndexChanged(int index) 
 
     ui->lLogfileModeInfo->setText(infoText);
 }
+
+void WdgPreferencesPageGeneral::on_pbLogfileLocation_clicked() {
+    qInfo() << "Opening logfile location...";
+    QStringList list = LocalConfig::folderLocationPaths("base.logfile");
+    if(list.isEmpty())
+        return;
+
+    QDesktopServices::openUrl(QUrl(list.first()));
+}
