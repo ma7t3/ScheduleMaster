@@ -49,7 +49,7 @@ QVariant LocalConfig::readSilent(const QString &id) {
     }
 }
 
-void LocalConfig::write(const QString &id, const QVariant &value) {
+QVariant LocalConfig::write(const QString &id, const QVariant &value) {
     bool exists = GlobalConfig::settingsItemExists(id);
 
     QVariant convVal;

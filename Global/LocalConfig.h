@@ -46,7 +46,7 @@ public:
     static void init();
 
     static QVariant read(const QString &id);
-    static void write(const QString &id, const QVariant &value);
+    static QVariant write(const QString &id, const QVariant &value);
     static void remove(const QString &id);
     static void rename(const QString &oldID, const QString &newID);
     static bool keyExsists(const QString &key);
