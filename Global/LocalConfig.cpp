@@ -39,9 +39,10 @@ QVariant LocalConfig::readSilent(const QString &id) {
     QVariant value;
     if(GlobalConfig::settingsItemExists(id)) {
         SettingsItem item = GlobalConfig::settingsItem(id);
-        value = Global::convertVariant(settings.value(id, item.defaultValue), item.type);
+        QVariant rawValue = settings.value(id, item.defaultValue);
+        value = VariantConverter::convert(rawValue, item.type);
         if(!keyExsists(id) && !item.isGroup)
-            write(id, value);
+            write(id, value); // init with default value
 
         return value;
     } else {
@@ -61,7 +62,7 @@ QVariant LocalConfig::write(const QString &id, const QVariant &value) {
 
     if(keyExsists(id)) {
         if(readSilent(id) == convVal)
-            return;
+            return QVariant();
     }
 
     bool restartRequired = GlobalConfig::settingRequiresRestart(id);
@@ -70,6 +71,7 @@ QVariant LocalConfig::write(const QString &id, const QVariant &value) {
 
     qDebug().noquote() << "Save setting: " << id << " = " << convVal << (restartRequired ? " (requires restart)" : "");
     settings.setValue(id, convVal);
+    return convVal;
 }
 
 void LocalConfig::remove(const QString &id) {
