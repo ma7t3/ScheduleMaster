@@ -151,6 +151,7 @@ void MainWindow::showCrashWarning() {
         bool logfileSaved = QFile::exists(LocalConfig::lastLogfileName());
 
         qInfo() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + LocalConfig::lastLogfileName() : "");
+        qInfo().noquote() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + LocalConfig::lastLogfileName() : "");
         QString messageTitle = tr("Crash detected");
         QString messageStr = tr("<p><b>Seems like ScheduleMaster crashed last time you used it</b></p><p>If this was unexpected (e.g. you didn't try to kill the process via the Windows Task Manager or something), please feel free to send a bug report!</p>");
         QString messageStrAddition = tr("<p>The logfile of your last session was saved seperately. Do you want to open it?</p>");
