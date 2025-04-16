@@ -237,6 +237,27 @@ void GlobalConfig::loadFolderLocations() {
 
         _folderLocations.insert(id, location);
         qInfo().noquote() << "      - " + id;
+
+        SettingsItem item;
+        item.id = "locations/" + id;
+        item.type = QMetaType::QStringList;
+        item.description = name;
+        item.requiresRestart = requiresRestart;
+
+        QStringList defaultValue;
+
+        if(id == "base.projectFilesDefault")
+            defaultValue = {QDir::homePath() + "/ScheduleMaster/Projects"};
+        else if(id == "base.logfile")
+            defaultValue = {defaultLogfileLocation()};
+        else if(id == "base.plugins")
+            defaultValue = {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/plugins", QCoreApplication::applicationDirPath() + "/plugins"};
+        else
+            defaultValue = QStringList();
+
+        item.defaultValue = defaultValue;
+
+        registerNewSettingsItem(item);
     }
 }
 
