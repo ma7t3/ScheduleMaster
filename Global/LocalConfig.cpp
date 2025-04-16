@@ -82,6 +82,16 @@ void LocalConfig::remove(const QString &id) {
     settings.remove(id);
 }
 
+QVariant LocalConfig::restoreDefault(const QString &id) {
+    if(!GlobalConfig::settingsItemExists(id)) {
+        qWarning().noquote() << "Cannot reset setting to default: " << id << " - setting is not registered to ScheduleMaster!";
+        return QVariant();
+    }
+
+    qDebug().noquote() << "Reset setting to default: " << id;
+    return write(id, GlobalConfig::settingsItem(id).defaultValue);
+}
+
 void LocalConfig::rename(const QString &oldID, const QString &newID) {
     QVariant value = read(oldID);
     write(newID, value);
