@@ -59,13 +59,7 @@ void DlgPreferences::savePreferences() {
     for(WdgPreferencesPage *page : std::as_const(_pages))
         page->savePreferences();
 
-    if(LocalConfig::restartRequired()) {
-        QStringList items = LocalConfig::restartRequiredSettings();
-
-        QString itemList = "<ul><li>" + items.join("</li><li>") + "</li></ul>";
-
-        QMessageBox::information(this, tr("Restart required"), tr("<p>Some settings require a application restart to be applied:</p>") + itemList);
-    }
+    checkRestartRequired();
 }
 
 void DlgPreferences::discardPreviewPreferences() {
@@ -79,6 +73,16 @@ bool DlgPreferences::unsavedChanges() {
         unsaved |= page->unsavedChanges();
 
     return unsaved;
+}
+
+void DlgPreferences::checkRestartRequired() {
+    if(LocalConfig::restartRequired()) {
+        QStringList items = LocalConfig::restartRequiredSettings();
+
+        QString itemList = "<ul><li>" + items.join("</li><li>") + "</li></ul>";
+
+        QMessageBox::information(this, tr("Restart required"), tr("<p>Some settings require an application restart to be applied:</p>") + itemList);
+    }
 }
 
 void DlgPreferences::on_lwList_currentItemChanged(QListWidgetItem *current,
