@@ -71,6 +71,7 @@ QVariant LocalConfig::write(const QString &id, const QVariant &value) {
 
     qDebug().noquote() << "Save setting: " << id << " = " << convVal << (restartRequired ? " (requires restart)" : "");
     settings.setValue(id, convVal);
+    emit instance()->settingChanged(id, value);
     return convVal;
 }
 
