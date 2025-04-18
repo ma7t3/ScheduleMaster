@@ -28,6 +28,7 @@ SettingsItem::SettingsItem(const QJsonObject &jsonObject) {
 KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) {
     id          = jsonObject.value("id").toString();
     description = jsonObject.value("description").toString();
+    icon        = jsonObject.value("icon").toString();
 
     QJsonValue defaultValue = jsonObject.value("default");
     QStringList defaultValues;
@@ -294,9 +295,9 @@ void GlobalConfig::loadFolderLocations() {
         qInfo().noquote() << "      - " + id;
 
         SettingsItem item;
-        item.id = "locations/" + id;
-        item.type = QMetaType::QStringList;
-        item.description = name;
+        item.id              = "locations/" + id;
+        item.type            = QMetaType::QStringList;
+        item.description     = name;
         item.requiresRestart = requiresRestart;
 
         QStringList defaultValue;
@@ -333,9 +334,9 @@ void GlobalConfig::loadKeyboardShortcuts() {
         qInfo().noquote() << "      - " + shortcut.id;
 
         SettingsItem item;
-        item.id = "keyboardShortcuts/" + shortcut.id;
-        item.type = QMetaType::QKeySequence;
-        item.description = shortcut.description;
+        item.id           = "keyboardShortcuts/" + shortcut.id;
+        item.type         = QMetaType::QKeySequence;
+        item.description  = shortcut.description;
         item.defaultValue = shortcut.defaultKeySequence;
         registerNewSettingsItem(item);
     }

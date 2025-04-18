@@ -14,6 +14,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QIcon>
 
 #include "Global/VariantConverter.h"
 #include "Global/Global.h"
@@ -42,7 +43,7 @@ class KeyboardShortcut {
 public:
     KeyboardShortcut(const QJsonObject &jsonObject = QJsonObject());
 
-    QString id, description;
+    QString id, description, icon;
     QKeySequence defaultKeySequence;
 };
 

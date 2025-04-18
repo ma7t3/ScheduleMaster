@@ -2,6 +2,7 @@
     {
         "id": "project.new",
         "default": "standard:6",
+        "icon": ":/Icons/FileNew.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "New Project",
@@ -11,6 +12,7 @@
     {
         "id": "project.open",
         "default": "standard:3",
+        "icon": ":/Icons/FileOpen.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Project",
@@ -20,6 +22,7 @@
     {
         "id": "project.save",
         "default": "standard:5",
+        "icon": ":/Icons/FileSave.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Save Project",
@@ -29,6 +32,7 @@
     {
         "id": "project.saveAs",
         "default": "standard:63",
+        "icon": ":/Icons/FileSave.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Save Project As",
@@ -38,6 +42,7 @@
     {
         "id": "project.close",
         "default": "standard:4",
+        "icon": ":/Icons/FileClose.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Close Project",
@@ -47,6 +52,7 @@
     {
         "id": "project.settings",
         "default": "Ctrl+Shift+,",
+        "icon": ":/Icons/ProjectSettings.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Project Settings",
@@ -56,6 +62,7 @@
     {
         "id": "application.quit",
         "default": ["standard:65", "Ctrl+Q"],
+        "icon": ":/Icons/Quit.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Quit Application",
@@ -65,6 +72,7 @@
     {
         "id": "application.preferences.open",
         "default": ["standard:64", "Ctrl+,"],
+        "icon": ":/Icons/Preferences.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Preferences",
@@ -74,6 +82,7 @@
     {
         "id": "application.configuration.open",
         "default": "Ctrl+Alt+,",
+        "icon": ":/Icons/Preferences.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Configuration",
@@ -83,6 +92,7 @@
     {
         "id": "application.configuration.reload",
         "default": "standard:15",
+        "icon": ":/Icons/Reload.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Reload Configuration",
@@ -92,6 +102,7 @@
     {
         "id": "application.configuration.key.delete",
         "default": "standard:7",
+        "icon": ":/Icons/Delete.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: Delete Key",
@@ -101,6 +112,7 @@
     {
         "id": "application.configuration.key.restoreDefault",
         "default": "",
+        "icon": ":/Icons/Undo.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: restore default value",
@@ -110,6 +122,7 @@
     {
         "id": "application.configuration.key.copyID",
         "default": "standard:9",
+        "icon": ":/Icons/Duplicate.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: Copy ID",
@@ -119,6 +132,7 @@
     {
         "id": "edit.undo",
         "default": "standard:11",
+        "icon": ":/Icons/Undo.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Undo",
@@ -128,6 +142,7 @@
     {
         "id": "edit.redo",
         "default": "standard:12",
+        "icon": ":/Icons/Redo.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Redo",
@@ -137,6 +152,7 @@
     {
         "id": "variantEditor.listItem.edit",
         "default": "F2",
+        "icon": ":/Icons/Edit.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "VariantEditor: Edit List Item",
@@ -146,6 +162,7 @@
     {
         "id": "variantEditor.listItem.delete",
         "default": "Del",
+        "icon": ":/Icons/Delete.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "VariantEditor: Delete List Item",
