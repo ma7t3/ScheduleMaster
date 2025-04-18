@@ -2,8 +2,12 @@
 #define WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H
 
 #include <QWidget>
+#include <QSortFilterProxyModel>
+#include <QClipboard>
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+#include "ItemModels/KeyboardShortcutsModel.h"
+#include "Global/ActionShortcutMapper.h"
 
 namespace Ui {
 class WdgPreferencesPageKeyboardShortcuts;
@@ -24,8 +28,22 @@ public:
     virtual QString name() override;
     virtual QIcon icon() override;
 
+protected slots:
+    void onCurrentIndexChanged(const QModelIndex &current, const QModelIndex &previous);
+
+    void onRestoreDefaultShortcut();
+    void onRemoveShortcut();
+    void onCopyID();
+
+    void onShortcutChanged(const QKeySequence &shortcut);
+
 private:
     Ui::WdgPreferencesPageKeyboardShortcuts *ui;
+
+    KeyboardShortcutsSortFilterProxyModel *_sortFilterProxyModel;
+    KeyboardShortcutsModel *_model;
+
+    QAction *_restoreDefaultShortcutAction, *_removeShortcutAction, *_copyIDAction;
 };
 
 #endif // WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H

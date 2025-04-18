@@ -80,6 +80,16 @@
         }
     },
     {
+        "id": "application.preferences.keyboardShortcuts.copyID",
+        "default": "standard:9",
+        "icon": ":/Icons/Duplicate.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Keyboard Shortcuts: Copy ID",
+            "de_DE" : "Einstellungen - Tastenkombinationen: ID kopieren"
+        }
+    },
+    {
         "id": "application.configuration.open",
         "default": "Ctrl+Alt+,",
         "icon": ":/Icons/Preferences.ico",
