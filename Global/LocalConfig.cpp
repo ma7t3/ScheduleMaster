@@ -78,6 +78,9 @@ QVariant LocalConfig::write(const QString &id, const QVariant &value) {
     else
         emit instance()->settingAdded(id, value);
 
+    if(id.startsWith("keyboardShortcuts/"))
+        emit instance()->keyboardShortcutChanged(QString(id).remove("keyboardShortcuts/"), value.value<QKeySequence>());
+
     return convVal;
 }
 
@@ -272,7 +275,6 @@ QKeySequence LocalConfig::keyboardShortcut(const QString &id) {
 
 void LocalConfig::setKeyboardShortcut(const QString &id, const QKeySequence &keySequence) {
     write("keyboardShortcuts/" + id, keySequence.toString(QKeySequence::PortableText));
-    emit instance()->keyboardShortcutChanged(id, keySequence);
 }
 
 QStringList LocalConfig::lastUsedFiles() {
