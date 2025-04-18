@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionFileQuit,            &QAction::triggered,                this,        &MainWindow::quitApplication);
 
     connect(ui->actionEditPreferences,     &QAction::triggered,                this,        &MainWindow::openPreferences);
+    connect(ui->actionEditConfiguration,   &QAction::triggered,                this,        &MainWindow::openConfiguration);
     connect(ui->actionEditProjectSettings, &QAction::triggered,                this,        &MainWindow::openProjectSettings);
 
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, this,        &MainWindow::updateRecentProjectsList);
@@ -230,6 +231,11 @@ void MainWindow::openPreferences() {
     qInfo() << "Open preferences";
     DlgPreferences dlg(this);
     dlg.exec();
+}
+
+void MainWindow::openConfiguration() {
+    DlgPreferences dlg(this);
+    dlg.openConfigEditor();
 }
 
 void MainWindow::openProjectSettings() {

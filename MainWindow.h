@@ -46,6 +46,7 @@ protected slots:
 
     void openPlugins();
     void openPreferences();
+    void openConfiguration();
     void openProjectSettings();
 
 
