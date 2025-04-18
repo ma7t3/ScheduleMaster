@@ -5,6 +5,7 @@
 #include <QTreeWidgetItem>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QClipboard>
 
 #include "Global/LocalConfig.h"
 #include "Global/VariantConverter.h"
@@ -41,10 +42,12 @@ private slots:
 
     void onSettingRestoreDefault();
     void onSettingDelete();
+    void onSettingCopyID();
+
 private:
     Ui::DlgConfigEditor *ui;
 
-    QAction *_restoreDefaultAction, *_deleteAction;
+    QAction *_restoreDefaultAction, *_deleteAction, *_copyIDAction;
 
     LocalConfigModel _model;
 };
