@@ -25,6 +25,44 @@ SettingsItem::SettingsItem(const QJsonObject &jsonObject) {
 }
 
 
+KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) {
+    id          = jsonObject.value("id").toString();
+    description = jsonObject.value("description").toString();
+
+    QJsonValue defaultValue = jsonObject.value("default");
+    QStringList defaultValues;
+
+    if(defaultValue.isArray())
+        defaultValues = Global::jsonArrayToStringList(defaultValue.toArray());
+    else
+        defaultValues = {defaultValue.toString()};
+
+    for(const QString & value : std::as_const(defaultValues)) {
+        if(value.startsWith("standard:")) {
+            QString idPart = value.mid(QString("standard:").length());
+            bool ok;
+            int standardID = idPart.toInt(&ok);
+            if (ok) {
+                QKeySequence sequence = QKeySequence(static_cast<QKeySequence::StandardKey>(standardID));
+                if(!sequence.toString(QKeySequence::PortableText).isEmpty()) {
+                    defaultKeySequence = sequence;
+                    return;
+                } else {
+                    defaultKeySequence = QKeySequence();
+                }
+            }
+        }
+
+        QKeySequence sequence(value);
+        if (!sequence.toString(QKeySequence::PortableText).isEmpty()) {
+            defaultKeySequence = sequence;
+            return;
+        } else
+            defaultKeySequence = QKeySequence();
+    }
+}
+
+
 GlobalConfig::GlobalConfig() : QObject(nullptr) {}
 
 GlobalConfig *GlobalConfig::instance() {
@@ -43,6 +81,7 @@ void GlobalConfig::init() {
 
     loadSettingsItems();
     loadFolderLocations();
+    loadKeyboardShortcuts();
 }
 
 QList<SettingsItem> GlobalConfig::settingsItems() {
@@ -98,6 +137,22 @@ QList<FolderLocation> GlobalConfig::folderLocations() {
 
 QStringList GlobalConfig::folderLocationIDs() {
     return _folderLocations.keys();
+}
+
+QList<KeyboardShortcut> GlobalConfig::keyboardShortcuts() {
+    return _keyboardShortcuts.values();
+}
+
+bool GlobalConfig::keyboardShortcutExists(const QString &id) {
+    return _keyboardShortcuts.contains(id);
+}
+
+KeyboardShortcut GlobalConfig::keyboardShortcut(const QString &id) {
+    return keyboardShortcutExists(id) ? _keyboardShortcuts.value(id) : KeyboardShortcut();
+}
+
+QKeySequence GlobalConfig::keyboardShortcutDefaultKeySequence(const QString &id) {
+    return keyboardShortcutExists(id) ? _keyboardShortcuts.value(id).defaultKeySequence : QKeySequence();
 }
 
 QJsonDocument GlobalConfig::loadSingleConfigResource(const QString &resource) {
@@ -263,4 +318,25 @@ void GlobalConfig::loadFolderLocations() {
 
 QString GlobalConfig::defaultLogfileLocation() {
     return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs";
+}
+
+void GlobalConfig::loadKeyboardShortcuts() {
+    qInfo() << "   Loading keyboard shortcuts...";
+    const QJsonArray shortcuts = loadMultiConfigResource("KeyboardShortcuts");
+    for(const QJsonValue &val : shortcuts) {
+        const QJsonObject obj = val.toObject();
+        KeyboardShortcut shortcut(obj);
+        if(shortcut.id.isEmpty())
+            continue;
+
+        _keyboardShortcuts.insert(shortcut.id, shortcut);
+        qInfo().noquote() << "      - " + shortcut.id;
+
+        SettingsItem item;
+        item.id = "keyboardShortcuts/" + shortcut.id;
+        item.type = QMetaType::QKeySequence;
+        item.description = shortcut.description;
+        item.defaultValue = shortcut.defaultKeySequence;
+        registerNewSettingsItem(item);
+    }
 }
