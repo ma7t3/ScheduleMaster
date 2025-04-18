@@ -124,5 +124,23 @@
             "en_US" : "Redo",
             "de_DE" : "Wiederholen (\"Vorgängig\")"
         }
+    },
+    {
+        "id": "variantEditor.listItem.edit",
+        "default": "F2",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "VariantEditor: Edit List Item",
+            "de_DE" : "VariantEditor: Listenelement bearbeiten"
+        }
+    },
+    {
+        "id": "variantEditor.listItem.delete",
+        "default": "Del",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "VariantEditor: Delete List Item",
+            "de_DE" : "VariantEditor: Listenelement löschen"
+        }
     }
 ]
