@@ -1,0 +1,128 @@
+[
+    {
+        "id": "project.new",
+        "default": "standard:6",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "New Project",
+            "de_DE" : "Neues Projekt"
+        }
+    },
+    {
+        "id": "project.open",
+        "default": "standard:3",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open Project",
+            "de_DE" : "Projekt öffnen"
+        }
+    },
+    {
+        "id": "project.save",
+        "default": "standard:5",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Save Project",
+            "de_DE" : "Projekt speichern"
+        }
+    },
+    {
+        "id": "project.saveAs",
+        "default": "standard:63",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Save Project As",
+            "de_DE" : "Projekt speichern unter"
+        }
+    },
+    {
+        "id": "project.close",
+        "default": "standard:4",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Close Project",
+            "de_DE" : "Projekt schließen"
+        }
+    },
+    {
+        "id": "project.settings",
+        "default": "Ctrl+Shift+,",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open Project Settings",
+            "de_DE" : "Projekteinstellungen öffnen"
+        }
+    },
+    {
+        "id": "application.quit",
+        "default": "standard:65",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Quit Application",
+            "de_DE" : "Anwendung beenden"
+        }
+    },
+    {
+        "id": "application.preferences.open",
+        "default": ["standard:64", "Ctrl+,"],
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open Preferences",
+            "de_DE" : "Einstellungen öffnen"
+        }
+    },
+    {
+        "id": "application.configuration.open",
+        "default": "Ctrl+Alt+,",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open Configuration",
+            "de_DE" : "Konfiguration öffnen"
+        }
+    },
+    {
+        "id": "application.configuration.reload",
+        "default": "standard:15",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Reload Configuration",
+            "de_DE" : "Konfiguration neu laden"
+        }
+    },
+    {
+        "id": "application.configuration.key.delete",
+        "default": "standard:7",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Configuration: Delete Key",
+            "de_DE" : "Konfiguration: Schlüssel löschen"
+        }
+    },
+    {
+        "id": "application.configuration.key.restoreDefault",
+        "default": "",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Configuration: restore default value",
+            "de_DE" : "Konfiguration: Standardwert wiederherstellen"
+        }
+    },
+    {
+        "id": "edit.undo",
+        "default": "standard:11",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Undo",
+            "de_DE" : "Rückgängig"
+        }
+    },
+    {
+        "id": "edit.redo",
+        "default": "standard:12",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Redo",
+            "de_DE" : "Wiederholen (\"Vorgängig\")"
+        }
+    }
+]
