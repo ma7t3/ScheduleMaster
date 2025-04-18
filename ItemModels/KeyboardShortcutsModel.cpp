@@ -82,10 +82,10 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
             case 0: return QIcon(shortcut.first.icon);
         } break;
         case Qt::FontRole: switch (index.column()) {
-            case 1: return GlobalConfig::keyboardShortcutIsDefault(shortcut.first.id, shortcut.second) ? QVariant() : QFont("", -1, QFont::Bold);
+            case 1: return shortcut.first.defaultKeySequence == shortcut.second ? QVariant() : QFont("", -1, QFont::Bold);
         } break;
         case IDRole: return shortcut.first.id;
-        case ModifiedRole: return !GlobalConfig::keyboardShortcutIsDefault(shortcut.first.id, shortcut.second);
+        case ModifiedRole: return shortcut.first.defaultKeySequence != shortcut.second;
     }
 
     return QVariant();
@@ -113,6 +113,12 @@ void KeyboardShortcutsModel::setModifiedShortcut(const QString &id, const QKeySe
 
     _shortcuts[row].second = keySequence;
     emit dataChanged(index(row, 0), index(row, 1), {Qt::DisplayRole});
+}
+
+void KeyboardShortcutsModel::setAllShortcutsToDefault() {
+    for(const QPair<KeyboardShortcut, QKeySequence> &shortcut : std::as_const(_shortcuts))
+        if(shortcut.first.defaultKeySequence != shortcut.second)
+            setModifiedShortcut(shortcut.first.id, shortcut.first.defaultKeySequence);
 }
 
 void KeyboardShortcutsModel::saveShortcuts() {

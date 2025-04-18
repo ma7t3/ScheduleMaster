@@ -47,6 +47,7 @@ public:
     QKeySequence shortcut(const QModelIndex &index) const;
 
     void setModifiedShortcut(const QString &id, const QKeySequence &keySequence);
+    void setAllShortcutsToDefault();
     void saveShortcuts();
 
     void reload();
