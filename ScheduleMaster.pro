@@ -9,6 +9,7 @@ CONFIG += c++17
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Dialogs/DlgConfigEditor.cpp \
     Dialogs/DlgPreferences.cpp \
     Global/VariantConverter.cpp \
     ItemModels/LocalConfigModel.cpp \
@@ -41,6 +42,7 @@ SOURCES += \
     Widgets/WdgWelcomeRecentProjectEntry.cpp
 
 HEADERS += \
+    Dialogs/DlgConfigEditor.h \
     Dialogs/DlgPreferences.h \
     Global/VariantConverter.h \
     ItemModels/LocalConfigModel.h \
@@ -78,6 +80,7 @@ HEADERS += \
     Widgets/WdgWelcomeRecentProjectEntry.h
 
 FORMS += \
+    Dialogs/DlgConfigEditor.ui \
     Dialogs/DlgPreferences.ui \
     MainWindow.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \

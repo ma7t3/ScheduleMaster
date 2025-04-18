@@ -35,6 +35,9 @@ public:
 
     void addPage(WdgPreferencesPage *page);
 
+public slots:
+    void openConfigEditor();
+
 private:
     void reloadPreferences();
     void savePreferences();

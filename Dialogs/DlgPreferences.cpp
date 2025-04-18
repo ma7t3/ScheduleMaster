@@ -18,6 +18,8 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
 
     ui->lwList->setFocus();
     ui->lwList->setCurrentRow(0);
+
+    connect(ui->pbConfigEditor, &QPushButton::clicked, this, &DlgPreferences::openConfigEditor);
 }
 
 DlgPreferences::~DlgPreferences() {
@@ -44,6 +46,25 @@ void DlgPreferences::addPage(WdgPreferencesPage *page) {
     ui->lwList->addItem(item);
 
     ui->swContent->addWidget(page);
+}
+
+void DlgPreferences::openConfigEditor() {
+    if(unsavedChanges()) {
+        QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved changes"), tr("<p><b>There are some changes in your preferences that aren't save now!</b></p><p>Do you want to save them before opening the config editor?</p>"), QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel, QMessageBox::Save);
+
+        switch(msg) {
+        case QMessageBox::Save: savePreferences();
+        case QMessageBox::Discard: break;
+        default: return;
+        }
+    }
+
+    qInfo() << "opening config editor...";
+
+    DlgConfigEditor dlg(this);
+    dlg.exec();
+    checkRestartRequired();
+    reloadPreferences();
 }
 
 void DlgPreferences::reloadPreferences() {
