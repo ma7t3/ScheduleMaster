@@ -95,9 +95,6 @@
    <property name="text">
     <string>New Project</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
-   </property>
   </action>
   <action name="actionFileOpenProject">
    <property name="icon">
@@ -106,9 +103,6 @@
    </property>
    <property name="text">
     <string>Open Project</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="actionFileSaveProject">
@@ -119,9 +113,6 @@
    <property name="text">
     <string>Save Project</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
   </action>
   <action name="actionFileSaveProjectAs">
    <property name="icon">
@@ -130,9 +121,6 @@
    </property>
    <property name="text">
     <string>Save Project As</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
    </property>
   </action>
   <action name="actionFileImport">
@@ -161,9 +149,6 @@
    <property name="text">
     <string>Close Project</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+W</string>
-   </property>
   </action>
   <action name="actionFileQuit">
    <property name="icon">
@@ -172,9 +157,6 @@
    </property>
    <property name="text">
     <string>Quit</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Q</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::QuitRole</enum>
@@ -206,9 +188,6 @@
    <property name="text">
     <string>Preferences</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+,</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::PreferencesRole</enum>
    </property>
@@ -221,11 +200,8 @@
    <property name="text">
     <string>Project Settings</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+,</string>
-   </property>
    <property name="menuRole">
-    <enum>QAction::MenuRole::NoRole</enum>
+    <enum>QAction::MenuRole::TextHeuristicRole</enum>
    </property>
   </action>
   <action name="actionDebugGeneralTestAction">
@@ -248,9 +224,6 @@
    </property>
    <property name="text">
     <string>Configuration</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Alt+,</string>
    </property>
   </action>
  </widget>
