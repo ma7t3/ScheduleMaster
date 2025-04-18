@@ -156,6 +156,13 @@ QKeySequence GlobalConfig::keyboardShortcutDefaultKeySequence(const QString &id)
     return keyboardShortcutExists(id) ? _keyboardShortcuts.value(id).defaultKeySequence : QKeySequence();
 }
 
+bool GlobalConfig::keyboardShortcutIsDefault(const QString &id, const QKeySequence &sequence) {
+    if(!keyboardShortcutExists(id))
+        return false;
+
+    return keyboardShortcut(id).defaultKeySequence == sequence;
+}
+
 QJsonDocument GlobalConfig::loadSingleConfigResource(const QString &resource) {
     return parseJsonFile(":/Config/" + resource + ".json");
 }

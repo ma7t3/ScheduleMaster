@@ -191,6 +191,14 @@ public:
      */
     static QKeySequence keyboardShortcutDefaultKeySequence(const QString &id);
 
+    /**
+     * @brief Checks if the given QKeySequence is the shortcut's default key sequence
+     * @param id The KeyboardShortcut's ID
+     * @param sequence The QKeySequence to check for
+     * @return Whether sequence is id's default key sequence or not
+     */
+    static bool keyboardShortcutIsDefault(const QString &id, const QKeySequence &sequence);
+
 protected:
     /**
      * @brief Loads a single config resource file and returns the parsed JSON document.
