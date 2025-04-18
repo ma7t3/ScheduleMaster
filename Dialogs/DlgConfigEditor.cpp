@@ -15,10 +15,11 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     _deleteAction         = ui->treeView->addAction(QIcon(":/Icons/Delete.ico"),  tr("Delete"));
     QAction *reloadAction = ui->treeView->addAction(QIcon(":/Icons/Updates.ico"), tr("Reload"));
 
-    _deleteAction->setShortcut(QKeySequence(Qt::Key_Delete));
-    _deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ActionShortcutMapper::map(_restoreDefaultAction, "application.configuration.key.restoreDefault");
+    ActionShortcutMapper::map(_deleteAction, "application.configuration.key.delete");
+    ActionShortcutMapper::map(reloadAction, "application.configuration.reload");
 
-    reloadAction->setShortcut(QKeySequence(Qt::Key_F5));
+    _deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     reloadAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
     ui->treeView->setContextMenuPolicy(Qt::ActionsContextMenu);

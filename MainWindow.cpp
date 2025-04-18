@@ -5,6 +5,7 @@
 #include <QFileDialog>
 
 #include "Global/LocalConfig.h"
+#include "Global/ActionShortcutMapper.h"
 #include "Dialogs/DlgPreferences.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -26,11 +27,25 @@ MainWindow::MainWindow(QWidget *parent) :
     _undoAction = _projectData->undoStack()->createUndoAction(this, tr("Undo"));
     _redoAction = _projectData->undoStack()->createRedoAction(this, tr("Redo"));
 
-    _undoAction->setShortcut(QKeySequence(QKeySequence::Undo));
-    _redoAction->setShortcut(QKeySequence(QKeySequence::Redo));
-
     _undoAction->setIcon(QIcon(":/Icons/Undo.ico"));
     _redoAction->setIcon(QIcon(":/Icons/Redo.ico"));
+
+
+    qDebug() << "   Loading shortcuts...";
+
+    ActionShortcutMapper::map(ui->actionFileNewProject,      "project.new");
+    ActionShortcutMapper::map(ui->actionFileOpenProject,     "project.open");
+    ActionShortcutMapper::map(ui->actionFileSaveProject,     "project.save");
+    ActionShortcutMapper::map(ui->actionFileSaveProjectAs,   "project.saveAs");
+    ActionShortcutMapper::map(ui->actionFileCloseProject,    "project.close");
+    ActionShortcutMapper::map(ui->actionFileQuit,            "application.quit");
+
+    ActionShortcutMapper::map(ui->actionEditPreferences,     "application.preferences.open");
+    ActionShortcutMapper::map(ui->actionEditProjectSettings, "project.settings.open");
+    ActionShortcutMapper::map(ui->actionEditConfiguration,   "application.configuration.open");
+
+    ActionShortcutMapper::map(_undoAction,                   "edit.undo");
+    ActionShortcutMapper::map(_redoAction,                   "edit.redo");
 
     ui->menuEdit->insertAction(ui->actionEditPreferences, _undoAction);
     ui->menuEdit->insertAction(ui->actionEditPreferences, _redoAction);

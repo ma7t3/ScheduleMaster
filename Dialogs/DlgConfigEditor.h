@@ -8,6 +8,7 @@
 
 #include "Global/LocalConfig.h"
 #include "Global/VariantConverter.h"
+#include "Global/ActionShortcutMapper.h"
 
 #include "ItemModels/LocalConfigModel.h"
 

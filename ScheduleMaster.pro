@@ -11,6 +11,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 SOURCES += \
     Dialogs/DlgConfigEditor.cpp \
     Dialogs/DlgPreferences.cpp \
+    Global/ActionShortcutMapper.cpp \
     Global/VariantConverter.cpp \
     ItemModels/LocalConfigModel.cpp \
     main.cpp \
@@ -44,6 +45,7 @@ SOURCES += \
 HEADERS += \
     Dialogs/DlgConfigEditor.h \
     Dialogs/DlgPreferences.h \
+    Global/ActionShortcutMapper.h \
     Global/VariantConverter.h \
     ItemModels/LocalConfigModel.h \
     MainWindow.h \
