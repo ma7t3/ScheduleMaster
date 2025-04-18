@@ -49,7 +49,7 @@ private:
     KeyboardShortcutsSortFilterProxyModel *_sortFilterProxyModel;
     KeyboardShortcutsModel *_model;
 
-    QAction *_restoreDefaultShortcutAction, *_removeShortcutAction, *_copyIDAction;
+    QAction *_restoreDefaultShortcutAction, *_removeShortcutAction, *_copyIDAction, *_showOnlyModifiedAction, *_importAction, *_exportAction, *_resetAllAction, *_focusSearchAction;
 };
 
 #endif // WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H
