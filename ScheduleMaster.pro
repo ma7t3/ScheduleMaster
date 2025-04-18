@@ -36,6 +36,7 @@ SOURCES += \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.cpp \
     Widgets/WdgAbstract.cpp \
+    Widgets/WdgVariantEditor.cpp \
     Widgets/WdgWelcome.cpp \
     Widgets/WdgWelcomeRecentProjectEntry.cpp
 
@@ -85,6 +86,7 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
+    Widgets/WdgVariantEditor.ui \
     Widgets/WdgWelcome.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
 
