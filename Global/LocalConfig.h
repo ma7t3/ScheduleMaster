@@ -85,7 +85,6 @@ public:
     static QKeySequence keyboardShortcut(const QString &id);
     static void setKeyboardShortcut(const QString &id, const QKeySequence &keySequence);
 
-
     static QStringList lastUsedFiles();
     static void addLastUsedFile(const QString &);
     static void setLastUsedFiles(const QStringList &);
@@ -106,6 +105,9 @@ public:
 
     static QByteArray mainWindowGeometry();
     static void setMainWindowGeomentry(const QByteArray &geometry);
+
+    static void importKeyboardShortcutsFromJson(const QJsonArray &jsonArray);
+    static QJsonArray exportKeyboardShortcutsToJson();
 
 protected:
     static QVariant readSilent(const QString &id);

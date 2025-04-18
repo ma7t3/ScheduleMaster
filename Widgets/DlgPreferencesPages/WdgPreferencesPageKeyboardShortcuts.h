@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QSortFilterProxyModel>
 #include <QClipboard>
+#include <QMessageBox>
+#include <QFileDialog>
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 #include "ItemModels/KeyboardShortcutsModel.h"
@@ -36,6 +38,9 @@ protected slots:
     void onCopyID();
 
     void onShortcutChanged(const QKeySequence &shortcut);
+
+    void onImport();
+    void onExport();
 
 private:
     Ui::WdgPreferencesPageKeyboardShortcuts *ui;

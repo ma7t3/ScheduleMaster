@@ -46,6 +46,9 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     connect(ui->twShortcuts->selectionModel(), &QItemSelectionModel::currentChanged, this, &WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged);
 
     connect(ui->kseShortcut, &QKeySequenceEdit::keySequenceChanged, this, &WdgPreferencesPageKeyboardShortcuts::onShortcutChanged);
+
+    connect(ui->pbImport, &QPushButton::clicked, this, &WdgPreferencesPageKeyboardShortcuts::onImport);
+    connect(ui->pbExport, &QPushButton::clicked, this, &WdgPreferencesPageKeyboardShortcuts::onExport);
 }
 
 WdgPreferencesPageKeyboardShortcuts::~WdgPreferencesPageKeyboardShortcuts() {
@@ -105,7 +108,9 @@ void WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut() {
     const QString id = _model->metaData(current).id;
     QKeySequence shortcut = GlobalConfig::keyboardShortcutDefaultKeySequence(id);
     _model->setModifiedShortcut(id, shortcut);
+    ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(shortcut);
+    ui->kseShortcut->blockSignals(false);
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onRemoveShortcut() {
@@ -115,7 +120,9 @@ void WdgPreferencesPageKeyboardShortcuts::onRemoveShortcut() {
 
     const QString id = _model->metaData(current).id;
     _model->setModifiedShortcut(id, QKeySequence());
+    ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(QKeySequence());
+    ui->kseShortcut->blockSignals(false);
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onCopyID() {
@@ -134,4 +141,47 @@ void WdgPreferencesPageKeyboardShortcuts::onShortcutChanged(const QKeySequence &
 
     const QString id = _model->metaData(current).id;
     _model->setModifiedShortcut(id, shortcut);
+}
+
+void WdgPreferencesPageKeyboardShortcuts::onImport() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Import Keyboard Shortcuts"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("JSON File (*.json)"));
+    if(fileName.isEmpty())
+        return;
+
+    QFile f(fileName);
+    if(!f.open(QFile::ReadOnly)) {
+        QMessageBox::critical(this, tr("Failed reading file"), tr("<p><b>Couldn't read file:</b></p><p>%1</p><p><b>%2</b></p>").arg(fileName, f.errorString()));
+        return;
+    }
+
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(f.readAll(), &error);
+    f.close();
+    if(error.error != QJsonParseError::NoError) {
+        QMessageBox::critical(this, tr("Failed parsing file"), tr("<p><b>Couldn't parse file:</b></p><p>%1</p><p><b>%2</b></p>").arg(fileName, error.errorString()));
+        return;
+    }
+
+    QJsonArray array = doc.array();
+    LocalConfig::importKeyboardShortcutsFromJson(array);
+    _model->reload();
+}
+
+void WdgPreferencesPageKeyboardShortcuts::onExport() {
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Export Keyboard Shortcuts"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ScheduleMaster_KeyboardShortcuts.json", tr("JSON File (*.json)"));
+    if(fileName.isEmpty())
+        return;
+
+    QFile f(fileName);
+    if(!f.open(QFile::WriteOnly)) {
+        QMessageBox::critical(this, tr("Failed saving file"), tr("<p><b>Couldn't save file:</b></p><p>%1</p><p><b>%2</b></p>").arg(fileName, f.errorString()));
+        return;
+    }
+
+    QJsonArray array = LocalConfig::exportKeyboardShortcutsToJson();
+    QJsonDocument document(array);
+    QString jsonString = document.toJson();
+
+    f.write(jsonString.toUtf8());
+    f.close();
 }

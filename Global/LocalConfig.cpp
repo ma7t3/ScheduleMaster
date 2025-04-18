@@ -366,3 +366,24 @@ QByteArray LocalConfig::mainWindowGeometry() {
 void LocalConfig::setMainWindowGeomentry(const QByteArray &geometry) {
     write("general.mainWindowGeometry", geometry);
 }
+
+void LocalConfig::importKeyboardShortcutsFromJson(const QJsonArray &jsonArray) {
+    for(const QJsonValue &value : jsonArray) {
+        const QJsonObject jObj = value.toObject();
+        const QString id          = jObj.value("id").toString();
+        const QString keySequence = jObj.value("keySequence").toString();
+        setKeyboardShortcut(id, keySequence);
+    }
+}
+
+QJsonArray LocalConfig::exportKeyboardShortcutsToJson() {
+    QJsonArray array;
+    const QStringList keys = groupKeys("keyboardShortcuts");
+    for(const QString &id : keys) {
+        QJsonObject obj;
+        obj["id"] = id;
+        obj["keySequence"] = keyboardShortcut(id).toString();
+        array << obj;
+    }
+    return array;
+}
