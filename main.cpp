@@ -2,7 +2,6 @@
 
 #include <QApplication>
 #include <QDir>
-#include <QStandardPaths>
 #include <QStyleFactory>
 #include <QStyleHints>
 #include <QTranslator>
