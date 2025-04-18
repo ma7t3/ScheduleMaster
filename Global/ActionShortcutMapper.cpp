@@ -22,8 +22,6 @@ void ActionShortcutMapper::map(QAction *action, const QString &shortcutID) {
     }
 
     QKeySequence shortcut = LocalConfig::keyboardShortcut(shortcutID); // get actual shortcut
-    if(shortcut.isEmpty())
-        return;
 
     action->setShortcut(shortcut);
 
@@ -42,8 +40,6 @@ void ActionShortcutMapper::update(QAction *action, const QString &shortcutID) {
         return;
 
     QKeySequence shortcut = LocalConfig::keyboardShortcut(shortcutID); // get actual shortcut
-    if(shortcut.isEmpty())
-        return;
 
     action->setShortcut(shortcut);
 
