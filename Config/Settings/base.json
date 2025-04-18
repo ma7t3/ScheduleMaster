@@ -119,5 +119,16 @@
             "en_US": "Folders & Locations categories",
             "de_DE": "Ordner & Speicherorte - Kategorien"
         }
+    },
+    {
+        "id": "keyboardShortcuts",
+        "type": "group",
+        "requireRestart": false,
+        "content_type":"QKeySequence",
+        "description": {
+            "object": "translated_string",
+            "en_US": "Keyboard shortcuts",
+            "de_DE": "Tastenkombinationen"
+        }
     }
 ]
