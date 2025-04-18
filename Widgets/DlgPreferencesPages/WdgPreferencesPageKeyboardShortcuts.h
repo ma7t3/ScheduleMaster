@@ -41,6 +41,7 @@ protected slots:
 
     void onImport();
     void onExport();
+    void onResetAll();
 
 private:
     Ui::WdgPreferencesPageKeyboardShortcuts *ui;

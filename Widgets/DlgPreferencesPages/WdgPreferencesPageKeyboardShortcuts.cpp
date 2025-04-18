@@ -47,8 +47,9 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
 
     connect(ui->kseShortcut, &QKeySequenceEdit::keySequenceChanged, this, &WdgPreferencesPageKeyboardShortcuts::onShortcutChanged);
 
-    connect(ui->pbImport, &QPushButton::clicked, this, &WdgPreferencesPageKeyboardShortcuts::onImport);
-    connect(ui->pbExport, &QPushButton::clicked, this, &WdgPreferencesPageKeyboardShortcuts::onExport);
+    connect(ui->pbImport,   &QPushButton::clicked, this, &WdgPreferencesPageKeyboardShortcuts::onImport);
+    connect(ui->pbExport,   &QPushButton::clicked, this, &WdgPreferencesPageKeyboardShortcuts::onExport);
+    connect(ui->pbResetAll, &QPushButton::clicked, this, &WdgPreferencesPageKeyboardShortcuts::onResetAll);
 }
 
 WdgPreferencesPageKeyboardShortcuts::~WdgPreferencesPageKeyboardShortcuts() {
@@ -184,4 +185,11 @@ void WdgPreferencesPageKeyboardShortcuts::onExport() {
 
     f.write(jsonString.toUtf8());
     f.close();
+}
+
+void WdgPreferencesPageKeyboardShortcuts::onResetAll() {
+    if(QMessageBox::warning(this, tr("Reset all keyboard shortcuts"), tr("<p><b>Do you really want to reset all keyboard shortcuts?</b</p><p>Maybe you want to export your current shortcut configuration before.</p>"), QMessageBox::Yes|QMessageBox::No) != QMessageBox::Yes)
+        return;
+
+    _model->setAllShortcutsToDefault();
 }
