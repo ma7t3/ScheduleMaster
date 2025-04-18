@@ -257,6 +257,24 @@ void LocalConfig::setFolderLocationPaths(const QString &id, const QStringList &p
     write("locations/" + id, paths);
 }
 
+QKeySequence LocalConfig::keyboardShortcut(const QString &id) {
+    QString fullID = "keyboardShortcuts/" + id;
+    if(keyExsists(fullID))
+        return QKeySequence(read(fullID).toString());
+
+    if(!GlobalConfig::keyboardShortcutExists(id))
+        return QKeySequence();
+
+    QKeySequence sequence = GlobalConfig::keyboardShortcutDefaultKeySequence(id);
+    setKeyboardShortcut(id, sequence);
+    return sequence;
+}
+
+void LocalConfig::setKeyboardShortcut(const QString &id, const QKeySequence &keySequence) {
+    write("keyboardShortcuts/" + id, keySequence.toString(QKeySequence::PortableText));
+    emit instance()->keyboardShortcutChanged(id, keySequence);
+}
+
 QStringList LocalConfig::lastUsedFiles() {
     return read("general.lastUsedFiles").toStringList();
 }

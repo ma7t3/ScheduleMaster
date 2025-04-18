@@ -82,6 +82,9 @@ public:
     static QStringList folderLocationPaths(const QString &id);
     static void setFolderLocationPaths(const QString &id, const QStringList &paths);
 
+    static QKeySequence keyboardShortcut(const QString &id);
+    static void setKeyboardShortcut(const QString &id, const QKeySequence &keySequence);
+
 
     static QStringList lastUsedFiles();
     static void addLastUsedFile(const QString &);
@@ -114,6 +117,8 @@ signals:
 
     void lastUsedFilesChanged();
     void uiFontChanged(const QString &fontFamily);
+
+    void keyboardShortcutChanged(const QString &id, const QKeySequence &keySequence);
 
 private:
     static inline QSettings settings = QSettings("ScheduleMaster", "ScheduleMaster");
