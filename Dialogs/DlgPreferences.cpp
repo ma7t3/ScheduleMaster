@@ -10,6 +10,7 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     addPage(new WdgPreferencesPageAppearance(this));
     addPage(new WdgPreferencesPageLocations(this));
     addPage(new WdgPreferencesPageUpdates(this));
+    addPage(new WdgPreferencesPageKeyboardShortcuts(this));
     addPage(new WdgPreferencesPagePlugins(this));
     addPage(new WdgPreferencesPageDebug(this));
 

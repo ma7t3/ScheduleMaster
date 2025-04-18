@@ -34,6 +34,7 @@ SOURCES += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h \
@@ -88,6 +90,7 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.ui \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
