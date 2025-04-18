@@ -71,5 +71,6 @@
         <file>Config/Settings/base.json</file>
         <file>Config/KeyboardShortcuts/base.json</file>
         <file>Icons/Reload.ico</file>
+        <file>Icons/Keyboard.ico</file>
     </qresource>
 </RCC>
