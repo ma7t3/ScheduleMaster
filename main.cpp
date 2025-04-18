@@ -10,6 +10,7 @@
 #include <QThread>
 
 #include "Global/Logger.h"
+#include "Global/ActionShortcutMapper.h".h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/Splashscreen/slpashscreen_light.png";
@@ -89,6 +90,9 @@ int main(int argc, char *argv[]) {
 
     splashscreen.showMessage(QObject::tr("Loading local configuration..."), Qt::AlignBottom, ssConfig.first);
     LocalConfig::init();
+
+    splashscreen.showMessage(QObject::tr("Init shortcut mapper..."), Qt::AlignBottom, ssConfig.first);
+    ActionShortcutMapper::init();
 
     splashscreen.showMessage(QObject::tr("Loading preferences..."), Qt::AlignBottom, ssConfig.first);
     loadStartupPreferences(&a);

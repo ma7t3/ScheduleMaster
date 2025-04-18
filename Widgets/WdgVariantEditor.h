@@ -9,6 +9,7 @@
 #include <QListWidgetItem>
 
 #include "Global/Global.h"
+#include "Global/ActionShortcutMapper.h"
 
 namespace Ui {
 class WdgVariantEditor;
