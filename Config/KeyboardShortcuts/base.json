@@ -55,7 +55,7 @@
     },
     {
         "id": "application.quit",
-        "default": "standard:65",
+        "default": ["standard:65", "Ctrl+Q"],
         "description": {
             "object": "translated_string",
             "en_US" : "Quit Application",
