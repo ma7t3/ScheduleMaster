@@ -88,6 +88,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="pbConfigEditor">
+       <property name="text">
+        <string>Edit Configuration...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
