@@ -7,6 +7,7 @@
 #include <QColor>
 #include <QLocale>
 #include <QStandardPaths>
+#include <QKeySequence>
 
 #include <QDir>
 
@@ -15,6 +16,7 @@
 #include <QJsonArray>
 
 #include "Global/VariantConverter.h"
+#include "Global/Global.h"
 
 class FolderLocation {
 public:
@@ -34,6 +36,14 @@ public:
     QVariant defaultValue;
     QMetaType::Type type = QMetaType::Void, groupContentType = QMetaType::Void;
     bool isGroup = false, requiresRestart = false;
+};
+
+class KeyboardShortcut {
+public:
+    KeyboardShortcut(const QJsonObject &jsonObject = QJsonObject());
+
+    QString id, description;
+    QKeySequence defaultKeySequence;
 };
 
 /**
@@ -152,6 +162,34 @@ public:
     /// Provide defualt logfile location before initalization
     static QString defaultLogfileLocation();
 
+
+    /**
+     * @brief Returns a list of all defined keyboard shortcuts
+     * @return The list of keyboard shortcuts
+     */
+    static QList<KeyboardShortcut> keyboardShortcuts();
+
+    /**
+     * @brief Checks if the KeyboardShortcut specified by the given ID exists
+     * @param id The KeyboardShortcut's ID to check for
+     * @return Whether the shortcut exists or not
+     */
+    static bool keyboardShortcutExists(const QString &id);
+
+    /**
+     * @brief Returns a KeyboardShortcut by its ID
+     * @param id The KeyboardShortcut's ID
+     * @return The KeyboardShortcut object or a default constructed object if the KeyboardShortcut does not exist
+     */
+    static KeyboardShortcut keyboardShortcut(const QString &id);
+
+    /**
+     * @brief Returns a KeyboardShortcut's default key sequence
+     * @param id The KeyboardShortcut's ID
+     * @return The KeyboardShortcut's default key sequence or an empty key sequence if the KeyboardShortcut does not exist or does not have a valid default key sequence
+     */
+    static QKeySequence keyboardShortcutDefaultKeySequence(const QString &id);
+
 protected:
     /**
      * @brief Loads a single config resource file and returns the parsed JSON document.
@@ -210,6 +248,9 @@ protected:
     /// Loads all folder locations
     static void loadFolderLocations();
 
+    /// Loads all keyboard shortcuts
+    static void loadKeyboardShortcuts();
+
 signals:
 
 private:
@@ -222,8 +263,11 @@ private:
     /// Set of all supported languages/locales
     static inline QSet<QLocale> _supportedLanguages;
 
-    /// Map of all folder locations: <id, Folder Location object>
+    /// Hash of all folder locations: <id, Folder Location object>
     static inline QHash<QString, FolderLocation> _folderLocations;
+
+    /// Hash of all keyboard shortcuts with their ID as key
+    static inline QHash<QString, KeyboardShortcut> _keyboardShortcuts;
 };
 
 #endif // GLOBALCONFIG_H
