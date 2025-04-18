@@ -13,6 +13,7 @@ SOURCES += \
     Dialogs/DlgPreferences.cpp \
     Global/ActionShortcutMapper.cpp \
     Global/VariantConverter.cpp \
+    ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     main.cpp \
     MainWindow.cpp \
@@ -48,6 +49,7 @@ HEADERS += \
     Dialogs/DlgPreferences.h \
     Global/ActionShortcutMapper.h \
     Global/VariantConverter.h \
+    ItemModels/KeyboardShortcutsModel.h \
     ItemModels/LocalConfigModel.h \
     MainWindow.h \
     Global/AppInfo.h \
