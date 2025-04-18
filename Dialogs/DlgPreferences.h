@@ -15,6 +15,7 @@
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
 
