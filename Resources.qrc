@@ -69,5 +69,6 @@
         <file>Icons/Updates.ico</file>
         <file>Config/versions.json</file>
         <file>Config/Settings/base.json</file>
+        <file>Config/KeyboardShortcuts/base.json</file>
     </qresource>
 </RCC>
