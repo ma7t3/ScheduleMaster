@@ -16,8 +16,8 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     QAction *reloadAction = ui->treeView->addAction(QIcon(":/Icons/Updates.ico"), tr("Reload"));
 
     ActionShortcutMapper::map(_restoreDefaultAction, "application.configuration.key.restoreDefault");
-    ActionShortcutMapper::map(_deleteAction, "application.configuration.key.delete");
-    ActionShortcutMapper::map(reloadAction, "application.configuration.reload");
+    ActionShortcutMapper::map(_deleteAction,         "application.configuration.key.delete");
+    ActionShortcutMapper::map(reloadAction,          "application.configuration.reload");
 
     _deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     reloadAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
