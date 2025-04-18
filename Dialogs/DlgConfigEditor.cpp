@@ -16,7 +16,7 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     _copyIDAction         = ui->treeView->addAction(QIcon(":/Icons/Duplicate.ico"), tr("Copy ID"));
     QAction *test = ui->treeView->addAction("");
     test->setSeparator(true);
-    QAction *reloadAction = ui->treeView->addAction(QIcon(":/Icons/Updates.ico"),   tr("Reload"));
+    QAction *reloadAction = ui->treeView->addAction(QIcon(":/Icons/Reload.ico"),    tr("Reload"));
 
     ActionShortcutMapper::map(_restoreDefaultAction, "application.configuration.key.restoreDefault");
     ActionShortcutMapper::map(_deleteAction,         "application.configuration.key.delete");
