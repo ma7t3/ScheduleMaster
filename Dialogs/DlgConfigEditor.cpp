@@ -11,27 +11,36 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     ui->treeView->setColumnWidth(0, 250);
     ui->treeView->setColumnWidth(1, 500);
 
-    _restoreDefaultAction = ui->treeView->addAction(QIcon(":/Icons/Undo.ico"),    tr("Restore Default"));
-    _deleteAction         = ui->treeView->addAction(QIcon(":/Icons/Delete.ico"),  tr("Delete"));
-    QAction *reloadAction = ui->treeView->addAction(QIcon(":/Icons/Updates.ico"), tr("Reload"));
+    _restoreDefaultAction = ui->treeView->addAction(QIcon(":/Icons/Undo.ico"),      tr("Restore Default"));
+    _deleteAction         = ui->treeView->addAction(QIcon(":/Icons/Delete.ico"),    tr("Delete"));
+    _copyIDAction         = ui->treeView->addAction(QIcon(":/Icons/Duplicate.ico"), tr("Copy ID"));
+    QAction *test = ui->treeView->addAction("");
+    test->setSeparator(true);
+    QAction *reloadAction = ui->treeView->addAction(QIcon(":/Icons/Updates.ico"),   tr("Reload"));
 
     ActionShortcutMapper::map(_restoreDefaultAction, "application.configuration.key.restoreDefault");
     ActionShortcutMapper::map(_deleteAction,         "application.configuration.key.delete");
+    ActionShortcutMapper::map(_copyIDAction,          "application.configuration.key.copyID");
     ActionShortcutMapper::map(reloadAction,          "application.configuration.reload");
 
+    _restoreDefaultAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     _deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    _copyIDAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     reloadAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
     ui->treeView->setContextMenuPolicy(Qt::ActionsContextMenu);
 
     connect(_restoreDefaultAction,          &QAction::triggered,                     this,                 &DlgConfigEditor::onSettingRestoreDefault);
     connect(_deleteAction,                  &QAction::triggered,                     this,                 &DlgConfigEditor::onSettingDelete);
+    connect(_copyIDAction,                  &QAction::triggered,                     this,                 &DlgConfigEditor::onSettingCopyID);
 
     connect(ui->pbRestoreDefault,           &QPushButton::clicked,                   this,                 &DlgConfigEditor::onSettingRestoreDefault);
     connect(ui->pbDelete,                   &QPushButton::clicked,                   this,                 &DlgConfigEditor::onSettingDelete);
+    connect(ui->pbCopyID,                   &QPushButton::clicked,                   this,                 &DlgConfigEditor::onSettingCopyID);
 
     connect(_restoreDefaultAction,          &QAction::enabledChanged,                ui->pbRestoreDefault, &QPushButton::setEnabled);
     connect(_deleteAction,                  &QAction::enabledChanged,                ui->pbDelete,         &QPushButton::setEnabled);
+    connect(_copyIDAction,                  &QAction::enabledChanged,                ui->pbCopyID,         &QPushButton::setEnabled);
 
     connect(ui->wdgValueEditor,             &WdgVariantEditor::valueChanged,         this,                 &DlgConfigEditor::onPreviewUpdate);
 
@@ -117,6 +126,8 @@ void DlgConfigEditor::onSelectionChanged() {
 
     ui->pbRestoreDefault->setVisible(canRestoreDefault);
     ui->pbDelete->setVisible(canDelete || (!canDelete && !canRestoreDefault));
+
+    _copyIDAction->setEnabled(selectionCount == 1);
 }
 
 void DlgConfigEditor::onSettingRestoreDefault() {
@@ -162,4 +173,9 @@ void DlgConfigEditor::onSettingDelete() {
             LocalConfig::remove(id);
         }
     }
+}
+
+void DlgConfigEditor::onSettingCopyID() {
+    QModelIndex current = ui->treeView->currentIndex();
+    QApplication::clipboard()->setText(_model.settingID(current));
 }

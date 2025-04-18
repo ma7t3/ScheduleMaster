@@ -108,6 +108,15 @@
         }
     },
     {
+        "id": "application.configuration.key.copyID",
+        "default": "standard:9",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Configuration: Copy ID",
+            "de_DE" : "Konfiguration: ID kopieren"
+        }
+    },
+    {
         "id": "edit.undo",
         "default": "standard:11",
         "description": {

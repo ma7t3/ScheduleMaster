@@ -73,6 +73,17 @@
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="pbCopyID">
+            <property name="text">
+             <string>Copy ID</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resources.qrc">
+              <normaloff>:/Icons/Duplicate.ico</normaloff>:/Icons/Duplicate.ico</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="pbRestoreDefault">
             <property name="text">
              <string>Restore Default</string>
