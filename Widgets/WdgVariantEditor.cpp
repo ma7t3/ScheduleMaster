@@ -17,8 +17,11 @@ WdgVariantEditor::WdgVariantEditor(QWidget *parent) :
     _listUpAction     = ui->lwList->addAction(QIcon(":/Icons/MoveUp.ico"),   tr("Up"));
     _listDownAction   = ui->lwList->addAction(QIcon(":/Icons/MoveDown.ico"), tr("Down"));
 
-    ActionShortcutMapper::map(_listEditAction, "variantEditor.listItem.edit");
+    ActionShortcutMapper::map(_listAddAction,    "variantEditor.listItem.add");
+    ActionShortcutMapper::map(_listEditAction,   "variantEditor.listItem.edit");
     ActionShortcutMapper::map(_listDeleteAction, "variantEditor.listItem.delete");
+    ActionShortcutMapper::map(_listUpAction,     "variantEditor.listItem.moveUp");
+    ActionShortcutMapper::map(_listDownAction,   "variantEditor.listItem.moveDown");
 
     _listEditAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     _listDeleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
