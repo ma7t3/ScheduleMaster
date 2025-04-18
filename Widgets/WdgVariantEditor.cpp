@@ -61,26 +61,28 @@ WdgVariantEditor::WdgVariantEditor(QWidget *parent) :
     connect(ui->cbByteArrayType, &QComboBox::currentIndexChanged, this, &WdgVariantEditor::onByteArrayTypeChanged);
 
     // TODO: Connect all editor widgets to valueChanged signal!
-    connect(ui->cbBool,        &QCheckBox::checkStateChanged,   this, &WdgVariantEditor::updateValue);
-    connect(ui->sbInt,         &QSpinBox::valueChanged,         this, &WdgVariantEditor::updateValue);
-    connect(ui->dsbFloat,      &QDoubleSpinBox::valueChanged,   this, &WdgVariantEditor::updateValue);
-    connect(ui->leChar,        &QLineEdit::textChanged,         this, &WdgVariantEditor::updateValue);
-    connect(ui->pteString,     &QPlainTextEdit::textChanged,    this, &WdgVariantEditor::updateValue);
-    connect(ui->pteByteArray,  &QPlainTextEdit::textChanged,    this, &WdgVariantEditor::updateValue);
-    connect(ui->deDate,        &QDateEdit::dateChanged,         this, &WdgVariantEditor::updateValue);
-    connect(ui->teTime,        &QTimeEdit::timeChanged,         this, &WdgVariantEditor::updateValue);
-    connect(ui->dteDateTime,   &QDateTimeEdit::dateTimeChanged, this, &WdgVariantEditor::updateValue);
+    connect(ui->cbBool,        &QCheckBox::checkStateChanged,          this, &WdgVariantEditor::updateValue);
+    connect(ui->sbInt,         &QSpinBox::valueChanged,                this, &WdgVariantEditor::updateValue);
+    connect(ui->dsbFloat,      &QDoubleSpinBox::valueChanged,          this, &WdgVariantEditor::updateValue);
+    connect(ui->leChar,        &QLineEdit::textChanged,                this, &WdgVariantEditor::updateValue);
+    connect(ui->pteString,     &QPlainTextEdit::textChanged,           this, &WdgVariantEditor::updateValue);
+    connect(ui->pteByteArray,  &QPlainTextEdit::textChanged,           this, &WdgVariantEditor::updateValue);
+    connect(ui->deDate,        &QDateEdit::dateChanged,                this, &WdgVariantEditor::updateValue);
+    connect(ui->teTime,        &QTimeEdit::timeChanged,                this, &WdgVariantEditor::updateValue);
+    connect(ui->dteDateTime,   &QDateTimeEdit::dateTimeChanged,        this, &WdgVariantEditor::updateValue);
 
-    connect(ui->dsbPointX,     &QDoubleSpinBox::valueChanged,   this, &WdgVariantEditor::updateValue);
-    connect(ui->dsbPointY,     &QDoubleSpinBox::valueChanged,   this, &WdgVariantEditor::updateValue);
+    connect(ui->dsbPointX,     &QDoubleSpinBox::valueChanged,          this, &WdgVariantEditor::updateValue);
+    connect(ui->dsbPointY,     &QDoubleSpinBox::valueChanged,          this, &WdgVariantEditor::updateValue);
 
-    connect(ui->dsbSizeWidth,  &QDoubleSpinBox::valueChanged,   this, &WdgVariantEditor::updateValue);
-    connect(ui->dsbSizeHeight, &QDoubleSpinBox::valueChanged,   this, &WdgVariantEditor::updateValue);
+    connect(ui->dsbSizeWidth,  &QDoubleSpinBox::valueChanged,          this, &WdgVariantEditor::updateValue);
+    connect(ui->dsbSizeHeight, &QDoubleSpinBox::valueChanged,          this, &WdgVariantEditor::updateValue);
 
-    connect(ui->dsbRectX,      &QDoubleSpinBox::valueChanged,   this, &WdgVariantEditor::updateValue);
-    connect(ui->dsbRectY,      &QDoubleSpinBox::valueChanged,   this, &WdgVariantEditor::updateValue);
-    connect(ui->dsbRectWidth,  &QDoubleSpinBox::valueChanged,   this, &WdgVariantEditor::updateValue);
-    connect(ui->dsbRectHeight, &QDoubleSpinBox::valueChanged,   this, &WdgVariantEditor::updateValue);
+    connect(ui->dsbRectX,      &QDoubleSpinBox::valueChanged,          this, &WdgVariantEditor::updateValue);
+    connect(ui->dsbRectY,      &QDoubleSpinBox::valueChanged,          this, &WdgVariantEditor::updateValue);
+    connect(ui->dsbRectWidth,  &QDoubleSpinBox::valueChanged,          this, &WdgVariantEditor::updateValue);
+    connect(ui->dsbRectHeight, &QDoubleSpinBox::valueChanged,          this, &WdgVariantEditor::updateValue);
+
+    connect(ui->kseKeySequence, &QKeySequenceEdit::keySequenceChanged, this, &WdgVariantEditor::updateValue);
 }
 
 WdgVariantEditor::~WdgVariantEditor() {
@@ -271,6 +273,11 @@ void WdgVariantEditor::loadValue() {
         loadStringList();
         break;
 
+    case QMetaType::QKeySequence:
+        openPage(KeySequencePage);
+        ui->kseKeySequence->setKeySequence(_value.value<QKeySequence>());
+        break;
+
     default:
         openPage(InvalidPage);
     }
@@ -361,6 +368,10 @@ void WdgVariantEditor::updateValue() {
 
     case QMetaType::QLocale:
         _value = QVariant::fromValue(QLocale(ui->cbLocale->currentData().toString()));
+        break;
+
+    case QMetaType::QKeySequence:
+        _value = QVariant::fromValue(ui->kseKeySequence->keySequence());
         break;
 
     default: break;

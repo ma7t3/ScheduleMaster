@@ -7,6 +7,7 @@
 #include <QDialogButtonBox>
 #include <QColorDialog>
 #include <QListWidgetItem>
+#include <QKeySequence>
 
 #include "Global/Global.h"
 #include "Global/ActionShortcutMapper.h"
