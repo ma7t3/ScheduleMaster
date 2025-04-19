@@ -14,6 +14,7 @@ SOURCES += \
     Global/ActionShortcutMapper.cpp \
     Global/VariantConverter.cpp \
     ItemModels/KeyboardShortcutsModel.cpp \
+    ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     main.cpp \
     MainWindow.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     Global/ActionShortcutMapper.h \
     Global/VariantConverter.h \
     ItemModels/KeyboardShortcutsModel.h \
+    ItemModels/LanguagesModel.h \
     ItemModels/LocalConfigModel.h \
     MainWindow.h \
     Global/AppInfo.h \
