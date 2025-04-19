@@ -16,6 +16,7 @@ SOURCES += \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageHome.cpp \
     main.cpp \
     MainWindow.cpp \
     Global/AppInfo.cpp \
@@ -78,6 +79,7 @@ HEADERS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageHome.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h \
@@ -94,6 +96,7 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.ui \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageHome.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \

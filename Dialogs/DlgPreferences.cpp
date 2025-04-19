@@ -6,7 +6,10 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     ui->setupUi(this);
 
     qInfo() << "Loading preferences...";
-    addPage(new WdgPreferencesPageGeneral(this));
+    WdgPreferencesPageHome *home = new WdgPreferencesPageHome(this);
+    addPage(home);
+    WdgPreferencesPageGeneral *general = new WdgPreferencesPageGeneral(this);
+    addPage(general);
     addPage(new WdgPreferencesPageAppearance(this));
     addPage(new WdgPreferencesPageLocations(this));
     addPage(new WdgPreferencesPageUpdates(this));
@@ -14,20 +17,34 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     addPage(new WdgPreferencesPagePlugins(this));
     addPage(new WdgPreferencesPageDebug(this));
 
+    connect(home,    &WdgPreferencesPageHome::languageIndexChanged,    general, &WdgPreferencesPageGeneral::setLanguageIndex);
+    connect(general, &WdgPreferencesPageGeneral::languageIndexChanged, home,    &WdgPreferencesPageHome::setLanguageIndex);
+
     for(int i = 0; i < ui->lwList->count(); i++)
         ui->lwList->item(i)->setSizeHint(QSize(0, 32));
 
     ui->lwList->setFocus();
     ui->lwList->setCurrentRow(0);
 
-    connect(ui->pbConfigEditor, &QPushButton::clicked, this, &DlgPreferences::openConfigEditor);
+    connect(ui->pbConfigEditor, &QPushButton::clicked,                 this, &DlgPreferences::openConfigEditor);
+    connect(home, &WdgPreferencesPageHome::openPageRequested,          this, &DlgPreferences::setCurrentPage);
+    connect(home, &WdgPreferencesPageHome::openConfigEditorRequested,  this, &DlgPreferences::openConfigEditor);
 }
 
 DlgPreferences::~DlgPreferences() {
     delete ui;
 }
 
-void DlgPreferences::setCurrentPage(const int &index) {
+void DlgPreferences::addPage(WdgPreferencesPage *page) {
+    _pages << page;
+
+    QListWidgetItem *item = new QListWidgetItem(page->icon(), page->name());
+    ui->lwList->addItem(item);
+
+    ui->swContent->addWidget(page);
+}
+
+void DlgPreferences::setCurrentPageIndex(const int &index) {
     if(index < 0 || index >= ui->lwList->count())
         return;
 
@@ -38,15 +55,6 @@ void DlgPreferences::setCurrentPage(const QString &id) {
     for(int i = 0; i < _pages.count(); i++)
         if(_pages[i]->id() == id)
             ui->lwList->setCurrentRow(i);
-}
-
-void DlgPreferences::addPage(WdgPreferencesPage *page) {
-    _pages << page;
-
-    QListWidgetItem *item = new QListWidgetItem(page->icon(), page->name());
-    ui->lwList->addItem(item);
-
-    ui->swContent->addWidget(page);
 }
 
 void DlgPreferences::openConfigEditor() {
@@ -113,10 +121,6 @@ void DlgPreferences::on_lwList_currentItemChanged(QListWidgetItem *current,
     ui->swContent->setCurrentIndex(ui->lwList->row(current));
     ui->lTitle->setText(current->text());
     ui->lTitleIcon->setPixmap(current->icon().pixmap(28, 28));
-}
-
-void DlgPreferences::on_pbReset_clicked() {
-    QMessageBox::warning(this, tr("Not available"), tr("Reset preferences ist not available now."));
 }
 
 void DlgPreferences::accept() {

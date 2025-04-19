@@ -3,13 +3,19 @@
 
 WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     WdgPreferencesPage(parent),
-    ui(new Ui::WdgPreferencesPageGeneral) {
+    ui(new Ui::WdgPreferencesPageGeneral),
+    _languagesModel(new LanguagesModel(this)) {
     ui->setupUi(this);
 
-    reloadPreferences();
+    ui->cbLanguage->setModel(_languagesModel);
 
-    connect(ui->cbLanguage, &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
-    connect(ui->cbLogfileMode, &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
+    connect(ui->cbLanguage,        &QComboBox::activated,           this, &WdgPreferencesPageGeneral::languageIndexChanged);
+
+    reloadPreferences();
+    connect(ui->cbLanguage,        &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
+    connect(ui->cbLogfileMode,     &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
+
+    connect(ui->pbLogfileLocation, &QPushButton::clicked,           this, &WdgPreferencesPageGeneral::openLogfileLocation);
 }
 
 WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
@@ -17,15 +23,7 @@ WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
 }
 
 void WdgPreferencesPageGeneral::reloadPreferences() {
-    ui->cbLanguage->clear();
-
-    // available languages:
-    QList<QLocale> languages = GlobalConfig::supportedLanguages();
-    for(QLocale language : std::as_const(languages)) {
-        ui->cbLanguage->addItem(language.nativeLanguageName(), language.name());
-        if(language == LocalConfig::language())
-            ui->cbLanguage->setCurrentIndex(ui->cbLanguage->count() - 1);
-    }
+    ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(LocalConfig::language()));
 
     // logfile mode
     ui->cbLogfileMode->setCurrentIndex(LocalConfig::logfileMode());
@@ -35,7 +33,7 @@ void WdgPreferencesPageGeneral::reloadPreferences() {
 
 void WdgPreferencesPageGeneral::savePreferences() {
     // language
-    LocalConfig::setLanguage(ui->cbLanguage->currentData(Qt::UserRole).toString());
+    LocalConfig::setLanguage(_languagesModel->language(ui->cbLanguage->currentIndex()));
 
     // logfile mode
     LocalConfig::setLogfileMode(static_cast<LocalConfig::LogfileMode>(ui->cbLogfileMode->currentIndex()));
@@ -59,6 +57,19 @@ QIcon WdgPreferencesPageGeneral::icon() {
     return QIcon(":/Icons/Preferences.ico");
 }
 
+void WdgPreferencesPageGeneral::setLanguageIndex(const int &index) {
+    ui->cbLanguage->setCurrentIndex(index);
+}
+
+void WdgPreferencesPageGeneral::openLogfileLocation() {
+    qInfo() << "Opening logfile location...";
+    QStringList list = LocalConfig::folderLocationPaths("base.logfile");
+    if(list.isEmpty())
+        return;
+
+    QDesktopServices::openUrl(QUrl(list.first()));
+}
+
 void WdgPreferencesPageGeneral::on_cbLogfileMode_currentIndexChanged(int index) {
     QString infoText;
 
@@ -80,11 +91,3 @@ void WdgPreferencesPageGeneral::on_cbLogfileMode_currentIndexChanged(int index) 
     ui->lLogfileModeInfo->setText(infoText);
 }
 
-void WdgPreferencesPageGeneral::on_pbLogfileLocation_clicked() {
-    qInfo() << "Opening logfile location...";
-    QStringList list = LocalConfig::folderLocationPaths("base.logfile");
-    if(list.isEmpty())
-        return;
-
-    QDesktopServices::openUrl(QUrl(list.first()));
-}
