@@ -73,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, this,        &MainWindow::updateRecentProjectsList);
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, _wdgWelcome, &WdgWelcome::updateRecentProjectsList);
     connect(LocalConfig::instance(),       &LocalConfig::uiFontChanged,        this,        &MainWindow::setUiFont);
+    connect(LocalConfig::instance(),       &LocalConfig::accentColorChanged,   this,        &MainWindow::setAccentColor);
 
     LocalConfig::previewUiFontFamily();
 
@@ -264,6 +265,16 @@ void MainWindow::setUiFont(const QString &fontFamily) {
     qApp->setFont(font);
 }
 
+void MainWindow::setAccentColor(const QString &id) {
+    const QColor color = GlobalConfig::accentColor(id);
+    QPalette palette = QApplication::palette();
+    if(color.isValid()) {
+        palette.setColor(QPalette::Highlight, color);
+        QApplication::setPalette(palette);
+    } else {
+        QApplication::setPalette(QApplication::style()->standardPalette());
+    }
+}
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {
     #ifndef QT_DEBUG
