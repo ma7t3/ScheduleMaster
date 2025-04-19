@@ -16,6 +16,7 @@ SOURCES += \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
+    Widgets/WdgAccentColorSelector.cpp \
     main.cpp \
     MainWindow.cpp \
     Global/AppInfo.cpp \
@@ -85,6 +86,7 @@ HEADERS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h \
     Widgets/WdgAbstract.h \
+    Widgets/WdgAccentColorSelector.h \
     Widgets/WdgVariantEditor.h \
     Widgets/WdgWelcome.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
@@ -101,6 +103,7 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
+    Widgets/WdgAccentColorSelector.ui \
     Widgets/WdgVariantEditor.ui \
     Widgets/WdgWelcome.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui

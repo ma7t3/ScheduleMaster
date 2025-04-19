@@ -102,6 +102,11 @@ int main(int argc, char *argv[]) {
 #ifndef QT_DEBUG
     a.thread()->sleep(2);
 #endif
+    QPalette palette = QApplication::style()->standardPalette();
+    QColor color = LocalConfig::accentColor();
+    if(color.isValid())
+        palette.setColor(QPalette::Highlight, color);
+    QApplication::setPalette(palette);
 
     qInfo() << "Loading main window size and position...";
     bool ok = w.restoreGeometry(LocalConfig::mainWindowGeometry());

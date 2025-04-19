@@ -11,6 +11,9 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     connect(ui->cbAppearance, &QComboBox::currentIndexChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->fcbFont, &QFontComboBox::currentFontChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->cbGDIEngine, &QCheckBox::checkStateChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
+
+    connect(ui->wdgAccentColor, &WdgAccentColorSelector::onCurrentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
+    connect(ui->wdgAccentColor, &WdgAccentColorSelector::onCurrentAccentColorChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
 }
 
 WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
@@ -20,17 +23,20 @@ WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
 void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->fcbFont->setCurrentFont(QFont(LocalConfig::uiFontFamily()));
     ui->cbGDIEngine->setChecked(LocalConfig::useGdiEngine());
+    ui->wdgAccentColor->setAccentColor(LocalConfig::accentColorID());
     WdgPreferencesPage::reloadPreferences();
 }
 
 void WdgPreferencesPageAppearance::savePreferences() {
     LocalConfig::setUiFontFamily(ui->fcbFont->currentFont().family());
     LocalConfig::setUseGdiEngine(ui->cbGDIEngine->isChecked());
+    LocalConfig::setAccentColor(ui->wdgAccentColor->accentColorID());
     WdgPreferencesPage::savePreferences();
 }
 
 void WdgPreferencesPageAppearance::discardPreviewPreferences() {
     LocalConfig::restoreUiFontFamilyPreview();
+    LocalConfig::restoreAccentColor();
     WdgPreferencesPage::discardPreviewPreferences();
 }
 
@@ -48,4 +54,8 @@ QIcon WdgPreferencesPageAppearance::icon() {
 
 void WdgPreferencesPageAppearance::on_fcbFont_currentFontChanged(const QFont &f) {
     LocalConfig::previewUiFontFamily(f.family());
+}
+
+void WdgPreferencesPageAppearance::onAccentColorChanged(const QString &id) {
+    LocalConfig::previewAccentColor(id);
 }

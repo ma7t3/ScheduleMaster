@@ -30,6 +30,8 @@ public:
 private slots:
     void on_fcbFont_currentFontChanged(const QFont &f);
 
+    void onAccentColorChanged(const QString &id);
+
 private:
     Ui::WdgPreferencesPageAppearance *ui;
 };
