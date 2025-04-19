@@ -16,7 +16,6 @@ SOURCES += \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageHome.cpp \
     main.cpp \
     MainWindow.cpp \
     Global/AppInfo.cpp \
@@ -37,6 +36,7 @@ SOURCES += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.cpp \
+    Widgets/DlgPreferencesPages/WdgPreferencesPageHome.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.cpp \
