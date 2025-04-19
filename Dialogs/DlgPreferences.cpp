@@ -17,8 +17,10 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     addPage(new WdgPreferencesPagePlugins(this));
     addPage(new WdgPreferencesPageDebug(this));
 
-    connect(home,    &WdgPreferencesPageHome::languageIndexChanged,    general, &WdgPreferencesPageGeneral::setLanguageIndex);
-    connect(general, &WdgPreferencesPageGeneral::languageIndexChanged, home,    &WdgPreferencesPageHome::setLanguageIndex);
+    connect(home,    &WdgPreferencesPageHome::languageIndexChanged,         general, &WdgPreferencesPageGeneral::setLanguageIndex);
+    connect(general, &WdgPreferencesPageGeneral::languageIndexChanged,      home,    &WdgPreferencesPageHome::setLanguageIndex);
+
+    connect(home,    &WdgPreferencesPageHome::openLogfileLocationRequested, general, &WdgPreferencesPageGeneral::openLogfileLocation);
 
     for(int i = 0; i < ui->lwList->count(); i++)
         ui->lwList->item(i)->setSizeHint(QSize(0, 32));

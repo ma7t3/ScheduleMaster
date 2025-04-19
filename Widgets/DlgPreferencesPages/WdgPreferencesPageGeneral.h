@@ -31,6 +31,7 @@ public:
 public slots:
     void setLanguageIndex(const int &index);
     void openLogfileLocation();
+    void openLogfile();
 
 signals:
     void languageIndexChanged(const int &index);

@@ -58,13 +58,19 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pbLogfileLocation">
+      <widget class="QToolButton" name="tbLogfileLocation">
        <property name="text">
-        <string>Open Logfile Location...</string>
+        <string>Open Logfile Location</string>
        </property>
        <property name="icon">
         <iconset resource="../../Resources.qrc">
          <normaloff>:/Icons/FileOpen.ico</normaloff>:/Icons/FileOpen.ico</iconset>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
        </property>
       </widget>
      </item>
