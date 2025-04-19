@@ -199,6 +199,26 @@ public:
      */
     static bool keyboardShortcutIsDefault(const QString &id, const QKeySequence &sequence);
 
+    /**
+     * @brief Returns the accent color specified by the given ID
+     * @param id The accent color's ID
+     * @return The accent color
+     */
+    static QColor accentColor(const QString &id);
+
+    /**
+     * @brief Returns a darker version of the accent color specified by the given ID
+     * @param id The accent color's ID
+     * @return The daker version of the accent color
+     */
+    static QColor accentColorDark(const QString &id);
+
+    /**
+     * @brief Returns a list of all accent colors
+     * @return The list of accent colors
+     */
+    static QMap<QString, QColor> accentColors();
+
 protected:
     /**
      * @brief Loads a single config resource file and returns the parsed JSON document.
@@ -260,6 +280,9 @@ protected:
     /// Loads all keyboard shortcuts
     static void loadKeyboardShortcuts();
 
+    /// Loads the accent color palette
+    static void loadAccentColors();
+
 signals:
 
 private:
@@ -277,6 +300,9 @@ private:
 
     /// Hash of all keyboard shortcuts with their ID as key
     static inline QHash<QString, KeyboardShortcut> _keyboardShortcuts;
+
+    /// All accent colors
+    static inline QMap<QString, QColor> _accentColors;
 };
 
 #endif // GLOBALCONFIG_H

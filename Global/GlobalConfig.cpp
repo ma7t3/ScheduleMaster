@@ -83,6 +83,7 @@ void GlobalConfig::init() {
     loadSettingsItems();
     loadFolderLocations();
     loadKeyboardShortcuts();
+    loadAccentColors();
 }
 
 QList<SettingsItem> GlobalConfig::settingsItems() {
@@ -161,6 +162,19 @@ bool GlobalConfig::keyboardShortcutIsDefault(const QString &id, const QKeySequen
         return false;
 
     return keyboardShortcut(id).defaultKeySequence == sequence;
+}
+
+QColor GlobalConfig::accentColor(const QString &id) {
+    return _accentColors.value(id, QColor());
+}
+
+QColor GlobalConfig::accentColorDark(const QString &id) {
+    QColor color = accentColor(id);
+    return QColor(color.red() * 0.5, color.green() * 0.5, color.blue() * 0.5);
+}
+
+QMap<QString, QColor> GlobalConfig::accentColors() {
+    return _accentColors;
 }
 
 QJsonDocument GlobalConfig::loadSingleConfigResource(const QString &resource) {
@@ -347,4 +361,13 @@ void GlobalConfig::loadKeyboardShortcuts() {
         item.defaultValue = shortcut.defaultKeySequence;
         registerNewSettingsItem(item);
     }
+}
+
+void GlobalConfig::loadAccentColors() {
+    qInfo() << "   Loading accent colors...";
+    const QJsonDocument doc = loadSingleConfigResource("accentColors");
+    const QJsonObject object = doc.object();
+    const QStringList keys = object.keys();
+    for(const QString &key : keys)
+        _accentColors.insert(key, QColor(object[key].toString()));
 }
