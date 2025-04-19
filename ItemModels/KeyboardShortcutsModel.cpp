@@ -63,6 +63,7 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
     if (!index.isValid() || (
             role != Qt::DisplayRole &&
             role != Qt::DecorationRole &&
+            role != Qt::ToolTipRole &&
             role != Qt::FontRole &&
             role != IDRole &&
             role != ModifiedRole
@@ -81,6 +82,9 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
         case Qt::DecorationRole: switch(index.column()) {
             case 0: return QIcon(shortcut.first.icon);
         } break;
+        case Qt::ToolTipRole: switch(index.column()) {
+            case 0: return QString("<p><b>%1</b></p><p><small>%2</small></p>").arg(shortcut.first.description, shortcut.first.id);
+            } break;
         case Qt::FontRole: switch (index.column()) {
             case 1: return shortcut.first.defaultKeySequence == shortcut.second ? QVariant() : QFont("", -1, QFont::Bold);
         } break;
