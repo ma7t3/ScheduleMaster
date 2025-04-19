@@ -5,6 +5,8 @@ WdgPreferencesPageDebug::WdgPreferencesPageDebug(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageDebug) {
     ui->setupUi(this);
+
+    reloadPreferences();
 }
 
 WdgPreferencesPageDebug::~WdgPreferencesPageDebug() {
@@ -19,7 +21,9 @@ void WdgPreferencesPageDebug::savePreferences() {
     WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPageDebug::discardPreviewPreferences() {}
+void WdgPreferencesPageDebug::discardPreviewPreferences() {
+    WdgPreferencesPage::discardPreviewPreferences();
+}
 
 QString WdgPreferencesPageDebug::id() {
     return "base.debug";

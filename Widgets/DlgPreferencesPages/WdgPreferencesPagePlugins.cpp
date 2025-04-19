@@ -5,6 +5,8 @@ WdgPreferencesPagePlugins::WdgPreferencesPagePlugins(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPluginsPage) {
     ui->setupUi(this);
+
+    reloadPreferences();
 }
 
 WdgPreferencesPagePlugins::~WdgPreferencesPagePlugins() {
@@ -19,7 +21,9 @@ void WdgPreferencesPagePlugins::savePreferences() {
     WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPagePlugins::discardPreviewPreferences() {}
+void WdgPreferencesPagePlugins::discardPreviewPreferences() {
+    WdgPreferencesPage::discardPreviewPreferences();
+}
 
 QString WdgPreferencesPagePlugins::id() {
     return "base.plugins";

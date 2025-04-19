@@ -46,7 +46,9 @@ void WdgPreferencesPageLocations::savePreferences() {
     WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPageLocations::discardPreviewPreferences() {}
+void WdgPreferencesPageLocations::discardPreviewPreferences() {
+    WdgPreferencesPage::discardPreviewPreferences();
+}
 
 QString WdgPreferencesPageLocations::id() {
     return "base.locations";

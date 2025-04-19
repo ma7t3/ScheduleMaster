@@ -43,7 +43,9 @@ void WdgPreferencesPageGeneral::savePreferences() {
     WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPageGeneral::discardPreviewPreferences() {}
+void WdgPreferencesPageGeneral::discardPreviewPreferences() {
+    WdgPreferencesPage::discardPreviewPreferences();
+}
 
 QString WdgPreferencesPageGeneral::id() {
     return "base.general";
