@@ -6,6 +6,7 @@
 #include <QClipboard>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QMenu>
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 #include "ItemModels/KeyboardShortcutsModel.h"

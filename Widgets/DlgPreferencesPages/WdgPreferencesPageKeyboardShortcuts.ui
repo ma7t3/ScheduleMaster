@@ -15,56 +15,6 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pbImport">
-       <property name="text">
-        <string>Import</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../Resources.qrc">
-         <normaloff>:/Icons/FileImport.ico</normaloff>:/Icons/FileImport.ico</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pbExport">
-       <property name="text">
-        <string>Export</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../Resources.qrc">
-         <normaloff>:/Icons/FileExport.ico</normaloff>:/Icons/FileExport.ico</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pbResetAll">
-       <property name="text">
-        <string>Reset All</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../Resources.qrc">
-         <normaloff>:/Icons/Undo.ico</normaloff>:/Icons/Undo.ico</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QLineEdit" name="leSearch">
@@ -77,9 +27,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="cbOnlyModified">
+      <widget class="QToolButton" name="tbActions">
        <property name="text">
-        <string>Show only modified</string>
+        <string>Actions</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resources.qrc">
+         <normaloff>:/Icons/Keyboard.ico</normaloff>:/Icons/Keyboard.ico</iconset>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
        </property>
       </widget>
      </item>

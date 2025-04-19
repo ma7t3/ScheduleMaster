@@ -12,11 +12,11 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     _removeShortcutAction         = ui->twShortcuts->addAction(QIcon(":/Icons/Delete.ico"),    tr("Remove Shortcut"));
     QAction *separatorAction       = ui->twShortcuts->addAction(""); separatorAction->setSeparator(true);
     _copyIDAction                 = ui->twShortcuts->addAction(QIcon(":/Icons/Duplicate.ico"), tr("Copy ID"));
-    separatorAction               = ui->twShortcuts->addAction(""); separatorAction->setSeparator(true);
-    _showOnlyModifiedAction       = ui->twShortcuts->addAction(QIcon(":/Icons/Edit.ico"), tr("Show only modified")); _showOnlyModifiedAction->setCheckable(true);
-    _importAction                 = ui->twShortcuts->addAction(QIcon(":/Icons/FileImport.ico"), tr("Import"));
-    _exportAction                 = ui->twShortcuts->addAction(QIcon(":/Icons/FileExport.ico"), tr("Export"));
-    _resetAllAction               = ui->twShortcuts->addAction(QIcon(":/Icons/Undo.ico"), tr("Reset All"));
+
+    _showOnlyModifiedAction       = addAction(QIcon(":/Icons/Edit.ico"), tr("Show only modified")); _showOnlyModifiedAction->setCheckable(true);
+    _importAction                 = addAction(QIcon(":/Icons/FileImport.ico"), tr("Import"));
+    _exportAction                 = addAction(QIcon(":/Icons/FileExport.ico"), tr("Export"));
+    _resetAllAction               = addAction(QIcon(":/Icons/Undo.ico"), tr("Reset All"));
     _focusSearchAction            = addAction("");
 
     ActionShortcutMapper::map(_restoreDefaultShortcutAction, "application.preferences.keyboardShortcuts.restoreDefaultShortcut");
@@ -28,8 +28,17 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     ActionShortcutMapper::map(_resetAllAction,               "application.preferences.keyboardShortcuts.resetAll");
     ActionShortcutMapper::map(_focusSearchAction,            "application.preferences.keyboardShortcuts.focusSearch");
 
-    ui->twShortcuts->setContextMenuPolicy(Qt::ActionsContextMenu);
+    QMenu *actionsMenu = new QMenu(ui->tbActions);
+    actionsMenu->addAction(_showOnlyModifiedAction);
+    actionsMenu->addSeparator();
+    actionsMenu->addAction(_importAction);
+    actionsMenu->addAction(_exportAction);
+    actionsMenu->addAction(_resetAllAction);
 
+    ui->tbActions->setMenu(actionsMenu);
+    ui->tbActions->setPopupMode(QToolButton::InstantPopup);
+
+    ui->twShortcuts->setContextMenuPolicy(Qt::ActionsContextMenu);
     _sortFilterProxyModel->setSourceModel(_model);
     _sortFilterProxyModel->setSortRole(Qt::DisplayRole);
 
@@ -62,18 +71,11 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     connect(_removeShortcutAction,             &QAction::triggered,                   this,                    &WdgPreferencesPageKeyboardShortcuts::onRemoveShortcut);
     connect(_copyIDAction,                     &QAction::triggered,                   this,                    &WdgPreferencesPageKeyboardShortcuts::onCopyID);
 
-    connect(_showOnlyModifiedAction,           &QAction::toggled,                     ui->cbOnlyModified,      &QCheckBox::setChecked);
     connect(_importAction,                     &QAction::triggered,                   this,                    &WdgPreferencesPageKeyboardShortcuts::onImport);
     connect(_exportAction,                     &QAction::triggered,                   this,                    &WdgPreferencesPageKeyboardShortcuts::onExport);
     connect(_resetAllAction,                   &QAction::triggered,                   this,                    &WdgPreferencesPageKeyboardShortcuts::onResetAll);
 
     connect(_focusSearchAction,                &QAction::triggered,                   ui->leSearch,            [this](){ui->leSearch->setFocus(Qt::ShortcutFocusReason);});
-
-    connect(ui->pbImport,                      &QPushButton::clicked,                 this,                    &WdgPreferencesPageKeyboardShortcuts::onImport);
-    connect(ui->pbExport,                      &QPushButton::clicked,                 this,                    &WdgPreferencesPageKeyboardShortcuts::onExport);
-    connect(ui->pbResetAll,                    &QPushButton::clicked,                 this,                    &WdgPreferencesPageKeyboardShortcuts::onResetAll);
-
-    connect(ui->cbOnlyModified,                &QCheckBox::checkStateChanged,         _showOnlyModifiedAction, &QAction::setChecked);
 }
 
 WdgPreferencesPageKeyboardShortcuts::~WdgPreferencesPageKeyboardShortcuts() {
