@@ -8,6 +8,8 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     _model(new KeyboardShortcutsModel(this)) {
     ui->setupUi(this);
 
+    reloadPreferences();
+
     _restoreDefaultShortcutAction = ui->twShortcuts->addAction(QIcon(":/Icons/Undo.ico"),      tr("Restore Default"));
     _removeShortcutAction         = ui->twShortcuts->addAction(QIcon(":/Icons/Delete.ico"),    tr("Remove Shortcut"));
     QAction *separatorAction       = ui->twShortcuts->addAction(""); separatorAction->setSeparator(true);
@@ -84,13 +86,17 @@ WdgPreferencesPageKeyboardShortcuts::~WdgPreferencesPageKeyboardShortcuts() {
 
 void WdgPreferencesPageKeyboardShortcuts::reloadPreferences() {
     _model->reload();
+    WdgPreferencesPage::reloadPreferences();
 }
 
 void WdgPreferencesPageKeyboardShortcuts::savePreferences() {
     _model->saveShortcuts();
+    WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPageKeyboardShortcuts::discardPreviewPreferences() {}
+void WdgPreferencesPageKeyboardShortcuts::discardPreviewPreferences() {
+    WdgPreferencesPage::discardPreviewPreferences();
+}
 
 QString WdgPreferencesPageKeyboardShortcuts::id() {
     return "base.keyboardShortcuts";

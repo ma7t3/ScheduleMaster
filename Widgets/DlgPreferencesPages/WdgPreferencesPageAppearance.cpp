@@ -31,6 +31,7 @@ void WdgPreferencesPageAppearance::savePreferences() {
 
 void WdgPreferencesPageAppearance::discardPreviewPreferences() {
     LocalConfig::restoreUiFontFamilyPreview();
+    WdgPreferencesPage::discardPreviewPreferences();
 }
 
 QString WdgPreferencesPageAppearance::id() {

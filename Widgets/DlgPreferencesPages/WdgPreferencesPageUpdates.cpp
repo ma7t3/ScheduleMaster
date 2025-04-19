@@ -5,6 +5,8 @@ WdgPreferencesPageUpdates::WdgPreferencesPageUpdates(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageUpdates) {
     ui->setupUi(this);
+
+    reloadPreferences();
 }
 
 WdgPreferencesPageUpdates::~WdgPreferencesPageUpdates() {
@@ -19,7 +21,9 @@ void WdgPreferencesPageUpdates::savePreferences() {
     WdgPreferencesPage::savePreferences();
 }
 
-void WdgPreferencesPageUpdates::discardPreviewPreferences() {}
+void WdgPreferencesPageUpdates::discardPreviewPreferences() {
+    WdgPreferencesPage::discardPreviewPreferences();
+}
 
 QString WdgPreferencesPageUpdates::id() {
     return "base.updates";
