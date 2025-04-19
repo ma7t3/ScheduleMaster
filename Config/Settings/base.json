@@ -66,6 +66,17 @@
         }
     },
     {
+        "id": "appearance.accentColor",
+        "type": "QString",
+        "default": "system",
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "The application's accent color",
+            "de_DE": "Akzentfarbe der Benutzeroberfläche"
+        }
+    },
+    {
         "id": "appearance.colorscheme",
         "type": "int",
         "default": 0,

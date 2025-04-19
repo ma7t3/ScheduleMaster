@@ -211,6 +211,28 @@ void LocalConfig::restoreUiFontFamilyPreview() {
     previewUiFontFamily();
 }
 
+QString LocalConfig::accentColorID() {
+    return read("appearance.accentColor").toString();
+}
+
+QColor LocalConfig::accentColor() {
+    const QString id = accentColorID();
+    return GlobalConfig::accentColor(id);
+}
+
+void LocalConfig::setAccentColor(const QString &id) {
+    write("appearance.accentColor", id);
+    emit instance()->accentColorChanged(id);
+}
+
+void LocalConfig::previewAccentColor(const QString &id) {
+    emit instance()->accentColorChanged(id);
+}
+
+void LocalConfig::restoreAccentColor() {
+    emit instance()->accentColorChanged(accentColorID());
+}
+
 bool LocalConfig::useGdiEngine() {
     return read("appearance.fontEngineGDI").toBool();
 }
