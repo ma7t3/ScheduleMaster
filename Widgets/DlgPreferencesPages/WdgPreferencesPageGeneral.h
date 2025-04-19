@@ -5,6 +5,7 @@
 #include <QDesktopServices>
 
 #include "Global/LocalConfig.h"
+#include "ItemModels/LanguagesModel.h"
 
 #include "WdgPreferencesPage.h"
 
@@ -27,13 +28,21 @@ public:
     virtual QString name() override;
     virtual QIcon icon() override;
 
+public slots:
+    void setLanguageIndex(const int &index);
+    void openLogfileLocation();
+
+signals:
+    void languageIndexChanged(const int &index);
+
 private slots:
     void on_cbLogfileMode_currentIndexChanged(int index);
 
-    void on_pbLogfileLocation_clicked();
 
 private:
     Ui::WdgPreferencesPageGeneral *ui;
+
+    LanguagesModel *_languagesModel;
 };
 
 #endif // WDGPREFERENCESPAGEGENERAL_H

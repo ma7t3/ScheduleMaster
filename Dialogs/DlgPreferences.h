@@ -11,6 +11,7 @@
 
 #include "Global/LocalConfig.h"
 
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
@@ -31,12 +32,11 @@ public:
     ~DlgPreferences();
 
 public:
-    void setCurrentPage(const int &index);
-    void setCurrentPage(const QString &id);
-
     void addPage(WdgPreferencesPage *page);
 
 public slots:
+    void setCurrentPageIndex(const int &index);
+    void setCurrentPage(const QString &id);
     void openConfigEditor();
 
 private:
@@ -48,7 +48,6 @@ private:
 
 private slots:
     void on_lwList_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-    void on_pbReset_clicked();
 
     void accept() override;
     void reject() override;
