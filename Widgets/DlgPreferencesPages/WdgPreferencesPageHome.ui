@@ -227,9 +227,9 @@
          </layout>
         </item>
         <item>
-         <widget class="QCommandLinkButton" name="clbResetAllPreferences">
+         <widget class="QCommandLinkButton" name="clbOpenLogfileLocation">
           <property name="text">
-           <string>Reset All Preferences</string>
+           <string>Open Logfile Location</string>
           </property>
          </widget>
         </item>
@@ -237,6 +237,13 @@
          <widget class="QCommandLinkButton" name="clbConfigEditor">
           <property name="text">
            <string>Open Config Editor</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCommandLinkButton" name="clbResetAllPreferences">
+          <property name="text">
+           <string>Reset All Preferences</string>
           </property>
          </widget>
         </item>

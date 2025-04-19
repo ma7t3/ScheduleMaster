@@ -321,6 +321,10 @@ void LocalConfig::setLastLogfileName(const QString &newLastLogfileName) {
     _lastLogfileName = newLastLogfileName;
 }
 
+bool LocalConfig::currentLogfileExists() {
+    return _logfileCreated;
+}
+
 LocalConfig::LogfileMode LocalConfig::logfileMode() {
     bool ok;
     int i = read("general.logfileMode").toInt(&ok);
@@ -335,6 +339,8 @@ LocalConfig::LogfileMode LocalConfig::logfileMode() {
 
     if(i == NoLog)
         return NoLog;
+
+    _logfileCreated = (i != NoLog);
 
     return DefaultLog;
 }

@@ -9,13 +9,18 @@ WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
 
     ui->cbLanguage->setModel(_languagesModel);
 
+    QAction *openLogfileAction = ui->tbLogfileLocation->addAction(QIcon(":/Icons/File.ico"), tr("Open current logfile.txt"));
+
+    openLogfileAction->setEnabled(LocalConfig::currentLogfileExists());
+
     connect(ui->cbLanguage,        &QComboBox::activated,           this, &WdgPreferencesPageGeneral::languageIndexChanged);
 
     reloadPreferences();
     connect(ui->cbLanguage,        &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
     connect(ui->cbLogfileMode,     &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
 
-    connect(ui->pbLogfileLocation, &QPushButton::clicked,           this, &WdgPreferencesPageGeneral::openLogfileLocation);
+    connect(ui->tbLogfileLocation, &QToolButton::clicked,           this, &WdgPreferencesPageGeneral::openLogfileLocation);
+    connect(openLogfileAction,   &QAction::triggered,              this, &WdgPreferencesPageGeneral::openLogfile);
 }
 
 WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
@@ -68,6 +73,15 @@ void WdgPreferencesPageGeneral::openLogfileLocation() {
         return;
 
     QDesktopServices::openUrl(QUrl(list.first()));
+}
+
+void WdgPreferencesPageGeneral::openLogfile() {
+    qInfo() << "Opening logfile...";
+    QStringList list = LocalConfig::folderLocationPaths("base.logfile");
+    if(list.isEmpty())
+        return;
+
+    QDesktopServices::openUrl(QUrl(list.first() + "/logfile.txt"));
 }
 
 void WdgPreferencesPageGeneral::on_cbLogfileMode_currentIndexChanged(int index) {

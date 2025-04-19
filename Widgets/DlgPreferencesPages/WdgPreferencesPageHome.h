@@ -34,6 +34,7 @@ signals:
 
 signals:
     void openPageRequested(const QString &pageID);
+    void openLogfileLocationRequested();
     void openConfigEditorRequested();
 
 private slots:
@@ -41,6 +42,8 @@ private slots:
     void on_clbConfigEditor_clicked();
     void on_clbUpdateSettings_clicked();
     void on_clbPluginManager_clicked();
+
+    void on_clbOpenLogfileLocation_clicked();
 
 private:
     Ui::WdgPreferencesPageHome *ui;

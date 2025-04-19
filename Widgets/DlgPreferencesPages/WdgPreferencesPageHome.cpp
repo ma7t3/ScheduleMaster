@@ -60,3 +60,7 @@ void WdgPreferencesPageHome::on_clbUpdateSettings_clicked() {
 void WdgPreferencesPageHome::on_clbPluginManager_clicked() {
     emit openPageRequested("base.plugins");
 }
+
+void WdgPreferencesPageHome::on_clbOpenLogfileLocation_clicked() {
+    emit openLogfileLocationRequested();
+}

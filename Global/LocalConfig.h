@@ -97,6 +97,8 @@ public:
     static QString lastLogfileName();
     static void setLastLogfileName(const QString &);
 
+    static bool currentLogfileExists();
+
     static LogfileMode logfileMode();
     static void setLogfileMode(const LogfileMode &);
 
@@ -131,6 +133,7 @@ private:
 
     static inline QSet<QString> _modifiedRestartRequiredSettings;
 
+    static inline bool _logfileCreated = false;
 };
 
 #endif // LOCALCONFIG_H
