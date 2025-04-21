@@ -62,6 +62,9 @@ public:
     static QString style();
     static void setStyle(const QString &newStyle);
 
+    static Qt::ColorScheme colorScheme();
+    static void setColorScheme(const Qt::ColorScheme &);
+
     static QString uiFontFamily();
     static void setUiFontFamily(const QString &fontFamily);
 
@@ -116,9 +119,10 @@ signals:
     void settingRemoved(const QString &id);
 
     void lastUsedFilesChanged();
-    void uiFontChanged(const QString &fontFamily);
-    void accentColorChanged(const QString &id);
-    void styleChanged(const QString &id);
+    void uiFontChanged(QString);
+    void accentColorChanged(QString);
+    void styleChanged(QString);
+    void colorSchemeChanged(Qt::ColorScheme);
 
     void keyboardShortcutChanged(const QString &id, const QKeySequence &keySequence);
 

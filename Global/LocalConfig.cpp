@@ -175,6 +175,19 @@ void LocalConfig::setStyle(const QString &newStyle) {
     emit instance()->styleChanged(newStyle);
 }
 
+Qt::ColorScheme LocalConfig::colorScheme() {
+    int intVal = read("appearance.colorScheme").toInt();
+    if(intVal < 0 || intVal > 2)
+        return Qt::ColorScheme::Unknown;
+
+    return static_cast<Qt::ColorScheme>(intVal);
+}
+
+void LocalConfig::setColorScheme(const Qt::ColorScheme &colorscheme) {
+    write("appearance.colorScheme", static_cast<int>(colorscheme));
+    emit instance()->colorSchemeChanged(colorscheme);
+}
+
 QString LocalConfig::uiFontFamily() {
     QString str = read("appearance.font").toString();
     if(str.isEmpty())
