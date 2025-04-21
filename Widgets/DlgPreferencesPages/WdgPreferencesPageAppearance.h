@@ -27,14 +27,11 @@ public:
     virtual QString name() override;
     virtual QIcon icon() override;
 
-
-private slots:
-    void on_fcbFont_currentFontChanged(const QFont &f);
-
-    void onAccentColorChanged(const QString &id);
+protected slots:
+    void onStyleChanged(int index);
     void onColorSchemeChanged(const Qt::ColorScheme &colorScheme);
-
-    void on_cbAppearance_currentIndexChanged(int index);
+    void onAccentColorChanged(const QString &id);
+    void onFontChanged(const QFont &font);
 
 private:
     Ui::WdgPreferencesPageAppearance *ui;

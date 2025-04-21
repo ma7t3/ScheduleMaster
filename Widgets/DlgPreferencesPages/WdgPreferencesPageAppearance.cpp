@@ -17,8 +17,10 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->cbGDIEngine,    &QCheckBox::checkStateChanged,                      this, &WdgPreferencesPageAppearance::setUnsaved);
 
-    connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
+    connect(ui->cbStyle,        &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::onStyleChanged);
     connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged,        this, &WdgPreferencesPageAppearance::onColorSchemeChanged);
+    connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
+    connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::onFontChanged);
 }
 
 WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
@@ -75,8 +77,12 @@ QIcon WdgPreferencesPageAppearance::icon() {
     return QIcon(":/Icons/Appearance.ico");
 }
 
-void WdgPreferencesPageAppearance::on_fcbFont_currentFontChanged(const QFont &f) {
-    StyleHandler::applyFont(f.family());
+void WdgPreferencesPageAppearance::onStyleChanged(int index) {
+    QString id = ui->cbStyle->currentText();
+    StyleHandler::applyStyle(id);
+    Style style = GlobalConfig::style(id);
+    ui->flGeneral->setRowVisible(2, style.lightSupport && style.darkSupport);
+    ui->flGeneral->setRowVisible(3, style.accentColorSupport);
 }
 
 void WdgPreferencesPageAppearance::onAccentColorChanged(const QString &id) {
@@ -88,10 +94,6 @@ void WdgPreferencesPageAppearance::onColorSchemeChanged(const Qt::ColorScheme &c
     StyleHandler::applyColorScheme(colorScheme);
 }
 
-void WdgPreferencesPageAppearance::on_cbAppearance_currentIndexChanged(int index) {
-    QString id = ui->cbStyle->currentText();
-    StyleHandler::applyStyle(id);
-    Style style = GlobalConfig::style(id);
-    ui->flGeneral->setRowVisible(2, style.lightSupport && style.darkSupport);
-    ui->flGeneral->setRowVisible(3, style.accentColorSupport);
+void WdgPreferencesPageAppearance::onFontChanged(const QFont &f) {
+    StyleHandler::applyFont(f.family());
 }
