@@ -6,12 +6,12 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     ui(new Ui::WdgPreferencesPageAppearance) {
     ui->setupUi(this);
 
-    ui->cbAppearance->clear();
-    ui->cbAppearance->addItems(GlobalConfig::styles().keys());
+    ui->cbStyle->clear();
+    ui->cbStyle->addItems(GlobalConfig::styles().keys());
 
     reloadPreferences();
 
-    connect(ui->cbAppearance,   &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->cbStyle,        &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged,        this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::setUnsaved);
@@ -30,7 +30,7 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->cbGDIEngine->setChecked(LocalConfig::useGdiEngine());
 
     // TODO: Load style
-    ui->cbAppearance->setCurrentText(LocalConfig::style());
+    ui->cbStyle->setCurrentText(LocalConfig::style());
 
     ui->cssColorScheme->setColorScheme(LocalConfig::colorScheme());
     ui->acsAccentColor->setAccentColor(LocalConfig::accentColorID());
@@ -41,11 +41,11 @@ void WdgPreferencesPageAppearance::savePreferences() {
     LocalConfig::setUiFontFamily(ui->fcbFont->currentFont().family());
     LocalConfig::setUseGdiEngine(ui->cbGDIEngine->isChecked());
     // TODO: LocalConfig::setStyle();
-    LocalConfig::setStyle(ui->cbAppearance->currentText());
+    LocalConfig::setStyle(ui->cbStyle->currentText());
 
     Qt::ColorScheme colorScheme = ui->cssColorScheme->colorScheme();
 
-    Style style = GlobalConfig::style(ui->cbAppearance->currentText());
+    Style style = GlobalConfig::style(ui->cbStyle->currentText());
     if(style.supportsColorScheme(colorScheme))
         LocalConfig::setColorScheme(ui->cssColorScheme->colorScheme());
     else
@@ -89,7 +89,7 @@ void WdgPreferencesPageAppearance::onColorSchemeChanged(const Qt::ColorScheme &c
 }
 
 void WdgPreferencesPageAppearance::on_cbAppearance_currentIndexChanged(int index) {
-    QString id = ui->cbAppearance->currentText();
+    QString id = ui->cbStyle->currentText();
     StyleHandler::applyStyle(id);
     Style style = GlobalConfig::style(id);
     ui->flGeneral->setRowVisible(2, style.lightSupport && style.darkSupport);
