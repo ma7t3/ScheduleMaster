@@ -52,10 +52,6 @@ protected slots:
 
 private slots:
     void on_actionDebugGeneralTestAction_triggered();
-
-    void setUiFont(const QString &fontFamily);
-    void setAccentColor(const QString &id);
-
     void on_actionDebugSimulateCrash_triggered();
 
 private:

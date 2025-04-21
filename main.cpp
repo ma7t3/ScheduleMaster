@@ -15,7 +15,7 @@
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/Splashscreen/slpashscreen_light.png";
     QColor messageColor = QColor(0, 0, 0);
-    if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark && LocalConfig::style() != LocalConfig::SystemStyle) {
+    if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
         imagePath = ":/Splashscreen/splashscreen_dark.png";
         messageColor = QColor(255, 255, 255);
     }
@@ -36,18 +36,9 @@ QPair<QColor, QString> splashScreenConfig() {
 void loadStartupPreferences(QApplication *a) {
     qInfo() << "Loading preferences...";
 
-    StyleHandler::init();
-
     // style
-    qInfo() << "   Loading ui style...";
-    switch(LocalConfig::style()) {
-        case LocalConfig::FusionStyle:    a->setStyle(QStyleFactory::create("Fusion"));       break;
-
-        case LocalConfig::WindowsXpStyle: a->setStyle(QStyleFactory::create("Windows"));
-                                          a->setStyleSheet("* {font-family:Tahoma;}");        break;
-
-        default:                          a->setStyle(QStyleFactory::create("windowsvista")); break;
-    }
+    qInfo() << "   Loading style handler...";
+    StyleHandler::init();
 
     QPalette palette = QApplication::style()->standardPalette();
     QColor color = LocalConfig::accentColor();
@@ -106,6 +97,8 @@ int main(int argc, char *argv[]) {
     loadStartupPreferences(&a);
 
     splashscreen.showMessage(QObject::tr("Loading main window..."), Qt::AlignBottom, ssConfig.first);
+    StyleHandler::applyStyle();
+    StyleHandler::applyAccentColor();
     MainWindow w;
 
 #ifndef QT_DEBUG
@@ -118,6 +111,9 @@ int main(int argc, char *argv[]) {
         w.showMaximized();
     else
         w.show();
+
+    // now, apply font. This is necessary because otherwise some ui components (e.g. the menubar) don't take the font if it was set when the mainWindow isn't shown
+    StyleHandler::applyFont();
 
     splashscreen.finish(&w);
     a.restoreOverrideCursor();

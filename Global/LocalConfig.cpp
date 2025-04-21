@@ -185,18 +185,7 @@ QString LocalConfig::uiFontFamily() {
 
 void LocalConfig::setUiFontFamily(const QString &fontFamily) {
     write("appearance.font", fontFamily);
-}
-
-void LocalConfig::previewUiFontFamily(const QString &fontFamily) {
     emit instance()->uiFontChanged(fontFamily);
-}
-
-void LocalConfig::previewUiFontFamily() {
-    previewUiFontFamily(uiFontFamily());
-}
-
-void LocalConfig::restoreUiFontFamilyPreview() {
-    previewUiFontFamily();
 }
 
 QString LocalConfig::accentColorID() {
@@ -211,14 +200,6 @@ QColor LocalConfig::accentColor() {
 void LocalConfig::setAccentColor(const QString &id) {
     write("appearance.accentColor", id);
     emit instance()->accentColorChanged(id);
-}
-
-void LocalConfig::previewAccentColor(const QString &id) {
-    emit instance()->accentColorChanged(id);
-}
-
-void LocalConfig::restoreAccentColor() {
-    emit instance()->accentColorChanged(accentColorID());
 }
 
 bool LocalConfig::useGdiEngine() {

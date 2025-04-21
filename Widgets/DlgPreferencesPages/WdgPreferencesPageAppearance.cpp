@@ -6,6 +6,9 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     ui(new Ui::WdgPreferencesPageAppearance) {
     ui->setupUi(this);
 
+    ui->cbAppearance->clear();
+    ui->cbAppearance->addItems(GlobalConfig::styles().keys());
+
     reloadPreferences();
 
     connect(ui->cbAppearance, &QComboBox::currentIndexChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
@@ -23,6 +26,10 @@ WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
 void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->fcbFont->setCurrentFont(QFont(LocalConfig::uiFontFamily()));
     ui->cbGDIEngine->setChecked(LocalConfig::useGdiEngine());
+
+    // TODO: Load style
+    ui->cbAppearance->setCurrentText(LocalConfig::style());
+
     ui->wdgAccentColor->setAccentColor(LocalConfig::accentColorID());
     WdgPreferencesPage::reloadPreferences();
 }
@@ -30,13 +37,16 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
 void WdgPreferencesPageAppearance::savePreferences() {
     LocalConfig::setUiFontFamily(ui->fcbFont->currentFont().family());
     LocalConfig::setUseGdiEngine(ui->cbGDIEngine->isChecked());
+    // TODO: LocalConfig::setStyle();
+    LocalConfig::setStyle(ui->cbAppearance->currentText());
     LocalConfig::setAccentColor(ui->wdgAccentColor->accentColorID());
     WdgPreferencesPage::savePreferences();
 }
 
 void WdgPreferencesPageAppearance::discardPreviewPreferences() {
-    LocalConfig::restoreUiFontFamilyPreview();
-    LocalConfig::restoreAccentColor();
+    StyleHandler::applyFont();
+    StyleHandler::applyStyle();
+    StyleHandler::applyAccentColor();
     WdgPreferencesPage::discardPreviewPreferences();
 }
 
@@ -53,9 +63,14 @@ QIcon WdgPreferencesPageAppearance::icon() {
 }
 
 void WdgPreferencesPageAppearance::on_fcbFont_currentFontChanged(const QFont &f) {
-    LocalConfig::previewUiFontFamily(f.family());
+    StyleHandler::applyFont(f.family());
 }
 
 void WdgPreferencesPageAppearance::onAccentColorChanged(const QString &id) {
-    LocalConfig::previewAccentColor(id);
+    StyleHandler::applyAccentColor(id);
+}
+
+void WdgPreferencesPageAppearance::on_cbAppearance_activated(int index) {
+    QString id = ui->cbAppearance->currentText();
+    StyleHandler::applyStyle(id);
 }
