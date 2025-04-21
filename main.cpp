@@ -9,7 +9,8 @@
 #include <QThread>
 
 #include "Global/Logger.h"
-#include "Global/ActionShortcutMapper.h".h"
+#include "Global/ActionShortcutMapper.h"
+#include "Global/StyleHandler.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/Splashscreen/slpashscreen_light.png";
@@ -35,6 +36,8 @@ QPair<QColor, QString> splashScreenConfig() {
 void loadStartupPreferences(QApplication *a) {
     qInfo() << "Loading preferences...";
 
+    StyleHandler::init();
+
     // style
     qInfo() << "   Loading ui style...";
     switch(LocalConfig::style()) {
@@ -45,6 +48,12 @@ void loadStartupPreferences(QApplication *a) {
 
         default:                          a->setStyle(QStyleFactory::create("windowsvista")); break;
     }
+
+    QPalette palette = QApplication::style()->standardPalette();
+    QColor color = LocalConfig::accentColor();
+    if(color.isValid())
+        palette.setColor(QPalette::Highlight, color);
+    QApplication::setPalette(palette);
 
     // language
     qInfo() << "   Loading language...";
@@ -102,11 +111,6 @@ int main(int argc, char *argv[]) {
 #ifndef QT_DEBUG
     a.thread()->sleep(2);
 #endif
-    QPalette palette = QApplication::style()->standardPalette();
-    QColor color = LocalConfig::accentColor();
-    if(color.isValid())
-        palette.setColor(QPalette::Highlight, color);
-    QApplication::setPalette(palette);
 
     qInfo() << "Loading main window size and position...";
     bool ok = w.restoreGeometry(LocalConfig::mainWindowGeometry());
