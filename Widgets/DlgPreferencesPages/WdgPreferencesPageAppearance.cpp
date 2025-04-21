@@ -15,9 +15,9 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     connect(ui->fcbFont, &QFontComboBox::currentFontChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->cbGDIEngine, &QCheckBox::checkStateChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
 
-    connect(ui->acsAccentColor, &WdgAccentColorSelector::onCurrentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
     connect(ui->acsAccentColor, &WdgAccentColorSelector::onCurrentAccentColorChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
 
+    connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
     connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged, this, &WdgPreferencesPageAppearance::onColorSchemeChanged);
 }
 
