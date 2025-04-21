@@ -35,12 +35,6 @@ public:
         DebugDetailLog
     };
 
-    enum Style {
-        SystemStyle,
-        WindowsXpStyle,
-        FusionStyle
-    };
-
     static LocalConfig *instance();
 
     static void initLocale();
@@ -65,8 +59,8 @@ public:
     static void setLanguage(const QLocale &);
     static void setLanguage(const QString &);
 
-    static Style style();
-    static void setStyle(const Style &newStyle);
+    static QString style();
+    static void setStyle(const QString &newStyle);
 
     static QString uiFontFamily();
     static void setUiFontFamily(const QString &fontFamily);
@@ -129,6 +123,7 @@ signals:
     void lastUsedFilesChanged();
     void uiFontChanged(const QString &fontFamily);
     void accentColorChanged(const QString &id);
+    void styleChanged(const QString &id);
 
     void keyboardShortcutChanged(const QString &id, const QKeySequence &keySequence);
 
