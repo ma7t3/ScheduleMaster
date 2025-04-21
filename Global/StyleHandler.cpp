@@ -15,17 +15,40 @@ void StyleHandler::init() {
 
     // when making ScheduleMaster available for other operating systems, this needs to be more platform-specific
     _systemStyleName = keys.contains("windowsvista") ? "windowsvista" : !keys.isEmpty() ? keys.first() : "";
+
+    connect(LocalConfig::instance(), &LocalConfig::accentColorChanged, StyleHandler::instance(), &StyleHandler::applyAccentColor);
+    connect(LocalConfig::instance(), &LocalConfig::styleChanged,       StyleHandler::instance(), &StyleHandler::applyStyle);
+
+    _initPalette = QApplication::palette();
 }
 
 void StyleHandler::registerStyleClass(const QString &id, QStyle *style) {
     _styleClasses.insert(id, style);
 }
 
+void StyleHandler::applyFont(const QString &fontFamily) {
+    QFont font = QApplication::font();
+    font.setFamily(fontFamily);
+    QApplication::setFont(font);
+}
+
+void StyleHandler::applyPalette() {
+    if(_currentStyle.applyPalette)
+        QApplication::setPalette(QApplication::style()->standardPalette());
+    else
+        QApplication::setPalette(_initPalette);
+}
+
 void StyleHandler::applyStyle(const QString &id) {
+    if(_currentStyle.id == id)
+        return;
+
     if(!GlobalConfig::styleExists(id)) {
         qWarning().noquote() << "Cannot apply style " << id << " because it wasn't found.";
         return;
     }
+
+    qDebug().noquote() << "apply style: " << id;
 
     Style style = GlobalConfig::style(id);
 
@@ -37,16 +60,40 @@ void StyleHandler::applyStyle(const QString &id) {
         // TODO
         break;
     case Style::StyleFactoryType:
-        // TODO
+        if(QStyleFactory::keys().contains(style.styleFactoryName))
+            QApplication::setStyle(style.styleFactoryName);
         break;
 
     case Style::SystemDefaultType:
-        // TODO
+        QApplication::setStyle(_systemStyleName);
         break;
     case Style::InvalidType: break;
     }
+
+    _currentStyle = style;
+
+    // re-apply palette
+    applyPalette();
+
+    // re-apply accent color
+    applyAccentColor(_currentAccentColor);
+
 }
 
 void StyleHandler::applyAccentColor(const QString &id) {
-    // TODO
+    if(!_currentStyle.accentColorSupport)
+        return;
+
+    qDebug().noquote() << "apply accent color: " << id;
+
+    QColor color = GlobalConfig::accentColor(id); // FIXME: default accent color doesn't work!!!
+    if(!color.isValid()) {
+        applyPalette();
+    } else {
+        QPalette palette = QApplication::palette();
+        palette.setColor(QPalette::Highlight, color);
+        QApplication::setPalette(palette);
+    }
+
+    _currentAccentColor = id;
 }

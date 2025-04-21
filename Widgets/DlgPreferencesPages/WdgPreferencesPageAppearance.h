@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "Global/LocalConfig.h"
+#include "Global/StyleHandler.h"
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
@@ -31,6 +32,8 @@ private slots:
     void on_fcbFont_currentFontChanged(const QFont &f);
 
     void onAccentColorChanged(const QString &id);
+
+    void on_cbAppearance_activated(int index);
 
 private:
     Ui::WdgPreferencesPageAppearance *ui;

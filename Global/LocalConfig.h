@@ -64,15 +64,10 @@ public:
 
     static QString uiFontFamily();
     static void setUiFontFamily(const QString &fontFamily);
-    static void previewUiFontFamily(const QString &fontFamily);
-    static void previewUiFontFamily();
-    static void restoreUiFontFamilyPreview();
 
     static QString accentColorID();
     static QColor accentColor();
     static void setAccentColor(const QString &id);
-    static void previewAccentColor(const QString &id);
-    static void restoreAccentColor();
 
     static bool useGdiEngine();
     static void setUseGdiEngine(const bool &useGdiEngine);
