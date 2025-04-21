@@ -24,7 +24,6 @@ SOURCES += \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
-    Widgets/WdgAccentColorSelector.cpp \
     main.cpp \
     MainWindow.cpp \
     ProjectData/ProjectData.cpp \
@@ -44,6 +43,8 @@ SOURCES += \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.cpp \
     Widgets/WdgAbstract.cpp \
+    Widgets/WdgAccentColorSelector.cpp \
+    Widgets/WdgColorSchemeSelector.cpp \
     Widgets/WdgVariantEditor.cpp \
     Widgets/WdgWelcome.cpp \
     Widgets/WdgWelcomeRecentProjectEntry.cpp
@@ -89,6 +90,7 @@ HEADERS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h \
     Widgets/WdgAbstract.h \
     Widgets/WdgAccentColorSelector.h \
+    Widgets/WdgColorSchemeSelector.h \
     Widgets/WdgVariantEditor.h \
     Widgets/WdgWelcome.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
@@ -106,6 +108,7 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
     Widgets/WdgAccentColorSelector.ui \
+    Widgets/WdgColorSchemeSelector.ui \
     Widgets/WdgVariantEditor.ui \
     Widgets/WdgWelcome.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
