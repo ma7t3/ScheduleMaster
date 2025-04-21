@@ -37,6 +37,8 @@ public slots:
     static void applyAccentColor(const QString &id = LocalConfig::accentColorID());
     static void applyFont(const QString &fontFamily = LocalConfig::uiFontFamily());
 
+    static void onColorSchemeChange();
+
 protected slots:
     static void applyPalette();
 

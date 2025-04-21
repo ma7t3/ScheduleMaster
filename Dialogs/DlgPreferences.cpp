@@ -6,11 +6,9 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     ui->setupUi(this);
 
     qInfo() << "Loading preferences...";
-    WdgPreferencesPageHome *home = new WdgPreferencesPageHome(this);
-    addPage(home);
-    WdgPreferencesPageGeneral *general = new WdgPreferencesPageGeneral(this);
-    addPage(general);
-    addPage(new WdgPreferencesPageAppearance(this));
+    WdgPreferencesPageHome       *home       = new WdgPreferencesPageHome(this);       addPage(home);
+    WdgPreferencesPageGeneral    *general    = new WdgPreferencesPageGeneral(this);    addPage(general);
+    WdgPreferencesPageAppearance *appearance = new WdgPreferencesPageAppearance(this); addPage(appearance);
     addPage(new WdgPreferencesPageLocations(this));
     addPage(new WdgPreferencesPageUpdates(this));
     addPage(new WdgPreferencesPageKeyboardShortcuts(this));
@@ -19,6 +17,9 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
 
     connect(home,    &WdgPreferencesPageHome::languageIndexChanged,         general, &WdgPreferencesPageGeneral::setLanguageIndex);
     connect(general, &WdgPreferencesPageGeneral::languageIndexChanged,      home,    &WdgPreferencesPageHome::setLanguageIndex);
+
+    connect(home,       &WdgPreferencesPageHome::styleIndexChanged,       appearance, &WdgPreferencesPageAppearance::setStyleIndex);
+    connect(appearance, &WdgPreferencesPageAppearance::styleIndexChanged, home,       &WdgPreferencesPageHome::setStyleIndex);
 
     connect(home,    &WdgPreferencesPageHome::openLogfileLocationRequested, general, &WdgPreferencesPageGeneral::openLogfileLocation);
 

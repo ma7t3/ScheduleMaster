@@ -5,8 +5,7 @@
 #include "Global/GlobalConfig.h"
 #include "Global/LocalConfig.h"
 
-class LanguagesModel : public QAbstractListModel
-{
+class LanguagesModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
