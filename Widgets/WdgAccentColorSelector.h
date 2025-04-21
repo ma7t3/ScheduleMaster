@@ -28,7 +28,7 @@ protected:
     void updateButtons();
 
 signals:
-    void onCurrentAccentColorChanged(QString id);
+    void currentAccentColorChanged(QString id);
 
 private:
     Ui::WdgAccentColorSelector *ui;

@@ -41,7 +41,7 @@ QColor WdgAccentColorSelector::accentColor() const {
 void WdgAccentColorSelector::setAccentColor(const QString &id) {
     _currentColor = _accentColorIDs.indexOf(id);
     updateButtons();
-    emit onCurrentAccentColorChanged(id);
+    emit currentAccentColorChanged(id);
 }
 
 QString WdgAccentColorSelector::generateStyleSheet(const QString &id, const bool &selected) const {
