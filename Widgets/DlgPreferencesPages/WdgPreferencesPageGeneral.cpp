@@ -10,17 +10,17 @@ WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     ui->cbLanguage->setModel(_languagesModel);
 
     QAction *openLogfileAction = ui->tbLogfileLocation->addAction(QIcon(":/Icons/File.ico"), tr("Open current logfile.txt"));
-
     openLogfileAction->setEnabled(LocalConfig::currentLogfileExists());
+    connect(ui->tbLogfileLocation, &QToolButton::clicked,           this, &WdgPreferencesPageGeneral::openLogfileLocation);
+    connect(openLogfileAction,     &QAction::triggered,             this, &WdgPreferencesPageGeneral::openLogfile);
+
+    reloadPreferences();
 
     connect(ui->cbLanguage,        &QComboBox::activated,           this, &WdgPreferencesPageGeneral::languageIndexChanged);
 
-    reloadPreferences();
     connect(ui->cbLanguage,        &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
     connect(ui->cbLogfileMode,     &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
 
-    connect(ui->tbLogfileLocation, &QToolButton::clicked,           this, &WdgPreferencesPageGeneral::openLogfileLocation);
-    connect(openLogfileAction,   &QAction::triggered,              this, &WdgPreferencesPageGeneral::openLogfile);
 }
 
 WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
