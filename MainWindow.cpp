@@ -6,6 +6,7 @@
 
 #include "Global/LocalConfig.h"
 #include "Global/ActionShortcutMapper.h"
+#include "Global/StyleHandler.h"
 #include "Dialogs/DlgPreferences.h"
 
 MainWindow::MainWindow(QWidget *parent) :

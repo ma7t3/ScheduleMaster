@@ -18,6 +18,9 @@ void StyleHandler::init() {
 
     connect(LocalConfig::instance(), &LocalConfig::accentColorChanged, StyleHandler::instance(), &StyleHandler::applyAccentColor);
     connect(LocalConfig::instance(), &LocalConfig::styleChanged,       StyleHandler::instance(), &StyleHandler::applyStyle);
+    connect(LocalConfig::instance(), &LocalConfig::colorSchemeChanged, StyleHandler::instance(), &StyleHandler::applyColorScheme);
+
+    connect(QApplication::styleHints(), &QStyleHints::colorSchemeChanged, instance(), &StyleHandler::applyPalette);
 
     _initPalette = QApplication::palette();
 }
@@ -78,6 +81,21 @@ void StyleHandler::applyStyle(const QString &id) {
     // re-apply accent color
     applyAccentColor(_currentAccentColor);
 
+}
+
+void StyleHandler::applyColorScheme(const Qt::ColorScheme &colorScheme) {
+    if(QApplication::styleHints()->colorScheme() == colorScheme)
+        return;
+
+    const QString colorSchemeName = (colorScheme == Qt::ColorScheme::Unknown ? "auto" : colorScheme == Qt::ColorScheme::Light ? "light" : "dark");
+
+    if(!_currentStyle.supportsColorScheme(colorScheme)) {
+        qWarning().noquote() << "cannot apply color scheme " + colorSchemeName + ". Style " + _currentStyle.id + " doesn't support it.";
+        return;
+    }
+
+    qDebug().noquote() << "apply color scheme: " << (colorScheme == Qt::ColorScheme::Unknown ? "auto" : colorScheme == Qt::ColorScheme::Light ? "light" : "dark");
+    QApplication::styleHints()->setColorScheme(colorScheme);
 }
 
 void StyleHandler::applyAccentColor(const QString &id) {
