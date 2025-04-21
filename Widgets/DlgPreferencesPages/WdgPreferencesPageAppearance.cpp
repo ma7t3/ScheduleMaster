@@ -11,14 +11,14 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
 
     reloadPreferences();
 
-    connect(ui->cbAppearance, &QComboBox::currentIndexChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
-    connect(ui->fcbFont, &QFontComboBox::currentFontChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
-    connect(ui->cbGDIEngine, &QCheckBox::checkStateChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
-
-    connect(ui->acsAccentColor, &WdgAccentColorSelector::onCurrentAccentColorChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->cbAppearance,   &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged,        this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->cbGDIEngine,    &QCheckBox::checkStateChanged,                      this, &WdgPreferencesPageAppearance::setUnsaved);
 
     connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
-    connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged, this, &WdgPreferencesPageAppearance::onColorSchemeChanged);
+    connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged,        this, &WdgPreferencesPageAppearance::onColorSchemeChanged);
 }
 
 WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
