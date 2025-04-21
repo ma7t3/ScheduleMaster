@@ -86,6 +86,26 @@ Style::Style(const QJsonObject &jsonObject) {
     }
 }
 
+bool Style::supportsColorScheme(const Qt::ColorScheme &colorScheme) {
+    return (
+        (colorScheme == Qt::ColorScheme::Unknown && lightSupport && darkSupport) ||
+        (colorScheme == Qt::ColorScheme::Light && lightSupport) ||
+        (colorScheme == Qt::ColorScheme::Dark && darkSupport)
+    );
+}
+
+QList<Qt::ColorScheme> Style::supportedColorSchemes() {
+    if(supportsColorScheme(Qt::ColorScheme::Unknown))
+        return {Qt::ColorScheme::Unknown, Qt::ColorScheme::Light, Qt::ColorScheme::Dark};
+
+    if(supportsColorScheme(Qt::ColorScheme::Light))
+        return {Qt::ColorScheme::Light};
+
+    if(supportsColorScheme(Qt::ColorScheme::Dark))
+        return {Qt::ColorScheme::Dark};
+
+    return {};
+}
 
 GlobalConfig::GlobalConfig() : QObject(nullptr) {}
 
