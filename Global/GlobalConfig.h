@@ -51,6 +51,9 @@ class Style {
 public:
     Style(const QJsonObject &jsonObject = QJsonObject());
 
+    bool supportsColorScheme(const Qt::ColorScheme &);
+    QList<Qt::ColorScheme> supportedColorSchemes();
+
     enum StyleType {
         SystemDefaultType,
         StyleClassType,
