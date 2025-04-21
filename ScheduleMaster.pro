@@ -12,20 +12,21 @@ SOURCES += \
     Dialogs/DlgConfigEditor.cpp \
     Dialogs/DlgPreferences.cpp \
     Global/ActionShortcutMapper.cpp \
+    Global/AppInfo.cpp \
+    Global/Global.cpp \
+    Global/GlobalConfig.cpp \
+    Global/LocalConfig.cpp \
+    Global/Logger.cpp \
+    Global/StyleHandler.cpp \
     Global/VariantConverter.cpp \
+    Global/Workspace.cpp \
+    Global/WorkspaceHandler.cpp \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     Widgets/WdgAccentColorSelector.cpp \
     main.cpp \
     MainWindow.cpp \
-    Global/AppInfo.cpp \
-    Global/Global.cpp \
-    Global/GlobalConfig.cpp \
-    Global/LocalConfig.cpp \
-    Global/Logger.cpp \
-    Global/Workspace.cpp \
-    Global/WorkspaceHandler.cpp \
     ProjectData/ProjectData.cpp \
     ProjectData/Busstop.cpp \
     ProjectData/BusstopPlatform.cpp \
@@ -51,18 +52,19 @@ HEADERS += \
     Dialogs/DlgConfigEditor.h \
     Dialogs/DlgPreferences.h \
     Global/ActionShortcutMapper.h \
-    Global/VariantConverter.h \
-    ItemModels/KeyboardShortcutsModel.h \
-    ItemModels/LanguagesModel.h \
-    ItemModels/LocalConfigModel.h \
-    MainWindow.h \
     Global/AppInfo.h \
     Global/Global.h \
     Global/GlobalConfig.h \
     Global/LocalConfig.h \
     Global/Logger.h \
+    Global/StyleHandler.h \
+    Global/VariantConverter.h \
     Global/Workspace.h \
     Global/WorkspaceHandler.h \
+    ItemModels/KeyboardShortcutsModel.h \
+    ItemModels/LanguagesModel.h \
+    ItemModels/LocalConfigModel.h \
+    MainWindow.h \
     ProjectData/ProjectData.h \
     ProjectData/ProjectDataItem.h \
     ProjectData/ProjectDataItemSignals.h \
