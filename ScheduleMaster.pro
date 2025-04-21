@@ -24,6 +24,7 @@ SOURCES += \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
+    ItemModels/StylesModel.cpp \
     main.cpp \
     MainWindow.cpp \
     ProjectData/ProjectData.cpp \
@@ -65,6 +66,7 @@ HEADERS += \
     ItemModels/KeyboardShortcutsModel.h \
     ItemModels/LanguagesModel.h \
     ItemModels/LocalConfigModel.h \
+    ItemModels/StylesModel.h \
     MainWindow.h \
     ProjectData/ProjectData.h \
     ProjectData/ProjectDataItem.h \

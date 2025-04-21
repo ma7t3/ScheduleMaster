@@ -3,11 +3,11 @@
 
 WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     WdgPreferencesPage(parent),
-    ui(new Ui::WdgPreferencesPageAppearance) {
+    ui(new Ui::WdgPreferencesPageAppearance),
+    _model(new StylesModel(this)) {
     ui->setupUi(this);
 
-    ui->cbStyle->clear();
-    ui->cbStyle->addItems(GlobalConfig::styles().keys());
+    ui->cbStyle->setModel(_model);
 
     reloadPreferences();
 
@@ -21,6 +21,8 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged,        this, &WdgPreferencesPageAppearance::onColorSchemeChanged);
     connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
     connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::onFontChanged);
+
+    connect(ui->cbStyle,        &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::styleIndexChanged);
 }
 
 WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
@@ -31,9 +33,7 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->fcbFont->setCurrentFont(QFont(LocalConfig::uiFontFamily()));
     ui->cbGDIEngine->setChecked(LocalConfig::useGdiEngine());
 
-    // TODO: Load style
-    ui->cbStyle->setCurrentText(LocalConfig::style());
-
+    ui->cbStyle->setCurrentIndex(_model->indexOfStyle(LocalConfig::style()));
     ui->cssColorScheme->setColorScheme(LocalConfig::colorScheme());
     ui->acsAccentColor->setAccentColor(LocalConfig::accentColorID());
     WdgPreferencesPage::reloadPreferences();
@@ -42,12 +42,12 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
 void WdgPreferencesPageAppearance::savePreferences() {
     LocalConfig::setUiFontFamily(ui->fcbFont->currentFont().family());
     LocalConfig::setUseGdiEngine(ui->cbGDIEngine->isChecked());
-    // TODO: LocalConfig::setStyle();
-    LocalConfig::setStyle(ui->cbStyle->currentText());
+
+    LocalConfig::setStyle(_model->style(ui->cbStyle->currentIndex()));
 
     Qt::ColorScheme colorScheme = ui->cssColorScheme->colorScheme();
 
-    Style style = GlobalConfig::style(ui->cbStyle->currentText());
+    Style style = GlobalConfig::style(_model->style(ui->cbStyle->currentIndex()));
     if(style.supportsColorScheme(colorScheme))
         LocalConfig::setColorScheme(ui->cssColorScheme->colorScheme());
     else
@@ -77,9 +77,13 @@ QIcon WdgPreferencesPageAppearance::icon() {
     return QIcon(":/Icons/Appearance.ico");
 }
 
+void WdgPreferencesPageAppearance::setStyleIndex(const int &index) {
+    ui->cbStyle->setCurrentIndex(index);
+}
+
 void WdgPreferencesPageAppearance::onStyleChanged(int index) {
     Q_UNUSED(index);
-    QString id = ui->cbStyle->currentText();
+    QString id = _model->style(ui->cbStyle->currentIndex());
     StyleHandler::applyStyle(id);
     Style style = GlobalConfig::style(id);
     ui->flGeneral->setRowVisible(2, style.lightSupport && style.darkSupport);
