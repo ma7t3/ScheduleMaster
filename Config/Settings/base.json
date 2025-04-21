@@ -77,13 +77,13 @@
         }
     },
     {
-        "id": "appearance.colorscheme",
+        "id": "appearance.colorScheme",
         "type": "int",
         "default": 0,
         "requireRestart": false,
         "description": {
             "object": "translated_string",
-            "en_US": "The colorscheme of the application's UI:\n0: auto/use system setting\n1: light\n2: dark",
+            "en_US": "The color scheme of the application's UI:\n0: auto/use system setting\n1: light\n2: dark",
             "de_DE": "Farbschema der Benutzeroberfläche:\n0: automatisch/Systemeinstellung setting\n1: hell\n2: dunkel"
         }
     },
