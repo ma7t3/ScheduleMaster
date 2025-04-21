@@ -15,8 +15,10 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     connect(ui->fcbFont, &QFontComboBox::currentFontChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->cbGDIEngine, &QCheckBox::checkStateChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
 
-    connect(ui->wdgAccentColor, &WdgAccentColorSelector::onCurrentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
-    connect(ui->wdgAccentColor, &WdgAccentColorSelector::onCurrentAccentColorChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->acsAccentColor, &WdgAccentColorSelector::onCurrentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
+    connect(ui->acsAccentColor, &WdgAccentColorSelector::onCurrentAccentColorChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
+
+    connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged, this, &WdgPreferencesPageAppearance::onColorSchemeChanged);
 }
 
 WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
@@ -30,7 +32,8 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
     // TODO: Load style
     ui->cbAppearance->setCurrentText(LocalConfig::style());
 
-    ui->wdgAccentColor->setAccentColor(LocalConfig::accentColorID());
+    ui->cssColorScheme->setColorScheme(LocalConfig::colorScheme());
+    ui->acsAccentColor->setAccentColor(LocalConfig::accentColorID());
     WdgPreferencesPage::reloadPreferences();
 }
 
@@ -39,7 +42,16 @@ void WdgPreferencesPageAppearance::savePreferences() {
     LocalConfig::setUseGdiEngine(ui->cbGDIEngine->isChecked());
     // TODO: LocalConfig::setStyle();
     LocalConfig::setStyle(ui->cbAppearance->currentText());
-    LocalConfig::setAccentColor(ui->wdgAccentColor->accentColorID());
+
+    Qt::ColorScheme colorScheme = ui->cssColorScheme->colorScheme();
+
+    Style style = GlobalConfig::style(ui->cbAppearance->currentText());
+    if(style.supportsColorScheme(colorScheme))
+        LocalConfig::setColorScheme(ui->cssColorScheme->colorScheme());
+    else
+        LocalConfig::setColorScheme(style.supportedColorSchemes().first());
+
+    LocalConfig::setAccentColor(ui->acsAccentColor->accentColorID());
     WdgPreferencesPage::savePreferences();
 }
 
@@ -47,6 +59,7 @@ void WdgPreferencesPageAppearance::discardPreviewPreferences() {
     StyleHandler::applyFont();
     StyleHandler::applyStyle();
     StyleHandler::applyAccentColor();
+    StyleHandler::applyColorScheme();
     WdgPreferencesPage::discardPreviewPreferences();
 }
 
@@ -70,7 +83,15 @@ void WdgPreferencesPageAppearance::onAccentColorChanged(const QString &id) {
     StyleHandler::applyAccentColor(id);
 }
 
-void WdgPreferencesPageAppearance::on_cbAppearance_activated(int index) {
+void WdgPreferencesPageAppearance::onColorSchemeChanged(const Qt::ColorScheme &colorScheme) {
+    qDebug() << colorScheme;
+    StyleHandler::applyColorScheme(colorScheme);
+}
+
+void WdgPreferencesPageAppearance::on_cbAppearance_currentIndexChanged(int index) {
     QString id = ui->cbAppearance->currentText();
     StyleHandler::applyStyle(id);
+    Style style = GlobalConfig::style(id);
+    ui->flGeneral->setRowVisible(2, style.lightSupport && style.darkSupport);
+    ui->flGeneral->setRowVisible(3, style.accentColorSupport);
 }
