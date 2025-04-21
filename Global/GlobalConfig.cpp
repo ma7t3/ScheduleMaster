@@ -69,6 +69,7 @@ Style::Style(const QJsonObject &jsonObject) {
     lightSupport       = jsonObject.value("lightSupport").toBool();
     darkSupport        = jsonObject.value("darkSupport").toBool();
     accentColorSupport = jsonObject.value("accentColorSupport").toBool();
+    applyPalette       = jsonObject.value("applyPalette").toBool();
 
     QString typeString = jsonObject.value("type").toString();
     type = typeString == "systemDefault" ? SystemDefaultType
