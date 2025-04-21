@@ -163,28 +163,16 @@ void LocalConfig::setLanguage(const QString &name) {
     write("general.language", name);
 }
 
-LocalConfig::Style LocalConfig::style() {
-    // TODO
-    QString str = read("appearance.theme").toString();
-    if(str == "Fusion")
-        return FusionStyle;
-    else if(str == "WindowsXpStyle")
-        return WindowsXpStyle;
-    else
-        return SystemStyle;
+QString LocalConfig::style() {
+    return read("appearance.theme").toString();
 }
 
-void LocalConfig::setStyle(const Style &newStyle) {
-    // TODO
-    QString str;
-    if(newStyle == FusionStyle)
-        str = "Fusion";
-    else if(newStyle == WindowsXpStyle)
-        str = "WindowsXpStyle";
-    else
-        str = "System";
+void LocalConfig::setStyle(const QString &newStyle) {
+    if(!GlobalConfig::styleExists(newStyle))
+        return;
 
-    write("appearance.theme", str);
+    write("appearance.theme", newStyle);
+    emit instance()->styleChanged(newStyle);
 }
 
 QString LocalConfig::uiFontFamily() {
