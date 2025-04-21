@@ -27,7 +27,7 @@ SettingsItem::SettingsItem(const QJsonObject &jsonObject) {
 
 KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) {
     id          = jsonObject.value("id").toString();
-    description = jsonObject.value("description").toString();
+    description = jsonObject.value("description").toString(id);
     icon        = jsonObject.value("icon").toString();
 
     QJsonValue defaultValue = jsonObject.value("default");
@@ -65,7 +65,7 @@ KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) {
 
 Style::Style(const QJsonObject &jsonObject) {
     id                 = jsonObject.value("id").toString();
-    name               = jsonObject.value("name").toString();
+    name               = jsonObject.value("name").toString(id);
     lightSupport       = jsonObject.value("lightSupport").toBool();
     darkSupport        = jsonObject.value("darkSupport").toBool();
     accentColorSupport = jsonObject.value("accentColorSupport").toBool();
