@@ -1,18 +1,37 @@
 [
     {
-        "id": "base.Fusion",
-        "name": "Fusion",
-        "light_support": true,
-        "dark_support": true,
-        "type": "systemStyleFactory",
-        "systemStyleFactoryName": "Fusion"
+        "id": "base.system",
+        "name": "System",
+        "lightSupport": true,
+        "darkSupport": false,
+        "accentColorSupport": false,
+        "type": "systemDefault"
     },
     {
-        "id": "base.WindowsXP",
-        "name": "Windows XP",
-        "light_support": true,
-        "dark_support": true,
+        "id": "base.fusion",
+        "name": "Fusion",
+        "lightSupport": true,
+        "darkSupport": true,
+        "accentColorSupport": true,
         "type": "systemStyleFactory",
-        "systemStyleFactoryName": "Windows"
+        "styleFactoryName": "Fusion"
+    },
+    {
+        "id": "base.windowsXP",
+        "name": "Windows XP",
+        "lightSupport": true,
+        "darkSupport": true,
+        "accentColorSupport": true,
+        "type": "systemStyleFactory",
+        "styleFactoryName": "Windows"
+    },
+    {
+        "id": "base.windows11",
+        "name": "Windows 11",
+        "lightSupport": true,
+        "darkSupport": true,
+        "accentColorSupport": false,
+        "type": "systemStyleFactory",
+        "styleFactoryName": "windows11"
     }
 ]

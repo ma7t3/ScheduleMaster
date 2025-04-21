@@ -1,26 +1,27 @@
 Info, bis es in die offizielle Dokumentation übernommmen wird:
 Jeder Stil wird über ein JSON-Objekt definiert und hat folgende Schlüssel:
 
-id				| String	| Eindeutige ID, die den Stil identifiziert (wird zum Speichern im Registry verwendet)
-name			| String	| Name, wie er im Einstellungsdialog angezeigt werden soll.
-light_support	| bool		| Unterstützt der Stil LightMode
-dark_support	| bool		| Unterstützt der Stil DarkMode
-type			| String	| Art des Stils, folgende Werte sind erlaubt:
-								"systemStyleFactory":	Vordefinierter Qt-Stil, der aus der QStyleFactory-Klasse erzeugt wird.
-								"style_class":			Als QStyle-Klasse definierter Stil
-								"style_sheet":			Als QSS-Stylesheet definierter Stil
+id					| String	| Eindeutige ID, die den Stil identifiziert (wird zum Speichern im Registry verwendet)
+name				| String	| Name, wie er im Einstellungsdialog angezeigt werden soll.
+lightSupport		| bool		| Unterstützt der Stil LightMode?
+darkSupport			| bool		| Unterstützt der Stil DarkMode?
+accentColorSupport	| bool		| Wird das Setzen einer benutzerdefinierten Akzentfarbe unterstützt?
+type				| String	| Art des Stils, folgende Werte sind erlaubt:
+								"systemDefault":	Systemstandard, Stil, wie, wenn zum Start der Anwendung kein Stil gesetzt wurde
+								"styleFactory":		Vordefinierter Qt-Stil, der aus der QStyleFactory-Klasse erzeugt wird.
+								"styleClass":		Als QStyle-Klasse definierter Stil
+								"styleSheet":		Als QSS-Stylesheet definierter Stil
 								
 Folgende Schlüssel sind abhängig vom vorher festgelegten Typ zu vergeben:
 
-"systemStyleFactory":
+"styleFactory":
 =====================
-systemStyleFactoryName	| String	| Schlüsselname für die QStyleFactory::create()-Funktion
+styleFactoryName	| String	| Schlüsselname für die QStyleFactory::create()-Funktion
 
-"style_class":
+"styleClass":
 =====================
-Noch WIP (Am besten eine Art StyleHandler implementieren, in dem man als Plugin bestimmte QStyle-Klassen an eine ID gekoppelt registrieren kann)
-Hier dann nur die entsprechende ID angeben (oder immer die oben einfach nehmen), die muss die QStyle-Klasse dann "anbieten".
+styleClassID		| String	| ID der QStyle-Klasse, muss im StyleHandler vorher registriert werden.
 
-"style_sheet:
+"styleSheet:
 =====================
-Dateipfade für die QSS-Datei, als physische Datei oder Resource
+styleSheetUrl		| String	| Dateipfad der QSS-Datei, als physische Datei oder Resource
