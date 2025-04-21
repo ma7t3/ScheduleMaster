@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QPalette>
 #include <QStyleFactory>
+#include <QStyleHints>
 
 #include "Global/GlobalConfig.h"
 #include "Global/LocalConfig.h"
@@ -30,11 +31,13 @@ public:
 
     static void registerStyleClass(const QString &id, QStyle *style);
 
+public slots:
     static void applyStyle(const QString &id = LocalConfig::style());
+    static void applyColorScheme(const Qt::ColorScheme &colorScheme = LocalConfig::colorScheme());
     static void applyAccentColor(const QString &id = LocalConfig::accentColorID());
     static void applyFont(const QString &fontFamily = LocalConfig::uiFontFamily());
 
-protected:
+protected slots:
     static void applyPalette();
 
 signals:

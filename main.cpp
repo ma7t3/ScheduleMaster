@@ -40,12 +40,6 @@ void loadStartupPreferences(QApplication *a) {
     qInfo() << "   Loading style handler...";
     StyleHandler::init();
 
-    QPalette palette = QApplication::style()->standardPalette();
-    QColor color = LocalConfig::accentColor();
-    if(color.isValid())
-        palette.setColor(QPalette::Highlight, color);
-    QApplication::setPalette(palette);
-
     // language
     qInfo() << "   Loading language...";
     // TODO: Reimplement ui translations; Work with QLocale instead!
@@ -98,6 +92,7 @@ int main(int argc, char *argv[]) {
 
     splashscreen.showMessage(QObject::tr("Loading main window..."), Qt::AlignBottom, ssConfig.first);
     StyleHandler::applyStyle();
+    StyleHandler::applyColorScheme();
     StyleHandler::applyAccentColor();
     MainWindow w;
 
