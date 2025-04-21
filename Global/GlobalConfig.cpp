@@ -63,6 +63,28 @@ KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) {
     }
 }
 
+Style::Style(const QJsonObject &jsonObject) {
+    id                 = jsonObject.value("id").toString();
+    name               = jsonObject.value("name").toString();
+    lightSupport       = jsonObject.value("lightSupport").toBool();
+    darkSupport        = jsonObject.value("darkSupport").toBool();
+    accentColorSupport = jsonObject.value("accentColorSupport").toBool();
+
+    QString typeString = jsonObject.value("type").toString();
+    type = typeString == "systemDefault" ? SystemDefaultType
+                       : "styleClass"    ? StyleClassType
+                       : "styleSheet"    ? StyleSheetType
+                       : "styleClass"    ? StyleFactoryType
+                                         : InvalidType;
+
+    switch(type) {
+        case StyleClassType:   styleClassID     = jsonObject.value("styleClassID").toString();     break;
+        case StyleSheetType:   styleSheetUrl    = jsonObject.value("styleSheetUrl").toString();    break;
+        case StyleFactoryType: styleFactoryName = jsonObject.value("styleFactoryName").toString(); break;
+        default: break;
+    }
+}
+
 
 GlobalConfig::GlobalConfig() : QObject(nullptr) {}
 
@@ -83,6 +105,7 @@ void GlobalConfig::init() {
     loadSettingsItems();
     loadFolderLocations();
     loadKeyboardShortcuts();
+    loadStyles();
     loadAccentColors();
 }
 
@@ -162,6 +185,22 @@ bool GlobalConfig::keyboardShortcutIsDefault(const QString &id, const QKeySequen
         return false;
 
     return keyboardShortcut(id).defaultKeySequence == sequence;
+}
+
+QMap<QString, Style> GlobalConfig::styles() {
+    return _styles;
+}
+
+bool GlobalConfig::styleExists(const QString &id) {
+    return _styles.contains(id);
+}
+
+Style GlobalConfig::style(const QString &id) {
+    return _styles.value(id, Style());
+}
+
+Style::StyleType GlobalConfig::styleType(const QString &id) {
+    return styleExists(id) ? _styles.value(id).type : Style::InvalidType;
 }
 
 QColor GlobalConfig::accentColor(const QString &id) {
@@ -363,6 +402,20 @@ void GlobalConfig::loadKeyboardShortcuts() {
     }
 }
 
+void GlobalConfig::loadStyles() {
+    qInfo() << "   Loading styles...";
+    const QJsonArray shortcuts = loadMultiConfigResource("Styles");
+    for(const QJsonValue &val : shortcuts) {
+        const QJsonObject obj = val.toObject();
+        Style style(obj);
+        if(style.id.isEmpty())
+            continue;
+
+        _styles.insert(style.id, style);
+        qInfo().noquote() << "      - " + style.id;
+    }
+}
+
 void GlobalConfig::loadAccentColors() {
     qInfo() << "   Loading accent colors...";
     const QJsonDocument doc = loadSingleConfigResource("accentColors");
@@ -371,3 +424,4 @@ void GlobalConfig::loadAccentColors() {
     for(const QString &key : keys)
         _accentColors.insert(key, QColor(object[key].toString()));
 }
+
