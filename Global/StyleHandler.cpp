@@ -20,7 +20,7 @@ void StyleHandler::init() {
     connect(LocalConfig::instance(), &LocalConfig::styleChanged,       StyleHandler::instance(), &StyleHandler::applyStyle);
     connect(LocalConfig::instance(), &LocalConfig::colorSchemeChanged, StyleHandler::instance(), &StyleHandler::applyColorScheme);
 
-    connect(QApplication::styleHints(), &QStyleHints::colorSchemeChanged, instance(), &StyleHandler::applyPalette);
+    connect(QApplication::styleHints(), &QStyleHints::colorSchemeChanged, instance(), &StyleHandler::onColorSchemeChange);
 
     _initPalette = QApplication::palette();
 }
@@ -33,6 +33,10 @@ void StyleHandler::applyFont(const QString &fontFamily) {
     QFont font = QApplication::font();
     font.setFamily(fontFamily);
     QApplication::setFont(font);
+}
+
+void StyleHandler::onColorSchemeChange() {
+    applyAccentColor(_currentAccentColor);
 }
 
 void StyleHandler::applyPalette() {
@@ -80,7 +84,6 @@ void StyleHandler::applyStyle(const QString &id) {
 
     // re-apply accent color
     applyAccentColor(_currentAccentColor);
-
 }
 
 void StyleHandler::applyColorScheme(const Qt::ColorScheme &colorScheme) {
@@ -99,15 +102,11 @@ void StyleHandler::applyColorScheme(const Qt::ColorScheme &colorScheme) {
 }
 
 void StyleHandler::applyAccentColor(const QString &id) {
-    if(!_currentStyle.accentColorSupport)
-        return;
-
     qDebug().noquote() << "apply accent color: " << id;
 
-    QColor color = GlobalConfig::accentColor(id); // FIXME: default accent color doesn't work!!!
-    if(!color.isValid()) {
-        applyPalette();
-    } else {
+    applyPalette();
+    QColor color = GlobalConfig::accentColor(id);
+    if(color.isValid()) {
         QPalette palette = QApplication::palette();
         palette.setColor(QPalette::Highlight, color);
         QApplication::setPalette(palette);
