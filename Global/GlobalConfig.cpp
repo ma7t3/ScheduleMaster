@@ -72,9 +72,9 @@ Style::Style(const QJsonObject &jsonObject) {
 
     QString typeString = jsonObject.value("type").toString();
     type = typeString == "systemDefault" ? SystemDefaultType
-                       : "styleClass"    ? StyleClassType
-                       : "styleSheet"    ? StyleSheetType
-                       : "styleClass"    ? StyleFactoryType
+         : typeString == "styleClass"    ? StyleClassType
+         : typeString == "styleSheet"    ? StyleSheetType
+         : typeString == "styleFactory"  ? StyleFactoryType
                                          : InvalidType;
 
     switch(type) {
