@@ -144,6 +144,7 @@ void WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut() {
     ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(shortcut);
     ui->kseShortcut->blockSignals(false);
+    setUnsaved();
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onRemoveShortcut() {
@@ -156,6 +157,7 @@ void WdgPreferencesPageKeyboardShortcuts::onRemoveShortcut() {
     ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(QKeySequence());
     ui->kseShortcut->blockSignals(false);
+    setUnsaved();
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onCopyID() {
@@ -174,6 +176,7 @@ void WdgPreferencesPageKeyboardShortcuts::onShortcutChanged(const QKeySequence &
 
     const QString id = _model->metaData(current).id;
     _model->setModifiedShortcut(id, shortcut);
+    setUnsaved();
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onImport() {
