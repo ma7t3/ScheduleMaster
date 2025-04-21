@@ -110,14 +110,21 @@
              </font>
             </property>
             <property name="text">
-             <string>Theme</string>
+             <string>Style</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <widget class="QComboBox" name="cbTheme"/>
+         <widget class="QComboBox" name="cbStyle"/>
+        </item>
+        <item>
+         <widget class="QCommandLinkButton" name="clbAppearance">
+          <property name="text">
+           <string>Go to appearance</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

@@ -6,6 +6,7 @@
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 #include "ItemModels/LanguagesModel.h"
+#include "ItemModels/StylesModel.h"
 
 namespace Ui {
 class WdgPreferencesPageHome;
@@ -28,11 +29,12 @@ public:
 
 public slots:
     void setLanguageIndex(const int &index);
+    void setStyleIndex(const int &index);
 
 signals:
     void languageIndexChanged(const int &index);
+    void styleIndexChanged(const int &index);
 
-signals:
     void openPageRequested(const QString &pageID);
     void openLogfileLocationRequested();
     void openConfigEditorRequested();
@@ -45,10 +47,13 @@ private slots:
 
     void on_clbOpenLogfileLocation_clicked();
 
+    void on_clbAppearance_clicked();
+
 private:
     Ui::WdgPreferencesPageHome *ui;
 
     LanguagesModel *_languagesModel;
+    StylesModel *_stylesModel;
 };
 
 #endif // WDGPREFERENCESPAGEHOME_H
