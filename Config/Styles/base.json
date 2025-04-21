@@ -5,6 +5,7 @@
         "lightSupport": true,
         "darkSupport": false,
         "accentColorSupport": false,
+        "applyPalette": false,
         "type": "systemDefault"
     },
     {
@@ -13,7 +14,8 @@
         "lightSupport": true,
         "darkSupport": true,
         "accentColorSupport": true,
-        "type": "systemStyleFactory",
+        "applyPalette": true,
+        "type": "styleFactory",
         "styleFactoryName": "Fusion"
     },
     {
@@ -22,7 +24,8 @@
         "lightSupport": true,
         "darkSupport": true,
         "accentColorSupport": true,
-        "type": "systemStyleFactory",
+        "applyPalette": true,
+        "type": "styleFactory",
         "styleFactoryName": "Windows"
     },
     {
@@ -31,7 +34,8 @@
         "lightSupport": true,
         "darkSupport": true,
         "accentColorSupport": false,
-        "type": "systemStyleFactory",
+        "applyPalette": false,
+        "type": "styleFactory",
         "styleFactoryName": "windows11"
     }
 ]

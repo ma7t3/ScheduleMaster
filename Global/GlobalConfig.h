@@ -61,7 +61,7 @@ public:
 
     QString id, name, styleClassID, styleSheetUrl, styleFactoryName;
     StyleType type;
-    bool lightSupport, darkSupport, accentColorSupport;
+    bool lightSupport, darkSupport, accentColorSupport, applyPalette;
 };
 
 /**
