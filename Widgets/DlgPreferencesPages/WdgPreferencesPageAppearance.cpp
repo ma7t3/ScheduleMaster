@@ -78,6 +78,7 @@ QIcon WdgPreferencesPageAppearance::icon() {
 }
 
 void WdgPreferencesPageAppearance::onStyleChanged(int index) {
+    Q_UNUSED(index);
     QString id = ui->cbStyle->currentText();
     StyleHandler::applyStyle(id);
     Style style = GlobalConfig::style(id);
@@ -90,7 +91,6 @@ void WdgPreferencesPageAppearance::onAccentColorChanged(const QString &id) {
 }
 
 void WdgPreferencesPageAppearance::onColorSchemeChanged(const Qt::ColorScheme &colorScheme) {
-    qDebug() << colorScheme;
     StyleHandler::applyColorScheme(colorScheme);
 }
 
