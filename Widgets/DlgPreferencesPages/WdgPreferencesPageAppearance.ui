@@ -17,14 +17,14 @@
    <item>
     <layout class="QFormLayout" name="flGeneral">
      <item row="0" column="0">
-      <widget class="QLabel" name="lAppearance">
+      <widget class="QLabel" name="lStyle">
        <property name="text">
         <string>Style:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QComboBox" name="cbAppearance"/>
+      <widget class="QComboBox" name="cbStyle"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label">
