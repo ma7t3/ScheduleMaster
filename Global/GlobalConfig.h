@@ -47,6 +47,23 @@ public:
     QKeySequence defaultKeySequence;
 };
 
+class Style {
+public:
+    Style(const QJsonObject &jsonObject = QJsonObject());
+
+    enum StyleType {
+        SystemDefaultType,
+        StyleClassType,
+        StyleSheetType,
+        StyleFactoryType,
+        InvalidType
+    };
+
+    QString id, name, styleClassID, styleSheetUrl, styleFactoryName;
+    StyleType type;
+    bool lightSupport, darkSupport, accentColorSupport;
+};
+
 /**
  * @brief The GlobalConfig class provides information about the global configuration of the app.
  *
@@ -200,6 +217,34 @@ public:
     static bool keyboardShortcutIsDefault(const QString &id, const QKeySequence &sequence);
 
     /**
+     * @brief Returns a map of all registered styles. The map key is the style ID.
+     * @return The styles map
+     */
+    static QMap<QString, Style> styles();
+
+    /**
+     * @brief Checks if a style specified by the given ID exists.
+     * @param id The style ID
+     * @return Whether the style exists or not
+     */
+    static bool styleExists(const QString &id);
+
+    /**
+     * @brief Returns the style specified by the given ID.
+     * @param id The style ID
+     * @return The Style object or a default constructed style if it doesn't exist
+     */
+    static Style style(const QString &id);
+
+
+    /**
+     * @brief Returns the type of the style specified by the given ID.
+     * @param id The style ID
+     * @return The type of the style or Style::StyleType::InvalidType if the style doesn't exist.
+     */
+    static Style::StyleType styleType(const QString &id);
+
+    /**
      * @brief Returns the accent color specified by the given ID
      * @param id The accent color's ID
      * @return The accent color
@@ -280,6 +325,9 @@ protected:
     /// Loads all keyboard shortcuts
     static void loadKeyboardShortcuts();
 
+    /// Loads all styles
+    static void loadStyles();
+
     /// Loads the accent color palette
     static void loadAccentColors();
 
@@ -300,6 +348,9 @@ private:
 
     /// Hash of all keyboard shortcuts with their ID as key
     static inline QHash<QString, KeyboardShortcut> _keyboardShortcuts;
+
+    /// All available styles
+    static inline QMap<QString, Style> _styles;
 
     /// All accent colors
     static inline QMap<QString, QColor> _accentColors;
