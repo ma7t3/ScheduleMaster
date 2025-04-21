@@ -22,7 +22,7 @@
         "id": "base.windowsXP",
         "name": "Windows XP",
         "lightSupport": true,
-        "darkSupport": true,
+        "darkSupport": false,
         "accentColorSupport": true,
         "applyPalette": true,
         "type": "styleFactory",
