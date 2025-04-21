@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QFormLayout" name="formLayout">
+    <layout class="QFormLayout" name="flGeneral">
      <item row="0" column="0">
       <widget class="QLabel" name="lAppearance">
        <property name="text">
@@ -26,17 +26,17 @@
      <item row="0" column="1">
       <widget class="QComboBox" name="cbAppearance"/>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Accent color:</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="WdgAccentColorSelector" name="wdgAccentColor" native="true"/>
+        <widget class="WdgAccentColorSelector" name="acsAccentColor" native="true"/>
        </item>
        <item>
         <spacer name="horizontalSpacer">
@@ -53,14 +53,14 @@
        </item>
       </layout>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="lFont">
        <property name="text">
         <string>Font:</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QFontComboBox" name="fcbFont"/>
      </item>
      <item row="1" column="1">
@@ -75,6 +75,16 @@
         <bool>true</bool>
        </property>
       </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Color Scheme:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="WdgColorSchemeSelector" name="cssColorScheme" native="true"/>
      </item>
     </layout>
    </item>
@@ -114,6 +124,12 @@
    <class>WdgAccentColorSelector</class>
    <extends>QWidget</extends>
    <header>Widgets/WdgAccentColorSelector.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WdgColorSchemeSelector</class>
+   <extends>QWidget</extends>
+   <header>Widgets/WdgColorSchemeSelector.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

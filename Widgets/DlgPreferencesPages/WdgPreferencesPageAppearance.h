@@ -32,8 +32,9 @@ private slots:
     void on_fcbFont_currentFontChanged(const QFont &f);
 
     void onAccentColorChanged(const QString &id);
+    void onColorSchemeChanged(const Qt::ColorScheme &colorScheme);
 
-    void on_cbAppearance_activated(int index);
+    void on_cbAppearance_currentIndexChanged(int index);
 
 private:
     Ui::WdgPreferencesPageAppearance *ui;
