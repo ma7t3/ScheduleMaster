@@ -25,12 +25,12 @@ void WdgPreferencesPageLocations::reloadPreferences() {
     QList<FolderLocation> locations = GlobalConfig::folderLocations();
     for(FolderLocation &loc : locations) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
-        item->setData(Qt::UserRole, loc.id);
+        item->setData(Qt::UserRole, loc.id());
         item->setIcon(QIcon(loc.icon));
         item->setSizeHint(QSize(0, 28));
         ui->lwLocationCategories->addItem(item);
 
-        _folderLocations.insert(loc.id, loc);
+        _folderLocations.insert(loc.id(), loc);
     }
 
     _folderLocationsPaths = LocalConfig::folderLocations();

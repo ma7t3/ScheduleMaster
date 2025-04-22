@@ -31,12 +31,12 @@ QString StylesModel::style(const int &row) {
     if(row < 0 || row >= _styles.size())
         return "";
 
-    return _styles.at(row).id;
+    return _styles.at(row).id();
 }
 
 int StylesModel::indexOfStyle(const QString &styleID) {
     for(int i = 0; i < _styles.size(); i++)
-        if(_styles.at(i).id == styleID)
+        if(_styles.at(i).id() == styleID)
             return i;
 
     return -1;

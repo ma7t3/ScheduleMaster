@@ -1,7 +1,26 @@
 #include "GlobalConfig.h"
 
-SettingsItem::SettingsItem(const QJsonObject &jsonObject) {
-    id = jsonObject.value("id").toString();
+GlobalConfigItem::GlobalConfigItem(const QJsonObject &jsonObject) {
+    _id = jsonObject.value("id").toString();
+}
+
+GlobalConfigItem::GlobalConfigItem(const QString &id) : _id(id) {}
+
+QString GlobalConfigItem::id() const {
+    return _id;
+}
+
+FolderLocation::FolderLocation(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+    name = jsonObject.value("name").toString(id());
+    icon = jsonObject.value("icon").toString();
+    multiple = jsonObject.value("multiple").toBool();
+}
+
+FolderLocation::FolderLocation(const QString &id) : GlobalConfigItem(id) {}
+
+SettingsItem::SettingsItem(const QString &id) : GlobalConfigItem(id) {}
+
+SettingsItem::SettingsItem(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     description = jsonObject.value("description").toString();
 
     QString typeStr = jsonObject.value("type").toString();
@@ -24,10 +43,8 @@ SettingsItem::SettingsItem(const QJsonObject &jsonObject) {
     requiresRestart = jsonObject.value("requireRestart").toBool(false);
 }
 
-
-KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) {
-    id          = jsonObject.value("id").toString();
-    description = jsonObject.value("description").toString(id);
+KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+    description = jsonObject.value("description").toString(id());
     icon        = jsonObject.value("icon").toString();
 
     QJsonValue defaultValue = jsonObject.value("default");
@@ -63,9 +80,10 @@ KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) {
     }
 }
 
-Style::Style(const QJsonObject &jsonObject) {
-    id                 = jsonObject.value("id").toString();
-    name               = jsonObject.value("name").toString(id);
+KeyboardShortcut::KeyboardShortcut(const QString &id) : GlobalConfigItem(id) {}
+
+Style::Style(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+    name               = jsonObject.value("name").toString(id());
     lightSupport       = jsonObject.value("lightSupport").toBool();
     darkSupport        = jsonObject.value("darkSupport").toBool();
     accentColorSupport = jsonObject.value("accentColorSupport").toBool();
@@ -86,7 +104,9 @@ Style::Style(const QJsonObject &jsonObject) {
     }
 }
 
-bool Style::supportsColorScheme(const Qt::ColorScheme &colorScheme) {
+Style::Style(const QString &id) : GlobalConfigItem(id) {}
+
+bool Style::supportsColorScheme(const Qt::ColorScheme &colorScheme) const {
     return (
         (colorScheme == Qt::ColorScheme::Unknown && lightSupport && darkSupport) ||
         (colorScheme == Qt::ColorScheme::Light && lightSupport) ||
@@ -94,7 +114,7 @@ bool Style::supportsColorScheme(const Qt::ColorScheme &colorScheme) {
     );
 }
 
-QList<Qt::ColorScheme> Style::supportedColorSchemes() {
+QList<Qt::ColorScheme> Style::supportedColorSchemes() const {
     if(supportsColorScheme(Qt::ColorScheme::Unknown))
         return {Qt::ColorScheme::Unknown, Qt::ColorScheme::Light, Qt::ColorScheme::Dark};
 
@@ -155,14 +175,14 @@ bool GlobalConfig::settingRequiresRestart(const QString &id) {
 }
 
 void GlobalConfig::registerNewSettingsItem(const SettingsItem &item) {
-    if(item.id.isEmpty())
+    if(item.id().isEmpty())
         return;
 
     if(item.requiresRestart)
-        _restartRequiredSettings << item.id;
+        _restartRequiredSettings << item.id();
 
-    _settingsItems.insert(item.id, item);
-    qInfo().noquote() << "Registered new settings item: " + item.id;
+    _settingsItems.insert(item.id(), item);
+    qInfo().noquote() << "Registered new settings item: " + item.id();
 }
 
 QList<QLocale> GlobalConfig::supportedLanguages() {
@@ -332,14 +352,14 @@ void GlobalConfig::loadSettingsItems() {
     for(const QJsonValue &val : items) {
         const QJsonObject obj = val.toObject();
         SettingsItem item(obj);
-        if(item.id.isEmpty())
+        if(item.id().isEmpty())
             continue;
 
         if(item.requiresRestart)
-            _restartRequiredSettings << item.id;
+            _restartRequiredSettings << item.id();
 
-        _settingsItems.insert(item.id, item);
-        qInfo().noquote() << "      - " + item.id;
+        _settingsItems.insert(item.id(), item);
+        qInfo().noquote() << "      - " + item.id();
     }
 }
 
@@ -360,26 +380,16 @@ void GlobalConfig::loadFolderLocations() {
     for(const QJsonValue &val : std::as_const(locations)) {
         const QJsonObject obj = val.toObject();
 
-        const QString id     = obj.value("id").toString();
-              QString name   = obj.value("name").toString();
-        const QString icon   = obj.value("icon").toString();
-        bool multiple        = obj.value("multiple").toBool();
-        bool requiresRestart = obj.value("changeRequiresRestart").toBool();
-
-        // fallback if no name is given
-        if(name.isEmpty())
-            name = id;
-
-        const FolderLocation location(id, name, icon, multiple);
+        const FolderLocation location(obj);
+        QString id = location.id();
 
         _folderLocations.insert(id, location);
         qInfo().noquote() << "      - " + id;
 
-        SettingsItem item;
-        item.id              = "locations/" + id;
+        SettingsItem item("locations/" + id);
         item.type            = QMetaType::QStringList;
-        item.description     = name;
-        item.requiresRestart = requiresRestart;
+        item.description     = location.name;
+        item.requiresRestart = obj.value("changeRequiresRestart").toBool();
 
         QStringList defaultValue;
 
@@ -408,14 +418,13 @@ void GlobalConfig::loadKeyboardShortcuts() {
     for(const QJsonValue &val : shortcuts) {
         const QJsonObject obj = val.toObject();
         KeyboardShortcut shortcut(obj);
-        if(shortcut.id.isEmpty())
+        if(shortcut.id().isEmpty())
             continue;
 
-        _keyboardShortcuts.insert(shortcut.id, shortcut);
-        qInfo().noquote() << "      - " + shortcut.id;
+        _keyboardShortcuts.insert(shortcut.id(), shortcut);
+        qInfo().noquote() << "      - " + shortcut.id();
 
-        SettingsItem item;
-        item.id           = "keyboardShortcuts/" + shortcut.id;
+        SettingsItem item("keyboardShortcuts/" + shortcut.id());
         item.type         = QMetaType::QKeySequence;
         item.description  = shortcut.description;
         item.defaultValue = shortcut.defaultKeySequence;
@@ -429,11 +438,11 @@ void GlobalConfig::loadStyles() {
     for(const QJsonValue &val : shortcuts) {
         const QJsonObject obj = val.toObject();
         Style style(obj);
-        if(style.id.isEmpty())
+        if(style.id().isEmpty())
             continue;
 
-        _styles.insert(style.id, style);
-        qInfo().noquote() << "      - " + style.id;
+        _styles.insert(style.id(), style);
+        qInfo().noquote() << "      - " + style.id();
     }
 }
 
@@ -445,4 +454,3 @@ void GlobalConfig::loadAccentColors() {
     for(const QString &key : keys)
         _accentColors.insert(key, QColor(object[key].toString()));
 }
-

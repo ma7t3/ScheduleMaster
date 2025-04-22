@@ -19,40 +19,54 @@
 #include "Global/VariantConverter.h"
 #include "Global/Global.h"
 
-class FolderLocation {
+class GlobalConfigItem {
 public:
-    FolderLocation(){}
-    FolderLocation(const QString &id, const QString &name, const QString &icon, const bool &multiple) : id(id), name(name), icon(icon), multiple(multiple) {}
-    FolderLocation(const QString &id, const bool &multiple) : id(id), name(""), icon(""), multiple(multiple) {}
+    GlobalConfigItem(const QJsonObject &jsonObject = QJsonObject());
+    GlobalConfigItem(const QString &id);
 
-    QString id, name, icon;
+public:
+    QString id() const;
+
+private:
+    QString _id;
+};
+
+class FolderLocation : public GlobalConfigItem {
+public:
+    FolderLocation(const QJsonObject &jsonObject = QJsonObject());
+    FolderLocation(const QString &id);
+
+    QString name, icon;
     bool multiple;
 };
 
-class SettingsItem {
+class SettingsItem : public GlobalConfigItem {
 public:
     SettingsItem(const QJsonObject &jsonObject = QJsonObject());
+    SettingsItem(const QString &id);
 
-    QString id, description;
+    QString description;
     QVariant defaultValue;
     QMetaType::Type type = QMetaType::Void, groupContentType = QMetaType::Void;
     bool isGroup = false, requiresRestart = false;
 };
 
-class KeyboardShortcut {
+class KeyboardShortcut : public GlobalConfigItem {
 public:
     KeyboardShortcut(const QJsonObject &jsonObject = QJsonObject());
+    KeyboardShortcut(const QString &id);
 
-    QString id, description, icon;
+    QString description, icon;
     QKeySequence defaultKeySequence;
 };
 
-class Style {
+class Style : public GlobalConfigItem {
 public:
     Style(const QJsonObject &jsonObject = QJsonObject());
+    Style(const QString &id);
 
-    bool supportsColorScheme(const Qt::ColorScheme &);
-    QList<Qt::ColorScheme> supportedColorSchemes();
+    bool supportsColorScheme(const Qt::ColorScheme &) const;
+    QList<Qt::ColorScheme> supportedColorSchemes() const;
 
     enum StyleType {
         SystemDefaultType,
@@ -62,7 +76,7 @@ public:
         InvalidType
     };
 
-    QString id, name, styleClassID, styleSheetUrl, styleFactoryName;
+    QString name, styleClassID, styleSheetUrl, styleFactoryName;
     StyleType type;
     bool lightSupport, darkSupport, accentColorSupport, applyPalette;
 };

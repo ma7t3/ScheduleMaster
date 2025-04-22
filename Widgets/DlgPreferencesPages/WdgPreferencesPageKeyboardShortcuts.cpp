@@ -124,7 +124,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelInde
 
     ui->lIcon->setPixmap(QPixmap(metadata.icon));
     ui->lName->setText(metadata.description);
-    ui->lID->setText(metadata.id);
+    ui->lID->setText(metadata.id());
 
     ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(shortcut);
@@ -138,7 +138,7 @@ void WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut() {
     if(!current.isValid())
         return;
 
-    const QString id = _model->metaData(current).id;
+    const QString id = _model->metaData(current).id();
     QKeySequence shortcut = GlobalConfig::keyboardShortcutDefaultKeySequence(id);
     _model->setModifiedShortcut(id, shortcut);
     ui->kseShortcut->blockSignals(true);
@@ -152,7 +152,7 @@ void WdgPreferencesPageKeyboardShortcuts::onRemoveShortcut() {
     if(!current.isValid())
         return;
 
-    const QString id = _model->metaData(current).id;
+    const QString id = _model->metaData(current).id();
     _model->setModifiedShortcut(id, QKeySequence());
     ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(QKeySequence());
@@ -166,7 +166,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCopyID() {
         return;
 
     const KeyboardShortcut shortcut = _model->metaData(current);
-    QApplication::clipboard()->setText(shortcut.id);
+    QApplication::clipboard()->setText(shortcut.id());
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onShortcutChanged(const QKeySequence &shortcut) {
@@ -174,7 +174,7 @@ void WdgPreferencesPageKeyboardShortcuts::onShortcutChanged(const QKeySequence &
     if(!current.isValid())
         return;
 
-    const QString id = _model->metaData(current).id;
+    const QString id = _model->metaData(current).id();
     _model->setModifiedShortcut(id, shortcut);
     setUnsaved();
 }
