@@ -83,12 +83,12 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
             case 0: return QIcon(shortcut.first.icon);
         } break;
         case Qt::ToolTipRole: switch(index.column()) {
-            case 0: return QString("<p><b>%1</b></p><p><small>%2</small></p>").arg(shortcut.first.description, shortcut.first.id);
+            case 0: return QString("<p><b>%1</b></p><p><small>%2</small></p>").arg(shortcut.first.description, shortcut.first.id());
             } break;
         case Qt::FontRole: switch (index.column()) {
             case 1: return shortcut.first.defaultKeySequence == shortcut.second ? QVariant() : QFont("", -1, QFont::Bold);
         } break;
-        case IDRole: return shortcut.first.id;
+        case IDRole: return shortcut.first.id();
         case ModifiedRole: return shortcut.first.defaultKeySequence != shortcut.second;
     }
 
@@ -122,7 +122,7 @@ void KeyboardShortcutsModel::setModifiedShortcut(const QString &id, const QKeySe
 void KeyboardShortcutsModel::setAllShortcutsToDefault() {
     for(const QPair<KeyboardShortcut, QKeySequence> &shortcut : std::as_const(_shortcuts))
         if(shortcut.first.defaultKeySequence != shortcut.second)
-            setModifiedShortcut(shortcut.first.id, shortcut.first.defaultKeySequence);
+            setModifiedShortcut(shortcut.first.id(), shortcut.first.defaultKeySequence);
 }
 
 void KeyboardShortcutsModel::saveShortcuts() {
@@ -138,9 +138,9 @@ void KeyboardShortcutsModel::reload() {
     const QList<KeyboardShortcut> metaDataList = GlobalConfig::keyboardShortcuts();
     int i = 0;
     for(const KeyboardShortcut &shortcut : metaDataList) {
-        QKeySequence keySequence = LocalConfig::keyboardShortcut(shortcut.id);
+        QKeySequence keySequence = LocalConfig::keyboardShortcut(shortcut.id());
         _shortcuts << QPair<KeyboardShortcut, QKeySequence>(shortcut, keySequence);
-        _shortcutIndexes.insert(shortcut.id, i++);
+        _shortcutIndexes.insert(shortcut.id(), i++);
     }
     endResetModel();
 }

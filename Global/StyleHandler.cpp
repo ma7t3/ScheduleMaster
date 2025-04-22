@@ -47,7 +47,7 @@ void StyleHandler::applyPalette() {
 }
 
 void StyleHandler::applyStyle(const QString &id) {
-    if(_currentStyle.id == id)
+    if(_currentStyle.id() == id)
         return;
 
     if(!GlobalConfig::styleExists(id)) {
@@ -93,7 +93,7 @@ void StyleHandler::applyColorScheme(const Qt::ColorScheme &colorScheme) {
     const QString colorSchemeName = (colorScheme == Qt::ColorScheme::Unknown ? "auto" : colorScheme == Qt::ColorScheme::Light ? "light" : "dark");
 
     if(!_currentStyle.supportsColorScheme(colorScheme)) {
-        qWarning().noquote() << "cannot apply color scheme " + colorSchemeName + ". Style " + _currentStyle.id + " doesn't support it.";
+        qWarning().noquote() << "cannot apply color scheme " + colorSchemeName + ". Style " + _currentStyle.id() + " doesn't support it.";
         return;
     }
 
