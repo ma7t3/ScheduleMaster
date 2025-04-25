@@ -110,9 +110,13 @@ bool DlgPreferences::unsavedChanges() {
 
 void DlgPreferences::checkRestartRequired() {
     if(LocalConfig::restartRequired()) {
-        QStringList items = LocalConfig::restartRequiredSettings();
+        const QStringList items = LocalConfig::restartRequiredSettings();
 
-        QString itemList = "<ul><li>" + items.join("</li><li>") + "</li></ul>";
+        QStringList itemNames;
+        for(const QString &item : items)
+            itemNames << GlobalConfig::settingsItem(item).description.split("\n").first();
+
+        QString itemList = "<ul><li>" + itemNames.join("</li><li>") + "</li></ul>";
 
         QMessageBox::information(this, tr("Restart required"), tr("<p>Some settings require an application restart to be applied:</p>") + itemList);
     }
