@@ -31,3 +31,14 @@ QStringList Global::jsonArrayToStringList(const QJsonArray &array) {
         list << val.toString();
     return list;
 }
+
+void Global::blockSignalsRecursive(QObject *object, const bool &block) {
+    if(!object)
+        return;
+
+    object->blockSignals(block);
+
+    const QObjectList children = object->children();
+    for (QObject* child : children)
+        blockSignalsRecursive(child, block);
+}
