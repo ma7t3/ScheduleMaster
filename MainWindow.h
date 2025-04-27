@@ -6,6 +6,7 @@
 #include <QDockWidget>
 #include <QDesktopServices>
 
+#include "Global/ProjectFileHandler.h"
 #include "Global/WorkspaceHandler.h"
 #include "ProjectData/ProjectData.h"
 #include "Widgets/WdgWelcome.h"
@@ -51,6 +52,8 @@ protected slots:
 
 
 private slots:
+    void onFileHandlerFinished();
+
     void on_actionDebugGeneralTestAction_triggered();
     void on_actionDebugSimulateCrash_triggered();
 
@@ -60,6 +63,7 @@ private:
     WorkspaceHandler *_workspaceHandler;
 
     ProjectData *_projectData;
+    ProjectFileHandler *_fileHandler;
 
     QAction *_undoAction, *_redoAction;
 

@@ -28,7 +28,8 @@ QUndoStack *ProjectData::undoStack() const {
 
 void ProjectData::reset() {
     _undoStack->clear();
-    _filePath = "";
+    _filePath.clear();
+    _busstops.clear();
 }
 
 int ProjectData::busstopCount() const {
