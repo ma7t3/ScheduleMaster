@@ -68,11 +68,11 @@ QJsonObject ProjectData::toJson() const {
     return {};
 }
 
-void ProjectData::fromJson(const QJsonObject &jsonObject) {
+void ProjectData::setJson(const QJsonObject &jsonObject) {
     QJsonArray jBusstops = jsonObject.value("busstops").toArray();
 
     for(int i = 0; i < jBusstops.count(); i++) {
         Busstop *b = new Busstop(this, jBusstops[i].toObject());
-        _busstops.insert(b->id(), b);
+        addBusstop(b);
     }
 }

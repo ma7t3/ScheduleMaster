@@ -127,12 +127,11 @@ public:
      */
     QJsonObject toJson() const;
 
-protected:
     /**
      * @brief Reads a JSON object and fills the ProjectData with the data from the JSON object (e.g. when read in from a file).
      * @param jsonObject The QJsonObject to read from.
      */
-    void fromJson(const QJsonObject &jsonObject);
+    void setJson(const QJsonObject &jsonObject);
 
 signals:
 
