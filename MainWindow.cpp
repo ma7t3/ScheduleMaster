@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     _workspaceHandler(nullptr),
-    _projectData(new ProjectData(this)) {
+    _projectData(new ProjectData(this)),
+    _fileHandler(new ProjectFileHandler(_projectData, this)) {
     ui->setupUi(this);
 
     qInfo() << "Loading MainWindow";
@@ -73,6 +74,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, this,        &MainWindow::updateRecentProjectsList);
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, _wdgWelcome, &WdgWelcome::updateRecentProjectsList);
+
+    connect(_fileHandler,                  &QThread::finished,                 this,        &MainWindow::onFileHandlerFinished);
 
     showCrashWarning();
 }
@@ -198,7 +201,9 @@ void MainWindow::openProject() {
 }
 
 void MainWindow::openProjectFromFile(const QString &filePath) {
+    closeProject();
     qInfo() << "Open project file" << filePath;
+    _fileHandler->readFile(filePath);
 }
 
 void MainWindow::saveProject() {
@@ -214,7 +219,9 @@ void MainWindow::saveProjectToFile(const QString &filePath) {
 }
 
 void MainWindow::closeProject() {
-    qInfo() << "Close project";
+    qInfo().noquote() << "Closing project" << _projectData->filePath();
+    //TODO: Check for unsaved changes
+    _projectData->reset();
 }
 
 void MainWindow::quitApplication() {
@@ -255,6 +262,11 @@ void MainWindow::openProjectSettings() {
     qInfo() << "Open project settings";
 }
 
+void MainWindow::onFileHandlerFinished() {
+    _projectData->setParent(this);
+    // TODO: reset all models
+    qDebug() << "   finished!";
+}
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {
     #ifndef QT_DEBUG
