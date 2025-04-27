@@ -34,6 +34,8 @@ public:
     static QJsonArray stringListToJsonArray(const QStringList &list);
     static QStringList jsonArrayToStringList(const QJsonArray &array);
 
+    static void blockSignalsRecursive(QObject *object, const bool &block);
+
     static const inline QString ProjectDataRootObjectName = "PROJECT_DATA_ROOT";
 
     Global(const Global&) = delete;
