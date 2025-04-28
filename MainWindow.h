@@ -5,6 +5,7 @@
 #include <QToolBar>
 #include <QDockWidget>
 #include <QDesktopServices>
+#include <QProgressDialog>
 
 #include "Global/ProjectFileHandler.h"
 #include "Global/WorkspaceHandler.h"
@@ -50,8 +51,10 @@ protected slots:
     void openConfiguration();
     void openProjectSettings();
 
-
-private slots:
+    void createFileHandlerProgressDialog(const QString &title);
+    void onFileHandlerProgressStepChanged(const QString &text);
+    void onFileHandlerProgressMaximum(const int &maximum);
+    void onFileHandlerProgressUpdate(const int &current);
     void onFileHandlerFinished();
 
     void on_actionDebugGeneralTestAction_triggered();
@@ -59,6 +62,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    QProgressDialog *_fileHandlerProgressDialog;
 
     WorkspaceHandler *_workspaceHandler;
 

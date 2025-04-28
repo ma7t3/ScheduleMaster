@@ -129,11 +129,28 @@ public:
 
     /**
      * @brief Reads a JSON object and fills the ProjectData with the data from the JSON object (e.g. when read in from a file).
+     *
+     * Depending on the size of the json object, this method can take a long time.
+     * For this reason, you can specifiy a cancelRequested callback function pointer that will be called periodically and this function will cancel itself if the callback returned true.
      * @param jsonObject The QJsonObject to read from.
+     * @param cancelRequested A callback function pointer to check periodically if a cancel is requested.
+     * @return Returns true if the method finished successfully or false if it has been canceled before
      */
-    void setJson(const QJsonObject &jsonObject);
+    bool setJson(const QJsonObject &jsonObject, std::function<bool()> cancelRequested = [](){return false;});
 
 signals:
+
+    /**
+     * @brief This signals is emited once when loading the project data from a json object unsing the setJson method.
+     * @param maximum The total amount of elements inside the json that will be loaded.
+     */
+    void progressMaximum(const int &maximum);
+
+    /**
+     * @brief This signal is emited while loading the project data from a json object using the setJson method.
+     * @param currentProgress The amount of elements that have been loaded so far.
+     */
+    void progressUpdate(const int &currentProgress);
 
 private:
     /**
