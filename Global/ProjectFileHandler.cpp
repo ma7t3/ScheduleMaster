@@ -3,8 +3,6 @@
 ProjectFileHandler::ProjectFileHandler(ProjectData *projectData, QObject *parent) :
     QThread(parent), _compress(false), _projectData(projectData) {
 
-    connect(this, &QThread::finished, this, &ProjectFileHandler::afterFinish);
-
     connect(_projectData, &ProjectData::progressMaximum, this, &ProjectFileHandler::progressStepMaximum);
     connect(_projectData, &ProjectData::progressUpdate,  this, &ProjectFileHandler::progressStepUpdate);
 }
