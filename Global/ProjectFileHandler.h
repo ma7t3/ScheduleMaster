@@ -23,11 +23,6 @@ public:
     void readFile(const QString &filePath);
     void saveFile(const QString &filePath, const bool &compress);
 
-    bool isCancelRequested();
-
-public slots:
-    void requestCancel();
-
 protected:
     virtual void run() override;
     void beforeStart(const QString &filePath);
@@ -51,11 +46,8 @@ signals:
 private:
     WorkMode _workMode;
     bool _compress;
-    std::atomic_bool _cancel;
     QString _filePath;
     ProjectData *_projectData;
-
-    QMutex _mutex;
 
     static const inline QByteArray uncompressedHeader = "SMP0";
     static const inline QByteArray compressedHeader   = "SMP1";
