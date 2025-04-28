@@ -271,7 +271,7 @@ void MainWindow::createFileHandlerProgressDialog(const QString &title) {
     _fileHandlerProgressDialog->setWindowTitle(title);
     _fileHandlerProgressDialog->setWindowModality(Qt::ApplicationModal);
     _fileHandlerProgressDialog->open();
-    connect(_fileHandlerProgressDialog, &QProgressDialog::canceled, _fileHandler, &ProjectFileHandler::requestCancel);
+    connect(_fileHandlerProgressDialog, &QProgressDialog::canceled, _fileHandler, [this](){_fileHandler->requestInterruption();});
 }
 
 void MainWindow::onFileHandlerProgressStepChanged(const QString &text) {

@@ -84,7 +84,8 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
 
         Busstop *b = new Busstop(this, jBusstops[i].toObject());
         addBusstop(b);
-        emit progressUpdate(i + 1);
+        if(i % 10 == 0) // we don't need to update for every single busstop :)
+            emit progressUpdate(i + 1);
     }
 
     return true;

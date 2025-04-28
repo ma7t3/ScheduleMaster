@@ -1,7 +1,7 @@
 #include "ProjectFileHandler.h"
 
 ProjectFileHandler::ProjectFileHandler(ProjectData *projectData, QObject *parent) :
-    QThread(parent), _compress(false), _cancel(false), _projectData(projectData) {
+    QThread(parent), _compress(false), _projectData(projectData) {
 
     connect(this, &QThread::finished, this, &ProjectFileHandler::afterFinish);
 
@@ -20,17 +20,8 @@ void ProjectFileHandler::saveFile(const QString &filePath, const bool &compress)
     beforeStart(filePath);
 }
 
-bool ProjectFileHandler::isCancelRequested() {
-    return _cancel.load(std::memory_order_relaxed);
-}
-
-void ProjectFileHandler::requestCancel() {
-    _cancel.store(true, std::memory_order_relaxed);
-}
-
 void ProjectFileHandler::beforeStart(const QString &filePath) {
     _filePath = filePath;
-    _cancel.store(false, std::memory_order_relaxed);
     Global::blockSignalsRecursive(_projectData, true);
     _projectData->setParent(nullptr);
     _projectData->moveToThread(this);
@@ -38,7 +29,7 @@ void ProjectFileHandler::beforeStart(const QString &filePath) {
 }
 
 bool ProjectFileHandler::startStep(const QString &text) {
-    if(isCancelRequested()) {
+    if(isInterruptionRequested()) {
         finishRun(CancelReason);
         return false;
     }
@@ -83,9 +74,6 @@ void ProjectFileHandler::run() {
             return;
 
         QJsonDocument doc = QJsonDocument::fromJson(data, &error);
-        if(isCancelRequested()) {
-            finishRun(ErrorReason); return;
-        }
 
         if(error.error != QJsonParseError::NoError) {
             qWarning().noquote() << "Cannot parse file. Error:" << error.errorString();
@@ -96,7 +84,7 @@ void ProjectFileHandler::run() {
         if(!startStep(tr("Loading project data...")))
             return;
 
-        bool result = _projectData->setJson(doc.object(), [this](){return isCancelRequested();});
+        bool result = _projectData->setJson(doc.object(), [this](){return isInterruptionRequested();});
         _projectData->blockSignals(true);
         finishRun(result ? SuccessfulReason : CancelReason);
         return;
