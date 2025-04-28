@@ -61,6 +61,8 @@ void ProjectFileHandler::run() {
         if(!startStep(tr("Reading file...")))
             return;
 
+        qInfo() << "Reading file...";
+
         QByteArray data = f.readAll();
 
         const int headerMaxSize = std::max(compressedHeader.size(), uncompressedHeader.size());
@@ -70,6 +72,8 @@ void ProjectFileHandler::run() {
             if(!startStep(tr("Uncompressing data...")))
                 return;
 
+            qInfo() << "Uncompressing data...";
+
             data = qUncompress(data);
         } else if(header == uncompressedHeader)
             data.remove(0, uncompressedHeader.size());
@@ -77,6 +81,8 @@ void ProjectFileHandler::run() {
         QJsonParseError error;
         if(!startStep(tr("Parsing JSON...")))
             return;
+
+        qInfo() << "Parsion JSON...";
 
         QJsonDocument doc = QJsonDocument::fromJson(data, &error);
 
@@ -88,6 +94,8 @@ void ProjectFileHandler::run() {
         _projectData->blockSignals(false);
         if(!startStep(tr("Loading project data...")))
             return;
+
+        qInfo() << "Loading project data...";
 
         bool result = _projectData->setJson(doc.object(), [this](){return isInterruptionRequested();});
         _projectData->blockSignals(true);
@@ -102,16 +110,32 @@ void ProjectFileHandler::run() {
             finishRun(ErrorReason); return;
         }
 
+        if(!startStep(tr("Creating JSON...")))
+            return;
+
+        qInfo() << "Creating JSON...";
+
         const QJsonObject object = _projectData->toJson();
         const QJsonDocument doc(object);
 
         QByteArray writeData;
-        if(_compress)
+        if(_compress) {
+            if(!startStep(tr("Compressing data...")))
+                return;
+
+            qInfo() << "Compressing data...";
+
             writeData = compressedHeader + qCompress(doc.toJson(QJsonDocument::Compact), 9);
-        else
+        } else
             writeData = doc.toJson(QJsonDocument::Indented);
 
+        if(!startStep(tr("Writing data to file...")))
+            return;
+
+        qInfo() << "Writing data to file...";
         f.write(writeData);
+
+        finishRun(SuccessfulReason);
     }
 }
 
