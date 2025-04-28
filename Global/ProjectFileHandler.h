@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QApplication>
 #include <QFile>
+#include <QMutex>
 
 #include "ProjectData/ProjectData.h"
 
@@ -13,13 +14,25 @@ class ProjectFileHandler : public QThread {
 public:
     explicit ProjectFileHandler(ProjectData *projectData, QObject *parent = nullptr);
 
+    enum FinishReason {
+        SuccessfulReason,
+        ErrorReason,
+        CancelReason
+    };
+
     void readFile(const QString &filePath);
     void saveFile(const QString &filePath, const bool &compress);
+
+    bool isCancelRequested();
+
+public slots:
+    void requestCancel();
 
 protected:
     virtual void run() override;
     void beforeStart(const QString &filePath);
-    void finishRun();
+    bool startStep(const QString &text);
+    void finishRun(const FinishReason &reason);
 
     enum WorkMode {
         ReadMode,
@@ -30,11 +43,19 @@ protected:
 protected slots:
     void afterFinish();
 
+signals:
+    void progressStepChanged(const QString &text);
+    void progressStepMaximum(const int &maximum);
+    void progressStepUpdate(const int &value);
+
 private:
     WorkMode _workMode;
     bool _compress;
+    std::atomic_bool _cancel;
     QString _filePath;
     ProjectData *_projectData;
+
+    QMutex _mutex;
 
     static const inline QByteArray uncompressedHeader = "SMP0";
     static const inline QByteArray compressedHeader   = "SMP1";

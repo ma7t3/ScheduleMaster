@@ -75,7 +75,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, this,        &MainWindow::updateRecentProjectsList);
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, _wdgWelcome, &WdgWelcome::updateRecentProjectsList);
 
-    connect(_fileHandler,                  &QThread::finished,                 this,        &MainWindow::onFileHandlerFinished);
+    connect(_fileHandler,                  &ProjectFileHandler::progressStepChanged, this,  &MainWindow::onFileHandlerProgressStepChanged);
+    connect(_fileHandler,                  &ProjectFileHandler::progressStepMaximum, this,  &MainWindow::onFileHandlerProgressMaximum);
+    connect(_fileHandler,                  &ProjectFileHandler::progressStepUpdate,  this,  &MainWindow::onFileHandlerProgressUpdate);
+    connect(_fileHandler,                  &QThread::finished,                       this,  &MainWindow::onFileHandlerFinished);
 
     showCrashWarning();
 }
@@ -203,6 +206,7 @@ void MainWindow::openProject() {
 void MainWindow::openProjectFromFile(const QString &filePath) {
     closeProject();
     qInfo() << "Open project file" << filePath;
+    createFileHandlerProgressDialog(tr("Open project..."));
     _fileHandler->readFile(filePath);
 }
 
@@ -262,10 +266,33 @@ void MainWindow::openProjectSettings() {
     qInfo() << "Open project settings";
 }
 
+void MainWindow::createFileHandlerProgressDialog(const QString &title) {
+    _fileHandlerProgressDialog = new QProgressDialog("", tr("Cancel"), 0, 0, this);
+    _fileHandlerProgressDialog->setWindowTitle(title);
+    _fileHandlerProgressDialog->setWindowModality(Qt::ApplicationModal);
+    _fileHandlerProgressDialog->open();
+    connect(_fileHandlerProgressDialog, &QProgressDialog::canceled, _fileHandler, &ProjectFileHandler::requestCancel);
+}
+
+void MainWindow::onFileHandlerProgressStepChanged(const QString &text) {
+    _fileHandlerProgressDialog->setLabelText(text);
+}
+
+void MainWindow::onFileHandlerProgressMaximum(const int &maximum) {
+    _fileHandlerProgressDialog->setMaximum(maximum);
+}
+
+void MainWindow::onFileHandlerProgressUpdate(const int &current) {
+    _fileHandlerProgressDialog->setValue(current);
+}
+
 void MainWindow::onFileHandlerFinished() {
+    // TODO: Handle if an error occured
     _projectData->setParent(this);
+    _fileHandlerProgressDialog->close();
+    _fileHandlerProgressDialog->deleteLater();
+    _fileHandlerProgressDialog = nullptr;
     // TODO: reset all models
-    qDebug() << "   finished!";
 }
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {
@@ -276,6 +303,7 @@ void MainWindow::on_actionDebugGeneralTestAction_triggered() {
     qDebug() << "Test action triggered!";
 
     // test anything here!
+
 
     qDebug() << "finished!";
 }

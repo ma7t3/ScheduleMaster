@@ -1,9 +1,12 @@
 #include "ProjectFileHandler.h"
 
 ProjectFileHandler::ProjectFileHandler(ProjectData *projectData, QObject *parent) :
-    QThread(parent), _compress(false), _projectData(projectData) {
+    QThread(parent), _compress(false), _cancel(false), _projectData(projectData) {
 
     connect(this, &QThread::finished, this, &ProjectFileHandler::afterFinish);
+
+    connect(_projectData, &ProjectData::progressMaximum, this, &ProjectFileHandler::progressStepMaximum);
+    connect(_projectData, &ProjectData::progressUpdate,  this, &ProjectFileHandler::progressStepUpdate);
 }
 
 void ProjectFileHandler::readFile(const QString &filePath) {
@@ -17,18 +20,37 @@ void ProjectFileHandler::saveFile(const QString &filePath, const bool &compress)
     beforeStart(filePath);
 }
 
+bool ProjectFileHandler::isCancelRequested() {
+    return _cancel.load(std::memory_order_relaxed);
+}
+
+void ProjectFileHandler::requestCancel() {
+    _cancel.store(true, std::memory_order_relaxed);
+}
+
 void ProjectFileHandler::beforeStart(const QString &filePath) {
     _filePath = filePath;
+    _cancel.store(false, std::memory_order_relaxed);
     Global::blockSignalsRecursive(_projectData, true);
     _projectData->setParent(nullptr);
     _projectData->moveToThread(this);
     start();
 }
 
+bool ProjectFileHandler::startStep(const QString &text) {
+    if(isCancelRequested()) {
+        finishRun(CancelReason);
+        return false;
+    }
+
+    emit progressStepChanged(text);
+    return true;
+}
+
 void ProjectFileHandler::run() {
     if(_workMode == UnknownMode) {
         qWarning() << "[ProjectFileHandler] Unknown work mode!";
-        finishRun(); return;
+        finishRun(ErrorReason); return;
     }
 
     QFile f(_filePath);
@@ -37,36 +59,54 @@ void ProjectFileHandler::run() {
         qInfo() << "Reading file:" << _filePath;
         if(!f.open(QFile::ReadOnly)) {
             qWarning().noquote() << "Cannot read file. Error:" << f.errorString();
-            finishRun(); return;
+            finishRun(ErrorReason); return;
         }
 
+        if(!startStep(tr("Reading file...")))
+            return;
+
         QByteArray data = f.readAll();
+
         const int headerMaxSize = std::max(compressedHeader.size(), uncompressedHeader.size());
         QByteArray header = data.size() >= headerMaxSize ? data.left(headerMaxSize) : QByteArray();
         if(header == compressedHeader) {
             data.remove(0, compressedHeader.size());
+            if(!startStep(tr("Uncompressing data...")))
+                return;
+
             data = qUncompress(data);
         } else if(header == uncompressedHeader)
             data.remove(0, uncompressedHeader.size());
 
         QJsonParseError error;
+        if(!startStep(tr("Parsing JSON...")))
+            return;
+
         QJsonDocument doc = QJsonDocument::fromJson(data, &error);
-        f.close();
+        if(isCancelRequested()) {
+            finishRun(ErrorReason); return;
+        }
 
         if(error.error != QJsonParseError::NoError) {
             qWarning().noquote() << "Cannot parse file. Error:" << error.errorString();
-            finishRun(); return;
+            finishRun(ErrorReason); return;
         }
 
         _projectData->blockSignals(false);
-        _projectData->setJson(doc.object()); // TODO: Fortschitts-Signale abfangen
-        _projectData->blockSignals(true);
+        if(!startStep(tr("Loading project data...")))
+            return;
 
-    } else if(_workMode == WriteMode) {
+        bool result = _projectData->setJson(doc.object(), [this](){return isCancelRequested();});
+        _projectData->blockSignals(true);
+        finishRun(result ? SuccessfulReason : CancelReason);
+        return;
+    }
+
+    if(_workMode == WriteMode) {
         qInfo() << "Saving to file:" << _filePath;
         if(!f.open(QFile::WriteOnly)) {
             qWarning().noquote() << "Cannot write to file. Error:" << f.errorString();
-            finishRun(); return;
+            finishRun(ErrorReason); return;
         }
 
         const QJsonObject object = _projectData->toJson();
@@ -79,19 +119,20 @@ void ProjectFileHandler::run() {
             writeData = doc.toJson(QJsonDocument::Indented);
 
         f.write(writeData);
-        f.close();
     }
-
-    finishRun();
 }
 
-void ProjectFileHandler::finishRun() {
+void ProjectFileHandler::finishRun(const FinishReason &reason) {
     _projectData->moveToThread(QApplication::instance()->thread());
     Global::blockSignalsRecursive(_projectData, false);
+    switch(reason) {
+        case SuccessfulReason: qInfo()    << "   Finished succesfully!"; break;
+        case CancelReason:     qInfo()    << "   Canceled!"; break;
+        case ErrorReason:      qWarning() << "   Failed!"; break;
+    }
 }
 
 void ProjectFileHandler::afterFinish() {
     _filePath.clear();
     _workMode = UnknownMode;
-    _compress = false;
 }

@@ -1,6 +1,7 @@
 #include "ProjectData.h"
 
 #include <QJsonArray>
+#include <QThread>
 
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
@@ -69,11 +70,22 @@ QJsonObject ProjectData::toJson() const {
     return {};
 }
 
-void ProjectData::setJson(const QJsonObject &jsonObject) {
+bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> cancelRequested) {
     QJsonArray jBusstops = jsonObject.value("busstops").toArray();
+    const int busstopCount = jBusstops.count();
 
-    for(int i = 0; i < jBusstops.count(); i++) {
+    emit progressMaximum(busstopCount);
+
+    for(int i = 0; i < busstopCount; i++) {
+        if(cancelRequested()) {
+            reset();
+            return false;
+        }
+
         Busstop *b = new Busstop(this, jBusstops[i].toObject());
         addBusstop(b);
+        emit progressUpdate(i + 1);
     }
+
+    return true;
 }
