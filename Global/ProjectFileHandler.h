@@ -13,6 +13,7 @@ class ProjectFileHandler : public QThread {
     Q_OBJECT
 public:
     explicit ProjectFileHandler(ProjectData *projectData, QObject *parent = nullptr);
+    ~ProjectFileHandler();
 
     enum FinishReason {
         SuccessfulReason,
