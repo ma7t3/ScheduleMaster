@@ -9,6 +9,11 @@ ProjectFileHandler::ProjectFileHandler(ProjectData *projectData, QObject *parent
     connect(_projectData, &ProjectData::progressUpdate,  this, &ProjectFileHandler::progressStepUpdate);
 }
 
+ProjectFileHandler::~ProjectFileHandler() {
+    requestInterruption();
+    wait();
+}
+
 void ProjectFileHandler::readFile(const QString &filePath) {
     _workMode = ReadMode;
     beforeStart(filePath);
