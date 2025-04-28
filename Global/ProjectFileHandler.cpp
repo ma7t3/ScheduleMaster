@@ -148,8 +148,3 @@ void ProjectFileHandler::finishRun(const FinishReason &reason) {
         case ErrorReason:      qWarning() << "   Failed!"; break;
     }
 }
-
-void ProjectFileHandler::afterFinish() {
-    _filePath.clear();
-    _workMode = UnknownMode;
-}
