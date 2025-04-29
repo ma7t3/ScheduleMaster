@@ -57,7 +57,7 @@
     {
         "id": "appearance.theme",
         "type": "QString",
-        "default": "base.system",
+        "default": "system",
         "requireRestart": false,
         "description": {
             "object": "translated_string",

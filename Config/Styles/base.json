@@ -1,6 +1,6 @@
 [
     {
-        "id": "base.system",
+        "id": "system",
         "name": "System",
         "lightSupport": true,
         "darkSupport": false,
@@ -9,7 +9,7 @@
         "type": "systemDefault"
     },
     {
-        "id": "base.fusion",
+        "id": "fusion",
         "name": "Fusion",
         "lightSupport": true,
         "darkSupport": true,
@@ -19,7 +19,7 @@
         "styleFactoryName": "Fusion"
     },
     {
-        "id": "base.windowsXP",
+        "id": "windowsXP",
         "name": "Windows XP",
         "lightSupport": true,
         "darkSupport": false,
@@ -29,7 +29,7 @@
         "styleFactoryName": "Windows"
     },
     {
-        "id": "base.windows11",
+        "id": "windows11",
         "name": "Windows 11",
         "lightSupport": true,
         "darkSupport": true,
