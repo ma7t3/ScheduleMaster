@@ -1,6 +1,6 @@
 [
     {
-        "id": "base.projectFilesDefault",
+        "id": "projectFilesDefault",
         "name": {
             "object": "translated_string",
             "en_US": "Default location for project files",
@@ -11,7 +11,7 @@
         "changeRequiresRestart": false
     },
     {
-        "id": "base.logfile",
+        "id": "logfile",
         "name": {
             "object": "translated_string",
             "en_US": "Logfiles",
@@ -22,7 +22,7 @@
         "changeRequiresRestart": true
     },
     {
-        "id": "base.plugins",
+        "id": "plugins",
         "name": {
             "object": "translated_string",
             "en_US": "Plugins",

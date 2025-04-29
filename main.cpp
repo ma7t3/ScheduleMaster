@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
     splashscreen.show();
 
     // get logfile dir
-    QDir logDir = LocalConfig::folderLocationPaths("base.logfile").first();
+    QDir logDir = LocalConfig::folderLocationPaths("logfile").first();
 
     // check if crash was detected. In this case copy logfile
     if(LocalConfig::crashDetected()) {

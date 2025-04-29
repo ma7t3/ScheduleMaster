@@ -393,11 +393,11 @@ void GlobalConfig::loadFolderLocations() {
 
         QStringList defaultValue;
 
-        if(id == "base.projectFilesDefault")
+        if(id == "projectFilesDefault")
             defaultValue = {QDir::homePath() + "/ScheduleMaster/Projects"};
-        else if(id == "base.logfile")
+        else if(id == "logfile")
             defaultValue = {defaultLogfileLocation()};
-        else if(id == "base.plugins")
+        else if(id == "plugins")
             defaultValue = {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/plugins", QCoreApplication::applicationDirPath() + "/plugins"};
         else
             defaultValue = QStringList();

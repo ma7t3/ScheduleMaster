@@ -252,7 +252,7 @@ QStringList LocalConfig::folderLocationPaths(const QString &id) {
     QStringList values = read("locations/" + id).toStringList();
     if(values.empty()) {
         values = GlobalConfig::settingsItem("locations/" + id).defaultValue.toStringList();
-        if(values.isEmpty() && id == "base.logfile")
+        if(values.isEmpty() && id == "logfile")
             values = {GlobalConfig::defaultLogfileLocation()};
         write("locations/" + id, values);
     }
