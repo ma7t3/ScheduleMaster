@@ -65,7 +65,7 @@ void Busstop::removePlatform(const QUuid &id) {
 
 PDISet<BusstopPlatform> Busstop::platformsWithFlag(const BusstopPlatformFlag &flag) {
     PDISet<BusstopPlatform> result;
-    for(BusstopPlatform *platform : _data.platforms)
+    for(BusstopPlatform *platform : std::as_const(_data.platforms))
         if(platform->flags().testFlag(flag))
             result.add(platform);
 
@@ -114,7 +114,7 @@ void Busstop::fromJson(const QJsonObject &jsonObject) {
     QUuid defaultPlatformID = QUuid::fromString(jsonObject.value("defaultPlatform").toString());
 
     QJsonArray jsonPlatforms = jsonObject.value("platforms").toArray();
-    for(QJsonValue val : jsonPlatforms) {
+    for(QJsonValue val : std::as_const(jsonPlatforms)) {
         QJsonObject obj = val.toObject();
         BusstopPlatform *bp = new BusstopPlatform(this, obj);
         _data.platforms.add(bp);

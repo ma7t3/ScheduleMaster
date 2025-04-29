@@ -55,10 +55,10 @@ void WorkspaceHandler::setWorkspacesToolbar(QToolBar *newToolBar) {
 void WorkspaceHandler::setupStandardWorkspaces() {
     QList<Workspace *> list;
 
-    Workspace *homeWorkspace       = new Workspace(tr("Home"),       QIcon(":/Icons/Home.ico"), this);
-    Workspace *routingWorkspace    = new Workspace(tr("Routing"),    QIcon(":/Icons/Route.ico"), this);
-    Workspace *schedulingWorkspace = new Workspace(tr("Scheduling"), QIcon(":/Icons/Schedule.ico"), this);
-    Workspace *toursWorkspace      = new Workspace(tr("Tours"),      QIcon(":/Icons/Tour.ico"), this);
+    Workspace *homeWorkspace       = new Workspace(tr("Home"),       QIcon(":/Icons/Home.ico"),           this);
+    Workspace *routingWorkspace    = new Workspace(tr("Routing"),    QIcon(":/Icons/Route.ico"),          this);
+    Workspace *schedulingWorkspace = new Workspace(tr("Scheduling"), QIcon(":/Icons/Schedule.ico"),       this);
+    Workspace *toursWorkspace      = new Workspace(tr("Tours"),      QIcon(":/Icons/Tour.ico"),           this);
     Workspace *publishWorkspace    = new Workspace(tr("Publish"),    QIcon(":/Icons/PublishedLines.ico"), this);
 
     list << homeWorkspace << routingWorkspace << schedulingWorkspace << toursWorkspace << publishWorkspace;
@@ -72,7 +72,7 @@ void WorkspaceHandler::updateWorkspacesMenu() {
         return;
 
     _workspacesMenu->clear();
-    for(Workspace *workspace : _workspaces)
+    for(Workspace *workspace : std::as_const(_workspaces))
         _workspacesMenu->addAction(workspace->action());
 }
 
@@ -81,12 +81,12 @@ void WorkspaceHandler::updateWorkspacesToolbar() {
         return;
 
     _workspacesToolbar->clear();
-    for(Workspace *workspace : _workspaces)
+    for(Workspace *workspace : std::as_const(_workspaces))
         _workspacesToolbar->addAction(workspace->action());
 }
 
 void WorkspaceHandler::onWorkspaceActivated(Workspace *workspace) {
-    for(Workspace *current : _workspaces)
+    for(Workspace *current : std::as_const(_workspaces))
         if(current != workspace)
             current->deactivate();
 }
