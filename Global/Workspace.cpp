@@ -56,7 +56,7 @@ void Workspace::setupAction() {
     _action->setParent(this);
     _action->setCheckable(true);
 
-    connect(_action, &QAction::triggered, [this](const bool &checked) {
+    connect(_action, &QAction::triggered, this, [this](const bool &checked) {
         if(checked)
             activate();
         else

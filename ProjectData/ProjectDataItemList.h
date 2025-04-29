@@ -29,7 +29,7 @@ public:
      */
     ProjectDataItemList() : QList<T *>() {};
 
-    ProjectDataItemContainer *clone() const {
+    ProjectDataItemContainer *clone() const override {
         return new ProjectDataItemList(*this);
     };
 
@@ -64,7 +64,7 @@ public:
         std::sort(this->begin(), this->end(), [&](const auto &a, const auto &b) {return indexMap[a->id()] < indexMap[b->id()];});
     };
 
-    void dumpData() const  {
+    void dumpData() const override {
         int i = 0;
         for(T *current : *this) {
             qDebug().noquote() << i << current->dump();

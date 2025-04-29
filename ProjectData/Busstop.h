@@ -44,13 +44,13 @@ struct BusstopData : ProjectDataItemData<BusstopData> {
     PDISet<BusstopPlatform> platforms;
 
     /**
-         * @brief The Busstop's default platform.
-         *
-         * This can be nullptr if the Busstop has no default BusstopPlatform set.
-         *
-         * **Important Note:** Always use the Busstop::defaultPlatform() method to get the default platform.
-         * This pointer may point to a platform that is not part of the Busstop's platforms list.
-         */
+     * @brief The Busstop's default platform.
+     *
+     * This can be nullptr if the Busstop has no default BusstopPlatform set.
+     *
+     * **Important Note:** Always use the Busstop::defaultPlatform() method to get the default platform.
+     * This pointer may point to a platform that is not part of the Busstop's platforms list.
+     */
     BusstopPlatform *defaultPlatform = nullptr;
 };
 

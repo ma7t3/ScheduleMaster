@@ -26,7 +26,7 @@ public:
      */
     ProjectDataItemSet() : QHash<QUuid, T *>() {};
 
-    ProjectDataItemContainer *clone() const {
+    ProjectDataItemContainer *clone() const override {
         return new ProjectDataItemSet(*this);
     };
 
@@ -54,7 +54,7 @@ public:
                 add(current);
     };
 
-    void dumpData() const  {
+    void dumpData() const override {
         for(T *current : this->values()) {
             qDebug().noquote() << current->id() << current->dump();
         }
