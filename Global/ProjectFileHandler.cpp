@@ -50,7 +50,6 @@ void ProjectFileHandler::run() {
     QFile f(_filePath);
 
     if(_workMode == ReadMode) {
-        qInfo() << "Reading file:" << _filePath;
         if(!f.open(QFile::ReadOnly)) {
             qWarning().noquote() << "Cannot read file. Error:" << f.errorString();
             finishRun(ErrorReason); return;
