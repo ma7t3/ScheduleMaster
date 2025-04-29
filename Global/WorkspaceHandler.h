@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QToolBar>
 #include <QPointer>
+#include <QDockWidget>
 #include "Global/Workspace.h"
 
 /**
@@ -154,6 +155,8 @@ private:
 
     /// The linked QToolBar to display the workspaces. This can also be nullptr.
     QPointer<QToolBar> _workspacesToolbar;
+
+    QMap<QString, QDockWidget *> _docks;
 };
 
 #endif // WORKSPACEHANDLER_H

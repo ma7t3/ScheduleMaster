@@ -70,7 +70,16 @@
        <normaloff>:/Icons/Workspaces.ico</normaloff>:/Icons/Workspaces.ico</iconset>
      </property>
     </widget>
-    <addaction name="actionViewDocs"/>
+    <widget class="QMenu" name="menuDocks">
+     <property name="title">
+      <string>Docks</string>
+     </property>
+     <property name="icon">
+      <iconset resource="Resources.qrc">
+       <normaloff>:/Icons/Docks.ico</normaloff>:/Icons/Docks.ico</iconset>
+     </property>
+    </widget>
+    <addaction name="menuDocks"/>
     <addaction name="menuWorkspaces"/>
     <addaction name="actionViewToolbars"/>
    </widget>
@@ -160,15 +169,6 @@
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::QuitRole</enum>
-   </property>
-  </action>
-  <action name="actionViewDocs">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/Docks.ico</normaloff>:/Icons/Docks.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Docs</string>
    </property>
   </action>
   <action name="actionViewToolbars">

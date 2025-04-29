@@ -68,7 +68,7 @@ void WdgPreferencesPageGeneral::setLanguageIndex(const int &index) {
 
 void WdgPreferencesPageGeneral::openLogfileLocation() {
     qInfo() << "Opening logfile location...";
-    QStringList list = LocalConfig::folderLocationPaths("base.logfile");
+    QStringList list = LocalConfig::folderLocationPaths("logfile");
     if(list.isEmpty())
         return;
 
@@ -77,7 +77,7 @@ void WdgPreferencesPageGeneral::openLogfileLocation() {
 
 void WdgPreferencesPageGeneral::openLogfile() {
     qInfo() << "Opening logfile...";
-    QStringList list = LocalConfig::folderLocationPaths("base.logfile");
+    QStringList list = LocalConfig::folderLocationPaths("logfile");
     if(list.isEmpty())
         return;
 

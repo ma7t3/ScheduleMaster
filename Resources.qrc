@@ -73,5 +73,7 @@
         <file>Icons/Reload.ico</file>
         <file>Icons/Keyboard.ico</file>
         <file>Config/accentColors.json</file>
+        <file>Config/Docks/base.json</file>
+        <file>Config/Workspaces/base.json</file>
     </qresource>
 </RCC>

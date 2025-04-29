@@ -10,7 +10,9 @@
 #include "Global/ProjectFileHandler.h"
 #include "Global/WorkspaceHandler.h"
 #include "ProjectData/ProjectData.h"
-#include "Widgets/WdgWelcome.h"
+#include "Widgets/Docks/DockWelcome.h"
+
+#include "Global/DockHandler.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,9 +28,11 @@ public:
     ~MainWindow();
 
 protected:
+    void connectToInterface();
+
+    void loadDocks();
     void loadWorkspaces();
     void initToolbars();
-    void initDockWidgets();
 
     void updateRecentProjectsList();
 
@@ -51,6 +55,8 @@ protected slots:
     void openConfiguration();
     void openProjectSettings();
 
+    void onDockAdded(const QString &id, QDockWidget *dockWidget, QAction *toggleViewAction);
+
     void createFileHandlerProgressDialog(const QString &title);
     void onFileHandlerProgressStepChanged(const QString &text);
     void onFileHandlerProgressMaximum(const int &maximum);
@@ -65,6 +71,7 @@ private:
 
     QProgressDialog *_fileHandlerProgressDialog;
 
+    DockHandler *_dockHandler;
     WorkspaceHandler *_workspaceHandler;
 
     ProjectData *_projectData;
@@ -73,9 +80,5 @@ private:
     QAction *_undoAction, *_redoAction;
 
     QToolBar *_toolbarGeneral, *_toolbarDocks, *_toolbarWorkspaces;
-
-    QDockWidget *_dwWelcome;
-
-    WdgWelcome *_wdgWelcome;
 };
 #endif // MAINWINDOW_H

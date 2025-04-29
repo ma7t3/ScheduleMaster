@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include "MainWindowInterface.h"
+
 #include "Global/LocalConfig.h"
 #include "Global/ActionShortcutMapper.h"
 #include "Global/StyleHandler.h"
@@ -12,6 +14,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    _dockHandler(nullptr),
     _workspaceHandler(nullptr),
     _projectData(new ProjectData(this)),
     _fileHandler(new ProjectFileHandler(_projectData, this)) {
@@ -20,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     qInfo() << "Loading MainWindow";
 
     ui->centralwidget->hide();
+
+    connectToInterface();
 
 #ifndef QT_DEBUG
     ui->menuDebug->setHidden(true);
@@ -57,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initToolbars();
 
-    initDockWidgets();
+    loadDocks();
 
     updateRecentProjectsList();
 
@@ -73,7 +78,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionEditProjectSettings, &QAction::triggered,                this,        &MainWindow::openProjectSettings);
 
     connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, this,        &MainWindow::updateRecentProjectsList);
-    connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, _wdgWelcome, &WdgWelcome::updateRecentProjectsList);
 
     connect(_fileHandler,                  &ProjectFileHandler::progressStepChanged, this,  &MainWindow::onFileHandlerProgressStepChanged);
     connect(_fileHandler,                  &ProjectFileHandler::progressStepMaximum, this,  &MainWindow::onFileHandlerProgressMaximum);
@@ -85,6 +89,28 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::connectToInterface() {
+    connect(MainWindowInterface::instance(), &MainWindowInterface::newProject,                  this, &MainWindow::newProject);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::openProject,                 this, &MainWindow::openProject);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::openProjectFromFile,         this, &MainWindow::openProjectFromFile);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::saveProject,                 this, &MainWindow::saveProject);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::saveProjectAs,               this, &MainWindow::saveProjectAs);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::closeProject,                this, &MainWindow::closeProject);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::quitApplication,             this, &MainWindow::quitApplication);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::removeProjectFromRecentList, this, &MainWindow::removeProjectFromRecentList);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::openPlugins,                 this, &MainWindow::openPlugins);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::openPreferences,             this, &MainWindow::openPreferences);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::openConfiguration,           this, &MainWindow::openConfiguration);
+    connect(MainWindowInterface::instance(), &MainWindowInterface::openProjectSettings,         this, &MainWindow::openProjectSettings);
+}
+
+void MainWindow::loadDocks() {
+    qInfo() << "   Loading docks...";
+    _dockHandler = new DockHandler(this);
+    connect(_dockHandler, &DockHandler::dockAdded, this, &MainWindow::onDockAdded);
+    _dockHandler->loadStandardDocks();
 }
 
 void MainWindow::loadWorkspaces() {
@@ -122,26 +148,6 @@ void MainWindow::initToolbars() {
     addToolBar(_toolbarGeneral);
     addToolBar(_toolbarDocks);
     addToolBar(_toolbarWorkspaces);
-}
-
-void MainWindow::initDockWidgets() {
-    qInfo() << "Initializing docks";
-    _dwWelcome = new QDockWidget(tr("Welcome"), this);
-    _dwWelcome->setObjectName("dwWelcome");
-
-    _wdgWelcome = new WdgWelcome(this);
-    connect(_wdgWelcome, &WdgWelcome::newProject,            this, &MainWindow::newProject);
-    connect(_wdgWelcome, &WdgWelcome::openProject,           this, &MainWindow::openProject);
-    connect(_wdgWelcome, &WdgWelcome::openProjectFromFile,   this, &MainWindow::openProjectFromFile);
-    connect(_wdgWelcome, &WdgWelcome::openPlugins,           this, &MainWindow::openPlugins);
-    connect(_wdgWelcome, &WdgWelcome::openPreferences,       this, &MainWindow::openPreferences);
-    connect(_wdgWelcome, &WdgWelcome::quitApplication,       this, &MainWindow::quitApplication);
-
-    connect(_wdgWelcome, &WdgWelcome::removeProjectFromList, this, &MainWindow::removeProjectFromRecentList);
-
-    _dwWelcome->setWidget(_wdgWelcome);
-
-    addDockWidget(Qt::TopDockWidgetArea, _dwWelcome);
 }
 
 void MainWindow::updateRecentProjectsList() {
@@ -196,7 +202,7 @@ void MainWindow::newProject() {
 }
 
 void MainWindow::openProject() {
-    const QString path = QFileDialog::getOpenFileName(this, tr("Open Project File"), LocalConfig::folderLocationPaths("base.projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
+    const QString path = QFileDialog::getOpenFileName(this, tr("Open Project File"), LocalConfig::folderLocationPaths("projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
     if(path.isEmpty())
         return;
 
@@ -264,6 +270,11 @@ void MainWindow::openConfiguration() {
 
 void MainWindow::openProjectSettings() {
     qInfo() << "Open project settings";
+}
+
+void MainWindow::onDockAdded(const QString &id, QDockWidget *dockWidget, QAction *toggleViewAction) {
+    ui->menuDocks->addAction(toggleViewAction);
+    _toolbarDocks->addAction(toggleViewAction);
 }
 
 void MainWindow::createFileHandlerProgressDialog(const QString &title) {
