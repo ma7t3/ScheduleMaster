@@ -16,8 +16,7 @@
  *
  * WorkspaceHandler also provides a connection to a QMenu and QToolBar to display the workspaces in the UI allowing the user to switch workspaces.
  */
-class WorkspaceHandler : public QObject
-{
+class WorkspaceHandler : public QObject {
     Q_OBJECT
 public:
 
