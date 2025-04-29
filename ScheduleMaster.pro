@@ -13,6 +13,7 @@ SOURCES += \
     Dialogs/DlgPreferences.cpp \
     Global/ActionShortcutMapper.cpp \
     Global/AppInfo.cpp \
+    Global/DockHandler.cpp \
     Global/Global.cpp \
     Global/GlobalConfig.cpp \
     Global/LocalConfig.cpp \
@@ -26,6 +27,8 @@ SOURCES += \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
+    Widgets/Docks/DockAbstract.cpp \
+    Widgets/Docks/DockWelcome.cpp \
     main.cpp \
     MainWindow.cpp \
     ProjectData/ProjectData.cpp \
@@ -44,11 +47,9 @@ SOURCES += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.cpp \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.cpp \
-    Widgets/WdgAbstract.cpp \
     Widgets/WdgAccentColorSelector.cpp \
     Widgets/WdgColorSchemeSelector.cpp \
     Widgets/WdgVariantEditor.cpp \
-    Widgets/WdgWelcome.cpp \
     Widgets/WdgWelcomeRecentProjectEntry.cpp
 
 HEADERS += \
@@ -56,6 +57,7 @@ HEADERS += \
     Dialogs/DlgPreferences.h \
     Global/ActionShortcutMapper.h \
     Global/AppInfo.h \
+    Global/DockHandler.h \
     Global/Global.h \
     Global/GlobalConfig.h \
     Global/LocalConfig.h \
@@ -70,6 +72,7 @@ HEADERS += \
     ItemModels/LocalConfigModel.h \
     ItemModels/StylesModel.h \
     MainWindow.h \
+    MainWindowInterface.h \
     ProjectData/ProjectData.h \
     ProjectData/ProjectDataItem.h \
     ProjectData/ProjectDataItemSignals.h \
@@ -92,11 +95,11 @@ HEADERS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h \
-    Widgets/WdgAbstract.h \
+    Widgets/Docks/DockAbstract.h \
+    Widgets/Docks/DockWelcome.h \
     Widgets/WdgAccentColorSelector.h \
     Widgets/WdgColorSchemeSelector.h \
     Widgets/WdgVariantEditor.h \
-    Widgets/WdgWelcome.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
 
 FORMS += \
@@ -111,10 +114,10 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
+    Widgets/Docks/DockWelcome.ui \
     Widgets/WdgAccentColorSelector.ui \
     Widgets/WdgColorSchemeSelector.ui \
     Widgets/WdgVariantEditor.ui \
-    Widgets/WdgWelcome.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
 
 RESOURCES = Resources.qrc

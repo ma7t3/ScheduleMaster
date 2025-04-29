@@ -1,22 +1,24 @@
-#ifndef WDGWELCOME_H
-#define WDGWELCOME_H
+#ifndef DOCKWELCOME_H
+#define DOCKWELCOME_H
 
 #include <QWidget>
 #include <QListWidgetItem>
 
-#include "WdgAbstract.h"
+#include "MainWindowInterface.h"
+
+#include "DockAbstract.h"
 
 namespace Ui {
-class WdgWelcome;
+class DockWelcome;
 }
 
-class WdgWelcome : public WdgAbstract
+class DockWelcome : public DockAbstract
 {
     Q_OBJECT
 
 public:
-    explicit WdgWelcome(QWidget *parent = nullptr);
-    ~WdgWelcome();
+    explicit DockWelcome(QWidget *parent = nullptr);
+    ~DockWelcome();
 
     void updateRecentProjectsList();
 
@@ -43,9 +45,9 @@ signals:
     void removeProjectFromList(const QString &);
 
 private:
-    Ui::WdgWelcome *ui;
+    Ui::DockWelcome *ui;
 
     QAction *_recentFileOpen, *_recentFileOpenLocation, *_recentFileRemove;
 };
 
-#endif // WDGWELCOME_H
+#endif // DOCKWELCOME_H

@@ -1,5 +1,5 @@
-#include "WdgWelcome.h"
-#include "ui_WdgWelcome.h"
+#include "DockWelcome.h"
+#include "ui_DockWelcome.h"
 
 #include <QDateTime>
 #include <QFileInfo>
@@ -8,11 +8,11 @@
 #include <QScrollBar>
 
 #include "Global/LocalConfig.h"
-#include "WdgWelcomeRecentProjectEntry.h"
+#include "Widgets/WdgWelcomeRecentProjectEntry.h"
 
-WdgWelcome::WdgWelcome(QWidget *parent) :
-    WdgAbstract(parent),
-    ui(new Ui::WdgWelcome) {
+DockWelcome::DockWelcome(QWidget *parent) :
+    DockAbstract(parent),
+    ui(new Ui::DockWelcome) {
     ui->setupUi(this);
 
     ui->lIcon->setPixmap(QPixmap(":/Icons/ScheduleMaster_64px.ico"));
@@ -22,23 +22,34 @@ WdgWelcome::WdgWelcome(QWidget *parent) :
     _recentFileRemove       = ui->lwRecentProjects->addAction(QPixmap(":/Icons/Quit.ico"),     tr("Remove from list"));
     ui->lwRecentProjects->setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    connect(_recentFileOpen,         &QAction::triggered, this, &WdgWelcome::onRecentFileOpen);
-    connect(_recentFileOpenLocation, &QAction::triggered, this, &WdgWelcome::onRecentFileOpenLocation);
-    connect(_recentFileRemove,       &QAction::triggered, this, &WdgWelcome::onRecentFileRemove);
+    connect(_recentFileOpen,         &QAction::triggered, this, &DockWelcome::onRecentFileOpen);
+    connect(_recentFileOpenLocation, &QAction::triggered, this, &DockWelcome::onRecentFileOpenLocation);
+    connect(_recentFileRemove,       &QAction::triggered, this, &DockWelcome::onRecentFileRemove);
     updateRecentProjectsList();
 
-    connect(ui->clbNewProject,  &QCommandLinkButton::clicked, this, &WdgWelcome::newProject);
-    connect(ui->clbOpenProject, &QCommandLinkButton::clicked, this, &WdgWelcome::openProject);
-    connect(ui->clbPlugins,     &QCommandLinkButton::clicked, this, &WdgWelcome::openPlugins);
-    connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &WdgWelcome::openPreferences);
-    connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &WdgWelcome::quitApplication);
+    connect(ui->clbNewProject,  &QCommandLinkButton::clicked, this, &DockWelcome::newProject);
+    connect(ui->clbOpenProject, &QCommandLinkButton::clicked, this, &DockWelcome::openProject);
+    connect(ui->clbPlugins,     &QCommandLinkButton::clicked, this, &DockWelcome::openPlugins);
+    connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &DockWelcome::openPreferences);
+    connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &DockWelcome::quitApplication);
+
+    connect(LocalConfig::instance(), &LocalConfig::lastUsedFilesChanged, this, &DockWelcome::updateRecentProjectsList);
+
+    connect(this, &DockWelcome::newProject,            MainWindowInterface::instance(), &MainWindowInterface::newProject);
+    connect(this, &DockWelcome::openProject,           MainWindowInterface::instance(), &MainWindowInterface::openProject);
+    connect(this, &DockWelcome::openProjectFromFile,   MainWindowInterface::instance(), &MainWindowInterface::openProjectFromFile);
+    connect(this, &DockWelcome::openPlugins,           MainWindowInterface::instance(), &MainWindowInterface::openPlugins);
+    connect(this, &DockWelcome::openPreferences,       MainWindowInterface::instance(), &MainWindowInterface::openPreferences);
+    connect(this, &DockWelcome::quitApplication,       MainWindowInterface::instance(), &MainWindowInterface::quitApplication);
+
+    connect(this, &DockWelcome::removeProjectFromList, MainWindowInterface::instance(), &MainWindowInterface::removeProjectFromRecentList);
 }
 
-WdgWelcome::~WdgWelcome() {
+DockWelcome::~DockWelcome() {
     delete ui;
 }
 
-void WdgWelcome::updateRecentProjectsList() {
+void DockWelcome::updateRecentProjectsList() {
     QStringList lastUsedFiles = LocalConfig::lastUsedFiles();
 
     int scrollbarPos = ui->lwRecentProjects->verticalScrollBar()->value();
@@ -63,20 +74,20 @@ void WdgWelcome::updateRecentProjectsList() {
         ui->lwRecentProjects->setItemWidget(itm, wdg);
         itm->setSizeHint(wdg->sizeHint());
 
-        connect(wdg, &WdgWelcomeRecentProjectEntry::open,           this, &WdgWelcome::openProjectFromFile);
-        connect(wdg, &WdgWelcomeRecentProjectEntry::removeFromList, this, &WdgWelcome::removeProjectFromList);
+        connect(wdg, &WdgWelcomeRecentProjectEntry::open,           this, &DockWelcome::openProjectFromFile);
+        connect(wdg, &WdgWelcomeRecentProjectEntry::removeFromList, this, &DockWelcome::removeProjectFromList);
     }
 
     ui->lwRecentProjects->verticalScrollBar()->setValue(scrollbarPos);
 }
 
-void WdgWelcome::on_pbToggleNews_clicked() {
+void DockWelcome::on_pbToggleNews_clicked() {
     bool visible = ui->gbNews->isVisible();
     ui->pbToggleNews->setText(visible ? tr("Show News") : tr("Hide News"));
     ui->gbNews->setVisible(!visible);
 }
 
-void WdgWelcome::onRecentFileOpen() {
+void DockWelcome::onRecentFileOpen() {
     QString path = currentRecentFilePath();
     if(path.isEmpty())
         return;
@@ -84,7 +95,7 @@ void WdgWelcome::onRecentFileOpen() {
     emit openProjectFromFile(path);
 }
 
-void WdgWelcome::onRecentFileOpenLocation() {
+void DockWelcome::onRecentFileOpenLocation() {
     QString path = currentRecentFilePath();
     if(path.isEmpty())
         return;
@@ -94,7 +105,7 @@ void WdgWelcome::onRecentFileOpenLocation() {
     QDesktopServices::openUrl(QUrl(dirPath));
 }
 
-void WdgWelcome::onRecentFileRemove() {
+void DockWelcome::onRecentFileRemove() {
     QString path = currentRecentFilePath();
     if(path.isEmpty())
         return;
@@ -102,14 +113,14 @@ void WdgWelcome::onRecentFileRemove() {
     // TODO
 }
 
-QString WdgWelcome::currentRecentFilePath() const {
+QString DockWelcome::currentRecentFilePath() const {
     if(!ui->lwRecentProjects->currentItem())
         return "";
 
     return qobject_cast<WdgWelcomeRecentProjectEntry *>(ui->lwRecentProjects->itemWidget(ui->lwRecentProjects->currentItem()))->path();
 }
 
-void WdgWelcome::on_lwRecentProjects_itemDoubleClicked(QListWidgetItem *item) {
+void DockWelcome::on_lwRecentProjects_itemDoubleClicked(QListWidgetItem *item) {
     if(!item || !item->flags().testFlag(Qt::ItemIsEnabled))
         return;
 

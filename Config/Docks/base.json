@@ -1,0 +1,22 @@
+[
+    {
+        "id": "welcome",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Welcome",
+            "de_DE": "Willkommen"
+        },
+        "icon": ":/Icons/Home.ico",
+        "widget": "welcome"
+    },
+    {
+        "id": "busstops",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Busstops",
+            "de_DE": "Haltestellen"
+        },
+        "icon": ":/Icons/Busstop.ico",
+        "widget": "busstops"
+    }
+]

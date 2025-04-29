@@ -81,6 +81,14 @@ public:
     bool lightSupport, darkSupport, accentColorSupport, applyPalette;
 };
 
+class DockConfig : public GlobalConfigItem {
+public:
+    DockConfig(const QJsonObject &jsonObject = QJsonObject());
+    DockConfig(const QString &id);
+
+    QString name, icon, widgetID;
+};
+
 /**
  * @brief The GlobalConfig class provides information about the global configuration of the app.
  *
@@ -281,6 +289,26 @@ public:
      */
     static QMap<QString, QColor> accentColors();
 
+    /**
+     * @brief Returns a map of all registered docks
+     * @return The dock map
+     */
+    static QMap<QString, DockConfig> docks();
+
+    /**
+     * @brief Checks if the dock specified by id exists
+     * @param id The dock ID to check for
+     * @return Whether the dock exists or not
+     */
+    static bool dockExists(const QString &id);
+
+    /**
+     * @brief Returns the dock config specified by id
+     * @param id The ID to find
+     * @return The DockConfig object or a default constructed DockConfig if it doesn't exist
+     */
+    static DockConfig dock(const QString &id);
+
 protected:
     /**
      * @brief Loads a single config resource file and returns the parsed JSON document.
@@ -348,6 +376,9 @@ protected:
     /// Loads the accent color palette
     static void loadAccentColors();
 
+    /// Loads all docks
+    static void loadDocks();
+
 signals:
 
 private:
@@ -371,6 +402,9 @@ private:
 
     /// All accent colors
     static inline QMap<QString, QColor> _accentColors;
+
+    /// All docks
+    static inline QMap<QString, DockConfig> _docks;
 };
 
 #endif // GLOBALCONFIG_H

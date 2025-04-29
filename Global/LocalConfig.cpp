@@ -244,7 +244,7 @@ QMap<QString, QStringList> LocalConfig::folderLocations() {
 
 void LocalConfig::setFolderLocations(const QMap<QString, QStringList> &locations) {
     QStringList locationKeys = locations.keys();
-    for(const QString &key : locationKeys)
+    for(const QString &key : std::as_const(locationKeys))
         write("locations/" + key, locations.value(key));
 }
 
@@ -256,6 +256,9 @@ QStringList LocalConfig::folderLocationPaths(const QString &id) {
             values = {GlobalConfig::defaultLogfileLocation()};
         write("locations/" + id, values);
     }
+
+    if(values.isEmpty())
+        values << "";
 
     return values;
 }
