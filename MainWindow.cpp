@@ -156,7 +156,7 @@ void MainWindow::updateRecentProjectsList() {
     QStringList list = LocalConfig::lastUsedFiles();
 
     int i = 0;
-    for(QString path : list) {
+    for(const QString &path : std::as_const(list)) {
         if(i > 9)
             return;
 
@@ -196,7 +196,7 @@ void MainWindow::newProject() {
 }
 
 void MainWindow::openProject() {
-    QString path = QFileDialog::getOpenFileName(this, tr("Open Project File"), LocalConfig::folderLocationPaths("base.projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
+    const QString path = QFileDialog::getOpenFileName(this, tr("Open Project File"), LocalConfig::folderLocationPaths("base.projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
     if(path.isEmpty())
         return;
 
