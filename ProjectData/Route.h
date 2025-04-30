@@ -1,112 +1,153 @@
 #ifndef ROUTE_H
 #define ROUTE_H
 
-#include <QtCore>
+#include "LineDirection.h"
+#include "RouteBusstopItem.h"
+#include "ProjectDataItemList.h"
 
-#include "busstop.h"
-#include "timeProfile.h"
-#include "linedirection.h"
-#include "ProjectDataItem.h"
+/**
+ * @struct RouteData
+ * @brief The RouteData class contains the actual data of a Route object.
+ *
+ * It is seperated from the class logic to make it easier to change or completly replace it.
+ */
+struct RouteData : ProjectDataItemData<RouteData> {
+    /// Constructs a new RouteData object. It should always call ProjectDataItemData::initParentOwnsItemMembers().
+    RouteData() {initParentOwnsItemMembers();}
 
-class Route : public ProjectDataItem {
+    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&busstops};}
+
+    /// The Route's name
+    QString name;
+
+    /// The Route's code
+    int code = 0;
+
+    /**
+     * @brief The Route's LineDirection
+     * This can be nullptr if the Route has no LineDirection assigned.
+     *
+     * **Important Note:** Always use the Route::direction() method to get the LineDirection.
+     * This pointer may point to a platform that is not part of the Line's direction list.
+     */
+    LineDirection *direction = nullptr;
+
+    /// The Route's busstops
+    PDIList<RouteBusstopItem> busstops;
+};
+
+/**
+ * @class Route
+ * @brief The Route class represents one route.
+ *
+ * A route is a list of busstops that are visited in a certain order.
+ * It also has a name and and a numeric code which is used to sort the routes in a useful order.
+ * In addition, it can have multiple TimeProfiles. One TimeProfile describes how long the bus needs to travel from one busstop to the next.
+ * Every route is assigned to one LineDirection as well but it doesn't take ownership of the direction since multiple routes can be assigned to the same direction.
+ */
+
+class Route : public ProjectDataItem<Route, RouteData> {
     Q_OBJECT
 public:
-    Route(QObject *parent, const QString &id);
-    Route(QObject *parent, const QJsonObject &);
-    Route(const Route &);
-    bool operator<(const Route &);
-    Route operator=(const Route &);
+    /**
+     * @brief Constructs a new Route object.
+     *
+     * If no ID was specified a new ID is generated.
+     * @param parent The QObject-parent
+     * @param id The optional ID to be used. It can't be changed later.
+     * @param isClone Specifies if the object is created as a clone.
+     */
+    explicit Route(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
 
-    int code() const;
-    void setCode(const int &);
+    /**
+     * @brief Constructs a new Route object by parsing a JSON object.
+     *
+     * If no ID was specified a new ID is generated.
+     * @param parent The QObject-parent
+     * @param jsonObject The JSON object to parse.
+     */
+    explicit Route(QObject *parent, const QJsonObject &jsonObject);
 
+    /**
+     * @brief Compares this Route with other by their names.
+     * @param other
+     * @return Whether this Route's name is smaller than the other's name.
+     */
+    bool operator<(const Route &other) const;
+
+    /**
+     * @brief Returns the Route's name.
+     *
+     * See also setName().
+     * @return The Route's name
+     */
     QString name() const;
-    void setName(const QString &);
 
+    /**
+     * @brief Replaces the Route's name.
+     * @param newName The new name
+     *
+     * See also name().
+     */
+    void setName(const QString &newName);
+
+    /**
+     * @brief Returns the Route's code.
+     *
+     * See also code().
+     * @return The Route's code
+     */
+    int code() const;
+
+    /**
+     * @brief Replaces the Route's code.
+     * @param newCode The new code
+     *
+     * See also setCode().
+     */
+    void setCode(const int &newCode);
+
+    /**
+     * @brief Returns the Route's LineDirection
+     *
+     * **Note:** This can be nullptr if no LineDirection was assigned.
+     * See also setDirection().
+     * @return The Route's LineDirection.
+     */
     LineDirection *direction() const;
-    void setDirection(LineDirection *);
 
-    QList<Busstop *> busstops() const;
+    /**
+     * @brief Changes the Route's LineDirection.
+     * @param newDirection The new LineDirection
+     *
+     * If newDirection is nullptr or not inUse, this function does nothing.
+     * See also direction().
+     */
+    void setDirection(LineDirection *newDirection);
+
     int busstopCount() const;
-    Busstop *busstopAt(const int &) const;
-    Busstop *firstBusstop() const;
-    Busstop *lastBusstop() const;
-    bool hasBusstop(Busstop *) const;
-    bool hasBusstop(const QString &) const;
-    Busstop *firstCommonBusstop(Route *) const;
-    int indexOfBusstop(Busstop *) const;
+    RouteBusstopItem *busstop(const QUuid &id) const;
+    PDIList<RouteBusstopItem> busstops() const;
+    bool containsBusstop(Busstop *busstop) const;
+    bool containsBusstop(const QUuid &id) const;
+    PDIList<RouteBusstopItem> itemsWithBusstop(Busstop *busstop) const;
+    PDIList<RouteBusstopItem> itemsWithBusstop(const QUuid &id) const;
+    RouteBusstopItem *firstBusstop() const;
+    RouteBusstopItem *lastBusstop() const;
+    PDIList<RouteBusstopItem> commonBusstops(Route *route, const bool &sameDefaultPlatform) const;
+    Busstop *firstCommonBusstop(Route *route, const bool &sameDefaultPlatform = false) const;
+    Busstop *lastCommonBusstop(Route *route, const bool &sameDefaultPlatform = false) const;
 
-    void setBusstops(const QList<Busstop *> &);
-    void addBusstop(Busstop *);
-    void insertBusstop(const int &, Busstop *);
-    void removeBusstop(const int &);
-    void clearBusstops();
+    void appendBusstop(RouteBusstopItem *busstop);
+    void insertBusstop(const int &index, RouteBusstopItem *busstop);
+    void removeBusstop(RouteBusstopItem *busstop);
+    void removeBusstop(const QUuid &id);
+    void removeBusstopAt(const int &index);
 
-    QList<TimeProfile *> timeProfiles() const;
-    int timeProfileCount() const;
-    TimeProfile* timeProfile(const QString &) const;
-    TimeProfile* timeProfileAt(const int &) const;
-    TimeProfile* timeProfileWithName(const QString &) const;
-    bool hasTimeProfile(const QString &id) const;
-
-    void setTimeProfiles(QList<TimeProfile *>);
-    void addTimeProfile(TimeProfile *);
-    void addTimeProfiles(QList<TimeProfile *>);
-    void removeTimeProfile(TimeProfile *);
-    void removeTimeProfile(const QString &);
-    int indexOfTimeProfile(TimeProfile*) const;
-
-    QJsonObject toJson() const;
-
-    QList<TimeProfile *> cloneTimeProfiles() const;
-
-    TimeProfile *newTimeProfile(QString id = "");
-    TimeProfile *newTimeProfile(const QJsonObject &);
-    TimeProfile *newTimeProfile(const TimeProfile &newTimeProfile);
-
-signals:
-    void changed(Route *);
-    void busstopListReset();
-
-    void busstopsAdded(QList<Busstop*>);
-    void busstopsChanged(QList<Busstop*>);
-    void busstopsRemoved(QList<Busstop*>);
-
-    void timeProfilesAdded(QList<TimeProfile *>);
-    void timeProfilesChanged(QList<TimeProfile *>);
-    void timeProfilesRemoved(QList<TimeProfile *>);
+    QJsonObject toJson() const override;
 
 protected:
-    void copy(const Route &);
-    void fromJson(const QJsonObject &);
-
-    void onBusstopAdded(Busstop *);
-    void onBusstopChanged(Busstop *);
-    void onBusstopRemoved(Busstop *);
-
-    void onTimeProfileAdded(TimeProfile *);
-    void onTimeProfileChanged(TimeProfile *);
-    void onTimeProfileRemoved(TimeProfile *);
-
-protected slots:
-    void onUpdateTimerTimeout();
-
-private:
-    int _code;
-    LineDirection *_direction;
-    QString _name;
-    QList<Busstop *> _busstops;
-    QList<TimeProfile *> _timeProfiles;
-
-    QList<Busstop *> _addedBusstops;
-    QList<Busstop *> _changedBusstops;
-    QList<Busstop *> _removedBusstops;
-
-    QList<TimeProfile *> _addedTimeProfiles;
-    QList<TimeProfile *> _changedTimeProfiles;
-    QList<TimeProfile *> _removedTimeProfiles;
-
-    QTimer *_updateTimer;
+    void fromJson(const QJsonObject &jsonObject) override;
 };
 
 #endif // ROUTE_H

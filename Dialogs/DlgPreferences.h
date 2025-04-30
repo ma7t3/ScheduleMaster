@@ -2,29 +2,60 @@
 #define DLGPREFERENCES_H
 
 #include <QDialog>
+#include <QListWidgetItem>
+#include <QMessageBox>
+#include <QLocale>
+#include <QFileDialog>
+
+#include "Dialogs/DlgConfigEditor.h"
+
+#include "Global/LocalConfig.h"
+
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
 
 namespace Ui {
 class DlgPreferences;
 }
 
-class DlgPreferences : public QDialog
-{
+class DlgPreferences : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DlgPreferences(QWidget *parent = nullptr);
+    explicit DlgPreferences(QWidget *parent);
     ~DlgPreferences();
 
+public:
+    void addPage(WdgPreferencesPage *page);
+
+public slots:
+    void setCurrentPageIndex(const int &index);
+    void setCurrentPage(const QString &id);
+    void openConfigEditor();
+
+private:
+    void reloadPreferences();
+    void savePreferences();
+    void discardPreviewPreferences();
+    bool unsavedChanges();
+    void checkRestartRequired();
+
 private slots:
-    void on_DlgPreferences_accepted();
-    void on_DlgPreferences_rejected();
+    void on_lwList_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
-    void on_pbDefaultProjectLocationBrowse_clicked();
-
-    void refreshStylePreview(int index);
+    void accept() override;
+    void reject() override;
 
 private:
     Ui::DlgPreferences *ui;
+
+    QList<WdgPreferencesPage *> _pages;
 };
 
 #endif // DLGPREFERENCES_H

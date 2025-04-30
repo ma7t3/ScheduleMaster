@@ -1,68 +1,122 @@
-#include <QApplication>
-#include <QTranslator>
+#include "MainWindow.h"
 
+#include <QApplication>
+#include <QDir>
 #include <QStyleFactory>
 #include <QStyleHints>
+#include <QTranslator>
+#include <QSplashScreen>
+#include <QThread>
 
-#include "localconfig.h"
-#include "App/logger.h"
+#include "Global/Logger.h"
+#include "Global/ActionShortcutMapper.h"
+#include "Global/StyleHandler.h"
 
-#include "Mainwindow.h"
+QPair<QColor, QString> splashScreenConfig() {
+    QString imagePath = ":/Splashscreen/slpashscreen_light.png";
+    QColor messageColor = QColor(0, 0, 0);
+    if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
+        imagePath = ":/Splashscreen/splashscreen_dark.png";
+        messageColor = QColor(255, 255, 255);
+    }
 
-#include "AppInfo.h"
+    QDate now = QDate::currentDate();
 
+    if(now.dayOfYear() > 300 && now.dayOfYear() < 310)
+        imagePath = ":/Splashscreen/splashscreen_halloween.png";
+
+    if(now.dayOfYear() > 330 && now.dayOfYear() < 365) {
+        imagePath = ":/Splashscreen/splashscreen_christmas.png";
+        messageColor = QColor(255, 255, 255);
+    }
+
+    return QPair<QColor, QString>(messageColor, imagePath);
+}
+
+void loadStartupPreferences(QApplication *a) {
+    qInfo() << "Loading preferences...";
+
+    // style
+    qInfo() << "   Loading style handler...";
+    StyleHandler::init();
+
+    // language
+    qInfo() << "   Loading language...";
+    // TODO: Reimplement ui translations; Work with QLocale instead!
+}
 
 int main(int argc, char *argv[]) {
+    QSettings set("", "appearance.fontEngineGDI");
+    if(set.value("useGdiEngine", true).toBool())
+        qputenv("QT_QPA_PLATFORM", "windows:fontengine=gdi");
+
     QApplication a(argc, argv);
 
-    LocalConfig localConfig(&a);
-    AppInfo appInfo(&a);
+    a.setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    QDir logDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs";
+    QPair<QColor, QString> ssConfig = splashScreenConfig();
+    QSplashScreen splashscreen(QPixmap(ssConfig.second));
+    splashscreen.show();
 
+    // get logfile dir
+    QDir logDir = LocalConfig::folderLocationPaths("logfile").first();
+
+    // check if crash was detected. In this case copy logfile
     if(LocalConfig::crashDetected()) {
-        const QDateTime dt(QDateTime::currentDateTime());
-        QString newFileName = logDir.path() + "/logfile_crash_" + dt.toString("yyyy-MM-dd_hh-mm-ss") + ".txt";
+        const QDateTime now(QDateTime::currentDateTime());
+        QString newFileName = logDir.path() + "/logfile_crash_" + now.toString("yyyy-MM-dd_hh-mm-ss") + ".txt";
         if(QFile::copy(logDir.path() + "/logfile.txt", newFileName))
             LocalConfig::setLastLogfileName(newFileName);
     }
 
+    // init logger
     Logger logger(&a, logDir);
+    qInfo() << "Starting ScheduleMaster...";
 
-    qInfo() << "loading preferences...";
-    qInfo() << "   loading stylesheet...";
-    if(LocalConfig::style() == LocalConfig::Fusion)
-        a.setStyle(QStyleFactory::create("Fusion"));
-    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle) {
-        a.setStyle(QStyleFactory::create("Windows"));
-        a.setStyleSheet("* {font-family:Tahoma;}");
-    } else
-        a.setStyle(QStyleFactory::create("windowsvista"));
-    
-    qInfo() << "   loading language...";
-    if(LocalConfig::language() == LocalConfig::German) {
-        qInfo() << "loading german translation...";
-        QTranslator *translator = new QTranslator;
-        bool ok;
-        ok = translator->load(":/Translations/german.qm");
-        if(ok)
-            a.installTranslator(translator);
-        else
-            qWarning() << "failed loading german translation!";
+    splashscreen.showMessage("Loading localization...", Qt::AlignBottom, ssConfig.first);
+    qInfo() << "Loading localization...";
+    GlobalConfig::initLanguages();
+    LocalConfig::initLocale();
 
-        QTranslator *uiTranslator = new QTranslator;
-        ok = uiTranslator->load(":/Translations/qtbase_de.qm");
-        if(ok)
-            a.installTranslator(uiTranslator);
-        else
-            qWarning() << "failed loading german ui translation!";
-    }
+    splashscreen.showMessage(QObject::tr("Loading global configuration..."), Qt::AlignBottom, ssConfig.first);
+    GlobalConfig::init();
 
+    splashscreen.showMessage(QObject::tr("Loading local configuration..."), Qt::AlignBottom, ssConfig.first);
+    LocalConfig::init();
+
+    splashscreen.showMessage(QObject::tr("Init shortcut mapper..."), Qt::AlignBottom, ssConfig.first);
+    ActionShortcutMapper::init();
+
+    splashscreen.showMessage(QObject::tr("Loading preferences..."), Qt::AlignBottom, ssConfig.first);
+    loadStartupPreferences(&a);
+
+    splashscreen.showMessage(QObject::tr("Loading main window..."), Qt::AlignBottom, ssConfig.first);
+    StyleHandler::applyStyle();
+    StyleHandler::applyColorScheme();
+    StyleHandler::applyAccentColor();
     MainWindow w;
-    w.show();
+
+#ifndef QT_DEBUG
+    a.thread()->sleep(2);
+#endif
+
+    qInfo() << "Loading main window size and position...";
+    bool ok = w.restoreGeometry(LocalConfig::mainWindowGeometry());
+    if(!ok)
+        w.showMaximized();
+    else
+        w.show();
+
+    // now, apply font. This is necessary because otherwise some ui components (e.g. the menubar) don't take the font if it was set when the mainWindow isn't shown
+    StyleHandler::applyFont();
+
+    splashscreen.finish(&w);
+    a.restoreOverrideCursor();
 
     int result = a.exec();
+    LocalConfig::setMainWindowGeomentry(w.saveGeometry());
+
     LocalConfig::setCrashDetected(false);
-    qInfo() << "closing ScheduleMaster...";
+    qInfo() << "Closing ScheduleMaster...";
     return result;
 }

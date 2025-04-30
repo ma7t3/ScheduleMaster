@@ -1,0 +1,47 @@
+[
+    {
+        "id": "home",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Home",
+            "de_DE": "Startseite"
+        },
+        "icon": ":/Icons/Home.ico"
+    },
+    {
+        "id": "routing",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Routing",
+            "de_DE": "Streckenplanung"
+        },
+        "icon": ":/Icons/Route.ico"
+    },
+    {
+        "id": "scheduling",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Scheduling",
+            "de_DE": "Fahrplanung"
+        },
+        "icon": ":/Icons/Schedule.ico"
+    },
+    {
+        "id": "tours",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Tours",
+            "de_DE": "Dienste"
+        },
+        "icon": ":/Icons/Tour.ico"
+    },
+    {
+        "id": "publish",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Publish",
+            "de_DE": "Veröffentlichen"
+        },
+        "icon": ":/Icons/PublishedLines.ico"
+    }
+]

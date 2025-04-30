@@ -1,0 +1,27 @@
+Info, bis es in die offizielle Dokumentation übernommmen wird:
+Jeder Stil wird über ein JSON-Objekt definiert und hat folgende Schlüssel:
+
+id					| String	| Eindeutige ID, die den Stil identifiziert (wird zum Speichern im Registry verwendet)
+name				| String	| Name, wie er im Einstellungsdialog angezeigt werden soll.
+lightSupport		| bool		| Unterstützt der Stil LightMode?
+darkSupport			| bool		| Unterstützt der Stil DarkMode?
+accentColorSupport	| bool		| Wird das Setzen einer benutzerdefinierten Akzentfarbe unterstützt?
+type				| String	| Art des Stils, folgende Werte sind erlaubt:
+								"systemDefault":	Systemstandard, Stil, wie, wenn zum Start der Anwendung kein Stil gesetzt wurde
+								"styleFactory":		Vordefinierter Qt-Stil, der aus der QStyleFactory-Klasse erzeugt wird.
+								"styleClass":		Als QStyle-Klasse definierter Stil
+								"styleSheet":		Als QSS-Stylesheet definierter Stil
+								
+Folgende Schlüssel sind abhängig vom vorher festgelegten Typ zu vergeben:
+
+"styleFactory":
+=====================
+styleFactoryName	| String	| Schlüsselname für die QStyleFactory::create()-Funktion
+
+"styleClass":
+=====================
+styleClassID		| String	| ID der QStyle-Klasse, muss im StyleHandler vorher registriert werden.
+
+"styleSheet:
+=====================
+styleSheetUrl		| String	| Dateipfad der QSS-Datei, als physische Datei oder Resource
