@@ -1,24 +1,36 @@
 #include "Workspace.h"
 
-Workspace::Workspace(QObject *parent) : QObject(parent) {
+Workspace::Workspace(const QString &id, QObject *parent) : QObject(parent), _id(id) {
     _action = new QAction(this);
     setupAction();
 }
 
-Workspace::Workspace(const QString &name, const QIcon &icon, QObject *parent) : Workspace(parent) {
+Workspace::Workspace(const QString &id, const QString &name, const QIcon &icon, QObject *parent) : Workspace(id, parent) {
     setName(name);
     setIcon(icon);
 }
 
-Workspace::Workspace(QAction *action, QObject *parent) : QObject(parent) {
+Workspace::Workspace(const QString &id, QAction *action, QObject *parent) : QObject(parent), _id(id) {
     _action = action;
     _name = _action->text();
     _icon = _action->icon();
     setupAction();
 }
 
+Workspace::Workspace(const QJsonObject &json, QObject *parent) : QObject(parent) {
+    _id   = json.value("id").toString();
+    _name = json.value("name").toString();
+    _icon = QIcon(json.value("icon").toString());
+    _action = new QAction(_icon, _name, this);
+    setupAction();
+}
+
 bool Workspace::active() const {
     return _action->isChecked();
+}
+
+QString Workspace::id() const {
+    return _id;
 }
 
 QString Workspace::name() const {
@@ -45,6 +57,7 @@ QAction *Workspace::action() const {
 
 void Workspace::activate() {
     _action->setChecked(true);
+    qDebug().noquote() << "Workspace activated:" << _id;
     emit activated(this);
 }
 
@@ -55,6 +68,8 @@ void Workspace::deactivate() {
 void Workspace::setupAction() {
     _action->setParent(this);
     _action->setCheckable(true);
+    _action->setText(_name);
+    _action->setIcon(_icon);
 
     connect(_action, &QAction::triggered, this, [this](const bool &checked) {
         if(checked)

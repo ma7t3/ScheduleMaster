@@ -31,7 +31,6 @@ protected:
     void connectToInterface();
 
     void loadDocks();
-    void loadWorkspaces();
     void initToolbars();
 
     void updateRecentProjectsList();

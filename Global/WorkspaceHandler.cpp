@@ -1,26 +1,28 @@
 #include "WorkspaceHandler.h"
 
 WorkspaceHandler::WorkspaceHandler(QObject *parent) : QObject(parent), _workspacesMenu(nullptr), _workspacesToolbar(nullptr) {
-    setupStandardWorkspaces();
+    loadWorkspaces();
 }
 
 QList<Workspace *> WorkspaceHandler::workspaces() {
     return _workspaces;
 }
 
-Workspace *WorkspaceHandler::workspace(StandardWorkspaces workspace) {
-    int workspaceIndex = static_cast<int>(workspace);
-    if(workspaceIndex <= _standardWorkspaces.count())
-        return _standardWorkspaces[workspaceIndex];
-    else
-        return nullptr;
+Workspace *WorkspaceHandler::workspace(const QString &id) {
+    for(Workspace *w : std::as_const(_workspaces))
+        if(w->id() == id)
+            return w;
+
+    return nullptr;
 }
 
 void WorkspaceHandler::addWorkspace(Workspace *workspace) {
     if(!workspace)
         return;
 
-    _workspaces.append(workspace);
+    qDebug() << workspace->action();
+
+    _workspaces << workspace;
     workspace->setParent(this);
     connect(workspace, &Workspace::activated, this, &WorkspaceHandler::onWorkspaceActivated);
     updateWorkspacesMenu();
@@ -33,9 +35,6 @@ void WorkspaceHandler::addWorkspaces(QList<Workspace *> workspaces) {
 }
 
 void WorkspaceHandler::removeWorkspace(Workspace *workspace) {
-    if(_standardWorkspaces.contains(workspace))
-        return;
-
     _workspaces.removeAll(workspace);
     workspace->disconnect(this);
     updateWorkspacesMenu();
@@ -52,19 +51,20 @@ void WorkspaceHandler::setWorkspacesToolbar(QToolBar *newToolBar) {
     updateWorkspacesToolbar();
 }
 
-void WorkspaceHandler::setupStandardWorkspaces() {
-    QList<Workspace *> list;
+void WorkspaceHandler::loadWorkspaces() {
+    qInfo() << "   Loading workspaces...";
+    const QJsonArray workspaces = GlobalConfig::loadMultiConfigResource("Workspaces");
+    for(const QJsonValue &val : workspaces) {
+        const QJsonObject obj = val.toObject();
+        Workspace *workspace = new Workspace(obj, this);
+        if(workspace->id().isEmpty()) {
+            delete workspace;
+            continue;
+        }
 
-    Workspace *homeWorkspace       = new Workspace(tr("Home"),       QIcon(":/Icons/Home.ico"),           this);
-    Workspace *routingWorkspace    = new Workspace(tr("Routing"),    QIcon(":/Icons/Route.ico"),          this);
-    Workspace *schedulingWorkspace = new Workspace(tr("Scheduling"), QIcon(":/Icons/Schedule.ico"),       this);
-    Workspace *toursWorkspace      = new Workspace(tr("Tours"),      QIcon(":/Icons/Tour.ico"),           this);
-    Workspace *publishWorkspace    = new Workspace(tr("Publish"),    QIcon(":/Icons/PublishedLines.ico"), this);
-
-    list << homeWorkspace << routingWorkspace << schedulingWorkspace << toursWorkspace << publishWorkspace;
-
-    addWorkspaces(list);
-    _standardWorkspaces = list;
+        addWorkspace(workspace);
+        qInfo().noquote() << "      - " + workspace->id();
+    }
 }
 
 void WorkspaceHandler::updateWorkspacesMenu() {

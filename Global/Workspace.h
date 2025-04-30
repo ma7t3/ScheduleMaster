@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QIcon>
 #include <QAction>
+#include <QJsonObject>
+#include <QMainWindow>
 
 /**
  * @brief The Workspace class one UI workspace.
@@ -27,7 +29,7 @@ public:
      * A associated QAction is created automatically.
      * @param parent The QObject-parent
      */
-    explicit Workspace(QObject *parent);
+    explicit Workspace(const QString &id, QObject *parent);
 
     /**
      * @brief Creates a new Workspace with the given name, icon and parent.
@@ -37,7 +39,7 @@ public:
      * @param icon The icon of the workspace
      * @param parent The QObject-parent
      */
-    Workspace(const QString &name, const QIcon &icon, QObject *parent);
+    Workspace(const QString &id, const QString &name, const QIcon &icon, QObject *parent);
 
     /**
      * @brief Creates a new Workspace based on the given QAction.
@@ -46,10 +48,23 @@ public:
      * @param action The QAction to create the workspace from
      * @param parent The QObject-parent
      */
-    Workspace(QAction *action, QObject *parent);
+    Workspace(const QString &id, QAction *action, QObject *parent);
+
+    /**
+     * @brief Creates a new Workspace based on the given QJsonObject.
+     * @param json The json object
+     * @param parent The QObject-parent
+     */
+    Workspace(const QJsonObject &json, QObject *parent);
 
     /// Returns whether this workspace is currently active or not.
     bool active() const;
+
+    /**
+     * @brief Returns the id of the workspace
+     * @return The workspace's id
+     */
+    QString id() const;
 
     /**
      * @brief Returns the name of the workspace.
@@ -122,6 +137,9 @@ signals:
     void activated(Workspace *workspace);
 
 private:
+    /// The workspace's id
+    QString _id;
+
     /// The workspace's name (is displayed in the UI)
     QString _name;
 

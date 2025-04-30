@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     _dockHandler(nullptr),
-    _workspaceHandler(nullptr),
+    _workspaceHandler(new WorkspaceHandler(this)),
     _projectData(new ProjectData(this)),
     _fileHandler(new ProjectFileHandler(_projectData, this)) {
     ui->setupUi(this);
@@ -29,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
 #ifndef QT_DEBUG
     ui->menuDebug->setHidden(true);
 #endif
+
+    _workspaceHandler->setWorkspacesMenu(ui->menuWorkspaces);
 
     qDebug() << "   Loading Undo/redo actions...";
     _undoAction = _projectData->undoStack()->createUndoAction(this, tr("Undo"));
@@ -58,11 +60,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuEdit->insertAction(ui->actionEditPreferences, _redoAction);
     ui->menuEdit->insertSeparator(ui->actionEditPreferences);
 
-    loadWorkspaces();
-
     initToolbars();
-
     loadDocks();
+
+    _workspaceHandler->workspace("home")->activate();
 
     updateRecentProjectsList();
 
@@ -111,13 +112,6 @@ void MainWindow::loadDocks() {
     _dockHandler = new DockHandler(this);
     connect(_dockHandler, &DockHandler::dockAdded, this, &MainWindow::onDockAdded);
     _dockHandler->loadStandardDocks();
-}
-
-void MainWindow::loadWorkspaces() {
-    qInfo() << "   Loading workspaces...";
-    _workspaceHandler = new WorkspaceHandler(this);
-    _workspaceHandler->setWorkspacesMenu(ui->menuWorkspaces);
-    _workspaceHandler->workspace(WorkspaceHandler::HomeWorkspace)->activate();
 }
 
 void MainWindow::initToolbars() {
