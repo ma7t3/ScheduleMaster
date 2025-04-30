@@ -106,10 +106,19 @@ public:
      */
     QAction *action() const;
 
+    /**
+     * @brief Returns the state of the main window when the workspace was deactivated last
+     * @return The QMainWindow state
+     */
+    QByteArray lastWindowState() const;
+
 public slots:
 
     /**
      * @brief Actives the workspace.
+     *
+     * This only marks the workspace as activated and emits the activated() signal but it doesn't change anything to the main windows layout.
+     * You need to call apply() after.
      *
      * See also deactivate().
      */
@@ -124,9 +133,22 @@ public slots:
      */
     void deactivate();
 
+    /**
+     * @brief Applies the workspace to the mainWindow.
+     */
+    void apply();
+
+    /**
+     * @brief Restores the workspace's default layout and discards the _lastWindowState.
+     */
+    void restore();
+
 protected:
     /// Sets up the QAction.
     void setupAction();
+
+    /// Determins the pointer to the applications QMainWindow.
+    QMainWindow *mainWindow();
 
 signals:
     /**
@@ -135,6 +157,13 @@ signals:
      * @param workspace The workspace that was activated ("this").
      */
     void activated(Workspace *workspace);
+
+    /**
+     * @brief This signals is emited when restore() is called.
+     *
+     * @param workspace The workspace that was activated ("this").
+     */
+    void restored(Workspace *workspace);
 
 private:
     /// The workspace's id
@@ -148,6 +177,9 @@ private:
 
     /// The workspace's associated QAction that is used to activate the workspace
     QAction *_action;
+
+    /// The last state of the MainWindow when the workspace was deactivated last
+    QByteArray _lastWindowState;
 };
 
 #endif // WORKSPACE_H

@@ -23,7 +23,6 @@ void WorkspaceHandler::addWorkspace(Workspace *workspace) {
     qDebug() << workspace->action();
 
     _workspaces << workspace;
-    workspace->setParent(this);
     connect(workspace, &Workspace::activated, this, &WorkspaceHandler::onWorkspaceActivated);
     updateWorkspacesMenu();
     updateWorkspacesToolbar();
@@ -97,4 +96,6 @@ void WorkspaceHandler::onWorkspaceActivated(Workspace *workspace) {
     for(Workspace *current : std::as_const(_workspaces))
         if(current != workspace)
             current->deactivate();
+
+    workspace->apply();
 }

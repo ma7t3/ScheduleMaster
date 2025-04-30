@@ -55,14 +55,35 @@ QAction *Workspace::action() const {
     return _action;
 }
 
+QByteArray Workspace::lastWindowState() const {
+    return _lastWindowState;
+}
+
 void Workspace::activate() {
     _action->setChecked(true);
     qDebug().noquote() << "Workspace activated:" << _id;
+
     emit activated(this);
 }
 
 void Workspace::deactivate() {
+    if(_action->isChecked())
+        _lastWindowState = mainWindow()->saveState();
+
     _action->setChecked(false);
+}
+
+void Workspace::apply() {
+    if(!_lastWindowState.isEmpty())
+        mainWindow()->restoreState(_lastWindowState);
+    else
+        restore();
+}
+
+void Workspace::restore() {
+    _lastWindowState.clear();
+    // TODO: restore default layout
+    emit restored(this);
 }
 
 void Workspace::setupAction() {
@@ -74,7 +95,13 @@ void Workspace::setupAction() {
     connect(_action, &QAction::triggered, this, [this](const bool &checked) {
         if(checked)
             activate();
-        else
+        else {
             _action->setChecked(true);
+            restore();
+        }
     });
+}
+
+QMainWindow *Workspace::mainWindow() {
+    return static_cast<QMainWindow *>(QObject::parent()->parent());
 }
