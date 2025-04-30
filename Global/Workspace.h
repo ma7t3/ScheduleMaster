@@ -7,6 +7,8 @@
 #include <QJsonObject>
 #include <QMainWindow>
 
+#include "Global/ActionShortcutMapper.h"
+
 /**
  * @brief The Workspace class one UI workspace.
  *

@@ -10,6 +10,8 @@
 
 #include "Global/GlobalConfig.h"
 
+#include "Global/ActionShortcutMapper.h"
+
 /**
  * @brief The WorkspaceHandler class is a manager for all existing workspaces (see Workspace).
  *
