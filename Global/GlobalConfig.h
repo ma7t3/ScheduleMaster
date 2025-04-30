@@ -309,7 +309,7 @@ public:
      */
     static DockConfig dock(const QString &id);
 
-protected:
+
     /**
      * @brief Loads a single config resource file and returns the parsed JSON document.
      *
@@ -327,6 +327,9 @@ protected:
      * @return A JSON array containing all parsed items.
      */
     static QJsonArray loadMultiConfigResource(const QString &resource);
+
+
+protected:
 
     /**
      * @brief Reads a JSON file and returns the parsed JSON document.
@@ -357,7 +360,6 @@ protected:
      */
     static QJsonArray resolveTranslatedStrings(QJsonArray jsonArray);
 
-
     /// Loads all preference items
     static void loadSettingsItems();
 
@@ -379,7 +381,6 @@ protected:
     /// Loads all docks
     static void loadDocks();
 
-signals:
 
 private:
     /// All settingsItems with their ID as key
