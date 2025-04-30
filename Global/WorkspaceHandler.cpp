@@ -1,6 +1,8 @@
 #include "WorkspaceHandler.h"
 
 WorkspaceHandler::WorkspaceHandler(QObject *parent) : QObject(parent), _workspacesMenu(nullptr), _workspacesToolbar(nullptr) {
+    _restoreLayoutAction = new QAction(QIcon(":/Icons/Undo.ico"), tr("Restore default layout"), this);
+    connect(_restoreLayoutAction, &QAction::triggered, this, &WorkspaceHandler::restoreCurrentWorkspace);
     loadWorkspaces();
 }
 
@@ -19,8 +21,6 @@ Workspace *WorkspaceHandler::workspace(const QString &id) {
 void WorkspaceHandler::addWorkspace(Workspace *workspace) {
     if(!workspace)
         return;
-
-    qDebug() << workspace->action();
 
     _workspaces << workspace;
     connect(workspace, &Workspace::activated, this, &WorkspaceHandler::onWorkspaceActivated);
@@ -81,6 +81,9 @@ void WorkspaceHandler::updateWorkspacesMenu() {
     _workspacesMenu->clear();
     for(Workspace *workspace : std::as_const(_workspaces))
         _workspacesMenu->addAction(workspace->action());
+
+    _workspacesMenu->addSeparator();
+    _workspacesMenu->addAction(_restoreLayoutAction);
 }
 
 void WorkspaceHandler::updateWorkspacesToolbar() {
@@ -98,4 +101,12 @@ void WorkspaceHandler::onWorkspaceActivated(Workspace *workspace) {
             current->deactivate();
 
     workspace->apply();
+}
+
+void WorkspaceHandler::restoreCurrentWorkspace() {
+    Workspace *workspace = currentWorkspace();
+    if(!workspace)
+        return;
+
+    workspace->restore();
 }
