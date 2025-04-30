@@ -135,6 +135,11 @@ protected slots:
      */
     void onWorkspaceActivated(Workspace *workspace);
 
+    /**
+     * @brief restoreCurrentWorkspace
+     */
+    void restoreCurrentWorkspace();
+
 signals:
 
 private:
@@ -147,7 +152,11 @@ private:
     /// The linked QToolBar to display the workspaces. This can also be nullptr.
     QPointer<QToolBar> _workspacesToolbar;
 
+    /// The map of all available docks
     QMap<QString, QDockWidget *> _docks;
+
+    /// The menu action that is used to restore the current workspace's default layout
+    QAction *_restoreLayoutAction;
 };
 
 #endif // WORKSPACEHANDLER_H
