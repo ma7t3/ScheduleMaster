@@ -1,110 +1,151 @@
 #include "DlgPreferences.h"
 #include "ui_DlgPreferences.h"
 
-#include "localconfig.h"
-
-#include <QtCore>
-#include <QMessageBox>
-#include <QFileDialog>
-
-#include <QStyleFactory>
-
-DlgPreferences::DlgPreferences(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DlgPreferences)
-{
+DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
+    ui(new Ui::DlgPreferences) {
     ui->setupUi(this);
 
-    if(LocalConfig::language() == LocalConfig::German)
-        ui->cbLanguage->setCurrentIndex(1);
+    qInfo() << "Loading preferences...";
+    WdgPreferencesPageHome       *home       = new WdgPreferencesPageHome(this);       addPage(home);
+    WdgPreferencesPageGeneral    *general    = new WdgPreferencesPageGeneral(this);    addPage(general);
+    WdgPreferencesPageAppearance *appearance = new WdgPreferencesPageAppearance(this); addPage(appearance);
+    addPage(new WdgPreferencesPageLocations(this));
+    addPage(new WdgPreferencesPageUpdates(this));
+    addPage(new WdgPreferencesPageKeyboardShortcuts(this));
+    addPage(new WdgPreferencesPagePlugins(this));
+    addPage(new WdgPreferencesPageDebug(this));
 
-    ui->cbTimeFormat->setCurrentIndex(LocalConfig::timeFormat());
+    connect(home,    &WdgPreferencesPageHome::languageIndexChanged,         general, &WdgPreferencesPageGeneral::setLanguageIndex);
+    connect(general, &WdgPreferencesPageGeneral::languageIndexChanged,      home,    &WdgPreferencesPageHome::setLanguageIndex);
 
-    if(LocalConfig::style() == LocalConfig::Fusion)
-        ui->cbApperance->setCurrentIndex(2);
-    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
-        ui->cbApperance->setCurrentIndex(1);
-    else
-        ui->cbApperance->setCurrentIndex(0);
+    connect(home,       &WdgPreferencesPageHome::styleIndexChanged,       appearance, &WdgPreferencesPageAppearance::setStyleIndex);
+    connect(appearance, &WdgPreferencesPageAppearance::styleIndexChanged, home,       &WdgPreferencesPageHome::setStyleIndex);
 
-    ui->leDefaultProjectLocation->setText(LocalConfig::defaultProjectLocation());
-    ui->cbLogfileMode->setCurrentIndex(LocalConfig::logfileMode());
+    connect(home,    &WdgPreferencesPageHome::openLogfileLocationRequested, general, &WdgPreferencesPageGeneral::openLogfileLocation);
 
-    switch(LocalConfig::workspacesToolbarPosition()) {
-        default:
-        case Qt::TopToolBarArea:    ui->cbWorkspacesToolbarPosition->setCurrentIndex(0); break;
-        case Qt::BottomToolBarArea: ui->cbWorkspacesToolbarPosition->setCurrentIndex(1); break;
-        case Qt::LeftToolBarArea:   ui->cbWorkspacesToolbarPosition->setCurrentIndex(2); break;
-        case Qt::RightToolBarArea:  ui->cbWorkspacesToolbarPosition->setCurrentIndex(3); break;
-    }
+    for(int i = 0; i < ui->lwList->count(); i++)
+        ui->lwList->item(i)->setSizeHint(QSize(0, 32));
 
-    connect(ui->cbApperance, &QComboBox::currentIndexChanged, this, &DlgPreferences::refreshStylePreview);
+    ui->lwList->setFocus();
+    ui->lwList->setCurrentRow(0);
+
+    connect(ui->pbConfigEditor, &QPushButton::clicked,                 this, &DlgPreferences::openConfigEditor);
+    connect(home, &WdgPreferencesPageHome::openPageRequested,          this, &DlgPreferences::setCurrentPage);
+    connect(home, &WdgPreferencesPageHome::openConfigEditorRequested,  this, &DlgPreferences::openConfigEditor);
 }
 
-DlgPreferences::~DlgPreferences()
-{
+DlgPreferences::~DlgPreferences() {
     delete ui;
 }
 
-void DlgPreferences::on_DlgPreferences_accepted() {
-    int logfileMode = ui->cbLogfileMode->currentIndex();
+void DlgPreferences::addPage(WdgPreferencesPage *page) {
+    _pages << page;
 
-    if(LocalConfig::language() != ui->cbLanguage->currentIndex() ||
-        LocalConfig::logfileMode() != logfileMode)
-        QMessageBox::information(this, tr("Restart required"), tr("You'll need to restarted the application for all settings to be applied."));
-    
-    LocalConfig::setLanguage(ui->cbLanguage->currentIndex() == 1 ? LocalConfig::German : LocalConfig::English);
-    LocalConfig::setTimeFormat(ui->cbTimeFormat->currentIndex() == 0 ? LocalConfig::Hours12 : LocalConfig::Hours24);
-    LocalConfig::setDefaultProjectLocation(ui->leDefaultProjectLocation->text());
+    QListWidgetItem *item = new QListWidgetItem(page->icon(), page->name());
+    ui->lwList->addItem(item);
 
-    if(ui->cbApperance->currentIndex() == 2)
-        LocalConfig::setStyle(LocalConfig::Fusion);
-    else if(ui->cbApperance->currentIndex() == 1)
-        LocalConfig::setStyle(LocalConfig::WindowsXpStyle);
-    else
-        LocalConfig::setStyle(LocalConfig::System);
-
-    if(logfileMode == LocalConfig::NoLog)
-        LocalConfig::setLogfileMode(LocalConfig::NoLog);
-    if(logfileMode == LocalConfig::DefaultLog)
-        LocalConfig::setLogfileMode(LocalConfig::DefaultLog);
-    if(logfileMode == LocalConfig::DebugLog)
-        LocalConfig::setLogfileMode(LocalConfig::DebugLog);
-    if(logfileMode == LocalConfig::DebugDetailLog)
-        LocalConfig::setLogfileMode(LocalConfig::DebugDetailLog);
-
-    switch(ui->cbWorkspacesToolbarPosition->currentIndex()) {
-        case 0: LocalConfig::setWorkspacesToolbarPosition(Qt::TopToolBarArea)   ; break;
-        case 1: LocalConfig::setWorkspacesToolbarPosition(Qt::BottomToolBarArea); break;
-        case 2: LocalConfig::setWorkspacesToolbarPosition(Qt::LeftToolBarArea)  ; break;
-        case 3: LocalConfig::setWorkspacesToolbarPosition(Qt::RightToolBarArea) ; break;
-    }
-
+    ui->swContent->addWidget(page);
 }
 
-void DlgPreferences::on_DlgPreferences_rejected() {
-    if(LocalConfig::style() == LocalConfig::Fusion)
-        qApp->setStyle(QStyleFactory::create("Fusion"));
-    else if(LocalConfig::style() == LocalConfig::WindowsXpStyle)
-        qApp->setStyle(QStyleFactory::create("Windows"));
-    else
-        qApp->setStyle(QStyleFactory::create("windowsvista"));
-}
-
-void DlgPreferences::on_pbDefaultProjectLocationBrowse_clicked() {
-    QString newPath = QFileDialog::getExistingDirectory(this, "", LocalConfig::defaultProjectLocation(), QFileDialog::ShowDirsOnly);
-    if(newPath.isEmpty())
+void DlgPreferences::setCurrentPageIndex(const int &index) {
+    if(index < 0 || index >= ui->lwList->count())
         return;
 
-    ui->leDefaultProjectLocation->setText(newPath);
+    ui->lwList->setCurrentRow(index);
 }
 
-void DlgPreferences::refreshStylePreview(int index) {
-    if(index == 0)
-        qApp->setStyle(QStyleFactory::create("windowsvista"));
-    else if(index == 1)
-        qApp->setStyle(QStyleFactory::create("Windows"));
-    else if(index == 2)
-        qApp->setStyle(QStyleFactory::create("Fusion"));
+void DlgPreferences::setCurrentPage(const QString &id) {
+    for(int i = 0; i < _pages.count(); i++)
+        if(_pages[i]->id() == id)
+            ui->lwList->setCurrentRow(i);
 }
 
+void DlgPreferences::openConfigEditor() {
+    if(unsavedChanges()) {
+        QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved changes"), tr("<p><b>There are some changes in your preferences that aren't save now!</b></p><p>Do you want to save them before opening the config editor?</p>"), QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel, QMessageBox::Save);
+
+        switch(msg) {
+        case QMessageBox::Save: savePreferences();
+        case QMessageBox::Discard: break;
+        default: return;
+        }
+    }
+
+    qInfo() << "opening config editor...";
+
+    DlgConfigEditor dlg(this);
+    dlg.exec();
+    checkRestartRequired();
+    reloadPreferences();
+}
+
+void DlgPreferences::reloadPreferences() {
+    qInfo() << "Reloading preferences...";
+
+    for(WdgPreferencesPage *page : std::as_const(_pages))
+        page->reloadPreferences();
+}
+
+void DlgPreferences::savePreferences() {
+    qInfo() << "Saving preferences...";
+
+    for(WdgPreferencesPage *page : std::as_const(_pages))
+        page->savePreferences();
+
+    checkRestartRequired();
+}
+
+void DlgPreferences::discardPreviewPreferences() {
+    for(WdgPreferencesPage *page : std::as_const(_pages))
+        page->discardPreviewPreferences();
+}
+
+bool DlgPreferences::unsavedChanges() {
+    bool unsaved = false;
+    for(WdgPreferencesPage *page : std::as_const(_pages))
+        unsaved |= page->unsavedChanges();
+
+    return unsaved;
+}
+
+void DlgPreferences::checkRestartRequired() {
+    if(LocalConfig::restartRequired()) {
+        const QStringList items = LocalConfig::restartRequiredSettings();
+
+        QStringList itemNames;
+        for(const QString &item : items)
+            itemNames << GlobalConfig::settingsItem(item).description.split("\n").first();
+
+        QString itemList = "<ul><li>" + itemNames.join("</li><li>") + "</li></ul>";
+
+        QMessageBox::information(this, tr("Restart required"), tr("<p>Some settings require an application restart to be applied:</p>") + itemList);
+    }
+}
+
+void DlgPreferences::on_lwList_currentItemChanged(QListWidgetItem *current,
+                                                  QListWidgetItem *previous) {
+    Q_UNUSED(previous);
+    ui->swContent->setCurrentIndex(ui->lwList->row(current));
+    ui->lTitle->setText(current->text());
+    ui->lTitleIcon->setPixmap(current->icon().pixmap(28, 28));
+}
+
+void DlgPreferences::accept() {
+    savePreferences();
+    QDialog::accept();
+}
+
+void DlgPreferences::reject() {
+    if(unsavedChanges()) {
+        QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved changes"), tr("<p><b>There are some changes in your preferences that aren't save now!</b></p><p>Do you want to save or discard them?</p>"), QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel, QMessageBox::Save);
+
+        switch(msg) {
+        case QMessageBox::Save: savePreferences(); QDialog::accept();
+        case QMessageBox::Discard: break;
+        default: return;
+        }
+    }
+
+    discardPreviewPreferences();
+    QDialog::reject();
+}

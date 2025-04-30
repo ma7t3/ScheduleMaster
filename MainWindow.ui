@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ScheduleMaster</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuFileOpenRecent">
+     <property name="title">
+      <string>Open Recent</string>
+     </property>
+     <property name="icon">
+      <iconset resource="Resources.qrc">
+       <normaloff>:/Icons/LastUSedFiles.ico</normaloff>:/Icons/LastUSedFiles.ico</iconset>
+     </property>
+    </widget>
+    <addaction name="actionFileNewProject"/>
+    <addaction name="actionFileOpenProject"/>
+    <addaction name="menuFileOpenRecent"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileSaveProject"/>
+    <addaction name="actionFileSaveProjectAs"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileImport"/>
+    <addaction name="actionFileExport"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileCloseProject"/>
+    <addaction name="actionFileQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionEditPreferences"/>
+    <addaction name="actionEditConfiguration"/>
+    <addaction name="actionEditProjectSettings"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <widget class="QMenu" name="menuWorkspaces">
+     <property name="title">
+      <string>Workspaces</string>
+     </property>
+     <property name="icon">
+      <iconset resource="Resources.qrc">
+       <normaloff>:/Icons/Workspaces.ico</normaloff>:/Icons/Workspaces.ico</iconset>
+     </property>
+    </widget>
+    <widget class="QMenu" name="menuDocks">
+     <property name="title">
+      <string>Docks</string>
+     </property>
+     <property name="icon">
+      <iconset resource="Resources.qrc">
+       <normaloff>:/Icons/Docks.ico</normaloff>:/Icons/Docks.ico</iconset>
+     </property>
+    </widget>
+    <addaction name="menuDocks"/>
+    <addaction name="menuWorkspaces"/>
+    <addaction name="actionViewToolbars"/>
+   </widget>
+   <widget class="QMenu" name="menuDebug">
+    <property name="title">
+     <string>Debug</string>
+    </property>
+    <addaction name="actionDebugGeneralTestAction"/>
+    <addaction name="actionDebugSimulateCrash"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
+   <addaction name="menuDebug"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionFileNewProject">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileNew.ico</normaloff>:/Icons/FileNew.ico</iconset>
+   </property>
+   <property name="text">
+    <string>New Project</string>
+   </property>
+  </action>
+  <action name="actionFileOpenProject">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileOpen.ico</normaloff>:/Icons/FileOpen.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Open Project</string>
+   </property>
+  </action>
+  <action name="actionFileSaveProject">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileSave.ico</normaloff>:/Icons/FileSave.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Save Project</string>
+   </property>
+  </action>
+  <action name="actionFileSaveProjectAs">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileSave.ico</normaloff>:/Icons/FileSave.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Save Project As</string>
+   </property>
+  </action>
+  <action name="actionFileImport">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileImport.ico</normaloff>:/Icons/FileImport.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionFileExport">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileExport.ico</normaloff>:/Icons/FileExport.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
+  <action name="actionFileCloseProject">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/FileClose.ico</normaloff>:/Icons/FileClose.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Close Project</string>
+   </property>
+  </action>
+  <action name="actionFileQuit">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Quit.ico</normaloff>:/Icons/Quit.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::QuitRole</enum>
+   </property>
+  </action>
+  <action name="actionViewToolbars">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Toolbars.ico</normaloff>:/Icons/Toolbars.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Toolbars</string>
+   </property>
+  </action>
+  <action name="actionEditPreferences">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Preferences.ico</normaloff>:/Icons/Preferences.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::PreferencesRole</enum>
+   </property>
+  </action>
+  <action name="actionEditProjectSettings">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/ProjectSettings.ico</normaloff>:/Icons/ProjectSettings.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Project Settings</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::TextHeuristicRole</enum>
+   </property>
+  </action>
+  <action name="actionDebugGeneralTestAction">
+   <property name="text">
+    <string>General Test Action</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+Shift+#</string>
+   </property>
+  </action>
+  <action name="actionDebugSimulateCrash">
+   <property name="text">
+    <string>Simulate Crash</string>
+   </property>
+  </action>
+  <action name="actionEditConfiguration">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Icons/Preferences.ico</normaloff>:/Icons/Preferences.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Configuration</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

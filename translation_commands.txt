@@ -1,3 +1,0 @@
-lupdate -pro ScheduleMaster.pro -ts german.ts -no-obsolete
-
-lrelease german.ts

@@ -1,215 +1,178 @@
 #ifndef PROJECTDATA_H
 #define PROJECTDATA_H
 
-#include <QtCore>
-#include <QJsonDocument>
-#include <QColor>
+#include <QObject>
 #include <QUndoStack>
-#include <QPixmap>
-#include <QPainter>
+#include <QUuid>
 
-#include "App/global.h"
+#include "Busstop.h"
+#include "ProjectDataItemSet.h"
 
-#include "projectData/busstop.h"
-#include "projectData/line.h"
-#include "projectData/tour.h"
-#include "projectData/projectsettings.h"
-#include "projectData/publications.h"
-#include "projectData/footnote.h"
+/**
+ * @class ProjectData
+ * @brief The ProjectData class is the master class that holds any relevant data of a ScheduleMaster project.
+ *
+ * One ProjectData instance always represents one ScheduleMaster projects. Since ScheduleMaster doesn't support multiple projects opened at the same time,
+ * there is always only one ProjectData instance which is created within the MainWindow.
+ */
 
 class ProjectData : public QObject {
     Q_OBJECT
 public:
-    ProjectData(QObject *parent = nullptr);
-    ~ProjectData();
+    /**
+     * @brief Constructs a new ProjectData object.
+     * @param parent The QObject-parent
+     */
+    explicit ProjectData(QObject *parent = nullptr);
 
-    ProjectSettings *projectSettings();
+    /**
+     * @brief Returns the file path of the project file that is currently loded.
+     * This can be an empty string if the project was created new and never saved.
+     *
+     * See also isKnownFile() and setFilePath().
+     * @return The file path.
+     */
+    QString filePath() const;
 
+    /**
+     * @brief Returns whether the project is associated with a project file.
+     *
+     * This is equivalent to calling `!filePath().isEmpty()`.
+     * See also filePath() and setFilePath().
+     * @return whether the project is associated with a project file or not.
+     */
+    bool isKnownFile() const;
+
+    /**
+     * @brief Sets the file path this project is associated with.
+     *
+     *  See also filePath() and isKnownFile().
+     *  @param newFilePath The new file path to be set
+     */
+
+    void setFilePath(const QString &newFilePath);
+
+    /**
+     * @brief Returns a pointer to the project's undo stack
+     * @return The QUndoStack pointer.
+     */
+    QUndoStack *undoStack() const;
+
+    /**
+     * @brief Resets the entire project data (e.g. if the project was closed). This also resets the undoStack.
+     *
+     * See also undoStack().
+     */
     void reset();
-    void cleanup();
 
-    void clearLines();
+    /**
+     * @brief Returns the number of busstops in the project.
+     *
+     * See also busstops().
+     * @return The number of busstops in the project
+     */
+    int busstopCount() const;
 
-    void setFilePath(QString);
-    QString filePath();
+    /**
+     * @brief Searches for a busstop by its UUID.
+     * @param id The UUID of the busstop to search for.
+     * @return A pointer to the busstop if it was found, otherwise nullptr.
+     */
+    Busstop *busstop(const QUuid &id) const;
 
+    /**
+     * @brief Searches for a busstop by its name.
+     * @param name The name of the busstop to search for.
+     * @return A pointer to the busstop if it was found, otherwise nullptr.
+     */
+    Busstop *findBusstopByName(const QString &name) const;
 
-    void addBusstop(Busstop *);
-    int busstopCount();
-    Busstop *busstop(QString);
-    Busstop *busstopAt(int);
-    QList <Busstop*> busstops() const;
-    Busstop *busstopWithName(const QString &name);
-    bool busstopWithNameExists(const QString &name);
-    bool removeBusstop(Busstop *);
-    bool removeBusstop(QString);
+    /**
+     * @brief Returns a list of all busstops in the project.
+     *
+     * See also busstopCount().
+     * @return A ProjectDataItemSet of all busstops in the project.
+     */
+    PDISet<Busstop> busstops() const;
 
-    void addLine(Line *);
-    int lineCount();
-    Line *line(QString);
-    Line *lineAt(int);
-    QList<Line *> lines();
-    Line *lineWithName(const QString &name);
-    bool lineWithNameExists(const QString &name);
+    /**
+     * @brief Adds a busstop to the project.
+     * @param busstop The Busstop to add.
+     */
+    void addBusstop(Busstop *busstop);
 
-    Route *route(QString);
-    Route *routeWithName(QString);
-    Trip *trip(QString);
+    /**
+     * @brief Removes a busstop from the project. This does nothing if the given busstop is not part of the project or is nullptr.
+     * @param busstop The Busstop to remove.
+     */
+    void removeBusstop(Busstop *busstop);
 
-    void addTour(Tour *);
-    int tourCount();
-    Tour *tour(QString);
-    Tour *tourAt(int);
-    QList<Tour *> tours();
+    /**
+     * @brief Removes a busstop from the project by its UUID. This does nothing if there was no busstop found that matches the given UUID.
+     * @param id the Busstop's id to search for.
+     */
+    void removeBusstop(const QUuid &id);
 
+    /**
+     * @brief Returns the busstop that contains a given platform.
+     *
+     * This can return nullptr if the platform does not belong to any busstop.
+     * @return The Busstop that contains the platform or nullptr if not found.
+     */
+    Busstop *busstopOfPlatform(BusstopPlatform *);
 
+    /**
+     * @brief Converts the entire ProjectData to a JSON object (e.g. to save it to a file).
+     * @return The QJsonObject
+     */
+    QJsonObject toJson() const;
 
-    bool removeLine(Line *);
-    bool removeLine(QString);
-
-    bool removeTour(Tour *);
-    bool removeTour(QString);
-
-    QList<Footnote *> footnotes() const;
-    void setFootnotes(const QList<Footnote *> &newFootnotes);
-    void addFootnote(Footnote *);
-    void removeFootnote(Footnote *);
-    void removeFootnote(const QString &);
-    Footnote *footnoteAt(int);
-    int footnoteCount() const;
-    QList<Footnote *> autoAssignedFootnotesOfTrip(Trip *);
-
-
-    QList<Route *> matchingRoutes(Route *);
-
-    Line *lineOfRoute(Route *);
-    Line *lineOfTrip(Trip *);
-    Route *routeOfTimeProfile(TimeProfile *);
-
-    QList<Trip *> tripsOfRoute(Route *);
-
-    QList<Line *> linesAtBusstop(Busstop *b);
-    QList<Line *> linesAtBusstop(QString);
-
-    QList<Tour *> toursOfTrip(Trip *);
-
-    QList<Busstop *> combinedRoutes(const QList<Route *> &routes);
-
-    template<typename T>
-    static QList<T *> sortItems(QList<T *> list) {
-        std::sort(list.begin(), list.end(), [](T *a, T *b) {return *a < *b;});
-        return list;
-    }
-
-    static QList<Trip *> sortTrips(QList<Trip *> list, const int &hourBreak);
-
-    static QPixmap linesPixmap(const QList<Line *>);
-    QPixmap linesPixmap(Busstop *);
-    QPixmap linesPixmap(Tour *);
-
-    Publications *publications();
-
-    QJsonObject toJson();
-    void setJson(const QJsonObject &);
-
-    Busstop *newBusstop(QString id = "");
-    Busstop *newBusstop(const QJsonObject &);
-    Busstop *newBusstop(const Busstop &newBusstop);
-
-    Line *newLine(QString id = "");
-    Line *newLine(const QJsonObject &);
-    Line *newLine(const Line &newLine);
-
-    Tour *newTour(QString id = "");
-    Tour *newTour(const QJsonObject &);
-    Tour *newTour(const Tour &newTour);
-
-    Footnote *newFootnote(QString id = "");
-    Footnote *newFootnote(const QJsonObject &);
-    Footnote *newFootnote(const Footnote &newFootnote);
-
-    QUndoStack *undoStack();
-
-    bool isLoadingFromFile() const;
-
-protected:
-    void onBusstopAdded(Busstop *);
-    void onBusstopChanged(Busstop *);
-    void onBusstopRemoved(Busstop *);
-
-    void onLineAdded(Line *);
-    void onLineChanged(Line *);
-    void onLineRemoved(Line *);
-
-    void onTourAdded(Tour *);
-    void onTourChanged(Tour *);
-    void onTourRemoved(Tour *);
+    /**
+     * @brief Reads a JSON object and fills the ProjectData with the data from the JSON object (e.g. when read in from a file).
+     *
+     * Depending on the size of the json object, this method can take a long time.
+     * For this reason, you can specifiy a cancelRequested callback function pointer that will be called periodically and this function will cancel itself if the callback returned true.
+     * @param jsonObject The QJsonObject to read from.
+     * @param cancelRequested A callback function pointer to check periodically if a cancel is requested.
+     * @return Returns true if the method finished successfully or false if it has been canceled before
+     */
+    bool setJson(const QJsonObject &jsonObject, std::function<bool()> cancelRequested = [](){return false;});
 
 signals:
-    void loadingProgressMaxValue(const int &maxValue);
-    void loadingProgressUpdated(const int &currentValue);
-    void loadingProgressTextUpdated(const int &type, const QString &message, const bool &showAsCurrent = false);
 
-    void wasReset();
+    /**
+     * @brief This signals is emited once when loading the project data from a json object unsing the setJson method.
+     * @param maximum The total amount of elements inside the json that will be loaded.
+     */
+    void progressMaximum(const int &maximum);
 
-    void busstopsAdded(const QList<Busstop *>);
-    void busstopsChanged(const QList<Busstop *>);
-    void busstopsRemoved(const QList<Busstop *>);
-
-    void linesAdded(const QList<Line *>);
-    void linesChanged(const QList<Line *>);
-    void linesRemoved(const QList<Line *>);
-
-    void toursAdded(const QList<Tour *>);
-    void toursChanged(const QList<Tour *>);
-    void toursRemoved(const QList<Tour *>);
+    /**
+     * @brief This signal is emited while loading the project data from a json object using the setJson method.
+     * @param currentProgress The amount of elements that have been loaded so far.
+     */
+    void progressUpdate(const int &currentProgress);
 
 private:
+    /**
+     * @brief The file path of the project file that is currently loaded. This can be an empty string if the file was never saved.
+     *
+     * See also filePath(), setFilePath() and isKnownFile().
+     */
     QString _filePath;
-    ProjectSettings *_projectSettings;
-    QList<Busstop *> _busstops;
-    QList<Line *> _lines;
-    QList<Tour *> _tours;
-    QList<Footnote *> _footnotes;
-    Publications *_publications;
 
-    QList<Busstop *> _addedBusstops;
-    QList<Busstop *> _changedBusstops;
-    QList<Busstop *> _removedBusstops;
+    /**
+     * @brief The undo stack of the project.
+     *
+     * See also undoStack().
+     */
+    QUndoStack *_undoStack;
 
-    QList<Line *> _addedLines;
-    QList<Line *> _changedLines;
-    QList<Line *> _removedLines;
-
-    QList<Tour *> _addedTours;
-    QList<Tour *> _changedTours;
-    QList<Tour *> _removedTours;
-
-    QUndoStack _undoStack;
-
-    std::unordered_map<Route *, Line *> _routeLineCacheMap;
-    std::unordered_map<Trip *, Line *> _routeTripCacheMap;
-
-    QTimer *_updateTimer;
-
-    bool _loadingFromFile;
-    bool _afterLoadingFromFile;
+    /**
+     * @brief A hash that contains all busstops of the project. The key is the UUID of the busstop.
+     *
+     * See also busstopCount(), busstops(), busstop(), addBusstop() and removeBusstop().
+     */
+    PDISet<Busstop> _busstops;
 };
 
 #endif // PROJECTDATA_H
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

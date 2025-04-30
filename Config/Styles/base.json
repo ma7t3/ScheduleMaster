@@ -1,0 +1,41 @@
+[
+    {
+        "id": "system",
+        "name": "System",
+        "lightSupport": true,
+        "darkSupport": false,
+        "accentColorSupport": false,
+        "applyPalette": false,
+        "type": "systemDefault"
+    },
+    {
+        "id": "fusion",
+        "name": "Fusion",
+        "lightSupport": true,
+        "darkSupport": true,
+        "accentColorSupport": true,
+        "applyPalette": true,
+        "type": "styleFactory",
+        "styleFactoryName": "Fusion"
+    },
+    {
+        "id": "windowsXP",
+        "name": "Windows XP",
+        "lightSupport": true,
+        "darkSupport": false,
+        "accentColorSupport": true,
+        "applyPalette": true,
+        "type": "styleFactory",
+        "styleFactoryName": "Windows"
+    },
+    {
+        "id": "windows11",
+        "name": "Windows 11",
+        "lightSupport": true,
+        "darkSupport": true,
+        "accentColorSupport": false,
+        "applyPalette": false,
+        "type": "styleFactory",
+        "styleFactoryName": "windows11"
+    }
+]

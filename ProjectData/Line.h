@@ -1,153 +1,169 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include <QtCore>
+#include "LineDirection.h"
+#include "ProjectDataItemList.h"
+
 #include <QColor>
 
-#include "route.h"
-#include "trip.h"
-#include "linedirection.h"
-#include "ProjectDataItem.h"
+/**
+ * @struct LineData
+ * @brief The LineData class contains the actual data of a Line object.
+ *
+ * It is seperated from the class logic to make it easier to change or completly replace it.
+ */
+struct LineData : ProjectDataItemData<LineData> {
+    /// Constructs a new LineData object. It should always call ProjectDataItemData::initParentOwnsItemMembers().
+    LineData() {initParentOwnsItemMembers();}
 
-#include <QObject>
+    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&directions};}
 
-class Line : public ProjectDataItem {
+    /// The Line's name
+    QString name;
+
+    /// The Line's description
+    QString description;
+
+    /// The Line's color
+    QColor color;
+
+    /// The Line's directions
+    PDIList<LineDirection> directions;
+    // routes, trips
+};
+
+/**
+ * @class Line
+ * @brief The Line class represents one line.
+ *
+ * A line contains of multiple routes which represent a certain order of busstops.
+ * All routes are categorized into directions.
+ * Every line also has multiple trips which you can think of as instances of one route with a certain time.
+ */
+
+class Line : public ProjectDataItem<Line, LineData> {
     Q_OBJECT
 public:
-    Line(QObject *parent, const QString &id);
-    Line(QObject *parent, const QJsonObject &);
-    Line(const Line &);
+    /**
+     * @brief Constructs a new Line object.
+     *
+     * If no ID was specified a new ID is generated.
+     * @param parent The QObject-parent
+     * @param id The optional ID to be used. It can't be changed later.
+     * @param isClone Specifies if the object is created as a clone.
+     */
+    explicit Line(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
 
-    Line operator=(const Line &);
-    bool operator<(const Line &);
+    /**
+     * @brief Constructs a new Line object by parsing a JSON object.
+     *
+     * If no ID was specified a new ID is generated.
+     * @param parent The QObject-parent
+     * @param jsonObject The JSON object to parse.
+     */
+    explicit Line(QObject *parent, const QJsonObject &jsonObject);
 
+    /**
+     * @brief Compares this Line with other by their names.
+     * @param other
+     * @return Whether this Line's name is smaller than the other's name.
+     */
+    bool operator<(const Line &other) const;
+
+    /**
+     * @brief Returns the Line's name.
+     *
+     * See also setName().
+     * @return The Line's name
+     */
     QString name() const;
-    void setName(const QString &);
 
+    /**
+     * @brief Replaces the Line's name.
+     * @param newName The new name
+     *
+     * See also name().
+     */
+    void setName(const QString &newName);
+
+    /**
+     * @brief Returns the Line's description.
+     * @return The Line's description
+     */
     QString description() const;
-    void setDescription(const QString &);
 
+    /**
+     * @brief Replaces the Line's description.
+     * @param newDescription The new description
+     */
+    void setDescription(const QString &newDescription);
+
+    /**
+     * @brief Returns the Line's color.
+     * @return The Line's color
+     */
     QColor color() const;
-    void setColor(const QColor &);
 
+    /**
+     * @brief Replaces the Line's color.
+     * @param newColor The new color
+     */
+    void setColor(const QColor &newColor);
 
-    int hourBreak() const;
-    void setHourBreak(const int &newHourBreak);
-
-    QList<LineDirection *> directions() const;
+    /**
+     * @brief Returns the number of Directions in the Line.
+     *
+     * See also directions().
+     * @return The number of busstops in the Line
+     */
     int directionCount() const;
-    LineDirection *direction(const QString &id) const;
-    LineDirection *directionAt(const int &index) const;
-    bool hasDirection(const QString &id) const;
-    int indexOfDirection(LineDirection *) const;
-    int indexOfDirection(const QString &id) const;
 
-    void setDirections(const QList<LineDirection *> &newDirections);
-    void addDirection(LineDirection *);
-    void insertDirection(const int &, LineDirection *);
-    void removeDirection(LineDirection *);
-    void removeDirection(const QString &id);
+    /**
+     * @brief Searches for a LineDirection by its UUID.
+     * @param id The UUID of the Directions to search for.
+     * @return A pointer to the Directions if it was found, otherwise nullptr.
+     */
+    LineDirection *direction(const QUuid &id) const;
 
-    QList<Route *> routes() const;
-    int routeCount() const;
-    Route *route(const QString &id) const;
-    Route *routeAt(const int &index) const;
-    bool hasRoute(const QString &id) const;
-    QList<Route *> routesToDirection(LineDirection *) const;
+    /**
+     * @brief Returns a list of all Directions in the Line.
+     *
+     * See also directionCount().
+     * @return A ProjectDataItemList of all Directions in the Line.
+     */
+    PDIList<LineDirection> directions() const;
 
-    void setRoutes(const QList<Route *> &newRoutes);
-    void addRoute(Route *);
-    void removeRoute(Route *);
-    void removeRoute(const QString &id);
+    /**
+     * @brief Appends a LineDirection to the end of the Line's LineDirection list.
+     * @param direction The LineDirection to add.
+     */
+    void appendDirection(LineDirection *direction);
 
-    QList<Trip *> trips() const;
-    int tripCount() const;
-    Trip *trip(const QString &id) const;
-    Trip *tripAt(const int &index) const;
-    bool hasTrip(const QString &id) const;
-    QList<Trip *> tripsToDirection(LineDirection *) const;
-    QList<Trip *> tripsOfRoute(Route *) const;
+    /**
+     * @brief Inserts a LineDirection at position index to the Line's LineDirection list.
+     *
+     * This function does nothing if the index is invalid.
+     * @param index The index to be inserted at.
+     * @param direction The LineDirection to add.
+     */
+    void insertDirection(const int &index, LineDirection *direction);
 
-    void setTrips(const QList<Trip *> &newTrips);
-    void addTrip(Trip *);
-    void removeTrip(Trip *);
-    void removeTrip(const QString &id);
-    LineDirection *directionOfTrip(Trip *) const;
+    /**
+     * @brief Removes a LineDirection from the Line. This does nothing if the given LineDirection is not part of the Line or is nullptr.
+     * @param direction The LineDirection to remove.
+     */
+    void removeDirection(LineDirection *direction);
 
-    QJsonObject toJson() const;
+    /**
+     * @brief Removes a LineDirection from the Line by its UUID. This does nothing if there was no LineDirection found that matches the given UUID.
+     * @param id The LineDirection's id to search for.
+     */
+    void removeDirection(const QUuid &id);
 
-    LineDirection *newDirection(QString id = "");
-    LineDirection *newDirection(const QJsonObject &obj);
-    LineDirection *newDirection(const LineDirection &newDirection);
-
-    QList<LineDirection *> cloneDirections() const;
-
-    Route *newRoute(QString id = "");
-    Route *newRoute(const QJsonObject &obj);
-    Route *newRoute(const Route &newRoute);
-
-    Trip *newTrip(QString id = "");
-    Trip *newTrip(const QJsonObject &obj);
-    Trip *newTrip(const Trip &newTrip);
-
-signals:
-    void changed(Line *);
-    void routesAdded(QList<Route *>);
-    void routesChanged(QList<Route *>);
-    void routesRemoved(QList<Route *>);
-
-    void directionsAdded(QList<LineDirection *>);
-    void directionsChanged(QList<LineDirection *>);
-    void directionsRemoved(QList<LineDirection *>);
-
-    void tripsAdded(QList<Trip *>);
-    void tripsChanged(QList<Trip *>);
-    void tripsRemoved(QList<Trip *>);
-
-    void hourBreakChanged(int);
+    QJsonObject toJson() const override;
 
 protected:
-    void copy(const Line &);
-    void fromJson(const QJsonObject &);
-
-    void onRouteAdded(Route *);
-    void onRouteChanged(Route *);
-    void onRouteRemoved(Route *);
-
-    void onDirectionAdded(LineDirection *);
-    void onDirectionChanged(LineDirection *);
-    void onDirectionRemoved(LineDirection *);
-
-    void onTripAdded(Trip *);
-    void onTripChanged(Trip *);
-    void onTripRemoved(Trip *);
-
-protected slots:
-    void onUpdateTimerTimeout();
-
-
-private:
-    QString _name;
-    QString _description;
-    QColor _color;
-    QList<LineDirection *> _directions;
-    QList<Route*> _routes;
-    QList<Trip *> _trips;
-    int _hourBreak;
-
-    QList<Route *> _addedRoutes;
-    QList<Route *> _changedRoutes;
-    QList<Route *> _removedRoutes;
-
-    QList<LineDirection *> _addedDirections;
-    QList<LineDirection *> _changedDirections;
-    QList<LineDirection *> _removedDirections;
-
-    QList<Trip *> _addedTrips;
-    QList<Trip *> _changedTrips;
-    QList<Trip *> _removedTrips;
-
-    QTimer *_updateTimer;
+    void fromJson(const QJsonObject &jsonObject) override;
 };
 
 #endif // LINE_H

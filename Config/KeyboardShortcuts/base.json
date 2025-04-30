@@ -1,0 +1,372 @@
+[
+    {
+        "id": "project.new",
+        "default": "standard:6",
+        "icon": ":/Icons/FileNew.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "New Project",
+            "de_DE" : "Neues Projekt"
+        }
+    },
+    {
+        "id": "project.open",
+        "default": "standard:3",
+        "icon": ":/Icons/FileOpen.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open Project",
+            "de_DE" : "Projekt öffnen"
+        }
+    },
+    {
+        "id": "project.save",
+        "default": "standard:5",
+        "icon": ":/Icons/FileSave.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Save Project",
+            "de_DE" : "Projekt speichern"
+        }
+    },
+    {
+        "id": "project.saveAs",
+        "default": "standard:63",
+        "icon": ":/Icons/FileSave.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Save Project As",
+            "de_DE" : "Projekt speichern unter"
+        }
+    },
+    {
+        "id": "project.close",
+        "default": "standard:4",
+        "icon": ":/Icons/FileClose.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Close Project",
+            "de_DE" : "Projekt schließen"
+        }
+    },
+    {
+        "id": "project.settings",
+        "default": "Ctrl+Shift+,",
+        "icon": ":/Icons/ProjectSettings.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open Project Settings",
+            "de_DE" : "Projekteinstellungen öffnen"
+        }
+    },
+    {
+        "id": "application.quit",
+        "default": ["standard:65", "Ctrl+Q"],
+        "icon": ":/Icons/Quit.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Quit Application",
+            "de_DE" : "Anwendung beenden"
+        }
+    },
+    {
+        "id": "application.preferences.open",
+        "default": ["standard:64", "Ctrl+,"],
+        "icon": ":/Icons/Preferences.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open Preferences",
+            "de_DE" : "Einstellungen öffnen"
+        }
+    },
+    {
+        "id": "application.preferences.keyboardShortcuts.focusSearch",
+        "default": "standard:22",
+        "icon": ":/Icons/Keyboard.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Keyboard Shortcuts: focus searchbar",
+            "de_DE" : "Einstellungen - Tastenkombinationen: Suchleiste fokussieren"
+        }
+    },
+    {
+        "id": "application.preferences.keyboardShortcuts.restoreDefaultShortcut",
+        "default": "",
+        "icon": ":/Icons/Undo.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Keyboard Shortcuts: Restore default shortcut",
+            "de_DE" : "Einstellungen - Tastenkombinationen: Standardwert wiederherstellen"
+        }
+    },
+    {
+        "id": "application.preferences.keyboardShortcuts.removeShortcut",
+        "default": "",
+        "icon": ":/Icons/Delete.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Keyboard Shortcuts: Remove shortcut",
+            "de_DE" : "Einstellungen - Tastenkombinationen: Shortcut entfernen"
+        }
+    },
+    {
+        "id": "application.preferences.keyboardShortcuts.copyID",
+        "default": "standard:9",
+        "icon": ":/Icons/Duplicate.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Keyboard Shortcuts: Copy ID",
+            "de_DE" : "Einstellungen - Tastenkombinationen: ID kopieren"
+        }
+    },
+    {
+        "id": "application.preferences.keyboardShortcuts.showOnlyModified",
+        "default": "",
+        "icon": ":/Icons/Edit.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Keyboard Shortcuts: Show only modified",
+            "de_DE" : "Einstellungen - Tastenkombinationen: Nur Veränderte anzeigen"
+        }
+    },
+    {
+        "id": "application.preferences.keyboardShortcuts.import",
+        "default": "Ctrl+I",
+        "icon": ":/Icons/FileImport.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Keyboard Shortcuts: Import",
+            "de_DE" : "Einstellungen - Tastenkombinationen: Importieren"
+        }
+    },
+    {
+        "id": "application.preferences.keyboardShortcuts.export",
+        "default": "Ctrl+E",
+        "icon": ":/Icons/FileExport.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Keyboard Shortcuts: Export",
+            "de_DE" : "Einstellungen - Tastenkombinationen: Exportieren"
+        }
+    },
+    {
+        "id": "application.preferences.keyboardShortcuts.resetAll",
+        "default": "",
+        "icon": ":/Icons/Undo.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Keyboard Shortcuts: Rest all",
+            "de_DE" : "Einstellungen - Tastenkombinationen: Alle zurücksetzen"
+        }
+    },
+    {
+        "id": "application.configuration.open",
+        "default": "Ctrl+Alt+,",
+        "icon": ":/Icons/Preferences.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open Configuration",
+            "de_DE" : "Konfiguration öffnen"
+        }
+    },
+    {
+        "id": "application.configuration.reload",
+        "default": "standard:15",
+        "icon": ":/Icons/Reload.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Reload Configuration",
+            "de_DE" : "Konfiguration neu laden"
+        }
+    },
+    {
+        "id": "application.configuration.key.delete",
+        "default": "standard:7",
+        "icon": ":/Icons/Delete.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Configuration: Delete Key",
+            "de_DE" : "Konfiguration: Schlüssel löschen"
+        }
+    },
+    {
+        "id": "application.configuration.key.restoreDefault",
+        "default": "",
+        "icon": ":/Icons/Undo.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Configuration: restore default value",
+            "de_DE" : "Konfiguration: Standardwert wiederherstellen"
+        }
+    },
+    {
+        "id": "application.configuration.key.copyID",
+        "default": "standard:9",
+        "icon": ":/Icons/Duplicate.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Configuration: Copy ID",
+            "de_DE" : "Konfiguration: ID kopieren"
+        }
+    },
+    {
+        "id": "edit.undo",
+        "default": "standard:11",
+        "icon": ":/Icons/Undo.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Undo",
+            "de_DE" : "Rückgängig"
+        }
+    },
+    {
+        "id": "edit.redo",
+        "default": "standard:12",
+        "icon": ":/Icons/Redo.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Redo",
+            "de_DE" : "Wiederholen (\"Vorgängig\")"
+        }
+    },
+    {
+        "id": "view.docks.welcome.toggle",
+        "default": "Alt+W",
+        "icon": ":/Icons/Home.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show/hide dock: Welcome",
+            "de_DE" : "Dock ein-/ausblenden: Willkommen"
+        }
+    },
+    {
+        "id": "view.docks.busstops.toggle",
+        "default": "Alt+B",
+        "icon": ":/Icons/Busstop.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show/hide dock: Busstops",
+            "de_DE" : "Dock ein-/ausblenden: Haltestellen"
+        }
+    },
+    {
+        "id": "view.workspaces.home.activate",
+        "default": "Alt+1",
+        "icon": ":/Icons/Home.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Home",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Startseite"
+        }
+    },
+    {
+        "id": "view.workspaces.routing.activate",
+        "default": "Alt+2",
+        "icon": ":/Icons/Route.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Routing",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Streckenplanung"
+        }
+    },
+    {
+        "id": "view.workspaces.scheduling.activate",
+        "default": "Alt+3",
+        "icon": ":/Icons/Schedule.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Scheduling",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Fahrplanung"
+        }
+    },
+    {
+        "id": "view.workspaces.tours.activate",
+        "default": "Alt+4",
+        "icon": ":/Icons/Tour.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Tours",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Dienste"
+        }
+    },
+    {
+        "id": "view.workspaces.publish.activate",
+        "default": "Alt+5",
+        "icon": ":/Icons/PublishedLines.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Publish",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Veröffentlichen"
+        }
+    },
+    {
+        "id": "view.workspaces.restoreDefaultLayout",
+        "default": "Alt+X",
+        "icon": ":/Icons/Undo.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Current Workspace: restore default layout",
+            "de_DE" : "Aktueller Arbeitsbereich: Standardlayout wiederherstellen"
+        }
+    },
+    {
+        "id": "variantEditor.listItem.add",
+        "default": "Ctrl++",
+        "icon": ":/Icons/Add.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "VariantEditor: Add List Item",
+            "de_DE" : "VariantEditor: Listenelement hinzufügen"
+        }
+    },
+    {
+        "id": "variantEditor.listItem.edit",
+        "default": "F2",
+        "icon": ":/Icons/Edit.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "VariantEditor: Edit List Item",
+            "de_DE" : "VariantEditor: Listenelement bearbeiten"
+        }
+    },
+    {
+        "id": "variantEditor.listItem.delete",
+        "default": "Del",
+        "icon": ":/Icons/Delete.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "VariantEditor: Delete List Item",
+            "de_DE" : "VariantEditor: Listenelement löschen"
+        }
+    },
+    {
+        "id": "variantEditor.listItem.moveUp",
+        "default": "Alt+Up",
+        "icon": ":/Icons/MoveUp.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "VariantEditor: Move List Item Up",
+            "de_DE" : "VariantEditor: Listenelement nach oben bewegen"
+        }
+    },
+    {
+        "id": "variantEditor.listItem.moveDown",
+        "default": "Alt+Down",
+        "icon": ":/Icons/MoveDown.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "VariantEditor: Move List Item Down",
+            "de_DE" : "VariantEditor: Listenelement nach unten bewegen"
+        }
+    },
+    {
+        "id": "variantEditor.listItem.delete",
+        "default": "Del",
+        "icon": ":/Icons/Delete.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "VariantEditor: Delete List Item",
+            "de_DE" : "VariantEditor: Listenelement löschen"
+        }
+    }
+]
