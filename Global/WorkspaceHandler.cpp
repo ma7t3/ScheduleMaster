@@ -51,6 +51,14 @@ void WorkspaceHandler::setWorkspacesToolbar(QToolBar *newToolBar) {
     updateWorkspacesToolbar();
 }
 
+Workspace *WorkspaceHandler::currentWorkspace() {
+    for(Workspace *workspace : std::as_const(_workspaces))
+        if(workspace->active())
+            return workspace;
+
+    return nullptr;
+}
+
 void WorkspaceHandler::loadWorkspaces() {
     qInfo() << "   Loading workspaces...";
     const QJsonArray workspaces = GlobalConfig::loadMultiConfigResource("Workspaces");

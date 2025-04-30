@@ -95,6 +95,13 @@ public:
      */
     void setWorkspacesToolbar(QToolBar *newToolBar);
 
+    /**
+     * @brief Returns a pointer to the currently active workspace.
+     *
+     * This may be nullptr if there is no active workspace (e.g. before the initialisation or if no workspaces do exist).
+     */
+    Workspace *currentWorkspace();
+
 protected:
     /**
      * @brief Loads the workspaces from the global configuration
