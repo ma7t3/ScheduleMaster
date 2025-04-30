@@ -6,8 +6,7 @@
             "en_US": "Welcome",
             "de_DE": "Willkommen"
         },
-        "icon": ":/Icons/Home.ico",
-        "widget": "welcome"
+        "icon": ":/Icons/Home.ico"
     },
     {
         "id": "busstops",
@@ -16,7 +15,6 @@
             "en_US": "Busstops",
             "de_DE": "Haltestellen"
         },
-        "icon": ":/Icons/Busstop.ico",
-        "widget": "busstops"
+        "icon": ":/Icons/Busstop.ico"
     }
 ]

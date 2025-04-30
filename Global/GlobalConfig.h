@@ -86,7 +86,7 @@ public:
     DockConfig(const QJsonObject &jsonObject = QJsonObject());
     DockConfig(const QString &id);
 
-    QString name, icon, widgetID;
+    QString name, icon;
 };
 
 /**

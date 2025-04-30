@@ -130,7 +130,6 @@ QList<Qt::ColorScheme> Style::supportedColorSchemes() const {
 DockConfig::DockConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     name = jsonObject.value("name").toString();
     icon = jsonObject.value("icon").toString();
-    widgetID = jsonObject.value("widgetID").toString();
 }
 
 DockConfig::DockConfig(const QString &id) : GlobalConfigItem(id) {}
