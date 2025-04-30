@@ -12,6 +12,7 @@ void DockHandler::addDock(const DockConfig &dock, QWidget *contentWidget) {
 
     QAction *toggleAction = dockWidget->toggleViewAction();
     toggleAction->setIcon(QIcon(dock.icon));
+    ActionShortcutMapper::map(toggleAction, QString("view.docks.%1.toggle").arg(dock.id()));
     _dockToggleActions.insert(dock.id(), toggleAction);
 
     emit dockAdded(dock.id(), dockWidget, toggleAction);

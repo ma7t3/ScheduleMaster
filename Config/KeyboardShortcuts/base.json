@@ -230,6 +230,26 @@
         }
     },
     {
+        "id": "view.docks.welcome.toggle",
+        "default": "Alt+W",
+        "icon": ":/Icons/Home.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show/hide dock: Welcome",
+            "de_DE" : "Dock ein-/ausblenden: Willkommen"
+        }
+    },
+    {
+        "id": "view.docks.busstops.toggle",
+        "default": "Alt+B",
+        "icon": ":/Icons/Busstop.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show/hide dock: Busstops",
+            "de_DE" : "Dock ein-/ausblenden: Haltestellen"
+        }
+    },
+    {
         "id": "view.workspaces.home.activate",
         "default": "Alt+1",
         "icon": ":/Icons/Home.ico",
