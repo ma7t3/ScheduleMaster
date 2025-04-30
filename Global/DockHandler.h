@@ -8,6 +8,8 @@
 
 #include "Widgets/Docks/DockWelcome.h"
 
+#include "Global/ActionShortcutMapper.h"
+
 class DockHandler : public QObject {
     Q_OBJECT
 public:
