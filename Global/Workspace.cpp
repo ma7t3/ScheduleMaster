@@ -92,6 +92,8 @@ void Workspace::setupAction() {
     _action->setText(_name);
     _action->setIcon(_icon);
 
+    ActionShortcutMapper::map(_action, QString("view.workspaces.%1.activate").arg(_id));
+
     connect(_action, &QAction::triggered, this, [this](const bool &checked) {
         if(checked)
             activate();

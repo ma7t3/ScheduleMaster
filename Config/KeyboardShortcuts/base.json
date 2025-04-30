@@ -230,6 +230,66 @@
         }
     },
     {
+        "id": "view.workspaces.home.activate",
+        "default": "Alt+1",
+        "icon": ":/Icons/Home.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Home",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Startseite"
+        }
+    },
+    {
+        "id": "view.workspaces.routing.activate",
+        "default": "Alt+2",
+        "icon": ":/Icons/Route.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Routing",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Streckenplanung"
+        }
+    },
+    {
+        "id": "view.workspaces.scheduling.activate",
+        "default": "Alt+3",
+        "icon": ":/Icons/Schedule.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Scheduling",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Fahrplanung"
+        }
+    },
+    {
+        "id": "view.workspaces.tours.activate",
+        "default": "Alt+4",
+        "icon": ":/Icons/Tour.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Tours",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Dienste"
+        }
+    },
+    {
+        "id": "view.workspaces.publish.activate",
+        "default": "Alt+5",
+        "icon": ":/Icons/PublishedLines.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Switch to workspace: Publish",
+            "de_DE" : "Zum Arbeitsbereich wechseln: Veröffentlichen"
+        }
+    },
+    {
+        "id": "view.workspaces.restoreDefaultLayout",
+        "default": "Alt+X",
+        "icon": ":/Icons/Undo.ico",
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Current Workspace: restore default layout",
+            "de_DE" : "Aktueller Arbeitsbereich: Standardlayout wiederherstellen"
+        }
+    },
+    {
         "id": "variantEditor.listItem.add",
         "default": "Ctrl++",
         "icon": ":/Icons/Add.ico",

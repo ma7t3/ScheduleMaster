@@ -27,6 +27,15 @@
         "icon": ":/Icons/Schedule.ico"
     },
     {
+        "id": "tours",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Tours",
+            "de_DE": "Dienste"
+        },
+        "icon": ":/Icons/Tour.ico"
+    },
+    {
         "id": "publish",
         "name": {
             "object": "translated_string",
