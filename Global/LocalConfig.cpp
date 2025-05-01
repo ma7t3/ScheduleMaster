@@ -17,7 +17,7 @@ void LocalConfig::initLocale() {
     qInfo() << "   Loading current language...";
     QString str = read("general.language").toString();
     QLocale tmpLocale(str);
-    if(str == "system" || !GlobalConfig::languageIsSupported(tmpLocale.language()))
+    if(str == "system" || !LanguagesHandler::isSupported(tmpLocale.name()))
         _locale = QLocale::system();
     else
         _locale = QLocale(str);

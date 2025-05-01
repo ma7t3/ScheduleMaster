@@ -38,7 +38,7 @@ void WdgPreferencesPageGeneral::reloadPreferences() {
 
 void WdgPreferencesPageGeneral::savePreferences() {
     // language
-    LocalConfig::setLanguage(_languagesModel->language(ui->cbLanguage->currentIndex()));
+    LocalConfig::setLanguage(_languagesModel->language(ui->cbLanguage->currentIndex()).locale);
 
     // logfile mode
     LocalConfig::setLogfileMode(static_cast<LocalConfig::LogfileMode>(ui->cbLogfileMode->currentIndex()));

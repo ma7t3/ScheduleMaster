@@ -19,17 +19,9 @@
 #include "Global/VariantConverter.h"
 #include "Global/Global.h"
 
-class GlobalConfigItem {
-public:
-    GlobalConfigItem(const QJsonObject &jsonObject = QJsonObject());
-    GlobalConfigItem(const QString &id);
 
-public:
-    QString id() const;
-
-private:
-    QString _id;
-};
+// TMP INCLUDE
+#include "GlobalConfigHandler.h"
 
 class FolderLocation : public GlobalConfigItem {
 public:
@@ -114,9 +106,6 @@ public:
     /// Return the singleton instance of the GlobalConfig class.
     static GlobalConfig *instance();
 
-    /// Initializes the supported languages.
-    static void initLanguages();
-
     /// Initializes all the rest excluding the supported languages
     static void init();
 
@@ -167,28 +156,6 @@ public:
      * @param item The item to register
      */
     static void registerNewSettingsItem(const SettingsItem &item);
-
-    /**
-     * @brief Returns a list of all suported languages/locales.
-     * @return The list of supported languages/locales
-     */
-    static QList<QLocale> supportedLanguages();
-
-    /**
-     * @brief Checks if a given language/locale is supported by the app.
-     * @param language The QLocale object to check
-     * @return whether the language/locale is being supported or not
-     */
-    static bool languageIsSupported(const QLocale &language);
-
-    /**
-     * @brief This is an overloaded function.
-     *
-     * Checks if a given language/locale is supported by the app.
-     * @param language The language/locale name (e.g. "en_US") to check
-     * @return whether the language/locale is being supported or not
-     */
-    static bool languageIsSupported(const QString &languageName);
 
     /**
      * @brief Returns a list of all folder locations used by the app.
@@ -363,9 +330,6 @@ protected:
     /// Loads all preference items
     static void loadSettingsItems();
 
-    /// Loads all supported languages
-    static void loadSupportedLanguages();
-
     /// Loads all folder locations
     static void loadFolderLocations();
 
@@ -388,9 +352,6 @@ private:
 
     /// Set of all settings that require a restart
     static inline QSet<QString> _restartRequiredSettings;
-
-    /// Set of all supported languages/locales
-    static inline QSet<QLocale> _supportedLanguages;
 
     /// Hash of all folder locations: <id, Folder Location object>
     static inline QHash<QString, FolderLocation> _folderLocations;

@@ -5,6 +5,8 @@
 #include "Global/GlobalConfig.h"
 #include "Global/LocalConfig.h"
 
+#include "Global/LanguagesHandler.h"
+
 class LanguagesModel : public QAbstractListModel {
     Q_OBJECT
 
@@ -14,14 +16,15 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    QLocale language(const QModelIndex &index);
-    QLocale language(const int &index);
-    int indexOfLanguage(const QLocale &locale);
+    Language language(const QModelIndex &index);
+    Language language(const int &index);
+    int indexOfLanguage(const Language &language);
+    int indexOfLanguage(const QLocale::Language &language);
 
     void reload();
 
 private:
-    QList<QLocale> _languages;
+    QList<Language> _languages;
 };
 
 #endif // LANGUAGESMODEL_H

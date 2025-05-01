@@ -9,10 +9,30 @@
 
 #include "Global/GlobalConfigHandlerSignals.h"
 
+class GlobalConfigItem {
+public:
+    GlobalConfigItem(const QString &id) : _id(id) {}
+    GlobalConfigItem(const QJsonObject &jsonObject = QJsonObject()) {
+        _id = jsonObject.value("id").toString();
+    }
+
+    bool operator==(const GlobalConfigItem &other) const {
+        return id() == other.id();
+    }
+
+public:
+    QString id() const {
+        return _id;
+    }
+
+private:
+    QString _id;
+};
+
 template <typename T>
 class GlobalConfigHandler : public GlobalConfigHandlerSignals {
 public:
-    explicit GlobalConfigHandler(QObject *parent);
+    explicit GlobalConfigHandler(QObject *parent) : GlobalConfigHandlerSignals(parent) {}
 
     /**
      * @brief Returns a list of all items inside the handler.
