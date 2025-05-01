@@ -60,6 +60,8 @@ HEADERS += \
     Global/DockHandler.h \
     Global/Global.h \
     Global/GlobalConfig.h \
+    Global/GlobalConfigHandler.h \
+    Global/GlobalConfigHandlerSignals.h \
     Global/LocalConfig.h \
     Global/Logger.h \
     Global/ProjectFileHandler.h \
