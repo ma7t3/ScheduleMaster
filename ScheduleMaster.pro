@@ -16,6 +16,7 @@ SOURCES += \
     Global/DockHandler.cpp \
     Global/Global.cpp \
     Global/GlobalConfig.cpp \
+    Global/LanguagesHandler.cpp \
     Global/LocalConfig.cpp \
     Global/Logger.cpp \
     Global/ProjectFileHandler.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     Global/GlobalConfig.h \
     Global/GlobalConfigHandler.h \
     Global/GlobalConfigHandlerSignals.h \
+    Global/LanguagesHandler.h \
     Global/LocalConfig.h \
     Global/Logger.h \
     Global/ProjectFileHandler.h \

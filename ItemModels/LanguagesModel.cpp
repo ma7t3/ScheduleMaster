@@ -18,27 +18,35 @@ QVariant LanguagesModel::data(const QModelIndex &index, int role) const {
         return QVariant();
 
     switch(role) {
-        case Qt::DisplayRole: return _languages[index.row()].nativeLanguageName();
-        case Qt::UserRole:    return _languages[index.row()].name();
+        case Qt::DisplayRole: return _languages[index.row()].locale.nativeLanguageName();
+        case Qt::UserRole:    return _languages[index.row()].locale.name();
     }
 
     return QVariant();
 }
 
-QLocale LanguagesModel::language(const QModelIndex &index) {
-    return index.isValid() ? _languages[index.row()] : QLocale();
+Language LanguagesModel::language(const QModelIndex &index) {
+    return index.isValid() ? _languages[index.row()] : Language();
 }
 
-QLocale LanguagesModel::language(const int &index) {
-    return index < 0 || index >= _languages.count() ? QLocale() : _languages[index];
+Language LanguagesModel::language(const int &index) {
+    return index < 0 || index >= _languages.count() ? Language() : _languages[index];
 }
 
-int LanguagesModel::indexOfLanguage(const QLocale &locale) {
-    return _languages.indexOf(locale);
+int LanguagesModel::indexOfLanguage(const Language &language) {
+    return _languages.indexOf(language);
+}
+
+int LanguagesModel::indexOfLanguage(const QLocale::Language &language) {
+    for(int i = 0; i < _languages.size(); i++) {
+        if(_languages[i].locale.language() == language)
+            return i;
+    }
+    return -1;
 }
 
 void LanguagesModel::reload() {
     beginResetModel();
-    _languages = GlobalConfig::supportedLanguages();
+    _languages = LanguagesHandler::supportedLanguages();
     endResetModel();
 }

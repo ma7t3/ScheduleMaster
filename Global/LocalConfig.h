@@ -18,6 +18,8 @@
 #include <QApplication>
 
 #include "Global/GlobalConfig.h"
+#include "Global/LanguagesHandler.h"
+
 
 class LocalConfig : public QObject {
     Q_OBJECT

@@ -1,15 +1,5 @@
 #include "GlobalConfig.h"
 
-GlobalConfigItem::GlobalConfigItem(const QJsonObject &jsonObject) {
-    _id = jsonObject.value("id").toString();
-}
-
-GlobalConfigItem::GlobalConfigItem(const QString &id) : _id(id) {}
-
-QString GlobalConfigItem::id() const {
-    return _id;
-}
-
 FolderLocation::FolderLocation(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     name = jsonObject.value("name").toString(id());
     icon = jsonObject.value("icon").toString();
@@ -141,12 +131,6 @@ GlobalConfig *GlobalConfig::instance() {
     return &instance;
 }
 
-void GlobalConfig::initLanguages() {
-    qInfo() << "Loading global configuration (1/2)...";
-
-    loadSupportedLanguages();
-}
-
 void GlobalConfig::init() {
     qInfo() << "Loading global configuration (2/2)...";
 
@@ -193,17 +177,6 @@ void GlobalConfig::registerNewSettingsItem(const SettingsItem &item) {
     qInfo().noquote() << "Registered new settings item: " + item.id();
 }
 
-QList<QLocale> GlobalConfig::supportedLanguages() {
-    return _supportedLanguages.values();
-}
-
-bool GlobalConfig::languageIsSupported(const QLocale &language) {
-    return _supportedLanguages.contains(language);
-}
-
-bool GlobalConfig::languageIsSupported(const QString &languageName) {
-    return languageIsSupported(QLocale(languageName));
-}
 
 QList<FolderLocation> GlobalConfig::folderLocations() {
     return _folderLocations.values();
@@ -380,17 +353,6 @@ void GlobalConfig::loadSettingsItems() {
 
         _settingsItems.insert(item.id(), item);
         qInfo().noquote() << "      - " + item.id();
-    }
-}
-
-void GlobalConfig::loadSupportedLanguages() {
-    qInfo() << "   Loading supported languages...";
-    const QJsonArray languages = loadMultiConfigResource("Languages");
-    for(const QJsonValue &val : languages) {
-        const QString lang = val.toString();
-        const QLocale locale(lang);
-        _supportedLanguages << locale.language();
-        qInfo().noquote() << "      - " + lang;
     }
 }
 
