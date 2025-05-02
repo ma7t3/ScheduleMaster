@@ -1,5 +1,5 @@
-#ifndef GLOBALCONFIGHANDLER_H
-#define GLOBALCONFIGHANDLER_H
+#ifndef GLOBALCONFIGMANAGER_H
+#define GLOBALCONFIGMANAGER_H
 
 #include <QObject>
 #include <QJsonObject>
@@ -7,7 +7,7 @@
 #include <QDir>
 #include <QFile>
 
-#include "Global/GlobalConfigHandlerSignals.h"
+#include "Global/GlobalConfigManagerSignals.h"
 
 class GlobalConfigItem {
 public:
@@ -29,42 +29,53 @@ private:
     QString _id;
 };
 
-template <typename T>
-class GlobalConfigHandler : public GlobalConfigHandlerSignals {
+template <typename Derived, typename T>
+class GlobalConfigManager : public GlobalConfigManagerSignals {
+protected:
+    explicit GlobalConfigManager(QObject *parent) : GlobalConfigManagerSignals(parent) {}
+
 public:
-    explicit GlobalConfigHandler(QObject *parent) : GlobalConfigHandlerSignals(parent) {}
+
+    /**
+     * @brief Returns the derived signleton instance
+     * @return The singleton instance
+     */
+    static Derived *instance() {
+        static Derived instance(nullptr);
+        return &instance;
+    };
 
     /**
      * @brief Returns a list of all items inside the handler.
      * @return The item list
      */
-    QList<T> items() const { return _items.values(); }
+    static QList<T> items() { return _items.values(); }
 
     /**
      * @brief Returns a map of all items inside the handler using the item IDs as keys.
      * @return The item map
      */
-    QMap<QString, T> itemsMap() const { return _items; }
+    static QMap<QString, T> itemsMap() { return _items; }
 
     /**
      * @brief Returns a list of all item IDs inside the handler
      * @return
      */
-    QStringList itemIDs() const { return _items.keys();}
+    static QStringList itemIDs() { return _items.keys();}
 
     /**
      * @brief Checks if an item specified by the given ID exists inside the handler.
      * @param id The item ID to check for
      * @return Whether the item exists or not
      */
-    bool itemExists(const QString &id) const { return _items.contains(id); }
+    static bool itemExists(const QString &id) { return _items.contains(id); }
 
     /**
      * @brief Returns the item specified by the given ID.
      * @param id The ID of the item to find
      * @return The item or a default constructed value (or nullptr for pointer types) if the item doesn't exist.
      */
-    T item(const QString &id) const {
+    static T item(const QString &id) {
         if constexpr(std::is_pointer<T>::value)
             return _items.value(id, nullptr);
         else
@@ -80,7 +91,7 @@ public:
      * @param item The item to add
      * @return Whether the item was successfully added to the handler
      */
-    bool addItem(T item) {
+    static bool addItem(T item) {
         if constexpr(std::is_pointer<T>::value) {
             if(!item) {
                 qWarning() << "Didn't add item. Item is nullptr!";
@@ -93,12 +104,12 @@ public:
             }
 
             if constexpr(std::is_base_of<QObject, std::remove_pointer<T>>::value)
-                item->setParent(this);
+                item->setParent(instance());
 
             const QString id = item->id();
 
             _items.insert(id, item);
-            emit GlobalConfigHandlerSignals::itemAdded(id);
+            emit instance()->GlobalConfigManagerSignals::itemAdded(id);
             qDebug() << "Item added:" << id;
         } else {
             if(item.id().isEmpty()) {
@@ -109,7 +120,7 @@ public:
             const QString id = item.id();
 
             _items.insert(id, item);
-            emit GlobalConfigHandlerSignals::itemAdded(id);
+            emit instance()->GlobalConfigManagerSignals::itemAdded(id);
             qDebug() << "Item added:" << id;
         }
         return true;
@@ -124,7 +135,7 @@ public:
      * @param id The id of the item to remove
      * @return The removed item.
      */
-    T removeItem(const QString &id) {
+    static T removeItem(const QString &id) {
         if(!_items.contains(id)) {
             qWarning() << "Cannot remove item" << id << "from the handler because it doesn' exist.";
             if(std::is_pointer<T>::value)
@@ -139,17 +150,21 @@ public:
             item->setParent(nullptr);
 
         _items.remove(id);
-        emit GlobalConfigHandlerSignals::itemRemoved(id);
+        emit instance()->GlobalConfigManagerSignals::itemRemoved(id);
         qDebug().noquote() << "Item removed:" << id;
         return item;
     }
+
+
+    GlobalConfigManager(const GlobalConfigManager &) = delete;
+    GlobalConfigManager &operator=(const GlobalConfigManager &) = delete;
 
 protected:
     /**
      * @brief Loads all items of the resource directly into the _items.
      * @param resourceID The resource ID to read the items from.
      */
-    void loadItems(const QString &resourceID) {
+    static void loadItems(const QString &resourceID) {
         qInfo().noquote() << "Loading" << resourceID;
         const QJsonArray jsonData = loadMultiConfigResource(resourceID);
         for(const QJsonValue &val : jsonData) {
@@ -300,7 +315,7 @@ protected:
 
 private:
     /// The items inside the handler
-    QMap<QString, T> _items;
+    static inline QMap<QString, T> _items;
 };
 
-#endif // GLOBALCONFIGHANDLER_H
+#endif // GLOBALCONFIGMANAGER_H

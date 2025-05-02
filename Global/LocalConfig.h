@@ -18,8 +18,8 @@
 #include <QApplication>
 
 #include "Global/GlobalConfig.h"
-#include "Global/LanguagesHandler.h"
-#include "Global/FolderLocationsHandler.h"
+#include "Global/LanguagesManager.h"
+#include "Global/FolderLocationsManager.h"
 
 
 class LocalConfig : public QObject {

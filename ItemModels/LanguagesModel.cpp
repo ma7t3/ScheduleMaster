@@ -47,6 +47,6 @@ int LanguagesModel::indexOfLanguage(const QLocale::Language &language) {
 
 void LanguagesModel::reload() {
     beginResetModel();
-    _languages = LanguagesHandler::supportedLanguages();
+    _languages = LanguagesManager::supportedLanguages();
     endResetModel();
 }

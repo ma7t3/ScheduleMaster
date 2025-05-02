@@ -14,10 +14,10 @@ SOURCES += \
     Global/ActionShortcutMapper.cpp \
     Global/AppInfo.cpp \
     Global/DockHandler.cpp \
-    Global/FolderLocationsHandler.cpp \
+    Global/FolderLocationsManager.cpp \
     Global/Global.cpp \
     Global/GlobalConfig.cpp \
-    Global/LanguagesHandler.cpp \
+    Global/LanguagesManager.cpp \
     Global/LocalConfig.cpp \
     Global/Logger.cpp \
     Global/ProjectFileHandler.cpp \
@@ -60,12 +60,12 @@ HEADERS += \
     Global/ActionShortcutMapper.h \
     Global/AppInfo.h \
     Global/DockHandler.h \
-    Global/FolderLocationsHandler.h \
+    Global/FolderLocationsManager.h \
     Global/Global.h \
     Global/GlobalConfig.h \
-    Global/GlobalConfigHandler.h \
-    Global/GlobalConfigHandlerSignals.h \
-    Global/LanguagesHandler.h \
+    Global/GlobalConfigManager.h \
+    Global/GlobalConfigManagerSignals.h \
+    Global/LanguagesManager.h \
     Global/LocalConfig.h \
     Global/Logger.h \
     Global/ProjectFileHandler.h \
