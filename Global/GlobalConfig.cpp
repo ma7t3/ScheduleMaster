@@ -1,13 +1,5 @@
 #include "GlobalConfig.h"
 
-FolderLocation::FolderLocation(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
-    name = jsonObject.value("name").toString(id());
-    icon = jsonObject.value("icon").toString();
-    multiple = jsonObject.value("multiple").toBool();
-}
-
-FolderLocation::FolderLocation(const QString &id) : GlobalConfigItem(id) {}
-
 SettingsItem::SettingsItem(const QString &id) : GlobalConfigItem(id) {}
 
 SettingsItem::SettingsItem(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
@@ -135,7 +127,6 @@ void GlobalConfig::init() {
     qInfo() << "Loading global configuration (2/2)...";
 
     loadSettingsItems();
-    loadFolderLocations();
     loadKeyboardShortcuts();
     loadStyles();
     loadAccentColors();
@@ -175,15 +166,6 @@ void GlobalConfig::registerNewSettingsItem(const SettingsItem &item) {
 
     _settingsItems.insert(item.id(), item);
     qInfo().noquote() << "Registered new settings item: " + item.id();
-}
-
-
-QList<FolderLocation> GlobalConfig::folderLocations() {
-    return _folderLocations.values();
-}
-
-QStringList GlobalConfig::folderLocationIDs() {
-    return _folderLocations.keys();
 }
 
 QList<KeyboardShortcut> GlobalConfig::keyboardShortcuts() {
@@ -354,44 +336,6 @@ void GlobalConfig::loadSettingsItems() {
         _settingsItems.insert(item.id(), item);
         qInfo().noquote() << "      - " + item.id();
     }
-}
-
-void GlobalConfig::loadFolderLocations() {
-    qInfo() << "   Loading folder locations...";
-    const QJsonArray locations = loadMultiConfigResource("Locations");
-    for(const QJsonValue &val : std::as_const(locations)) {
-        const QJsonObject obj = val.toObject();
-
-        const FolderLocation location(obj);
-        QString id = location.id();
-
-        _folderLocations.insert(id, location);
-        qInfo().noquote() << "      - " + id;
-
-        SettingsItem item("locations/" + id);
-        item.type            = QMetaType::QStringList;
-        item.description     = location.name;
-        item.requiresRestart = obj.value("changeRequiresRestart").toBool();
-
-        QStringList defaultValue;
-
-        if(id == "projectFilesDefault")
-            defaultValue = {QDir::homePath() + "/ScheduleMaster/Projects"};
-        else if(id == "logfile")
-            defaultValue = {defaultLogfileLocation()};
-        else if(id == "plugins")
-            defaultValue = {QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/plugins", QCoreApplication::applicationDirPath() + "/plugins"};
-        else
-            defaultValue = QStringList();
-
-        item.defaultValue = defaultValue;
-
-        registerNewSettingsItem(item);
-    }
-}
-
-QString GlobalConfig::defaultLogfileLocation() {
-    return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs";
 }
 
 void GlobalConfig::loadKeyboardShortcuts() {

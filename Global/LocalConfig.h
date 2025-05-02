@@ -19,6 +19,7 @@
 
 #include "Global/GlobalConfig.h"
 #include "Global/LanguagesHandler.h"
+#include "Global/FolderLocationsHandler.h"
 
 
 class LocalConfig : public QObject {

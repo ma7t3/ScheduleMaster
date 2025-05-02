@@ -20,17 +20,9 @@
 #include "Global/Global.h"
 
 
+
 // TMP INCLUDE
 #include "GlobalConfigHandler.h"
-
-class FolderLocation : public GlobalConfigItem {
-public:
-    FolderLocation(const QJsonObject &jsonObject = QJsonObject());
-    FolderLocation(const QString &id);
-
-    QString name, icon;
-    bool multiple;
-};
 
 class SettingsItem : public GlobalConfigItem {
 public:
@@ -156,22 +148,6 @@ public:
      * @param item The item to register
      */
     static void registerNewSettingsItem(const SettingsItem &item);
-
-    /**
-     * @brief Returns a list of all folder locations used by the app.
-     * @return The list of all folder locations
-     */
-    static QList<FolderLocation> folderLocations();
-
-    /**
-     * @brief Returns a list of all folder location id values used by the app.
-     * @return The list of all folder location id values
-     */
-    static QStringList folderLocationIDs();
-
-    /// Provide defualt logfile location before initalization
-    static QString defaultLogfileLocation();
-
 
     /**
      * @brief Returns a list of all defined keyboard shortcuts
@@ -330,9 +306,6 @@ protected:
     /// Loads all preference items
     static void loadSettingsItems();
 
-    /// Loads all folder locations
-    static void loadFolderLocations();
-
     /// Loads all keyboard shortcuts
     static void loadKeyboardShortcuts();
 
@@ -352,9 +325,6 @@ private:
 
     /// Set of all settings that require a restart
     static inline QSet<QString> _restartRequiredSettings;
-
-    /// Hash of all folder locations: <id, Folder Location object>
-    static inline QHash<QString, FolderLocation> _folderLocations;
 
     /// Hash of all keyboard shortcuts with their ID as key
     static inline QHash<QString, KeyboardShortcut> _keyboardShortcuts;

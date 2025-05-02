@@ -228,7 +228,7 @@ QMap<QString, QStringList> LocalConfig::folderLocations() {
 
     const QStringList keys = groupKeys("locations");
 
-    const QStringList standardKeys = GlobalConfig::folderLocationIDs();
+    const QStringList standardKeys = FolderLocationsHandler::instance()->itemIDs();
     for(const QString &key : standardKeys) {
         if(!keys.contains(key)) {
             data[key] = GlobalConfig::settingsItem("locations/" + key).defaultValue.toStringList();
@@ -252,8 +252,6 @@ QStringList LocalConfig::folderLocationPaths(const QString &id) {
     QStringList values = read("locations/" + id).toStringList();
     if(values.empty()) {
         values = GlobalConfig::settingsItem("locations/" + id).defaultValue.toStringList();
-        if(values.isEmpty() && id == "logfile")
-            values = {GlobalConfig::defaultLogfileLocation()};
         write("locations/" + id, values);
     }
 
