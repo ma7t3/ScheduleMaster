@@ -17,6 +17,7 @@ SOURCES += \
     Global/FolderLocationsManager.cpp \
     Global/Global.cpp \
     Global/GlobalConfig.cpp \
+    Global/KeyboardShortcutsManager.cpp \
     Global/LanguagesManager.cpp \
     Global/LocalConfig.cpp \
     Global/Logger.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     Global/GlobalConfig.h \
     Global/GlobalConfigManager.h \
     Global/GlobalConfigManagerSignals.h \
+    Global/KeyboardShortcutsManager.h \
     Global/LanguagesManager.h \
     Global/LocalConfig.h \
     Global/Logger.h \

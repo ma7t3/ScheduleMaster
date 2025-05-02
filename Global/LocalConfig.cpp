@@ -270,10 +270,10 @@ QKeySequence LocalConfig::keyboardShortcut(const QString &id) {
     if(keyExsists(fullID))
         return QKeySequence(read(fullID).toString());
 
-    if(!GlobalConfig::keyboardShortcutExists(id))
+    if(!KeyboardShortcutsManager::itemExists(id))
         return QKeySequence();
 
-    QKeySequence sequence = GlobalConfig::keyboardShortcutDefaultKeySequence(id);
+    QKeySequence sequence = KeyboardShortcutsManager::item(id).defaultKeySequence;
     setKeyboardShortcut(id, sequence);
     return sequence;
 }

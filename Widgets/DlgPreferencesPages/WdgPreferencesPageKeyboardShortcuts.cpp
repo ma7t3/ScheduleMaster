@@ -139,7 +139,7 @@ void WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut() {
         return;
 
     const QString id = _model->metaData(current).id();
-    QKeySequence shortcut = GlobalConfig::keyboardShortcutDefaultKeySequence(id);
+    QKeySequence shortcut = KeyboardShortcutsManager::item(id).defaultKeySequence;
     _model->setModifiedShortcut(id, shortcut);
     ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(shortcut);

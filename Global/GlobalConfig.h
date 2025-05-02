@@ -24,17 +24,6 @@
 // TMP INCLUDE
 #include "GlobalConfigManager.h"
 
-
-
-class KeyboardShortcut : public GlobalConfigItem {
-public:
-    KeyboardShortcut(const QJsonObject &jsonObject = QJsonObject());
-    KeyboardShortcut(const QString &id);
-
-    QString description, icon;
-    QKeySequence defaultKeySequence;
-};
-
 class Style : public GlobalConfigItem {
 public:
     Style(const QJsonObject &jsonObject = QJsonObject());
@@ -91,41 +80,6 @@ public:
 
     /// Initializes all the rest excluding the supported languages
     static void init();
-
-    /**
-     * @brief Returns a list of all defined keyboard shortcuts
-     * @return The list of keyboard shortcuts
-     */
-    static QList<KeyboardShortcut> keyboardShortcuts();
-
-    /**
-     * @brief Checks if the KeyboardShortcut specified by the given ID exists
-     * @param id The KeyboardShortcut's ID to check for
-     * @return Whether the shortcut exists or not
-     */
-    static bool keyboardShortcutExists(const QString &id);
-
-    /**
-     * @brief Returns a KeyboardShortcut by its ID
-     * @param id The KeyboardShortcut's ID
-     * @return The KeyboardShortcut object or a default constructed object if the KeyboardShortcut does not exist
-     */
-    static KeyboardShortcut keyboardShortcut(const QString &id);
-
-    /**
-     * @brief Returns a KeyboardShortcut's default key sequence
-     * @param id The KeyboardShortcut's ID
-     * @return The KeyboardShortcut's default key sequence or an empty key sequence if the KeyboardShortcut does not exist or does not have a valid default key sequence
-     */
-    static QKeySequence keyboardShortcutDefaultKeySequence(const QString &id);
-
-    /**
-     * @brief Checks if the given QKeySequence is the shortcut's default key sequence
-     * @param id The KeyboardShortcut's ID
-     * @param sequence The QKeySequence to check for
-     * @return Whether sequence is id's default key sequence or not
-     */
-    static bool keyboardShortcutIsDefault(const QString &id, const QKeySequence &sequence);
 
     /**
      * @brief Returns a map of all registered styles. The map key is the style ID.
@@ -246,9 +200,6 @@ protected:
      */
     static QJsonArray resolveTranslatedStrings(QJsonArray jsonArray);
 
-    /// Loads all keyboard shortcuts
-    static void loadKeyboardShortcuts();
-
     /// Loads all styles
     static void loadStyles();
 
@@ -262,9 +213,6 @@ protected:
 private:
     /// Set of all settings that require a restart
     static inline QSet<QString> _restartRequiredSettings;
-
-    /// Hash of all keyboard shortcuts with their ID as key
-    static inline QHash<QString, KeyboardShortcut> _keyboardShortcuts;
 
     /// All available styles
     static inline QMap<QString, Style> _styles;
