@@ -211,9 +211,6 @@ protected:
 
 
 private:
-    /// Set of all settings that require a restart
-    static inline QSet<QString> _restartRequiredSettings;
-
     /// All available styles
     static inline QMap<QString, Style> _styles;
 
