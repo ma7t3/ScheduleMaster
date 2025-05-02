@@ -22,7 +22,7 @@
 
 
 // TMP INCLUDE
-#include "GlobalConfigHandler.h"
+#include "GlobalConfigManager.h"
 
 class SettingsItem : public GlobalConfigItem {
 public:

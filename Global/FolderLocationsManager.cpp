@@ -1,4 +1,4 @@
-#include "FolderLocationsHandler.h"
+#include "FolderLocationsManager.h"
 
 FolderLocation::FolderLocation(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     name            = jsonObject.value("name").toString(id());
@@ -30,15 +30,6 @@ QString FolderLocation::resolvePathPlaceholders(QString path) {
 
 FolderLocation::FolderLocation(const QString &id) : GlobalConfigItem(id) {}
 
-FolderLocationsHandler::FolderLocationsHandler(QObject *parent) : GlobalConfigHandler(parent) {
+FolderLocationsManager::FolderLocationsManager(QObject *parent) : GlobalConfigManager(parent) {
     loadItems("Locations");
-}
-
-FolderLocationsHandler *FolderLocationsHandler::instance() {
-    static FolderLocationsHandler instance(nullptr);
-    return &instance;
-}
-
-void FolderLocationsHandler::init() {
-    instance();
 }

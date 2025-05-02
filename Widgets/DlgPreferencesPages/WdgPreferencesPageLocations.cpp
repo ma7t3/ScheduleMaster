@@ -22,7 +22,7 @@ WdgPreferencesPageLocations::~WdgPreferencesPageLocations() {
 void WdgPreferencesPageLocations::reloadPreferences() {
     ui->lwLocationCategories->clear();
 
-    QList<FolderLocation> locations = FolderLocationsHandler::instance()->items();
+    QList<FolderLocation> locations = FolderLocationsManager::items();
     for(FolderLocation &loc : locations) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
         item->setData(Qt::UserRole, loc.id());

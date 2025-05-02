@@ -17,7 +17,7 @@ void LocalConfig::initLocale() {
     qInfo() << "   Loading current language...";
     QString str = read("general.language").toString();
     QLocale tmpLocale(str);
-    if(str == "system" || !LanguagesHandler::isSupported(tmpLocale.name()))
+    if(str == "system" || !LanguagesManager::isSupported(tmpLocale.name()))
         _locale = QLocale::system();
     else
         _locale = QLocale(str);
@@ -228,7 +228,7 @@ QMap<QString, QStringList> LocalConfig::folderLocations() {
 
     const QStringList keys = groupKeys("locations");
 
-    const QStringList standardKeys = FolderLocationsHandler::instance()->itemIDs();
+    const QStringList standardKeys = FolderLocationsManager::itemIDs();
     for(const QString &key : standardKeys) {
         if(!keys.contains(key)) {
             data[key] = GlobalConfig::settingsItem("locations/" + key).defaultValue.toStringList();
