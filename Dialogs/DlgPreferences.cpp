@@ -114,7 +114,7 @@ void DlgPreferences::checkRestartRequired() {
 
         QStringList itemNames;
         for(const QString &item : items)
-            itemNames << GlobalConfig::settingsItem(item).description.split("\n").first();
+            itemNames << SettingsManager::item(item).description.split("\n").first();
 
         QString itemList = "<ul><li>" + itemNames.join("</li><li>") + "</li></ul>";
 

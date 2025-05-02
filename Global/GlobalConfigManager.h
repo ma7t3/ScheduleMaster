@@ -46,6 +46,13 @@ public:
     };
 
     /**
+     * @brief Initializes the instance
+     */
+    static void init() {
+        instance();
+    }
+
+    /**
      * @brief Returns a list of all items inside the handler.
      * @return The item list
      */
@@ -109,7 +116,7 @@ public:
             const QString id = item->id();
 
             _items.insert(id, item);
-            emit instance()->GlobalConfigManagerSignals::itemAdded(id);
+            //emit instance()->itemAdded(id);
             qDebug() << "Item added:" << id;
         } else {
             if(item.id().isEmpty()) {
@@ -120,7 +127,7 @@ public:
             const QString id = item.id();
 
             _items.insert(id, item);
-            emit instance()->GlobalConfigManagerSignals::itemAdded(id);
+            //emit instance()->itemAdded(id); // FXIME: They cause freezes for some reason...
             qDebug() << "Item added:" << id;
         }
         return true;

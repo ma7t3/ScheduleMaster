@@ -18,7 +18,7 @@ FolderLocation::FolderLocation(const QJsonObject &jsonObject) : GlobalConfigItem
     item.description     = name;
     item.requiresRestart = requiresRestart;
     item.defaultValue    = defaultPaths;
-    GlobalConfig::registerNewSettingsItem(item);
+    SettingsManager::registerNewSettingsItem(item);
 }
 
 QString FolderLocation::resolvePathPlaceholders(QString path) {
@@ -31,5 +31,6 @@ QString FolderLocation::resolvePathPlaceholders(QString path) {
 FolderLocation::FolderLocation(const QString &id) : GlobalConfigItem(id) {}
 
 FolderLocationsManager::FolderLocationsManager(QObject *parent) : GlobalConfigManager(parent) {
+    qDebug() << "Test";
     loadItems("Locations");
 }

@@ -73,13 +73,17 @@ int main(int argc, char *argv[]) {
     // init logger
     Logger logger(&a, logDir);
     qInfo() << "Starting ScheduleMaster...";
+    SettingsManager::init();
 
     splashscreen.showMessage("Loading localization...", Qt::AlignBottom, ssConfig.first);
     qInfo() << "Loading localization...";
+    LanguagesManager::init();
     LocalConfig::initLocale();
 
     splashscreen.showMessage(QObject::tr("Loading global configuration..."), Qt::AlignBottom, ssConfig.first);
     GlobalConfig::init();
+    FolderLocationsManager::init();
+    qDebug() << "weier";
 
     splashscreen.showMessage(QObject::tr("Loading local configuration..."), Qt::AlignBottom, ssConfig.first);
     LocalConfig::init();

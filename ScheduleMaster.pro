@@ -21,6 +21,7 @@ SOURCES += \
     Global/LocalConfig.cpp \
     Global/Logger.cpp \
     Global/ProjectFileHandler.cpp \
+    Global/SettingsManager.cpp \
     Global/StyleHandler.cpp \
     Global/VariantConverter.cpp \
     Global/Workspace.cpp \
@@ -69,6 +70,7 @@ HEADERS += \
     Global/LocalConfig.h \
     Global/Logger.h \
     Global/ProjectFileHandler.h \
+    Global/SettingsManager.h \
     Global/StyleHandler.h \
     Global/VariantConverter.h \
     Global/Workspace.h \

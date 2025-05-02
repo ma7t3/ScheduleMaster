@@ -6,7 +6,7 @@
 #include <QApplication>
 
 #include "Global/GlobalConfigManager.h"
-#include "Global/GlobalConfig.h"
+#include "Global/SettingsManager.h"
 
 class FolderLocation : public GlobalConfigItem {
 public:
