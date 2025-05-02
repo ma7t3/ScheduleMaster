@@ -6,25 +6,25 @@ static const QtMessageHandler QT_DEFAULT_MESSAGE_HANDLER = qInstallMessageHandle
 
 Logger::Logger(QObject *parent, const QDir &logfilesDirectory) : QObject(parent) {
     //logfileMode = LocalConfig::DebugLog; // use this to always enable debug logging - helpful if you broke the LocalConfig and need logging to fix it ^^
-    logfileMode = LocalConfig::logfileMode();
+    _logfileMode = LocalConfig::logfileMode();
 
-    if(logfileMode == LocalConfig::NoLog)
+    if(_logfileMode == LocalConfig::NoLog)
         return;
 
     if(!logfilesDirectory.exists())
         logfilesDirectory.mkpath(logfilesDirectory.path());
 
-    logfilePath = logfilesDirectory.path() + "/logfile.txt";
-    counter = 0;
+    _logfilePath = logfilesDirectory.path() + "/logfile.txt";
+    _counter = 0;
 
-    QFile f(logfilePath);
+    QFile f(_logfilePath);
     f.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream s(&f);
 
     QDateTime now = QDateTime::currentDateTime();
 
     QString logfileModeInfo;
-    switch (logfileMode) {
+    switch (_logfileMode) {
         case LocalConfig::DefaultLog:     logfileModeInfo = "Normal logging";         break;
         case LocalConfig::DebugLog:       logfileModeInfo = "Debug logging";          break;
         case LocalConfig::DebugDetailLog: logfileModeInfo = "Detailed debug logging"; break;
@@ -50,12 +50,10 @@ Logger::Logger(QObject *parent, const QDir &logfilesDirectory) : QObject(parent)
 }
 
 void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QString &message) {
-    (*QT_DEFAULT_MESSAGE_HANDLER)(type, context, message);
-
-    if(type == QtMsgType::QtDebugMsg && logfileMode != LocalConfig::DebugLog && logfileMode != LocalConfig::DebugDetailLog)
+    if(type == QtMsgType::QtDebugMsg && _logfileMode != LocalConfig::DebugLog && _logfileMode != LocalConfig::DebugDetailLog)
         return;
 
-    QFile f(logfilePath);
+    QFile f(_logfilePath);
     f.open(QIODevice::Append | QIODevice::Text);
     QTextStream s(&f);
 
@@ -70,25 +68,48 @@ void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QS
         default:                       typeStr = "[unknown]          "; break;
     }
 
-    QString counterStr = QVariant(counter).toString() + ".";
+    QString counterStr = QVariant(_counter).toString() + ".";
     while(counterStr.length() < 6)
         counterStr += " ";
 
     QTime now = QTime::currentTime();
     QString timeStr = now.toString("hh:mm:ss");
 
-    if(logfileMode == LocalConfig::DebugDetailLog) {
-        s << "       |          |                     | " << message << "\n";
+    QString identation("   ");
+    identation = identation.repeated(_subCount);
+
+    QString prefix("[%1] ");
+    prefix = _prefix.isEmpty() ? "" : prefix.arg(_prefix);
+
+    if(_logfileMode == LocalConfig::DebugDetailLog) {
+        s << "       |          |                     | " << identation << prefix << message << "\n";
 
         s << counterStr << " | " << timeStr << " | " << typeStr << " | ";
         s << "in " << context.file << " (Line " << context.line << ")\n";
 
         s << "       |          |                     | " << context.function << "\n\n";
     } else {
-        s << counterStr << " | " << timeStr << " | " << typeStr << " | " << message << "\n";
+        s << counterStr << " | " << timeStr << " | " << typeStr << " | " << identation << prefix << message << "\n";
     }
 
     f.close();
 
-    counter++;
+    (*QT_DEFAULT_MESSAGE_HANDLER)(type, context, identation + prefix + message);
+    _counter++;
+}
+
+void Logger::setPrefix(const QString &prefix) {
+    _prefix = prefix;
+}
+
+void Logger::resetPrefix() {
+    _prefix.clear();
+}
+
+void Logger::beginSub() {
+    _subCount++;
+}
+
+void Logger::endSub() {
+    _subCount = std::max(0, _subCount - 1);
 }
