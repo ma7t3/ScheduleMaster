@@ -14,6 +14,7 @@ SOURCES += \
     Global/ActionShortcutMapper.cpp \
     Global/AppInfo.cpp \
     Global/DockHandler.cpp \
+    Global/FolderLocationsHandler.cpp \
     Global/Global.cpp \
     Global/GlobalConfig.cpp \
     Global/LanguagesHandler.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
     Global/ActionShortcutMapper.h \
     Global/AppInfo.h \
     Global/DockHandler.h \
+    Global/FolderLocationsHandler.h \
     Global/Global.h \
     Global/GlobalConfig.h \
     Global/GlobalConfigHandler.h \

@@ -6,6 +6,7 @@
 
 #include <QFileDialog>
 
+#include "Global/FolderLocationsHandler.h"
 #include "Global/LocalConfig.h"
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"

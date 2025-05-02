@@ -6,6 +6,7 @@
             "en_US": "Default location for project files",
             "de_DE": "Standardspeicherort für Projektdateien"
         },
+        "default": ["${HOME}/ScheduleMaster/Projects"],
         "icon": ":/Icons/FileOpen.ico",
         "multiple": false,
         "changeRequiresRestart": false
@@ -17,6 +18,7 @@
             "en_US": "Logfiles",
             "de_DE": "Log-Dateien"
         },
+        "default": "${APP_LOCAL_DATA}/logs",
         "icon": ":/Icons/File.ico",
         "multiple": false,
         "changeRequiresRestart": true
@@ -28,6 +30,7 @@
             "en_US": "Plugins",
             "de_DE": "Plugins"
         },
+        "default": ["${APP_LOCAL_DATA}/plugins","${APP_DIR}/plugins"],
         "icon": ":/Icons/Plugin.ico",
         "multiple": true,
         "changeRequiresRestart": true
