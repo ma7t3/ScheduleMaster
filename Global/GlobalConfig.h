@@ -24,16 +24,7 @@
 // TMP INCLUDE
 #include "GlobalConfigManager.h"
 
-class SettingsItem : public GlobalConfigItem {
-public:
-    SettingsItem(const QJsonObject &jsonObject = QJsonObject());
-    SettingsItem(const QString &id);
 
-    QString description;
-    QVariant defaultValue;
-    QMetaType::Type type = QMetaType::Void, groupContentType = QMetaType::Void;
-    bool isGroup = false, requiresRestart = false;
-};
 
 class KeyboardShortcut : public GlobalConfigItem {
 public:
@@ -100,54 +91,6 @@ public:
 
     /// Initializes all the rest excluding the supported languages
     static void init();
-
-    /**
-     * @brief Returns a list of all preference items.
-     * @return The List of SettingsItem objects
-     */
-    static QList<SettingsItem> settingsItems();
-
-    /**
-     * @brief Checks if the preference item with the given ID exists.
-     * @param id The preference ID
-     * @return Whether the preference item exists or not
-     */
-    static bool settingsItemExists(const QString &id);
-
-    /**
-     * @brief Returns a preference item by its ID.
-     * @param id The preference ID
-     * @return The SettingsItem object or a null object if the ID is not found
-     */
-    static SettingsItem settingsItem(const QString &id);
-
-    /**
-     * @brief Returns the data type of the preference item specified by the given ID.
-     * @param id The preference ID
-     * @return The preference's data type or QMetaType::Void if the ID is not found
-     */
-    static QMetaType::Type settingsItemDataType(const QString &id);
-
-    /**
-     * @brief Returns a set of all setting keys that require a application restart.
-     * @return The set of restart requiring settings
-     */
-    static QSet<QString> restartRequiredSettings();
-
-    /**
-     * @brief Checks if the setting specified by the given ID requires a restart.
-     *
-     * Returns false if the ID is not found.
-     * @param id The setting ID
-     * @return Whether the settings requires a restart or not
-     */
-    static bool settingRequiresRestart(const QString &id);
-
-    /**
-     * @brief Registers a new SettingsItem to the global configuration
-     * @param item The item to register
-     */
-    static void registerNewSettingsItem(const SettingsItem &item);
 
     /**
      * @brief Returns a list of all defined keyboard shortcuts
@@ -303,9 +246,6 @@ protected:
      */
     static QJsonArray resolveTranslatedStrings(QJsonArray jsonArray);
 
-    /// Loads all preference items
-    static void loadSettingsItems();
-
     /// Loads all keyboard shortcuts
     static void loadKeyboardShortcuts();
 
@@ -320,9 +260,6 @@ protected:
 
 
 private:
-    /// All settingsItems with their ID as key
-    static inline QHash<QString, SettingsItem> _settingsItems;
-
     /// Set of all settings that require a restart
     static inline QSet<QString> _restartRequiredSettings;
 

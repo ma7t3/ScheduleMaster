@@ -5,10 +5,10 @@ LocalConfigModelSetting::LocalConfigModelSetting(const QString &id, LocalConfigM
     QObject(parent), _deleted(false) {
     _id = id;
 
-    _unkown = !GlobalConfig::settingsItemExists(id);
+    _unkown = !SettingsManager::itemExists(id);
 
     if(!_unkown)
-        _metaData = GlobalConfig::settingsItem(id);
+        _metaData = SettingsManager::item(id);
 
     _value = LocalConfig::read(id);
 

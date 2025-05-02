@@ -37,8 +37,8 @@ QVariant LocalConfig::read(const QString &id) {
 
 QVariant LocalConfig::readSilent(const QString &id) {
     QVariant value;
-    if(GlobalConfig::settingsItemExists(id)) {
-        SettingsItem item = GlobalConfig::settingsItem(id);
+    if(SettingsManager::itemExists(id)) {
+        SettingsItem item = SettingsManager::item(id);
         QVariant rawValue = settings.value(id, item.defaultValue);
         value = VariantConverter::convert(rawValue, item.type);
         if(!keyExsists(id) && !item.isGroup)
@@ -51,12 +51,12 @@ QVariant LocalConfig::readSilent(const QString &id) {
 }
 
 QVariant LocalConfig::write(const QString &id, const QVariant &value) {
-    bool itemExists = GlobalConfig::settingsItemExists(id);
+    bool itemExists = SettingsManager::itemExists(id);
 
     QVariant convVal;
 
     if(itemExists)
-        convVal = VariantConverter::convert(value, static_cast<QMetaType::Type>(GlobalConfig::settingsItem(id).type));
+        convVal = VariantConverter::convert(value, static_cast<QMetaType::Type>(SettingsManager::item(id).type));
     else
         convVal = value;
 
@@ -65,7 +65,7 @@ QVariant LocalConfig::write(const QString &id, const QVariant &value) {
             return QVariant();
     }
 
-    bool restartRequired = GlobalConfig::settingRequiresRestart(id);
+    bool restartRequired = SettingsManager::settingRequiresRestart(id);
     if(restartRequired)
         _modifiedRestartRequiredSettings << id;
 
@@ -85,7 +85,7 @@ QVariant LocalConfig::write(const QString &id, const QVariant &value) {
 }
 
 void LocalConfig::remove(const QString &id) {
-    bool restartRequired = GlobalConfig::settingRequiresRestart(id);
+    bool restartRequired = SettingsManager::settingRequiresRestart(id);
 
     if(restartRequired)
         _modifiedRestartRequiredSettings << id;
@@ -96,13 +96,13 @@ void LocalConfig::remove(const QString &id) {
 }
 
 QVariant LocalConfig::restoreDefault(const QString &id) {
-    if(!GlobalConfig::settingsItemExists(id)) {
+    if(!SettingsManager::itemExists(id)) {
         qWarning().noquote() << "Cannot reset setting to default: " << id << " - setting is not registered to ScheduleMaster!";
         return QVariant();
     }
 
     qDebug().noquote() << "Reset setting to default: " << id;
-    return write(id, GlobalConfig::settingsItem(id).defaultValue);
+    return write(id, SettingsManager::item(id).defaultValue);
 }
 
 void LocalConfig::rename(const QString &oldID, const QString &newID) {
@@ -231,7 +231,7 @@ QMap<QString, QStringList> LocalConfig::folderLocations() {
     const QStringList standardKeys = FolderLocationsManager::itemIDs();
     for(const QString &key : standardKeys) {
         if(!keys.contains(key)) {
-            data[key] = GlobalConfig::settingsItem("locations/" + key).defaultValue.toStringList();
+            data[key] = SettingsManager::item("locations/" + key).defaultValue.toStringList();
             write("locations/" + key, data[key]);
         }
     }
@@ -251,7 +251,7 @@ void LocalConfig::setFolderLocations(const QMap<QString, QStringList> &locations
 QStringList LocalConfig::folderLocationPaths(const QString &id) {
     QStringList values = read("locations/" + id).toStringList();
     if(values.empty()) {
-        values = GlobalConfig::settingsItem("locations/" + id).defaultValue.toStringList();
+        values = SettingsManager::item("locations/" + id).defaultValue.toStringList();
         write("locations/" + id, values);
     }
 

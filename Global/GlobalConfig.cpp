@@ -1,30 +1,5 @@
 #include "GlobalConfig.h"
 
-SettingsItem::SettingsItem(const QString &id) : GlobalConfigItem(id) {}
-
-SettingsItem::SettingsItem(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
-    description = jsonObject.value("description").toString();
-
-    QString typeStr = jsonObject.value("type").toString();
-    if (typeStr == "group")
-        isGroup = true;
-
-    typeStr = isGroup ? jsonObject.value("content_type").toString() : typeStr;
-
-    type = static_cast<QMetaType::Type>(QMetaType::fromName(typeStr.toUtf8()).id());
-
-    if (isGroup) {
-        groupContentType = type;
-        type = QMetaType::Void;
-    }
-
-    if (!isGroup)
-        if(jsonObject.contains("default"))
-            defaultValue = VariantConverter::convertFromJson(jsonObject.value("default"), type);
-
-    requiresRestart = jsonObject.value("requireRestart").toBool(false);
-}
-
 KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     description = jsonObject.value("description").toString(id());
     icon        = jsonObject.value("icon").toString();
@@ -126,46 +101,10 @@ GlobalConfig *GlobalConfig::instance() {
 void GlobalConfig::init() {
     qInfo() << "Loading global configuration (2/2)...";
 
-    loadSettingsItems();
     loadKeyboardShortcuts();
     loadStyles();
     loadAccentColors();
     loadDocks();
-}
-
-QList<SettingsItem> GlobalConfig::settingsItems() {
-    return _settingsItems.values();
-}
-
-bool GlobalConfig::settingsItemExists(const QString &id) {
-    return _settingsItems.contains(id);
-}
-
-SettingsItem GlobalConfig::settingsItem(const QString &id) {
-    return settingsItemExists(id) ? _settingsItems.value(id) : SettingsItem();
-}
-
-QMetaType::Type GlobalConfig::settingsItemDataType(const QString &id) {
-    return settingsItemExists(id) ? settingsItem(id).type : QMetaType::Void;
-}
-
-QSet<QString> GlobalConfig::restartRequiredSettings() {
-    return _restartRequiredSettings;
-}
-
-bool GlobalConfig::settingRequiresRestart(const QString &id) {
-    return _restartRequiredSettings.contains(id);
-}
-
-void GlobalConfig::registerNewSettingsItem(const SettingsItem &item) {
-    if(item.id().isEmpty())
-        return;
-
-    if(item.requiresRestart)
-        _restartRequiredSettings << item.id();
-
-    _settingsItems.insert(item.id(), item);
-    qInfo().noquote() << "Registered new settings item: " + item.id();
 }
 
 QList<KeyboardShortcut> GlobalConfig::keyboardShortcuts() {
@@ -321,23 +260,6 @@ QJsonArray GlobalConfig::resolveTranslatedStrings(QJsonArray jsonArray) {
     return jsonArray;
 }
 
-void GlobalConfig::loadSettingsItems() {
-    qInfo() << "   Loading settings items...";
-    const QJsonArray items = loadMultiConfigResource("Settings");
-    for(const QJsonValue &val : items) {
-        const QJsonObject obj = val.toObject();
-        SettingsItem item(obj);
-        if(item.id().isEmpty())
-            continue;
-
-        if(item.requiresRestart)
-            _restartRequiredSettings << item.id();
-
-        _settingsItems.insert(item.id(), item);
-        qInfo().noquote() << "      - " + item.id();
-    }
-}
-
 void GlobalConfig::loadKeyboardShortcuts() {
     qInfo() << "   Loading keyboard shortcuts...";
     const QJsonArray shortcuts = loadMultiConfigResource("KeyboardShortcuts");
@@ -350,11 +272,11 @@ void GlobalConfig::loadKeyboardShortcuts() {
         _keyboardShortcuts.insert(shortcut.id(), shortcut);
         qInfo().noquote() << "      - " + shortcut.id();
 
-        SettingsItem item("keyboardShortcuts/" + shortcut.id());
-        item.type         = QMetaType::QKeySequence;
-        item.description  = shortcut.description;
-        item.defaultValue = shortcut.defaultKeySequence;
-        registerNewSettingsItem(item);
+        // SettingsItem item("keyboardShortcuts/" + shortcut.id());
+        // item.type         = QMetaType::QKeySequence;
+        // item.description  = shortcut.description;
+        // item.defaultValue = shortcut.defaultKeySequence;
+        // registerNewSettingsItem(item);
     }
 }
 

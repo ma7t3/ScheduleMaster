@@ -78,8 +78,8 @@ void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QMod
 
         ui->lID->setText(id);
 
-        if(GlobalConfig::settingsItemExists(id)) {
-            SettingsItem item = GlobalConfig::settingsItem(id)            ;
+        if(SettingsManager::itemExists(id)) {
+            SettingsItem item = SettingsManager::item(id)            ;
             ui->lDescription->setText(item.description);
             type = item.isGroup ? tr("group") : QMetaType(item.type).name();
         } else {
@@ -114,8 +114,8 @@ void DlgConfigEditor::onSelectionChanged() {
     bool canRestoreDefault = false, canDelete = false;
 
     for(const QString &id : settings) {
-        bool exists = GlobalConfig::settingsItemExists(id);
-        canRestoreDefault |= exists && !GlobalConfig::settingsItem(id).isGroup;
+        bool exists = SettingsManager::itemExists(id);
+        canRestoreDefault |= exists && !SettingsManager::item(id).isGroup;
         canDelete |= !exists;
     }
 
@@ -144,7 +144,7 @@ void DlgConfigEditor::onSettingRestoreDefault() {
         return;
 
     for(const QString &id : std::as_const(IDs)) {
-        if(!GlobalConfig::settingsItemExists(id))
+        if(!SettingsManager::itemExists(id))
             continue;
 
         QVariant defaultValue = LocalConfig::restoreDefault(id);
@@ -166,7 +166,7 @@ void DlgConfigEditor::onSettingDelete() {
         return;
 
     for(const QString &id : std::as_const(IDs)) {
-        if(GlobalConfig::settingsItemExists(id)) {
+        if(SettingsManager::itemExists(id)) {
             QVariant defaultValue = LocalConfig::restoreDefault(id);
             ui->wdgValueEditor->setValue(defaultValue);
         } else {
