@@ -50,7 +50,7 @@
         }
     },
     {
-        "id": "project.settings",
+        "id": "project.settings.open",
         "default": "Ctrl+Shift+,",
         "icon": ":/Icons/ProjectSettings.ico",
         "description": {
