@@ -1,44 +1,5 @@
 #include "GlobalConfig.h"
 
-KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
-    description = jsonObject.value("description").toString(id());
-    icon        = jsonObject.value("icon").toString();
-
-    QJsonValue defaultValue = jsonObject.value("default");
-    QStringList defaultValues;
-
-    if(defaultValue.isArray())
-        defaultValues = Global::jsonArrayToStringList(defaultValue.toArray());
-    else
-        defaultValues = {defaultValue.toString()};
-
-    for(const QString & value : std::as_const(defaultValues)) {
-        if(value.startsWith("standard:")) {
-            QString idPart = value.mid(QString("standard:").length());
-            bool ok;
-            int standardID = idPart.toInt(&ok);
-            if (ok) {
-                QKeySequence sequence = QKeySequence(static_cast<QKeySequence::StandardKey>(standardID));
-                if(!sequence.toString(QKeySequence::PortableText).isEmpty()) {
-                    defaultKeySequence = sequence;
-                    return;
-                } else {
-                    defaultKeySequence = QKeySequence();
-                }
-            }
-        }
-
-        QKeySequence sequence(value);
-        if (!sequence.toString(QKeySequence::PortableText).isEmpty()) {
-            defaultKeySequence = sequence;
-            return;
-        } else
-            defaultKeySequence = QKeySequence();
-    }
-}
-
-KeyboardShortcut::KeyboardShortcut(const QString &id) : GlobalConfigItem(id) {}
-
 Style::Style(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     name               = jsonObject.value("name").toString(id());
     lightSupport       = jsonObject.value("lightSupport").toBool();
@@ -101,33 +62,9 @@ GlobalConfig *GlobalConfig::instance() {
 void GlobalConfig::init() {
     qInfo() << "Loading global configuration (2/2)...";
 
-    loadKeyboardShortcuts();
     loadStyles();
     loadAccentColors();
     loadDocks();
-}
-
-QList<KeyboardShortcut> GlobalConfig::keyboardShortcuts() {
-    return _keyboardShortcuts.values();
-}
-
-bool GlobalConfig::keyboardShortcutExists(const QString &id) {
-    return _keyboardShortcuts.contains(id);
-}
-
-KeyboardShortcut GlobalConfig::keyboardShortcut(const QString &id) {
-    return keyboardShortcutExists(id) ? _keyboardShortcuts.value(id) : KeyboardShortcut();
-}
-
-QKeySequence GlobalConfig::keyboardShortcutDefaultKeySequence(const QString &id) {
-    return keyboardShortcutExists(id) ? _keyboardShortcuts.value(id).defaultKeySequence : QKeySequence();
-}
-
-bool GlobalConfig::keyboardShortcutIsDefault(const QString &id, const QKeySequence &sequence) {
-    if(!keyboardShortcutExists(id))
-        return false;
-
-    return keyboardShortcut(id).defaultKeySequence == sequence;
 }
 
 QMap<QString, Style> GlobalConfig::styles() {
@@ -258,26 +195,6 @@ QJsonArray GlobalConfig::resolveTranslatedStrings(QJsonArray jsonArray) {
     }
 
     return jsonArray;
-}
-
-void GlobalConfig::loadKeyboardShortcuts() {
-    qInfo() << "   Loading keyboard shortcuts...";
-    const QJsonArray shortcuts = loadMultiConfigResource("KeyboardShortcuts");
-    for(const QJsonValue &val : shortcuts) {
-        const QJsonObject obj = val.toObject();
-        KeyboardShortcut shortcut(obj);
-        if(shortcut.id().isEmpty())
-            continue;
-
-        _keyboardShortcuts.insert(shortcut.id(), shortcut);
-        qInfo().noquote() << "      - " + shortcut.id();
-
-        // SettingsItem item("keyboardShortcuts/" + shortcut.id());
-        // item.type         = QMetaType::QKeySequence;
-        // item.description  = shortcut.description;
-        // item.defaultValue = shortcut.defaultKeySequence;
-        // registerNewSettingsItem(item);
-    }
 }
 
 void GlobalConfig::loadStyles() {

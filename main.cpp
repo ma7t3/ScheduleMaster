@@ -83,6 +83,7 @@ int main(int argc, char *argv[]) {
     splashscreen.showMessage(QObject::tr("Loading global configuration..."), Qt::AlignBottom, ssConfig.first);
     GlobalConfig::init();
     FolderLocationsManager::init();
+    KeyboardShortcutsManager::init();
     qDebug() << "weier";
 
     splashscreen.showMessage(QObject::tr("Loading local configuration..."), Qt::AlignBottom, ssConfig.first);

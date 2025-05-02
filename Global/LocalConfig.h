@@ -21,6 +21,7 @@
 #include "Global/LanguagesManager.h"
 #include "Global/FolderLocationsManager.h"
 #include "Global/SettingsManager.h"
+#include "Global/KeyboardShortcutsManager.h"
 
 
 class LocalConfig : public QObject {

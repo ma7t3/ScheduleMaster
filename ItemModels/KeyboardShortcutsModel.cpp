@@ -135,7 +135,7 @@ void KeyboardShortcutsModel::reload() {
     _changedShortcuts.clear();
 
     beginResetModel();
-    const QList<KeyboardShortcut> metaDataList = GlobalConfig::keyboardShortcuts();
+    const QList<KeyboardShortcut> metaDataList = KeyboardShortcutsManager::items();
     int i = 0;
     for(const KeyboardShortcut &shortcut : metaDataList) {
         QKeySequence keySequence = LocalConfig::keyboardShortcut(shortcut.id());
