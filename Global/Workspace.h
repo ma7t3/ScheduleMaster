@@ -8,6 +8,7 @@
 #include <QMainWindow>
 
 #include "Global/ActionShortcutMapper.h"
+#include "Global/WorkspaceManager.h"
 
 /**
  * @brief The Workspace class one UI workspace.
@@ -57,7 +58,7 @@ public:
      * @param json The json object
      * @param parent The QObject-parent
      */
-    Workspace(const QJsonObject &json, QObject *parent);
+    Workspace(const WorkspaceConfig &config, QObject *parent);
 
     /// Returns whether this workspace is currently active or not.
     bool active() const;

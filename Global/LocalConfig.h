@@ -17,7 +17,6 @@
 #include <QStandardPaths>
 #include <QApplication>
 
-#include "Global/GlobalConfig.h"
 #include "Global/LanguagesManager.h"
 #include "Global/FolderLocationsManager.h"
 #include "Global/SettingsManager.h"

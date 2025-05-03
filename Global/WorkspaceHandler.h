@@ -8,9 +8,9 @@
 #include <QDockWidget>
 #include "Global/Workspace.h"
 
-#include "Global/GlobalConfig.h"
-
 #include "Global/ActionShortcutMapper.h"
+#include "Global/GlobalConfigManager.h"
+#include "Global/WorkspaceManager.h"
 
 /**
  * @brief The WorkspaceHandler class is a manager for all existing workspaces (see Workspace).

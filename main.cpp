@@ -14,6 +14,7 @@
 #include "Global/StyleManager.h"
 #include "Global/LanguagesManager.h"
 #include "Global/DocksManager.h"
+#include "Global/WorkspaceManager.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/Splashscreen/slpashscreen_light.png";
@@ -83,11 +84,11 @@ int main(int argc, char *argv[]) {
     LocalConfig::initLocale();
 
     splashscreen.showMessage(QObject::tr("Loading global configuration..."), Qt::AlignBottom, ssConfig.first);
-    GlobalConfig::init();
     StyleManager::init();
     FolderLocationsManager::init();
     KeyboardShortcutsManager::init();
     DocksManager::init();
+    WorkspaceManager::init();
     qDebug() << "weier";
 
     splashscreen.showMessage(QObject::tr("Loading local configuration..."), Qt::AlignBottom, ssConfig.first);
