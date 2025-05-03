@@ -25,6 +25,7 @@ SOURCES += \
     Global/ProjectFileHandler.cpp \
     Global/SettingsManager.cpp \
     Global/StyleHandler.cpp \
+    Global/StyleManager.cpp \
     Global/VariantConverter.cpp \
     Global/Workspace.cpp \
     Global/WorkspaceHandler.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
     Global/ProjectFileHandler.h \
     Global/SettingsManager.h \
     Global/StyleHandler.h \
+    Global/StyleManager.h \
     Global/VariantConverter.h \
     Global/Workspace.h \
     Global/WorkspaceHandler.h \

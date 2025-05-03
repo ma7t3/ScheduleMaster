@@ -11,6 +11,7 @@
 #include "Global/Logger.h"
 #include "Global/ActionShortcutMapper.h"
 #include "Global/StyleHandler.h"
+#include "Global/StyleManager.h"
 #include "Global/LanguagesManager.h"
 #include "Global/DocksManager.h"
 
@@ -83,6 +84,7 @@ int main(int argc, char *argv[]) {
 
     splashscreen.showMessage(QObject::tr("Loading global configuration..."), Qt::AlignBottom, ssConfig.first);
     GlobalConfig::init();
+    StyleManager::init();
     FolderLocationsManager::init();
     KeyboardShortcutsManager::init();
     DocksManager::init();

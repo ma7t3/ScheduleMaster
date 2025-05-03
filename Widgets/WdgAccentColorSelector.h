@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QToolButton>
 
-#include "Global/GlobalConfig.h"
+#include "Global/StyleManager.h"
 
 namespace Ui {
 class WdgAccentColorSelector;

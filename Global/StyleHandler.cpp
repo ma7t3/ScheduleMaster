@@ -50,14 +50,14 @@ void StyleHandler::applyStyle(const QString &id) {
     if(_currentStyle.id() == id)
         return;
 
-    if(!GlobalConfig::styleExists(id)) {
+    if(!StyleManager::itemExists(id)) {
         qWarning().noquote() << "Cannot apply style " << id << " because it wasn't found.";
         return;
     }
 
     qDebug().noquote() << "apply style: " << id;
 
-    Style style = GlobalConfig::style(id);
+    Style style = StyleManager::item(id);
 
     switch(style.type) {
     case Style::StyleClassType:
@@ -105,7 +105,7 @@ void StyleHandler::applyAccentColor(const QString &id) {
     qDebug().noquote() << "apply accent color: " << id;
 
     applyPalette();
-    QColor color = GlobalConfig::accentColor(id);
+    QColor color = StyleManager::accentColor(id);
     if(color.isValid()) {
         QPalette palette = QApplication::palette();
         palette.setColor(QPalette::Highlight, color);

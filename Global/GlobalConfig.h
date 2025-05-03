@@ -19,31 +19,8 @@
 #include "Global/VariantConverter.h"
 #include "Global/Global.h"
 
-
-
 // TMP INCLUDE
 #include "GlobalConfigManager.h"
-
-class Style : public GlobalConfigItem {
-public:
-    Style(const QJsonObject &jsonObject = QJsonObject());
-    Style(const QString &id);
-
-    bool supportsColorScheme(const Qt::ColorScheme &) const;
-    QList<Qt::ColorScheme> supportedColorSchemes() const;
-
-    enum StyleType {
-        SystemDefaultType,
-        StyleClassType,
-        StyleSheetType,
-        StyleFactoryType,
-        InvalidType
-    };
-
-    QString name, styleClassID, styleSheetUrl, styleFactoryName;
-    StyleType type;
-    bool lightSupport, darkSupport, accentColorSupport, applyPalette;
-};
 
 
 /**
@@ -73,55 +50,6 @@ public:
 
     /// Initializes all the rest excluding the supported languages
     static void init();
-
-    /**
-     * @brief Returns a map of all registered styles. The map key is the style ID.
-     * @return The styles map
-     */
-    static QMap<QString, Style> styles();
-
-    /**
-     * @brief Checks if a style specified by the given ID exists.
-     * @param id The style ID
-     * @return Whether the style exists or not
-     */
-    static bool styleExists(const QString &id);
-
-    /**
-     * @brief Returns the style specified by the given ID.
-     * @param id The style ID
-     * @return The Style object or a default constructed style if it doesn't exist
-     */
-    static Style style(const QString &id);
-
-
-    /**
-     * @brief Returns the type of the style specified by the given ID.
-     * @param id The style ID
-     * @return The type of the style or Style::StyleType::InvalidType if the style doesn't exist.
-     */
-    static Style::StyleType styleType(const QString &id);
-
-    /**
-     * @brief Returns the accent color specified by the given ID
-     * @param id The accent color's ID
-     * @return The accent color
-     */
-    static QColor accentColor(const QString &id);
-
-    /**
-     * @brief Returns a darker version of the accent color specified by the given ID
-     * @param id The accent color's ID
-     * @return The daker version of the accent color
-     */
-    static QColor accentColorDark(const QString &id);
-
-    /**
-     * @brief Returns a list of all accent colors
-     * @return The list of accent colors
-     */
-    static QMap<QString, QColor> accentColors();
-
 
     /**
      * @brief Loads a single config resource file and returns the parsed JSON document.
@@ -173,17 +101,10 @@ protected:
      */
     static QJsonArray resolveTranslatedStrings(QJsonArray jsonArray);
 
-    /// Loads all styles
-    static void loadStyles();
-
     /// Loads the accent color palette
     static void loadAccentColors();
 
-
 private:
-    /// All available styles
-    static inline QMap<QString, Style> _styles;
-
     /// All accent colors
     static inline QMap<QString, QColor> _accentColors;
 };
