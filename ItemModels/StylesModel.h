@@ -21,7 +21,7 @@ public:
     void reload();
 
 private:
-    QList<Style> _styles;
+    QList<StyleConfig> _styles;
 };
 
 #endif // STYLESMODEL_H

@@ -17,10 +17,10 @@
 #include <QStandardPaths>
 #include <QApplication>
 
-#include "Global/LanguagesManager.h"
-#include "Global/FolderLocationsManager.h"
+#include "Global/LanguageManager.h"
+#include "Global/FolderLocationManager.h"
 #include "Global/SettingsManager.h"
-#include "Global/KeyboardShortcutsManager.h"
+#include "Global/KeyboardShortcutManager.h"
 #include "Global/StyleManager.h"
 
 

@@ -25,15 +25,15 @@ QVariant LanguagesModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
-Language LanguagesModel::language(const QModelIndex &index) {
-    return index.isValid() ? _languages[index.row()] : Language();
+LanguageConfig LanguagesModel::language(const QModelIndex &index) {
+    return index.isValid() ? _languages[index.row()] : LanguageConfig();
 }
 
-Language LanguagesModel::language(const int &index) {
-    return index < 0 || index >= _languages.count() ? Language() : _languages[index];
+LanguageConfig LanguagesModel::language(const int &index) {
+    return index < 0 || index >= _languages.count() ? LanguageConfig() : _languages[index];
 }
 
-int LanguagesModel::indexOfLanguage(const Language &language) {
+int LanguagesModel::indexOfLanguage(const LanguageConfig &language) {
     return _languages.indexOf(language);
 }
 
@@ -47,6 +47,6 @@ int LanguagesModel::indexOfLanguage(const QLocale::Language &language) {
 
 void LanguagesModel::reload() {
     beginResetModel();
-    _languages = LanguagesManager::supportedLanguages();
+    _languages = LanguageManager::supportedLanguages();
     endResetModel();
 }

@@ -1,5 +1,5 @@
-#ifndef KEYBOARDSHORTCUTSMANAGER_H
-#define KEYBOARDSHORTCUTSMANAGER_H
+#ifndef KEYBOARDSHORTCUTMANAGER_H
+#define KEYBOARDSHORTCUTMANAGER_H
 
 #include <QObject>
 #include <QKeySequence>
@@ -8,20 +8,20 @@
 #include "Global/SettingsManager.h"
 #include "Global/Global.h"
 
-class KeyboardShortcut : public GlobalConfigItem {
+struct KeyboardShortcutConfig : public GlobalConfigItem {
 public:
-    KeyboardShortcut(const QJsonObject &jsonObject = QJsonObject());
-    KeyboardShortcut(const QString &id);
+    KeyboardShortcutConfig(const QJsonObject &jsonObject = QJsonObject());
+    KeyboardShortcutConfig(const QString &id);
 
     QString description, icon;
     QKeySequence defaultKeySequence;
 };
 
-class KeyboardShortcutsManager : public GlobalConfigManager<KeyboardShortcutsManager, KeyboardShortcut> {
-    friend class GlobalConfigManager<KeyboardShortcutsManager, KeyboardShortcut>;
+class KeyboardShortcutManager : public GlobalConfigManager<KeyboardShortcutManager, KeyboardShortcutConfig> {
+    friend class GlobalConfigManager<KeyboardShortcutManager, KeyboardShortcutConfig>;
     Q_OBJECT
 protected:
-    explicit KeyboardShortcutsManager(QObject *parent);
+    explicit KeyboardShortcutManager(QObject *parent);
 
 public:
     /**
@@ -33,4 +33,4 @@ public:
     static bool isDefault(const QString &id, const QKeySequence &sequence);
 };
 
-#endif // KEYBOARDSHORTCUTSMANAGER_H
+#endif // KEYBOARDSHORTCUTMANAGER_H

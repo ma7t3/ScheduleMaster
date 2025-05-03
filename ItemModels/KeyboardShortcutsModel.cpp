@@ -72,7 +72,7 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
         return QVariant();
 
     const int row = index.row();
-    const QPair<KeyboardShortcut, QKeySequence> shortcut = _shortcuts[row];
+    const QPair<KeyboardShortcutConfig, QKeySequence> shortcut = _shortcuts[row];
 
     switch(role) {
         case Qt::DisplayRole: switch(index.column()) {
@@ -95,9 +95,9 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
     return QVariant();
 }
 
-KeyboardShortcut KeyboardShortcutsModel::metaData(const QModelIndex &index) const {
+KeyboardShortcutConfig KeyboardShortcutsModel::metaData(const QModelIndex &index) const {
     if(!index.isValid() || index.parent().isValid())
-        return KeyboardShortcut();
+        return KeyboardShortcutConfig();
 
     return _shortcuts[index.row()].first;
 }
@@ -120,7 +120,7 @@ void KeyboardShortcutsModel::setModifiedShortcut(const QString &id, const QKeySe
 }
 
 void KeyboardShortcutsModel::setAllShortcutsToDefault() {
-    for(const QPair<KeyboardShortcut, QKeySequence> &shortcut : std::as_const(_shortcuts))
+    for(const QPair<KeyboardShortcutConfig, QKeySequence> &shortcut : std::as_const(_shortcuts))
         if(shortcut.first.defaultKeySequence != shortcut.second)
             setModifiedShortcut(shortcut.first.id(), shortcut.first.defaultKeySequence);
 }
@@ -135,11 +135,11 @@ void KeyboardShortcutsModel::reload() {
     _changedShortcuts.clear();
 
     beginResetModel();
-    const QList<KeyboardShortcut> metaDataList = KeyboardShortcutsManager::items();
+    const QList<KeyboardShortcutConfig> metaDataList = KeyboardShortcutManager::items();
     int i = 0;
-    for(const KeyboardShortcut &shortcut : metaDataList) {
+    for(const KeyboardShortcutConfig &shortcut : metaDataList) {
         QKeySequence keySequence = LocalConfig::keyboardShortcut(shortcut.id());
-        _shortcuts << QPair<KeyboardShortcut, QKeySequence>(shortcut, keySequence);
+        _shortcuts << QPair<KeyboardShortcutConfig, QKeySequence>(shortcut, keySequence);
         _shortcutIndexes.insert(shortcut.id(), i++);
     }
     endResetModel();

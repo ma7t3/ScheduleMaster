@@ -52,7 +52,7 @@ private:
     static inline QString _systemStyleName;
     static inline QHash<QString, QStyle *> _styleClasses;
 
-    static inline Style _currentStyle;
+    static inline StyleConfig _currentStyle;
     static inline QString _currentAccentColor;
 };
 

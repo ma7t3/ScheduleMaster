@@ -119,7 +119,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelInde
 
     QModelIndex mappedIndex = _sortFilterProxyModel->mapToSource(ui->twShortcuts->currentIndex());
 
-    const KeyboardShortcut metadata = _model->metaData(mappedIndex);
+    const KeyboardShortcutConfig metadata = _model->metaData(mappedIndex);
     const QKeySequence     shortcut = _model->shortcut(mappedIndex);
 
     ui->lIcon->setPixmap(QPixmap(metadata.icon));
@@ -139,7 +139,7 @@ void WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut() {
         return;
 
     const QString id = _model->metaData(current).id();
-    QKeySequence shortcut = KeyboardShortcutsManager::item(id).defaultKeySequence;
+    QKeySequence shortcut = KeyboardShortcutManager::item(id).defaultKeySequence;
     _model->setModifiedShortcut(id, shortcut);
     ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(shortcut);
@@ -165,7 +165,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCopyID() {
     if(!current.isValid())
         return;
 
-    const KeyboardShortcut shortcut = _model->metaData(current);
+    const KeyboardShortcutConfig shortcut = _model->metaData(current);
     QApplication::clipboard()->setText(shortcut.id());
 }
 

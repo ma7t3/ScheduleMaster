@@ -1,6 +1,6 @@
-#include "FolderLocationsManager.h"
+#include "FolderLocationManager.h"
 
-FolderLocation::FolderLocation(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+FolderLocationConfig::FolderLocationConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     name            = jsonObject.value("name").toString(id());
     icon            = jsonObject.value("icon").toString();
     multiple        = jsonObject.value("multiple").toBool();
@@ -21,16 +21,16 @@ FolderLocation::FolderLocation(const QJsonObject &jsonObject) : GlobalConfigItem
     SettingsManager::registerNewSettingsItem(item);
 }
 
-QString FolderLocation::resolvePathPlaceholders(QString path) {
+QString FolderLocationConfig::resolvePathPlaceholders(QString path) {
     path.replace("${HOME}",           QDir::homePath());
     path.replace("${APP_LOCAL_DATA}", QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     path.replace("${APP_DIR}",        QCoreApplication::applicationDirPath());
     return path;
 }
 
-FolderLocation::FolderLocation(const QString &id) : GlobalConfigItem(id) {}
+FolderLocationConfig::FolderLocationConfig(const QString &id) : GlobalConfigItem(id) {}
 
-FolderLocationsManager::FolderLocationsManager(QObject *parent) : GlobalConfigManager(parent) {
+FolderLocationManager::FolderLocationManager(QObject *parent) : GlobalConfigManager(parent) {
     qDebug() << "Test";
     loadItems("Locations");
 }

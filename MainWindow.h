@@ -12,7 +12,7 @@
 #include "ProjectData/ProjectData.h"
 #include "Widgets/Docks/DockWelcome.h"
 
-#include "Global/DockHandler.h"
+#include "Global/DockController.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -70,7 +70,7 @@ private:
 
     QProgressDialog *_fileHandlerProgressDialog;
 
-    DockHandler *_dockHandler;
+    DockController *_dockHandler;
     WorkspaceHandler *_workspaceHandler;
 
     ProjectData *_projectData;

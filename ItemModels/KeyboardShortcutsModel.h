@@ -42,7 +42,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    KeyboardShortcut metaData(const QModelIndex &index) const;
+    KeyboardShortcutConfig metaData(const QModelIndex &index) const;
     QKeySequence shortcut(const QModelIndex &index) const;
 
     void setModifiedShortcut(const QString &id, const QKeySequence &keySequence);
@@ -55,7 +55,7 @@ protected:
     int indexOf(const QString &id) const;
 
 private:
-    QList<QPair<KeyboardShortcut, QKeySequence>> _shortcuts;
+    QList<QPair<KeyboardShortcutConfig, QKeySequence>> _shortcuts;
     QHash<QString, int> _shortcutIndexes;
 
     QHash<QString, QKeySequence> _changedShortcuts;
