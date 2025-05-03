@@ -1,6 +1,6 @@
-#include "KeyboardShortcutsManager.h"
+#include "KeyboardShortcutManager.h"
 
-KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+KeyboardShortcutConfig::KeyboardShortcutConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     description = jsonObject.value("description").toString(id());
     icon        = jsonObject.value("icon").toString();
 
@@ -37,12 +37,12 @@ KeyboardShortcut::KeyboardShortcut(const QJsonObject &jsonObject) : GlobalConfig
     }
 }
 
-KeyboardShortcut::KeyboardShortcut(const QString &id) : GlobalConfigItem(id) {}
+KeyboardShortcutConfig::KeyboardShortcutConfig(const QString &id) : GlobalConfigItem(id) {}
 
-KeyboardShortcutsManager::KeyboardShortcutsManager(QObject *parent) :
+KeyboardShortcutManager::KeyboardShortcutManager(QObject *parent) :
     GlobalConfigManager(parent) {
     loadItems("KeyboardShortcuts");
-    for(KeyboardShortcut shortcut : items()) {
+    for(KeyboardShortcutConfig shortcut : items()) {
         SettingsItem item("keyboardShortcuts/" + shortcut.id());
         item.type         = QMetaType::QKeySequence;
         item.description  = shortcut.description;
@@ -51,6 +51,6 @@ KeyboardShortcutsManager::KeyboardShortcutsManager(QObject *parent) :
     }
 }
 
-bool KeyboardShortcutsManager::isDefault(const QString &id, const QKeySequence &sequence) {
+bool KeyboardShortcutManager::isDefault(const QString &id, const QKeySequence &sequence) {
     return itemExists(id) ? item(id).defaultKeySequence == sequence : false;
 }

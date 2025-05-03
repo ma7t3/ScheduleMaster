@@ -57,24 +57,24 @@ void StyleHandler::applyStyle(const QString &id) {
 
     qDebug().noquote() << "apply style: " << id;
 
-    Style style = StyleManager::item(id);
+    StyleConfig style = StyleManager::item(id);
 
     switch(style.type) {
-    case Style::StyleClassType:
+    case StyleConfig::StyleClassType:
         // TODO
         break;
-    case Style::StyleSheetType:
+    case StyleConfig::StyleSheetType:
         // TODO
         break;
-    case Style::StyleFactoryType:
+    case StyleConfig::StyleFactoryType:
         if(QStyleFactory::keys().contains(style.styleFactoryName))
             QApplication::setStyle(style.styleFactoryName);
         break;
 
-    case Style::SystemDefaultType:
+    case StyleConfig::SystemDefaultType:
         QApplication::setStyle(_systemStyleName);
         break;
-    case Style::InvalidType: break;
+    case StyleConfig::InvalidType: break;
     }
 
     _currentStyle = style;

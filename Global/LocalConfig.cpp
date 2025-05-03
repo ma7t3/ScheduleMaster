@@ -17,7 +17,7 @@ void LocalConfig::initLocale() {
     qInfo() << "   Loading current language...";
     QString str = read("general.language").toString();
     QLocale tmpLocale(str);
-    if(str == "system" || !LanguagesManager::isSupported(tmpLocale.name()))
+    if(str == "system" || !LanguageManager::isSupported(tmpLocale.name()))
         _locale = QLocale::system();
     else
         _locale = QLocale(str);
@@ -228,7 +228,7 @@ QMap<QString, QStringList> LocalConfig::folderLocations() {
 
     const QStringList keys = groupKeys("locations");
 
-    const QStringList standardKeys = FolderLocationsManager::itemIDs();
+    const QStringList standardKeys = FolderLocationManager::itemIDs();
     for(const QString &key : standardKeys) {
         if(!keys.contains(key)) {
             data[key] = SettingsManager::item("locations/" + key).defaultValue.toStringList();
@@ -270,10 +270,10 @@ QKeySequence LocalConfig::keyboardShortcut(const QString &id) {
     if(keyExsists(fullID))
         return QKeySequence(read(fullID).toString());
 
-    if(!KeyboardShortcutsManager::itemExists(id))
+    if(!KeyboardShortcutManager::itemExists(id))
         return QKeySequence();
 
-    QKeySequence sequence = KeyboardShortcutsManager::item(id).defaultKeySequence;
+    QKeySequence sequence = KeyboardShortcutManager::item(id).defaultKeySequence;
     setKeyboardShortcut(id, sequence);
     return sequence;
 }

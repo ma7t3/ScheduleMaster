@@ -12,8 +12,8 @@
 #include "Global/ActionShortcutMapper.h"
 #include "Global/StyleHandler.h"
 #include "Global/StyleManager.h"
-#include "Global/LanguagesManager.h"
-#include "Global/DocksManager.h"
+#include "Global/LanguageManager.h"
+#include "Global/DockManager.h"
 #include "Global/WorkspaceManager.h"
 
 QPair<QColor, QString> splashScreenConfig() {
@@ -80,14 +80,14 @@ int main(int argc, char *argv[]) {
 
     splashscreen.showMessage("Loading localization...", Qt::AlignBottom, ssConfig.first);
     qInfo() << "Loading localization...";
-    LanguagesManager::init();
+    LanguageManager::init();
     LocalConfig::initLocale();
 
     splashscreen.showMessage(QObject::tr("Loading global configuration..."), Qt::AlignBottom, ssConfig.first);
     StyleManager::init();
-    FolderLocationsManager::init();
-    KeyboardShortcutsManager::init();
-    DocksManager::init();
+    FolderLocationManager::init();
+    KeyboardShortcutManager::init();
+    DockManager::init();
     WorkspaceManager::init();
     qDebug() << "weier";
 

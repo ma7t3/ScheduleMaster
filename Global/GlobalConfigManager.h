@@ -9,7 +9,7 @@
 
 #include "Global/GlobalConfigManagerSignals.h"
 
-class GlobalConfigItem {
+struct GlobalConfigItem {
 public:
     GlobalConfigItem(const QString &id) : _id(id) {}
     GlobalConfigItem(const QJsonObject &jsonObject = QJsonObject()) {
@@ -20,7 +20,6 @@ public:
         return id() == other.id();
     }
 
-public:
     QString id() const {
         return _id;
     }

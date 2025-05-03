@@ -16,7 +16,7 @@ QVariant StylesModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid() || role != Qt::DisplayRole)
         return QVariant();
 
-    Style style = _styles.at(index.row());
+    StyleConfig style = _styles.at(index.row());
     return style.name;
 }
 

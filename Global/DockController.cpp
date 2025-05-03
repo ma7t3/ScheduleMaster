@@ -1,8 +1,8 @@
-#include "DockHandler.h"
+#include "DockController.h"
 
-DockHandler::DockHandler(QObject *parent) : QObject(parent) {}
+DockController::DockController(QObject *parent) : QObject(parent) {}
 
-void DockHandler::addDock(const DockConfig &dock, QWidget *contentWidget) {
+void DockController::addDock(const DockConfig &dock, QWidget *contentWidget) {
     QDockWidget *dockWidget = new QDockWidget(dock.name, static_cast<QWidget *>(parent()));
     dockWidget->setObjectName(dock.name + "Dock");
     dockWidget->setFloating(true);
@@ -18,6 +18,6 @@ void DockHandler::addDock(const DockConfig &dock, QWidget *contentWidget) {
     emit dockAdded(dock.id(), dockWidget, toggleAction);
 }
 
-void DockHandler::loadStandardDocks() {
-    addDock(DocksManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
+void DockController::loadStandardDocks() {
+    addDock(DockManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
 }

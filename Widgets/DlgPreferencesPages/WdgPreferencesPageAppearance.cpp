@@ -47,7 +47,7 @@ void WdgPreferencesPageAppearance::savePreferences() {
 
     Qt::ColorScheme colorScheme = ui->cssColorScheme->colorScheme();
 
-    Style style = StyleManager::item(_model->style(ui->cbStyle->currentIndex()));
+    StyleConfig style = StyleManager::item(_model->style(ui->cbStyle->currentIndex()));
     if(style.supportsColorScheme(colorScheme))
         LocalConfig::setColorScheme(ui->cssColorScheme->colorScheme());
     else
@@ -85,7 +85,7 @@ void WdgPreferencesPageAppearance::onStyleChanged(int index) {
     Q_UNUSED(index);
     QString id = _model->style(ui->cbStyle->currentIndex());
     StyleHandler::applyStyle(id);
-    Style style = StyleManager::item(id);
+    StyleConfig style = StyleManager::item(id);
     ui->flGeneral->setRowVisible(2, style.lightSupport && style.darkSupport);
     ui->flGeneral->setRowVisible(3, style.accentColorSupport);
 }

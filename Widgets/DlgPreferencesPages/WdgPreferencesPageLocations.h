@@ -6,7 +6,7 @@
 
 #include <QFileDialog>
 
-#include "Global/FolderLocationsManager.h"
+#include "Global/FolderLocationManager.h"
 #include "Global/LocalConfig.h"
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
@@ -44,7 +44,7 @@ private slots:
 private:
     Ui::WdgPreferencesPageLocations *ui;
 
-    QMap<QString, FolderLocation> _folderLocations;
+    QMap<QString, FolderLocationConfig> _folderLocations;
     QMap<QString, QStringList> _folderLocationsPaths;
 };
 

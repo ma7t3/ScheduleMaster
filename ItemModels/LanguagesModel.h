@@ -4,7 +4,7 @@
 #include <QAbstractListModel>
 #include "Global/LocalConfig.h"
 
-#include "Global/LanguagesManager.h"
+#include "Global/LanguageManager.h"
 
 class LanguagesModel : public QAbstractListModel {
     Q_OBJECT
@@ -15,15 +15,15 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    Language language(const QModelIndex &index);
-    Language language(const int &index);
-    int indexOfLanguage(const Language &language);
+    LanguageConfig language(const QModelIndex &index);
+    LanguageConfig language(const int &index);
+    int indexOfLanguage(const LanguageConfig &language);
     int indexOfLanguage(const QLocale::Language &language);
 
     void reload();
 
 private:
-    QList<Language> _languages;
+    QList<LanguageConfig> _languages;
 };
 
 #endif // LANGUAGESMODEL_H

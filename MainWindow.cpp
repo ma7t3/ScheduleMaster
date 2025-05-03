@@ -109,8 +109,8 @@ void MainWindow::connectToInterface() {
 
 void MainWindow::loadDocks() {
     qInfo() << "   Loading docks...";
-    _dockHandler = new DockHandler(this);
-    connect(_dockHandler, &DockHandler::dockAdded, this, &MainWindow::onDockAdded);
+    _dockHandler = new DockController(this);
+    connect(_dockHandler, &DockController::dockAdded, this, &MainWindow::onDockAdded);
     _dockHandler->loadStandardDocks();
 }
 

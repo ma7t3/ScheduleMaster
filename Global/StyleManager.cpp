@@ -1,6 +1,6 @@
 #include "StyleManager.h"
 
-Style::Style(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+StyleConfig::StyleConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     name               = jsonObject.value("name").toString(id());
     lightSupport       = jsonObject.value("lightSupport").toBool();
     darkSupport        = jsonObject.value("darkSupport").toBool();
@@ -22,9 +22,9 @@ Style::Style(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     }
 }
 
-Style::Style(const QString &id) : GlobalConfigItem(id) {}
+StyleConfig::StyleConfig(const QString &id) : GlobalConfigItem(id) {}
 
-bool Style::supportsColorScheme(const Qt::ColorScheme &colorScheme) const {
+bool StyleConfig::supportsColorScheme(const Qt::ColorScheme &colorScheme) const {
     return (
         (colorScheme == Qt::ColorScheme::Unknown && lightSupport && darkSupport) ||
         (colorScheme == Qt::ColorScheme::Light && lightSupport) ||
@@ -32,7 +32,7 @@ bool Style::supportsColorScheme(const Qt::ColorScheme &colorScheme) const {
         );
 }
 
-QList<Qt::ColorScheme> Style::supportedColorSchemes() const {
+QList<Qt::ColorScheme> StyleConfig::supportedColorSchemes() const {
     if(supportsColorScheme(Qt::ColorScheme::Unknown))
         return {Qt::ColorScheme::Unknown, Qt::ColorScheme::Light, Qt::ColorScheme::Dark};
 

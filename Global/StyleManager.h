@@ -6,10 +6,10 @@
 
 #include "GlobalConfigManager.h"
 
-class Style : public GlobalConfigItem {
+class StyleConfig : public GlobalConfigItem {
 public:
-    Style(const QJsonObject &jsonObject = QJsonObject());
-    Style(const QString &id);
+    StyleConfig(const QJsonObject &jsonObject = QJsonObject());
+    StyleConfig(const QString &id);
 
     bool supportsColorScheme(const Qt::ColorScheme &) const;
     QList<Qt::ColorScheme> supportedColorSchemes() const;
@@ -27,8 +27,8 @@ public:
     bool lightSupport, darkSupport, accentColorSupport, applyPalette;
 };
 
-class StyleManager : public GlobalConfigManager<StyleManager, Style> {
-    friend class GlobalConfigManager<StyleManager, Style>;
+class StyleManager : public GlobalConfigManager<StyleManager, StyleConfig> {
+    friend class GlobalConfigManager<StyleManager, StyleConfig>;
     Q_OBJECT
 public:
     explicit StyleManager(QObject *parent);

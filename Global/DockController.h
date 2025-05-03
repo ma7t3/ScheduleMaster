@@ -1,5 +1,5 @@
-#ifndef DOCKHANDLER_H
-#define DOCKHANDLER_H
+#ifndef DOCKCONTROLLER_H
+#define DOCKCONTROLLER_H
 
 #include <QObject>
 #include <QDockWidget>
@@ -8,12 +8,12 @@
 
 #include "Global/ActionShortcutMapper.h"
 
-#include "Global/DocksManager.h"
+#include "Global/DockManager.h"
 
-class DockHandler : public QObject {
+class DockController : public QObject {
     Q_OBJECT
 public:
-    explicit DockHandler(QObject *parent = nullptr);
+    explicit DockController(QObject *parent = nullptr);
     void loadStandardDocks();
 
     void addDock(const DockConfig &dock, QWidget *contentWidget);
@@ -29,4 +29,4 @@ private:
     QMap<QString, QAction *> _dockToggleActions;
 };
 
-#endif // DOCKHANDLER_H
+#endif // DOCKCONTROLLER_H

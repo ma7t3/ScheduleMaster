@@ -22,8 +22,8 @@ WdgPreferencesPageLocations::~WdgPreferencesPageLocations() {
 void WdgPreferencesPageLocations::reloadPreferences() {
     ui->lwLocationCategories->clear();
 
-    QList<FolderLocation> locations = FolderLocationsManager::items();
-    for(FolderLocation &loc : locations) {
+    QList<FolderLocationConfig> locations = FolderLocationManager::items();
+    for(FolderLocationConfig &loc : locations) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
         item->setData(Qt::UserRole, loc.id());
         item->setIcon(QIcon(loc.icon));
@@ -84,7 +84,7 @@ void WdgPreferencesPageLocations::on_lwLocationCategories_currentItemChanged(QLi
 
     if(current) {
         QString id = current->data(Qt::UserRole).toString();
-        FolderLocation loc = _folderLocations[id];
+        FolderLocationConfig loc = _folderLocations[id];
         ui->swLocationSelector->setCurrentIndex(_folderLocations[id].multiple ? 1 : 0);
 
         QStringList paths = _folderLocationsPaths[id];
