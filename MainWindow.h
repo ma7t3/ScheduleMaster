@@ -2,17 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QToolBar>
-#include <QDockWidget>
-#include <QDesktopServices>
-#include <QProgressDialog>
 
-#include "Global/ProjectFileHandler.h"
-#include "Global/WorkspaceHandler.h"
-#include "ProjectData/ProjectData.h"
-#include "Widgets/Docks/DockWelcome.h"
-
-#include "Global/DockController.h"
+class QProgressDialog;
+class DockController;
+class WorkspaceHandler;
+class ProjectData;
+class ProjectFileHandler;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

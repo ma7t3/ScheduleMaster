@@ -1,6 +1,22 @@
 #include "DlgPreferences.h"
 #include "ui_DlgPreferences.h"
 
+#include "Dialogs/DlgConfigEditor.h"
+#include "Global/SettingsManager.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
+
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QListWidgetItem>
+#include <QLocale>
+
 DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     ui(new Ui::DlgPreferences) {
     ui->setupUi(this);

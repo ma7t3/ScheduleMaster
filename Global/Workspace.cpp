@@ -1,5 +1,12 @@
 #include "Workspace.h"
 
+#include "Global/ActionShortcutMapper.h"
+
+#include <QIcon>
+#include <QAction>
+#include <QJsonObject>
+#include <QMainWindow>
+
 Workspace::Workspace(const QString &id, QObject *parent) : QObject(parent), _id(id) {
     _action = new QAction(this);
     setupAction();

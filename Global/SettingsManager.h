@@ -7,8 +7,6 @@
 
 #include "GlobalConfigManager.h"
 
-#include "Global/VariantConverter.h"
-
 class SettingsItem : public GlobalConfigItem {
 public:
     SettingsItem(const QJsonObject &jsonObject = QJsonObject());

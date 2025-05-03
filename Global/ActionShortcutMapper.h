@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QHash>
-#include <QAction>
+
+class QAction;
 
 /**
  * @brief The ActionShortcutMapper class is used to connect QActions with their corresponding keyboard shortcuts.

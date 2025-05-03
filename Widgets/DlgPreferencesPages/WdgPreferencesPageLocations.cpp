@@ -1,7 +1,10 @@
 #include "WdgPreferencesPageLocations.h"
 #include "ui_WdgPreferencesPageLocations.h"
 
-#include "Global/FolderLocationManager.h"
+#include <QListWidgetItem>
+#include <QFileDialog>
+
+
 // TODO: Review (variable names)
 
 WdgPreferencesPageLocations::WdgPreferencesPageLocations(QWidget *parent) :

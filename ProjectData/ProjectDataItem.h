@@ -5,8 +5,9 @@
 #include "Global/Global.h"
 
 #include <QObject>
+#include <QUuid>
 #include <QJsonObject>
-#include "QJsonDocument"
+#include <QJsonDocument>
 
 /**
  * @class ProjectDataItem

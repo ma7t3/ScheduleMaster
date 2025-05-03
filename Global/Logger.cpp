@@ -1,9 +1,11 @@
 #include "Logger.h"
 
 #include "AppInfo.h"
-
 #include "FolderLocationManager.h"
 #include "CrashDetector.h"
+#include "SettingsManager.h"
+
+#include <QDir>
 
 static const QtMessageHandler QT_DEFAULT_MESSAGE_HANDLER = qInstallMessageHandler(nullptr);
 

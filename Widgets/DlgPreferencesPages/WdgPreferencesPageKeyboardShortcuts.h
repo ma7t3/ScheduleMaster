@@ -1,16 +1,10 @@
 #ifndef WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H
 #define WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H
 
-#include <QWidget>
-#include <QSortFilterProxyModel>
-#include <QClipboard>
-#include <QMessageBox>
-#include <QFileDialog>
-#include <QMenu>
-
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
-#include "ItemModels/KeyboardShortcutsModel.h"
-#include "Global/ActionShortcutMapper.h"
+
+class KeyboardShortcutsSortFilterProxyModel;
+class KeyboardShortcutsModel;
 
 namespace Ui {
 class WdgPreferencesPageKeyboardShortcuts;

@@ -1,5 +1,10 @@
 #include "Global.h"
 
+#include <QStringList>
+#include <QColor>
+#include <QJsonArray>
+#include <QJsonValue>
+
 Global::Global() :
     QObject(nullptr) {
 }

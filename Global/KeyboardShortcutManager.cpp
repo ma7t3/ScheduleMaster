@@ -1,5 +1,8 @@
 #include "KeyboardShortcutManager.h"
 
+#include "Global/Global.h"
+#include "Global/SettingsManager.h"
+
 KeyboardShortcutConfig::KeyboardShortcutConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     description = jsonObject.value("description").toString(id());
     icon        = jsonObject.value("icon").toString();

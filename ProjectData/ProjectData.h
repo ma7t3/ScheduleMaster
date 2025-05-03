@@ -1,12 +1,13 @@
 #ifndef PROJECTDATA_H
 #define PROJECTDATA_H
 
-#include <QObject>
-#include <QUndoStack>
-#include <QUuid>
-
 #include "Busstop.h"
 #include "ProjectDataItemSet.h"
+
+#include <QObject>
+#include <QUuid>
+
+class QUndoStack;
 
 /**
  * @class ProjectData

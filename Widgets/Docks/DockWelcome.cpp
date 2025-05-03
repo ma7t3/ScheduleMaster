@@ -1,15 +1,15 @@
 #include "DockWelcome.h"
 #include "ui_DockWelcome.h"
 
+#include "Global/LastUsedFilesManager.h"
+#include "MainWindowInterface.h"
+#include "Widgets/WdgWelcomeRecentProjectEntry.h"
+
 #include <QDateTime>
 #include <QFileInfo>
 #include <QDir>
 #include <QDesktopServices>
 #include <QScrollBar>
-
-#include "Global/LastUsedFilesManager.h"
-
-#include "Widgets/WdgWelcomeRecentProjectEntry.h"
 
 DockWelcome::DockWelcome(QWidget *parent) :
     DockAbstract(parent),

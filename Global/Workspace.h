@@ -1,14 +1,12 @@
 #ifndef WORKSPACE_H
 #define WORKSPACE_H
 
-#include <QObject>
-#include <QIcon>
-#include <QAction>
-#include <QJsonObject>
-#include <QMainWindow>
-
-#include "Global/ActionShortcutMapper.h"
 #include "Global/WorkspaceManager.h"
+
+#include <QObject>
+
+class QAction;
+class QMainWindow;
 
 /**
  * @brief The Workspace class one UI workspace.

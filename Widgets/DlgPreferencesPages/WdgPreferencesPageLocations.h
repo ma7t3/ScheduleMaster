@@ -1,14 +1,11 @@
 #ifndef WDGPREFERENCESPAGELOCATIONS_H
 #define WDGPREFERENCESPAGELOCATIONS_H
 
-#include <QWidget>
-#include <QListWidgetItem>
-
-#include <QFileDialog>
+#include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 #include "Global/FolderLocationManager.h"
 
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+class QListWidgetItem;
 
 namespace Ui {
 class WdgPreferencesPageLocations;

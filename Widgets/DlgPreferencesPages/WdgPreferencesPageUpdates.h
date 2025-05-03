@@ -1,8 +1,6 @@
 #ifndef WDGPREFERENCESPAGEUPDATES_H
 #define WDGPREFERENCESPAGEUPDATES_H
 
-#include <QWidget>
-
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 namespace Ui {

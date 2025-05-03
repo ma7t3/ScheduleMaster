@@ -2,15 +2,15 @@
 #define WORKSPACEHANDLER_H
 
 #include <QObject>
-#include <QMenu>
-#include <QToolBar>
+#include <QMap>
 #include <QPointer>
-#include <QDockWidget>
-#include "Global/Workspace.h"
 
-#include "Global/ActionShortcutMapper.h"
-#include "Global/GlobalConfigManager.h"
-#include "Global/WorkspaceManager.h"
+class Workspace;
+class QAction;
+class QMenu;
+class QToolBar;
+class QMenu;
+class QDockWidget;
 
 /**
  * @brief The WorkspaceHandler class is a manager for all existing workspaces (see Workspace).

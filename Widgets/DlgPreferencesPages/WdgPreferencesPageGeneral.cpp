@@ -4,6 +4,9 @@
 #include "Global/LanguageManager.h"
 #include "Global/Logger.h"
 #include "Global/FolderLocationManager.h"
+#include "ItemModels/LanguagesModel.h"
+
+#include <QDesktopServices>
 
 WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     WdgPreferencesPage(parent),

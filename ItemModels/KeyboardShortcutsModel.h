@@ -1,10 +1,10 @@
 #ifndef KEYBOARDSHORTCUTSMODEL_H
 #define KEYBOARDSHORTCUTSMODEL_H
 
+#include "Global/KeyboardShortcutManager.h"
+
 #include <QAbstractTableModel>
 #include <QSortFilterProxyModel>
-
-#include "Global/KeyboardShortcutManager.h"
 
 class KeyboardShortcutsSortFilterProxyModel : public QSortFilterProxyModel {
     Q_OBJECT

@@ -1,9 +1,16 @@
 #include "WdgPreferencesPageKeyboardShortcuts.h"
 #include "ui_WdgPreferencesPageKeyboardShortcuts.h"
 
-#include <QStandardPaths>
-
 #include "Global/KeyboardShortcutManager.h"
+#include "ItemModels/KeyboardShortcutsModel.h"
+#include "Global/ActionShortcutMapper.h"
+
+#include <QStandardPaths>
+#include <QSortFilterProxyModel>
+#include <QClipboard>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QMenu>
 
 WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget *parent) :
     WdgPreferencesPage(parent),

@@ -3,14 +3,6 @@
 
 #include <QObject>
 #include <QVariant>
-#include <QDateTime>
-#include <QColor>
-#include <QPoint>
-#include <QSize>
-#include <QRect>
-#include <QUuid>
-#include <QUrl>
-#include <QJsonValue>
 
 class VariantConverter : public QObject {
     Q_OBJECT

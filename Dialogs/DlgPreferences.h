@@ -2,21 +2,10 @@
 #define DLGPREFERENCES_H
 
 #include <QDialog>
-#include <QListWidgetItem>
-#include <QMessageBox>
-#include <QLocale>
-#include <QFileDialog>
 
-#include "Dialogs/DlgConfigEditor.h"
+class QListWidgetItem;
 
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
+class WdgPreferencesPage;
 
 namespace Ui {
 class DlgPreferences;

@@ -2,6 +2,8 @@
 
 #include "Global/KeyboardShortcutManager.h"
 
+#include <QAction>
+
 ActionShortcutMapper::ActionShortcutMapper() : QObject(nullptr) {}
 ActionShortcutMapper::~ActionShortcutMapper() {}
 

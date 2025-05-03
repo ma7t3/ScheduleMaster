@@ -1,5 +1,7 @@
 #include "SettingsManager.h"
 
+#include "Global/VariantConverter.h"
+
 SettingsItem::SettingsItem(const QString &id) : GlobalConfigItem(id) {}
 
 SettingsItem::SettingsItem(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {

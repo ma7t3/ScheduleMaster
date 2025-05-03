@@ -3,22 +3,6 @@
 
 #include <QObject>
 
-#include <QJsonValue>
-#include <QJsonArray>
-#include <QJsonObject>
-#include <QVariant>
-#include <QMetaType>
-#include <QStringList>
-#include <QDate>
-#include <QTime>
-#include <QDateTime>
-#include <QColor>
-#include <QSize>
-#include <QPoint>
-#include <QRect>
-#include <QDebug>
-
-
 class Global : public QObject {
     Q_OBJECT
 private:

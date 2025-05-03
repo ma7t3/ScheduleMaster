@@ -1,14 +1,12 @@
 #ifndef STYLEHANDLER_H
 #define STYLEHANDLER_H
 
-#include <QObject>
-#include <QStyle>
-#include <QApplication>
-#include <QPalette>
-#include <QStyleFactory>
-#include <QStyleHints>
-
 #include "Global/StyleManager.h"
+
+#include <QObject>
+#include <QPalette>
+
+class QStyle;
 
 class StyleHandler : public QObject {
     Q_OBJECT

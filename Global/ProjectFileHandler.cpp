@@ -1,5 +1,10 @@
 #include "ProjectFileHandler.h"
 
+#include "ProjectData/ProjectData.h"
+
+#include <QApplication>
+#include <QFile>
+
 ProjectFileHandler::ProjectFileHandler(ProjectData *projectData, QObject *parent) :
     QThread(parent), _compress(false), _projectData(projectData) {
 

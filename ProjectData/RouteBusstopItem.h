@@ -2,7 +2,6 @@
 #define ROUTEBUSSTOPITEM_H
 
 #include "Busstop.h"
-#include "BusstopPlatform.h"
 
 /**
  * @struct RouteBusstopItemData

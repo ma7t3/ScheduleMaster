@@ -1,18 +1,27 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-#include <QMessageBox>
-#include <QFileDialog>
-
-#include "MainWindowInterface.h"
-
-#include "Global/LastUsedFilesManager.h"
-#include "Global/CrashDetector.h"
-#include "Global/Logger.h"
-
-#include "Global/ActionShortcutMapper.h"
-#include "Global/StyleHandler.h"
 #include "Dialogs/DlgPreferences.h"
+#include "Global/ActionShortcutMapper.h"
+#include "Global/CrashDetector.h"
+#include "Global/DockController.h"
+#include "Global/FolderLocationManager.h"
+#include "Global/LastUsedFilesManager.h"
+#include "Global/Logger.h"
+#include "Global/ProjectFileHandler.h"
+#include "Global/Workspace.h"
+#include "Global/WorkspaceHandler.h"
+#include "MainWindowInterface.h"
+#include "ProjectData/ProjectData.h"
+
+#include <QDesktopServices>
+#include <QDockWidget>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QProgressDialog>
+#include <QToolBar>
+#include <QUndoStack>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

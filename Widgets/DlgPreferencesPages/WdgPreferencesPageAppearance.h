@@ -1,13 +1,9 @@
 #ifndef WDGPREFERENCESPAGEAPPEARANCE_H
 #define WDGPREFERENCESPAGEAPPEARANCE_H
 
-#include <QWidget>
-
-#include "Global/StyleHandler.h"
-
-#include "ItemModels/StylesModel.h"
-
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+
+class StylesModel;
 
 namespace Ui {
 class WdgPreferencesPageAppearance;

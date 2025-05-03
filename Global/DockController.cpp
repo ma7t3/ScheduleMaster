@@ -1,5 +1,10 @@
 #include "DockController.h"
 
+#include "Global/ActionShortcutMapper.h"
+#include "Widgets/Docks/DockWelcome.h"
+
+#include <QDockWidget>
+
 DockController::DockController(QObject *parent) : QObject(parent) {}
 
 void DockController::addDock(const DockConfig &dock, QWidget *contentWidget) {

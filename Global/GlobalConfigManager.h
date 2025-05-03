@@ -1,13 +1,13 @@
 #ifndef GLOBALCONFIGMANAGER_H
 #define GLOBALCONFIGMANAGER_H
 
+#include "Global/GlobalConfigManagerSignals.h"
+
 #include <QObject>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDir>
 #include <QFile>
-
-#include "Global/GlobalConfigManagerSignals.h"
 
 struct GlobalConfigItem {
 public:

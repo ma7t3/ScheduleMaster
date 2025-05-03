@@ -1,5 +1,14 @@
 #include "VariantConverter.h"
 
+#include <QDateTime>
+#include <QColor>
+#include <QPoint>
+#include <QSize>
+#include <QRect>
+#include <QUuid>
+#include <QUrl>
+#include <QJsonValue>
+
 VariantConverter::VariantConverter(QObject *parent) :
     QObject(parent) {
 }

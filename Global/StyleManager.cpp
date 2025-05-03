@@ -20,10 +20,10 @@ StyleConfig::StyleConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonO
                                           : InvalidType;
 
     switch(type) {
-    case StyleClassType:   styleClassID     = jsonObject.value("styleClassID").toString();     break;
-    case StyleSheetType:   styleSheetUrl    = jsonObject.value("styleSheetUrl").toString();    break;
-    case StyleFactoryType: styleFactoryName = jsonObject.value("styleFactoryName").toString(); break;
-    default: break;
+        case StyleClassType:   styleClassID     = jsonObject.value("styleClassID").toString();     break;
+        case StyleSheetType:   styleSheetUrl    = jsonObject.value("styleSheetUrl").toString();    break;
+        case StyleFactoryType: styleFactoryName = jsonObject.value("styleFactoryName").toString(); break;
+        default: break;
     }
 }
 
