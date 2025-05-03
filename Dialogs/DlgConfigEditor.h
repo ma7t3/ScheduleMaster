@@ -24,10 +24,10 @@ public:
     ~DlgConfigEditor();
 
     enum Columns {
-        IDColumn = 0,
-        DescriptionColumn = 1,
-        TypeColumn = 2,
-        ValueColumn = 3
+        IDColumn,
+        DescriptionColumn,
+        TypeColumn,
+        ValueColumn
     };
 
 protected:
