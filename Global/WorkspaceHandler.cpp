@@ -61,10 +61,9 @@ Workspace *WorkspaceHandler::currentWorkspace() {
 
 void WorkspaceHandler::loadWorkspaces() {
     qInfo() << "   Loading workspaces...";
-    const QJsonArray workspaces = GlobalConfig::loadMultiConfigResource("Workspaces");
-    for(const QJsonValue &val : workspaces) {
-        const QJsonObject obj = val.toObject();
-        Workspace *workspace = new Workspace(obj, this);
+    const QList<WorkspaceConfig> workspaces = WorkspaceManager::items();
+    for(const WorkspaceConfig &val : workspaces) {
+        Workspace *workspace = new Workspace(val, this);
         if(workspace->id().isEmpty()) {
             delete workspace;
             continue;

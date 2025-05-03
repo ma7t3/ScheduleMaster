@@ -17,10 +17,10 @@ Workspace::Workspace(const QString &id, QAction *action, QObject *parent) : QObj
     setupAction();
 }
 
-Workspace::Workspace(const QJsonObject &json, QObject *parent) : QObject(parent) {
-    _id   = json.value("id").toString();
-    _name = json.value("name").toString();
-    _icon = QIcon(json.value("icon").toString());
+Workspace::Workspace(const WorkspaceConfig &config, QObject *parent) : QObject(parent) {
+    _id   = config.id();
+    _name = config.name;
+    _icon = config.icon;
     _action = new QAction(_icon, _name, this);
     setupAction();
 }

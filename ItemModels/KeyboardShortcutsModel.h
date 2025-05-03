@@ -4,7 +4,6 @@
 #include <QAbstractTableModel>
 #include <QSortFilterProxyModel>
 
-#include "Global/GlobalConfig.h"
 #include "Global/LocalConfig.h"
 
 class KeyboardShortcutsSortFilterProxyModel : public QSortFilterProxyModel {

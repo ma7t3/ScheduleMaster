@@ -17,7 +17,6 @@ SOURCES += \
     Global/DocksManager.cpp \
     Global/FolderLocationsManager.cpp \
     Global/Global.cpp \
-    Global/GlobalConfig.cpp \
     Global/KeyboardShortcutsManager.cpp \
     Global/LanguagesManager.cpp \
     Global/LocalConfig.cpp \
@@ -29,6 +28,7 @@ SOURCES += \
     Global/VariantConverter.cpp \
     Global/Workspace.cpp \
     Global/WorkspaceHandler.cpp \
+    Global/WorkspaceManager.cpp \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
@@ -67,7 +67,6 @@ HEADERS += \
     Global/DocksManager.h \
     Global/FolderLocationsManager.h \
     Global/Global.h \
-    Global/GlobalConfig.h \
     Global/GlobalConfigManager.h \
     Global/GlobalConfigManagerSignals.h \
     Global/KeyboardShortcutsManager.h \
@@ -81,6 +80,7 @@ HEADERS += \
     Global/VariantConverter.h \
     Global/Workspace.h \
     Global/WorkspaceHandler.h \
+    Global/WorkspaceManager.h \
     ItemModels/KeyboardShortcutsModel.h \
     ItemModels/LanguagesModel.h \
     ItemModels/LocalConfigModel.h \

@@ -4,8 +4,6 @@
 #include <QObject>
 #include <QDockWidget>
 
-#include "GlobalConfig.h"
-
 #include "Widgets/Docks/DockWelcome.h"
 
 #include "Global/ActionShortcutMapper.h"
