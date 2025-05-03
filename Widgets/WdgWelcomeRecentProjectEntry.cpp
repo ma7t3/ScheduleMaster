@@ -5,8 +5,6 @@
 #include <QStyleHints>
 #include <QStyle>
 
-#include "Global/LocalConfig.h"
-
 WdgWelcomeRecentProjectEntry::WdgWelcomeRecentProjectEntry(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgWelcomeRecentProjectEntry) {

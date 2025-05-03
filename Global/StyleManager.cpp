@@ -1,5 +1,10 @@
 #include "StyleManager.h"
 
+#include <QGuiApplication>
+#include <QFont>
+
+#include "SettingsManager.h"
+
 StyleConfig::StyleConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     name               = jsonObject.value("name").toString(id());
     lightSupport       = jsonObject.value("lightSupport").toBool();
@@ -61,6 +66,65 @@ QColor StyleManager::accentColorDark(const QString &id) {
 
 QMap<QString, QColor> StyleManager::accentColors() {
     return _accentColors;
+}
+
+QString StyleManager::currentStyle() {
+    return SettingsManager::value("appearance.theme").toString();
+}
+
+void StyleManager::setCurrentStyle(const QString &styleID) {
+    if(!itemExists(styleID))
+        return;
+
+    SettingsManager::setValue("appearance.theme", styleID);
+    emit instance()->styleChanged(styleID);
+}
+
+Qt::ColorScheme StyleManager::currentColorScheme() {
+    int intVal = SettingsManager::value("appearance.colorScheme").toInt();
+    if(intVal < 0 || intVal > 2)
+        return Qt::ColorScheme::Unknown;
+
+    return static_cast<Qt::ColorScheme>(intVal);
+}
+
+void StyleManager::setCurrentColorScheme(const Qt::ColorScheme &colorScheme) {
+    SettingsManager::setValue("appearance.colorScheme", static_cast<int>(colorScheme));
+    emit instance()->colorSchemeChanged(colorScheme);
+}
+
+QString StyleManager::currentAccentColorID() {
+    return SettingsManager::value("appearance.accentColor").toString();
+}
+
+QColor StyleManager::currentAccentColor() {
+    return accentColor(currentAccentColorID());
+}
+
+void StyleManager::setCurrentAccentColor(const QString &accentColorID) {
+    SettingsManager::setValue("appearance.accentColor", accentColorID);
+    emit instance()->accentColorChanged(accentColorID);
+}
+
+QString StyleManager::currentUiFontFamily() {
+    QString str = SettingsManager::value("appearance.font").toString();
+    if(str.isEmpty())
+        return qGuiApp->font().family();
+    else
+        return str;
+}
+
+void StyleManager::setCurrentUiFontFamily(const QString &fontFamily) {
+    SettingsManager::setValue("appearance.font", fontFamily);
+    emit instance()->uiFontFamilyChanged(fontFamily);
+}
+
+bool StyleManager::gdiFontEngineEnabled() {
+    return SettingsManager::value("appearance.fontEngineGDI").toBool();
+}
+
+void StyleManager::setGdiFontEngineEnabled(const bool &enabled) {
+    SettingsManager::setValue("appearance.fontEngineGDI", enabled);
 }
 
 void StyleManager::loadAccentColors() {

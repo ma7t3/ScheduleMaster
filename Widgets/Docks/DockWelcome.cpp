@@ -7,7 +7,8 @@
 #include <QDesktopServices>
 #include <QScrollBar>
 
-#include "Global/LocalConfig.h"
+#include "Global/LastUsedFilesManager.h"
+
 #include "Widgets/WdgWelcomeRecentProjectEntry.h"
 
 DockWelcome::DockWelcome(QWidget *parent) :
@@ -33,7 +34,7 @@ DockWelcome::DockWelcome(QWidget *parent) :
     connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &DockWelcome::openPreferences);
     connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &DockWelcome::quitApplication);
 
-    connect(LocalConfig::instance(), &LocalConfig::lastUsedFilesChanged, this, &DockWelcome::updateRecentProjectsList);
+    connect(LastUsedFilesManager::instance(), &LastUsedFilesManager::lastUsedFilesChanged, this, &DockWelcome::updateRecentProjectsList);
 
     connect(this, &DockWelcome::newProject,            MainWindowInterface::instance(), &MainWindowInterface::newProject);
     connect(this, &DockWelcome::openProject,           MainWindowInterface::instance(), &MainWindowInterface::openProject);
@@ -50,7 +51,7 @@ DockWelcome::~DockWelcome() {
 }
 
 void DockWelcome::updateRecentProjectsList() {
-    QStringList lastUsedFiles = LocalConfig::lastUsedFiles();
+    QStringList lastUsedFiles = LastUsedFilesManager::lastUsedFiles();
 
     int scrollbarPos = ui->lwRecentProjects->verticalScrollBar()->value();
     ui->lwRecentProjects->clear();

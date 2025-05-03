@@ -6,7 +6,10 @@
 
 #include "MainWindowInterface.h"
 
-#include "Global/LocalConfig.h"
+#include "Global/LastUsedFilesManager.h"
+#include "Global/CrashDetector.h"
+#include "Global/Logger.h"
+
 #include "Global/ActionShortcutMapper.h"
 #include "Global/StyleHandler.h"
 #include "Dialogs/DlgPreferences.h"
@@ -67,23 +70,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
     updateRecentProjectsList();
 
-    connect(ui->actionFileNewProject,      &QAction::triggered,                this,        &MainWindow::newProject);
-    connect(ui->actionFileOpenProject,     &QAction::triggered,                this,        &MainWindow::openProject);
-    connect(ui->actionFileSaveProject,     &QAction::triggered,                this,        &MainWindow::saveProject);
-    connect(ui->actionFileSaveProjectAs,   &QAction::triggered,                this,        &MainWindow::saveProjectAs);
-    connect(ui->actionFileCloseProject,    &QAction::triggered,                this,        &MainWindow::closeProject);
-    connect(ui->actionFileQuit,            &QAction::triggered,                this,        &MainWindow::quitApplication);
+    connect(ui->actionFileNewProject,         &QAction::triggered,                         this, &MainWindow::newProject);
+    connect(ui->actionFileOpenProject,        &QAction::triggered,                         this, &MainWindow::openProject);
+    connect(ui->actionFileSaveProject,        &QAction::triggered,                         this, &MainWindow::saveProject);
+    connect(ui->actionFileSaveProjectAs,      &QAction::triggered,                         this, &MainWindow::saveProjectAs);
+    connect(ui->actionFileCloseProject,       &QAction::triggered,                         this, &MainWindow::closeProject);
+    connect(ui->actionFileQuit,               &QAction::triggered,                         this, &MainWindow::quitApplication);
 
-    connect(ui->actionEditPreferences,     &QAction::triggered,                this,        &MainWindow::openPreferences);
-    connect(ui->actionEditConfiguration,   &QAction::triggered,                this,        &MainWindow::openConfiguration);
-    connect(ui->actionEditProjectSettings, &QAction::triggered,                this,        &MainWindow::openProjectSettings);
+    connect(ui->actionEditPreferences,        &QAction::triggered,                         this, &MainWindow::openPreferences);
+    connect(ui->actionEditConfiguration,      &QAction::triggered,                         this, &MainWindow::openConfiguration);
+    connect(ui->actionEditProjectSettings,    &QAction::triggered,                         this, &MainWindow::openProjectSettings);
 
-    connect(LocalConfig::instance(),       &LocalConfig::lastUsedFilesChanged, this,        &MainWindow::updateRecentProjectsList);
+    connect(LastUsedFilesManager::instance(), &LastUsedFilesManager::lastUsedFilesChanged, this, &MainWindow::updateRecentProjectsList);
 
-    connect(_fileHandler,                  &ProjectFileHandler::progressStepChanged, this,  &MainWindow::onFileHandlerProgressStepChanged);
-    connect(_fileHandler,                  &ProjectFileHandler::progressStepMaximum, this,  &MainWindow::onFileHandlerProgressMaximum);
-    connect(_fileHandler,                  &ProjectFileHandler::progressStepUpdate,  this,  &MainWindow::onFileHandlerProgressUpdate);
-    connect(_fileHandler,                  &QThread::finished,                       this,  &MainWindow::onFileHandlerFinished);
+    connect(_fileHandler,                     &ProjectFileHandler::progressStepChanged,    this, &MainWindow::onFileHandlerProgressStepChanged);
+    connect(_fileHandler,                     &ProjectFileHandler::progressStepMaximum,    this, &MainWindow::onFileHandlerProgressMaximum);
+    connect(_fileHandler,                     &ProjectFileHandler::progressStepUpdate,     this, &MainWindow::onFileHandlerProgressUpdate);
+    connect(_fileHandler,                     &QThread::finished,                          this, &MainWindow::onFileHandlerFinished);
 
     showCrashWarning();
 }
@@ -153,7 +156,7 @@ void MainWindow::updateRecentProjectsList() {
 
     menu->clear();
 
-    QStringList list = LocalConfig::lastUsedFiles();
+    QStringList list = LastUsedFilesManager::lastUsedFiles();
 
     int i = 0;
     for(const QString &path : std::as_const(list)) {
@@ -167,27 +170,27 @@ void MainWindow::updateRecentProjectsList() {
 }
 
 void MainWindow::showCrashWarning() {
-    if(LocalConfig::crashDetected()) {
-        bool logfileSaved = QFile::exists(LocalConfig::lastLogfileName());
+    if(CrashDetector::crashDetected()) {
+        const QString lastLogfilePath = Logger::lastLogfilePath();
+        bool logfileSaved = QFile::exists(lastLogfilePath);
 
-        qInfo() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + LocalConfig::lastLogfileName() : "");
-        qInfo().noquote() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + LocalConfig::lastLogfileName() : "");
+        qInfo() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + lastLogfilePath : "");
+        qInfo().noquote() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + lastLogfilePath : "");
         QString messageTitle = tr("Crash detected");
         QString messageStr = tr("<p><b>Seems like ScheduleMaster crashed last time you used it</b></p><p>If this was unexpected (e.g. you didn't try to kill the process via the Windows Task Manager or something), please feel free to send a bug report!</p>");
         QString messageStrAddition = tr("<p>The logfile of your last session was saved seperately. Do you want to open it?</p>");
         qApp->restoreOverrideCursor();
-        if(QFile::exists(LocalConfig::lastLogfileName())) {
+        if(logfileSaved) {
             messageStr += messageStrAddition;
             QMessageBox::StandardButton msg = QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Yes|QMessageBox::No);
             if(msg == QMessageBox::Yes) {
-                QDesktopServices::openUrl(LocalConfig::lastLogfileName());
+                QDesktopServices::openUrl(lastLogfilePath);
             }
         } else {
             QMessageBox::warning(this, messageTitle, messageStr, QMessageBox::Ok);
         }
         qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
     }
-    LocalConfig::setCrashDetected(true);
 }
 
 void MainWindow::newProject() {
@@ -196,7 +199,7 @@ void MainWindow::newProject() {
 }
 
 void MainWindow::openProject() {
-    const QString path = QFileDialog::getOpenFileName(this, tr("Open Project File"), LocalConfig::folderLocationPaths("projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
+    const QString path = QFileDialog::getOpenFileName(this, tr("Open Project File"), FolderLocationManager::currentFolderLocationPaths("projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
     if(path.isEmpty())
         return;
 
@@ -241,7 +244,7 @@ void MainWindow::removeProjectFromRecentList(const QString &filePath) {
     if(msg != QMessageBox::Yes)
         return;
 
-    LocalConfig::removeLastUsedFile(filePath);
+    LastUsedFilesManager::removeLastUsedFile(filePath);
 }
 
 void MainWindow::openPlugins() {

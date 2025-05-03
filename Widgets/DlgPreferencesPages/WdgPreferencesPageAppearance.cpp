@@ -1,6 +1,8 @@
 #include "WdgPreferencesPageAppearance.h"
 #include "ui_WdgPreferencesPageAppearance.h"
 
+#include "Global/StyleManager.h"
+
 WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageAppearance),
@@ -30,30 +32,30 @@ WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
 }
 
 void WdgPreferencesPageAppearance::reloadPreferences() {
-    ui->fcbFont->setCurrentFont(QFont(LocalConfig::uiFontFamily()));
-    ui->cbGDIEngine->setChecked(LocalConfig::useGdiEngine());
+    ui->fcbFont->setCurrentFont(QFont(StyleManager::currentUiFontFamily()));
+    ui->cbGDIEngine->setChecked(StyleManager::gdiFontEngineEnabled());
 
-    ui->cbStyle->setCurrentIndex(_model->indexOfStyle(LocalConfig::style()));
-    ui->cssColorScheme->setColorScheme(LocalConfig::colorScheme());
-    ui->acsAccentColor->setAccentColor(LocalConfig::accentColorID());
+    ui->cbStyle->setCurrentIndex(_model->indexOfStyle(StyleManager::currentStyle()));
+    ui->cssColorScheme->setColorScheme(StyleManager::currentColorScheme());
+    ui->acsAccentColor->setAccentColor(StyleManager::currentAccentColorID());
     WdgPreferencesPage::reloadPreferences();
 }
 
 void WdgPreferencesPageAppearance::savePreferences() {
-    LocalConfig::setUiFontFamily(ui->fcbFont->currentFont().family());
-    LocalConfig::setUseGdiEngine(ui->cbGDIEngine->isChecked());
+    StyleManager::setCurrentUiFontFamily(ui->fcbFont->currentFont().family());
+    StyleManager::setGdiFontEngineEnabled(ui->cbGDIEngine->isChecked());
 
-    LocalConfig::setStyle(_model->style(ui->cbStyle->currentIndex()));
+    StyleManager::setCurrentStyle(_model->style(ui->cbStyle->currentIndex()));
 
     Qt::ColorScheme colorScheme = ui->cssColorScheme->colorScheme();
 
     StyleConfig style = StyleManager::item(_model->style(ui->cbStyle->currentIndex()));
     if(style.supportsColorScheme(colorScheme))
-        LocalConfig::setColorScheme(ui->cssColorScheme->colorScheme());
+        StyleManager::setCurrentColorScheme(ui->cssColorScheme->colorScheme());
     else
-        LocalConfig::setColorScheme(style.supportedColorSchemes().first());
+        StyleManager::setCurrentColorScheme(style.supportedColorSchemes().first());
 
-    LocalConfig::setAccentColor(ui->acsAccentColor->accentColorID());
+    StyleManager::setCurrentAccentColor(ui->acsAccentColor->accentColorID());
     WdgPreferencesPage::savePreferences();
 }
 

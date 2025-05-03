@@ -4,12 +4,17 @@
 #include <QObject>
 #include <QDir>
 
-#include "LocalConfig.h"
-
 class Logger : public QObject {
     Q_OBJECT
 public:
-    explicit Logger(QObject *parent, const QDir &logfilesDirectory);
+    enum LogfileMode {
+        NoLog,
+        DefaultLog,
+        DebugLog,
+        DebugDetailLog
+    };
+
+    explicit Logger(QObject *parent);
     static void handler(QtMsgType type, const QMessageLogContext & context, const QString &message);
 
     static void setPrefix(const QString &prefix);
@@ -18,10 +23,17 @@ public:
     static void beginSub();
     static void endSub();
 
+    static LogfileMode logfileMode();
+    static void setLogfileMode(const LogfileMode &newLogfileMode);
+
+    static bool currentLogfileExists();
+    static QString lastLogfilePath();
+
 private:
     static inline QString _logfilePath;
+    static inline QString _lastLogfilePath;
     static inline unsigned int _counter;
-    static inline LocalConfig::LogfileMode _logfileMode;
+    static inline LogfileMode _logfileMode;
 
     static inline QString _prefix;
     static inline int _subCount;

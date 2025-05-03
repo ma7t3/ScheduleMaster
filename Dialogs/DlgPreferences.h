@@ -9,8 +9,6 @@
 
 #include "Dialogs/DlgConfigEditor.h"
 
-#include "Global/LocalConfig.h"
-
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"

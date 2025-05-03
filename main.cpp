@@ -9,12 +9,16 @@
 #include <QThread>
 
 #include "Global/Logger.h"
+#include "Global/SettingsManager.h"
 #include "Global/ActionShortcutMapper.h"
 #include "Global/StyleHandler.h"
 #include "Global/StyleManager.h"
 #include "Global/LanguageManager.h"
 #include "Global/DockManager.h"
 #include "Global/WorkspaceManager.h"
+#include "Global/FolderLocationManager.h"
+#include "Global/KeyboardShortcutManager.h"
+#include "Global/CrashDetector.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/Splashscreen/slpashscreen_light.png";
@@ -62,37 +66,21 @@ int main(int argc, char *argv[]) {
     QSplashScreen splashscreen(QPixmap(ssConfig.second));
     splashscreen.show();
 
-    // get logfile dir
-    QDir logDir = LocalConfig::folderLocationPaths("logfile").first();
-
-    // check if crash was detected. In this case copy logfile
-    if(LocalConfig::crashDetected()) {
-        const QDateTime now(QDateTime::currentDateTime());
-        QString newFileName = logDir.path() + "/logfile_crash_" + now.toString("yyyy-MM-dd_hh-mm-ss") + ".txt";
-        if(QFile::copy(logDir.path() + "/logfile.txt", newFileName))
-            LocalConfig::setLastLogfileName(newFileName);
-    }
+    // init crash detector
+    CrashDetector::init();
 
     // init logger
-    Logger logger(&a, logDir);
+    Logger logger(&a);
     qInfo() << "Starting ScheduleMaster...";
+
+    splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
     SettingsManager::init();
-
-    splashscreen.showMessage("Loading localization...", Qt::AlignBottom, ssConfig.first);
-    qInfo() << "Loading localization...";
     LanguageManager::init();
-    LocalConfig::initLocale();
-
-    splashscreen.showMessage(QObject::tr("Loading global configuration..."), Qt::AlignBottom, ssConfig.first);
     StyleManager::init();
     FolderLocationManager::init();
     KeyboardShortcutManager::init();
     DockManager::init();
     WorkspaceManager::init();
-    qDebug() << "weier";
-
-    splashscreen.showMessage(QObject::tr("Loading local configuration..."), Qt::AlignBottom, ssConfig.first);
-    LocalConfig::init();
 
     splashscreen.showMessage(QObject::tr("Init shortcut mapper..."), Qt::AlignBottom, ssConfig.first);
     ActionShortcutMapper::init();
@@ -111,7 +99,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     qInfo() << "Loading main window size and position...";
-    bool ok = w.restoreGeometry(LocalConfig::mainWindowGeometry());
+    bool ok = w.restoreGeometry(SettingsManager::value("general.mainWindowGeometry").toByteArray());
     if(!ok)
         w.showMaximized();
     else
@@ -124,9 +112,7 @@ int main(int argc, char *argv[]) {
     a.restoreOverrideCursor();
 
     int result = a.exec();
-    LocalConfig::setMainWindowGeomentry(w.saveGeometry());
-
-    LocalConfig::setCrashDetected(false);
+    SettingsManager::setValue("general.mainWindowGeometry", w.saveGeometry());
     qInfo() << "Closing ScheduleMaster...";
     return result;
 }

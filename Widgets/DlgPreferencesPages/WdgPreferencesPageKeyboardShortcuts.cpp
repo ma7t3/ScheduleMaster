@@ -1,6 +1,10 @@
 #include "WdgPreferencesPageKeyboardShortcuts.h"
 #include "ui_WdgPreferencesPageKeyboardShortcuts.h"
 
+#include <QStandardPaths>
+
+#include "Global/KeyboardShortcutManager.h"
+
 WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageKeyboardShortcuts),
@@ -199,7 +203,7 @@ void WdgPreferencesPageKeyboardShortcuts::onImport() {
     }
 
     QJsonArray array = doc.array();
-    LocalConfig::importKeyboardShortcutsFromJson(array);
+    KeyboardShortcutManager::importJson(array);
     _model->reload();
 }
 
@@ -214,7 +218,7 @@ void WdgPreferencesPageKeyboardShortcuts::onExport() {
         return;
     }
 
-    QJsonArray array = LocalConfig::exportKeyboardShortcutsToJson();
+    QJsonArray array = KeyboardShortcutManager::exportJson();
     QJsonDocument document(array);
     QString jsonString = document.toJson();
 

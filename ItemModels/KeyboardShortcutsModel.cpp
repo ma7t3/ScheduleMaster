@@ -1,5 +1,8 @@
 #include "KeyboardShortcutsModel.h"
 
+#include <QIcon>
+#include <QFont>
+
 KeyboardShortcutsSortFilterProxyModel::KeyboardShortcutsSortFilterProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent),
     _filterModifiedOnly(false) {}
@@ -127,7 +130,7 @@ void KeyboardShortcutsModel::setAllShortcutsToDefault() {
 
 void KeyboardShortcutsModel::saveShortcuts() {
     for (QHash<QString, QKeySequence>::const_iterator it = _changedShortcuts.constBegin(); it != _changedShortcuts.constEnd(); ++it)
-        LocalConfig::setKeyboardShortcut(it.key(), it.value());
+        KeyboardShortcutManager::setKeyboardShortcut(it.key(), it.value());
 }
 
 void KeyboardShortcutsModel::reload() {
@@ -138,7 +141,7 @@ void KeyboardShortcutsModel::reload() {
     const QList<KeyboardShortcutConfig> metaDataList = KeyboardShortcutManager::items();
     int i = 0;
     for(const KeyboardShortcutConfig &shortcut : metaDataList) {
-        QKeySequence keySequence = LocalConfig::keyboardShortcut(shortcut.id());
+        QKeySequence keySequence = KeyboardShortcutManager::keyboardShortcut(shortcut.id());
         _shortcuts << QPair<KeyboardShortcutConfig, QKeySequence>(shortcut, keySequence);
         _shortcutIndexes.insert(shortcut.id(), i++);
     }

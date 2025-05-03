@@ -9,7 +9,6 @@
 #include <QStyleHints>
 
 #include "Global/StyleManager.h"
-#include "Global/LocalConfig.h"
 
 class StyleHandler : public QObject {
     Q_OBJECT
@@ -32,10 +31,10 @@ public:
     static void registerStyleClass(const QString &id, QStyle *style);
 
 public slots:
-    static void applyStyle(const QString &id = LocalConfig::style());
-    static void applyColorScheme(const Qt::ColorScheme &colorScheme = LocalConfig::colorScheme());
-    static void applyAccentColor(const QString &id = LocalConfig::accentColorID());
-    static void applyFont(const QString &fontFamily = LocalConfig::uiFontFamily());
+    static void applyStyle(const QString &id = StyleManager::currentStyle());
+    static void applyColorScheme(const Qt::ColorScheme &colorScheme = StyleManager::currentColorScheme());
+    static void applyAccentColor(const QString &id = StyleManager::currentAccentColorID());
+    static void applyFont(const QString &fontFamily = StyleManager::currentUiFontFamily());
 
     static void onColorSchemeChange();
 
@@ -43,8 +42,8 @@ protected slots:
     static void applyPalette();
 
 signals:
-    void styleChanged(QString);
-    void accentColorChanged(QString);
+    void styleChanged(const QString &);
+    void accentColorChanged(const QString &);
 
 private:
     static inline QPalette _initPalette;

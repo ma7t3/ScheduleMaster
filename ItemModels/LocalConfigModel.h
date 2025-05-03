@@ -3,8 +3,9 @@
 
 #include <QAbstractItemModel>
 
-#include "Global/LocalConfig.h"
 #include "Global/VariantConverter.h"
+
+#include "Global/SettingsManager.h"
 
 class LocalConfigModelSetting : public QObject {
     Q_OBJECT

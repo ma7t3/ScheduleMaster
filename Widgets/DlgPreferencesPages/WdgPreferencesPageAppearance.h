@@ -3,7 +3,6 @@
 
 #include <QWidget>
 
-#include "Global/LocalConfig.h"
 #include "Global/StyleHandler.h"
 
 #include "ItemModels/StylesModel.h"

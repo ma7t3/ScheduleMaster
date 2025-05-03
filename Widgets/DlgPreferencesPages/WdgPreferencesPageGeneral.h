@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QDesktopServices>
 
-#include "Global/LocalConfig.h"
 #include "ItemModels/LanguagesModel.h"
 
 #include "WdgPreferencesPage.h"
