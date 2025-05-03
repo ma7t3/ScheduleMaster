@@ -19,5 +19,5 @@ void DockHandler::addDock(const DockConfig &dock, QWidget *contentWidget) {
 }
 
 void DockHandler::loadStandardDocks() {
-    addDock(GlobalConfig::dock("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
+    addDock(DocksManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
 }
