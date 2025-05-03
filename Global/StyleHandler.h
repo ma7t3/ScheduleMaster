@@ -8,7 +8,7 @@
 #include <QStyleFactory>
 #include <QStyleHints>
 
-#include "Global/GlobalConfig.h"
+#include "Global/StyleManager.h"
 #include "Global/LocalConfig.h"
 
 class StyleHandler : public QObject {

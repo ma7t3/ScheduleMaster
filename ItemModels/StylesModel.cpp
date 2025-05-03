@@ -44,6 +44,6 @@ int StylesModel::indexOfStyle(const QString &styleID) {
 
 void StylesModel::reload() {
     beginResetModel();
-    _styles = GlobalConfig::styles().values();
+    _styles = StyleManager::items();
     endResetModel();
 }

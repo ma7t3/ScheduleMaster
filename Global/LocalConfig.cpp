@@ -168,7 +168,7 @@ QString LocalConfig::style() {
 }
 
 void LocalConfig::setStyle(const QString &newStyle) {
-    if(!GlobalConfig::styleExists(newStyle))
+    if(!StyleManager::itemExists(newStyle))
         return;
 
     write("appearance.theme", newStyle);
@@ -207,7 +207,7 @@ QString LocalConfig::accentColorID() {
 
 QColor LocalConfig::accentColor() {
     const QString id = accentColorID();
-    return GlobalConfig::accentColor(id);
+    return StyleManager::accentColor(id);
 }
 
 void LocalConfig::setAccentColor(const QString &id) {

@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 
-#include "Global/GlobalConfig.h"
+#include "Global/StyleManager.h"
 
 class StylesModel : public QAbstractListModel {
     Q_OBJECT

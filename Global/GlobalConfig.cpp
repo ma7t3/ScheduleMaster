@@ -1,49 +1,6 @@
 #include "GlobalConfig.h"
 
-Style::Style(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
-    name               = jsonObject.value("name").toString(id());
-    lightSupport       = jsonObject.value("lightSupport").toBool();
-    darkSupport        = jsonObject.value("darkSupport").toBool();
-    accentColorSupport = jsonObject.value("accentColorSupport").toBool();
-    applyPalette       = jsonObject.value("applyPalette").toBool();
 
-    QString typeString = jsonObject.value("type").toString();
-    type = typeString == "systemDefault" ? SystemDefaultType
-         : typeString == "styleClass"    ? StyleClassType
-         : typeString == "styleSheet"    ? StyleSheetType
-         : typeString == "styleFactory"  ? StyleFactoryType
-                                         : InvalidType;
-
-    switch(type) {
-        case StyleClassType:   styleClassID     = jsonObject.value("styleClassID").toString();     break;
-        case StyleSheetType:   styleSheetUrl    = jsonObject.value("styleSheetUrl").toString();    break;
-        case StyleFactoryType: styleFactoryName = jsonObject.value("styleFactoryName").toString(); break;
-        default: break;
-    }
-}
-
-Style::Style(const QString &id) : GlobalConfigItem(id) {}
-
-bool Style::supportsColorScheme(const Qt::ColorScheme &colorScheme) const {
-    return (
-        (colorScheme == Qt::ColorScheme::Unknown && lightSupport && darkSupport) ||
-        (colorScheme == Qt::ColorScheme::Light && lightSupport) ||
-        (colorScheme == Qt::ColorScheme::Dark && darkSupport)
-    );
-}
-
-QList<Qt::ColorScheme> Style::supportedColorSchemes() const {
-    if(supportsColorScheme(Qt::ColorScheme::Unknown))
-        return {Qt::ColorScheme::Unknown, Qt::ColorScheme::Light, Qt::ColorScheme::Dark};
-
-    if(supportsColorScheme(Qt::ColorScheme::Light))
-        return {Qt::ColorScheme::Light};
-
-    if(supportsColorScheme(Qt::ColorScheme::Dark))
-        return {Qt::ColorScheme::Dark};
-
-    return {};
-}
 
 
 GlobalConfig::GlobalConfig() : QObject(nullptr) {}
@@ -55,38 +12,7 @@ GlobalConfig *GlobalConfig::instance() {
 
 void GlobalConfig::init() {
     qInfo() << "Loading global configuration (2/2)...";
-
-    loadStyles();
     loadAccentColors();
-}
-
-QMap<QString, Style> GlobalConfig::styles() {
-    return _styles;
-}
-
-bool GlobalConfig::styleExists(const QString &id) {
-    return _styles.contains(id);
-}
-
-Style GlobalConfig::style(const QString &id) {
-    return _styles.value(id, Style());
-}
-
-Style::StyleType GlobalConfig::styleType(const QString &id) {
-    return styleExists(id) ? _styles.value(id).type : Style::InvalidType;
-}
-
-QColor GlobalConfig::accentColor(const QString &id) {
-    return _accentColors.value(id, QColor());
-}
-
-QColor GlobalConfig::accentColorDark(const QString &id) {
-    QColor color = accentColor(id);
-    return QColor(color.red() * 0.5, color.green() * 0.5, color.blue() * 0.5);
-}
-
-QMap<QString, QColor> GlobalConfig::accentColors() {
-    return _accentColors;
 }
 
 QJsonDocument GlobalConfig::loadSingleConfigResource(const QString &resource) {
@@ -176,20 +102,6 @@ QJsonArray GlobalConfig::resolveTranslatedStrings(QJsonArray jsonArray) {
     }
 
     return jsonArray;
-}
-
-void GlobalConfig::loadStyles() {
-    qInfo() << "   Loading styles...";
-    const QJsonArray shortcuts = loadMultiConfigResource("Styles");
-    for(const QJsonValue &val : shortcuts) {
-        const QJsonObject obj = val.toObject();
-        Style style(obj);
-        if(style.id().isEmpty())
-            continue;
-
-        _styles.insert(style.id(), style);
-        qInfo().noquote() << "      - " + style.id();
-    }
 }
 
 void GlobalConfig::loadAccentColors() {
