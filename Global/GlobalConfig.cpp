@@ -45,12 +45,6 @@ QList<Qt::ColorScheme> Style::supportedColorSchemes() const {
     return {};
 }
 
-DockConfig::DockConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
-    name = jsonObject.value("name").toString();
-    icon = jsonObject.value("icon").toString();
-}
-
-DockConfig::DockConfig(const QString &id) : GlobalConfigItem(id) {}
 
 GlobalConfig::GlobalConfig() : QObject(nullptr) {}
 
@@ -64,7 +58,6 @@ void GlobalConfig::init() {
 
     loadStyles();
     loadAccentColors();
-    loadDocks();
 }
 
 QMap<QString, Style> GlobalConfig::styles() {
@@ -94,18 +87,6 @@ QColor GlobalConfig::accentColorDark(const QString &id) {
 
 QMap<QString, QColor> GlobalConfig::accentColors() {
     return _accentColors;
-}
-
-QMap<QString, DockConfig> GlobalConfig::docks() {
-    return _docks;
-}
-
-bool GlobalConfig::dockExists(const QString &id) {
-    return _docks.contains(id);
-}
-
-DockConfig GlobalConfig::dock(const QString &id) {
-    return _docks.value(id, DockConfig());
 }
 
 QJsonDocument GlobalConfig::loadSingleConfigResource(const QString &resource) {
@@ -218,18 +199,4 @@ void GlobalConfig::loadAccentColors() {
     const QStringList keys = object.keys();
     for(const QString &key : keys)
         _accentColors.insert(key, QColor(object[key].toString()));
-}
-
-void GlobalConfig::loadDocks() {
-    qInfo() << "   Loading docks...";
-    const QJsonArray docks = loadMultiConfigResource("Docks");
-    for(const QJsonValue &val : docks) {
-        const QJsonObject obj = val.toObject();
-        DockConfig dock(obj);
-        if(dock.id().isEmpty())
-            continue;
-
-        _docks.insert(dock.id(), dock);
-        qInfo().noquote() << "      - " + dock.id();
-    }
 }

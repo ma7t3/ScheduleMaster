@@ -12,6 +12,7 @@
 #include "Global/ActionShortcutMapper.h"
 #include "Global/StyleHandler.h"
 #include "Global/LanguagesManager.h"
+#include "Global/DocksManager.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/Splashscreen/slpashscreen_light.png";
@@ -84,6 +85,7 @@ int main(int argc, char *argv[]) {
     GlobalConfig::init();
     FolderLocationsManager::init();
     KeyboardShortcutsManager::init();
+    DocksManager::init();
     qDebug() << "weier";
 
     splashscreen.showMessage(QObject::tr("Loading local configuration..."), Qt::AlignBottom, ssConfig.first);
