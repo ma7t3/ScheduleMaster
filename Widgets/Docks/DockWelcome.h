@@ -4,8 +4,6 @@
 #include <QWidget>
 #include <QListWidgetItem>
 
-#include "MainWindowInterface.h"
-
 #include "DockAbstract.h"
 
 namespace Ui {

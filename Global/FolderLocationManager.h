@@ -1,12 +1,9 @@
 #ifndef FOLDERLOCATIONMANAGER_H
 #define FOLDERLOCATIONMANAGER_H
 
-#include <QObject>
-#include <QStandardPaths>
-#include <QApplication>
-
 #include "Global/GlobalConfigManager.h"
-#include "Global/SettingsManager.h"
+
+#include <QObject>
 
 struct FolderLocationConfig : public GlobalConfigItem {
 public:

@@ -1,12 +1,11 @@
 #ifndef PROJECTDATAITEMSET_H
 #define PROJECTDATAITEMSET_H
 
+#include "ProjectDataItemContainer.h"
+
 #include <QHash>
 #include <QUuid>
-
 #include <QDebug>
-
-#include "ProjectDataItemContainer.h"
 
 /**
  * @class ProjectDataItemSet

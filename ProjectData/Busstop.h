@@ -1,11 +1,12 @@
 #ifndef BUSSTOP_H
 #define BUSSTOP_H
 
-#include <QObject>
-
 #include "BusstopPlatform.h"
 #include "ProjectDataItemSet.h"
 #include "ProjectDataItemData.h"
+
+#include <QObject>
+#include <QJsonArray>
 
 /**
  * @enum BusstopFlag

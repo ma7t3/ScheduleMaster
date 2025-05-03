@@ -1,13 +1,12 @@
 #ifndef PROJECTDATAITEMLIST_H
 #define PROJECTDATAITEMLIST_H
 
+#include "ProjectDataItemContainer.h"
+
 #include <QList>
 #include <QUuid>
 #include <QMap>
-
 #include <QDebug>
-
-#include "ProjectDataItemContainer.h"
 
 /**
  * @class ProjectDataItemList

@@ -1,7 +1,5 @@
 #include "Busstop.h"
 
-#include <QJsonArray>
-
 Busstop::Busstop(QObject *parent, const QUuid &id, const bool &isClone) :
     ProjectDataItem(parent, id, isClone) {
 }

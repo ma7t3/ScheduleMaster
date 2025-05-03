@@ -1,6 +1,10 @@
 #include "WdgAccentColorSelector.h"
 #include "ui_WdgAccentColorSelector.h"
 
+#include "Global/StyleManager.h"
+
+#include <QToolButton>
+
 WdgAccentColorSelector::WdgAccentColorSelector(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgAccentColorSelector),

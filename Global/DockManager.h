@@ -1,8 +1,9 @@
 #ifndef DOCKMANAGER_H
 #define DOCKMANAGER_H
 
+#include "Global/GlobalConfigManager.h"
+
 #include <QObject>
-#include "GlobalConfigManager.h"
 
 struct DockConfig : public GlobalConfigItem {
 public:

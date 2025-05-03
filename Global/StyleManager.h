@@ -1,11 +1,11 @@
 #ifndef STYLEMANAGER_H
 #define STYLEMANAGER_H
 
+#include "GlobalConfigManager.h"
+
 #include <QObject>
 #include <QColor>
 #include <QMap>
-
-#include "GlobalConfigManager.h"
 
 class StyleConfig : public GlobalConfigItem {
 public:

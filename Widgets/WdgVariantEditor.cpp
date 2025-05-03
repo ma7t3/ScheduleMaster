@@ -1,6 +1,16 @@
 #include "WdgVariantEditor.h"
 #include "ui_WdgVariantEditor.h"
 
+#include "Global/Global.h"
+#include "Global/ActionShortcutMapper.h"
+
+#include <QDialog>
+#include <QMessageBox>
+#include <QDialogButtonBox>
+#include <QColorDialog>
+#include <QListWidgetItem>
+#include <QKeySequence>
+
 WdgVariantEditor::WdgVariantEditor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WdgVariantEditor),

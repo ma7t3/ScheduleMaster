@@ -3,6 +3,8 @@
 
 #include "Global/LanguageManager.h"
 #include "Global/StyleManager.h"
+#include "ItemModels/LanguagesModel.h"
+#include "ItemModels/StylesModel.h"
 
 WdgPreferencesPageHome::WdgPreferencesPageHome(QWidget *parent) :
     WdgPreferencesPage(parent),

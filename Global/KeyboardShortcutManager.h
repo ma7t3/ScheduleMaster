@@ -1,12 +1,10 @@
 #ifndef KEYBOARDSHORTCUTMANAGER_H
 #define KEYBOARDSHORTCUTMANAGER_H
 
+#include "Global/GlobalConfigManager.h"
+
 #include <QObject>
 #include <QKeySequence>
-
-#include "GlobalConfigManager.h"
-#include "Global/SettingsManager.h"
-#include "Global/Global.h"
 
 struct KeyboardShortcutConfig : public GlobalConfigItem {
 public:

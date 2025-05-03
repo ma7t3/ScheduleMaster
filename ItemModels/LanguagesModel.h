@@ -1,9 +1,9 @@
 #ifndef LANGUAGESMODEL_H
 #define LANGUAGESMODEL_H
 
-#include <QAbstractListModel>
-
 #include "Global/LanguageManager.h"
+
+#include <QAbstractListModel>
 
 class LanguagesModel : public QAbstractListModel {
     Q_OBJECT

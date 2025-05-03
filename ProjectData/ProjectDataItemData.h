@@ -3,8 +3,6 @@
 
 #include "ProjectDataItemContainer.h"
 
-#include <QDebug>
-
 #include <QList>
 
 /**

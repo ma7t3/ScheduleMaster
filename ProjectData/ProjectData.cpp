@@ -1,7 +1,7 @@
 #include "ProjectData.h"
 
 #include <QJsonArray>
-#include <QThread>
+#include <QUndoStack>
 
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),

@@ -1,13 +1,9 @@
 #ifndef PROJECTFILEHANDLER_H
 #define PROJECTFILEHANDLER_H
 
-#include <QObject>
 #include <QThread>
-#include <QApplication>
-#include <QFile>
-#include <QMutex>
 
-#include "ProjectData/ProjectData.h"
+class ProjectData;
 
 /**
  * @brief The ProjectFileHandler class provides reading and writing ProjectData from/to files within a separate thread.

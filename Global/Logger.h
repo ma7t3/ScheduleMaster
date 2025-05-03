@@ -2,7 +2,6 @@
 #define LOGGER_H
 
 #include <QObject>
-#include <QDir>
 
 class Logger : public QObject {
     Q_OBJECT

@@ -1,5 +1,10 @@
 #include "FolderLocationManager.h"
 
+#include "Global/SettingsManager.h"
+
+#include <QApplication>
+#include <QStandardPaths>
+
 FolderLocationConfig::FolderLocationConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
     name            = jsonObject.value("name").toString(id());
     icon            = jsonObject.value("icon").toString();

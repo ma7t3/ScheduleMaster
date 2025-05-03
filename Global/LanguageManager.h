@@ -1,9 +1,9 @@
 #ifndef LANGUAGEMANAGER_H
 #define LANGUAGEMANAGER_H
 
-#include <QObject>
-
 #include "Global/GlobalConfigManager.h"
+
+#include <QObject>
 
 struct LanguageConfig : public GlobalConfigItem {
     LanguageConfig(const QString &id);

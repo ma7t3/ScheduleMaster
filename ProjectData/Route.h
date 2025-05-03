@@ -1,9 +1,10 @@
 #ifndef ROUTE_H
 #define ROUTE_H
 
-#include "LineDirection.h"
 #include "RouteBusstopItem.h"
 #include "ProjectDataItemList.h"
+
+class LineDirection;
 
 /**
  * @struct RouteData

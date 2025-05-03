@@ -2,15 +2,8 @@
 #define DLGCONFIGEDITOR_H
 
 #include <QDialog>
-#include <QTreeWidgetItem>
-#include <QMessageBox>
-#include <QInputDialog>
-#include <QClipboard>
 
-#include "Global/VariantConverter.h"
-#include "Global/ActionShortcutMapper.h"
-
-#include "ItemModels/LocalConfigModel.h"
+class LocalConfigModel;
 
 namespace Ui {
 class DlgConfigEditor;
@@ -48,7 +41,7 @@ private:
 
     QAction *_restoreDefaultAction, *_deleteAction, *_copyIDAction;
 
-    LocalConfigModel _model;
+    LocalConfigModel *_model;
 };
 
 #endif // DLGCONFIGEDITOR_H

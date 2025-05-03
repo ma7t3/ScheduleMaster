@@ -1,12 +1,21 @@
 #include "DlgConfigEditor.h"
 #include "ui_DlgConfigEditor.h"
 
+#include "Global/ActionShortcutMapper.h"
+#include "ItemModels/LocalConfigModel.h"
+
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QTreeWidgetItem>
+#include <QClipboard>
+
 DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DlgConfigEditor) {
+    ui(new Ui::DlgConfigEditor),
+    _model(new LocalConfigModel(this)) {
     ui->setupUi(this);
 
-    ui->treeView->setModel(&_model);
+    ui->treeView->setModel(_model);
 
     ui->treeView->setColumnWidth(0, 250);
     ui->treeView->setColumnWidth(1, 500);
@@ -20,7 +29,7 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
 
     ActionShortcutMapper::map(_restoreDefaultAction, "application.configuration.key.restoreDefault");
     ActionShortcutMapper::map(_deleteAction,         "application.configuration.key.delete");
-    ActionShortcutMapper::map(_copyIDAction,          "application.configuration.key.copyID");
+    ActionShortcutMapper::map(_copyIDAction,         "application.configuration.key.copyID");
     ActionShortcutMapper::map(reloadAction,          "application.configuration.reload");
 
     _restoreDefaultAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
@@ -47,10 +56,10 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentRowChanged, this,                 &DlgConfigEditor::onCurrentRowChanged);
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::selectionChanged,  this,                 &DlgConfigEditor::onSelectionChanged);
 
-    connect(&_model,                        &QAbstractItemModel::modelReset,         this,                 &DlgConfigEditor::onSelectionChanged);
+    connect(_model,                         &QAbstractItemModel::modelReset,         this,                 &DlgConfigEditor::onSelectionChanged);
 
-    connect(ui->pbReload,                   &QPushButton::clicked,                   &_model,              &LocalConfigModel::reload);
-    connect(reloadAction,                   &QAction::triggered,                     &_model,              &LocalConfigModel::reload);
+    connect(ui->pbReload,                   &QPushButton::clicked,                   _model,               &LocalConfigModel::reload);
+    connect(reloadAction,                   &QAction::triggered,                     _model,               &LocalConfigModel::reload);
 
     ui->treeView->setCurrentIndex(QModelIndex());
     onSelectionChanged();
@@ -67,13 +76,13 @@ void DlgConfigEditor::reject() {
 
 void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous) {
     // save previous
-    if(previous.isValid() && !_model.settingIsGroup(previous) && !_model.settingIsDeleted(previous))
-        SettingsManager::setValue(_model.settingID(previous), ui->wdgValueEditor->value());
+    if(previous.isValid() && !_model->settingIsGroup(previous) && !_model->settingIsDeleted(previous))
+        SettingsManager::setValue(_model->settingID(previous), ui->wdgValueEditor->value());
 
     // load current
     if(current.isValid()) {
-        QString id = _model.settingID(current);
-        QVariant value = _model.settingValue(current);
+        QString id = _model->settingID(current);
+        QVariant value = _model->settingValue(current);
         QString type = value.typeName();
 
         ui->lID->setText(id);
@@ -88,7 +97,7 @@ void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QMod
 
         ui->lType->setText(type);
 
-        if(_model.settingIsGroup(current))
+        if(_model->settingIsGroup(current))
             ui->wdgValueEditor->setValue(QVariant());
         else
             ui->wdgValueEditor->setValue(value);
@@ -99,7 +108,7 @@ void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QMod
 }
 
 void DlgConfigEditor::onPreviewUpdate(const QVariant &value) {
-    _model.setSettingPreview(ui->treeView->selectionModel()->currentIndex(), value);
+    _model->setSettingPreview(ui->treeView->selectionModel()->currentIndex(), value);
 }
 
 void DlgConfigEditor::onSelectionChanged() {
@@ -109,7 +118,7 @@ void DlgConfigEditor::onSelectionChanged() {
     QModelIndexList selection = ui->treeView->selectionModel()->selectedRows(0);
     int selectionCount = selection.count();
 
-    const QStringList settings = _model.settingsIDList(selection);
+    const QStringList settings = _model->settingsIDList(selection);
 
     bool canRestoreDefault = false, canDelete = false;
 
@@ -135,7 +144,7 @@ void DlgConfigEditor::onSettingRestoreDefault() {
 
     QStringList IDs;
     for(const QModelIndex &index : selection)
-        IDs << _model.settingID(index);
+        IDs << _model->settingID(index);
 
     QString listString = "<ul><li>" + IDs.join("</li><li>") + "</li></ul>";
 
@@ -157,7 +166,7 @@ void DlgConfigEditor::onSettingDelete() {
 
     QStringList IDs;
     for(const QModelIndex &index : selection)
-        IDs << _model.settingID(index);
+        IDs << _model->settingID(index);
 
     QString listString = "<ul><li>" + IDs.join("</li><li>") + "</li></ul>";
 
@@ -177,5 +186,5 @@ void DlgConfigEditor::onSettingDelete() {
 
 void DlgConfigEditor::onSettingCopyID() {
     QModelIndex current = ui->treeView->currentIndex();
-    QApplication::clipboard()->setText(_model.settingID(current));
+    QApplication::clipboard()->setText(_model->settingID(current));
 }

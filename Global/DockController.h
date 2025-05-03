@@ -1,14 +1,12 @@
 #ifndef DOCKCONTROLLER_H
 #define DOCKCONTROLLER_H
 
-#include <QObject>
-#include <QDockWidget>
-
-#include "Widgets/Docks/DockWelcome.h"
-
-#include "Global/ActionShortcutMapper.h"
-
 #include "Global/DockManager.h"
+
+#include <QObject>
+
+class QDockWidget;
+class QAction;
 
 class DockController : public QObject {
     Q_OBJECT

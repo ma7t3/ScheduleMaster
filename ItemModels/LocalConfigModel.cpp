@@ -1,5 +1,7 @@
 #include "LocalConfigModel.h"
 
+#include "Global/VariantConverter.h"
+
 #include <QIcon>
 
 LocalConfigModelSetting::LocalConfigModelSetting(const QString &id, LocalConfigModelSetting *parentSetting, QObject *parent) :

@@ -1,6 +1,10 @@
 #include "StyleHandler.h"
 
 #include <QFont>
+#include <QStyle>
+#include <QApplication>
+#include <QStyleFactory>
+#include <QStyleHints>
 
 StyleHandler::StyleHandler() :
     QObject(nullptr) {}

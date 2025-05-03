@@ -2,9 +2,6 @@
 #define WDGACCENTCOLORSELECTOR_H
 
 #include <QWidget>
-#include <QToolButton>
-
-#include "Global/StyleManager.h"
 
 namespace Ui {
 class WdgAccentColorSelector;

@@ -5,8 +5,9 @@
 #include <QToolButton>
 
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
-#include "ItemModels/LanguagesModel.h"
-#include "ItemModels/StylesModel.h"
+
+class LanguagesModel;
+class StylesModel;
 
 namespace Ui {
 class WdgPreferencesPageHome;

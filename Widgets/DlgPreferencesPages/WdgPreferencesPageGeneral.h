@@ -1,12 +1,9 @@
 #ifndef WDGPREFERENCESPAGEGENERAL_H
 #define WDGPREFERENCESPAGEGENERAL_H
 
-#include <QWidget>
-#include <QDesktopServices>
-
-#include "ItemModels/LanguagesModel.h"
-
 #include "WdgPreferencesPage.h"
+
+class LanguagesModel;
 
 namespace Ui {
 class WdgPreferencesPageGeneral;

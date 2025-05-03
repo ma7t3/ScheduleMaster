@@ -1,7 +1,8 @@
 #include "WdgPreferencesPageAppearance.h"
 #include "ui_WdgPreferencesPageAppearance.h"
 
-#include "Global/StyleManager.h"
+#include "Global/StyleHandler.h"
+#include "ItemModels/StylesModel.h"
 
 WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     WdgPreferencesPage(parent),
