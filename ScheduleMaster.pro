@@ -60,6 +60,8 @@ SOURCES += \
     Widgets/WdgWelcomeRecentProjectEntry.cpp
 
 HEADERS += \
+    Commands/CmdBusstops.h \
+    Commands/CmdGeneral.h \
     Dialogs/DlgConfigEditor.h \
     Dialogs/DlgPreferences.h \
     Global/ActionShortcutMapper.h \
