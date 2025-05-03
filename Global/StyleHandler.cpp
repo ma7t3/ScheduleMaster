@@ -1,5 +1,7 @@
 #include "StyleHandler.h"
 
+#include <QFont>
+
 StyleHandler::StyleHandler() :
     QObject(nullptr) {}
 
@@ -16,9 +18,9 @@ void StyleHandler::init() {
     // when making ScheduleMaster available for other operating systems, this needs to be more platform-specific
     _systemStyleName = keys.contains("windowsvista") ? "windowsvista" : !keys.isEmpty() ? keys.first() : "";
 
-    connect(LocalConfig::instance(), &LocalConfig::accentColorChanged, StyleHandler::instance(), &StyleHandler::applyAccentColor);
-    connect(LocalConfig::instance(), &LocalConfig::styleChanged,       StyleHandler::instance(), &StyleHandler::applyStyle);
-    connect(LocalConfig::instance(), &LocalConfig::colorSchemeChanged, StyleHandler::instance(), &StyleHandler::applyColorScheme);
+    connect(StyleManager::instance(), &StyleManager::accentColorChanged, StyleHandler::instance(), &StyleHandler::applyAccentColor);
+    connect(StyleManager::instance(), &StyleManager::styleChanged,       StyleHandler::instance(), &StyleHandler::applyStyle);
+    connect(StyleManager::instance(), &StyleManager::colorSchemeChanged, StyleHandler::instance(), &StyleHandler::applyColorScheme);
 
     connect(QApplication::styleHints(), &QStyleHints::colorSchemeChanged, instance(), &StyleHandler::onColorSchemeChange);
 

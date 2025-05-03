@@ -1,5 +1,6 @@
 #include "LocalConfigModel.h"
 
+#include <QIcon>
 
 LocalConfigModelSetting::LocalConfigModelSetting(const QString &id, LocalConfigModelSetting *parentSetting, QObject *parent) :
     QObject(parent), _deleted(false) {
@@ -10,10 +11,10 @@ LocalConfigModelSetting::LocalConfigModelSetting(const QString &id, LocalConfigM
     if(!_unkown)
         _metaData = SettingsManager::item(id);
 
-    _value = LocalConfig::read(id);
+    _value = SettingsManager::value(id);
 
-    const QStringList groupKeys = LocalConfig::groupSubGroups(id);
-    const QStringList settingKeys = LocalConfig::groupKeys(id);
+    const QStringList groupKeys = SettingsManager::groupSubGroups(id);
+    const QStringList settingKeys = SettingsManager::keysInGroup(id);
 
     _parent = parentSetting;
 
@@ -31,8 +32,8 @@ LocalConfigModelSetting::LocalConfigModelSetting(const QString &id, LocalConfigM
         _children << setting;
     }
 
-    connect(LocalConfig::instance(), &LocalConfig::settingChanged, this, &LocalConfigModelSetting::onSettingChanged);
-    connect(LocalConfig::instance(), &LocalConfig::settingRemoved, this, &LocalConfigModelSetting::onSettingRemoved);
+    connect(SettingsManager::instance(), &SettingsManager::valueChanged, this, &LocalConfigModelSetting::onSettingChanged);
+    connect(SettingsManager::instance(), &SettingsManager::keyRemoved,   this, &LocalConfigModelSetting::onSettingRemoved);
 }
 
 QString LocalConfigModelSetting::id() const {
@@ -317,8 +318,8 @@ void LocalConfigModel::reloadSettings() {
     endPreview();
     _settings.clear();
 
-    const QStringList groups = LocalConfig::allGroups();
-    const QStringList settings = LocalConfig::allKeys();
+    const QStringList groups = SettingsManager::groups();
+    const QStringList settings = SettingsManager::keys();
 
     for(const QString &key : groups) {
         LocalConfigModelSetting *setting = new LocalConfigModelSetting(key, nullptr, this);

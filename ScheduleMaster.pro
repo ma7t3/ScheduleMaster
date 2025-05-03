@@ -13,13 +13,14 @@ SOURCES += \
     Dialogs/DlgPreferences.cpp \
     Global/ActionShortcutMapper.cpp \
     Global/AppInfo.cpp \
+    Global/CrashDetector.cpp \
     Global/DockController.cpp \
     Global/DockManager.cpp \
     Global/FolderLocationManager.cpp \
     Global/Global.cpp \
     Global/KeyboardShortcutManager.cpp \
     Global/LanguageManager.cpp \
-    Global/LocalConfig.cpp \
+    Global/LastUsedFilesManager.cpp \
     Global/Logger.cpp \
     Global/ProjectFileHandler.cpp \
     Global/SettingsManager.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     Dialogs/DlgPreferences.h \
     Global/ActionShortcutMapper.h \
     Global/AppInfo.h \
+    Global/CrashDetector.h \
     Global/DockController.h \
     Global/DockManager.h \
     Global/FolderLocationManager.h \
@@ -71,7 +73,7 @@ HEADERS += \
     Global/GlobalConfigManagerSignals.h \
     Global/KeyboardShortcutManager.h \
     Global/LanguageManager.h \
-    Global/LocalConfig.h \
+    Global/LastUsedFilesManager.h \
     Global/Logger.h \
     Global/ProjectFileHandler.h \
     Global/SettingsManager.h \

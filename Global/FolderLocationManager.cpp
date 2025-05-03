@@ -34,3 +34,46 @@ FolderLocationManager::FolderLocationManager(QObject *parent) : GlobalConfigMana
     qDebug() << "Test";
     loadItems("Locations");
 }
+
+QMap<QString, QStringList> FolderLocationManager::currentFolderLocations() {
+    QMap<QString, QStringList> data;
+
+    const QStringList keys = SettingsManager::keysInGroup("locations");
+
+    const QStringList standardKeys = itemIDs();
+    for(const QString &key : standardKeys) {
+        if(!keys.contains(key)) {
+            data[key] = SettingsManager::item("locations/" + key).defaultValue.toStringList();
+            SettingsManager::setValue("locations/" + key, data[key]);
+        }
+    }
+
+    for(const QString &id : keys)
+        data[id] = currentFolderLocationPaths(id);
+
+    return data;
+}
+
+QStringList FolderLocationManager::currentFolderLocationPaths(const QString &folderLocationID) {
+    QStringList values = SettingsManager::value("locations/" + folderLocationID).toStringList();
+    if(values.empty()) {
+        values = SettingsManager::item("locations/" + folderLocationID).defaultValue.toStringList();
+        SettingsManager::setValue("locations/" + folderLocationID, values);
+    }
+
+    if(values.isEmpty())
+        values << "";
+
+    return values;
+}
+
+void FolderLocationManager::setCurrentFolderLocationPaths(const QString &folderLocationID, const QStringList &paths) {
+    SettingsManager::setValue("locations/" + folderLocationID, paths);
+    emit instance()->currentFolderLocationPathsChanged(folderLocationID, paths);
+}
+
+void FolderLocationManager::setCurrentFolderLocations(const QMap<QString, QStringList> &folderLocations) {
+    const QStringList locationKeys = folderLocations.keys();
+    for(const QString &key : locationKeys)
+        setCurrentFolderLocationPaths(key, folderLocations.value(key));
+}

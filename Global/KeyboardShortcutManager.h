@@ -31,6 +31,15 @@ public:
      * @return Whether sequence is id's default key sequence or not
      */
     static bool isDefault(const QString &id, const QKeySequence &sequence);
+
+    static QKeySequence keyboardShortcut(const QString &keyboardShortcutID);
+    static void setKeyboardShortcut(const QString &keyboardShortcutID, const QKeySequence shortcut);
+
+    static void importJson(const QJsonArray &jsonArray);
+    static QJsonArray exportJson();
+
+signals:
+    void keyboardShortcutChanged(const QString &keyboardShortcutID, const QKeySequence shortcut);
 };
 
 #endif // KEYBOARDSHORTCUTMANAGER_H

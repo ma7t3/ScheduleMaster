@@ -1,6 +1,10 @@
 #include "WdgPreferencesPageGeneral.h"
 #include "ui_WdgPreferencesPageGeneral.h"
 
+#include "Global/LanguageManager.h"
+#include "Global/Logger.h"
+#include "Global/FolderLocationManager.h"
+
 WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageGeneral),
@@ -10,7 +14,7 @@ WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     ui->cbLanguage->setModel(_languagesModel);
 
     QAction *openLogfileAction = ui->tbLogfileLocation->addAction(QIcon(":/Icons/File.ico"), tr("Open current logfile.txt"));
-    openLogfileAction->setEnabled(LocalConfig::currentLogfileExists());
+    openLogfileAction->setEnabled(Logger::currentLogfileExists());
     connect(ui->tbLogfileLocation, &QToolButton::clicked,           this, &WdgPreferencesPageGeneral::openLogfileLocation);
     connect(openLogfileAction,     &QAction::triggered,             this, &WdgPreferencesPageGeneral::openLogfile);
 
@@ -28,20 +32,20 @@ WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
 }
 
 void WdgPreferencesPageGeneral::reloadPreferences() {
-    ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(LocalConfig::language()));
+    ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(LanguageManager::currentLanguage()));
 
     // logfile mode
-    ui->cbLogfileMode->setCurrentIndex(LocalConfig::logfileMode());
+    ui->cbLogfileMode->setCurrentIndex(Logger::logfileMode());
 
     WdgPreferencesPage::reloadPreferences();
 }
 
 void WdgPreferencesPageGeneral::savePreferences() {
     // language
-    LocalConfig::setLanguage(_languagesModel->language(ui->cbLanguage->currentIndex()).locale);
+    LanguageManager::setCurrentLanguage(_languagesModel->language(ui->cbLanguage->currentIndex()).locale.name());
 
     // logfile mode
-    LocalConfig::setLogfileMode(static_cast<LocalConfig::LogfileMode>(ui->cbLogfileMode->currentIndex()));
+    Logger::setLogfileMode(static_cast<Logger::LogfileMode>(ui->cbLogfileMode->currentIndex()));
 
     WdgPreferencesPage::savePreferences();
 }
@@ -68,7 +72,7 @@ void WdgPreferencesPageGeneral::setLanguageIndex(const int &index) {
 
 void WdgPreferencesPageGeneral::openLogfileLocation() {
     qInfo() << "Opening logfile location...";
-    QStringList list = LocalConfig::folderLocationPaths("logfile");
+    QStringList list = FolderLocationManager::currentFolderLocationPaths("logfile");
     if(list.isEmpty())
         return;
 
@@ -77,7 +81,7 @@ void WdgPreferencesPageGeneral::openLogfileLocation() {
 
 void WdgPreferencesPageGeneral::openLogfile() {
     qInfo() << "Opening logfile...";
-    QStringList list = LocalConfig::folderLocationPaths("logfile");
+    QStringList list = FolderLocationManager::currentFolderLocationPaths("logfile");
     if(list.isEmpty())
         return;
 
@@ -88,16 +92,16 @@ void WdgPreferencesPageGeneral::on_cbLogfileMode_currentIndexChanged(int index) 
     QString infoText;
 
     switch(index) {
-    case LocalConfig::LogfileMode::NoLog:
+    case Logger::NoLog:
         infoText = tr("No log file will be created.");
         break;
-    case LocalConfig::LogfileMode::DefaultLog:
+    case Logger::DefaultLog:
         infoText = tr("A normal logfile is generated, containing normal infos, warnings and error messages.");
         break;
-    case LocalConfig::LogfileMode::DebugLog:
+    case Logger::DebugLog:
         infoText = tr("An advanced log file will be created including additional debug information. Helpful for developers or testers.");
         break;
-    case LocalConfig::LogfileMode::DebugDetailLog:
+    case Logger::DebugDetailLog:
         infoText = tr("An advanced log file will be created including additional debug information. Helpful for developers or testers. Also including exact code file names and line numers where the message was sent. Only works in debug builds.");
         break;
     }

@@ -1,6 +1,7 @@
 #include "WdgPreferencesPageLocations.h"
 #include "ui_WdgPreferencesPageLocations.h"
 
+#include "Global/FolderLocationManager.h"
 // TODO: Review (variable names)
 
 WdgPreferencesPageLocations::WdgPreferencesPageLocations(QWidget *parent) :
@@ -33,7 +34,7 @@ void WdgPreferencesPageLocations::reloadPreferences() {
         _folderLocations.insert(loc.id(), loc);
     }
 
-    _folderLocationsPaths = LocalConfig::folderLocations();
+    _folderLocationsPaths = FolderLocationManager::currentFolderLocations();
 
     WdgPreferencesPage::reloadPreferences();
 }
@@ -41,7 +42,7 @@ void WdgPreferencesPageLocations::reloadPreferences() {
 void WdgPreferencesPageLocations::savePreferences() {
     ui->lwLocationCategories->setCurrentItem(nullptr);
 
-    LocalConfig::setFolderLocations(_folderLocationsPaths);
+    FolderLocationManager::setCurrentFolderLocations(_folderLocationsPaths);
 
     WdgPreferencesPage::savePreferences();
 }

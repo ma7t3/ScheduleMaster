@@ -5,8 +5,6 @@
 #include <QHash>
 #include <QAction>
 
-#include "LocalConfig.h"
-
 /**
  * @brief The ActionShortcutMapper class is used to connect QActions with their corresponding keyboard shortcuts.
  *

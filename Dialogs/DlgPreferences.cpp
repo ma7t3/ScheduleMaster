@@ -109,8 +109,8 @@ bool DlgPreferences::unsavedChanges() {
 }
 
 void DlgPreferences::checkRestartRequired() {
-    if(LocalConfig::restartRequired()) {
-        const QStringList items = LocalConfig::restartRequiredSettings();
+    if(SettingsManager::restartRequired()) {
+        const QStringList items = SettingsManager::modifiedRestartRequiredSettings();
 
         QStringList itemNames;
         for(const QString &item : items)

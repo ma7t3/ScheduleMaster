@@ -2,19 +2,32 @@
 
 #include "AppInfo.h"
 
+#include "FolderLocationManager.h"
+#include "CrashDetector.h"
+
 static const QtMessageHandler QT_DEFAULT_MESSAGE_HANDLER = qInstallMessageHandler(nullptr);
 
-Logger::Logger(QObject *parent, const QDir &logfilesDirectory) : QObject(parent) {
-    //logfileMode = LocalConfig::DebugLog; // use this to always enable debug logging - helpful if you broke the LocalConfig and need logging to fix it ^^
-    _logfileMode = LocalConfig::logfileMode();
+Logger::Logger(QObject *parent) : QObject(parent) {
+    // get logfile dir
+    QDir logDir = FolderLocationManager::currentFolderLocationPaths("logfile").first();
 
-    if(_logfileMode == LocalConfig::NoLog)
+    // check if crash was detected. In this case copy logfile
+    if(CrashDetector::crashDetected()) {
+        const QDateTime now(QDateTime::currentDateTime());
+        QString newFileName = logDir.path() + "/logfile_crash_" + now.toString("yyyy-MM-dd_hh-mm-ss") + ".txt";
+        if(QFile::copy(logDir.path() + "/logfile.txt", newFileName))
+            _lastLogfilePath = newFileName;
+    }
+
+    _logfileMode = logfileMode();
+
+    if(_logfileMode == NoLog)
         return;
 
-    if(!logfilesDirectory.exists())
-        logfilesDirectory.mkpath(logfilesDirectory.path());
+    if(!logDir.exists())
+        logDir.mkpath(logDir.path());
 
-    _logfilePath = logfilesDirectory.path() + "/logfile.txt";
+    _logfilePath = logDir.path() + "/logfile.txt";
     _counter = 0;
 
     QFile f(_logfilePath);
@@ -25,10 +38,10 @@ Logger::Logger(QObject *parent, const QDir &logfilesDirectory) : QObject(parent)
 
     QString logfileModeInfo;
     switch (_logfileMode) {
-        case LocalConfig::DefaultLog:     logfileModeInfo = "Normal logging";         break;
-        case LocalConfig::DebugLog:       logfileModeInfo = "Debug logging";          break;
-        case LocalConfig::DebugDetailLog: logfileModeInfo = "Detailed debug logging"; break;
-        default:                          logfileModeInfo = "Unkown loggin mode";     break;
+        case DefaultLog:     logfileModeInfo = "Normal logging";         break;
+        case DebugLog:       logfileModeInfo = "Debug logging";          break;
+        case DebugDetailLog: logfileModeInfo = "Detailed debug logging"; break;
+        default:             logfileModeInfo = "Unkown loggin mode";     break;
     }
 
     s << "##########################################################################################\n";
@@ -50,7 +63,7 @@ Logger::Logger(QObject *parent, const QDir &logfilesDirectory) : QObject(parent)
 }
 
 void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QString &message) {
-    if(type == QtMsgType::QtDebugMsg && _logfileMode != LocalConfig::DebugLog && _logfileMode != LocalConfig::DebugDetailLog)
+    if(type == QtMsgType::QtDebugMsg && _logfileMode != DebugLog && _logfileMode != DebugDetailLog)
         return;
 
     QFile f(_logfilePath);
@@ -81,7 +94,7 @@ void Logger::handler(QtMsgType type, const QMessageLogContext &context, const QS
     QString prefix("[%1] ");
     prefix = _prefix.isEmpty() ? "" : prefix.arg(_prefix);
 
-    if(_logfileMode == LocalConfig::DebugDetailLog) {
+    if(_logfileMode == DebugDetailLog) {
         s << "       |          |                     | " << identation << prefix << message << "\n";
 
         s << counterStr << " | " << timeStr << " | " << typeStr << " | ";
@@ -112,4 +125,28 @@ void Logger::beginSub() {
 
 void Logger::endSub() {
     _subCount = std::max(0, _subCount - 1);
+}
+
+void Logger::setLogfileMode(const LogfileMode &newLogfileMode) {
+    _logfileMode = newLogfileMode;
+    SettingsManager::setValue("general.logfileMode", newLogfileMode);
+}
+
+bool Logger::currentLogfileExists() {
+    return !_logfilePath.isEmpty();
+}
+
+QString Logger::lastLogfilePath() {
+    return _lastLogfilePath;
+}
+
+Logger::LogfileMode Logger::logfileMode() {
+    bool ok;
+    int intValue = SettingsManager::value("general.logfileMode").toInt(&ok);
+    if(!ok || intValue < 0 || intValue > 3)
+        return DefaultLog;
+
+    const LogfileMode mode = static_cast<LogfileMode>(intValue);
+    _logfileMode = mode;
+    return mode;
 }

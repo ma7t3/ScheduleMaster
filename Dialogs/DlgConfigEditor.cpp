@@ -68,7 +68,7 @@ void DlgConfigEditor::reject() {
 void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous) {
     // save previous
     if(previous.isValid() && !_model.settingIsGroup(previous) && !_model.settingIsDeleted(previous))
-        LocalConfig::write(_model.settingID(previous), ui->wdgValueEditor->value());
+        SettingsManager::setValue(_model.settingID(previous), ui->wdgValueEditor->value());
 
     // load current
     if(current.isValid()) {
@@ -147,7 +147,7 @@ void DlgConfigEditor::onSettingRestoreDefault() {
         if(!SettingsManager::itemExists(id))
             continue;
 
-        QVariant defaultValue = LocalConfig::restoreDefault(id);
+        QVariant defaultValue = SettingsManager::restoreDefaultValue(id);
         ui->wdgValueEditor->setValue(defaultValue);
     }
 }
@@ -167,10 +167,10 @@ void DlgConfigEditor::onSettingDelete() {
 
     for(const QString &id : std::as_const(IDs)) {
         if(SettingsManager::itemExists(id)) {
-            QVariant defaultValue = LocalConfig::restoreDefault(id);
+            QVariant defaultValue = SettingsManager::restoreDefaultValue(id);
             ui->wdgValueEditor->setValue(defaultValue);
         } else {
-            LocalConfig::remove(id);
+            SettingsManager::removeKey(id);
         }
     }
 }

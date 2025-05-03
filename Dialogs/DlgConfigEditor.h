@@ -7,7 +7,6 @@
 #include <QInputDialog>
 #include <QClipboard>
 
-#include "Global/LocalConfig.h"
 #include "Global/VariantConverter.h"
 #include "Global/ActionShortcutMapper.h"
 

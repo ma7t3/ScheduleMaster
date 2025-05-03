@@ -42,15 +42,66 @@ KeyboardShortcutConfig::KeyboardShortcutConfig(const QString &id) : GlobalConfig
 KeyboardShortcutManager::KeyboardShortcutManager(QObject *parent) :
     GlobalConfigManager(parent) {
     loadItems("KeyboardShortcuts");
-    for(KeyboardShortcutConfig shortcut : items()) {
+    const QList<KeyboardShortcutConfig> itemList = items();
+    for(const KeyboardShortcutConfig &shortcut : itemList) {
         SettingsItem item("keyboardShortcuts/" + shortcut.id());
         item.type         = QMetaType::QKeySequence;
         item.description  = shortcut.description;
         item.defaultValue = shortcut.defaultKeySequence;
         SettingsManager::registerNewSettingsItem(item);
     }
+
+    SettingsManager::callOnChange(this,
+    [](const QString &id){
+        return id.startsWith("keyboardShortcuts/");
+    },
+    [](const QString &settingID, const QVariant &value) {
+        QString shortcutID = settingID;
+        shortcutID.remove("keyboardShortcuts/");
+        emit instance()->keyboardShortcutChanged(shortcutID, QKeySequence(value.toString()));
+        qDebug() << "Callback Recived: Shortcut changed!" << shortcutID << value;
+    });
 }
 
 bool KeyboardShortcutManager::isDefault(const QString &id, const QKeySequence &sequence) {
     return itemExists(id) ? item(id).defaultKeySequence == sequence : false;
+}
+
+QKeySequence KeyboardShortcutManager::keyboardShortcut(const QString &keyboardShortcutID) {
+    const QString fullID = "keyboardShortcuts/" + keyboardShortcutID;
+    if(SettingsManager::keyExists(fullID))
+        return QKeySequence(SettingsManager::value(fullID).toString());
+
+    if(!itemExists(keyboardShortcutID))
+        return QKeySequence();
+
+    const QKeySequence sequence = item(keyboardShortcutID).defaultKeySequence;
+    setKeyboardShortcut(keyboardShortcutID, sequence);
+    return sequence;
+}
+
+void KeyboardShortcutManager::setKeyboardShortcut(const QString &keyboardShortcutID, const QKeySequence shortcut) {
+    SettingsManager::setValue("keyboardShortcuts/" + keyboardShortcutID, shortcut.toString(QKeySequence::PortableText));
+    //emit instance()->keyboardShortcutChanged(keyboardShortcutID, shortcut);
+}
+
+void KeyboardShortcutManager::importJson(const QJsonArray &jsonArray) {
+    for(const QJsonValue &value : jsonArray) {
+        const QJsonObject jObj = value.toObject();
+        const QString id          = jObj.value("id").toString();
+        const QString keySequence = jObj.value("keySequence").toString();
+        setKeyboardShortcut(id, keySequence);
+    }
+}
+
+QJsonArray KeyboardShortcutManager::exportJson() {
+    QJsonArray array;
+    const QStringList keys = SettingsManager::keysInGroup("keyboardShortcuts");
+    for(const QString &id : keys) {
+        QJsonObject obj;
+        obj["id"] = id;
+        obj["keySequence"] = keyboardShortcut(id).toString();
+        array << obj;
+    }
+    return array;
 }

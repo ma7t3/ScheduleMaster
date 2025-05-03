@@ -27,6 +27,16 @@ class FolderLocationManager : public GlobalConfigManager<FolderLocationManager, 
     Q_OBJECT
 protected:
     explicit FolderLocationManager(QObject *parent);
+
+public:
+    static QMap<QString, QStringList> currentFolderLocations();
+    static QStringList currentFolderLocationPaths(const QString &folderLocationID);
+
+    static void setCurrentFolderLocationPaths(const QString &folderLocationID, const QStringList &paths);
+    static void setCurrentFolderLocations(const QMap<QString, QStringList> &folderLocations);
+
+signals:
+    void currentFolderLocationPathsChanged(const QString &folderLocationID, const QStringList &paths);
 };
 
 #endif // FOLDERLOCATIONMANAGER_H

@@ -1,6 +1,9 @@
 #include "WdgPreferencesPageHome.h"
 #include "ui_WdgPreferencesPageHome.h"
 
+#include "Global/LanguageManager.h"
+#include "Global/StyleManager.h"
+
 WdgPreferencesPageHome::WdgPreferencesPageHome(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageHome),
@@ -21,8 +24,8 @@ WdgPreferencesPageHome::~WdgPreferencesPageHome() {
 }
 
 void WdgPreferencesPageHome::reloadPreferences() {
-    ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(LocalConfig::language()));
-    ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(LocalConfig::style()));
+    ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(LanguageManager::currentLanguage()));
+    ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(StyleManager::currentStyle()));
     WdgPreferencesPage::reloadPreferences();
 }
 

@@ -2,7 +2,6 @@
 #define LANGUAGESMODEL_H
 
 #include <QAbstractListModel>
-#include "Global/LocalConfig.h"
 
 #include "Global/LanguageManager.h"
 
