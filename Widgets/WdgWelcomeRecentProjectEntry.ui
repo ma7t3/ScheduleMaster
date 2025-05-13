@@ -85,7 +85,7 @@
      </property>
      <property name="icon">
       <iconset resource="../Resources.qrc">
-       <normaloff>:/Icons/FileOpen.ico</normaloff>:/Icons/FileOpen.ico</iconset>
+       <normaloff>:/Icons/folder-open.ico</normaloff>:/Icons/folder-open.ico</iconset>
      </property>
     </widget>
    </item>
@@ -105,7 +105,7 @@
      </property>
      <property name="icon">
       <iconset resource="../Resources.qrc">
-       <normaloff>:/Icons/Quit.ico</normaloff>:/Icons/Quit.ico</iconset>
+       <normaloff>:/Icons/circle-xmark.ico</normaloff>:/Icons/circle-xmark.ico</iconset>
      </property>
     </widget>
    </item>

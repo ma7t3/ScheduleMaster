@@ -33,7 +33,7 @@
      </property>
      <property name="icon">
       <iconset resource="Resources.qrc">
-       <normaloff>:/Icons/LastUSedFiles.ico</normaloff>:/Icons/LastUSedFiles.ico</iconset>
+       <normaloff>:/Icons/files-stack.ico</normaloff>:/Icons/files-stack.ico</iconset>
      </property>
     </widget>
     <addaction name="actionFileNewProject"/>
@@ -43,8 +43,8 @@
     <addaction name="actionFileSaveProject"/>
     <addaction name="actionFileSaveProjectAs"/>
     <addaction name="separator"/>
-    <addaction name="actionFileImport"/>
-    <addaction name="actionFileExport"/>
+    <addaction name="actionfile-import"/>
+    <addaction name="actionfile-export"/>
     <addaction name="separator"/>
     <addaction name="actionFileCloseProject"/>
     <addaction name="actionFileQuit"/>
@@ -67,7 +67,7 @@
      </property>
      <property name="icon">
       <iconset resource="Resources.qrc">
-       <normaloff>:/Icons/Workspaces.ico</normaloff>:/Icons/Workspaces.ico</iconset>
+       <normaloff>:/Icons/layer-group.ico</normaloff>:/Icons/layer-group.ico</iconset>
      </property>
     </widget>
     <widget class="QMenu" name="menuDocks">
@@ -99,7 +99,7 @@
   <action name="actionFileNewProject">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/FileNew.ico</normaloff>:/Icons/FileNew.ico</iconset>
+     <normaloff>:/Icons/file-blank.ico</normaloff>:/Icons/file-blank.ico</iconset>
    </property>
    <property name="text">
     <string>New Project</string>
@@ -108,7 +108,7 @@
   <action name="actionFileOpenProject">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/FileOpen.ico</normaloff>:/Icons/FileOpen.ico</iconset>
+     <normaloff>:/Icons/folder-open.ico</normaloff>:/Icons/folder-open.ico</iconset>
    </property>
    <property name="text">
     <string>Open Project</string>
@@ -117,7 +117,7 @@
   <action name="actionFileSaveProject">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/FileSave.ico</normaloff>:/Icons/FileSave.ico</iconset>
+     <normaloff>:/Icons/floppy-disk.ico</normaloff>:/Icons/floppy-disk.ico</iconset>
    </property>
    <property name="text">
     <string>Save Project</string>
@@ -126,7 +126,7 @@
   <action name="actionFileSaveProjectAs">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/FileSave.ico</normaloff>:/Icons/FileSave.ico</iconset>
+     <normaloff>:/Icons/floppy-disk.ico</normaloff>:/Icons/floppy-disk.ico</iconset>
    </property>
    <property name="text">
     <string>Save Project As</string>
@@ -135,7 +135,7 @@
   <action name="actionFileImport">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/FileImport.ico</normaloff>:/Icons/FileImport.ico</iconset>
+     <normaloff>:/Icons/file-import.ico</normaloff>:/Icons/file-import.ico</iconset>
    </property>
    <property name="text">
     <string>Import</string>
@@ -144,7 +144,7 @@
   <action name="actionFileExport">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/FileExport.ico</normaloff>:/Icons/FileExport.ico</iconset>
+     <normaloff>:/Icons/file-export.ico</normaloff>:/Icons/file-export.ico</iconset>
    </property>
    <property name="text">
     <string>Export</string>
@@ -162,7 +162,7 @@
   <action name="actionFileQuit">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/Quit.ico</normaloff>:/Icons/Quit.ico</iconset>
+     <normaloff>:/Icons/circle-xmark.ico</normaloff>:/Icons/circle-xmark.ico</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -183,7 +183,7 @@
   <action name="actionEditPreferences">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/Preferences.ico</normaloff>:/Icons/Preferences.ico</iconset>
+     <normaloff>:/Icons/gear.ico</normaloff>:/Icons/gear.ico</iconset>
    </property>
    <property name="text">
     <string>Preferences</string>
@@ -195,7 +195,7 @@
   <action name="actionEditProjectSettings">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/ProjectSettings.ico</normaloff>:/Icons/ProjectSettings.ico</iconset>
+     <normaloff>:/Icons/file-gear.ico</normaloff>:/Icons/file-gear.ico</iconset>
    </property>
    <property name="text">
     <string>Project Settings</string>
@@ -220,7 +220,7 @@
   <action name="actionEditConfiguration">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/Preferences.ico</normaloff>:/Icons/Preferences.ico</iconset>
+     <normaloff>:/Icons/gear.ico</normaloff>:/Icons/gear.ico</iconset>
    </property>
    <property name="text">
     <string>Configuration</string>

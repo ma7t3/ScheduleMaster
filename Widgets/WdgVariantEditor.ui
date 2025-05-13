@@ -738,7 +738,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/MoveUp.ico</normaloff>:/Icons/MoveUp.ico</iconset>
+             <normaloff>:/Icons/up.ico</normaloff>:/Icons/up.ico</iconset>
            </property>
           </widget>
          </item>
@@ -749,7 +749,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/MoveDown.ico</normaloff>:/Icons/MoveDown.ico</iconset>
+             <normaloff>:/Icons/down.ico</normaloff>:/Icons/down.ico</iconset>
            </property>
           </widget>
          </item>

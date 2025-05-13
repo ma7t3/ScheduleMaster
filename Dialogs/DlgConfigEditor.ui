@@ -31,7 +31,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources.qrc">
-              <normaloff>:/Icons/Reload.ico</normaloff>:/Icons/Reload.ico</iconset>
+              <normaloff>:/Icons/rotate.ico</normaloff>:/Icons/rotate.ico</iconset>
             </property>
            </widget>
           </item>
@@ -90,7 +90,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources.qrc">
-              <normaloff>:/Icons/Undo.ico</normaloff>:/Icons/Undo.ico</iconset>
+              <normaloff>:/Icons/undo.ico</normaloff>:/Icons/undo.ico</iconset>
             </property>
            </widget>
           </item>

@@ -14,32 +14,31 @@
         <file>Icons/window-restore.ico</file>
         <file>Icons/clone.ico</file>
         <file>Icons/pen.ico</file>
-        <file>Icons/error.ico</file>
         <file>Icons/file-close.ico</file>
-        <file>Icons/FileImport.ico</file>
-        <file>Icons/FileImportOmsi.ico</file>
-        <file>Icons/FileNew.ico</file>
-        <file>Icons/FileOpen.ico</file>
-        <file>Icons/FileSave.ico</file>
-        <file>Icons/Footnote.ico</file>
-        <file>Icons/General.ico</file>
-        <file>Icons/HourBreak.ico</file>
-        <file>Icons/Importantbusstop.ico</file>
+        <file>Icons/file-import.ico</file>
+        <file>Icons/file-import-omsi.ico</file>
+        <file>Icons/file-blank.ico</file>
+        <file>Icons/folder-open.ico</file>
+        <file>Icons/floppy-disk.ico</file>
+        <file>Icons/file-letter.ico</file>
+        <file>Icons/miscallenous.ico</file>
+        <file>Icons/clock.ico</file>
+        <file>Icons/busstop-important.ico</file>
         <file>Icons/info.ico</file>
-        <file>Icons/LastUSedFiles.ico</file>
-        <file>Icons/Line.ico</file>
-        <file>Icons/Manual.ico</file>
-        <file>Icons/MoveDown.ico</file>
-        <file>Icons/MoveUp.ico</file>
-        <file>Icons/Preferences.ico</file>
-        <file>Icons/ProjectSettings.ico</file>
-        <file>Icons/PublishedLines.ico</file>
-        <file>Icons/Quit.ico</file>
-        <file>Icons/Redo.ico</file>
+        <file>Icons/files-stack.ico</file>
+        <file>Icons/bus.ico</file>
+        <file>Icons/book-manual.ico</file>
+        <file>Icons/down.ico</file>
+        <file>Icons/up.ico</file>
+        <file>Icons/gear.ico</file>
+        <file>Icons/file-gear.ico</file>
+        <file>Icons/globe.ico</file>
+        <file>Icons/circle-xmark.ico</file>
+        <file>Icons/redo.ico</file>
         <file>Icons/Remove.ico</file>
         <file>Icons/Reverse.ico</file>
-        <file>Icons/Route.ico</file>
-        <file>Icons/Schedule.ico</file>
+        <file>Icons/route.ico</file>
+        <file>Icons/schedule-table.ico</file>
         <file>Icons/ScheduleMaster_16px.ico</file>
         <file>Icons/ScheduleMaster_32px.ico</file>
         <file>Icons/ScheduleMaster_64px.ico</file>
@@ -47,19 +46,19 @@
         <file>Icons/ScheduleMaster_256px.ico</file>
         <file>Icons/ScheduleMaster_512px.ico</file>
         <file>Icons/ScheduleMaster_1024px.ico</file>
-        <file>Icons/success.ico</file>
+        <file>Icons/circle-check.ico</file>
         <file>Icons/Toolbars.ico</file>
         <file>Icons/Tour.ico</file>
         <file>Icons/TourList.ico</file>
-        <file>Icons/Undo.ico</file>
-        <file>Icons/UndoRedo.ico</file>
-        <file>Icons/warning.ico</file>
-        <file>Icons/Workspaces.ico</file>
+        <file>Icons/undo.ico</file>
+        <file>Icons/undo-redo.ico</file>
+        <file>Icons/triangle-exclamation.ico</file>
+        <file>Icons/layer-group.ico</file>
         <file>Icons/ScheduleMaster.png</file>
         <file>Icons/Qt.svg</file>
-        <file>Icons/FileExport.ico</file>
-        <file>Icons/Home.ico</file>
-        <file>Icons/Plugin.ico</file>
+        <file>Icons/file-export.ico</file>
+        <file>Icons/house.ico</file>
+        <file>Icons/puzzle-piece.ico</file>
         <file>Icons/file.ico</file>
         <file>Icons/sun-moon.ico</file>
         <file>Config/Languages/base.json</file>
@@ -70,8 +69,8 @@
         <file>Config/versions.json</file>
         <file>Config/Settings/base.json</file>
         <file>Config/KeyboardShortcuts/base.json</file>
-        <file>Icons/Reload.ico</file>
-        <file>Icons/Keyboard.ico</file>
+        <file>Icons/rotate.ico</file>
+        <file>Icons/keyboard.ico</file>
         <file>Config/accentColors.json</file>
         <file>Config/Docks/base.json</file>
         <file>Config/Workspaces/base.json</file>
