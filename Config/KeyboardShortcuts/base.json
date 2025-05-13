@@ -42,7 +42,7 @@
     {
         "id": "project.close",
         "default": "standard:4",
-        "icon": ":/Icons/FileClose.ico",
+        "icon": ":/Icons/file-close.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Close Project",
@@ -102,7 +102,7 @@
     {
         "id": "application.preferences.keyboardShortcuts.removeShortcut",
         "default": "",
-        "icon": ":/Icons/Delete.ico",
+        "icon": ":/Icons/xmark.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Remove shortcut",
@@ -112,7 +112,7 @@
     {
         "id": "application.preferences.keyboardShortcuts.copyID",
         "default": "standard:9",
-        "icon": ":/Icons/Duplicate.ico",
+        "icon": ":/Icons/clone.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Copy ID",
@@ -122,7 +122,7 @@
     {
         "id": "application.preferences.keyboardShortcuts.showOnlyModified",
         "default": "",
-        "icon": ":/Icons/Edit.ico",
+        "icon": ":/Icons/pen.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Show only modified",
@@ -182,7 +182,7 @@
     {
         "id": "application.configuration.key.delete",
         "default": "standard:7",
-        "icon": ":/Icons/Delete.ico",
+        "icon": ":/Icons/xmark.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: Delete Key",
@@ -202,7 +202,7 @@
     {
         "id": "application.configuration.key.copyID",
         "default": "standard:9",
-        "icon": ":/Icons/Duplicate.ico",
+        "icon": ":/Icons/clone.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: Copy ID",
@@ -242,7 +242,7 @@
     {
         "id": "view.docks.busstops.toggle",
         "default": "Alt+B",
-        "icon": ":/Icons/Busstop.ico",
+        "icon": ":/Icons/busstop.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Show/hide dock: Busstops",
@@ -312,7 +312,7 @@
     {
         "id": "variantEditor.listItem.add",
         "default": "Ctrl++",
-        "icon": ":/Icons/Add.ico",
+        "icon": ":/Icons/plus.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "VariantEditor: Add List Item",
@@ -322,7 +322,7 @@
     {
         "id": "variantEditor.listItem.edit",
         "default": "F2",
-        "icon": ":/Icons/Edit.ico",
+        "icon": ":/Icons/pen.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "VariantEditor: Edit List Item",
@@ -332,7 +332,7 @@
     {
         "id": "variantEditor.listItem.delete",
         "default": "Del",
-        "icon": ":/Icons/Delete.ico",
+        "icon": ":/Icons/xmark.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "VariantEditor: Delete List Item",
@@ -362,7 +362,7 @@
     {
         "id": "variantEditor.listItem.delete",
         "default": "Del",
-        "icon": ":/Icons/Delete.ico",
+        "icon": ":/Icons/xmark.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "VariantEditor: Delete List Item",

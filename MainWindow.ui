@@ -76,7 +76,7 @@
      </property>
      <property name="icon">
       <iconset resource="Resources.qrc">
-       <normaloff>:/Icons/Docks.ico</normaloff>:/Icons/Docks.ico</iconset>
+       <normaloff>:/Icons/window-restore.ico</normaloff>:/Icons/window-restore.ico</iconset>
      </property>
     </widget>
     <addaction name="menuDocks"/>
@@ -153,7 +153,7 @@
   <action name="actionFileCloseProject">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/FileClose.ico</normaloff>:/Icons/FileClose.ico</iconset>
+     <normaloff>:/Icons/file-close.ico</normaloff>:/Icons/file-close.ico</iconset>
    </property>
    <property name="text">
     <string>Close Project</string>

@@ -21,9 +21,9 @@ WdgVariantEditor::WdgVariantEditor(QWidget *parent) :
 
     ui->cbBool->installEventFilter(this);
 
-    _listAddAction    = ui->lwList->addAction(QIcon(":/Icons/Add.ico"),      tr("Add"));
-    _listEditAction   = ui->lwList->addAction(QIcon(":/Icons/Edit.ico"),     tr("Edit"));
-    _listDeleteAction = ui->lwList->addAction(QIcon(":/Icons/Delete.ico"),   tr("Delete"));
+    _listAddAction    = ui->lwList->addAction(QIcon(":/Icons/plus.ico"),      tr("Add"));
+    _listEditAction   = ui->lwList->addAction(QIcon(":/Icons/pen.ico"),     tr("Edit"));
+    _listDeleteAction = ui->lwList->addAction(QIcon(":/Icons/xmark.ico"),   tr("Delete"));
     _listUpAction     = ui->lwList->addAction(QIcon(":/Icons/MoveUp.ico"),   tr("Up"));
     _listDownAction   = ui->lwList->addAction(QIcon(":/Icons/MoveDown.ico"), tr("Down"));
 

@@ -19,7 +19,7 @@
             "de_DE": "Log-Dateien"
         },
         "default": "${APP_LOCAL_DATA}/logs",
-        "icon": ":/Icons/File.ico",
+        "icon": ":/Icons/file.ico",
         "multiple": false,
         "changeRequiresRestart": true
     },

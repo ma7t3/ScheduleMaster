@@ -79,7 +79,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources.qrc">
-              <normaloff>:/Icons/Duplicate.ico</normaloff>:/Icons/Duplicate.ico</iconset>
+              <normaloff>:/Icons/clone.ico</normaloff>:/Icons/clone.ico</iconset>
             </property>
            </widget>
           </item>
@@ -101,7 +101,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources.qrc">
-              <normaloff>:/Icons/Delete.ico</normaloff>:/Icons/Delete.ico</iconset>
+              <normaloff>:/Icons/xmark.ico</normaloff>:/Icons/xmark.ico</iconset>
             </property>
            </widget>
           </item>

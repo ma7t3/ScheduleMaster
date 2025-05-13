@@ -122,7 +122,7 @@
           </property>
           <property name="icon">
            <iconset resource="../../Resources.qrc">
-            <normaloff>:/Icons/Duplicate.ico</normaloff>:/Icons/Duplicate.ico</iconset>
+            <normaloff>:/Icons/clone.ico</normaloff>:/Icons/clone.ico</iconset>
           </property>
          </widget>
         </item>

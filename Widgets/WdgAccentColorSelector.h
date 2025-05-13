@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class QToolButton;
+
 namespace Ui {
 class WdgAccentColorSelector;
 }

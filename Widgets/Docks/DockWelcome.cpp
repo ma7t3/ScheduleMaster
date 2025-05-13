@@ -62,7 +62,7 @@ void DockWelcome::updateRecentProjectsList() {
         WdgWelcomeRecentProjectEntry *wdg = new WdgWelcomeRecentProjectEntry(ui->lwRecentProjects);
 
         QFileInfo fi(current);
-        wdg->setIcon(QPixmap(":/Icons/File.ico"));
+        wdg->setIcon(QPixmap(":/Icons/file.ico"));
         wdg->setName(fi.baseName());
         wdg->setPath(current);
         wdg->setLastUsed(fi.lastModified());

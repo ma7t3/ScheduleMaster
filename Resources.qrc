@@ -4,18 +4,18 @@
         <file>Splashscreen/splashscreen_christmas.png</file>
         <file>Splashscreen/splashscreen_dark.png</file>
         <file>Splashscreen/splashscreen_halloween.png</file>
-        <file>Icons/About.ico</file>
-        <file>Icons/Add.ico</file>
-        <file>Icons/Busstop.ico</file>
-        <file>Icons/BusstopSchedule.ico</file>
-        <file>Icons/Changelog.ico</file>
-        <file>Icons/CheckForUpdates.ico</file>
-        <file>Icons/Delete.ico</file>
-        <file>Icons/Docks.ico</file>
-        <file>Icons/Duplicate.ico</file>
-        <file>Icons/Edit.ico</file>
+        <file>Icons/circle-info.ico</file>
+        <file>Icons/plus.ico</file>
+        <file>Icons/busstop.ico</file>
+        <file>Icons/schedule-busstop.ico</file>
+        <file>Icons/file-circle-info.ico</file>
+        <file>Icons/download.ico</file>
+        <file>Icons/xmark.ico</file>
+        <file>Icons/window-restore.ico</file>
+        <file>Icons/clone.ico</file>
+        <file>Icons/pen.ico</file>
         <file>Icons/error.ico</file>
-        <file>Icons/FileClose.ico</file>
+        <file>Icons/file-close.ico</file>
         <file>Icons/FileImport.ico</file>
         <file>Icons/FileImportOmsi.ico</file>
         <file>Icons/FileNew.ico</file>
@@ -24,7 +24,7 @@
         <file>Icons/Footnote.ico</file>
         <file>Icons/General.ico</file>
         <file>Icons/HourBreak.ico</file>
-        <file>Icons/ImportantBusstop.ico</file>
+        <file>Icons/Importantbusstop.ico</file>
         <file>Icons/info.ico</file>
         <file>Icons/LastUSedFiles.ico</file>
         <file>Icons/Line.ico</file>
@@ -60,11 +60,11 @@
         <file>Icons/FileExport.ico</file>
         <file>Icons/Home.ico</file>
         <file>Icons/Plugin.ico</file>
-        <file>Icons/File.ico</file>
-        <file>Icons/Appearance.ico</file>
+        <file>Icons/file.ico</file>
+        <file>Icons/sun-moon.ico</file>
         <file>Config/Languages/base.json</file>
         <file>Config/Styles/base.json</file>
-        <file>Icons/Bug.ico</file>
+        <file>Icons/bug.ico</file>
         <file>Config/Locations/base.json</file>
         <file>Icons/Updates.ico</file>
         <file>Config/versions.json</file>

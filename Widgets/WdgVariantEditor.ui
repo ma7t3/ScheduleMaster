@@ -705,7 +705,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/Add.ico</normaloff>:/Icons/Add.ico</iconset>
+             <normaloff>:/Icons/plus.ico</normaloff>:/Icons/plus.ico</iconset>
            </property>
           </widget>
          </item>
@@ -716,7 +716,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/Edit.ico</normaloff>:/Icons/Edit.ico</iconset>
+             <normaloff>:/Icons/pen.ico</normaloff>:/Icons/pen.ico</iconset>
            </property>
           </widget>
          </item>
@@ -727,7 +727,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/Delete.ico</normaloff>:/Icons/Delete.ico</iconset>
+             <normaloff>:/Icons/xmark.ico</normaloff>:/Icons/xmark.ico</iconset>
            </property>
           </widget>
          </item>
