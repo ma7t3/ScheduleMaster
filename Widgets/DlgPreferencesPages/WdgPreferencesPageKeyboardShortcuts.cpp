@@ -22,11 +22,11 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     reloadPreferences();
 
     _restoreDefaultShortcutAction = ui->twShortcuts->addAction(QIcon(":/Icons/Undo.ico"),      tr("Restore Default"));
-    _removeShortcutAction         = ui->twShortcuts->addAction(QIcon(":/Icons/Delete.ico"),    tr("Remove Shortcut"));
+    _removeShortcutAction         = ui->twShortcuts->addAction(QIcon(":/Icons/xmark.ico"),    tr("Remove Shortcut"));
     QAction *separatorAction       = ui->twShortcuts->addAction(""); separatorAction->setSeparator(true);
-    _copyIDAction                 = ui->twShortcuts->addAction(QIcon(":/Icons/Duplicate.ico"), tr("Copy ID"));
+    _copyIDAction                 = ui->twShortcuts->addAction(QIcon(":/Icons/clone.ico"), tr("Copy ID"));
 
-    _showOnlyModifiedAction       = addAction(QIcon(":/Icons/Edit.ico"), tr("Show only modified")); _showOnlyModifiedAction->setCheckable(true);
+    _showOnlyModifiedAction       = addAction(QIcon(":/Icons/pen.ico"), tr("Show only modified")); _showOnlyModifiedAction->setCheckable(true);
     _importAction                 = addAction(QIcon(":/Icons/FileImport.ico"), tr("Import"));
     _exportAction                 = addAction(QIcon(":/Icons/FileExport.ico"), tr("Export"));
     _resetAllAction               = addAction(QIcon(":/Icons/Undo.ico"), tr("Reset All"));

@@ -213,7 +213,7 @@ QVariant LocalConfigModel::data(const QModelIndex &index, int role) const {
         if(isGroup)
             return QIcon(":/Icons/FileOpen.ico");
         else if(unknownSetting)
-            return QIcon(":/Icons/FileClose.ico");
+            return QIcon(":/Icons/file-close.ico");
         else
             return QIcon(":/Icons/ProjectSettings.ico");
     }

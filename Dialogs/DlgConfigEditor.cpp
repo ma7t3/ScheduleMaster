@@ -21,8 +21,8 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     ui->treeView->setColumnWidth(1, 500);
 
     _restoreDefaultAction = ui->treeView->addAction(QIcon(":/Icons/Undo.ico"),      tr("Restore Default"));
-    _deleteAction         = ui->treeView->addAction(QIcon(":/Icons/Delete.ico"),    tr("Delete"));
-    _copyIDAction         = ui->treeView->addAction(QIcon(":/Icons/Duplicate.ico"), tr("Copy ID"));
+    _deleteAction         = ui->treeView->addAction(QIcon(":/Icons/xmark.ico"),    tr("Delete"));
+    _copyIDAction         = ui->treeView->addAction(QIcon(":/Icons/clone.ico"), tr("Copy ID"));
     QAction *test = ui->treeView->addAction("");
     test->setSeparator(true);
     QAction *reloadAction = ui->treeView->addAction(QIcon(":/Icons/Reload.ico"),    tr("Reload"));

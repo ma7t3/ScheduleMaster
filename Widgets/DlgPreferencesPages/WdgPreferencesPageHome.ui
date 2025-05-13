@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1012</width>
-    <height>561</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -95,7 +95,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/Appearance.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/sun-moon.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -212,7 +212,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/Bug.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/bug.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -431,7 +431,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/About.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/circle-info.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
