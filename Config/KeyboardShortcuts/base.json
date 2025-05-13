@@ -315,8 +315,8 @@
         "icon": ":/Icons/plus.ico",
         "description": {
             "object": "translated_string",
-            "en_US" : "VariantEditor: Add List Item",
-            "de_DE" : "VariantEditor: Listenelement hinzufügen"
+            "en_US" : "Add List Item",
+            "de_DE" : "Listenelement hinzufügen"
         }
     },
     {
@@ -325,8 +325,8 @@
         "icon": ":/Icons/pen.ico",
         "description": {
             "object": "translated_string",
-            "en_US" : "VariantEditor: Edit List Item",
-            "de_DE" : "VariantEditor: Listenelement bearbeiten"
+            "en_US" : "Edit List Item",
+            "de_DE" : "Listenelement bearbeiten"
         }
     },
     {
@@ -335,8 +335,8 @@
         "icon": ":/Icons/xmark.ico",
         "description": {
             "object": "translated_string",
-            "en_US" : "VariantEditor: Delete List Item",
-            "de_DE" : "VariantEditor: Listenelement löschen"
+            "en_US" : "Delete List Item",
+            "de_DE" : "Listenelement löschen"
         }
     },
     {
@@ -345,8 +345,8 @@
         "icon": ":/Icons/up.ico",
         "description": {
             "object": "translated_string",
-            "en_US" : "VariantEditor: Move List Item Up",
-            "de_DE" : "VariantEditor: Listenelement nach oben bewegen"
+            "en_US" : "Move List Item Up",
+            "de_DE" : "Listenelement nach oben bewegen"
         }
     },
     {
@@ -355,8 +355,8 @@
         "icon": ":/Icons/down.ico",
         "description": {
             "object": "translated_string",
-            "en_US" : "VariantEditor: Move List Item Down",
-            "de_DE" : "VariantEditor: Listenelement nach unten bewegen"
+            "en_US" : "Move List Item Down",
+            "de_DE" : "Listenelement nach unten bewegen"
         }
     },
     {
@@ -365,8 +365,8 @@
         "icon": ":/Icons/xmark.ico",
         "description": {
             "object": "translated_string",
-            "en_US" : "VariantEditor: Delete List Item",
-            "de_DE" : "VariantEditor: Listenelement löschen"
+            "en_US" : "Delete List Item",
+            "de_DE" : "Listenelement löschen"
         }
     }
 ]
