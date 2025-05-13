@@ -114,7 +114,7 @@
           </property>
           <property name="icon">
            <iconset resource="../Resources.qrc">
-            <normaloff>:/Icons/FileNew.ico</normaloff>:/Icons/FileNew.ico</iconset>
+            <normaloff>:/Icons/file-blank.ico</normaloff>:/Icons/file-blank.ico</iconset>
           </property>
          </widget>
         </item>
@@ -125,7 +125,7 @@
           </property>
           <property name="icon">
            <iconset resource="../Resources.qrc">
-            <normaloff>:/Icons/FileOpen.ico</normaloff>:/Icons/FileOpen.ico</iconset>
+            <normaloff>:/Icons/folder-open.ico</normaloff>:/Icons/folder-open.ico</iconset>
           </property>
          </widget>
         </item>
@@ -149,7 +149,7 @@
           </property>
           <property name="icon">
            <iconset resource="../Resources.qrc">
-            <normaloff>:/Icons/Plugin.ico</normaloff>:/Icons/Plugin.ico</iconset>
+            <normaloff>:/Icons/puzzle-piece.ico</normaloff>:/Icons/puzzle-piece.ico</iconset>
           </property>
          </widget>
         </item>
@@ -160,7 +160,7 @@
           </property>
           <property name="icon">
            <iconset resource="../Resources.qrc">
-            <normaloff>:/Icons/Preferences.ico</normaloff>:/Icons/Preferences.ico</iconset>
+            <normaloff>:/Icons/gear.ico</normaloff>:/Icons/gear.ico</iconset>
           </property>
          </widget>
         </item>
@@ -171,7 +171,7 @@
           </property>
           <property name="icon">
            <iconset resource="../Resources.qrc">
-            <normaloff>:/Icons/Manual.ico</normaloff>:/Icons/Manual.ico</iconset>
+            <normaloff>:/Icons/book-manual.ico</normaloff>:/Icons/book-manual.ico</iconset>
           </property>
          </widget>
         </item>
@@ -182,7 +182,7 @@
           </property>
           <property name="icon">
            <iconset resource="../Resources.qrc">
-            <normaloff>:/Icons/Quit.ico</normaloff>:/Icons/Quit.ico</iconset>
+            <normaloff>:/Icons/circle-xmark.ico</normaloff>:/Icons/circle-xmark.ico</iconset>
           </property>
          </widget>
         </item>

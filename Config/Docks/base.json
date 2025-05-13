@@ -6,7 +6,7 @@
             "en_US": "Welcome",
             "de_DE": "Willkommen"
         },
-        "icon": ":/Icons/Home.ico"
+        "icon": ":/Icons/house.ico"
     },
     {
         "id": "busstops",

@@ -66,7 +66,7 @@ QString WdgPreferencesPageGeneral::name() {
 }
 
 QIcon WdgPreferencesPageGeneral::icon() {
-    return QIcon(":/Icons/Preferences.ico");
+    return QIcon(":/Icons/gear.ico");
 }
 
 void WdgPreferencesPageGeneral::setLanguageIndex(const int &index) {

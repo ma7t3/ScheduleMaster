@@ -33,7 +33,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../Resources.qrc">
-         <normaloff>:/Icons/Keyboard.ico</normaloff>:/Icons/Keyboard.ico</iconset>
+         <normaloff>:/Icons/keyboard.ico</normaloff>:/Icons/keyboard.ico</iconset>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
@@ -167,7 +167,7 @@
           </property>
           <property name="icon">
            <iconset resource="../../Resources.qrc">
-            <normaloff>:/Icons/Undo.ico</normaloff>:/Icons/Undo.ico</iconset>
+            <normaloff>:/Icons/undo.ico</normaloff>:/Icons/undo.ico</iconset>
           </property>
          </widget>
         </item>

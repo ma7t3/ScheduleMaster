@@ -7,7 +7,7 @@
             "de_DE": "Standardspeicherort für Projektdateien"
         },
         "default": ["${HOME}/ScheduleMaster/Projects"],
-        "icon": ":/Icons/FileOpen.ico",
+        "icon": ":/Icons/folder-open.ico",
         "multiple": false,
         "changeRequiresRestart": false
     },
@@ -31,7 +31,7 @@
             "de_DE": "Plugins"
         },
         "default": ["${APP_LOCAL_DATA}/plugins","${APP_DIR}/plugins"],
-        "icon": ":/Icons/Plugin.ico",
+        "icon": ":/Icons/puzzle-piece.ico",
         "multiple": true,
         "changeRequiresRestart": true
     }

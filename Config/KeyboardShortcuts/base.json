@@ -2,7 +2,7 @@
     {
         "id": "project.new",
         "default": "standard:6",
-        "icon": ":/Icons/FileNew.ico",
+        "icon": ":/Icons/file-blank.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "New Project",
@@ -12,7 +12,7 @@
     {
         "id": "project.open",
         "default": "standard:3",
-        "icon": ":/Icons/FileOpen.ico",
+        "icon": ":/Icons/folder-open.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Project",
@@ -22,7 +22,7 @@
     {
         "id": "project.save",
         "default": "standard:5",
-        "icon": ":/Icons/FileSave.ico",
+        "icon": ":/Icons/floppy-disk.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Save Project",
@@ -32,7 +32,7 @@
     {
         "id": "project.saveAs",
         "default": "standard:63",
-        "icon": ":/Icons/FileSave.ico",
+        "icon": ":/Icons/floppy-disk.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Save Project As",
@@ -52,7 +52,7 @@
     {
         "id": "project.settings.open",
         "default": "Ctrl+Shift+,",
-        "icon": ":/Icons/ProjectSettings.ico",
+        "icon": ":/Icons/file-gear.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Project Settings",
@@ -62,7 +62,7 @@
     {
         "id": "application.quit",
         "default": ["standard:65", "Ctrl+Q"],
-        "icon": ":/Icons/Quit.ico",
+        "icon": ":/Icons/circle-xmark.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Quit Application",
@@ -72,7 +72,7 @@
     {
         "id": "application.preferences.open",
         "default": ["standard:64", "Ctrl+,"],
-        "icon": ":/Icons/Preferences.ico",
+        "icon": ":/Icons/gear.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Preferences",
@@ -82,7 +82,7 @@
     {
         "id": "application.preferences.keyboardShortcuts.focusSearch",
         "default": "standard:22",
-        "icon": ":/Icons/Keyboard.ico",
+        "icon": ":/Icons/keyboard.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: focus searchbar",
@@ -92,7 +92,7 @@
     {
         "id": "application.preferences.keyboardShortcuts.restoreDefaultShortcut",
         "default": "",
-        "icon": ":/Icons/Undo.ico",
+        "icon": ":/Icons/undo.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Restore default shortcut",
@@ -132,7 +132,7 @@
     {
         "id": "application.preferences.keyboardShortcuts.import",
         "default": "Ctrl+I",
-        "icon": ":/Icons/FileImport.ico",
+        "icon": ":/Icons/file-import.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Import",
@@ -142,7 +142,7 @@
     {
         "id": "application.preferences.keyboardShortcuts.export",
         "default": "Ctrl+E",
-        "icon": ":/Icons/FileExport.ico",
+        "icon": ":/Icons/file-export.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Export",
@@ -152,7 +152,7 @@
     {
         "id": "application.preferences.keyboardShortcuts.resetAll",
         "default": "",
-        "icon": ":/Icons/Undo.ico",
+        "icon": ":/Icons/undo.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Rest all",
@@ -162,7 +162,7 @@
     {
         "id": "application.configuration.open",
         "default": "Ctrl+Alt+,",
-        "icon": ":/Icons/Preferences.ico",
+        "icon": ":/Icons/gear.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Configuration",
@@ -172,7 +172,7 @@
     {
         "id": "application.configuration.reload",
         "default": "standard:15",
-        "icon": ":/Icons/Reload.ico",
+        "icon": ":/Icons/rotate.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Reload Configuration",
@@ -192,7 +192,7 @@
     {
         "id": "application.configuration.key.restoreDefault",
         "default": "",
-        "icon": ":/Icons/Undo.ico",
+        "icon": ":/Icons/undo.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: restore default value",
@@ -212,7 +212,7 @@
     {
         "id": "edit.undo",
         "default": "standard:11",
-        "icon": ":/Icons/Undo.ico",
+        "icon": ":/Icons/undo.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Undo",
@@ -222,7 +222,7 @@
     {
         "id": "edit.redo",
         "default": "standard:12",
-        "icon": ":/Icons/Redo.ico",
+        "icon": ":/Icons/redo.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Redo",
@@ -232,7 +232,7 @@
     {
         "id": "view.docks.welcome.toggle",
         "default": "Alt+W",
-        "icon": ":/Icons/Home.ico",
+        "icon": ":/Icons/house.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Show/hide dock: Welcome",
@@ -252,7 +252,7 @@
     {
         "id": "view.workspaces.home.activate",
         "default": "Alt+1",
-        "icon": ":/Icons/Home.ico",
+        "icon": ":/Icons/house.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Home",
@@ -262,7 +262,7 @@
     {
         "id": "view.workspaces.routing.activate",
         "default": "Alt+2",
-        "icon": ":/Icons/Route.ico",
+        "icon": ":/Icons/route.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Routing",
@@ -272,7 +272,7 @@
     {
         "id": "view.workspaces.scheduling.activate",
         "default": "Alt+3",
-        "icon": ":/Icons/Schedule.ico",
+        "icon": ":/Icons/schedule-table.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Scheduling",
@@ -292,7 +292,7 @@
     {
         "id": "view.workspaces.publish.activate",
         "default": "Alt+5",
-        "icon": ":/Icons/PublishedLines.ico",
+        "icon": ":/Icons/globe.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Publish",
@@ -302,7 +302,7 @@
     {
         "id": "view.workspaces.restoreDefaultLayout",
         "default": "Alt+X",
-        "icon": ":/Icons/Undo.ico",
+        "icon": ":/Icons/undo.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Current Workspace: restore default layout",
@@ -342,7 +342,7 @@
     {
         "id": "variantEditor.listItem.moveUp",
         "default": "Alt+Up",
-        "icon": ":/Icons/MoveUp.ico",
+        "icon": ":/Icons/up.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "VariantEditor: Move List Item Up",
@@ -352,7 +352,7 @@
     {
         "id": "variantEditor.listItem.moveDown",
         "default": "Alt+Down",
-        "icon": ":/Icons/MoveDown.ico",
+        "icon": ":/Icons/down.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "VariantEditor: Move List Item Down",

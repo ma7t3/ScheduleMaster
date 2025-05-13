@@ -6,7 +6,7 @@
             "en_US": "Home",
             "de_DE": "Startseite"
         },
-        "icon": ":/Icons/Home.ico"
+        "icon": ":/Icons/house.ico"
     },
     {
         "id": "routing",
@@ -15,7 +15,7 @@
             "en_US": "Routing",
             "de_DE": "Streckenplanung"
         },
-        "icon": ":/Icons/Route.ico"
+        "icon": ":/Icons/route.ico"
     },
     {
         "id": "scheduling",
@@ -24,7 +24,7 @@
             "en_US": "Scheduling",
             "de_DE": "Fahrplanung"
         },
-        "icon": ":/Icons/Schedule.ico"
+        "icon": ":/Icons/schedule-table.ico"
     },
     {
         "id": "tours",
@@ -42,6 +42,6 @@
             "en_US": "Publish",
             "de_DE": "Veröffentlichen"
         },
-        "icon": ":/Icons/PublishedLines.ico"
+        "icon": ":/Icons/globe.ico"
     }
 ]

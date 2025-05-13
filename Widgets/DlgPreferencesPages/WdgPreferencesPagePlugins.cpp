@@ -34,5 +34,5 @@ QString WdgPreferencesPagePlugins::name() {
 }
 
 QIcon WdgPreferencesPagePlugins::icon() {
-    return QIcon(":/Icons/Plugin.ico");
+    return QIcon(":/Icons/puzzle-piece.ico");
 }

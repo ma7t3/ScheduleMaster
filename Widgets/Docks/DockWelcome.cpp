@@ -18,9 +18,9 @@ DockWelcome::DockWelcome(QWidget *parent) :
 
     ui->lIcon->setPixmap(QPixmap(":/Icons/ScheduleMaster_64px.ico"));
 
-    _recentFileOpen         = ui->lwRecentProjects->addAction(QPixmap(":/Icons/FileOpen.ico"), tr("Open"));
-    _recentFileOpenLocation = ui->lwRecentProjects->addAction(QPixmap(":/Icons/FileOpen.ico"), tr("Open Directory"));
-    _recentFileRemove       = ui->lwRecentProjects->addAction(QPixmap(":/Icons/Quit.ico"),     tr("Remove from list"));
+    _recentFileOpen         = ui->lwRecentProjects->addAction(QPixmap(":/Icons/folder-open.ico"), tr("Open"));
+    _recentFileOpenLocation = ui->lwRecentProjects->addAction(QPixmap(":/Icons/folder-open.ico"), tr("Open Directory"));
+    _recentFileRemove       = ui->lwRecentProjects->addAction(QPixmap(":/Icons/circle-xmark.ico"),     tr("Remove from list"));
     ui->lwRecentProjects->setContextMenuPolicy(Qt::ActionsContextMenu);
 
     connect(_recentFileOpen,         &QAction::triggered, this, &DockWelcome::onRecentFileOpen);
