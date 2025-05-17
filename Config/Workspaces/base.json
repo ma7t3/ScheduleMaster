@@ -33,7 +33,7 @@
             "en_US": "Tours",
             "de_DE": "Dienste"
         },
-        "icon": ":/Icons/Tour.ico"
+        "icon": ":/Icons/clipboard.ico"
     },
     {
         "id": "publish",

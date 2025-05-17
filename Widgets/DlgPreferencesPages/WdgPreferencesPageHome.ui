@@ -300,7 +300,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/Updates.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/circle-rotate.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>

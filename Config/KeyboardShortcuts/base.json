@@ -282,7 +282,7 @@
     {
         "id": "view.workspaces.tours.activate",
         "default": "Alt+4",
-        "icon": ":/Icons/Tour.ico",
+        "icon": ":/Icons/clipboard.ico",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Tours",

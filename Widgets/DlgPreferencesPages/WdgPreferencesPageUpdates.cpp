@@ -34,5 +34,5 @@ QString WdgPreferencesPageUpdates::name() {
 }
 
 QIcon WdgPreferencesPageUpdates::icon() {
-    return QIcon(":/Icons/Updates.ico");
+    return QIcon(":/Icons/circle-rotate.ico");
 }

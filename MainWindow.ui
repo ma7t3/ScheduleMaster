@@ -174,7 +174,7 @@
   <action name="actionViewToolbars">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/Icons/Toolbars.ico</normaloff>:/Icons/Toolbars.ico</iconset>
+     <normaloff>:/Icons/bars.ico</normaloff>:/Icons/bars.ico</iconset>
    </property>
    <property name="text">
     <string>Toolbars</string>
