@@ -16,11 +16,11 @@ DockWelcome::DockWelcome(QWidget *parent) :
     ui(new Ui::DockWelcome) {
     ui->setupUi(this);
 
-    ui->lIcon->setPixmap(QPixmap(":/Icons/ScheduleMaster_64px.ico"));
+    ui->lIcon->setPixmap(QPixmap(":/Icons/classic/ScheduleMaster_64px.ico"));
 
-    _recentFileOpen         = ui->lwRecentProjects->addAction(QPixmap(":/Icons/folder-open.ico"), tr("Open"));
-    _recentFileOpenLocation = ui->lwRecentProjects->addAction(QPixmap(":/Icons/folder-open.ico"), tr("Open Directory"));
-    _recentFileRemove       = ui->lwRecentProjects->addAction(QPixmap(":/Icons/circle-xmark.ico"),     tr("Remove from list"));
+    _recentFileOpen         = ui->lwRecentProjects->addAction(QPixmap(":/Icons/classic/folder-open.ico"), tr("Open"));
+    _recentFileOpenLocation = ui->lwRecentProjects->addAction(QPixmap(":/Icons/classic/folder-open.ico"), tr("Open Directory"));
+    _recentFileRemove       = ui->lwRecentProjects->addAction(QPixmap(":/Icons/classic/circle-xmark.ico"),     tr("Remove from list"));
     ui->lwRecentProjects->setContextMenuPolicy(Qt::ActionsContextMenu);
 
     connect(_recentFileOpen,         &QAction::triggered, this, &DockWelcome::onRecentFileOpen);
@@ -62,7 +62,7 @@ void DockWelcome::updateRecentProjectsList() {
         WdgWelcomeRecentProjectEntry *wdg = new WdgWelcomeRecentProjectEntry(ui->lwRecentProjects);
 
         QFileInfo fi(current);
-        wdg->setIcon(QPixmap(":/Icons/file.ico"));
+        wdg->setIcon(QPixmap(":/Icons/classic/file.ico"));
         wdg->setName(fi.baseName());
         wdg->setPath(current);
         wdg->setLastUsed(fi.lastModified());

@@ -34,5 +34,5 @@ QString WdgPreferencesPageDebug::name() {
 }
 
 QIcon WdgPreferencesPageDebug::icon() {
-    return QIcon(":/Icons/bug.ico");
+    return QIcon(":/Icons/classic/bug.ico");
 }

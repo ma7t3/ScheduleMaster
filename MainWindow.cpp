@@ -48,8 +48,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _undoAction = _projectData->undoStack()->createUndoAction(this, tr("Undo"));
     _redoAction = _projectData->undoStack()->createRedoAction(this, tr("Redo"));
 
-    _undoAction->setIcon(QIcon(":/Icons/undo.ico"));
-    _redoAction->setIcon(QIcon(":/Icons/redo.ico"));
+    _undoAction->setIcon(QIcon(":/Icons/classic/undo.ico"));
+    _redoAction->setIcon(QIcon(":/Icons/classic/redo.ico"));
 
 
     qDebug() << "   Loading shortcuts...";

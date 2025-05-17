@@ -47,7 +47,7 @@
            </property>
            <property name="icon">
             <iconset resource="../../Resources.qrc">
-             <normaloff>:/Icons/folder-open.ico</normaloff>:/Icons/folder-open.ico</iconset>
+             <normaloff>:/Icons/classic/folder-open.ico</normaloff>:/Icons/classic/folder-open.ico</iconset>
            </property>
           </widget>
          </item>
@@ -91,7 +91,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../Resources.qrc">
-               <normaloff>:/Icons/plus.ico</normaloff>:/Icons/plus.ico</iconset>
+               <normaloff>:/Icons/classic/plus.ico</normaloff>:/Icons/classic/plus.ico</iconset>
              </property>
             </widget>
            </item>
@@ -105,7 +105,7 @@
              </property>
              <property name="icon">
               <iconset resource="../../Resources.qrc">
-               <normaloff>:/Icons/minus.ico</normaloff>:/Icons/minus.ico</iconset>
+               <normaloff>:/Icons/classic/minus.ico</normaloff>:/Icons/classic/minus.ico</iconset>
              </property>
             </widget>
            </item>

@@ -211,11 +211,11 @@ QVariant LocalConfigModel::data(const QModelIndex &index, int role) const {
 
     if(role == Qt::DecorationRole) {
         if(isGroup)
-            return QIcon(":/Icons/folder-open.ico");
+            return QIcon(":/Icons/classic/folder-open.ico");
         else if(unknownSetting)
-            return QIcon(":/Icons/file-close.ico");
+            return QIcon(":/Icons/classic/file-close.ico");
         else
-            return QIcon(":/Icons/file-gear.ico");
+            return QIcon(":/Icons/classic/file-gear.ico");
     }
 
     switch(index.column()) {

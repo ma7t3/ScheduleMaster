@@ -42,7 +42,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/gear.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/classic/gear.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -95,7 +95,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/sun-moon.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/classic/sun-moon.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -155,7 +155,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/keyboard.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/classic/keyboard.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -212,7 +212,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/bug.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/classic/bug.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -300,7 +300,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/circle-rotate.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/classic/circle-rotate.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -367,7 +367,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/puzzle-piece.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/classic/puzzle-piece.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -431,7 +431,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../Resources.qrc">:/Icons/circle-info.ico</pixmap>
+             <pixmap resource="../../Resources.qrc">:/Icons/classic/circle-info.ico</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>

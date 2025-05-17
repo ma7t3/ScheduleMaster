@@ -21,15 +21,15 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
 
     reloadPreferences();
 
-    _restoreDefaultShortcutAction = ui->twShortcuts->addAction(QIcon(":/Icons/undo.ico"),      tr("Restore Default"));
-    _removeShortcutAction         = ui->twShortcuts->addAction(QIcon(":/Icons/xmark.ico"),    tr("Remove Shortcut"));
+    _restoreDefaultShortcutAction = ui->twShortcuts->addAction(QIcon(":/Icons/classic/undo.ico"),      tr("Restore Default"));
+    _removeShortcutAction         = ui->twShortcuts->addAction(QIcon(":/Icons/classic/xmark.ico"),    tr("Remove Shortcut"));
     QAction *separatorAction       = ui->twShortcuts->addAction(""); separatorAction->setSeparator(true);
-    _copyIDAction                 = ui->twShortcuts->addAction(QIcon(":/Icons/clone.ico"), tr("Copy ID"));
+    _copyIDAction                 = ui->twShortcuts->addAction(QIcon(":/Icons/classic/clone.ico"), tr("Copy ID"));
 
-    _showOnlyModifiedAction       = addAction(QIcon(":/Icons/pen.ico"), tr("Show only modified")); _showOnlyModifiedAction->setCheckable(true);
-    _importAction                 = addAction(QIcon(":/Icons/file-import.ico"), tr("Import"));
-    _exportAction                 = addAction(QIcon(":/Icons/file-export.ico"), tr("Export"));
-    _resetAllAction               = addAction(QIcon(":/Icons/undo.ico"), tr("Reset All"));
+    _showOnlyModifiedAction       = addAction(QIcon(":/Icons/classic/pen.ico"), tr("Show only modified")); _showOnlyModifiedAction->setCheckable(true);
+    _importAction                 = addAction(QIcon(":/Icons/classic/file-import.ico"), tr("Import"));
+    _exportAction                 = addAction(QIcon(":/Icons/classic/file-export.ico"), tr("Export"));
+    _resetAllAction               = addAction(QIcon(":/Icons/classic/undo.ico"), tr("Reset All"));
     _focusSearchAction            = addAction("");
 
     ActionShortcutMapper::map(_restoreDefaultShortcutAction, "application.preferences.keyboardShortcuts.restoreDefaultShortcut");
@@ -118,7 +118,7 @@ QString WdgPreferencesPageKeyboardShortcuts::name() {
 }
 
 QIcon WdgPreferencesPageKeyboardShortcuts::icon() {
-    return QIcon(":/Icons/keyboard.ico");
+    return QIcon(":/Icons/classic/keyboard.ico");
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelIndex &current, const QModelIndex &previous) {
