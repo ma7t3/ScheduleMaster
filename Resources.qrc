@@ -35,8 +35,8 @@
         <file>Icons/globe.ico</file>
         <file>Icons/circle-xmark.ico</file>
         <file>Icons/redo.ico</file>
-        <file>Icons/Remove.ico</file>
-        <file>Icons/Reverse.ico</file>
+        <file>Icons/minus.ico</file>
+        <file>Icons/reverse.ico</file>
         <file>Icons/route.ico</file>
         <file>Icons/schedule-table.ico</file>
         <file>Icons/ScheduleMaster_16px.ico</file>
@@ -47,9 +47,9 @@
         <file>Icons/ScheduleMaster_512px.ico</file>
         <file>Icons/ScheduleMaster_1024px.ico</file>
         <file>Icons/circle-check.ico</file>
-        <file>Icons/Toolbars.ico</file>
-        <file>Icons/Tour.ico</file>
-        <file>Icons/TourList.ico</file>
+        <file>Icons/bars.ico</file>
+        <file>Icons/clipboard.ico</file>
+        <file>Icons/book.ico</file>
         <file>Icons/undo.ico</file>
         <file>Icons/undo-redo.ico</file>
         <file>Icons/triangle-exclamation.ico</file>
@@ -65,7 +65,7 @@
         <file>Config/Styles/base.json</file>
         <file>Icons/bug.ico</file>
         <file>Config/Locations/base.json</file>
-        <file>Icons/Updates.ico</file>
+        <file>Icons/circle-rotate.ico</file>
         <file>Config/versions.json</file>
         <file>Config/Settings/base.json</file>
         <file>Config/KeyboardShortcuts/base.json</file>
