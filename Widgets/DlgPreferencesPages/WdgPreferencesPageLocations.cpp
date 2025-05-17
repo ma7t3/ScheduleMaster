@@ -63,7 +63,7 @@ QString WdgPreferencesPageLocations::name() {
 }
 
 QIcon WdgPreferencesPageLocations::icon() {
-    return QIcon(":/Icons/folder-open.ico");
+    return QIcon(":/Icons/classic/folder-open.ico");
 }
 
 void WdgPreferencesPageLocations::on_lwLocationCategories_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {

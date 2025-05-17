@@ -64,7 +64,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../Resources.qrc">
-         <normaloff>:/Icons/folder-open.ico</normaloff>:/Icons/folder-open.ico</iconset>
+         <normaloff>:/Icons/classic/folder-open.ico</normaloff>:/Icons/classic/folder-open.ico</iconset>
        </property>
        <property name="popupMode">
         <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>

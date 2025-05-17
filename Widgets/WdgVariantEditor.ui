@@ -705,7 +705,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/plus.ico</normaloff>:/Icons/plus.ico</iconset>
+             <normaloff>:/Icons/classic/plus.ico</normaloff>:/Icons/classic/plus.ico</iconset>
            </property>
           </widget>
          </item>
@@ -716,7 +716,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/pen.ico</normaloff>:/Icons/pen.ico</iconset>
+             <normaloff>:/Icons/classic/pen.ico</normaloff>:/Icons/classic/pen.ico</iconset>
            </property>
           </widget>
          </item>
@@ -727,7 +727,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/xmark.ico</normaloff>:/Icons/xmark.ico</iconset>
+             <normaloff>:/Icons/classic/xmark.ico</normaloff>:/Icons/classic/xmark.ico</iconset>
            </property>
           </widget>
          </item>
@@ -738,7 +738,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/up.ico</normaloff>:/Icons/up.ico</iconset>
+             <normaloff>:/Icons/classic/up.ico</normaloff>:/Icons/classic/up.ico</iconset>
            </property>
           </widget>
          </item>
@@ -749,7 +749,7 @@
            </property>
            <property name="icon">
             <iconset resource="../Resources.qrc">
-             <normaloff>:/Icons/down.ico</normaloff>:/Icons/down.ico</iconset>
+             <normaloff>:/Icons/classic/down.ico</normaloff>:/Icons/classic/down.ico</iconset>
            </property>
           </widget>
          </item>

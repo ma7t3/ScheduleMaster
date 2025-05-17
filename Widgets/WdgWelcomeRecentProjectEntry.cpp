@@ -39,7 +39,7 @@ void WdgWelcomeRecentProjectEntry::setLastUsed(const QDateTime &newLastUsed) {
 }
 
 void WdgWelcomeRecentProjectEntry::setFileMissing() {
-    ui->lIcon->setPixmap(QPixmap(":/Icons/file-close.ico"));
+    ui->lIcon->setPixmap(QPixmap(":/Icons/classic/file-close.ico"));
     ui->lLastUsed->setText(tr("This file no longer exists."));
     ui->lName->setDisabled(true);
     ui->lPath->setDisabled(true);

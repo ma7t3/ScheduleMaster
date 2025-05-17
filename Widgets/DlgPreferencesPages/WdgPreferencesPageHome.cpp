@@ -48,7 +48,7 @@ QString WdgPreferencesPageHome::name() {
 }
 
 QIcon WdgPreferencesPageHome::icon() {
-    return QIcon(":/Icons/house.ico");
+    return QIcon(":/Icons/classic/house.ico");
 }
 
 void WdgPreferencesPageHome::setLanguageIndex(const int &index) {

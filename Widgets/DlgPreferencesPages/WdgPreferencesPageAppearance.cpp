@@ -77,7 +77,7 @@ QString WdgPreferencesPageAppearance::name() {
 }
 
 QIcon WdgPreferencesPageAppearance::icon() {
-    return QIcon(":/Icons/sun-moon.ico");
+    return QIcon(":/Icons/classic/sun-moon.ico");
 }
 
 void WdgPreferencesPageAppearance::setStyleIndex(const int &index) {

@@ -4,6 +4,7 @@
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 class StylesModel;
+class IconSetsModel;
 
 namespace Ui {
 class WdgPreferencesPageAppearance;
@@ -28,7 +29,8 @@ public slots:
     void setStyleIndex(const int &index);
 
 protected slots:
-    void onStyleChanged(int index);
+    void onStyleChanged(const int &index);
+    void onIconSetChanged(const int &index);
     void onColorSchemeChanged(const Qt::ColorScheme &colorScheme);
     void onAccentColorChanged(const QString &id);
     void onFontChanged(const QFont &font);
@@ -39,7 +41,8 @@ signals:
 private:
     Ui::WdgPreferencesPageAppearance *ui;
 
-    StylesModel *_model;
+    StylesModel *_stylesModel;
+    IconSetsModel *_iconSetsModel;
 };
 
 #endif // WDGPREFERENCESPAGEAPPEARANCE_H

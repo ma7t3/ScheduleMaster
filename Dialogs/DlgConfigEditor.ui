@@ -31,7 +31,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources.qrc">
-              <normaloff>:/Icons/rotate.ico</normaloff>:/Icons/rotate.ico</iconset>
+              <normaloff>:/Icons/classic/rotate.ico</normaloff>:/Icons/classic/rotate.ico</iconset>
             </property>
            </widget>
           </item>
@@ -79,7 +79,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources.qrc">
-              <normaloff>:/Icons/clone.ico</normaloff>:/Icons/clone.ico</iconset>
+              <normaloff>:/Icons/classic/clone.ico</normaloff>:/Icons/classic/clone.ico</iconset>
             </property>
            </widget>
           </item>
@@ -90,7 +90,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources.qrc">
-              <normaloff>:/Icons/undo.ico</normaloff>:/Icons/undo.ico</iconset>
+              <normaloff>:/Icons/classic/undo.ico</normaloff>:/Icons/classic/undo.ico</iconset>
             </property>
            </widget>
           </item>
@@ -101,7 +101,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources.qrc">
-              <normaloff>:/Icons/xmark.ico</normaloff>:/Icons/xmark.ico</iconset>
+              <normaloff>:/Icons/classic/xmark.ico</normaloff>:/Icons/classic/xmark.ico</iconset>
             </property>
            </widget>
           </item>

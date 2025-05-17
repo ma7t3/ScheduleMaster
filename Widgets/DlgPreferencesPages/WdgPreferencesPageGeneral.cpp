@@ -16,7 +16,7 @@ WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
 
     ui->cbLanguage->setModel(_languagesModel);
 
-    QAction *openLogfileAction = ui->tbLogfileLocation->addAction(QIcon(":/Icons/file.ico"), tr("Open current logfile.txt"));
+    QAction *openLogfileAction = ui->tbLogfileLocation->addAction(QIcon(":/Icons/classic/file.ico"), tr("Open current logfile.txt"));
     openLogfileAction->setEnabled(Logger::currentLogfileExists());
     connect(ui->tbLogfileLocation, &QToolButton::clicked,           this, &WdgPreferencesPageGeneral::openLogfileLocation);
     connect(openLogfileAction,     &QAction::triggered,             this, &WdgPreferencesPageGeneral::openLogfile);
@@ -66,7 +66,7 @@ QString WdgPreferencesPageGeneral::name() {
 }
 
 QIcon WdgPreferencesPageGeneral::icon() {
-    return QIcon(":/Icons/gear.ico");
+    return QIcon(":/Icons/classic/gear.ico");
 }
 
 void WdgPreferencesPageGeneral::setLanguageIndex(const int &index) {

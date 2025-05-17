@@ -23,7 +23,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../Resources.qrc">
-         <normaloff>:/Icons/download.ico</normaloff>:/Icons/download.ico</iconset>
+         <normaloff>:/Icons/classic/download.ico</normaloff>:/Icons/classic/download.ico</iconset>
        </property>
       </widget>
      </item>

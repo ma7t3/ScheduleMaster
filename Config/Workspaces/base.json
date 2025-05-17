@@ -6,7 +6,7 @@
             "en_US": "Home",
             "de_DE": "Startseite"
         },
-        "icon": ":/Icons/house.ico"
+        "icon": ":/Icons/classic/house.ico"
     },
     {
         "id": "routing",
@@ -15,7 +15,7 @@
             "en_US": "Routing",
             "de_DE": "Streckenplanung"
         },
-        "icon": ":/Icons/route.ico"
+        "icon": ":/Icons/classic/route.ico"
     },
     {
         "id": "scheduling",
@@ -24,7 +24,7 @@
             "en_US": "Scheduling",
             "de_DE": "Fahrplanung"
         },
-        "icon": ":/Icons/schedule-table.ico"
+        "icon": ":/Icons/classic/schedule-table.ico"
     },
     {
         "id": "tours",
@@ -33,7 +33,7 @@
             "en_US": "Tours",
             "de_DE": "Dienste"
         },
-        "icon": ":/Icons/clipboard.ico"
+        "icon": ":/Icons/classic/clipboard.ico"
     },
     {
         "id": "publish",
@@ -42,6 +42,6 @@
             "en_US": "Publish",
             "de_DE": "Veröffentlichen"
         },
-        "icon": ":/Icons/globe.ico"
+        "icon": ":/Icons/classic/globe.ico"
     }
 ]
