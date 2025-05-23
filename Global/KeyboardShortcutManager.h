@@ -8,8 +8,8 @@
 
 struct KeyboardShortcutConfig : public GlobalConfigItem {
 public:
-    KeyboardShortcutConfig(const QJsonObject &jsonObject = QJsonObject());
-    KeyboardShortcutConfig(const QString &id);
+    KeyboardShortcutConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
+    KeyboardShortcutConfig(const QString &id, const int &index = 0);
 
     QString description, icon;
     QKeySequence defaultKeySequence;

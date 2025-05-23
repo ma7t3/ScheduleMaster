@@ -2,9 +2,9 @@
 
 #include "Global/VariantConverter.h"
 
-SettingsItem::SettingsItem(const QString &id) : GlobalConfigItem(id) {}
+SettingsItem::SettingsItem(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
 
-SettingsItem::SettingsItem(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+SettingsItem::SettingsItem(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     description = jsonObject.value("description").toString();
 
     QString typeStr = jsonObject.value("type").toString();

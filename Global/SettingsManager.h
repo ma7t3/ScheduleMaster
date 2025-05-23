@@ -9,8 +9,8 @@
 
 class SettingsItem : public GlobalConfigItem {
 public:
-    SettingsItem(const QJsonObject &jsonObject = QJsonObject());
-    SettingsItem(const QString &id);
+    SettingsItem(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
+    SettingsItem(const QString &id, const int &index = 0);
 
     QString description;
     QVariant defaultValue;

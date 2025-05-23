@@ -7,8 +7,8 @@
 
 struct FolderLocationConfig : public GlobalConfigItem {
 public:
-    FolderLocationConfig(const QJsonObject &jsonObject = QJsonObject());
-    FolderLocationConfig(const QString &id);
+    FolderLocationConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
+    FolderLocationConfig(const QString &id, const int &index = 0);
 
     QString name, icon;
     QStringList defaultPaths;

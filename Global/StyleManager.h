@@ -13,13 +13,13 @@ public:
      * @brief Constructor
      * @param jsonObject The JSON object containing the style configuration
      */
-    StyleConfig(const QJsonObject &jsonObject = QJsonObject());
+    StyleConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
 
     /**
      * @brief Constructor
      * @param id The ID of the style
      */
-    StyleConfig(const QString &id);
+    StyleConfig(const QString &id, const int &index = 0);
 
     /**
      * @brief Returns whether the style supports the given color scheme

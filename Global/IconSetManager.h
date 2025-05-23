@@ -7,8 +7,8 @@
 
 struct IconSetConfig : public GlobalConfigItem {
 public:
-    IconSetConfig(const QJsonObject &jsonObject = QJsonObject());
-    IconSetConfig(const QString &id);
+    IconSetConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
+    IconSetConfig(const QString &id, const int &index = 0);
 
     QString name, alternative, format;
 

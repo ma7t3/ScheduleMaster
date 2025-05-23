@@ -7,8 +7,8 @@
 
 struct DockConfig : public GlobalConfigItem {
 public:
-    DockConfig(const QJsonObject &jsonObject = QJsonObject());
-    DockConfig(const QString &id);
+    DockConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
+    DockConfig(const QString &id, const int &index = 0);
 
     QString name, icon;
 };

@@ -8,8 +8,8 @@
 
 class WorkspaceConfig : public GlobalConfigItem {
 public:
-    WorkspaceConfig(const QString &id) : GlobalConfigItem(id) {}
-    WorkspaceConfig(const QJsonObject &jsonObject = QJsonObject()) : GlobalConfigItem(jsonObject) {
+    WorkspaceConfig(const QString &id, const int &index = 0) : GlobalConfigItem(id, index) {}
+    WorkspaceConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0) : GlobalConfigItem(jsonObject, index) {
         name = jsonObject.value("name").toString();
         icon = QIcon(jsonObject.value("icon").toString());
     }

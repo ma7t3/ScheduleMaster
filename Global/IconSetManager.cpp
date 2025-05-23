@@ -2,13 +2,13 @@
 
 #include "Global/SettingsManager.h"
 
-IconSetConfig::IconSetConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+IconSetConfig::IconSetConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     name = jsonObject.value("name").toString();
     alternative = jsonObject.value("alternative").toString();
     format = jsonObject.value("format").toString();
 }
 
-IconSetConfig::IconSetConfig(const QString &id) : GlobalConfigItem(id) {}
+IconSetConfig::IconSetConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
 
 IconSetManager::IconSetManager(QObject *parent) : GlobalConfigManager(parent) {
     loadItems("IconSets");

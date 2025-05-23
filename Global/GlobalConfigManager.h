@@ -11,8 +11,8 @@
 
 struct GlobalConfigItem {
 public:
-    GlobalConfigItem(const QString &id) : _id(id) {}
-    GlobalConfigItem(const QJsonObject &jsonObject = QJsonObject()) {
+    GlobalConfigItem(const QString &id, const int &index = 0) : _id(id), _index(index) {}
+    GlobalConfigItem(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0) : _index(index) {
         _id = jsonObject.value("id").toString();
     }
 
@@ -24,8 +24,13 @@ public:
         return _id;
     }
 
+    int index() const {
+        return _index;
+    }
+
 private:
     QString _id;
+    int _index;
 };
 
 template <typename Derived, typename T>
@@ -116,7 +121,7 @@ public:
 
             _items.insert(id, item);
             //emit instance()->itemAdded(id);
-            qDebug() << "Item added:" << id;
+            qDebug() << "Item added:" << id << item->index();
         } else {
             if(item.id().isEmpty()) {
                 qWarning() << "Didn't add item. No valid ID found!";
@@ -127,7 +132,7 @@ public:
 
             _items.insert(id, item);
             //emit instance()->itemAdded(id); // FXIME: They cause freezes for some reason...
-            qDebug() << "Item added:" << id;
+            qDebug() << "Item added:" << id << item.index();
         }
         return true;
     }
@@ -173,23 +178,26 @@ protected:
     static void loadItems(const QString &resourceID) {
         qInfo().noquote() << "Loading" << resourceID;
         const QJsonArray jsonData = loadMultiConfigResource(resourceID);
+        int index = 0;
         for(const QJsonValue &val : jsonData) {
             const QJsonObject obj = val.toObject();
             if constexpr(std::is_pointer<T>::value) {
-                T t = new T(obj);
+                T t = new T(obj, index);
                 if(t->id().isEmpty())
                     continue;
 
                 qInfo() << t->id();
                 _items.insert(t->id(), t);
             } else {
-                T t(obj);
+                T t(obj, index);
                 if(t.id().isEmpty())
                     continue;
 
                 qInfo() << t.id();
                 addItem(t);
             }
+
+            index++;
         }
     }
 

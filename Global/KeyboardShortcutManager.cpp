@@ -3,7 +3,7 @@
 #include "Global/Global.h"
 #include "Global/SettingsManager.h"
 
-KeyboardShortcutConfig::KeyboardShortcutConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+KeyboardShortcutConfig::KeyboardShortcutConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     description = jsonObject.value("description").toString(id());
     icon        = jsonObject.value("icon").toString();
 
@@ -40,7 +40,7 @@ KeyboardShortcutConfig::KeyboardShortcutConfig(const QJsonObject &jsonObject) : 
     }
 }
 
-KeyboardShortcutConfig::KeyboardShortcutConfig(const QString &id) : GlobalConfigItem(id) {}
+KeyboardShortcutConfig::KeyboardShortcutConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
 
 KeyboardShortcutManager::KeyboardShortcutManager(QObject *parent) :
     GlobalConfigManager(parent) {
