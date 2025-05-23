@@ -19,6 +19,8 @@
 #include "Global/FolderLocationManager.h"
 #include "Global/KeyboardShortcutManager.h"
 #include "Global/CrashDetector.h"
+#include "Global/IconSetManager.h"
+#include "Global/IconController.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/Splashscreen/slpashscreen_light.png";
@@ -76,11 +78,14 @@ int main(int argc, char *argv[]) {
     splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
     SettingsManager::init();
     LanguageManager::init();
+    IconSetManager::init();
     StyleManager::init();
     FolderLocationManager::init();
     KeyboardShortcutManager::init();
     DockManager::init();
     WorkspaceManager::init();
+
+    IconController::init();
 
     splashscreen.showMessage(QObject::tr("Init shortcut mapper..."), Qt::AlignBottom, ssConfig.first);
     ActionShortcutMapper::init();

@@ -3,24 +3,30 @@
 
 #include "Global/StyleHandler.h"
 #include "ItemModels/StylesModel.h"
+#include "ItemModels/IconSetsModel.h"
+#include "Global/IconController.h"
 
 WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageAppearance),
-    _model(new StylesModel(this)) {
+    _stylesModel(new StylesModel(this)),
+    _iconSetsModel(new IconSetsModel(this)) {
     ui->setupUi(this);
 
-    ui->cbStyle->setModel(_model);
+    ui->cbStyle->setModel(_stylesModel);
+    ui->cbIconSet->setModel(_iconSetsModel);
 
     reloadPreferences();
 
     connect(ui->cbStyle,        &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->cbIconSet,      &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged,        this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->cbGDIEngine,    &QCheckBox::checkStateChanged,                      this, &WdgPreferencesPageAppearance::setUnsaved);
 
     connect(ui->cbStyle,        &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::onStyleChanged);
+    connect(ui->cbIconSet,      &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::onIconSetChanged);
     connect(ui->cssColorScheme, &WdgColorSchemeSelector::colorSchemeChanged,        this, &WdgPreferencesPageAppearance::onColorSchemeChanged);
     connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::onAccentColorChanged);
     connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::onFontChanged);
@@ -36,7 +42,8 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->fcbFont->setCurrentFont(QFont(StyleManager::currentUiFontFamily()));
     ui->cbGDIEngine->setChecked(StyleManager::gdiFontEngineEnabled());
 
-    ui->cbStyle->setCurrentIndex(_model->indexOfStyle(StyleManager::currentStyle()));
+    ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(StyleManager::currentStyle()));
+    ui->cbIconSet->setCurrentIndex(_iconSetsModel->indexOficonSet(IconSetManager::currentIconSet()));
     ui->cssColorScheme->setColorScheme(StyleManager::currentColorScheme());
     ui->acsAccentColor->setAccentColor(StyleManager::currentAccentColorID());
     WdgPreferencesPage::reloadPreferences();
@@ -46,11 +53,12 @@ void WdgPreferencesPageAppearance::savePreferences() {
     StyleManager::setCurrentUiFontFamily(ui->fcbFont->currentFont().family());
     StyleManager::setGdiFontEngineEnabled(ui->cbGDIEngine->isChecked());
 
-    StyleManager::setCurrentStyle(_model->style(ui->cbStyle->currentIndex()));
+    StyleManager::setCurrentStyle(_stylesModel->style(ui->cbStyle->currentIndex()));
+    IconSetManager::setCurrentIconSet(_iconSetsModel->iconSet(ui->cbIconSet->currentIndex()));
 
     Qt::ColorScheme colorScheme = ui->cssColorScheme->colorScheme();
 
-    StyleConfig style = StyleManager::item(_model->style(ui->cbStyle->currentIndex()));
+    StyleConfig style = StyleManager::item(_stylesModel->style(ui->cbStyle->currentIndex()));
     if(style.supportsColorScheme(colorScheme))
         StyleManager::setCurrentColorScheme(ui->cssColorScheme->colorScheme());
     else
@@ -63,6 +71,7 @@ void WdgPreferencesPageAppearance::savePreferences() {
 void WdgPreferencesPageAppearance::discardPreviewPreferences() {
     StyleHandler::applyFont();
     StyleHandler::applyStyle();
+    IconController::applyIconSet();
     StyleHandler::applyAccentColor();
     StyleHandler::applyColorScheme();
     WdgPreferencesPage::discardPreviewPreferences();
@@ -84,9 +93,14 @@ void WdgPreferencesPageAppearance::setStyleIndex(const int &index) {
     ui->cbStyle->setCurrentIndex(index);
 }
 
-void WdgPreferencesPageAppearance::onStyleChanged(int index) {
+void WdgPreferencesPageAppearance::onIconSetChanged(const int &index) {
+    QString id = _iconSetsModel->iconSet(ui->cbIconSet->currentIndex());
+    IconController::applyIconSet(id);
+}
+
+void WdgPreferencesPageAppearance::onStyleChanged(const int &index) {
     Q_UNUSED(index);
-    QString id = _model->style(ui->cbStyle->currentIndex());
+    QString id = _stylesModel->style(ui->cbStyle->currentIndex());
     StyleHandler::applyStyle(id);
     StyleConfig style = StyleManager::item(id);
     ui->flGeneral->setRowVisible(2, style.lightSupport && style.darkSupport);

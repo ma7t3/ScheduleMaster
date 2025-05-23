@@ -18,6 +18,8 @@ SOURCES += \
     Global/DockManager.cpp \
     Global/FolderLocationManager.cpp \
     Global/Global.cpp \
+    Global/IconController.cpp \
+    Global/IconSetManager.cpp \
     Global/KeyboardShortcutManager.cpp \
     Global/LanguageManager.cpp \
     Global/LastUsedFilesManager.cpp \
@@ -30,6 +32,7 @@ SOURCES += \
     Global/Workspace.cpp \
     Global/WorkspaceHandler.cpp \
     Global/WorkspaceManager.cpp \
+    ItemModels/IconSetsModel.cpp \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
@@ -73,6 +76,8 @@ HEADERS += \
     Global/Global.h \
     Global/GlobalConfigManager.h \
     Global/GlobalConfigManagerSignals.h \
+    Global/IconController.h \
+    Global/IconSetManager.h \
     Global/KeyboardShortcutManager.h \
     Global/LanguageManager.h \
     Global/LastUsedFilesManager.h \
@@ -85,6 +90,7 @@ HEADERS += \
     Global/Workspace.h \
     Global/WorkspaceHandler.h \
     Global/WorkspaceManager.h \
+    ItemModels/IconSetsModel.h \
     ItemModels/KeyboardShortcutsModel.h \
     ItemModels/LanguagesModel.h \
     ItemModels/LocalConfigModel.h \

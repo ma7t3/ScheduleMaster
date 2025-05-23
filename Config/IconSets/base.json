@@ -1,0 +1,20 @@
+[
+    {
+        "id": "classic",
+        "name": "Classic",
+        "format": "ico",
+        "alternative": "fontawesome.6.normal"
+    },
+    {
+        "id": "fontawesome.6.normal",
+        "name": "Fontawesome 6",
+        "format": "svg",
+        "alternative": "classic"
+    },
+    {
+        "id": "fontawesome.6.colorful",
+        "name": "Fontawesome 6 Colorful",
+        "format": "svg",
+        "alternative": "fontawesome.6.normal"
+    }
+]
