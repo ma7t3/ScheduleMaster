@@ -66,6 +66,17 @@
         }
     },
     {
+        "id": "appearance.iconSet",
+        "type": "QString",
+        "default": "classic",
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "The application's icon set",
+            "de_DE": "Stil der Icons"
+        }
+    },
+    {
         "id": "appearance.accentColor",
         "type": "QString",
         "default": "system",
