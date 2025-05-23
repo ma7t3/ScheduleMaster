@@ -6,8 +6,8 @@
 #include <QObject>
 
 struct LanguageConfig : public GlobalConfigItem {
-    LanguageConfig(const QString &id);
-    LanguageConfig(const QJsonObject &json = QJsonObject());
+    LanguageConfig(const QString &id, const int &index = 0);
+    LanguageConfig(const QJsonObject &json = QJsonObject(), const int &index = 0);
 
     QLocale locale;
 };

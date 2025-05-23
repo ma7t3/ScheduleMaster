@@ -2,10 +2,9 @@
 
 #include "SettingsManager.h"
 
-LanguageConfig::LanguageConfig(const QString &id) : GlobalConfigItem(id) {}
+LanguageConfig::LanguageConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
 
-LanguageConfig::LanguageConfig(const QJsonObject &json)
-    : GlobalConfigItem(json), locale(id()) {}
+LanguageConfig::LanguageConfig(const QJsonObject &json, const int &index) : GlobalConfigItem(json, index), locale(id()) {}
 
 LanguageManager::LanguageManager(QObject *parent) : GlobalConfigManager(parent) {
     loadItems("Languages");

@@ -5,7 +5,7 @@
 #include <QApplication>
 #include <QStandardPaths>
 
-FolderLocationConfig::FolderLocationConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+FolderLocationConfig::FolderLocationConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     name            = jsonObject.value("name").toString(id());
     icon            = jsonObject.value("icon").toString();
     multiple        = jsonObject.value("multiple").toBool();
@@ -33,7 +33,7 @@ QString FolderLocationConfig::resolvePathPlaceholders(QString path) {
     return path;
 }
 
-FolderLocationConfig::FolderLocationConfig(const QString &id) : GlobalConfigItem(id) {}
+FolderLocationConfig::FolderLocationConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
 
 FolderLocationManager::FolderLocationManager(QObject *parent) : GlobalConfigManager(parent) {
     qDebug() << "Test";

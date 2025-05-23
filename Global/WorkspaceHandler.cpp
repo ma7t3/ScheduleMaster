@@ -67,7 +67,11 @@ Workspace *WorkspaceHandler::currentWorkspace() {
 
 void WorkspaceHandler::loadWorkspaces() {
     qInfo() << "   Loading workspaces...";
-    const QList<WorkspaceConfig> workspaces = WorkspaceManager::items();
+    QList<WorkspaceConfig> workspaces = WorkspaceManager::items();
+    std::sort(workspaces.begin(), workspaces.end(), [](const WorkspaceConfig &a, const WorkspaceConfig &b) {
+        return a.index() < b.index();
+    });
+
     for(const WorkspaceConfig &val : workspaces) {
         Workspace *workspace = new Workspace(val, this);
         if(workspace->id().isEmpty()) {

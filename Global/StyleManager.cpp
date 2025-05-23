@@ -5,7 +5,7 @@
 
 #include "SettingsManager.h"
 
-StyleConfig::StyleConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+StyleConfig::StyleConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     name               = jsonObject.value("name").toString(id());
     lightSupport       = jsonObject.value("lightSupport").toBool();
     darkSupport        = jsonObject.value("darkSupport").toBool();
@@ -27,7 +27,7 @@ StyleConfig::StyleConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonO
     }
 }
 
-StyleConfig::StyleConfig(const QString &id) : GlobalConfigItem(id) {}
+StyleConfig::StyleConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
 
 bool StyleConfig::supportsColorScheme(const Qt::ColorScheme &colorScheme) const {
     return (
