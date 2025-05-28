@@ -51,6 +51,9 @@ ActionManager::ActionManager(QObject *parent) : GlobalConfigManager(parent) {
     loadItems("Actions");
     const QList<ActionConfig> itemList = items();
     for(const ActionConfig &shortcut : itemList) {
+        if(!shortcut.canHaveShortcut)
+            continue;
+
         SettingsItem item("keyboardShortcuts/" + shortcut.id());
         item.type         = QMetaType::QKeySequence;
         item.description  = shortcut.description;
@@ -84,12 +87,12 @@ bool ActionManager::shortcutIsDefault(const QString &id, const QKeySequence &seq
 }
 
 QKeySequence ActionManager::keyboardShortcut(const QString &actionID) {
+    if(!itemExists(actionID) || !item(actionID).canHaveShortcut)
+        return QKeySequence();
+
     const QString fullID = "keyboardShortcuts/" + actionID;
     if(SettingsManager::keyExists(fullID))
         return QKeySequence(SettingsManager::value(fullID).toString());
-
-    if(!itemExists(actionID))
-        return QKeySequence();
 
     const QKeySequence sequence = item(actionID).defaultKeyboardShortcut;
     setKeyboardShortcut(actionID, sequence);
