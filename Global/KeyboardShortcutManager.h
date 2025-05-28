@@ -11,7 +11,7 @@ public:
     KeyboardShortcutConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
     KeyboardShortcutConfig(const QString &id, const int &index = 0);
 
-    QString description, icon;
+    QString text, tooltip, description, icon;
     QKeySequence defaultKeySequence;
 };
 
