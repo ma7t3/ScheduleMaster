@@ -2,7 +2,7 @@
 #include "ui_MainWindow.h"
 
 #include "Dialogs/DlgPreferences.h"
-#include "Global/ActionShortcutMapper.h"
+#include "Global/ActionController.h"
 #include "Global/CrashDetector.h"
 #include "Global/DockController.h"
 #include "Global/FolderLocationManager.h"
@@ -54,19 +54,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qDebug() << "   Loading shortcuts...";
 
-    ActionShortcutMapper::map(ui->actionFileNewProject,      "project.new");
-    ActionShortcutMapper::map(ui->actionFileOpenProject,     "project.open");
-    ActionShortcutMapper::map(ui->actionFileSaveProject,     "project.save");
-    ActionShortcutMapper::map(ui->actionFileSaveProjectAs,   "project.saveAs");
-    ActionShortcutMapper::map(ui->actionFileCloseProject,    "project.close");
-    ActionShortcutMapper::map(ui->actionFileQuit,            "application.quit");
+    ActionController::add(ui->actionFileNewProject,      "project.new");
+    ActionController::add(ui->actionFileOpenProject,     "project.open");
+    ActionController::add(ui->menuFileOpenRecent,        "project.openRecent");
+    ActionController::add(ui->actionFileSaveProject,     "project.save");
+    ActionController::add(ui->actionFileSaveProjectAs,   "project.saveAs");
+    ActionController::add(ui->actionFileCloseProject,    "project.close");
+    ActionController::add(ui->actionFileQuit,            "application.quit");
 
-    ActionShortcutMapper::map(ui->actionEditPreferences,     "application.preferences.open");
-    ActionShortcutMapper::map(ui->actionEditProjectSettings, "project.settings.open");
-    ActionShortcutMapper::map(ui->actionEditConfiguration,   "application.configuration.open");
+    ActionController::add(ui->actionEditPreferences,     "application.preferences.open");
+    ActionController::add(ui->actionEditProjectSettings, "project.settings.open");
+    ActionController::add(ui->actionEditConfiguration,   "application.configuration.open");
 
-    ActionShortcutMapper::map(_undoAction,                   "edit.undo");
-    ActionShortcutMapper::map(_redoAction,                   "edit.redo");
+    ActionController::add(_undoAction,                   "edit.undo");
+    ActionController::add(_redoAction,                   "edit.redo");
+
+    ActionController::add(ui->menuDocks,                 "view.docks");
+    ActionController::add(ui->menuWorkspaces,            "view.workspaces");
+    ActionController::add(ui->actionViewToolbars,        "view.toolbars");
 
     ui->menuEdit->insertAction(ui->actionEditPreferences, _undoAction);
     ui->menuEdit->insertAction(ui->actionEditPreferences, _redoAction);

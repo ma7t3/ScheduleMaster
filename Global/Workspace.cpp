@@ -1,6 +1,6 @@
 #include "Workspace.h"
 
-#include "Global/ActionShortcutMapper.h"
+#include "Global/ActionController.h"
 
 #include <QIcon>
 #include <QAction>
@@ -96,10 +96,12 @@ void Workspace::restore() {
 void Workspace::setupAction() {
     _action->setParent(this);
     _action->setCheckable(true);
-    _action->setText(_name);
     _action->setIcon(_icon);
 
-    ActionShortcutMapper::map(_action, QString("view.workspaces.%1.activate").arg(_id));
+    // FIXME: Icon will be overwritten by the ActionController
+    ActionController::add(_action, QString("view.workspaces.%1.activate").arg(_id));
+
+    _action->setText(_name);
 
     connect(_action, &QAction::triggered, this, [this](const bool &checked) {
         if(checked)

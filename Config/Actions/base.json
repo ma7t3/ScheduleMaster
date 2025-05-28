@@ -20,6 +20,15 @@
         "defaultKeyboardShortcut": "standard:3"
     },
     {
+        "id": "project.openRecent",
+        "icon": "files-stack",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Open Recent",
+            "de_DE" : "Zuletzt geöffnet"
+        }
+    },
+    {
         "id": "project.save",
         "icon": "floppy-disk",
         "text": {
@@ -308,6 +317,33 @@
             "de_DE" : "Wiederholen (\"Vorgängig\")"
         },
         "defaultKeyboardShortcut": "standard:12"
+    },
+    {
+        "id": "view.docks",
+        "icon": "window-restore",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Docks",
+            "de_DE" : "Docks"
+        }
+    },
+    {
+        "id": "view.workspaces",
+        "icon": "layer-group",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Workspaces",
+            "de_DE" : "Arbeitsbereiche"
+        }
+    },
+    {
+        "id": "view.toolbars",
+        "icon": "bars",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Toolbars",
+            "de_DE" : "Werkzeugleisten"
+        }
     },
     {
         "id": "view.docks.welcome.toggle",

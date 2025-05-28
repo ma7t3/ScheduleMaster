@@ -1,14 +1,14 @@
 #include "WorkspaceHandler.h"
 
 #include "Global/Workspace.h"
-#include "Global/ActionShortcutMapper.h"
+#include "Global/ActionController.h"
 
 #include <QMenu>
 #include <QToolBar>
 
 WorkspaceHandler::WorkspaceHandler(QObject *parent) : QObject(parent), _workspacesMenu(nullptr), _workspacesToolbar(nullptr) {
     _restoreLayoutAction = new QAction(QIcon(":/Icons/classic/undo.ico"), tr("Restore default layout"), this);
-    ActionShortcutMapper::map(_restoreLayoutAction, "view.workspaces.restoreDefaultLayout");
+    ActionController::add(_restoreLayoutAction, "view.workspaces.restoreDefaultLayout");
     connect(_restoreLayoutAction, &QAction::triggered, this, &WorkspaceHandler::restoreCurrentWorkspace);
     loadWorkspaces();
 }

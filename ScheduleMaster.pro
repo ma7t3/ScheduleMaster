@@ -13,7 +13,6 @@ SOURCES += \
     Dialogs/DlgPreferences.cpp \
     Global/ActionController.cpp \
     Global/ActionManager.cpp \
-    Global/ActionShortcutMapper.cpp \
     Global/AppInfo.cpp \
     Global/CrashDetector.cpp \
     Global/DockController.cpp \
@@ -70,7 +69,6 @@ HEADERS += \
     Dialogs/DlgPreferences.h \
     Global/ActionController.h \
     Global/ActionManager.h \
-    Global/ActionShortcutMapper.h \
     Global/AppInfo.h \
     Global/CrashDetector.h \
     Global/DockController.h \
