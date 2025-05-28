@@ -10,6 +10,7 @@ struct ActionConfig : public GlobalConfigItem {
     ActionConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
     ActionConfig(const QString &id, const int &index = 0);
 
+    bool canHaveShortcut;
     QString text, tooltip, description, icon;
     QKeySequence defaultKeyboardShortcut;
 };
