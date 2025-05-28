@@ -12,6 +12,7 @@ struct ActionConfig : public GlobalConfigItem {
 
     bool canHaveShortcut;
     QString text, tooltip, description, icon;
+    QStringList breadcrumb;
     QKeySequence defaultKeyboardShortcut;
 };
 

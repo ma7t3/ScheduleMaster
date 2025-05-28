@@ -4,6 +4,7 @@
 #include "Global/ActionManager.h"
 #include "Global/ActionController.h"
 #include "Global/IconController.h"
+#include "Widgets/WdgGlobalSearchItem.h"
 
 #include <QKeyEvent>
 
@@ -45,10 +46,13 @@ void DlgGlobalSearch::updateResults() {
         ActionConfig action = ActionManager::item(actionID);
         if(action.description.contains(ui->leSearch->text(), Qt::CaseInsensitive) ||
             action.id().contains(ui->leSearch->text(), Qt::CaseInsensitive)) {
-            QListWidgetItem *item = new QListWidgetItem(action.text + " (" + action.id() + ")");
+            QListWidgetItem *item = new QListWidgetItem;
             item->setIcon(IconController::icon(action.icon));
             item->setData(Qt::UserRole, action.id());
             ui->listWidget->addItem(item);
+            WdgGlobalSearchItem *widget = new WdgGlobalSearchItem(action, ui->listWidget);
+            item->setSizeHint(widget->sizeHint());
+            ui->listWidget->setItemWidget(item, widget);
         }
     }
 
