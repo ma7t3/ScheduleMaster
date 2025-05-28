@@ -36,7 +36,9 @@ private:
 template <typename Derived, typename T>
 class GlobalConfigManager : public GlobalConfigManagerSignals {
 protected:
-    explicit GlobalConfigManager(QObject *parent) : GlobalConfigManagerSignals(parent) {}
+    explicit GlobalConfigManager(QObject *parent) : GlobalConfigManagerSignals(parent) {
+        qDebug() << "Initializing GlobalConfigManager for" << typeid(T).name();
+    }
 
 public:
 
@@ -54,6 +56,7 @@ public:
      */
     static void init() {
         instance();
+        _initializied;
     }
 
     /**
@@ -120,7 +123,8 @@ public:
             const QString id = item->id();
 
             _items.insert(id, item);
-            //emit instance()->itemAdded(id);
+            if(_initializied)
+                emit instance()->itemAdded(id);
             qDebug() << "Item added:" << id << item->index();
         } else {
             if(item.id().isEmpty()) {
@@ -131,7 +135,8 @@ public:
             const QString id = item.id();
 
             _items.insert(id, item);
-            //emit instance()->itemAdded(id); // FXIME: They cause freezes for some reason...
+            if(_initializied)
+                emit instance()->itemAdded(id);
             qDebug() << "Item added:" << id << item.index();
         }
         return true;
@@ -330,6 +335,9 @@ protected:
 private:
     /// The items inside the handler
     static inline QMap<QString, T> _items;
+
+
+    static inline bool _initializied = false;
 };
 
 #endif // GLOBALCONFIGMANAGER_H
