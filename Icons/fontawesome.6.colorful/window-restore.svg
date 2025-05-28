@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="window-restore.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.1228082"
+     inkscape:cx="297.91374"
+     inkscape:cy="290.78875"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="m 0,192 c 0,-35.3 28.7,-64 64,-64 h 256 c 35.3,0 64,28.7 64,64 v 256 c 0,35.3 -28.7,64 -64,64 H 64 C 28.7,512 0,483.3 0,448 Z"
+     id="path2"
+     style="fill:#0055d4" />
+  <!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. -->
+  <path
+     d="m 64,224 c 0,17.7 14.3,32 32,32 h 192 c 17.7,0 32,-14.3 32,-32 0,-17.7 -14.3,-32 -32,-32 H 96 c -17.7,0 -32,14.3 -32,32 z"
+     id="path3"
+     style="fill:#ffffff" />
+  <path
+     d="M 432,64 H 208 c -8.8,0 -16,7.2 -16,16 V 96 H 128 V 80 C 128,35.8 163.8,0 208,0 h 224 c 44.2,0 80,35.8 80,80 v 224 c 0,44.2 -35.8,80 -80,80 h -16 v -64 h 16 c 8.8,0 16,-7.2 16,-16 V 80 c 0,-8.8 -7.2,-16 -16,-16 z"
+     id="path1"
+     style="fill:#5599ff" />
+</svg>
