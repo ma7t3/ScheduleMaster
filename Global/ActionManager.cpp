@@ -9,6 +9,7 @@ ActionConfig::ActionConfig(const QJsonObject &jsonObject, const int &index) : Gl
     tooltip     = jsonObject.value("tooltip").toString();
     description = jsonObject.value("description").toString(text);
     icon        = jsonObject.value("icon").toString();
+    breadcrumb  = jsonObject.value("breadcrumb").toString().split(" > ");
 
     canHaveShortcut = jsonObject.contains("defaultKeyboardShortcut");
 

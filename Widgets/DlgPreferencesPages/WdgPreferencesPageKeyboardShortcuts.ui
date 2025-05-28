@@ -52,6 +52,13 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QLabel" name="lBreadcrumb">
+        <property name="text">
+         <string>&lt;Breadcrumb&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QLabel" name="lIcon">
