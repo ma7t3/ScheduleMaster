@@ -44,7 +44,7 @@ KeyboardShortcutConfig::KeyboardShortcutConfig(const QString &id, const int &ind
 
 KeyboardShortcutManager::KeyboardShortcutManager(QObject *parent) :
     GlobalConfigManager(parent) {
-    loadItems("KeyboardShortcuts");
+    loadItems("Actions");
     const QList<KeyboardShortcutConfig> itemList = items();
     for(const KeyboardShortcutConfig &shortcut : itemList) {
         SettingsItem item("keyboardShortcuts/" + shortcut.id());
