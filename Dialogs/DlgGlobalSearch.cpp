@@ -71,6 +71,11 @@ bool DlgGlobalSearch::eventFilter(QObject *obj, QEvent *event) {
         case Qt::Key_Enter:
             activateSelectedItem();
             return true;
+        case Qt::Key_Backspace:
+            if(ui->leSearch->text().length() == 0)
+                close();
+
+            break;
         default:
             break;
         }
