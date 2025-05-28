@@ -17,7 +17,7 @@
 #include "Global/DockManager.h"
 #include "Global/WorkspaceManager.h"
 #include "Global/FolderLocationManager.h"
-#include "Global/KeyboardShortcutManager.h"
+#include "Global/ActionManager.h"
 #include "Global/CrashDetector.h"
 #include "Global/IconSetManager.h"
 #include "Global/IconController.h"
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
     IconSetManager::init();
     StyleManager::init();
     FolderLocationManager::init();
-    KeyboardShortcutManager::init();
+    ActionManager::init();
     DockManager::init();
     WorkspaceManager::init();
 

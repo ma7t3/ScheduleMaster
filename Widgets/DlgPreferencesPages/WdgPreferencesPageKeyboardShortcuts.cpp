@@ -1,7 +1,7 @@
 #include "WdgPreferencesPageKeyboardShortcuts.h"
 #include "ui_WdgPreferencesPageKeyboardShortcuts.h"
 
-#include "Global/KeyboardShortcutManager.h"
+#include "Global/ActionManager.h"
 #include "ItemModels/KeyboardShortcutsModel.h"
 #include "Global/ActionShortcutMapper.h"
 
@@ -130,7 +130,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelInde
 
     QModelIndex mappedIndex = _sortFilterProxyModel->mapToSource(ui->twShortcuts->currentIndex());
 
-    const KeyboardShortcutConfig metadata = _model->metaData(mappedIndex);
+    const ActionConfig metadata = _model->metaData(mappedIndex);
     const QKeySequence     shortcut = _model->shortcut(mappedIndex);
 
     ui->lIcon->setPixmap(QPixmap(metadata.icon));
@@ -150,7 +150,7 @@ void WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut() {
         return;
 
     const QString id = _model->metaData(current).id();
-    QKeySequence shortcut = KeyboardShortcutManager::item(id).defaultKeySequence;
+    QKeySequence shortcut = ActionManager::item(id).defaultKeyboardShortcut;
     _model->setModifiedShortcut(id, shortcut);
     ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(shortcut);
@@ -176,7 +176,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCopyID() {
     if(!current.isValid())
         return;
 
-    const KeyboardShortcutConfig shortcut = _model->metaData(current);
+    const ActionConfig shortcut = _model->metaData(current);
     QApplication::clipboard()->setText(shortcut.id());
 }
 
@@ -210,7 +210,7 @@ void WdgPreferencesPageKeyboardShortcuts::onImport() {
     }
 
     QJsonArray array = doc.array();
-    KeyboardShortcutManager::importJson(array);
+    ActionManager::importKeyboardShortcuts(array);
     _model->reload();
 }
 
@@ -225,7 +225,7 @@ void WdgPreferencesPageKeyboardShortcuts::onExport() {
         return;
     }
 
-    QJsonArray array = KeyboardShortcutManager::exportJson();
+    QJsonArray array = ActionManager::exportKeyboardShortcuts();
     QJsonDocument document(array);
     QString jsonString = document.toJson();
 

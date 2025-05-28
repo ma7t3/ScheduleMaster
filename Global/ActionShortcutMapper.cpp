@@ -1,6 +1,6 @@
 #include "ActionShortcutMapper.h"
 
-#include "Global/KeyboardShortcutManager.h"
+#include "Global/ActionManager.h"
 
 #include <QAction>
 
@@ -8,7 +8,7 @@ ActionShortcutMapper::ActionShortcutMapper() : QObject(nullptr) {}
 ActionShortcutMapper::~ActionShortcutMapper() {}
 
 void ActionShortcutMapper::init() {
-    connect(KeyboardShortcutManager::instance(), &KeyboardShortcutManager::keyboardShortcutChanged, ActionShortcutMapper::instance(), &ActionShortcutMapper::onActionShortcutChanged);
+    connect(ActionManager::instance(), &ActionManager::keyboardShortcutChanged, ActionShortcutMapper::instance(), &ActionShortcutMapper::onActionShortcutChanged);
 }
 
 ActionShortcutMapper *ActionShortcutMapper::instance() {
@@ -25,7 +25,7 @@ void ActionShortcutMapper::map(QAction *action, const QString &shortcutID) {
         return;
     }
 
-    QKeySequence shortcut = KeyboardShortcutManager::keyboardShortcut(shortcutID); // get actual shortcut
+    QKeySequence shortcut = ActionManager::keyboardShortcut(shortcutID); // get actual shortcut
 
     action->setShortcut(shortcut);
 
@@ -43,7 +43,7 @@ void ActionShortcutMapper::update(QAction *action, const QString &shortcutID) {
     if(oldShortcut == shortcutID)
         return;
 
-    QKeySequence shortcut = KeyboardShortcutManager::keyboardShortcut(shortcutID); // get actual shortcut
+    QKeySequence shortcut = ActionManager::keyboardShortcut(shortcutID); // get actual shortcut
 
     action->setShortcut(shortcut);
 

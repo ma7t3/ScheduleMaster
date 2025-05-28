@@ -77,7 +77,7 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
         return QVariant();
 
     const int row = index.row();
-    const QPair<KeyboardShortcutConfig, QKeySequence> shortcut = _shortcuts[row];
+    const QPair<ActionConfig, QKeySequence> shortcut = _shortcuts[row];
 
     switch(role) {
         case Qt::DisplayRole: switch(index.column()) {
@@ -91,18 +91,18 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
             case 0: return QString("<p><b>%1</b></p><p><small>%2</small></p>").arg(shortcut.first.description, shortcut.first.id());
             } break;
         case Qt::FontRole: switch (index.column()) {
-            case 1: return shortcut.first.defaultKeySequence == shortcut.second ? QVariant() : QFont("", -1, QFont::Bold);
+            case 1: return shortcut.first.defaultKeyboardShortcut == shortcut.second ? QVariant() : QFont("", -1, QFont::Bold);
         } break;
         case IDRole: return shortcut.first.id();
-        case ModifiedRole: return shortcut.first.defaultKeySequence != shortcut.second;
+        case ModifiedRole: return shortcut.first.defaultKeyboardShortcut != shortcut.second;
     }
 
     return QVariant();
 }
 
-KeyboardShortcutConfig KeyboardShortcutsModel::metaData(const QModelIndex &index) const {
+ActionConfig KeyboardShortcutsModel::metaData(const QModelIndex &index) const {
     if(!index.isValid() || index.parent().isValid())
-        return KeyboardShortcutConfig();
+        return ActionConfig();
 
     return _shortcuts[index.row()].first;
 }
@@ -125,14 +125,14 @@ void KeyboardShortcutsModel::setModifiedShortcut(const QString &id, const QKeySe
 }
 
 void KeyboardShortcutsModel::setAllShortcutsToDefault() {
-    for(const QPair<KeyboardShortcutConfig, QKeySequence> &shortcut : std::as_const(_shortcuts))
-        if(shortcut.first.defaultKeySequence != shortcut.second)
-            setModifiedShortcut(shortcut.first.id(), shortcut.first.defaultKeySequence);
+    for(const QPair<ActionConfig, QKeySequence> &shortcut : std::as_const(_shortcuts))
+        if(shortcut.first.defaultKeyboardShortcut != shortcut.second)
+            setModifiedShortcut(shortcut.first.id(), shortcut.first.defaultKeyboardShortcut);
 }
 
 void KeyboardShortcutsModel::saveShortcuts() {
     for (QHash<QString, QKeySequence>::const_iterator it = _changedShortcuts.constBegin(); it != _changedShortcuts.constEnd(); ++it)
-        KeyboardShortcutManager::setKeyboardShortcut(it.key(), it.value());
+        ActionManager::setKeyboardShortcut(it.key(), it.value());
 }
 
 void KeyboardShortcutsModel::reload() {
@@ -140,11 +140,11 @@ void KeyboardShortcutsModel::reload() {
     _changedShortcuts.clear();
 
     beginResetModel();
-    const QList<KeyboardShortcutConfig> metaDataList = KeyboardShortcutManager::items();
+    const QList<ActionConfig> metaDataList = ActionManager::items();
     int i = 0;
-    for(const KeyboardShortcutConfig &shortcut : metaDataList) {
-        QKeySequence keySequence = KeyboardShortcutManager::keyboardShortcut(shortcut.id());
-        _shortcuts << QPair<KeyboardShortcutConfig, QKeySequence>(shortcut, keySequence);
+    for(const ActionConfig &shortcut : metaDataList) {
+        QKeySequence keySequence = ActionManager::keyboardShortcut(shortcut.id());
+        _shortcuts << QPair<ActionConfig, QKeySequence>(shortcut, keySequence);
         _shortcutIndexes.insert(shortcut.id(), i++);
     }
     endResetModel();
