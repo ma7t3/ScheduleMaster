@@ -37,6 +37,8 @@ private slots:
 
     void on_lwLocationMultipleFolders_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
+    void onIconSetChanged();
+
 private:
     Ui::WdgPreferencesPageLocations *ui;
 

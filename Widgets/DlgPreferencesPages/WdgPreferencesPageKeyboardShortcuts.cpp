@@ -4,6 +4,7 @@
 #include "Global/ActionManager.h"
 #include "ItemModels/KeyboardShortcutsModel.h"
 #include "Global/ActionController.h"
+#include "Global/IconController.h"
 
 #include <QStandardPaths>
 #include <QSortFilterProxyModel>
@@ -89,6 +90,8 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     connect(_resetAllAction,                   &QAction::triggered,                   this,                    &WdgPreferencesPageKeyboardShortcuts::onResetAll);
 
     connect(_focusSearchAction,                &QAction::triggered,                   ui->leSearch,            [this](){ui->leSearch->setFocus(Qt::ShortcutFocusReason);});
+
+    ActionController::add(ui->tbActions, "application.preferences.keyboardShortcuts.actions");
 }
 
 WdgPreferencesPageKeyboardShortcuts::~WdgPreferencesPageKeyboardShortcuts() {
@@ -118,7 +121,7 @@ QString WdgPreferencesPageKeyboardShortcuts::name() {
 }
 
 QIcon WdgPreferencesPageKeyboardShortcuts::icon() {
-    return QIcon(":/Icons/classic/keyboard.ico");
+    return IconController::icon("keyboard");
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelIndex &current, const QModelIndex &previous) {

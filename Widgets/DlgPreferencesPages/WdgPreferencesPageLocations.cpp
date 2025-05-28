@@ -1,6 +1,9 @@
 #include "WdgPreferencesPageLocations.h"
 #include "ui_WdgPreferencesPageLocations.h"
 
+#include "Global/ActionController.h"
+#include "Global/IconController.h"
+
 #include <QListWidgetItem>
 #include <QFileDialog>
 
@@ -17,6 +20,13 @@ WdgPreferencesPageLocations::WdgPreferencesPageLocations(QWidget *parent) :
     reloadPreferences();
 
     ui->lwLocationCategories->setCurrentRow(0);
+
+    connect(IconController::instance(), &IconController::currentIconSetChanged, this, &WdgPreferencesPageLocations::onIconSetChanged);
+
+    ActionController::add(ui->pbBrowseLocationSingleFolder, "application.preferences.locations.singleLocation.browse");
+    ActionController::add(ui->pbLocationMultipleFoldersAdd, "application.preferences.locations.multipleLocation.add");
+    ActionController::add(ui->pbLocationMultipleFoldersRemove, "application.preferences.locations.multipleLocation.remove");
+    ui->pbBrowseLocationSingleFolder->setText("");
 }
 
 WdgPreferencesPageLocations::~WdgPreferencesPageLocations() {
@@ -30,7 +40,7 @@ void WdgPreferencesPageLocations::reloadPreferences() {
     for(FolderLocationConfig &loc : locations) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
         item->setData(Qt::UserRole, loc.id());
-        item->setIcon(QIcon(loc.icon));
+        item->setIcon(IconController::icon(loc.icon));
         item->setSizeHint(QSize(0, 28));
         ui->lwLocationCategories->addItem(item);
 
@@ -63,7 +73,7 @@ QString WdgPreferencesPageLocations::name() {
 }
 
 QIcon WdgPreferencesPageLocations::icon() {
-    return QIcon(":/Icons/classic/folder-open.ico");
+    return IconController::icon("folder-open");
 }
 
 void WdgPreferencesPageLocations::on_lwLocationCategories_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {
@@ -128,4 +138,12 @@ void WdgPreferencesPageLocations::on_pbLocationMultipleFoldersRemove_clicked() {
 void WdgPreferencesPageLocations::on_lwLocationMultipleFolders_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {
     Q_UNUSED(previous);
     ui->pbLocationMultipleFoldersRemove->setEnabled(current);
+}
+
+void WdgPreferencesPageLocations::onIconSetChanged() {
+    for(int i = 0; i < ui->lwLocationCategories->count(); i++) {
+        QListWidgetItem *item = ui->lwLocationCategories->item(i);
+        QString id = item->data(Qt::UserRole).toString();
+        item->setIcon(IconController::icon(_folderLocations[id].icon));
+    }
 }

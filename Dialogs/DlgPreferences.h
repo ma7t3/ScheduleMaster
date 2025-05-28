@@ -36,6 +36,8 @@ private:
 private slots:
     void on_lwList_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
+    void onIconSetChanged();
+
     void accept() override;
     void reject() override;
 

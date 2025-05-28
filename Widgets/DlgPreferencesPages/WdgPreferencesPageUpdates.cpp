@@ -1,6 +1,8 @@
 #include "WdgPreferencesPageUpdates.h"
 #include "ui_WdgPreferencesPageUpdates.h"
 
+#include "Global/IconController.h"
+
 WdgPreferencesPageUpdates::WdgPreferencesPageUpdates(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageUpdates) {
@@ -34,5 +36,5 @@ QString WdgPreferencesPageUpdates::name() {
 }
 
 QIcon WdgPreferencesPageUpdates::icon() {
-    return QIcon(":/Icons/classic/circle-rotate.ico");
+    return IconController::icon("circle-rotate");
 }

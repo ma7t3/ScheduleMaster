@@ -1,6 +1,8 @@
 #include "WdgPreferencesPagePlugins.h"
 #include "ui_WdgPreferencesPagePlugins.h"
 
+#include "Global/IconController.h"
+
 WdgPreferencesPagePlugins::WdgPreferencesPagePlugins(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPluginsPage) {
@@ -34,5 +36,5 @@ QString WdgPreferencesPagePlugins::name() {
 }
 
 QIcon WdgPreferencesPagePlugins::icon() {
-    return QIcon(":/Icons/classic/puzzle-piece.ico");
+    return IconController::icon("puzzle-piece");
 }

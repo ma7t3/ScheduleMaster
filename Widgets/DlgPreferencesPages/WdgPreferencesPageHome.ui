@@ -78,7 +78,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QLabel" name="lTitlteIconTheme">
+           <widget class="QLabel" name="lTitleIconTheme">
             <property name="minimumSize">
              <size>
               <width>24</width>

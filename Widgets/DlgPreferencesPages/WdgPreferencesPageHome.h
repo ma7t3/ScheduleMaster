@@ -50,6 +50,8 @@ private slots:
 
     void on_clbAppearance_clicked();
 
+    void setBoxIcons();
+
 private:
     Ui::WdgPreferencesPageHome *ui;
 

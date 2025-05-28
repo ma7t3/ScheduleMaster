@@ -104,6 +104,78 @@
         "defaultKeyboardShortcut": ["standard:64", "Ctrl+,"]
     },
     {
+        "id": "application.preferences.general.openLogfileLocation",
+        "icon": "folder-open",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Open Logfile Location",
+            "de_DE" : "Logdatei-Ordner öffnen"
+        }
+    },
+    {
+        "id": "application.preferences.general.openCurrentLogfile",
+        "icon": "file",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Open current logfile.txt",
+            "de_DE" : "Aktuelle logfile.txt öffnen"
+        }
+    },
+    {
+        "id": "application.preferences.locations.singleLocation.browse",
+        "icon": "folder-open",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Browse",
+            "de_DE" : "Durchsuchen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Folders & Locations: Browse Location",
+            "de_DE" : "Einstellungen: Ordner & Speicherorte: Speicherort auswählen"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
+        "id": "application.preferences.locations.multipleLocation.add",
+        "icon": "plus",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Add",
+            "de_DE" : "Hinzufügen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Folders & Locations: Add Location",
+            "de_DE" : "Einstellungen: Ordner & Speicherorte: Speicherort hinzufügen"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
+        "id": "application.preferences.locations.multipleLocation.remove",
+        "icon": "minus",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Remove",
+            "de_DE" : "Entfernen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Folders & Locations: Remove Location",
+            "de_DE" : "Einstellungen: Ordner & Speicherorte: Speicherort entfernen"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
+        "id": "application.preferences.keyboardShortcuts.actions",
+        "icon": "keyboard",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Actions",
+            "de_DE" : "Aktionen"
+        }
+    },
+    {
         "id": "application.preferences.keyboardShortcuts.focusSearch",
         "icon": "keyboard",
         "text": {

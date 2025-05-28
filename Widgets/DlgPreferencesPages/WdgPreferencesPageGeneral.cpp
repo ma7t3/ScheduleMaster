@@ -1,9 +1,11 @@
 #include "WdgPreferencesPageGeneral.h"
 #include "ui_WdgPreferencesPageGeneral.h"
 
+#include "Global/ActionController.h"
 #include "Global/LanguageManager.h"
 #include "Global/Logger.h"
 #include "Global/FolderLocationManager.h"
+#include "Global/IconController.h"
 #include "ItemModels/LanguagesModel.h"
 
 #include <QDesktopServices>
@@ -16,7 +18,7 @@ WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
 
     ui->cbLanguage->setModel(_languagesModel);
 
-    QAction *openLogfileAction = ui->tbLogfileLocation->addAction(QIcon(":/Icons/classic/file.ico"), tr("Open current logfile.txt"));
+    QAction *openLogfileAction = ui->tbLogfileLocation->addAction("");
     openLogfileAction->setEnabled(Logger::currentLogfileExists());
     connect(ui->tbLogfileLocation, &QToolButton::clicked,           this, &WdgPreferencesPageGeneral::openLogfileLocation);
     connect(openLogfileAction,     &QAction::triggered,             this, &WdgPreferencesPageGeneral::openLogfile);
@@ -28,6 +30,8 @@ WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     connect(ui->cbLanguage,        &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
     connect(ui->cbLogfileMode,     &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
 
+    ActionController::add(ui->tbLogfileLocation, "application.preferences.general.openLogfileLocation");
+    ActionController::add(openLogfileAction, "application.preferences.general.openCurrentLogfile");
 }
 
 WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
@@ -66,7 +70,7 @@ QString WdgPreferencesPageGeneral::name() {
 }
 
 QIcon WdgPreferencesPageGeneral::icon() {
-    return QIcon(":/Icons/classic/gear.ico");
+    return IconController::icon("gear");
 }
 
 void WdgPreferencesPageGeneral::setLanguageIndex(const int &index) {
