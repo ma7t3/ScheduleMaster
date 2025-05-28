@@ -3,7 +3,7 @@
         "id": "project.new",
         "defaultKeyboardShortcut": "standard:6",
         "icon": "file-blank",
-        "description": {
+        "text": {
             "object": "translated_string",
             "en_US" : "New Project",
             "de_DE" : "Neues Projekt"
@@ -13,7 +13,7 @@
         "id": "project.open",
         "defaultKeyboardShortcut": "standard:3",
         "icon": "folder-open",
-        "description": {
+        "text": {
             "object": "translated_string",
             "en_US" : "Open Project",
             "de_DE" : "Projekt öffnen"
@@ -23,7 +23,7 @@
         "id": "project.save",
         "defaultKeyboardShortcut": "standard:5",
         "icon": "floppy-disk",
-        "description": {
+        "text": {
             "object": "translated_string",
             "en_US" : "Save Project",
             "de_DE" : "Projekt speichern"
@@ -33,7 +33,7 @@
         "id": "project.saveAs",
         "defaultKeyboardShortcut": "standard:63",
         "icon": "floppy-disk",
-        "description": {
+        "text": {
             "object": "translated_string",
             "en_US" : "Save Project As",
             "de_DE" : "Projekt speichern unter"
@@ -43,7 +43,7 @@
         "id": "project.close",
         "defaultKeyboardShortcut": "standard:4",
         "icon": "file-close",
-        "description": {
+        "text": {
             "object": "translated_string",
             "en_US" : "Close Project",
             "de_DE" : "Projekt schließen"
@@ -53,6 +53,11 @@
         "id": "project.settings.open",
         "defaultKeyboardShortcut": "Ctrl+Shift+,",
         "icon": "file-gear",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Project Settings",
+            "de_DE" : "Projekteinstellungen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Open Project Settings",
@@ -63,6 +68,11 @@
         "id": "application.quit",
         "defaultKeyboardShortcut": ["standard:65", "Ctrl+Q"],
         "icon": "circle-xmark",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Quit",
+            "de_DE" : "Beenden"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Quit Application",
@@ -73,6 +83,11 @@
         "id": "application.preferences.open",
         "defaultKeyboardShortcut": ["standard:64", "Ctrl+,"],
         "icon": "gear",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Preferences",
+            "de_DE" : "Einstellungen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Open Preferences",
@@ -83,6 +98,11 @@
         "id": "application.preferences.keyboardShortcuts.focusSearch",
         "defaultKeyboardShortcut": "standard:22",
         "icon": "keyboard",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Focus Searchbar",
+            "de_DE" : "Suchleiste fokussieren"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: focus searchbar",
@@ -93,6 +113,11 @@
         "id": "application.preferences.keyboardShortcuts.restoreDefaultShortcut",
         "defaultKeyboardShortcut": "",
         "icon": "undo",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Restore Default",
+            "de_DE" : "Standard wiederherstellen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Restore default shortcut",
@@ -103,6 +128,11 @@
         "id": "application.preferences.keyboardShortcuts.removeShortcut",
         "defaultKeyboardShortcut": "",
         "icon": "xmark",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Remove Shortcut",
+            "de_DE" : "Shortcut entfernen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Remove shortcut",
@@ -113,6 +143,11 @@
         "id": "application.preferences.keyboardShortcuts.copyID",
         "defaultKeyboardShortcut": "standard:9",
         "icon": "clone",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Copy ID",
+            "de_DE" : "ID kopieren"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Copy ID",
@@ -123,6 +158,11 @@
         "id": "application.preferences.keyboardShortcuts.showOnlyModified",
         "defaultKeyboardShortcut": "",
         "icon": "pen",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Show only modified",
+            "de_DE" : "Nur geänderte anzeigen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Show only modified",
@@ -133,6 +173,11 @@
         "id": "application.preferences.keyboardShortcuts.import",
         "defaultKeyboardShortcut": "Ctrl+I",
         "icon": "file-import",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Import",
+            "de_DE" : "Importieren"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Import",
@@ -143,6 +188,11 @@
         "id": "application.preferences.keyboardShortcuts.export",
         "defaultKeyboardShortcut": "Ctrl+E",
         "icon": "file-export",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Export",
+            "de_DE" : "Exportieren"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Export",
@@ -153,6 +203,11 @@
         "id": "application.preferences.keyboardShortcuts.resetAll",
         "defaultKeyboardShortcut": "",
         "icon": "undo",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Reset All",
+            "de_DE" : "Alle zurücksetzen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Rest all",
@@ -163,6 +218,11 @@
         "id": "application.configuration.open",
         "defaultKeyboardShortcut": "Ctrl+Alt+,",
         "icon": "gear",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Configuration",
+            "de_DE" : "Konfiguration"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Open Configuration",
@@ -173,6 +233,11 @@
         "id": "application.configuration.reload",
         "defaultKeyboardShortcut": "standard:15",
         "icon": "rotate",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Reload",
+            "de_DE" : "Neu laden"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Reload Configuration",
@@ -183,6 +248,11 @@
         "id": "application.configuration.key.delete",
         "defaultKeyboardShortcut": "standard:7",
         "icon": "xmark",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Delete",
+            "de_DE" : "Löschen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: Delete Key",
@@ -193,6 +263,11 @@
         "id": "application.configuration.key.restoreDefault",
         "defaultKeyboardShortcut": "",
         "icon": "undo",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Restore Default",
+            "de_DE" : "Standard wiederherstellen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: restore default value",
@@ -203,6 +278,11 @@
         "id": "application.configuration.key.copyID",
         "defaultKeyboardShortcut": "standard:9",
         "icon": "clone",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Copy ID",
+            "de_DE" : "ID kopieren"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: Copy ID",
@@ -213,7 +293,7 @@
         "id": "edit.undo",
         "defaultKeyboardShortcut": "standard:11",
         "icon": "undo",
-        "description": {
+        "text": {
             "object": "translated_string",
             "en_US" : "Undo",
             "de_DE" : "Rückgängig"
@@ -223,7 +303,7 @@
         "id": "edit.redo",
         "defaultKeyboardShortcut": "standard:12",
         "icon": "redo",
-        "description": {
+        "text": {
             "object": "translated_string",
             "en_US" : "Redo",
             "de_DE" : "Wiederholen (\"Vorgängig\")"
@@ -303,6 +383,11 @@
         "id": "view.workspaces.restoreDefaultLayout",
         "defaultKeyboardShortcut": "Alt+X",
         "icon": "undo",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Restore default layout",
+            "de_DE" : "Standardlayout wiederherstellen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Current Workspace: restore default layout",
@@ -313,6 +398,11 @@
         "id": "variantEditor.listItem.add",
         "defaultKeyboardShortcut": "Ctrl++",
         "icon": "plus",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Add",
+            "de_DE" : "Hinzufügen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Add List Item",
@@ -323,6 +413,11 @@
         "id": "variantEditor.listItem.edit",
         "defaultKeyboardShortcut": "F2",
         "icon": "pen",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Edit",
+            "de_DE" : "Bearbeiten"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Edit List Item",
@@ -333,6 +428,11 @@
         "id": "variantEditor.listItem.delete",
         "defaultKeyboardShortcut": "Del",
         "icon": "xmark",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Delete",
+            "de_DE" : "Löschen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Delete List Item",
@@ -343,6 +443,11 @@
         "id": "variantEditor.listItem.moveUp",
         "defaultKeyboardShortcut": "Alt+Up",
         "icon": "up",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Move Up",
+            "de_DE" : "Nach oben bewegen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Move List Item Up",
@@ -353,6 +458,11 @@
         "id": "variantEditor.listItem.moveDown",
         "defaultKeyboardShortcut": "Alt+Down",
         "icon": "down",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Move Down",
+            "de_DE" : "Nach unten bewegen"
+        },
         "description": {
             "object": "translated_string",
             "en_US" : "Move List Item Down",
