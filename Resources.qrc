@@ -4,6 +4,15 @@
         <file>Splashscreen/splashscreen_christmas.png</file>
         <file>Splashscreen/splashscreen_dark.png</file>
         <file>Splashscreen/splashscreen_halloween.png</file>
+        <file>Icons/ScheduleMaster.png</file>
+        <file>Icons/ScheduleMaster_16px.ico</file>
+        <file>Icons/ScheduleMaster_32px.ico</file>
+        <file>Icons/ScheduleMaster_64px.ico</file>
+        <file>Icons/ScheduleMaster_128px.ico</file>
+        <file>Icons/ScheduleMaster_256px.ico</file>
+        <file>Icons/ScheduleMaster_512px.ico</file>
+        <file>Icons/ScheduleMaster_1024px.ico</file>
+		<file>Icons/Qt.svg</file>
         <file>Icons/classic/circle-info.ico</file>
         <file>Icons/classic/plus.ico</file>
         <file>Icons/classic/busstop.ico</file>
@@ -38,13 +47,6 @@
         <file>Icons/classic/reverse.ico</file>
         <file>Icons/classic/route.ico</file>
         <file>Icons/classic/schedule-table.ico</file>
-        <file>Icons/classic/ScheduleMaster_16px.ico</file>
-        <file>Icons/classic/ScheduleMaster_32px.ico</file>
-        <file>Icons/classic/ScheduleMaster_64px.ico</file>
-        <file>Icons/classic/ScheduleMaster_128px.ico</file>
-        <file>Icons/classic/ScheduleMaster_256px.ico</file>
-        <file>Icons/classic/ScheduleMaster_512px.ico</file>
-        <file>Icons/classic/ScheduleMaster_1024px.ico</file>
         <file>Icons/classic/circle-check.ico</file>
         <file>Icons/classic/bars.ico</file>
         <file>Icons/classic/clipboard.ico</file>
@@ -53,8 +55,6 @@
         <file>Icons/classic/undo-redo.ico</file>
         <file>Icons/classic/triangle-exclamation.ico</file>
         <file>Icons/classic/layer-group.ico</file>
-        <file>Icons/classic/ScheduleMaster.png</file>
-        <file>Icons/classic/Qt.svg</file>
         <file>Icons/classic/file-export.ico</file>
         <file>Icons/classic/house.ico</file>
         <file>Icons/classic/puzzle-piece.ico</file>
