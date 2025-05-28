@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "Dialogs/DlgGlobalSearch.h"
 #include "Dialogs/DlgPreferences.h"
 #include "Global/ActionController.h"
 #include "Global/CrashDetector.h"
@@ -29,7 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _dockHandler(nullptr),
     _workspaceHandler(new WorkspaceHandler(this)),
     _projectData(new ProjectData(this)),
-    _fileHandler(new ProjectFileHandler(_projectData, this)) {
+    _fileHandler(new ProjectFileHandler(_projectData, this)),
+    _globalSearch(new DlgGlobalSearch(this)) {
     ui->setupUi(this);
 
     qInfo() << "Loading MainWindow";
@@ -54,28 +56,30 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qDebug() << "   Loading shortcuts...";
 
-    ActionController::add(ui->actionFileNewProject,      "project.new");
-    ActionController::add(ui->actionFileOpenProject,     "project.open");
-    ActionController::add(ui->menuFileOpenRecent,        "project.recentFiles");
-    QAction *actionShowRecentFilesList = ActionController::add(addAction(""), "project.recentFiles");
-    ActionController::add(ui->actionFileSaveProject,     "project.save");
-    ActionController::add(ui->actionFileSaveProjectAs,   "project.saveAs");
-    ActionController::add(ui->actionFileCloseProject,    "project.close");
-    ActionController::add(ui->actionFileQuit,            "application.quit");
+    ActionController::addAsGlobalAction(ui->actionFileNewProject,      "project.new");
+    ActionController::addAsGlobalAction(ui->actionFileOpenProject,     "project.open");
+    ActionController::add(ui->menuFileOpenRecent,                      "project.recentFiles");
+    QAction *actionShowRecentFilesList = ActionController::addAsGlobalAction(addAction(""), "project.recentFiles");
+    ActionController::addAsGlobalAction(ui->actionFileSaveProject,     "project.save");
+    ActionController::addAsGlobalAction(ui->actionFileSaveProjectAs,   "project.saveAs");
+    ActionController::addAsGlobalAction(ui->actionFileCloseProject,    "project.close");
+    ActionController::addAsGlobalAction(ui->actionFileQuit,            "application.quit");
 
-    ActionController::add(ui->actionEditPreferences,     "application.preferences.open");
-    ActionController::add(ui->actionEditProjectSettings, "project.settings.open");
-    ActionController::add(ui->actionEditConfiguration,   "application.configuration.open");
+    ActionController::addAsGlobalAction(ui->actionEditPreferences,     "application.preferences.open");
+    ActionController::addAsGlobalAction(ui->actionEditProjectSettings, "project.settings.open");
+    ActionController::addAsGlobalAction(ui->actionEditConfiguration,   "application.configuration.open");
 
-    ActionController::add(_undoAction,                   "edit.undo");
-    ActionController::add(_redoAction,                   "edit.redo");
+    ActionController::addAsGlobalAction(_undoAction,                   "edit.undo");
+    ActionController::addAsGlobalAction(_redoAction,                   "edit.redo");
 
-    ActionController::add(ui->menuDocks,                 "view.docks");
-    ActionController::add(ui->menuWorkspaces,            "view.workspaces");
-    ActionController::add(ui->actionViewToolbars,        "view.toolbars");
+    ActionController::add(ui->menuDocks,                               "view.docks");
+    ActionController::add(ui->menuWorkspaces,                          "view.workspaces");
+    ActionController::add(ui->actionViewToolbars,                      "view.toolbars");
 
-    QAction *actionShowDockList      = ActionController::add(addAction(""), "view.docks");
-    QAction *actionShowWorkspaceList = ActionController::add(addAction(""), "view.workspaces");
+    QAction *actionShowDockList      = ActionController::addAsGlobalAction(addAction(""), "view.docks");
+    QAction *actionShowWorkspaceList = ActionController::addAsGlobalAction(addAction(""), "view.workspaces");
+
+    ActionController::addAsGlobalAction(ui->actionViewGlobalSearch,    "application.globalSearch.open");
 
 
     ui->menuEdit->insertAction(ui->actionEditPreferences, _undoAction);
@@ -100,6 +104,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionEditPreferences,        &QAction::triggered,                         this, &MainWindow::openPreferences);
     connect(ui->actionEditConfiguration,      &QAction::triggered,                         this, &MainWindow::openConfiguration);
     connect(ui->actionEditProjectSettings,    &QAction::triggered,                         this, &MainWindow::openProjectSettings);
+    connect(ui->actionViewGlobalSearch,       &QAction::triggered,                         this, &MainWindow::showGlobalSearch);
+
     connect(actionShowDockList,               &QAction::triggered,                         this, &MainWindow::showDockMenu);
     connect(actionShowWorkspaceList,          &QAction::triggered,                         this, &MainWindow::showWorkspaceMenu);
 
@@ -385,4 +391,8 @@ void MainWindow::on_actionDebugSimulateCrash_triggered() {
     qWarning() << "Simulating crash...";
     int *p = nullptr;
     *p = 0;
+}
+
+void MainWindow::showGlobalSearch() {
+    _globalSearch->open();
 }

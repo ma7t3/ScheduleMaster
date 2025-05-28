@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+class DlgGlobalSearch;
 class QProgressDialog;
 class DockController;
 class WorkspaceHandler;
@@ -64,6 +65,8 @@ protected slots:
     void on_actionDebugGeneralTestAction_triggered();
     void on_actionDebugSimulateCrash_triggered();
 
+    void showGlobalSearch();
+
 private:
     Ui::MainWindow *ui;
 
@@ -78,5 +81,7 @@ private:
     QAction *_undoAction, *_redoAction;
 
     QToolBar *_toolbarGeneral, *_toolbarDocks, *_toolbarWorkspaces;
+
+    DlgGlobalSearch *_globalSearch;
 };
 #endif // MAINWINDOW_H
