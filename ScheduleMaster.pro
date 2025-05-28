@@ -11,6 +11,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 SOURCES += \
     Dialogs/DlgConfigEditor.cpp \
     Dialogs/DlgPreferences.cpp \
+    Global/ActionManager.cpp \
     Global/ActionShortcutMapper.cpp \
     Global/AppInfo.cpp \
     Global/CrashDetector.cpp \
@@ -20,7 +21,6 @@ SOURCES += \
     Global/Global.cpp \
     Global/IconController.cpp \
     Global/IconSetManager.cpp \
-    Global/KeyboardShortcutManager.cpp \
     Global/LanguageManager.cpp \
     Global/LastUsedFilesManager.cpp \
     Global/Logger.cpp \
@@ -67,6 +67,7 @@ HEADERS += \
     Commands/CmdGeneral.h \
     Dialogs/DlgConfigEditor.h \
     Dialogs/DlgPreferences.h \
+    Global/ActionManager.h \
     Global/ActionShortcutMapper.h \
     Global/AppInfo.h \
     Global/CrashDetector.h \
@@ -78,7 +79,6 @@ HEADERS += \
     Global/GlobalConfigManagerSignals.h \
     Global/IconController.h \
     Global/IconSetManager.h \
-    Global/KeyboardShortcutManager.h \
     Global/LanguageManager.h \
     Global/LastUsedFilesManager.h \
     Global/Logger.h \

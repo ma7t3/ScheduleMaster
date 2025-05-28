@@ -1,7 +1,7 @@
 #ifndef KEYBOARDSHORTCUTSMODEL_H
 #define KEYBOARDSHORTCUTSMODEL_H
 
-#include "Global/KeyboardShortcutManager.h"
+#include "Global/ActionManager.h"
 
 #include <QAbstractTableModel>
 #include <QSortFilterProxyModel>
@@ -42,7 +42,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    KeyboardShortcutConfig metaData(const QModelIndex &index) const;
+    ActionConfig metaData(const QModelIndex &index) const;
     QKeySequence shortcut(const QModelIndex &index) const;
 
     void setModifiedShortcut(const QString &id, const QKeySequence &keySequence);
@@ -55,7 +55,7 @@ protected:
     int indexOf(const QString &id) const;
 
 private:
-    QList<QPair<KeyboardShortcutConfig, QKeySequence>> _shortcuts;
+    QList<QPair<ActionConfig, QKeySequence>> _shortcuts;
     QHash<QString, int> _shortcutIndexes;
 
     QHash<QString, QKeySequence> _changedShortcuts;

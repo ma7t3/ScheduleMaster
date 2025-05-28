@@ -1,9 +1,10 @@
-#include "KeyboardShortcutManager.h"
+#include "ActionManager.h"
 
-#include "Global/Global.h"
 #include "Global/SettingsManager.h"
 
-KeyboardShortcutConfig::KeyboardShortcutConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
+#include "Global/Global.h"
+
+ActionConfig::ActionConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     text        = jsonObject.value("text").toString(id());
     tooltip     = jsonObject.value("tooltip").toString();
     description = jsonObject.value("description").toString(text);
@@ -25,34 +26,33 @@ KeyboardShortcutConfig::KeyboardShortcutConfig(const QJsonObject &jsonObject, co
             if (ok) {
                 QKeySequence sequence = QKeySequence(static_cast<QKeySequence::StandardKey>(standardID));
                 if(!sequence.toString(QKeySequence::PortableText).isEmpty()) {
-                    defaultKeySequence = sequence;
+                    defaultKeyboardShortcut = sequence;
                     return;
                 } else {
-                    defaultKeySequence = QKeySequence();
+                    defaultKeyboardShortcut = QKeySequence();
                 }
             }
         }
 
         QKeySequence sequence(value);
         if (!sequence.toString(QKeySequence::PortableText).isEmpty()) {
-            defaultKeySequence = sequence;
+            defaultKeyboardShortcut = sequence;
             return;
         } else
-            defaultKeySequence = QKeySequence();
+            defaultKeyboardShortcut = QKeySequence();
     }
 }
 
-KeyboardShortcutConfig::KeyboardShortcutConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
+ActionConfig::ActionConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
 
-KeyboardShortcutManager::KeyboardShortcutManager(QObject *parent) :
-    GlobalConfigManager(parent) {
+ActionManager::ActionManager(QObject *parent) : GlobalConfigManager(parent) {
     loadItems("Actions");
-    const QList<KeyboardShortcutConfig> itemList = items();
-    for(const KeyboardShortcutConfig &shortcut : itemList) {
+    const QList<ActionConfig> itemList = items();
+    for(const ActionConfig &shortcut : itemList) {
         SettingsItem item("keyboardShortcuts/" + shortcut.id());
         item.type         = QMetaType::QKeySequence;
         item.description  = shortcut.description;
-        item.defaultValue = shortcut.defaultKeySequence;
+        item.defaultValue = shortcut.defaultKeyboardShortcut;
         SettingsManager::registerNewSettingsItem(item);
     }
 
@@ -68,29 +68,37 @@ KeyboardShortcutManager::KeyboardShortcutManager(QObject *parent) :
     });
 }
 
-bool KeyboardShortcutManager::isDefault(const QString &id, const QKeySequence &sequence) {
-    return itemExists(id) ? item(id).defaultKeySequence == sequence : false;
+ActionManager *ActionManager::instance() {
+    static ActionManager instance(nullptr);
+    return &instance;
 }
 
-QKeySequence KeyboardShortcutManager::keyboardShortcut(const QString &keyboardShortcutID) {
-    const QString fullID = "keyboardShortcuts/" + keyboardShortcutID;
+void ActionManager::init() {
+    instance();
+}
+
+bool ActionManager::shortcutIsDefault(const QString &id, const QKeySequence &sequence) {
+    return itemExists(id) ? item(id).defaultKeyboardShortcut == sequence : false;
+}
+
+QKeySequence ActionManager::keyboardShortcut(const QString &actionID) {
+    const QString fullID = "keyboardShortcuts/" + actionID;
     if(SettingsManager::keyExists(fullID))
         return QKeySequence(SettingsManager::value(fullID).toString());
 
-    if(!itemExists(keyboardShortcutID))
+    if(!itemExists(actionID))
         return QKeySequence();
 
-    const QKeySequence sequence = item(keyboardShortcutID).defaultKeySequence;
-    setKeyboardShortcut(keyboardShortcutID, sequence);
+    const QKeySequence sequence = item(actionID).defaultKeyboardShortcut;
+    setKeyboardShortcut(actionID, sequence);
     return sequence;
 }
 
-void KeyboardShortcutManager::setKeyboardShortcut(const QString &keyboardShortcutID, const QKeySequence shortcut) {
-    SettingsManager::setValue("keyboardShortcuts/" + keyboardShortcutID, shortcut.toString(QKeySequence::PortableText));
-    //emit instance()->keyboardShortcutChanged(keyboardShortcutID, shortcut);
+void ActionManager::setKeyboardShortcut(const QString &actionID, const QKeySequence shortcut) {
+    SettingsManager::setValue("keyboardShortcuts/" + actionID, shortcut.toString(QKeySequence::PortableText));
 }
 
-void KeyboardShortcutManager::importJson(const QJsonArray &jsonArray) {
+void ActionManager::importKeyboardShortcuts(const QJsonArray &jsonArray) {
     for(const QJsonValue &value : jsonArray) {
         const QJsonObject jObj = value.toObject();
         const QString id          = jObj.value("id").toString();
@@ -99,7 +107,7 @@ void KeyboardShortcutManager::importJson(const QJsonArray &jsonArray) {
     }
 }
 
-QJsonArray KeyboardShortcutManager::exportJson() {
+QJsonArray ActionManager::exportKeyboardShortcuts() {
     QJsonArray array;
     const QStringList keys = SettingsManager::keysInGroup("keyboardShortcuts");
     for(const QString &id : keys) {
