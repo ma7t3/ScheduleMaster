@@ -10,6 +10,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 SOURCES += \
     Dialogs/DlgConfigEditor.cpp \
+    Dialogs/DlgGlobalSearch.cpp \
     Dialogs/DlgPreferences.cpp \
     Global/ActionController.cpp \
     Global/ActionManager.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     Commands/CmdBusstops.h \
     Commands/CmdGeneral.h \
     Dialogs/DlgConfigEditor.h \
+    Dialogs/DlgGlobalSearch.h \
     Dialogs/DlgPreferences.h \
     Global/ActionController.h \
     Global/ActionManager.h \
@@ -128,6 +130,7 @@ HEADERS += \
 
 FORMS += \
     Dialogs/DlgConfigEditor.ui \
+    Dialogs/DlgGlobalSearch.ui \
     Dialogs/DlgPreferences.ui \
     MainWindow.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \

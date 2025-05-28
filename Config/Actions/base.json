@@ -140,6 +140,21 @@
         "defaultKeyboardShortcut": ["standard:65", "Ctrl+Q"]
     },
     {
+        "id": "application.globalSearch.open",
+        "icon": "magnifying-glass",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Global search",
+            "de_DE" : "Globale Suche"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open global search",
+            "de_DE" : "Globale Suche öffnen"
+        },
+        "defaultKeyboardShortcut": "Ctrl+K"
+    },
+    {
         "id": "application.preferences.open",
         "icon": "gear",
         "text": {

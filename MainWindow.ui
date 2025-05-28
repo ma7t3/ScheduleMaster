@@ -43,8 +43,6 @@
     <addaction name="actionFileSaveProject"/>
     <addaction name="actionFileSaveProjectAs"/>
     <addaction name="separator"/>
-    <addaction name="actionfile-import"/>
-    <addaction name="actionfile-export"/>
     <addaction name="separator"/>
     <addaction name="actionFileCloseProject"/>
     <addaction name="actionFileQuit"/>
@@ -82,6 +80,8 @@
     <addaction name="menuDocks"/>
     <addaction name="menuWorkspaces"/>
     <addaction name="actionViewToolbars"/>
+    <addaction name="separator"/>
+    <addaction name="actionViewGlobalSearch"/>
    </widget>
    <widget class="QMenu" name="menuDebug">
     <property name="title">
@@ -224,6 +224,11 @@
    </property>
    <property name="text">
     <string>Configuration</string>
+   </property>
+  </action>
+  <action name="actionViewGlobalSearch">
+   <property name="text">
+    <string>Global search</string>
    </property>
   </action>
  </widget>

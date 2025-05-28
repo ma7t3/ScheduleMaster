@@ -174,5 +174,8 @@
         <file>Icons/fontawesome.6.colorful/up.svg</file>
         <file>Icons/fontawesome.6.colorful/window-restore.svg</file>
         <file>Icons/fontawesome.6.colorful/xmark.svg</file>
+        <file>Icons/classic/magnifying-glass.ico</file>
+        <file>Icons/fontawesome.6.normal/magnifying-glass.svg</file>
+        <file>Icons/fontawesome.6.colorful/magnifying-glass.svg</file>
     </qresource>
 </RCC>

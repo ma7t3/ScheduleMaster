@@ -30,6 +30,10 @@ QCommandLinkButton *ActionController::createCommandLinkButton(const QString &act
     return add(new QCommandLinkButton(parent), actionID, components);
 }
 
+QStringList ActionController::globalActionIDs() {
+    return _globalActions.keys();
+}
+
 void ActionController::onIconSetChanged() {
     for(QAction *action : _actions.keys()) {
         if(!_actions[action].second.testFlag(IconComponent))
