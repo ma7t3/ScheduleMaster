@@ -137,7 +137,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelInde
     QModelIndex mappedIndex = _sortFilterProxyModel->mapToSource(ui->twShortcuts->currentIndex());
 
     const ActionConfig metadata = _model->metaData(mappedIndex);
-    const QKeySequence     shortcut = _model->shortcut(mappedIndex);
+    const QKeySequence shortcut = _model->shortcut(mappedIndex);
 
     ui->lIcon->setPixmap(QPixmap(metadata.icon));
     ui->lName->setText(metadata.description);
@@ -148,6 +148,8 @@ void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelInde
     ui->kseShortcut->blockSignals(false);
 
     ui->gbCurrentAction->setVisible(true);
+
+    ui->kseShortcut->setFocus();
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut() {
