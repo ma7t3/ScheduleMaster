@@ -40,6 +40,7 @@ SOURCES += \
     ItemModels/StylesModel.cpp \
     Widgets/Docks/DockAbstract.cpp \
     Widgets/Docks/DockWelcome.cpp \
+    Widgets/WdgGlobalSearchItem.cpp \
     main.cpp \
     MainWindow.cpp \
     ProjectData/ProjectData.cpp \
@@ -125,6 +126,7 @@ HEADERS += \
     Widgets/Docks/DockWelcome.h \
     Widgets/WdgAccentColorSelector.h \
     Widgets/WdgColorSchemeSelector.h \
+    Widgets/WdgGlobalSearchItem.h \
     Widgets/WdgVariantEditor.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
 
@@ -144,6 +146,7 @@ FORMS += \
     Widgets/Docks/DockWelcome.ui \
     Widgets/WdgAccentColorSelector.ui \
     Widgets/WdgColorSchemeSelector.ui \
+    Widgets/WdgGlobalSearchItem.ui \
     Widgets/WdgVariantEditor.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
 
