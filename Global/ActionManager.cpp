@@ -10,6 +10,8 @@ ActionConfig::ActionConfig(const QJsonObject &jsonObject, const int &index) : Gl
     description = jsonObject.value("description").toString(text);
     icon        = jsonObject.value("icon").toString();
 
+    canHaveShortcut = jsonObject.contains("defaultKeyboardShortcut");
+
     QJsonValue defaultValue = jsonObject.value("defaultKeyboardShortcut");
     QStringList defaultValues;
 

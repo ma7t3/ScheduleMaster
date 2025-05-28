@@ -143,6 +143,9 @@ void KeyboardShortcutsModel::reload() {
     const QList<ActionConfig> metaDataList = ActionManager::items();
     int i = 0;
     for(const ActionConfig &shortcut : metaDataList) {
+        if(!shortcut.canHaveShortcut)
+            continue;
+
         QKeySequence keySequence = ActionManager::keyboardShortcut(shortcut.id());
         _shortcuts << QPair<ActionConfig, QKeySequence>(shortcut, keySequence);
         _shortcutIndexes.insert(shortcut.id(), i++);
