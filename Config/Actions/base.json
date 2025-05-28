@@ -7,6 +7,16 @@
             "en_US" : "New Project",
             "de_DE" : "Neues Projekt"
         },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Create New Project",
+            "de_DE" : "Neues Projekt anlegen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File",
+            "de_DE" : "Datei"
+        },
         "defaultKeyboardShortcut": "standard:6"
     },
     {
@@ -16,6 +26,11 @@
             "object": "translated_string",
             "en_US" : "Open Project",
             "de_DE" : "Projekt öffnen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File",
+            "de_DE" : "Datei"
         },
         "defaultKeyboardShortcut": "standard:3"
     },
@@ -32,6 +47,11 @@
             "en_US" : "Show recent files list",
             "de_DE" : "Liste der zuletzt geöffneten Dateien anzeigen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File",
+            "de_DE" : "Datei"
+        },
         "defaultKeyboardShortcut": "Ctrl+R"
     },
     {
@@ -44,8 +64,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Recent files - Open Project",
-            "de_DE" : "Zuletzt verwendet: Projekt öffnen"
+            "en_US" : "Open Project",
+            "de_DE" : "Projekt öffnen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File > Recent",
+            "de_DE" : "Datei > Zuletzt verwendet"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -59,8 +84,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Recent files - Open Project folder",
-            "de_DE" : "Zuletzt verwendet: Ordner öffnen"
+            "en_US" : "Open Project folder",
+            "de_DE" : "Ordner öffnen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File > Recent",
+            "de_DE" : "Datei > Zuletzt verwendet"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -74,8 +104,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Recent files - Remove Item",
-            "de_DE" : "Zuletzt verwendet: Eintrag entfernen"
+            "en_US" : "Remove Item",
+            "de_DE" : "Eintrag entfernen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File > Recent",
+            "de_DE" : "Datei > Zuletzt verwendet"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -87,6 +122,11 @@
             "en_US" : "Save Project",
             "de_DE" : "Projekt speichern"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File",
+            "de_DE" : "Datei"
+        },
         "defaultKeyboardShortcut": "standard:5"
     },
     {
@@ -97,6 +137,11 @@
             "en_US" : "Save Project As",
             "de_DE" : "Projekt speichern unter"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File",
+            "de_DE" : "Datei"
+        },
         "defaultKeyboardShortcut": "standard:63"
     },
     {
@@ -106,6 +151,11 @@
             "object": "translated_string",
             "en_US" : "Close Project",
             "de_DE" : "Projekt schließen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File",
+            "de_DE" : "Datei"
         },
         "defaultKeyboardShortcut": "standard:4"
     },
@@ -122,6 +172,11 @@
             "en_US" : "Open Project Settings",
             "de_DE" : "Projekteinstellungen öffnen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit",
+            "de_DE" : "Bearbeiten"
+        },
         "defaultKeyboardShortcut": "Ctrl+Shift+,"
     },
     {
@@ -136,6 +191,11 @@
             "object": "translated_string",
             "en_US" : "Quit Application",
             "de_DE" : "Anwendung beenden"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "File",
+            "de_DE" : "Datei"
         },
         "defaultKeyboardShortcut": ["standard:65", "Ctrl+Q"]
     },
@@ -152,6 +212,11 @@
             "en_US" : "Open global search",
             "de_DE" : "Globale Suche öffnen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View",
+            "de_DE" : "Ansicht"
+        },
         "defaultKeyboardShortcut": "Ctrl+K"
     },
     {
@@ -167,6 +232,11 @@
             "en_US" : "Open Preferences",
             "de_DE" : "Einstellungen öffnen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit",
+            "de_DE" : "Bearbeiten"
+        },
         "defaultKeyboardShortcut": ["standard:64", "Ctrl+,"]
     },
     {
@@ -176,6 +246,11 @@
             "object": "translated_string",
             "en_US" : "Open Logfile Location",
             "de_DE" : "Logdatei-Ordner öffnen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > General",
+            "de_DE" : "Bearbeiten > Einstellungen > Allgemein"
         }
     },
     {
@@ -185,6 +260,11 @@
             "object": "translated_string",
             "en_US" : "Open current logfile.txt",
             "de_DE" : "Aktuelle logfile.txt öffnen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > General",
+            "de_DE" : "Bearbeiten > Einstellungen > Allgemein"
         }
     },
     {
@@ -197,8 +277,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Folders & Locations: Browse Location",
-            "de_DE" : "Einstellungen: Ordner & Speicherorte: Speicherort auswählen"
+            "en_US" : "Browse Location",
+            "de_DE" : "Speicherort auswählen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Folders & Locations",
+            "de_DE" : "Bearbeiten > Einstellungen > Ordner und Speicherorte"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -212,8 +297,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Folders & Locations: Add Location",
-            "de_DE" : "Einstellungen: Ordner & Speicherorte: Speicherort hinzufügen"
+            "en_US" : "Add Location",
+            "de_DE" : "Speicherort hinzufügen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Folders & Locations",
+            "de_DE" : "Bearbeiten > Einstellungen > Ordner und Speicherorte"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -227,8 +317,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Folders & Locations: Remove Location",
-            "de_DE" : "Einstellungen: Ordner & Speicherorte: Speicherort entfernen"
+            "en_US" : "Remove Location",
+            "de_DE" : "Speicherort entfernen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Folders & Locations",
+            "de_DE" : "Bearbeiten > Einstellungen > Ordner und Speicherorte"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -239,6 +334,11 @@
             "object": "translated_string",
             "en_US" : "Actions",
             "de_DE" : "Aktionen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Keyboard Shortcuts",
+            "de_DE" : "Bearbeiten > Einstellungen > Tastenkombinationen"
         }
     },
     {
@@ -251,8 +351,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Keyboard Shortcuts: focus searchbar",
-            "de_DE" : "Einstellungen - Tastenkombinationen: Suchleiste fokussieren"
+            "en_US" : "Focus Searchbar",
+            "de_DE" : "Suchleiste fokussieren"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Keyboard Shortcuts",
+            "de_DE" : "Bearbeiten > Einstellungen > Tastenkombinationen"
         },
         "defaultKeyboardShortcut": "standard:22"
     },
@@ -266,8 +371,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Keyboard Shortcuts: Restore default shortcut",
-            "de_DE" : "Einstellungen - Tastenkombinationen: Standardwert wiederherstellen"
+            "en_US" : "Restore default shortcut",
+            "de_DE" : "Standardwert wiederherstellen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Keyboard Shortcuts",
+            "de_DE" : "Bearbeiten > Einstellungen > Tastenkombinationen"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -281,8 +391,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Keyboard Shortcuts: Remove shortcut",
-            "de_DE" : "Einstellungen - Tastenkombinationen: Shortcut entfernen"
+            "en_US" : "Remove shortcut",
+            "de_DE" : "Shortcut entfernen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Keyboard Shortcuts",
+            "de_DE" : "Bearbeiten > Einstellungen > Tastenkombinationen"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -296,8 +411,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Keyboard Shortcuts: Copy ID",
-            "de_DE" : "Einstellungen - Tastenkombinationen: ID kopieren"
+            "en_US" : "Copy ID",
+            "de_DE" : "ID kopieren"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Keyboard Shortcuts",
+            "de_DE" : "Bearbeiten > Einstellungen > Tastenkombinationen"
         },
         "defaultKeyboardShortcut": "standard:9"
     },
@@ -311,8 +431,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Keyboard Shortcuts: Show only modified",
-            "de_DE" : "Einstellungen - Tastenkombinationen: Nur Veränderte anzeigen"
+            "en_US" : "Show only modified",
+            "de_DE" : "Nur Veränderte anzeigen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Keyboard Shortcuts",
+            "de_DE" : "Bearbeiten > Einstellungen > Tastenkombinationen"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -326,8 +451,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Keyboard Shortcuts: Import",
-            "de_DE" : "Einstellungen - Tastenkombinationen: Importieren"
+            "en_US" : "Import",
+            "de_DE" : "Importieren"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Keyboard Shortcuts",
+            "de_DE" : "Bearbeiten > Einstellungen > Tastenkombinationen"
         },
         "defaultKeyboardShortcut": "Ctrl+I"
     },
@@ -341,8 +471,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Keyboard Shortcuts: Export",
-            "de_DE" : "Einstellungen - Tastenkombinationen: Exportieren"
+            "en_US" : "Export",
+            "de_DE" : "Exportieren"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Keyboard Shortcuts",
+            "de_DE" : "Bearbeiten > Einstellungen > Tastenkombinationen"
         },
         "defaultKeyboardShortcut": "Ctrl+E"
     },
@@ -356,8 +491,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Keyboard Shortcuts: Rest all",
-            "de_DE" : "Einstellungen - Tastenkombinationen: Alle zurücksetzen"
+            "en_US" : "Rest all",
+            "de_DE" : "Alle zurücksetzen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences > Keyboard Shortcuts",
+            "de_DE" : "Bearbeiten > Einstellungen > Tastenkombinationen"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -371,8 +511,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Preferences - Open plugins",
-            "de_DE" : "Einstellungen - Plugins öffnen"
+            "en_US" : "Open plugins",
+            "de_DE" : "Plugins öffnen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Preferences",
+            "de_DE" : "Bearbeiten > Einstellungen"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -389,6 +534,11 @@
             "en_US" : "Open Configuration",
             "de_DE" : "Konfiguration öffnen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit",
+            "de_DE" : "Bearbeiten"
+        },
         "defaultKeyboardShortcut": "Ctrl+Alt+,"
     },
     {
@@ -401,8 +551,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Reload Configuration",
-            "de_DE" : "Konfiguration neu laden"
+            "en_US" : "Reload",
+            "de_DE" : "Neu laden"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Configuration",
+            "de_DE" : "Bearbeiten > Konfiguration"
         },
         "defaultKeyboardShortcut": "standard:15"
     },
@@ -416,8 +571,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Configuration: Delete Key",
-            "de_DE" : "Konfiguration: Schlüssel löschen"
+            "en_US" : "Delete Key",
+            "de_DE" : "Schlüssel löschen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Configuration",
+            "de_DE" : "Bearbeiten > Konfiguration"
         },
         "defaultKeyboardShortcut": "standard:7"
     },
@@ -431,8 +591,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Configuration: restore default value",
-            "de_DE" : "Konfiguration: Standardwert wiederherstellen"
+            "en_US" : "restore default value",
+            "de_DE" : "Standardwert wiederherstellen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Configuration",
+            "de_DE" : "Bearbeiten > Konfiguration"
         },
         "defaultKeyboardShortcut": ""
     },
@@ -446,8 +611,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Configuration: Copy ID",
-            "de_DE" : "Konfiguration: ID kopieren"
+            "en_US" : "Copy ID",
+            "de_DE" : "ID kopieren"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit > Configuration",
+            "de_DE" : "Bearbeiten > Konfiguration"
         },
         "defaultKeyboardShortcut": "standard:9"
     },
@@ -464,6 +634,11 @@
             "en_US" : "Open Help",
             "de_DE" : "Hilfe öffnen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "",
+            "de_DE" : ""
+        },
         "defaultKeyboardShortcut": "standard:9"
     },
     {
@@ -473,6 +648,11 @@
             "object": "translated_string",
             "en_US" : "Undo",
             "de_DE" : "Rückgängig"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit",
+            "de_DE" : "Bearbeiten"
         },
         "defaultKeyboardShortcut": "standard:11"
     },
@@ -489,6 +669,11 @@
             "en_US" : "Redo",
             "de_DE" : "Wiederholen (\"Vorgängig\")"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Edit",
+            "de_DE" : "Bearbeiten"
+        },
         "defaultKeyboardShortcut": "standard:12"
     },
     {
@@ -503,6 +688,11 @@
             "object": "translated_string",
             "en_US" : "Show dock list",
             "de_DE" : "Liste der Docks anzeigen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View",
+            "de_DE" : "Ansicht"
         },
         "defaultKeyboardShortcut": "Ctrl+D"
     },
@@ -519,6 +709,11 @@
             "en_US" : "Show workspaces list",
             "de_DE" : "Liste der Arbeitsbereiche anzeigen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View",
+            "de_DE" : "Ansicht"
+        },
         "defaultKeyboardShortcut": "Ctrl+Space"
     },
     {
@@ -528,6 +723,11 @@
             "object": "translated_string",
             "en_US" : "Toolbars",
             "de_DE" : "Werkzeugleisten"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View",
+            "de_DE" : "Ansicht"
         }
     },
     {
@@ -537,6 +737,11 @@
             "object": "translated_string",
             "en_US" : "Show/hide dock: Welcome",
             "de_DE" : "Dock ein-/ausblenden: Willkommen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View > Workspaces",
+            "de_DE" : "Ansicht > Arbeitsbereiche"
         },
         "defaultKeyboardShortcut": "Alt+W"
     },
@@ -548,6 +753,11 @@
             "en_US" : "Show/hide dock: Busstops",
             "de_DE" : "Dock ein-/ausblenden: Haltestellen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View > Workspaces",
+            "de_DE" : "Ansicht > Arbeitsbereiche"
+        },
         "defaultKeyboardShortcut": "Alt+B"
     },
     {
@@ -557,6 +767,11 @@
             "object": "translated_string",
             "en_US" : "Switch to workspace: Home",
             "de_DE" : "Zum Arbeitsbereich wechseln: Startseite"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View > Workspaces",
+            "de_DE" : "Ansicht > Arbeitsbereiche"
         },
         "defaultKeyboardShortcut": "Alt+1"
     },
@@ -568,6 +783,11 @@
             "en_US" : "Switch to workspace: Routing",
             "de_DE" : "Zum Arbeitsbereich wechseln: Streckenplanung"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View > Workspaces",
+            "de_DE" : "Ansicht > Arbeitsbereiche"
+        },
         "defaultKeyboardShortcut": "Alt+2"
     },
     {
@@ -577,6 +797,11 @@
             "object": "translated_string",
             "en_US" : "Switch to workspace: Scheduling",
             "de_DE" : "Zum Arbeitsbereich wechseln: Fahrplanung"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View > Workspaces",
+            "de_DE" : "Ansicht > Arbeitsbereiche"
         },
         "defaultKeyboardShortcut": "Alt+3"
     },
@@ -588,6 +813,11 @@
             "en_US" : "Switch to workspace: Tours",
             "de_DE" : "Zum Arbeitsbereich wechseln: Dienste"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View > Workspaces",
+            "de_DE" : "Ansicht > Arbeitsbereiche"
+        },
         "defaultKeyboardShortcut": "Alt+4"
     },
     {
@@ -597,6 +827,11 @@
             "object": "translated_string",
             "en_US" : "Switch to workspace: Publish",
             "de_DE" : "Zum Arbeitsbereich wechseln: Veröffentlichen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View > Workspaces",
+            "de_DE" : "Ansicht > Arbeitsbereiche"
         },
         "defaultKeyboardShortcut": "Alt+5"
     },
@@ -610,8 +845,13 @@
         },
         "description": {
             "object": "translated_string",
-            "en_US" : "Current Workspace: restore default layout",
-            "de_DE" : "Aktueller Arbeitsbereich: Standardlayout wiederherstellen"
+            "en_US" : "restore default layout",
+            "de_DE" : "Standardlayout wiederherstellen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "View > Workspaces",
+            "de_DE" : "Ansicht > Arbeitsbereiche"
         },
         "defaultKeyboardShortcut": "Alt+X"
     },
@@ -628,6 +868,11 @@
             "en_US" : "Add List Item",
             "de_DE" : "Listenelement hinzufügen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Editor",
+            "de_DE" : "Editor"
+        },
         "defaultKeyboardShortcut": "Ctrl++"
     },
     {
@@ -642,6 +887,11 @@
             "object": "translated_string",
             "en_US" : "Edit List Item",
             "de_DE" : "Listenelement bearbeiten"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Editor",
+            "de_DE" : "Editor"
         },
         "defaultKeyboardShortcut": "F2"
     },
@@ -658,6 +908,11 @@
             "en_US" : "Delete List Item",
             "de_DE" : "Listenelement löschen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Editor",
+            "de_DE" : "Editor"
+        },
         "defaultKeyboardShortcut": "Del"
     },
     {
@@ -673,6 +928,11 @@
             "en_US" : "Move List Item Up",
             "de_DE" : "Listenelement nach oben bewegen"
         },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Editor",
+            "de_DE" : "Editor"
+        },
         "defaultKeyboardShortcut": "Alt+Up"
     },
     {
@@ -687,6 +947,11 @@
             "object": "translated_string",
             "en_US" : "Move List Item Down",
             "de_DE" : "Listenelement nach unten bewegen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Editor",
+            "de_DE" : "Editor"
         },
         "defaultKeyboardShortcut": "Alt+Down"
     }
