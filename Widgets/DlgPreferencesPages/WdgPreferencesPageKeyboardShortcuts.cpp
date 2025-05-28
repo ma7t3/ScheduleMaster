@@ -139,7 +139,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelInde
     const ActionConfig metadata = _model->metaData(mappedIndex);
     const QKeySequence shortcut = _model->shortcut(mappedIndex);
 
-    ui->lIcon->setPixmap(QPixmap(metadata.icon));
+    ui->lIcon->setPixmap(IconController::icon(metadata.icon).pixmap(32));
     ui->lName->setText(metadata.description);
     ui->lID->setText(metadata.id());
 
