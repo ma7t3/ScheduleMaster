@@ -1,8 +1,5 @@
 #include "ActionController.h"
 
-#include "ActionManager.h"
-#include "IconController.h"
-
 ActionController::ActionController(QObject *parent) : QObject(parent) {
     connect(IconController::instance(), &IconController::currentIconSetChanged, this, &ActionController::onIconSetChanged);
     connect(ActionManager::instance(), &ActionManager::keyboardShortcutChanged, this, &ActionController::onActionShortcutChanged);
@@ -40,6 +37,12 @@ void ActionController::onIconSetChanged() {
         action->setIcon(IconController::icon(actionConfig.icon));
     }
 
+    for(QMenu *menu : _menus.keys()) {
+        QString actionID = _menus[menu];
+        ActionConfig actionConfig = ActionManager::item(actionID);
+        menu->setIcon(IconController::icon(actionConfig.icon));
+    }
+
     for(QAbstractButton *button : _buttons.keys()) {
         QString actionID = _buttons[button];
         ActionConfig actionConfig = ActionManager::item(actionID);
@@ -55,47 +58,17 @@ void ActionController::onActionShortcutChanged(const QString &keyboardShortcutID
         if(action->shortcut() != shortcut)
             action->setShortcut(shortcut);
     }
+
+    for(QAbstractButton *button : _buttons.keys()) {
+        if(_buttons.value(button) != keyboardShortcutID)
+            continue;
+
+        if(button->shortcut() != shortcut)
+            button->setShortcut(shortcut);
+    }
 }
 
-template<typename T>
-T *ActionController::add(T *widget, const QString &actionID) {    
-    if(!ActionManager::itemExists(actionID)) {
-        qWarning() << "cannot add actoin for actionID" << actionID << "- action does not exist in ActionManager.";
-        return widget;
-    }
 
-    ActionConfig actionConfig = ActionManager::item(actionID);
-
-    if constexpr(std::is_base_of<QAbstractButton, T>::value) {
-        QAbstractButton *button = static_cast<QAbstractButton *>(widget);
-        _buttons.insert(button, actionID);
-        connect(button, &QObject::destroyed, instance(), [button](){ _buttons.remove(button); });
-
-        button->setText(actionConfig.text);
-        button->setToolTip(actionConfig.tooltip);
-        button->setIcon(IconController::icon(actionConfig.icon));
-
-        QKeySequence shortcut = ActionManager::keyboardShortcut(actionID);
-        button->setShortcut(shortcut);
-
-    } else if constexpr(std::is_base_of<QAction, T>::value) {
-        QAction *action = static_cast<QAction *>(widget);
-        _actions.insert(action, actionID);
-        connect(action, &QObject::destroyed, instance(), [action](){ _actions.remove(action); });
-
-        action->setText(actionConfig.text);
-        action->setToolTip(actionConfig.tooltip);
-        action->setIcon(IconController::icon(actionConfig.icon));
-
-        QKeySequence shortcut = ActionManager::keyboardShortcut(actionID);
-        action->setShortcut(shortcut);
-
-    } else {
-        qWarning() << "Cannot add action to ActionController. Unsupported type:" << typeid(T).name();
-    }
-
-    return widget;
-}
 
 template<typename T>
 T *ActionController::remove(T *widget) {
