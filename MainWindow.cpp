@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *actionShowDockList      = ActionController::addAsGlobalAction(addAction(""), "view.docks");
     QAction *actionShowWorkspaceList = ActionController::addAsGlobalAction(addAction(""), "view.workspaces");
 
-    ActionController::addAsGlobalAction(ui->actionViewGlobalSearch,    "application.globalSearch.open");
+    ActionController::add(ui->actionViewGlobalSearch,    "application.globalSearch.open");
 
 
     ui->menuEdit->insertAction(ui->actionEditPreferences, _undoAction);
