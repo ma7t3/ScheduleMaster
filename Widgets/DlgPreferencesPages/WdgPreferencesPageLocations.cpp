@@ -23,10 +23,9 @@ WdgPreferencesPageLocations::WdgPreferencesPageLocations(QWidget *parent) :
 
     connect(IconController::instance(), &IconController::currentIconSetChanged, this, &WdgPreferencesPageLocations::onIconSetChanged);
 
-    ActionController::add(ui->pbBrowseLocationSingleFolder, "application.preferences.locations.singleLocation.browse");
-    ActionController::add(ui->pbLocationMultipleFoldersAdd, "application.preferences.locations.multipleLocation.add");
+    ActionController::add(ui->pbBrowseLocationSingleFolder,    "application.preferences.locations.singleLocation.browse", ActionController::AllExceptTextComponent);
+    ActionController::add(ui->pbLocationMultipleFoldersAdd,    "application.preferences.locations.multipleLocation.add");
     ActionController::add(ui->pbLocationMultipleFoldersRemove, "application.preferences.locations.multipleLocation.remove");
-    ui->pbBrowseLocationSingleFolder->setText("");
 }
 
 WdgPreferencesPageLocations::~WdgPreferencesPageLocations() {

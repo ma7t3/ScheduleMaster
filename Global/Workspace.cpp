@@ -96,9 +96,6 @@ void Workspace::restore() {
 void Workspace::setupAction() {
     _action->setParent(this);
     _action->setCheckable(true);
-    _action->setIcon(_icon);
-
-    // FIXME: Icon will be overwritten by the ActionController
     ActionController::add(_action, QString("view.workspaces.%1.activate").arg(_id));
 
     _action->setText(_name);
