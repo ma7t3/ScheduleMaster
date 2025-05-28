@@ -236,8 +236,8 @@ void MainWindow::openProjectFromFile(const QString &filePath) {
 }
 
 void MainWindow::showRecentFilesMenu() {
-    ui->menuFileOpenRecent->move(QCursor::pos());
-    ui->menuFileOpenRecent->show();
+    QPoint cursorPos = QCursor::pos();
+    ui->menuFileOpenRecent->popup(QPoint(cursorPos.x() - 12, cursorPos.y() - 12));
 }
 
 void MainWindow::saveProject() {
@@ -275,13 +275,33 @@ void MainWindow::removeProjectFromRecentList(const QString &filePath) {
 }
 
 void MainWindow::showDockMenu() {
-    ui->menuDocks->move(QCursor::pos());
-    ui->menuDocks->show();
+    QAction *currentAction = nullptr;
+    const QList<QAction *> actions = ui->menuDocks->actions();
+    for(int i = 0; i < actions.count(); i++) {
+        if(!actions[i]->isChecked())
+            continue;
+
+        currentAction = actions[i];
+        break;
+    }
+
+    QPoint cursorPos = QCursor::pos();
+    ui->menuDocks->popup(QPoint(cursorPos.x() - 12, cursorPos.y() - 12), currentAction);
 }
 
 void MainWindow::showWorkspaceMenu() {
-    ui->menuWorkspaces->move(QCursor::pos());
-    ui->menuWorkspaces->show();
+    QAction *currentAction = nullptr;
+    const QList<QAction *> actions = ui->menuWorkspaces->actions();
+    for(int i = 0; i < actions.count(); i++) {
+        if(!actions[i]->isChecked())
+            continue;
+
+        currentAction = actions[i];
+        break;
+    }
+
+    QPoint cursorPos = QCursor::pos();
+    ui->menuWorkspaces->popup(QPoint(cursorPos.x() - 12, cursorPos.y() - 12), currentAction);
 }
 
 void MainWindow::openPlugins() {
