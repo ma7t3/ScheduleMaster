@@ -1,6 +1,7 @@
 #include "DockWelcome.h"
 #include "ui_DockWelcome.h"
 
+#include "Global/ActionController.h"
 #include "Global/LastUsedFilesManager.h"
 #include "MainWindowInterface.h"
 #include "Widgets/WdgWelcomeRecentProjectEntry.h"
@@ -34,6 +35,17 @@ DockWelcome::DockWelcome(QWidget *parent) :
     connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &DockWelcome::openPreferences);
     connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &DockWelcome::quitApplication);
 
+    ActionController::add(ui->clbNewProject,       "project.new", ActionController::IconComponent);
+    ActionController::add(ui->clbOpenProject,      "project.open", ActionController::IconComponent);
+    ActionController::add(ui->clbPlugins,          "application.preferences.plugins.open", ActionController::IconComponent);
+    ActionController::add(ui->clbPreferences,      "application.preferences.open", ActionController::IconComponent);
+    ActionController::add(ui->clbHelp,             "application.help.open", ActionController::IconComponent);
+    ActionController::add(ui->clbQuit,             "application.quit",      ActionController::IconComponent);
+
+    ActionController::add(_recentFileOpen,         "project.recentFiles.openItem");
+    ActionController::add(_recentFileOpenLocation, "project.recentFiles.openItemDirectory");
+    ActionController::add(_recentFileRemove,       "project.recentFiles.removeItem");
+
     connect(LastUsedFilesManager::instance(), &LastUsedFilesManager::lastUsedFilesChanged, this, &DockWelcome::updateRecentProjectsList);
 
     connect(this, &DockWelcome::newProject,            MainWindowInterface::instance(), &MainWindowInterface::newProject);
@@ -56,13 +68,12 @@ void DockWelcome::updateRecentProjectsList() {
     int scrollbarPos = ui->lwRecentProjects->verticalScrollBar()->value();
     ui->lwRecentProjects->clear();
 
-    for(QString current : lastUsedFiles) {
+    for(QString current : std::as_const(lastUsedFiles)) {
         QListWidgetItem *itm = new QListWidgetItem(ui->lwRecentProjects);
         ui->lwRecentProjects->addItem(itm);
         WdgWelcomeRecentProjectEntry *wdg = new WdgWelcomeRecentProjectEntry(ui->lwRecentProjects);
 
         QFileInfo fi(current);
-        wdg->setIcon(QPixmap(":/Icons/classic/file.ico"));
         wdg->setName(fi.baseName());
         wdg->setPath(current);
         wdg->setLastUsed(fi.lastModified());

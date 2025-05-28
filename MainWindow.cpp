@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ActionController::add(ui->actionFileNewProject,      "project.new");
     ActionController::add(ui->actionFileOpenProject,     "project.open");
-    ActionController::add(ui->menuFileOpenRecent,        "project.openRecent");
+    ActionController::add(ui->menuFileOpenRecent,        "project.recentFiles");
     ActionController::add(ui->actionFileSaveProject,     "project.save");
     ActionController::add(ui->actionFileSaveProjectAs,   "project.saveAs");
     ActionController::add(ui->actionFileCloseProject,    "project.close");

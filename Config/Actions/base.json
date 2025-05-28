@@ -20,13 +20,58 @@
         "defaultKeyboardShortcut": "standard:3"
     },
     {
-        "id": "project.openRecent",
+        "id": "project.recentFiles",
         "icon": "files-stack",
         "text": {
             "object": "translated_string",
             "en_US" : "Open Recent",
             "de_DE" : "Zuletzt geöffnet"
         }
+    },
+    {
+        "id": "project.recentFiles.openItem",
+        "icon": "folder-open",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Open",
+            "de_DE" : "Öffnen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Recent files - Open Project",
+            "de_DE" : "Zuletzt verwendet: Projekt öffnen"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
+        "id": "project.recentFiles.openItemDirectory",
+        "icon": "folder-open",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Open Directory",
+            "de_DE" : "Ordner öffnen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Recent files - Open Project folder",
+            "de_DE" : "Zuletzt verwendet: Ordner öffnen"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
+        "id": "project.recentFiles.removeItem",
+        "icon": "circle-xmark",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Remove from list",
+            "de_DE" : "Aus der Liste entfernen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Recent files - Remove Item",
+            "de_DE" : "Zuletzt verwendet: Eintrag entfernen"
+        },
+        "defaultKeyboardShortcut": ""
     },
     {
         "id": "project.save",
@@ -296,6 +341,21 @@
         "defaultKeyboardShortcut": ""
     },
     {
+        "id": "application.preferences.plugins.open",
+        "icon": "puzzle-piece",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Plugins",
+            "de_DE" : "Plugins"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Preferences - Open plugins",
+            "de_DE" : "Einstellungen - Plugins öffnen"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
         "id": "application.configuration.open",
         "icon": "gear",
         "text": {
@@ -367,6 +427,21 @@
             "object": "translated_string",
             "en_US" : "Configuration: Copy ID",
             "de_DE" : "Konfiguration: ID kopieren"
+        },
+        "defaultKeyboardShortcut": "standard:9"
+    },
+    {
+        "id": "application.help.open",
+        "icon": "book-manual",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Help",
+            "de_DE" : "Hilfe"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Open Help",
+            "de_DE" : "Hilfe öffnen"
         },
         "defaultKeyboardShortcut": "standard:9"
     },
