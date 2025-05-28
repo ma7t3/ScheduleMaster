@@ -14,7 +14,8 @@ public:
     explicit WdgWelcomeRecentProjectEntry(QWidget *parent = nullptr);
     ~WdgWelcomeRecentProjectEntry();
 
-    void setIcon(const QPixmap &);
+    void paintEvent(QPaintEvent *e) override;
+
     void setName(const QString &);
     void setPath(const QString &);
     void setLastUsed(const QDateTime &);
@@ -29,9 +30,13 @@ signals:
 
 protected:
     void setupLastUsedLabel();
+    void updateIcon();
 
 private:
     Ui::WdgWelcomeRecentProjectEntry *ui;
+
+    bool _fileExists;
+    QIcon _icon;
 };
 
 #endif // WDGWELCOMERECENTPROJECTENTRY_H

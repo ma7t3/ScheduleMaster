@@ -15,23 +15,20 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,0">
    <item>
-    <widget class="QLabel" name="lIcon">
-     <property name="minimumSize">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Policy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
       <size>
-       <width>48</width>
-       <height>48</height>
+       <width>56</width>
+       <height>20</height>
       </size>
      </property>
-     <property name="maximumSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>&lt;Icon&gt;</string>
-     </property>
-    </widget>
+    </spacer>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
