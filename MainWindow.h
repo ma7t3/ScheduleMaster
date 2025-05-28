@@ -36,6 +36,7 @@ protected slots:
     void newProject();
     void openProject();
     void openProjectFromFile(const QString &filePath);
+    void showRecentFilesMenu();
     void saveProject();
     void saveProjectAs();
     void saveProjectToFile(const QString &filePath);
@@ -43,6 +44,9 @@ protected slots:
     void quitApplication();
 
     void removeProjectFromRecentList(const QString &filePath);
+
+    void showDockMenu();
+    void showWorkspaceMenu();
 
     void openPlugins();
     void openPreferences();

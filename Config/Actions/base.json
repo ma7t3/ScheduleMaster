@@ -26,7 +26,13 @@
             "object": "translated_string",
             "en_US" : "Open Recent",
             "de_DE" : "Zuletzt geöffnet"
-        }
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show recent files list",
+            "de_DE" : "Liste der zuletzt geöffneten Dateien anzeigen"
+        },
+        "defaultKeyboardShortcut": "Ctrl+R"
     },
     {
         "id": "project.recentFiles.openItem",
@@ -477,7 +483,13 @@
             "object": "translated_string",
             "en_US" : "Docks",
             "de_DE" : "Docks"
-        }
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show dock list",
+            "de_DE" : "Liste der Docks anzeigen"
+        },
+        "defaultKeyboardShortcut": "Ctrl+D"
     },
     {
         "id": "view.workspaces",
@@ -486,7 +498,13 @@
             "object": "translated_string",
             "en_US" : "Workspaces",
             "de_DE" : "Arbeitsbereiche"
-        }
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show workspaces list",
+            "de_DE" : "Liste der Arbeitsbereiche anzeigen"
+        },
+        "defaultKeyboardShortcut": "Ctrl+Space"
     },
     {
         "id": "view.toolbars",

@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ActionController::add(ui->actionFileNewProject,      "project.new");
     ActionController::add(ui->actionFileOpenProject,     "project.open");
     ActionController::add(ui->menuFileOpenRecent,        "project.recentFiles");
+    QAction *actionShowRecentFilesList = ActionController::add(addAction(""), "project.recentFiles");
     ActionController::add(ui->actionFileSaveProject,     "project.save");
     ActionController::add(ui->actionFileSaveProjectAs,   "project.saveAs");
     ActionController::add(ui->actionFileCloseProject,    "project.close");
@@ -73,6 +74,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ActionController::add(ui->menuWorkspaces,            "view.workspaces");
     ActionController::add(ui->actionViewToolbars,        "view.toolbars");
 
+    QAction *actionShowDockList      = ActionController::add(addAction(""), "view.docks");
+    QAction *actionShowWorkspaceList = ActionController::add(addAction(""), "view.workspaces");
+
+
     ui->menuEdit->insertAction(ui->actionEditPreferences, _undoAction);
     ui->menuEdit->insertAction(ui->actionEditPreferences, _redoAction);
     ui->menuEdit->insertSeparator(ui->actionEditPreferences);
@@ -86,6 +91,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionFileNewProject,         &QAction::triggered,                         this, &MainWindow::newProject);
     connect(ui->actionFileOpenProject,        &QAction::triggered,                         this, &MainWindow::openProject);
+    connect(actionShowRecentFilesList,        &QAction::triggered,                         this, &MainWindow::showRecentFilesMenu);
     connect(ui->actionFileSaveProject,        &QAction::triggered,                         this, &MainWindow::saveProject);
     connect(ui->actionFileSaveProjectAs,      &QAction::triggered,                         this, &MainWindow::saveProjectAs);
     connect(ui->actionFileCloseProject,       &QAction::triggered,                         this, &MainWindow::closeProject);
@@ -94,6 +100,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionEditPreferences,        &QAction::triggered,                         this, &MainWindow::openPreferences);
     connect(ui->actionEditConfiguration,      &QAction::triggered,                         this, &MainWindow::openConfiguration);
     connect(ui->actionEditProjectSettings,    &QAction::triggered,                         this, &MainWindow::openProjectSettings);
+    connect(actionShowDockList,               &QAction::triggered,                         this, &MainWindow::showDockMenu);
+    connect(actionShowWorkspaceList,          &QAction::triggered,                         this, &MainWindow::showWorkspaceMenu);
 
     connect(LastUsedFilesManager::instance(), &LastUsedFilesManager::lastUsedFilesChanged, this, &MainWindow::updateRecentProjectsList);
 
@@ -227,6 +235,11 @@ void MainWindow::openProjectFromFile(const QString &filePath) {
     _fileHandler->readFile(filePath);
 }
 
+void MainWindow::showRecentFilesMenu() {
+    ui->menuFileOpenRecent->move(QCursor::pos());
+    ui->menuFileOpenRecent->show();
+}
+
 void MainWindow::saveProject() {
     qInfo() << "Save project";
 }
@@ -259,6 +272,16 @@ void MainWindow::removeProjectFromRecentList(const QString &filePath) {
         return;
 
     LastUsedFilesManager::removeLastUsedFile(filePath);
+}
+
+void MainWindow::showDockMenu() {
+    ui->menuDocks->move(QCursor::pos());
+    ui->menuDocks->show();
+}
+
+void MainWindow::showWorkspaceMenu() {
+    ui->menuWorkspaces->move(QCursor::pos());
+    ui->menuWorkspaces->show();
 }
 
 void MainWindow::openPlugins() {
