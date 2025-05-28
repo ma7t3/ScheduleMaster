@@ -1,7 +1,7 @@
 #include "DlgConfigEditor.h"
 #include "ui_DlgConfigEditor.h"
 
-#include "Global/ActionShortcutMapper.h"
+#include "Global/ActionController.h"
 #include "ItemModels/LocalConfigModel.h"
 
 #include <QMessageBox>
@@ -20,17 +20,17 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     ui->treeView->setColumnWidth(0, 250);
     ui->treeView->setColumnWidth(1, 500);
 
-    _restoreDefaultAction = ui->treeView->addAction(QIcon(":/Icons/classic/undo.ico"),      tr("Restore Default"));
-    _deleteAction         = ui->treeView->addAction(QIcon(":/Icons/classic/xmark.ico"),    tr("Delete"));
-    _copyIDAction         = ui->treeView->addAction(QIcon(":/Icons/classic/clone.ico"), tr("Copy ID"));
+    _restoreDefaultAction = ui->treeView->addAction("");
+    _deleteAction         = ui->treeView->addAction("");
+    _copyIDAction         = ui->treeView->addAction("");
     QAction *test = ui->treeView->addAction("");
     test->setSeparator(true);
     QAction *reloadAction = ui->treeView->addAction(QIcon(":/Icons/classic/rotate.ico"),    tr("Reload"));
 
-    ActionShortcutMapper::map(_restoreDefaultAction, "application.configuration.key.restoreDefault");
-    ActionShortcutMapper::map(_deleteAction,         "application.configuration.key.delete");
-    ActionShortcutMapper::map(_copyIDAction,         "application.configuration.key.copyID");
-    ActionShortcutMapper::map(reloadAction,          "application.configuration.reload");
+    ActionController::add(_restoreDefaultAction, "application.configuration.key.restoreDefault");
+    ActionController::add(_deleteAction,         "application.configuration.key.delete");
+    ActionController::add(_copyIDAction,         "application.configuration.key.copyID");
+    ActionController::add(reloadAction,          "application.configuration.reload");
 
     _restoreDefaultAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     _deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);

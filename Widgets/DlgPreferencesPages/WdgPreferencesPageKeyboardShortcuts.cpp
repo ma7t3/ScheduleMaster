@@ -3,7 +3,7 @@
 
 #include "Global/ActionManager.h"
 #include "ItemModels/KeyboardShortcutsModel.h"
-#include "Global/ActionShortcutMapper.h"
+#include "Global/ActionController.h"
 
 #include <QStandardPaths>
 #include <QSortFilterProxyModel>
@@ -32,14 +32,14 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     _resetAllAction               = addAction(QIcon(":/Icons/classic/undo.ico"), tr("Reset All"));
     _focusSearchAction            = addAction("");
 
-    ActionShortcutMapper::map(_restoreDefaultShortcutAction, "application.preferences.keyboardShortcuts.restoreDefaultShortcut");
-    ActionShortcutMapper::map(_removeShortcutAction,         "application.preferences.keyboardShortcuts.removeShortcut");
-    ActionShortcutMapper::map(_copyIDAction,                 "application.preferences.keyboardShortcuts.copyID");
-    ActionShortcutMapper::map(_showOnlyModifiedAction,       "application.preferences.keyboardShortcuts.showOnlyModified");
-    ActionShortcutMapper::map(_importAction,                 "application.preferences.keyboardShortcuts.import");
-    ActionShortcutMapper::map(_exportAction,                 "application.preferences.keyboardShortcuts.export");
-    ActionShortcutMapper::map(_resetAllAction,               "application.preferences.keyboardShortcuts.resetAll");
-    ActionShortcutMapper::map(_focusSearchAction,            "application.preferences.keyboardShortcuts.focusSearch");
+    ActionController::add(_restoreDefaultShortcutAction, "application.preferences.keyboardShortcuts.restoreDefaultShortcut");
+    ActionController::add(_removeShortcutAction,         "application.preferences.keyboardShortcuts.removeShortcut");
+    ActionController::add(_copyIDAction,                 "application.preferences.keyboardShortcuts.copyID");
+    ActionController::add(_showOnlyModifiedAction,       "application.preferences.keyboardShortcuts.showOnlyModified");
+    ActionController::add(_importAction,                 "application.preferences.keyboardShortcuts.import");
+    ActionController::add(_exportAction,                 "application.preferences.keyboardShortcuts.export");
+    ActionController::add(_resetAllAction,               "application.preferences.keyboardShortcuts.resetAll");
+    ActionController::add(_focusSearchAction,            "application.preferences.keyboardShortcuts.focusSearch");
 
     QMenu *actionsMenu = new QMenu(ui->tbActions);
     actionsMenu->addAction(_showOnlyModifiedAction);

@@ -1,6 +1,6 @@
 #include "DockController.h"
 
-#include "Global/ActionShortcutMapper.h"
+#include "Global/ActionController.h"
 #include "Widgets/Docks/DockWelcome.h"
 
 #include <QDockWidget>
@@ -16,8 +16,10 @@ void DockController::addDock(const DockConfig &dock, QWidget *contentWidget) {
     _docks.insert(dock.id(), dockWidget);
 
     QAction *toggleAction = dockWidget->toggleViewAction();
-    toggleAction->setIcon(QIcon(dock.icon));
-    ActionShortcutMapper::map(toggleAction, QString("view.docks.%1.toggle").arg(dock.id()));
+    QString actionText = toggleAction->text();
+    toggleAction->setIcon(QIcon(dock.icon)); // FIXME: Icon will be overwritten by the ActionController
+    ActionController::add(toggleAction, QString("view.docks.%1.toggle").arg(dock.id()));
+    toggleAction->setText(actionText);
     _dockToggleActions.insert(dock.id(), toggleAction);
 
     emit dockAdded(dock.id(), dockWidget, toggleAction);

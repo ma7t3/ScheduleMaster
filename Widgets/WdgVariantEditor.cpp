@@ -2,7 +2,7 @@
 #include "ui_WdgVariantEditor.h"
 
 #include "Global/Global.h"
-#include "Global/ActionShortcutMapper.h"
+#include "Global/ActionController.h"
 
 #include <QDialog>
 #include <QMessageBox>
@@ -27,11 +27,11 @@ WdgVariantEditor::WdgVariantEditor(QWidget *parent) :
     _listUpAction     = ui->lwList->addAction(QIcon(":/Icons/classic/up.ico"),   tr("Up"));
     _listDownAction   = ui->lwList->addAction(QIcon(":/Icons/classic/down.ico"), tr("Down"));
 
-    ActionShortcutMapper::map(_listAddAction,    "variantEditor.listItem.add");
-    ActionShortcutMapper::map(_listEditAction,   "variantEditor.listItem.edit");
-    ActionShortcutMapper::map(_listDeleteAction, "variantEditor.listItem.delete");
-    ActionShortcutMapper::map(_listUpAction,     "variantEditor.listItem.moveUp");
-    ActionShortcutMapper::map(_listDownAction,   "variantEditor.listItem.moveDown");
+    ActionController::add(_listAddAction,    "variantEditor.listItem.add");
+    ActionController::add(_listEditAction,   "variantEditor.listItem.edit");
+    ActionController::add(_listDeleteAction, "variantEditor.listItem.delete");
+    ActionController::add(_listUpAction,     "variantEditor.listItem.moveUp");
+    ActionController::add(_listDownAction,   "variantEditor.listItem.moveDown");
 
     _listEditAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     _listDeleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);

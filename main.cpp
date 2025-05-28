@@ -11,7 +11,6 @@
 #include "Global/Logger.h"
 #include "Global/SettingsManager.h"
 #include "Global/ActionController.h"
-#include "Global/ActionShortcutMapper.h"
 #include "Global/StyleHandler.h"
 #include "Global/StyleManager.h"
 #include "Global/LanguageManager.h"
@@ -88,9 +87,6 @@ int main(int argc, char *argv[]) {
 
     IconController::init();
     ActionController::init();
-
-    splashscreen.showMessage(QObject::tr("Init shortcut mapper..."), Qt::AlignBottom, ssConfig.first);
-    ActionShortcutMapper::init();
 
     splashscreen.showMessage(QObject::tr("Loading preferences..."), Qt::AlignBottom, ssConfig.first);
     loadStartupPreferences(&a);
