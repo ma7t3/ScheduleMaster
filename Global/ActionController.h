@@ -15,20 +15,34 @@ private:
     explicit ActionController(QObject *parent);
 
 public:
+    enum ActionComponent {
+        NoComponents = 0x0,
+        IconComponent = 0x1,
+        TextComponent = 0x4,
+        TooltipComponent = 0x8,
+        ShortcutComponent = 0x10,
+        AllComponents = IconComponent | TextComponent | TooltipComponent | ShortcutComponent,
+        AllExceptIconComponent = AllComponents & ~IconComponent,
+        AllExceptTextComponent = AllComponents & ~TextComponent,
+        AllExceptTooltipComponent = AllComponents & ~TooltipComponent,
+        AllExceptShortcutComponent = AllComponents & ~ShortcutComponent,
+    };
+    Q_DECLARE_FLAGS(ActionComponents, ActionComponent)
+
     static void init();
     static ActionController *instance();
 
     ActionController& operator=(const ActionController&) = delete;
     ActionController(const ActionController&) = delete;
 
-    static QAction *createAction(const QString &actionID, QObject *parent = nullptr);
-    static QMenu *createMenu(const QString &actionID, QObject *parent = nullptr);
-    static QPushButton *createPushButton(const QString &actionID, QWidget *parent = nullptr);
-    static QToolButton *createToolButton(const QString &actionID, QWidget *parent = nullptr);
-    static QCommandLinkButton *createCommandLinkButton(const QString &actionID, QWidget *parent = nullptr);
+    static QAction *createAction(const QString &actionID, const ActionComponents &components = AllComponents, QObject *parent = nullptr);
+    static QMenu *createMenu(const QString &actionID, const ActionComponents &components = AllComponents, QObject *parent = nullptr);
+    static QPushButton *createPushButton(const QString &actionID, const ActionComponents &components = AllComponents, QWidget *parent = nullptr);
+    static QToolButton *createToolButton(const QString &actionID, const ActionComponents &components = AllComponents, QWidget *parent = nullptr);
+    static QCommandLinkButton *createCommandLinkButton(const QString &actionID, const ActionComponents &components = AllComponents, QWidget *parent = nullptr);
 
     template<typename T>
-    static T *add(T *widget, const QString &actionID) {
+    static T *add(T *widget, const QString &actionID, const ActionComponents &components = AllComponents) {
     if(!ActionManager::itemExists(actionID)) {
         qWarning() << "cannot add actoin for actionID" << actionID << "- action does not exist in ActionManager.";
         return widget;
@@ -38,36 +52,55 @@ public:
 
     if constexpr(std::is_base_of<QAbstractButton, T>::value) {
         QAbstractButton *button = static_cast<QAbstractButton *>(widget);
-        _buttons.insert(button, actionID);
+        _buttons.insert(button, QPair<QString, ActionComponents>(actionID, components));
         connect(button, &QObject::destroyed, instance(), [button](){ _buttons.remove(button); });
 
-        button->setText(actionConfig.text);
-        button->setToolTip(actionConfig.tooltip);
-        button->setIcon(IconController::icon(actionConfig.icon));
+        if(components.testFlag(TextComponent))
+            button->setText(actionConfig.text);
 
-        QKeySequence shortcut = ActionManager::keyboardShortcut(actionID);
-        button->setShortcut(shortcut);
+        if(components.testFlag(TooltipComponent))
+            button->setToolTip(actionConfig.tooltip);
+
+        if(components.testFlag(IconComponent))
+            button->setIcon(IconController::icon(actionConfig.icon));
+
+        if(components.testFlag(ShortcutComponent)) {
+            QKeySequence shortcut = ActionManager::keyboardShortcut(actionID);
+            button->setShortcut(shortcut);
+        }
 
     } else if constexpr(std::is_base_of<QAction, T>::value) {
         QAction *action = static_cast<QAction *>(widget);
-        _actions.insert(action, actionID);
+        _actions.insert(action, QPair<QString, ActionComponents>(actionID, components));
         connect(action, &QObject::destroyed, instance(), [action](){ _actions.remove(action); });
 
-        action->setText(actionConfig.text);
-        action->setToolTip(actionConfig.tooltip);
-        action->setIcon(IconController::icon(actionConfig.icon));
+        if(components.testFlag(TextComponent))
+            action->setText(actionConfig.text);
 
-        QKeySequence shortcut = ActionManager::keyboardShortcut(actionID);
-        action->setShortcut(shortcut);
+        if(components.testFlag(TooltipComponent))
+            action->setToolTip(actionConfig.tooltip);
+
+        if(components.testFlag(IconComponent))
+            action->setIcon(IconController::icon(actionConfig.icon));
+
+        if(components.testFlag(ShortcutComponent)) {
+            QKeySequence shortcut = ActionManager::keyboardShortcut(actionID);
+            action->setShortcut(shortcut);
+        }
 
     } else if constexpr(std::is_base_of<QMenu, T>::value) {
         QMenu *menu = static_cast<QMenu *>(widget);
-        _menus.insert(menu, actionID);
+        _menus.insert(menu, QPair<QString, ActionComponents>(actionID, components));
         connect(menu, &QObject::destroyed, instance(), [menu](){ _menus.remove(menu); });
 
-        menu->setTitle(actionConfig.text);
-        menu->setToolTip(actionConfig.tooltip);
-        menu->setIcon(IconController::icon(actionConfig.icon));
+        if(components.testFlag(TextComponent))
+            menu->setTitle(actionConfig.text);
+
+        if(components.testFlag(TooltipComponent))
+            menu->setToolTip(actionConfig.tooltip);
+
+        if(components.testFlag(IconComponent))
+            menu->setIcon(IconController::icon(actionConfig.icon));
     } else {
         qWarning() << "Cannot add action to ActionController. Unsupported type:" << typeid(T).name();
     }
@@ -85,9 +118,11 @@ protected slots:
 signals:
 
 private:
-    static inline QHash<QMenu *, QString> _menus;
-    static inline QHash<QAction *, QString> _actions;
-    static inline QHash<QAbstractButton *, QString> _buttons;
+    static inline QHash<QMenu *, QPair<QString, ActionComponents>> _menus;
+    static inline QHash<QAction *, QPair<QString, ActionComponents>> _actions;
+    static inline QHash<QAbstractButton *, QPair<QString, ActionComponents>> _buttons;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(ActionController::ActionComponents)
 
 #endif // ACTIONCONTROLLER_H

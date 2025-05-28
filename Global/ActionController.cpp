@@ -14,37 +14,46 @@ ActionController *ActionController::instance() {
     return &instance;
 }
 
-QAction *ActionController::createAction(const QString &actionID, QObject *parent) {
-    return add(new QAction(parent), actionID);
+QAction *ActionController::createAction(const QString &actionID, const ActionComponents &components, QObject *parent) {
+    return add(new QAction(parent), actionID, components);
 }
 
-QPushButton *ActionController::createPushButton(const QString &actionID, QWidget *parent) {
-    return add(new QPushButton(parent), actionID);
+QPushButton *ActionController::createPushButton(const QString &actionID, const ActionComponents &components, QWidget *parent) {
+    return add(new QPushButton(parent), actionID, components);
 }
 
-QToolButton *ActionController::createToolButton(const QString &actionID, QWidget *parent) {
-    return add(new QToolButton(parent), actionID);
+QToolButton *ActionController::createToolButton(const QString &actionID, const ActionComponents &components, QWidget *parent) {
+    return add(new QToolButton(parent), actionID, components);
 }
 
-QCommandLinkButton *ActionController::createCommandLinkButton(const QString &actionID, QWidget *parent) {
-    return add(new QCommandLinkButton(parent), actionID);
+QCommandLinkButton *ActionController::createCommandLinkButton(const QString &actionID, const ActionComponents &components, QWidget *parent) {
+    return add(new QCommandLinkButton(parent), actionID, components);
 }
 
 void ActionController::onIconSetChanged() {
     for(QAction *action : _actions.keys()) {
-        QString actionID = _actions[action];
+        if(!_actions[action].second.testFlag(IconComponent))
+            continue;
+
+        QString actionID = _actions[action].first;
         ActionConfig actionConfig = ActionManager::item(actionID);
         action->setIcon(IconController::icon(actionConfig.icon));
     }
 
     for(QMenu *menu : _menus.keys()) {
-        QString actionID = _menus[menu];
+        if(!_menus[menu].second.testFlag(IconComponent))
+            continue;
+
+        QString actionID = _menus[menu].first;
         ActionConfig actionConfig = ActionManager::item(actionID);
         menu->setIcon(IconController::icon(actionConfig.icon));
     }
 
     for(QAbstractButton *button : _buttons.keys()) {
-        QString actionID = _buttons[button];
+        if(!_buttons[button].second.testFlag(IconComponent))
+            continue;
+
+        QString actionID = _buttons[button].first;
         ActionConfig actionConfig = ActionManager::item(actionID);
         button->setIcon(IconController::icon(actionConfig.icon));
     }
@@ -52,7 +61,7 @@ void ActionController::onIconSetChanged() {
 
 void ActionController::onActionShortcutChanged(const QString &keyboardShortcutID, const QKeySequence shortcut) {
     for(QAction *action : _actions.keys()) {
-        if(_actions.value(action) != keyboardShortcutID)
+        if(_actions[action].first != keyboardShortcutID || !_actions[action].second.testFlag(ShortcutComponent))
             continue;
 
         if(action->shortcut() != shortcut)
@@ -60,7 +69,7 @@ void ActionController::onActionShortcutChanged(const QString &keyboardShortcutID
     }
 
     for(QAbstractButton *button : _buttons.keys()) {
-        if(_buttons.value(button) != keyboardShortcutID)
+        if(_buttons[button].first != keyboardShortcutID || !_buttons[button].second.testFlag(ShortcutComponent))
             continue;
 
         if(button->shortcut() != shortcut)
