@@ -1,8 +1,8 @@
 [
     {
         "id": "project.new",
-        "icon": ":/Icons/classic/file-blank.ico",
         "defaultKeyboardShortcut": "standard:6",
+        "icon": "file-blank",
         "description": {
             "object": "translated_string",
             "en_US" : "New Project",
@@ -11,8 +11,8 @@
     },
     {
         "id": "project.open",
-        "icon": ":/Icons/classic/folder-open.ico",
         "defaultKeyboardShortcut": "standard:3",
+        "icon": "folder-open",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Project",
@@ -21,8 +21,8 @@
     },
     {
         "id": "project.save",
-        "icon": ":/Icons/classic/floppy-disk.ico",
         "defaultKeyboardShortcut": "standard:5",
+        "icon": "floppy-disk",
         "description": {
             "object": "translated_string",
             "en_US" : "Save Project",
@@ -31,8 +31,8 @@
     },
     {
         "id": "project.saveAs",
-        "icon": ":/Icons/classic/floppy-disk.ico",
         "defaultKeyboardShortcut": "standard:63",
+        "icon": "floppy-disk",
         "description": {
             "object": "translated_string",
             "en_US" : "Save Project As",
@@ -41,8 +41,8 @@
     },
     {
         "id": "project.close",
-        "icon": ":/Icons/classic/file-close.ico",
         "defaultKeyboardShortcut": "standard:4",
+        "icon": "file-close",
         "description": {
             "object": "translated_string",
             "en_US" : "Close Project",
@@ -51,8 +51,8 @@
     },
     {
         "id": "project.settings.open",
-        "icon": ":/Icons/classic/file-gear.ico",
         "defaultKeyboardShortcut": "Ctrl+Shift+,",
+        "icon": "file-gear",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Project Settings",
@@ -61,8 +61,8 @@
     },
     {
         "id": "application.quit",
-        "icon": ":/Icons/classic/circle-xmark.ico",
         "defaultKeyboardShortcut": ["standard:65", "Ctrl+Q"],
+        "icon": "circle-xmark",
         "description": {
             "object": "translated_string",
             "en_US" : "Quit Application",
@@ -71,8 +71,8 @@
     },
     {
         "id": "application.preferences.open",
-        "icon": ":/Icons/classic/gear.ico",
         "defaultKeyboardShortcut": ["standard:64", "Ctrl+,"],
+        "icon": "gear",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Preferences",
@@ -81,8 +81,8 @@
     },
     {
         "id": "application.preferences.keyboardShortcuts.focusSearch",
-        "icon": ":/Icons/classic/keyboard.ico",
         "defaultKeyboardShortcut": "standard:22",
+        "icon": "keyboard",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: focus searchbar",
@@ -91,8 +91,8 @@
     },
     {
         "id": "application.preferences.keyboardShortcuts.restoreDefaultShortcut",
-        "icon": ":/Icons/classic/undo.ico",
         "defaultKeyboardShortcut": "",
+        "icon": "undo",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Restore default shortcut",
@@ -101,8 +101,8 @@
     },
     {
         "id": "application.preferences.keyboardShortcuts.removeShortcut",
-        "icon": ":/Icons/classic/xmark.ico",
         "defaultKeyboardShortcut": "",
+        "icon": "xmark",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Remove shortcut",
@@ -111,8 +111,8 @@
     },
     {
         "id": "application.preferences.keyboardShortcuts.copyID",
-        "icon": ":/Icons/classic/clone.ico",
         "defaultKeyboardShortcut": "standard:9",
+        "icon": "clone",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Copy ID",
@@ -121,8 +121,8 @@
     },
     {
         "id": "application.preferences.keyboardShortcuts.showOnlyModified",
-        "icon": ":/Icons/classic/pen.ico",
         "defaultKeyboardShortcut": "",
+        "icon": "pen",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Show only modified",
@@ -131,8 +131,8 @@
     },
     {
         "id": "application.preferences.keyboardShortcuts.import",
-        "icon": ":/Icons/classic/file-import.ico",
         "defaultKeyboardShortcut": "Ctrl+I",
+        "icon": "file-import",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Import",
@@ -141,8 +141,8 @@
     },
     {
         "id": "application.preferences.keyboardShortcuts.export",
-        "icon": ":/Icons/classic/file-export.ico",
         "defaultKeyboardShortcut": "Ctrl+E",
+        "icon": "file-export",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Export",
@@ -151,8 +151,8 @@
     },
     {
         "id": "application.preferences.keyboardShortcuts.resetAll",
-        "icon": ":/Icons/classic/undo.ico",
         "defaultKeyboardShortcut": "",
+        "icon": "undo",
         "description": {
             "object": "translated_string",
             "en_US" : "Preferences - Keyboard Shortcuts: Rest all",
@@ -161,8 +161,8 @@
     },
     {
         "id": "application.configuration.open",
-        "icon": ":/Icons/classic/gear.ico",
         "defaultKeyboardShortcut": "Ctrl+Alt+,",
+        "icon": "gear",
         "description": {
             "object": "translated_string",
             "en_US" : "Open Configuration",
@@ -171,8 +171,8 @@
     },
     {
         "id": "application.configuration.reload",
-        "icon": ":/Icons/classic/rotate.ico",
         "defaultKeyboardShortcut": "standard:15",
+        "icon": "rotate",
         "description": {
             "object": "translated_string",
             "en_US" : "Reload Configuration",
@@ -181,8 +181,8 @@
     },
     {
         "id": "application.configuration.key.delete",
-        "icon": ":/Icons/classic/xmark.ico",
         "defaultKeyboardShortcut": "standard:7",
+        "icon": "xmark",
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: Delete Key",
@@ -191,8 +191,8 @@
     },
     {
         "id": "application.configuration.key.restoreDefault",
-        "icon": ":/Icons/classic/undo.ico",
         "defaultKeyboardShortcut": "",
+        "icon": "undo",
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: restore default value",
@@ -201,8 +201,8 @@
     },
     {
         "id": "application.configuration.key.copyID",
-        "icon": ":/Icons/classic/clone.ico",
         "defaultKeyboardShortcut": "standard:9",
+        "icon": "clone",
         "description": {
             "object": "translated_string",
             "en_US" : "Configuration: Copy ID",
@@ -211,8 +211,8 @@
     },
     {
         "id": "edit.undo",
-        "icon": ":/Icons/classic/undo.ico",
         "defaultKeyboardShortcut": "standard:11",
+        "icon": "undo",
         "description": {
             "object": "translated_string",
             "en_US" : "Undo",
@@ -221,8 +221,8 @@
     },
     {
         "id": "edit.redo",
-        "icon": ":/Icons/classic/redo.ico",
         "defaultKeyboardShortcut": "standard:12",
+        "icon": "redo",
         "description": {
             "object": "translated_string",
             "en_US" : "Redo",
@@ -231,8 +231,8 @@
     },
     {
         "id": "view.docks.welcome.toggle",
-        "icon": ":/Icons/classic/house.ico",
         "defaultKeyboardShortcut": "Alt+W",
+        "icon": "house",
         "description": {
             "object": "translated_string",
             "en_US" : "Show/hide dock: Welcome",
@@ -241,8 +241,8 @@
     },
     {
         "id": "view.docks.busstops.toggle",
-        "icon": ":/Icons/classic/busstop.ico",
         "defaultKeyboardShortcut": "Alt+B",
+        "icon": "busstop",
         "description": {
             "object": "translated_string",
             "en_US" : "Show/hide dock: Busstops",
@@ -251,8 +251,8 @@
     },
     {
         "id": "view.workspaces.home.activate",
-        "icon": ":/Icons/classic/house.ico",
         "defaultKeyboardShortcut": "Alt+1",
+        "icon": "house",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Home",
@@ -261,8 +261,8 @@
     },
     {
         "id": "view.workspaces.routing.activate",
-        "icon": ":/Icons/classic/route.ico",
         "defaultKeyboardShortcut": "Alt+2",
+        "icon": "route",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Routing",
@@ -271,8 +271,8 @@
     },
     {
         "id": "view.workspaces.scheduling.activate",
-        "icon": ":/Icons/classic/schedule-table.ico",
         "defaultKeyboardShortcut": "Alt+3",
+        "icon": "schedule-table",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Scheduling",
@@ -281,8 +281,8 @@
     },
     {
         "id": "view.workspaces.tours.activate",
-        "icon": ":/Icons/classic/clipboard.ico",
         "defaultKeyboardShortcut": "Alt+4",
+        "icon": "clipboard",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Tours",
@@ -291,8 +291,8 @@
     },
     {
         "id": "view.workspaces.publish.activate",
-        "icon": ":/Icons/classic/globe.ico",
         "defaultKeyboardShortcut": "Alt+5",
+        "icon": "globe",
         "description": {
             "object": "translated_string",
             "en_US" : "Switch to workspace: Publish",
@@ -301,8 +301,8 @@
     },
     {
         "id": "view.workspaces.restoreDefaultLayout",
-        "icon": ":/Icons/classic/undo.ico",
         "defaultKeyboardShortcut": "Alt+X",
+        "icon": "undo",
         "description": {
             "object": "translated_string",
             "en_US" : "Current Workspace: restore default layout",
@@ -311,8 +311,8 @@
     },
     {
         "id": "variantEditor.listItem.add",
-        "icon": ":/Icons/classic/plus.ico",
         "defaultKeyboardShortcut": "Ctrl++",
+        "icon": "plus",
         "description": {
             "object": "translated_string",
             "en_US" : "Add List Item",
@@ -321,8 +321,8 @@
     },
     {
         "id": "variantEditor.listItem.edit",
-        "icon": ":/Icons/classic/pen.ico",
         "defaultKeyboardShortcut": "F2",
+        "icon": "pen",
         "description": {
             "object": "translated_string",
             "en_US" : "Edit List Item",
@@ -331,8 +331,8 @@
     },
     {
         "id": "variantEditor.listItem.delete",
-        "icon": ":/Icons/classic/xmark.ico",
         "defaultKeyboardShortcut": "Del",
+        "icon": "xmark",
         "description": {
             "object": "translated_string",
             "en_US" : "Delete List Item",
@@ -341,8 +341,8 @@
     },
     {
         "id": "variantEditor.listItem.moveUp",
-        "icon": ":/Icons/classic/up.ico",
         "defaultKeyboardShortcut": "Alt+Up",
+        "icon": "up",
         "description": {
             "object": "translated_string",
             "en_US" : "Move List Item Up",
@@ -351,8 +351,8 @@
     },
     {
         "id": "variantEditor.listItem.moveDown",
-        "icon": ":/Icons/classic/down.ico",
         "defaultKeyboardShortcut": "Alt+Down",
+        "icon": "down",
         "description": {
             "object": "translated_string",
             "en_US" : "Move List Item Down",
@@ -361,8 +361,8 @@
     },
     {
         "id": "variantEditor.listItem.delete",
-        "icon": ":/Icons/classic/xmark.ico",
         "defaultKeyboardShortcut": "Del",
+        "icon": "xmark",
         "description": {
             "object": "translated_string",
             "en_US" : "Delete List Item",
