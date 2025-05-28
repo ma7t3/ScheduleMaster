@@ -358,15 +358,5 @@
             "en_US" : "Move List Item Down",
             "de_DE" : "Listenelement nach unten bewegen"
         }
-    },
-    {
-        "id": "variantEditor.listItem.delete",
-        "defaultKeyboardShortcut": "Del",
-        "icon": "xmark",
-        "description": {
-            "object": "translated_string",
-            "en_US" : "Delete List Item",
-            "de_DE" : "Listenelement löschen"
-        }
     }
 ]
