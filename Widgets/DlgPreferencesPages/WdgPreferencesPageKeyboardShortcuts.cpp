@@ -42,6 +42,9 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     ActionController::add(_resetAllAction,               "application.preferences.keyboardShortcuts.resetAll");
     ActionController::add(_focusSearchAction,            "application.preferences.keyboardShortcuts.focusSearch");
 
+    ActionController::add(ui->tbID,                      "application.preferences.keyboardShortcuts.copyID", ActionController::AllExceptShortcutComponent);
+    ActionController::add(ui->tbRestoreDefault,          "application.preferences.keyboardShortcuts.restoreDefaultShortcut", ActionController::AllExceptShortcutComponent);
+
     QMenu *actionsMenu = new QMenu(ui->tbActions);
     actionsMenu->addAction(_showOnlyModifiedAction);
     actionsMenu->addSeparator();
