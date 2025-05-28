@@ -386,6 +386,11 @@
         "text": {
             "object": "translated_string",
             "en_US" : "Redo",
+            "de_DE" : "Wiederholen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Redo",
             "de_DE" : "Wiederholen (\"Vorgängig\")"
         },
         "defaultKeyboardShortcut": "standard:12"
