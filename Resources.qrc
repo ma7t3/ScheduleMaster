@@ -24,7 +24,6 @@
         <file>Icons/classic/miscallenous.ico</file>
         <file>Icons/classic/clock.ico</file>
         <file>Icons/classic/busstop-important.ico</file>
-        <file>Icons/classic/info.ico</file>
         <file>Icons/classic/files-stack.ico</file>
         <file>Icons/classic/bus.ico</file>
         <file>Icons/classic/book-manual.ico</file>
@@ -75,5 +74,55 @@
         <file>Config/Docks/base.json</file>
         <file>Config/Workspaces/base.json</file>
         <file>Config/IconSets/base.json</file>
+        <file>Icons/fontawesome.6.normal/bars.svg</file>
+        <file>Icons/fontawesome.6.normal/book.svg</file>
+        <file>Icons/fontawesome.6.normal/book-manual.svg</file>
+        <file>Icons/fontawesome.6.normal/bug.svg</file>
+        <file>Icons/fontawesome.6.normal/bus.svg</file>
+        <file>Icons/fontawesome.6.normal/busstop.svg</file>
+        <file>Icons/fontawesome.6.normal/busstop-important.svg</file>
+        <file>Icons/fontawesome.6.normal/circle-check.svg</file>
+        <file>Icons/fontawesome.6.normal/circle-info.svg</file>
+        <file>Icons/fontawesome.6.normal/circlerotate.svg</file>
+        <file>Icons/fontawesome.6.normal/circle-xmark.svg</file>
+        <file>Icons/fontawesome.6.normal/clipboard.svg</file>
+        <file>Icons/fontawesome.6.normal/clock.svg</file>
+        <file>Icons/fontawesome.6.normal/clone.svg</file>
+        <file>Icons/fontawesome.6.normal/down.svg</file>
+        <file>Icons/fontawesome.6.normal/download.svg</file>
+        <file>Icons/fontawesome.6.normal/file.svg</file>
+        <file>Icons/fontawesome.6.normal/file-blank.svg</file>
+        <file>Icons/fontawesome.6.normal/file-circle-info.svg</file>
+        <file>Icons/fontawesome.6.normal/file-export.svg</file>
+        <file>Icons/fontawesome.6.normal/file-gear.svg</file>
+        <file>Icons/fontawesome.6.normal/file-import.svg</file>
+        <file>Icons/fontawesome.6.normal/file-letter.svg</file>
+        <file>Icons/fontawesome.6.normal/files-stack.svg</file>
+        <file>Icons/fontawesome.6.normal/floppy-disk.svg</file>
+        <file>Icons/fontawesome.6.normal/folder-open.svg</file>
+        <file>Icons/fontawesome.6.normal/gear.svg</file>
+        <file>Icons/fontawesome.6.normal/globe.svg</file>
+        <file>Icons/fontawesome.6.normal/house.svg</file>
+        <file>Icons/fontawesome.6.normal/keyboard.svg</file>
+        <file>Icons/fontawesome.6.normal/layer-group.svg</file>
+        <file>Icons/fontawesome.6.normal/minus.svg</file>
+        <file>Icons/fontawesome.6.normal/miscallenous.svg</file>
+        <file>Icons/fontawesome.6.normal/pen.svg</file>
+        <file>Icons/fontawesome.6.normal/plus.svg</file>
+        <file>Icons/fontawesome.6.normal/puzzle-piece.svg</file>
+        <file>Icons/fontawesome.6.normal/redo.svg</file>
+        <file>Icons/fontawesome.6.normal/reverse.svg</file>
+        <file>Icons/fontawesome.6.normal/rotate.svg</file>
+        <file>Icons/fontawesome.6.normal/route.svg</file>
+        <file>Icons/fontawesome.6.normal/schedule-busstop.svg</file>
+        <file>Icons/fontawesome.6.normal/schedule-table.svg</file>
+        <file>Icons/fontawesome.6.normal/sun-moon.svg</file>
+        <file>Icons/fontawesome.6.normal/triangle-exclamation.svg</file>
+        <file>Icons/fontawesome.6.normal/undo.svg</file>
+        <file>Icons/fontawesome.6.normal/undo-redo.svg</file>
+        <file>Icons/fontawesome.6.normal/up.svg</file>
+        <file>Icons/fontawesome.6.normal/window-restore.svg</file>
+        <file>Icons/fontawesome.6.normal/xmark.svg</file>
+        <file>Icons/fontawesome.6.normal/file-close.svg</file>
     </qresource>
 </RCC>
