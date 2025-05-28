@@ -1,6 +1,8 @@
 #include "WdgPreferencesPageDebug.h"
 #include "ui_WdgPreferencesPageDebug.h"
 
+#include "Global/IconController.h"
+
 WdgPreferencesPageDebug::WdgPreferencesPageDebug(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageDebug) {
@@ -34,5 +36,5 @@ QString WdgPreferencesPageDebug::name() {
 }
 
 QIcon WdgPreferencesPageDebug::icon() {
-    return QIcon(":/Icons/classic/bug.ico");
+    return IconController::icon("bug");
 }

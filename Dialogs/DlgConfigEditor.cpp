@@ -61,6 +61,10 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     connect(ui->pbReload,                   &QPushButton::clicked,                   _model,               &LocalConfigModel::reload);
     connect(reloadAction,                   &QAction::triggered,                     _model,               &LocalConfigModel::reload);
 
+    ActionController::add(ui->pbReload, "application.configuration.reload");
+    ActionController::add(ui->pbCopyID, "application.configuration.key.copyID");
+    ActionController::add(ui->pbRestoreDefault, "application.configuration.key.restoreDefault");
+
     ui->treeView->setCurrentIndex(QModelIndex());
     onSelectionChanged();
 }

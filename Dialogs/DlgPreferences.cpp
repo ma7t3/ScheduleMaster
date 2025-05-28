@@ -12,6 +12,8 @@
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
 
+#include "Global/IconController.h"
+
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QListWidgetItem>
@@ -48,6 +50,8 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     connect(ui->pbConfigEditor, &QPushButton::clicked,                 this, &DlgPreferences::openConfigEditor);
     connect(home, &WdgPreferencesPageHome::openPageRequested,          this, &DlgPreferences::setCurrentPage);
     connect(home, &WdgPreferencesPageHome::openConfigEditorRequested,  this, &DlgPreferences::openConfigEditor);
+
+    connect(IconController::instance(), &IconController::currentIconSetChanged, this, &DlgPreferences::onIconSetChanged);
 }
 
 DlgPreferences::~DlgPreferences() {
@@ -144,6 +148,13 @@ void DlgPreferences::on_lwList_currentItemChanged(QListWidgetItem *current,
     ui->swContent->setCurrentIndex(ui->lwList->row(current));
     ui->lTitle->setText(current->text());
     ui->lTitleIcon->setPixmap(current->icon().pixmap(28, 28));
+}
+
+void DlgPreferences::onIconSetChanged() {
+    for(int i = 0; i < _pages.count(); i++)
+        ui->lwList->item(i)->setIcon(_pages[i]->icon());
+
+    ui->lTitleIcon->setPixmap(ui->lwList->currentItem()->icon().pixmap(28, 28));
 }
 
 void DlgPreferences::accept() {

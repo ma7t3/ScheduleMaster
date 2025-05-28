@@ -3,6 +3,7 @@
 
 #include "Global/LanguageManager.h"
 #include "Global/StyleManager.h"
+#include "Global/IconController.h"
 #include "ItemModels/LanguagesModel.h"
 #include "ItemModels/StylesModel.h"
 
@@ -19,6 +20,9 @@ WdgPreferencesPageHome::WdgPreferencesPageHome(QWidget *parent) :
     connect(ui->cbLanguage, &QComboBox::activated, this, &WdgPreferencesPageHome::languageIndexChanged);
     connect(ui->cbStyle,    &QComboBox::activated, this, &WdgPreferencesPageHome::styleIndexChanged);
     reloadPreferences();
+
+    connect(IconController::instance(), &IconController::currentIconSetChanged, this, &WdgPreferencesPageHome::setBoxIcons);
+    setBoxIcons();
 }
 
 WdgPreferencesPageHome::~WdgPreferencesPageHome() {
@@ -48,7 +52,7 @@ QString WdgPreferencesPageHome::name() {
 }
 
 QIcon WdgPreferencesPageHome::icon() {
-    return QIcon(":/Icons/classic/house.ico");
+    return IconController::icon("house");
 }
 
 void WdgPreferencesPageHome::setLanguageIndex(const int &index) {
@@ -77,6 +81,16 @@ void WdgPreferencesPageHome::on_clbPluginManager_clicked() {
 
 void WdgPreferencesPageHome::on_clbAppearance_clicked() {
     emit openPageRequested("base.appearance");
+}
+
+void WdgPreferencesPageHome::setBoxIcons() {
+    ui->lTitleIconLanguage->setPixmap(IconController::icon("gear").pixmap(24, 24));
+    ui->lTitleIconUpdates->setPixmap(IconController::icon("circle-rotate").pixmap(24, 24));
+    ui->lTitleIconTheme->setPixmap(IconController::icon("sun-moon").pixmap(24, 24));
+    ui->lTitleIconPlugins->setPixmap(IconController::icon("puzzle-piece").pixmap(24, 24));
+    ui->lTitleIconKeyboardShortcuts->setPixmap(IconController::icon("keyboard").pixmap(24, 24));
+    ui->lTitleIconAbout->setPixmap(IconController::icon("circle-info").pixmap(24, 24));
+    ui->lTitleIconTroubleshootingDebugging->setPixmap(IconController::icon("bug").pixmap(24, 24));
 }
 
 void WdgPreferencesPageHome::on_clbOpenLogfileLocation_clicked() {
