@@ -43,5 +43,4 @@ void IconSetsModel::reload() {
     beginResetModel();
     _iconSets = IconSetManager::items();
     endResetModel();
-    qDebug() << _iconSets.count();
 }
