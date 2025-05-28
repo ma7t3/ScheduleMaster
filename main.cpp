@@ -10,6 +10,7 @@
 
 #include "Global/Logger.h"
 #include "Global/SettingsManager.h"
+#include "Global/ActionController.h"
 #include "Global/ActionShortcutMapper.h"
 #include "Global/StyleHandler.h"
 #include "Global/StyleManager.h"
@@ -86,6 +87,7 @@ int main(int argc, char *argv[]) {
     WorkspaceManager::init();
 
     IconController::init();
+    ActionController::init();
 
     splashscreen.showMessage(QObject::tr("Init shortcut mapper..."), Qt::AlignBottom, ssConfig.first);
     ActionShortcutMapper::init();

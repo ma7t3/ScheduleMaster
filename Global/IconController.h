@@ -28,6 +28,7 @@ protected slots:
     static QString createFilePath(const QString &iconID, const IconSetConfig &config);
 
 signals:
+    void currentIconSetChanged(const QString &iconSetID);
 
 private:
     static inline QString _currentIconSetID;
