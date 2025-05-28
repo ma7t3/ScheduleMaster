@@ -31,7 +31,7 @@ WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     connect(ui->cbLogfileMode,     &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
 
     ActionController::add(ui->tbLogfileLocation, "application.preferences.general.openLogfileLocation");
-    ActionController::add(openLogfileAction, "application.preferences.general.openCurrentLogfile");
+    ActionController::add(openLogfileAction,     "application.preferences.general.openCurrentLogfile");
 }
 
 WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {

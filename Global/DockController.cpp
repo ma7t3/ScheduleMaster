@@ -17,7 +17,6 @@ void DockController::addDock(const DockConfig &dock, QWidget *contentWidget) {
 
     QAction *toggleAction = dockWidget->toggleViewAction();
     QString actionText = toggleAction->text();
-    toggleAction->setIcon(QIcon(dock.icon)); // FIXME: Icon will be overwritten by the ActionController
     ActionController::add(toggleAction, QString("view.docks.%1.toggle").arg(dock.id()));
     toggleAction->setText(actionText);
     _dockToggleActions.insert(dock.id(), toggleAction);

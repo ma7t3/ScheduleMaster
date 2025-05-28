@@ -23,19 +23,20 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     _restoreDefaultAction = ui->treeView->addAction("");
     _deleteAction         = ui->treeView->addAction("");
     _copyIDAction         = ui->treeView->addAction("");
-    QAction *test = ui->treeView->addAction("");
-    test->setSeparator(true);
-    QAction *reloadAction = ui->treeView->addAction(QIcon(":/Icons/classic/rotate.ico"),    tr("Reload"));
+    QAction *seperator = ui->treeView->addAction("");
+    seperator->setSeparator(true);
 
     ActionController::add(_restoreDefaultAction, "application.configuration.key.restoreDefault");
     ActionController::add(_deleteAction,         "application.configuration.key.delete");
     ActionController::add(_copyIDAction,         "application.configuration.key.copyID");
-    ActionController::add(reloadAction,          "application.configuration.reload");
+
+    ActionController::add(ui->pbReload,          "application.configuration.reload");
+    ActionController::add(ui->pbCopyID,          "application.configuration.key.copyID",         ActionController::AllExceptShortcutComponent);
+    ActionController::add(ui->pbRestoreDefault,  "application.configuration.key.restoreDefault", ActionController::AllExceptShortcutComponent);
 
     _restoreDefaultAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     _deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     _copyIDAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    reloadAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
     ui->treeView->setContextMenuPolicy(Qt::ActionsContextMenu);
 
@@ -59,11 +60,6 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     connect(_model,                         &QAbstractItemModel::modelReset,         this,                 &DlgConfigEditor::onSelectionChanged);
 
     connect(ui->pbReload,                   &QPushButton::clicked,                   _model,               &LocalConfigModel::reload);
-    connect(reloadAction,                   &QAction::triggered,                     _model,               &LocalConfigModel::reload);
-
-    ActionController::add(ui->pbReload, "application.configuration.reload");
-    ActionController::add(ui->pbCopyID, "application.configuration.key.copyID");
-    ActionController::add(ui->pbRestoreDefault, "application.configuration.key.restoreDefault");
 
     ui->treeView->setCurrentIndex(QModelIndex());
     onSelectionChanged();
