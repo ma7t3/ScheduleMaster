@@ -19,7 +19,7 @@ void IconController::init() {
 void IconController::applyIconSet(const QString &iconSetID) {
     _currentIconSetID = iconSetID;
     qDebug() << "iconSet set to " << iconSetID;
-    // FIXME
+    emit instance()->currentIconSetChanged(iconSetID);
 }
 
 QIcon IconController::icon(const QString &iconID) {
