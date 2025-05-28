@@ -7,7 +7,7 @@ KeyboardShortcutConfig::KeyboardShortcutConfig(const QJsonObject &jsonObject, co
     description = jsonObject.value("description").toString(id());
     icon        = jsonObject.value("icon").toString();
 
-    QJsonValue defaultValue = jsonObject.value("default");
+    QJsonValue defaultValue = jsonObject.value("defaultKeyboardShortcut");
     QStringList defaultValues;
 
     if(defaultValue.isArray())
