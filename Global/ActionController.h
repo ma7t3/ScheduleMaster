@@ -10,20 +10,12 @@
 #include "IconController.h"
 
 struct GlobalActionWrapper {
-    GlobalActionWrapper(QObject *widget = nullptr) : widget(widget) {}
+    GlobalActionWrapper(QObject *widget = nullptr);
 
-    void execute() {
-        QAction *action = qobject_cast<QAction *>(widget);
-        QAbstractButton *button = qobject_cast<QAbstractButton *>(widget);
-
-        if(action)
-            action->trigger();
-
-        if(button)
-            button->click();
-    }
+    void execute();
 
     QObject *widget;
+    QKeySequence shortcut;
 };
 
 class ActionController : public QObject {
@@ -141,25 +133,10 @@ public:
 
     static QStringList globalActionIDs();
 
-    template <typename T>
-    static void setGlobalAction(const QString &actionID, T *widget) {
-        qDebug() << "insert action" << actionID;
+    static GlobalActionWrapper globalAction(const QString &actionID);
 
-        if(_globalActions.contains(actionID))
-            instance()->disconnect(qobject_cast<QObject *>(_globalActions[actionID].widget));
+    static void setGlobalAction(const QString &actionID, QObject *widget);
 
-        _globalActions.insert(actionID, widget);
-        connect(widget, &QObject::destroyed, instance(), [actionID](){ _globalActions.remove(actionID); });
-    }
-
-    static void executeGlobalAction(const QString &actionID) {
-        if(!_globalActions.contains(actionID)) {
-            qWarning() << "Global action" << actionID << "not found.";
-            return;
-        }
-
-        _globalActions[actionID].execute();
-    }
 
 protected slots:
     void onIconSetChanged();

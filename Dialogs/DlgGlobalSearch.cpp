@@ -17,6 +17,8 @@ DlgGlobalSearch::DlgGlobalSearch(QWidget *parent) : QWidget(parent),
 
     connect(ui->leSearch, &QLineEdit::textChanged, this, &DlgGlobalSearch::updateResults);
     connect(ui->listWidget, &QListWidget::itemActivated, this, &DlgGlobalSearch::onItemActivated);
+
+    connect(ui->listWidget, &QListWidget::itemSelectionChanged, this, &DlgGlobalSearch::onItemSelectionChanged);
 }
 
 DlgGlobalSearch::~DlgGlobalSearch() {
@@ -106,6 +108,17 @@ void DlgGlobalSearch::activateSelectedItem() {
 
 void DlgGlobalSearch::onItemActivated(QListWidgetItem *item) {
     QString id = item->data(Qt::UserRole).toString();
-    ActionController::executeGlobalAction(id);
+    ActionController::globalAction(id).execute();
     close();
+}
+
+void DlgGlobalSearch::onItemSelectionChanged() {
+    for (int i = 0; i < ui->listWidget->count(); ++i) {
+        QListWidgetItem* item = ui->listWidget->item(i);
+        QWidget* widget = ui->listWidget->itemWidget(item);
+
+        if (auto* searchItem = qobject_cast<WdgGlobalSearchItem*>(widget)) {
+            searchItem->setSelected(item->isSelected());
+        }
+    }
 }

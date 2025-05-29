@@ -16,6 +16,8 @@ public:
     explicit WdgGlobalSearchItem(const ActionConfig &actionConfig, QWidget *parent = nullptr);
     ~WdgGlobalSearchItem();
 
+    void setSelected(const bool &selected);
+
     void setAction(const ActionConfig &actionConfig);
 
 private:
