@@ -52,7 +52,7 @@
             "en_US" : "File",
             "de_DE" : "Datei"
         },
-        "defaultKeyboardShortcut": "Ctrl+R"
+        "defaultKeyboardShortcut": "Ctrl+Shift+O"
     },
     {
         "id": "project.recentFiles.openItem",
