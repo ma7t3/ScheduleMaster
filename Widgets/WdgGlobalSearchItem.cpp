@@ -13,4 +13,5 @@ WdgGlobalSearchItem::~WdgGlobalSearchItem() {
 void WdgGlobalSearchItem::setAction(const ActionConfig &actionConfig) {
     ui->lText->setText(actionConfig.description);
     ui->lBreadcrumb->setText(actionConfig.breadcrumb.join(" > "));
+    ui->lShortcut->setText(ActionManager::keyboardShortcut(actionConfig.id()).toString(QKeySequence::NativeText));
 }
