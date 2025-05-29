@@ -27,6 +27,7 @@ protected slots:
     void navigateList(int direction);
     void activateSelectedItem();
     void onItemActivated(QListWidgetItem *item);
+    void onItemSelectionChanged();
 
 private:
     Ui::DlgGlobalSearch *ui;

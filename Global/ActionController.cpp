@@ -2,6 +2,30 @@
 
 #include "Global/StyleHandler.h"
 
+void GlobalActionWrapper::execute() {
+    QAction *action = qobject_cast<QAction *>(widget);
+    QAbstractButton *button = qobject_cast<QAbstractButton *>(widget);
+
+    if (action)
+        action->trigger();
+
+    if (button)
+        button->click();
+}
+GlobalActionWrapper::GlobalActionWrapper(QObject *widget) : widget(widget) {
+    if (widget) {
+        QAction *action = qobject_cast<QAction *>(widget);
+        QAbstractButton *button = qobject_cast<QAbstractButton *>(widget);
+
+        if (action)
+            shortcut = action->shortcut();
+
+        if (button)
+            shortcut = button->shortcut();
+    }
+}
+
+
 ActionController::ActionController(QObject *parent) : QObject(parent) {
     connect(IconController::instance(), &IconController::currentIconSetChanged, this, &ActionController::onIconSetChanged);
     connect(StyleHandler::instance(), &StyleHandler::styleChanged, this, &ActionController::onIconSetChanged);
@@ -82,6 +106,9 @@ void ActionController::onActionShortcutChanged(const QString &keyboardShortcutID
         if(button->shortcut() != shortcut)
             button->setShortcut(shortcut);
     }
+
+    if(_globalActions.contains(keyboardShortcutID))
+        _globalActions[keyboardShortcutID].shortcut = shortcut;
 }
 
 
@@ -93,4 +120,18 @@ T *ActionController::remove(T *widget) {
 
     else if constexpr(std::is_base_of<QAction, T>::value)
         _actions.remove(widget);
+}
+
+void ActionController::setGlobalAction(const QString &actionID, QObject *widget) {
+    if (_globalActions.contains(actionID))
+        instance()->disconnect(qobject_cast<QObject *>(_globalActions[actionID].widget));
+
+    _globalActions.insert(actionID, widget);
+    connect(widget, &QObject::destroyed, instance(), [actionID]() {
+        _globalActions.remove(actionID);
+    });
+}
+
+GlobalActionWrapper ActionController::globalAction(const QString &actionID) {
+    return _globalActions.value(actionID);
 }
