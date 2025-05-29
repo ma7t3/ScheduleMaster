@@ -7,8 +7,8 @@
 #include <QToolBar>
 
 WorkspaceHandler::WorkspaceHandler(QObject *parent) : QObject(parent), _workspacesMenu(nullptr), _workspacesToolbar(nullptr) {
-    _restoreLayoutAction = new QAction(QIcon(":/Icons/classic/undo.ico"), tr("Restore default layout"), this);
-    ActionController::add(_restoreLayoutAction, "view.workspaces.restoreDefaultLayout");
+    _restoreLayoutAction = new QAction(this);
+    ActionController::addAsGlobalAction(_restoreLayoutAction, "view.workspaces.restoreDefaultLayout");
     connect(_restoreLayoutAction, &QAction::triggered, this, &WorkspaceHandler::restoreCurrentWorkspace);
     loadWorkspaces();
 }
