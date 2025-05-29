@@ -19,9 +19,9 @@ DockWelcome::DockWelcome(QWidget *parent) :
 
     ui->lIcon->setPixmap(QPixmap(":/Icons/ScheduleMaster_64px.ico"));
 
-    _recentFileOpen         = ui->lwRecentProjects->addAction(QPixmap(":/Icons/classic/folder-open.ico"), tr("Open"));
-    _recentFileOpenLocation = ui->lwRecentProjects->addAction(QPixmap(":/Icons/classic/folder-open.ico"), tr("Open Directory"));
-    _recentFileRemove       = ui->lwRecentProjects->addAction(QPixmap(":/Icons/classic/circle-xmark.ico"),     tr("Remove from list"));
+    _recentFileOpen         = ui->lwRecentProjects->addAction("");
+    _recentFileOpenLocation = ui->lwRecentProjects->addAction("");
+    _recentFileRemove       = ui->lwRecentProjects->addAction("");
     ui->lwRecentProjects->setContextMenuPolicy(Qt::ActionsContextMenu);
 
     connect(_recentFileOpen,         &QAction::triggered, this, &DockWelcome::onRecentFileOpen);
@@ -35,12 +35,12 @@ DockWelcome::DockWelcome(QWidget *parent) :
     connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &DockWelcome::openPreferences);
     connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &DockWelcome::quitApplication);
 
-    ActionController::add(ui->clbNewProject,       "project.new", ActionController::IconComponent);
-    ActionController::add(ui->clbOpenProject,      "project.open", ActionController::IconComponent);
-    ActionController::add(ui->clbPlugins,          "application.preferences.plugins.open", ActionController::IconComponent);
-    ActionController::add(ui->clbPreferences,      "application.preferences.open", ActionController::IconComponent);
-    ActionController::add(ui->clbHelp,             "application.help.open", ActionController::IconComponent);
-    ActionController::add(ui->clbQuit,             "application.quit",      ActionController::IconComponent);
+    ActionController::add(ui->clbNewProject,       "project.new",                          ActionController::AllExceptShortcutComponent);
+    ActionController::add(ui->clbOpenProject,      "project.open",                         ActionController::AllExceptShortcutComponent);
+    ActionController::add(ui->clbPlugins,          "application.preferences.plugins.open", ActionController::AllExceptShortcutComponent);
+    ActionController::add(ui->clbPreferences,      "application.preferences.open",         ActionController::AllExceptShortcutComponent);
+    ActionController::add(ui->clbHelp,             "application.help.open",                ActionController::AllExceptShortcutComponent);
+    ActionController::add(ui->clbQuit,             "application.quit",                     ActionController::AllExceptShortcutComponent);
 
     ActionController::add(_recentFileOpen,         "project.recentFiles.openItem");
     ActionController::add(_recentFileOpenLocation, "project.recentFiles.openItemDirectory");
