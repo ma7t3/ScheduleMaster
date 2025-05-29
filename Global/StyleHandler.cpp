@@ -90,6 +90,8 @@ void StyleHandler::applyStyle(const QString &id) {
 
     // re-apply accent color
     applyAccentColor(_currentAccentColor);
+
+    emit instance()->styleChanged(id);
 }
 
 void StyleHandler::applyColorScheme(const Qt::ColorScheme &colorScheme) {
@@ -119,4 +121,6 @@ void StyleHandler::applyAccentColor(const QString &id) {
     }
 
     _currentAccentColor = id;
+
+    emit instance()->accentColorChanged(id);
 }

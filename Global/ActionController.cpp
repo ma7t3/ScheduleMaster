@@ -1,7 +1,10 @@
 #include "ActionController.h"
 
+#include "Global/StyleHandler.h"
+
 ActionController::ActionController(QObject *parent) : QObject(parent) {
     connect(IconController::instance(), &IconController::currentIconSetChanged, this, &ActionController::onIconSetChanged);
+    connect(StyleHandler::instance(), &StyleHandler::styleChanged, this, &ActionController::onIconSetChanged);
     connect(ActionManager::instance(), &ActionManager::keyboardShortcutChanged, this, &ActionController::onActionShortcutChanged);
 }
 
