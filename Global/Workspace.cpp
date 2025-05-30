@@ -126,8 +126,6 @@ void Workspace::restore() {
         for(const float &value : resize.sizes) {
             calculatedSizes << static_cast<int>(value * refSize);
         }
-
-        qDebug() << "resizing:" << calculatedSizes;
         mainWindow()->resizeDocks(currentDocks, calculatedSizes, resize.orientation);
     }
 
