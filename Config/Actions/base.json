@@ -72,7 +72,7 @@
             "en_US" : "File > Recent",
             "de_DE" : "Datei > Zuletzt verwendet"
         },
-        "defaultKeyboardShortcut": ""
+        "defaultKeyboardShortcut": "Return"
     },
     {
         "id": "project.recentFiles.openItemDirectory",
