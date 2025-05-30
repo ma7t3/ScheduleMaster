@@ -80,7 +80,7 @@ private:
     ProjectData *_projectData;
     ProjectFileHandler *_fileHandler;
 
-    QAction *_undoAction, *_redoAction;
+    QAction *_undoAction, *_redoAction, *_openProjectFromFileInRecentFilesMenuAction;
 
     QToolBar *_toolbarGeneral, *_toolbarDocks, *_toolbarWorkspaces;
 

@@ -51,14 +51,14 @@ MainWindow::MainWindow(QWidget *parent) :
     _undoAction = _projectData->undoStack()->createUndoAction(this, tr("Undo"));
     _redoAction = _projectData->undoStack()->createRedoAction(this, tr("Redo"));
 
-    _undoAction->setIcon(QIcon(":/Icons/classic/undo.ico"));
-    _redoAction->setIcon(QIcon(":/Icons/classic/redo.ico"));
-
+    _openProjectFromFileInRecentFilesMenuAction = addAction(tr("Open Project from File"));
+    connect(_openProjectFromFileInRecentFilesMenuAction, &QAction::triggered, ui->actionFileOpenProject, &QAction::trigger);
 
     qDebug() << "   Loading shortcuts...";
 
     ActionController::addAsGlobalAction(ui->actionFileNewProject,      "project.new");
     ActionController::addAsGlobalAction(ui->actionFileOpenProject,     "project.open");
+    ActionController::add(_openProjectFromFileInRecentFilesMenuAction, "project.open", ActionController::IconComponent);
     ActionController::add(ui->menuFileOpenRecent,                      "project.recentFiles");
     QAction *actionShowRecentFilesList = ActionController::addAsGlobalAction(addAction(""), "project.recentFiles");
     ActionController::addAsGlobalAction(ui->actionFileSaveProject,     "project.save");
@@ -201,6 +201,8 @@ void MainWindow::updateRecentProjectsList() {
         connect(action, &QAction::triggered, this, [this, path](){openProjectFromFile(path);});
         i++;
     }
+    menu->addSeparator();
+    menu->addAction(_openProjectFromFileInRecentFilesMenuAction);
 }
 
 void MainWindow::showCrashWarning() {
