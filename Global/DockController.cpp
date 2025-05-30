@@ -24,6 +24,10 @@ void DockController::addDock(const DockConfig &dock, QWidget *contentWidget) {
     emit dockAdded(dock.id(), dockWidget, toggleAction);
 }
 
+QMap<QString, QDockWidget *> DockController::docks() {
+    return _docks;
+}
+
 void DockController::loadStandardDocks() {
     addDock(DockManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
 }
