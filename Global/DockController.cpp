@@ -2,6 +2,7 @@
 
 #include "Global/ActionController.h"
 #include "Widgets/Docks/DockWelcome.h"
+#include "Widgets/Docks/DockNews.h"
 
 #include <QDockWidget>
 
@@ -30,4 +31,5 @@ QMap<QString, QDockWidget *> DockController::docks() {
 
 void DockController::loadStandardDocks() {
     addDock(DockManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
+    addDock(DockManager::item("news"), new DockNews(static_cast<QWidget *>(parent())));
 }
