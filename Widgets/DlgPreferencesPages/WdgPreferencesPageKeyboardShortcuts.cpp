@@ -150,7 +150,8 @@ void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelInde
 
     ui->gbCurrentAction->setVisible(true);
 
-    ui->kseShortcut->setFocus();
+    if(ui->twShortcuts->hasFocus())
+        ui->kseShortcut->setFocus();
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut() {
