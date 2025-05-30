@@ -179,6 +179,9 @@ private:
     /// The workspace's associated QAction that is used to activate the workspace
     QAction *_action;
 
+    /// The workspace layout
+    WorkspaceLayout _layout;
+
     /// The last state of the MainWindow when the workspace was deactivated last
     QByteArray _lastWindowState;
 };

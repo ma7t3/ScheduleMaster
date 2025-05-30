@@ -1,11 +1,18 @@
 #include "Workspace.h"
 
 #include "Global/ActionController.h"
+#include "Global/WorkspaceManager.h"
+#include "Widgets/Docks/DockAbstract.h"
 
+#include "Global/DockController.h"
+
+#include <QApplication>
 #include <QIcon>
 #include <QAction>
 #include <QJsonObject>
 #include <QMainWindow>
+#include <QDockWidget>
+#include <QSplitter>
 
 Workspace::Workspace(const QString &id, QObject *parent) : QObject(parent), _id(id) {
     _action = new QAction(this);
@@ -28,6 +35,7 @@ Workspace::Workspace(const WorkspaceConfig &config, QObject *parent) : QObject(p
     _id   = config.id();
     _name = config.name;
     _icon = config.icon;
+    _layout = config.layout;
     _action = new QAction(_icon, _name, this);
     setupAction();
 }
