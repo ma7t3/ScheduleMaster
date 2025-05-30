@@ -177,5 +177,8 @@
         <file>Icons/classic/magnifying-glass.ico</file>
         <file>Icons/fontawesome.6.normal/magnifying-glass.svg</file>
         <file>Icons/fontawesome.6.colorful/magnifying-glass.svg</file>
+        <file>Icons/fontawesome.6.normal/newspaper.svg</file>
+        <file>Icons/fontawesome.6.colorful/newspaper.svg</file>
+        <file>Icons/classic/newspaper.ico</file>
     </qresource>
 </RCC>
