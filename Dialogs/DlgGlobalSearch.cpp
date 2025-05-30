@@ -95,7 +95,13 @@ void DlgGlobalSearch::navigateList(int direction) {
     if (count == 0)
         return;
 
-    int next = qBound(0, current + direction, count - 1);
+    int next = current + direction;
+    if(next < 0) {
+        next += count;
+    } else if(next >= count) {
+        next -= count;
+    }
+
     ui->listWidget->setCurrentRow(next);
 }
 
