@@ -197,7 +197,10 @@ void MainWindow::updateRecentProjectsList() {
         if(i > 9)
             return;
 
-        QAction *action = menu->addAction(QString::number(i) + ": " + path);
+        QString fileName = QFileInfo(path).fileName();
+
+        QAction *action = menu->addAction(QString::number(i) + ": " + fileName);
+        action->setToolTip(path);
         connect(action, &QAction::triggered, this, [this, path](){openProjectFromFile(path);});
         i++;
     }
