@@ -10,8 +10,7 @@ namespace Ui {
 class DockWelcome;
 }
 
-class DockWelcome : public DockAbstract
-{
+class DockWelcome : public DockAbstract {
     Q_OBJECT
 
 public:

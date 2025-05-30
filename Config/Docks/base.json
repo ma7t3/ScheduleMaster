@@ -6,7 +6,18 @@
             "en_US": "Welcome",
             "de_DE": "Willkommen"
         },
-        "icon": ":/Icons/classic/house.ico"
+        "icon": "house",
+        "defaultKeyboardShortcut": "Alt+W"
+    },
+    {
+        "id": "news",
+        "name": {
+            "object": "translated_string",
+            "en_US": "News",
+            "de_DE": "Neugikeiten"
+        },
+        "icon": "newspaper",
+        "defaultKeyboardShortcut": "Alt+N"
     },
     {
         "id": "busstops",
@@ -15,6 +26,7 @@
             "en_US": "Busstops",
             "de_DE": "Haltestellen"
         },
-        "icon": ":/Icons/classic/busstop.ico"
+        "icon": "busstop",
+        "defaultKeyboardShortcut": "Alt+B"
     }
 ]

@@ -731,36 +731,6 @@
         }
     },
     {
-        "id": "view.docks.welcome.toggle",
-        "icon": "house",
-        "description": {
-            "object": "translated_string",
-            "en_US" : "Show/hide dock: Welcome",
-            "de_DE" : "Dock ein-/ausblenden: Willkommen"
-        },
-        "breadcrumb": {
-            "object": "translated_string",
-            "en_US" : "View > Workspaces",
-            "de_DE" : "Ansicht > Arbeitsbereiche"
-        },
-        "defaultKeyboardShortcut": "Alt+W"
-    },
-    {
-        "id": "view.docks.busstops.toggle",
-        "icon": "busstop",
-        "description": {
-            "object": "translated_string",
-            "en_US" : "Show/hide dock: Busstops",
-            "de_DE" : "Dock ein-/ausblenden: Haltestellen"
-        },
-        "breadcrumb": {
-            "object": "translated_string",
-            "en_US" : "View > Workspaces",
-            "de_DE" : "Ansicht > Arbeitsbereiche"
-        },
-        "defaultKeyboardShortcut": "Alt+B"
-    },
-    {
         "id": "view.workspaces.home.activate",
         "icon": "house",
         "description": {
