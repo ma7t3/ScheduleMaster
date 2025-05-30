@@ -97,7 +97,41 @@ void Workspace::apply() {
 
 void Workspace::restore() {
     _lastWindowState.clear();
-    // TODO: restore default layout
+    QMap<QString, QDockWidget *> docks = DockController::docks();
+    for(QDockWidget *dock : std::as_const(docks))
+        dock->hide();
+
+    for(const WorkspaceDockConfig &config : std::as_const(_layout.dockConfigs)) {
+        QDockWidget *widget = docks.value(config.id());
+        if(!widget) {
+            qWarning() << "Dock with id" << config.id() << "cannot be placed in workspace" << _id << "because it does not exist.";
+            continue;
+        }
+        widget->setDockLocation(config.area);
+        widget->setFloating(config.floating);
+        widget->setVisible(config.visible);
+    }
+
+    for(const WorkspaceResizeConfig &resize : std::as_const(_layout.resizeConfigs)) {
+        int refSize = resize.orientation == Qt::Horizontal ? mainWindow()->width() : mainWindow()->height();
+        QList<QDockWidget *> currentDocks;
+        for(const QString &dockID : std::as_const(resize.dockIDs)) {
+            QDockWidget *dock = docks.value(dockID);
+            if(!dock)
+                continue;
+
+            currentDocks << dock;
+        }
+
+        QList<int> calculatedSizes;
+        for(const float &value : resize.sizes) {
+            calculatedSizes << static_cast<int>(value * refSize);
+        }
+
+        qDebug() << "resizing:" << calculatedSizes;
+        mainWindow()->resizeDocks(currentDocks, calculatedSizes, resize.orientation);
+    }
+
     emit restored(this);
 }
 
