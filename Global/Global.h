@@ -20,6 +20,8 @@ public:
 
     static void blockSignalsRecursive(QObject *object, const bool &block);
 
+    static QKeySequence parseKeyboardShortcutConfigString(const QJsonValue &value);
+
     static const inline QString ProjectDataRootObjectName = "PROJECT_DATA_ROOT";
 
     Global(const Global&) = delete;

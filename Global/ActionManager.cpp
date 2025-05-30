@@ -12,38 +12,7 @@ ActionConfig::ActionConfig(const QJsonObject &jsonObject, const int &index) : Gl
     breadcrumb  = jsonObject.value("breadcrumb").toString().split(" > ");
 
     canHaveShortcut = jsonObject.contains("defaultKeyboardShortcut");
-
-    QJsonValue defaultValue = jsonObject.value("defaultKeyboardShortcut");
-    QStringList defaultValues;
-
-    if(defaultValue.isArray())
-        defaultValues = Global::jsonArrayToStringList(defaultValue.toArray());
-    else
-        defaultValues = {defaultValue.toString()};
-
-    for(const QString & value : std::as_const(defaultValues)) {
-        if(value.startsWith("standard:")) {
-            QString idPart = value.mid(QString("standard:").length());
-            bool ok;
-            int standardID = idPart.toInt(&ok);
-            if (ok) {
-                QKeySequence sequence = QKeySequence(static_cast<QKeySequence::StandardKey>(standardID));
-                if(!sequence.toString(QKeySequence::PortableText).isEmpty()) {
-                    defaultKeyboardShortcut = sequence;
-                    return;
-                } else {
-                    defaultKeyboardShortcut = QKeySequence();
-                }
-            }
-        }
-
-        QKeySequence sequence(value);
-        if (!sequence.toString(QKeySequence::PortableText).isEmpty()) {
-            defaultKeyboardShortcut = sequence;
-            return;
-        } else
-            defaultKeyboardShortcut = QKeySequence();
-    }
+    defaultKeyboardShortcut = Global::parseKeyboardShortcutConfigString(jsonObject.value("defaultKeyboardShortcut"));
 }
 
 ActionConfig::ActionConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
