@@ -4,6 +4,7 @@
 #include "Global/GlobalConfigManager.h"
 
 #include <QObject>
+#include <QKeySequence>
 
 struct DockConfig : public GlobalConfigItem {
 public:
@@ -11,6 +12,7 @@ public:
     DockConfig(const QString &id, const int &index = 0);
 
     QString name, icon;
+    QKeySequence defaultKeyboardShortcut;
 };
 
 class DockManager : public GlobalConfigManager<DockManager, DockConfig> {
