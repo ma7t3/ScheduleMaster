@@ -6,7 +6,30 @@
             "en_US": "Home",
             "de_DE": "Startseite"
         },
-        "icon": ":/Icons/classic/house.ico"
+        "icon": ":/Icons/classic/house.ico",
+        "layout": {
+            "docks": [
+                {
+                    "id": "welcome",
+                    "visible": true,
+                    "floating": false,
+                    "area":  "left"
+                },
+                {
+                    "id": "news",
+                    "visible": true,
+                    "floating": false,
+                    "area":  "right"
+                }
+            ],
+            "resize": [
+                {
+                    "docks": ["welcome", "news"],
+                    "sizes": [0.7, 0.3],
+                    "orientation": "horizontal"
+                }
+            ]
+        }
     },
     {
         "id": "routing",
@@ -15,7 +38,17 @@
             "en_US": "Routing",
             "de_DE": "Streckenplanung"
         },
-        "icon": ":/Icons/classic/route.ico"
+        "icon": ":/Icons/classic/route.ico",
+        "layout": {
+            "docks": [
+                {
+                    "id": "busstops",
+                    "visible": true,
+                    "floating": false,
+                    "area":  "left"
+                }
+            ]
+        }
     },
     {
         "id": "scheduling",
@@ -24,7 +57,11 @@
             "en_US": "Scheduling",
             "de_DE": "Fahrplanung"
         },
-        "icon": ":/Icons/classic/schedule-table.ico"
+        "icon": ":/Icons/classic/schedule-table.ico",
+        "layout": {
+            "docks": [
+            ]
+        }
     },
     {
         "id": "tours",
@@ -33,7 +70,11 @@
             "en_US": "Tours",
             "de_DE": "Dienste"
         },
-        "icon": ":/Icons/classic/clipboard.ico"
+        "icon": ":/Icons/classic/clipboard.ico",
+        "layout": {
+            "docks": [
+            ]
+        }
     },
     {
         "id": "publish",
@@ -42,6 +83,10 @@
             "en_US": "Publish",
             "de_DE": "Veröffentlichen"
         },
-        "icon": ":/Icons/classic/globe.ico"
+        "icon": ":/Icons/classic/globe.ico",
+        "layout": {
+            "docks": [
+            ]
+        }
     }
 ]

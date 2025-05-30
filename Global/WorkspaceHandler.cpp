@@ -72,7 +72,7 @@ void WorkspaceHandler::loadWorkspaces() {
         return a.index() < b.index();
     });
 
-    for(const WorkspaceConfig &val : workspaces) {
+    for(const WorkspaceConfig &val : std::as_const(workspaces)) {
         Workspace *workspace = new Workspace(val, this);
         if(workspace->id().isEmpty()) {
             delete workspace;
