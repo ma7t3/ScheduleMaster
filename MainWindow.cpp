@@ -15,6 +15,7 @@
 #include "MainWindowInterface.h"
 #include "ProjectData/ProjectData.h"
 
+#include <QTimer>
 #include <QDesktopServices>
 #include <QDockWidget>
 #include <QFileDialog>
@@ -89,8 +90,6 @@ MainWindow::MainWindow(QWidget *parent) :
     initToolbars();
     loadDocks();
 
-    _workspaceHandler->workspace("home")->activate();
-
     updateRecentProjectsList();
 
     connect(ui->actionFileNewProject,         &QAction::triggered,                         this, &MainWindow::newProject);
@@ -121,6 +120,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::showEvent(QShowEvent *event) {
+    // This is shit but there is no way to make it a better way....
+    QTimer::singleShot(100, this, [this](){
+        _workspaceHandler->workspace("home")->activate();
+    });
 }
 
 void MainWindow::connectToInterface() {
