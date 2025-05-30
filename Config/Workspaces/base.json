@@ -6,7 +6,8 @@
             "en_US": "Home",
             "de_DE": "Startseite"
         },
-        "icon": ":/Icons/classic/house.ico",
+        "icon": "house",
+        "defaultKeyboardShortcut": "Alt+1",
         "layout": {
             "docks": [
                 {
@@ -38,7 +39,8 @@
             "en_US": "Routing",
             "de_DE": "Streckenplanung"
         },
-        "icon": ":/Icons/classic/route.ico",
+        "icon": "route",
+        "defaultKeyboardShortcut": "Alt+2",
         "layout": {
             "docks": [
                 {
@@ -57,7 +59,8 @@
             "en_US": "Scheduling",
             "de_DE": "Fahrplanung"
         },
-        "icon": ":/Icons/classic/schedule-table.ico",
+        "icon": "schedule-table",
+        "defaultKeyboardShortcut": "Alt+3",
         "layout": {
             "docks": [
             ]
@@ -70,7 +73,8 @@
             "en_US": "Tours",
             "de_DE": "Dienste"
         },
-        "icon": ":/Icons/classic/clipboard.ico",
+        "icon": "clipboard",
+        "defaultKeyboardShortcut": "Alt+4",
         "layout": {
             "docks": [
             ]
@@ -83,7 +87,8 @@
             "en_US": "Publish",
             "de_DE": "Veröffentlichen"
         },
-        "icon": ":/Icons/classic/globe.ico",
+        "icon": "globe",
+        "defaultKeyboardShortcut": "Alt+5",
         "layout": {
             "docks": [
             ]

@@ -19,7 +19,7 @@ Workspace::Workspace(const QString &id, QObject *parent) : QObject(parent), _id(
     setupAction();
 }
 
-Workspace::Workspace(const QString &id, const QString &name, const QIcon &icon, QObject *parent) : Workspace(id, parent) {
+Workspace::Workspace(const QString &id, const QString &name, const QString &icon, QObject *parent) : Workspace(id, parent) {
     setName(name);
     setIcon(icon);
 }
@@ -27,7 +27,6 @@ Workspace::Workspace(const QString &id, const QString &name, const QIcon &icon, 
 Workspace::Workspace(const QString &id, QAction *action, QObject *parent) : QObject(parent), _id(id) {
     _action = action;
     _name = _action->text();
-    _icon = _action->icon();
     setupAction();
 }
 
@@ -36,7 +35,7 @@ Workspace::Workspace(const WorkspaceConfig &config, QObject *parent) : QObject(p
     _name = config.name;
     _icon = config.icon;
     _layout = config.layout;
-    _action = new QAction(_icon, _name, this);
+    _action = new QAction(IconController::icon(_icon), _name, this);
     setupAction();
 }
 
@@ -57,13 +56,13 @@ void Workspace::setName(const QString &newName) {
     _action->setText(newName);
 }
 
-QIcon Workspace::icon() const {
+QString Workspace::icon() const {
     return _icon;
 }
 
-void Workspace::setIcon(const QIcon &newIcon) {
+void Workspace::setIcon(const QString &newIcon) {
     _icon = newIcon;
-    _action->setIcon(_icon);
+    _action->setIcon(IconController::icon(_icon));
 }
 
 QAction *Workspace::action() const {
@@ -138,7 +137,7 @@ void Workspace::restore() {
 void Workspace::setupAction() {
     _action->setParent(this);
     _action->setCheckable(true);
-    ActionController::add(_action, QString("view.workspaces.%1.activate").arg(_id));
+    ActionController::addAsGlobalAction(_action, QString("view.workspaces.%1.activate").arg(_id));
 
     _action->setText(_name);
 

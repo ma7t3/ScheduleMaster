@@ -18,7 +18,7 @@ void DockController::addDock(const DockConfig &dock, QWidget *contentWidget) {
 
     QAction *toggleAction = dockWidget->toggleViewAction();
     QString actionText = toggleAction->text();
-    ActionController::add(toggleAction, QString("view.docks.%1.toggle").arg(dock.id()));
+    ActionController::addAsGlobalAction(toggleAction, QString("view.docks.%1.toggle").arg(dock.id()));
     toggleAction->setText(actionText);
     _dockToggleActions.insert(dock.id(), toggleAction);
 

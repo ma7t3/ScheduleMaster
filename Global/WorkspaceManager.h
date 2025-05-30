@@ -3,7 +3,10 @@
 
 #include <QObject>
 #include <QIcon>
+#include <QKeySequence>
+
 #include "GlobalConfigManager.h"
+#include "Global/Global.h"
 
 struct WorkspaceDockConfig : public GlobalConfigItem {
     WorkspaceDockConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
@@ -65,12 +68,13 @@ public:
         GlobalConfigItem(jsonObject, index),
         layout(WorkspaceLayout(jsonObject.value("layout").toObject())) {
         name = jsonObject.value("name").toString();
-        icon = QIcon(jsonObject.value("icon").toString());
+        icon = jsonObject.value("icon").toString();
+        defaultKeyboardShortcut = Global::parseKeyboardShortcutConfigString(jsonObject.value("defaultKeyboardShortcut").toString());
     }
 
-    QString name;
-    QIcon icon;
+    QString name, icon;
     WorkspaceLayout layout;
+    QKeySequence defaultKeyboardShortcut;
 };
 
 class WorkspaceManager : public GlobalConfigManager<WorkspaceManager, WorkspaceConfig> {

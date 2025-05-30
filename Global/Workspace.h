@@ -40,7 +40,7 @@ public:
      * @param icon The icon of the workspace
      * @param parent The QObject-parent
      */
-    Workspace(const QString &id, const QString &name, const QIcon &icon, QObject *parent);
+    Workspace(const QString &id, const QString &name, const QString &icon, QObject *parent);
 
     /**
      * @brief Creates a new Workspace based on the given QAction.
@@ -89,7 +89,7 @@ public:
      * See also setIcon().
      * @return The workspace's icon
      */
-    QIcon icon() const;
+    QString icon() const;
 
     /**
      * @brief Sets the icon of the workspace.
@@ -97,7 +97,7 @@ public:
      * See also icon().
      * @param newIcon The new icon to set
      */
-    void setIcon(const QIcon &newIcon);
+    void setIcon(const QString &newIcon);
 
     /**
      * @brief Returns the QAction that is associated with this workspace.
@@ -174,7 +174,7 @@ private:
     QString _name;
 
     /// The workspace's icon (is displayed in the UI)
-    QIcon _icon;
+    QString _icon;
 
     /// The workspace's associated QAction that is used to activate the workspace
     QAction *_action;
