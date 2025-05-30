@@ -16,12 +16,14 @@ public:
 
     void addDock(const DockConfig &dock, QWidget *contentWidget);
 
+    static QMap<QString, QDockWidget *> docks();
+
 signals:
     void dockAdded(const QString &id, QDockWidget *dockWidget, QAction *toggleViewAction);
 
 private:
     /// All available docks
-    QMap<QString, QDockWidget *> _docks;
+    static inline QMap<QString, QDockWidget *> _docks;
 
     /// All dock toggle actions
     QMap<QString, QAction *> _dockToggleActions;
