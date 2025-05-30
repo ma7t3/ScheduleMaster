@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QKeySequence>
 
 Global::Global() :
     QObject(nullptr) {
@@ -46,4 +47,38 @@ void Global::blockSignalsRecursive(QObject *object, const bool &block) {
     const QObjectList children = object->children();
     for (QObject* child : children)
         blockSignalsRecursive(child, block);
+}
+
+QKeySequence Global::parseKeyboardShortcutConfigString(const QJsonValue &value) {
+    QStringList values;
+    QKeySequence resultSequence;
+
+    if(value.isArray())
+        values = Global::jsonArrayToStringList(value.toArray());
+    else
+        values = {value.toString()};
+
+    for(const QString & value : std::as_const(values)) {
+        if(value.startsWith("standard:")) {
+            QString idPart = value.mid(QString("standard:").length());
+            bool ok;
+            int standardID = idPart.toInt(&ok);
+            if (ok) {
+                QKeySequence sequence = QKeySequence(static_cast<QKeySequence::StandardKey>(standardID));
+                if(!sequence.toString(QKeySequence::PortableText).isEmpty()) {
+                    return sequence;
+                } else {
+                    resultSequence = QKeySequence();
+                }
+            }
+        }
+
+        QKeySequence sequence(value);
+        if (!sequence.toString(QKeySequence::PortableText).isEmpty()) {
+            return sequence;
+        } else
+            resultSequence = QKeySequence();
+    }
+
+    return resultSequence;
 }
