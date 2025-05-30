@@ -93,12 +93,6 @@ void DockWelcome::updateRecentProjectsList() {
     ui->lwRecentProjects->verticalScrollBar()->setValue(scrollbarPos);
 }
 
-void DockWelcome::on_pbToggleNews_clicked() {
-    bool visible = ui->gbNews->isVisible();
-    ui->pbToggleNews->setText(visible ? tr("Show News") : tr("Hide News"));
-    ui->gbNews->setVisible(!visible);
-}
-
 void DockWelcome::onRecentFileOpen() {
     QString path = currentRecentFilePath();
     if(path.isEmpty())

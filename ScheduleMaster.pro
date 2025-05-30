@@ -39,6 +39,7 @@ SOURCES += \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
     Widgets/Docks/DockAbstract.cpp \
+    Widgets/Docks/DockNews.cpp \
     Widgets/Docks/DockWelcome.cpp \
     Widgets/WdgGlobalSearchItem.cpp \
     main.cpp \
@@ -123,6 +124,7 @@ HEADERS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h \
     Widgets/Docks/DockAbstract.h \
+    Widgets/Docks/DockNews.h \
     Widgets/Docks/DockWelcome.h \
     Widgets/WdgAccentColorSelector.h \
     Widgets/WdgColorSchemeSelector.h \
@@ -143,6 +145,7 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
+    Widgets/Docks/DockNews.ui \
     Widgets/Docks/DockWelcome.ui \
     Widgets/WdgAccentColorSelector.ui \
     Widgets/WdgColorSchemeSelector.ui \

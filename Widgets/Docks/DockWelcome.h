@@ -20,8 +20,6 @@ public:
     void updateRecentProjectsList();
 
 private slots:
-    void on_pbToggleNews_clicked();
-
     void onRecentFileOpen();
     void onRecentFileOpenLocation();
     void onRecentFileRemove();
