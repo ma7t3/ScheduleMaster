@@ -38,6 +38,8 @@ public:
     ActionManager(ActionManager &other) = delete;
     void operator=(const ActionManager &) = delete;
 
+    static bool addItem(const ActionConfig &);
+
 signals:
     void keyboardShortcutChanged(const QString &keyboardShortcutID, const QKeySequence shortcut);
 };

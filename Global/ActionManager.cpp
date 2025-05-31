@@ -93,3 +93,15 @@ QJsonArray ActionManager::exportKeyboardShortcuts() {
     }
     return array;
 }
+
+bool ActionManager::addItem(const ActionConfig &actionConfig) {
+    if(GlobalConfigManager::addItem(actionConfig) && actionConfig.canHaveShortcut) {
+        SettingsItem settingsItem("keyboardShortcuts/" + actionConfig.id());
+        settingsItem.type = QMetaType::QKeySequence;
+        settingsItem.description = actionConfig.description;
+        settingsItem.defaultValue = actionConfig.defaultKeyboardShortcut;
+        SettingsManager::registerNewSettingsItem(settingsItem);
+        return true;
+    }
+    return false;
+}
