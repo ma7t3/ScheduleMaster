@@ -639,7 +639,7 @@
             "en_US" : "",
             "de_DE" : ""
         },
-        "defaultKeyboardShortcut": "standard:9"
+        "defaultKeyboardShortcut": "standard:1"
     },
     {
         "id": "edit.undo",
