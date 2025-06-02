@@ -11,6 +11,9 @@ ActionConfig::ActionConfig(const QJsonObject &jsonObject, const int &index) : Gl
     icon        = jsonObject.value("icon").toString();
     breadcrumb  = jsonObject.value("breadcrumb").toString().split(" > ");
 
+    if(breadcrumb.join("").isEmpty())
+        breadcrumb.clear();
+
     canHaveShortcut = jsonObject.contains("defaultKeyboardShortcut");
     defaultKeyboardShortcut = Global::parseKeyboardShortcutConfigString(jsonObject.value("defaultKeyboardShortcut"));
 }

@@ -81,7 +81,7 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
 
     switch(role) {
         case Qt::DisplayRole: switch(index.column()) {
-            case 0: return shortcut.first.breadcrumb.join(" > ") + ": " + shortcut.first.description;
+            case 0: return (shortcut.first.breadcrumb.isEmpty() ? "" : (shortcut.first.breadcrumb.join(" > ") + ": ")) + shortcut.first.description;
             case 1: return shortcut.second.toString(QKeySequence::NativeText);
         } break;
         case Qt::DecorationRole: switch(index.column()) {
