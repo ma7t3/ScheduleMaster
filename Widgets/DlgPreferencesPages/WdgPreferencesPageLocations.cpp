@@ -36,7 +36,9 @@ void WdgPreferencesPageLocations::reloadPreferences() {
     ui->lwLocationCategories->clear();
 
     QList<FolderLocationConfig> locations = FolderLocationManager::items();
-    for(FolderLocationConfig &loc : locations) {
+    std::sort(locations.begin(), locations.end(), [](FolderLocationConfig a, FolderLocationConfig b){return a.index() < b.index();});
+
+    for(const FolderLocationConfig &loc : std::as_const(locations)) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
         item->setData(Qt::UserRole, loc.id());
         item->setIcon(IconController::icon(loc.icon));
