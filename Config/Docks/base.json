@@ -30,6 +30,26 @@
         "defaultKeyboardShortcut": "Alt+B"
     },
     {
+        "id": "lines",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Lines",
+            "de_DE": "Lines"
+        },
+        "icon": "busstop",
+        "defaultKeyboardShortcut": "Alt+L"
+    },
+    {
+        "id": "routes",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Routes",
+            "de_DE": "Routen"
+        },
+        "icon": "busstop",
+        "defaultKeyboardShortcut": "Alt+R"
+    },
+    {
         "id": "undoView",
         "name": {
             "object": "translated_string",

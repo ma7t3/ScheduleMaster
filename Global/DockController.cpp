@@ -34,6 +34,11 @@ void DockController::loadStandardDocks() {
     addDock(DockManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
     addDock(DockManager::item("news"), new DockNews(static_cast<QWidget *>(parent())));
     addDock(DockManager::item("undoView"), new QUndoView(static_cast<QWidget *>(parent())));
+
+    // TODO: Implement dock classes
+    addDock(DockManager::item("busstops"), new QWidget(static_cast<QWidget *>(parent())));
+    addDock(DockManager::item("lines"), new QWidget(static_cast<QWidget *>(parent())));
+    addDock(DockManager::item("routes"), new QWidget(static_cast<QWidget *>(parent())));
 }
 
 QDockWidget *DockController::dock(const QString &id) const {
