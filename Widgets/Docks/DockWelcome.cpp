@@ -24,9 +24,10 @@ DockWelcome::DockWelcome(QWidget *parent) :
     _recentFileRemove       = ui->lwRecentProjects->addAction("");
     ui->lwRecentProjects->setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    connect(_recentFileOpen,         &QAction::triggered, this, &DockWelcome::onRecentFileOpen);
-    connect(_recentFileOpenLocation, &QAction::triggered, this, &DockWelcome::onRecentFileOpenLocation);
-    connect(_recentFileRemove,       &QAction::triggered, this, &DockWelcome::onRecentFileRemove);
+    connect(_recentFileOpen,         &QAction::triggered,   this, &DockWelcome::onRecentFileOpen);
+    connect(ui->pbOpen,              &QPushButton::clicked, this, &DockWelcome::onRecentFileOpen);
+    connect(_recentFileOpenLocation, &QAction::triggered,   this, &DockWelcome::onRecentFileOpenLocation);
+    connect(_recentFileRemove,       &QAction::triggered,   this, &DockWelcome::onRecentFileRemove);
     updateRecentProjectsList();
 
     connect(ui->clbNewProject,  &QCommandLinkButton::clicked, this, &DockWelcome::newProject);
