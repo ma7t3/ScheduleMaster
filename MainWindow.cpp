@@ -23,12 +23,13 @@
 #include <QProgressDialog>
 #include <QToolBar>
 #include <QUndoStack>
+#include <QUndoView>
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    _dockHandler(nullptr),
+    _dockController(nullptr),
     _workspaceHandler(new WorkspaceHandler(this)),
     _projectData(new ProjectData(this)),
     _fileHandler(new ProjectFileHandler(_projectData, this)),
@@ -146,9 +147,10 @@ void MainWindow::connectToInterface() {
 
 void MainWindow::loadDocks() {
     qInfo() << "   Loading docks...";
-    _dockHandler = new DockController(this);
-    connect(_dockHandler, &DockController::dockAdded, this, &MainWindow::onDockAdded);
-    _dockHandler->loadStandardDocks();
+    _dockController = new DockController(this);
+    connect(_dockController, &DockController::dockAdded, this, &MainWindow::onDockAdded);
+    _dockController->loadStandardDocks();
+    static_cast<QUndoView *>(_dockController->dock("undoView")->widget())->setStack(_projectData->undoStack());
 }
 
 void MainWindow::initToolbars() {

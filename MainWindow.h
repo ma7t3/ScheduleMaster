@@ -74,7 +74,7 @@ private:
 
     QProgressDialog *_fileHandlerProgressDialog;
 
-    DockController *_dockHandler;
+    DockController *_dockController;
     WorkspaceHandler *_workspaceHandler;
 
     ProjectData *_projectData;

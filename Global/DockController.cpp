@@ -5,6 +5,7 @@
 #include "Widgets/Docks/DockNews.h"
 
 #include <QDockWidget>
+#include <QUndoView>
 
 DockController::DockController(QObject *parent) : QObject(parent) {}
 
@@ -32,4 +33,9 @@ QMap<QString, QDockWidget *> DockController::docks() {
 void DockController::loadStandardDocks() {
     addDock(DockManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
     addDock(DockManager::item("news"), new DockNews(static_cast<QWidget *>(parent())));
+    addDock(DockManager::item("undoView"), new QUndoView(static_cast<QWidget *>(parent())));
+}
+
+QDockWidget *DockController::dock(const QString &id) const {
+    return _docks.value(id, nullptr);
 }

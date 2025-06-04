@@ -28,5 +28,15 @@
         },
         "icon": "busstop",
         "defaultKeyboardShortcut": "Alt+B"
+    },
+    {
+        "id": "undoView",
+        "name": {
+            "object": "translated_string",
+            "en_US": "History",
+            "de_DE": "Verlauf"
+        },
+        "icon": "undo",
+        "defaultKeyboardShortcut": "Alt+U"
     }
 ]
