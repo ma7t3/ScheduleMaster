@@ -111,6 +111,18 @@ void Workspace::restore() {
         widget->setVisible(config.visible);
     }
 
+    for(const WorkspaceSplitConfig &split : std::as_const(_layout.splitConfigs)) {
+        QDockWidget *first  = docks.value(split.firstID);
+        QDockWidget *second = docks.value(split.secondID);
+
+        if(!first || !second) {
+            qWarning() << "Cannot split docks in workspace" << _id << "because one of the docks does not exist.";
+            continue;
+        }
+
+        mainWindow()->splitDockWidget(first, second, split.orientation);
+    }
+
     for(const WorkspaceResizeConfig &resize : std::as_const(_layout.resizeConfigs)) {
         int refSize = resize.orientation == Qt::Horizontal ? mainWindow()->width() : mainWindow()->height();
         QList<QDockWidget *> currentDocks;
