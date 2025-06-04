@@ -49,6 +49,15 @@ struct WorkspaceSplitConfig : public GlobalConfigItem {
     Qt::Orientation orientation;
 };
 
+struct WorkspaceTabifyConfig : public GlobalConfigItem {
+    WorkspaceTabifyConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
+        firstID     = jsonObject.value("first").toString();
+        secondID    = jsonObject.value("second").toString();
+    }
+
+    QString firstID, secondID;
+};
+
 struct WorkspaceLayout : public GlobalConfigItem {
     WorkspaceLayout(const QJsonObject &jsonObject = QJsonObject()) : GlobalConfigItem(jsonObject) {
         QJsonArray docksArray = jsonObject.value("docks").toArray();
@@ -71,11 +80,19 @@ struct WorkspaceLayout : public GlobalConfigItem {
             WorkspaceSplitConfig splitConfig(dockObj);
             splitConfigs << splitConfig;
         }
+
+        QJsonArray tabifyArray = jsonObject.value("tabify").toArray();
+        for(const QJsonValue &tabifyVal : std::as_const(tabifyArray)) {
+            QJsonObject dockObj = tabifyVal.toObject();
+            WorkspaceTabifyConfig tabifyConfig(dockObj);
+            tabifyConfigs << tabifyConfig;
+        }
     }
 
-    QList<WorkspaceDockConfig> dockConfigs;
+    QList<WorkspaceDockConfig>   dockConfigs;
     QList<WorkspaceResizeConfig> resizeConfigs;
-    QList<WorkspaceSplitConfig> splitConfigs;
+    QList<WorkspaceSplitConfig>  splitConfigs;
+    QList<WorkspaceTabifyConfig> tabifyConfigs;
 };
 
 

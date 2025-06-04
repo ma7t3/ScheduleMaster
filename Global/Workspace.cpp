@@ -123,6 +123,18 @@ void Workspace::restore() {
         mainWindow()->splitDockWidget(first, second, split.orientation);
     }
 
+    for(const WorkspaceTabifyConfig &tabify : std::as_const(_layout.tabifyConfigs)) {
+        QDockWidget *first  = docks.value(tabify.firstID);
+        QDockWidget *second = docks.value(tabify.secondID);
+
+        if(!first || !second) {
+            qWarning() << "Cannot tabify docks in workspace" << _id << "because one of the docks does not exist.";
+            continue;
+        }
+
+        mainWindow()->tabifyDockWidget(first, second);
+    }
+
     for(const WorkspaceResizeConfig &resize : std::as_const(_layout.resizeConfigs)) {
         int refSize = resize.orientation == Qt::Horizontal ? mainWindow()->width() : mainWindow()->height();
         QList<QDockWidget *> currentDocks;
