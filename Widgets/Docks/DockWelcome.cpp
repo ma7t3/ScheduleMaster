@@ -117,7 +117,7 @@ void DockWelcome::onRecentFileRemove() {
     if(path.isEmpty())
         return;
 
-    // TODO
+    emit removeProjectFromList(path);
 }
 
 QString DockWelcome::currentRecentFilePath() const {
