@@ -48,6 +48,47 @@
                     "visible": true,
                     "floating": false,
                     "area":  "left"
+                },                {
+                    "id": "undoView",
+                    "visible": true,
+                    "floating": false,
+                    "area":  "left"
+                },
+                {
+                    "id": "lines",
+                    "visible": true,
+                    "floating": false,
+                    "area":  "right"
+                },
+                {
+                    "id": "routes",
+                    "visible": true,
+                    "floating": false,
+                    "area":  "right"
+                }
+            ],
+            "split": [
+                {
+                    "first": "undoView",
+                    "second": "busstops",
+                    "orientation": "horizontal"
+                }
+            ],
+            "resize": [
+                {
+                    "docks": ["undoView", "busstops"],
+                    "sizes": [0.1, 0.9],
+                    "orientation": "horizontal"
+                },
+                {
+                    "docks": ["busstops", "lines"],
+                    "sizes": [0.5, 0.5],
+                    "orientation": "horizontal"
+                },
+                {
+                    "docks": ["lines", "routes"],
+                    "sizes": [0.5, 0.5],
+                    "orientation": "vertical"
                 }
             ]
         }
