@@ -151,6 +151,10 @@ protected:
     /// Determins the pointer to the applications QMainWindow.
     QMainWindow *mainWindow();
 
+
+    /// Hides all docks
+    void hideAllDocks();
+
 signals:
     /**
      * @brief This signals is emited when the workspace is activated. This happens when activate() is called or the QAction is triggered.

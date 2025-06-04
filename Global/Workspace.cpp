@@ -88,17 +88,17 @@ void Workspace::deactivate() {
 }
 
 void Workspace::apply() {
-    if(!_lastWindowState.isEmpty())
+    if(!_lastWindowState.isEmpty()) {
+        hideAllDocks();
         mainWindow()->restoreState(_lastWindowState);
-    else
+    } else
         restore();
 }
 
 void Workspace::restore() {
     _lastWindowState.clear();
+    hideAllDocks();
     QMap<QString, QDockWidget *> docks = DockController::docks();
-    for(QDockWidget *dock : std::as_const(docks))
-        dock->hide();
 
     for(const WorkspaceDockConfig &config : std::as_const(_layout.dockConfigs)) {
         QDockWidget *widget = docks.value(config.id());
@@ -151,4 +151,10 @@ void Workspace::setupAction() {
 
 QMainWindow *Workspace::mainWindow() {
     return static_cast<QMainWindow *>(QObject::parent()->parent());
+}
+
+void Workspace::hideAllDocks() {
+    QMap<QString, QDockWidget *> docks = DockController::docks();
+    for(QDockWidget *dock : std::as_const(docks))
+        dock->hide();
 }
