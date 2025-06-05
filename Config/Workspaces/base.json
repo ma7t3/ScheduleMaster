@@ -13,13 +13,11 @@
                 {
                     "id": "welcome",
                     "visible": true,
-                    "floating": false,
                     "area":  "left"
                 },
                 {
                     "id": "news",
                     "visible": true,
-                    "floating": false,
                     "area":  "right"
                 }
             ],
@@ -46,24 +44,20 @@
                 {
                     "id": "busstops",
                     "visible": true,
-                    "floating": false,
                     "area":  "left"
                 },                {
                     "id": "undoView",
                     "visible": true,
-                    "floating": false,
                     "area":  "left"
                 },
                 {
                     "id": "lines",
                     "visible": true,
-                    "floating": false,
                     "area":  "right"
                 },
                 {
                     "id": "routes",
                     "visible": true,
-                    "floating": false,
                     "area":  "right"
                 }
             ],
@@ -103,8 +97,6 @@
         "icon": "schedule-table",
         "defaultKeyboardShortcut": "Alt+3",
         "layout": {
-            "docks": [
-            ]
         }
     },
     {
@@ -117,8 +109,6 @@
         "icon": "clipboard",
         "defaultKeyboardShortcut": "Alt+4",
         "layout": {
-            "docks": [
-            ]
         }
     },
     {
@@ -131,8 +121,6 @@
         "icon": "globe",
         "defaultKeyboardShortcut": "Alt+5",
         "layout": {
-            "docks": [
-            ]
         }
     }
 ]

@@ -11,15 +11,15 @@
 struct WorkspaceDockConfig : public GlobalConfigItem {
     WorkspaceDockConfig(const QJsonObject &jsonObject) : GlobalConfigItem(jsonObject) {
         visible  = jsonObject.value("visible").toBool(true);
-        floating = jsonObject.value("floating").toBool(true);
         QString areaString = jsonObject.value("area").toString("left");
         area = areaString == "right"  ? Qt::RightDockWidgetArea :
+               areaString == "left"  ? Qt::LeftDockWidgetArea :
                areaString == "top"    ? Qt::TopDockWidgetArea :
                areaString == "bottom" ? Qt::BottomDockWidgetArea :
-               Qt::LeftDockWidgetArea;
+               Qt::NoDockWidgetArea;
     }
 
-    bool visible, floating;
+    bool visible;
     Qt::DockWidgetArea area;
 };
 

@@ -107,7 +107,7 @@ void Workspace::restore() {
             continue;
         }
         widget->setDockLocation(config.area);
-        widget->setFloating(config.floating);
+        widget->setFloating(config.area == Qt::NoDockWidgetArea);
         widget->setVisible(config.visible);
     }
 
@@ -179,6 +179,8 @@ QMainWindow *Workspace::mainWindow() {
 
 void Workspace::hideAllDocks() {
     QMap<QString, QDockWidget *> docks = DockController::docks();
-    for(QDockWidget *dock : std::as_const(docks))
+    for(QDockWidget *dock : std::as_const(docks)) {
         dock->hide();
+        dock->setFloating(true);
+    }
 }
