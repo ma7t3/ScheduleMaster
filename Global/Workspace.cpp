@@ -120,6 +120,14 @@ void Workspace::restore() {
             continue;
         }
 
+        if(first->isFloating()) {
+            qWarning() << "Dock" << first->objectName() << "is floating, cannot split it.";
+            continue;
+        }
+
+        second->setDockLocation(first->dockLocation());
+        second->setFloating(false);
+
         mainWindow()->splitDockWidget(first, second, split.orientation);
     }
 
@@ -131,6 +139,14 @@ void Workspace::restore() {
             qWarning() << "Cannot tabify docks in workspace" << _id << "because one of the docks does not exist.";
             continue;
         }
+
+        if(first->isFloating()) {
+            qWarning() << "Dock" << first->objectName() << "is floating, cannot tabify it.";
+            continue;
+        }
+
+        second->setDockLocation(first->dockLocation());
+        second->setFloating(false);
 
         mainWindow()->tabifyDockWidget(first, second);
     }
