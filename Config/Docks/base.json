@@ -36,7 +36,7 @@
             "en_US": "Lines",
             "de_DE": "Lines"
         },
-        "icon": "busstop",
+        "icon": "bus",
         "defaultKeyboardShortcut": "Alt+L"
     },
     {
@@ -46,7 +46,7 @@
             "en_US": "Routes",
             "de_DE": "Routen"
         },
-        "icon": "busstop",
+        "icon": "route",
         "defaultKeyboardShortcut": "Alt+R"
     },
     {
