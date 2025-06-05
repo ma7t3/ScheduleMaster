@@ -169,6 +169,22 @@ void Workspace::restore() {
         mainWindow()->resizeDocks(currentDocks, calculatedSizes, resize.orientation);
     }
 
+    mainWindow()->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    mainWindow()->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+    mainWindow()->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    mainWindow()->setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
+
+    for(const Qt::Corner &corner : _layout.corners.keys()) {
+        Qt::DockWidgetArea area = _layout.corners.value(corner);
+
+        if((corner == Qt::TopLeftCorner || corner == Qt::BottomLeftCorner) && area == Qt::NoDockWidgetArea)
+            area = Qt::LeftDockWidgetArea;
+        else if((corner == Qt::TopRightCorner || corner == Qt::BottomRightCorner) && area == Qt::NoDockWidgetArea)
+            area = Qt::RightDockWidgetArea;
+
+        mainWindow()->setCorner(corner, area);
+    }
+
     emit restored(this);
 }
 

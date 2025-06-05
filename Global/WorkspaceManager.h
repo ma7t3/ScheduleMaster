@@ -87,12 +87,28 @@ struct WorkspaceLayout : public GlobalConfigItem {
             WorkspaceTabifyConfig tabifyConfig(dockObj);
             tabifyConfigs << tabifyConfig;
         }
+
+        QJsonObject cornersObject = jsonObject.value("corners").toObject();
+        corners.insert(Qt::TopLeftCorner,     parseAreaString(cornersObject.value("topLeft").toString()));
+        corners.insert(Qt::TopRightCorner,    parseAreaString(cornersObject.value("topRight").toString()));
+        corners.insert(Qt::BottomLeftCorner,  parseAreaString(cornersObject.value("bottomLeft").toString()));
+        corners.insert(Qt::BottomRightCorner, parseAreaString(cornersObject.value("bottomRight").toString()));
     }
 
     QList<WorkspaceDockConfig>   dockConfigs;
     QList<WorkspaceResizeConfig> resizeConfigs;
     QList<WorkspaceSplitConfig>  splitConfigs;
     QList<WorkspaceTabifyConfig> tabifyConfigs;
+    QMap<Qt::Corner, Qt::DockWidgetArea> corners;
+
+protected:
+    Qt::DockWidgetArea parseAreaString(const QString &string) {
+        return string == "right"  ? Qt::RightDockWidgetArea :
+               string == "left"   ? Qt::LeftDockWidgetArea :
+               string == "top"    ? Qt::TopDockWidgetArea :
+               string == "bottom" ? Qt::BottomDockWidgetArea :
+               Qt::NoDockWidgetArea;
+    }
 };
 
 
