@@ -3,7 +3,7 @@
 
 #include "Global/ActionController.h"
 #include "Global/LastUsedFilesManager.h"
-#include "MainWindowInterface.h"
+#include "ApplicationInterface.h"
 #include "Widgets/WdgWelcomeRecentProjectEntry.h"
 
 #include <QDateTime>
@@ -49,14 +49,14 @@ DockWelcome::DockWelcome(QWidget *parent) :
 
     connect(LastUsedFilesManager::instance(), &LastUsedFilesManager::lastUsedFilesChanged, this, &DockWelcome::updateRecentProjectsList);
 
-    connect(this, &DockWelcome::newProject,            MainWindowInterface::instance(), &MainWindowInterface::newProject);
-    connect(this, &DockWelcome::openProject,           MainWindowInterface::instance(), &MainWindowInterface::openProject);
-    connect(this, &DockWelcome::openProjectFromFile,   MainWindowInterface::instance(), &MainWindowInterface::openProjectFromFile);
-    connect(this, &DockWelcome::openPlugins,           MainWindowInterface::instance(), &MainWindowInterface::openPlugins);
-    connect(this, &DockWelcome::openPreferences,       MainWindowInterface::instance(), &MainWindowInterface::openPreferences);
-    connect(this, &DockWelcome::quitApplication,       MainWindowInterface::instance(), &MainWindowInterface::quitApplication);
+    connect(this, &DockWelcome::newProject,            ApplicationInterface::instance(), &ApplicationInterface::newProject);
+    connect(this, &DockWelcome::openProject,           ApplicationInterface::instance(), &ApplicationInterface::openProject);
+    connect(this, &DockWelcome::openProjectFromFile,   ApplicationInterface::instance(), &ApplicationInterface::openProjectFromFile);
+    connect(this, &DockWelcome::openPlugins,           ApplicationInterface::instance(), &ApplicationInterface::openPlugins);
+    connect(this, &DockWelcome::openPreferences,       ApplicationInterface::instance(), &ApplicationInterface::openPreferences);
+    connect(this, &DockWelcome::quitApplication,       ApplicationInterface::instance(), &ApplicationInterface::quitApplication);
 
-    connect(this, &DockWelcome::removeProjectFromList, MainWindowInterface::instance(), &MainWindowInterface::removeProjectFromRecentList);
+    connect(this, &DockWelcome::removeProjectFromList, ApplicationInterface::instance(), &ApplicationInterface::removeProjectFromRecentList);
 }
 
 DockWelcome::~DockWelcome() {

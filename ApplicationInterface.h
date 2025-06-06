@@ -1,20 +1,18 @@
-#ifndef MAINWINDOWINTERFACE_H
-#define MAINWINDOWINTERFACE_H
+#ifndef APPLICATIONINTERFACE_H
+#define APPLICATIONINTERFACE_H
 
 #include <QObject>
 
-class MainWindowInterface : public QObject {
+class ApplicationInterface : public QObject {
     Q_OBJECT
-    Q_DISABLE_COPY(MainWindowInterface)
+    Q_DISABLE_COPY(ApplicationInterface)
 
 private:
-    explicit MainWindowInterface()
-        : QObject(nullptr)
-    {}
+    explicit ApplicationInterface() : QObject(nullptr) {}
 
 public:
-    static MainWindowInterface *instance() {
-        static MainWindowInterface instance;
+    static ApplicationInterface *instance() {
+        static ApplicationInterface instance;
         return &instance;
     }
 
@@ -37,4 +35,4 @@ signals:
 
 };
 
-#endif // MAINWINDOWINTERFACE_H
+#endif // APPLICATIONINTERFACE_H

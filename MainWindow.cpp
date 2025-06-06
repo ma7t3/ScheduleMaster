@@ -12,7 +12,7 @@
 #include "Global/ProjectFileHandler.h"
 #include "Global/Workspace.h"
 #include "Global/WorkspaceHandler.h"
-#include "MainWindowInterface.h"
+#include "ApplicationInterface.h"
 #include "ProjectData/ProjectData.h"
 
 #include <QTimer>
@@ -131,18 +131,18 @@ void MainWindow::showEvent(QShowEvent *event) {
 }
 
 void MainWindow::connectToInterface() {
-    connect(MainWindowInterface::instance(), &MainWindowInterface::newProject,                  this, &MainWindow::newProject);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::openProject,                 this, &MainWindow::openProject);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::openProjectFromFile,         this, &MainWindow::openProjectFromFile);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::saveProject,                 this, &MainWindow::saveProject);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::saveProjectAs,               this, &MainWindow::saveProjectAs);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::closeProject,                this, &MainWindow::closeProject);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::quitApplication,             this, &MainWindow::quitApplication);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::removeProjectFromRecentList, this, &MainWindow::removeProjectFromRecentList);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::openPlugins,                 this, &MainWindow::openPlugins);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::openPreferences,             this, &MainWindow::openPreferences);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::openConfiguration,           this, &MainWindow::openConfiguration);
-    connect(MainWindowInterface::instance(), &MainWindowInterface::openProjectSettings,         this, &MainWindow::openProjectSettings);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::newProject,                  this, &MainWindow::newProject);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::openProject,                 this, &MainWindow::openProject);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::openProjectFromFile,         this, &MainWindow::openProjectFromFile);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::saveProject,                 this, &MainWindow::saveProject);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::saveProjectAs,               this, &MainWindow::saveProjectAs);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::closeProject,                this, &MainWindow::closeProject);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::quitApplication,             this, &MainWindow::quitApplication);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::removeProjectFromRecentList, this, &MainWindow::removeProjectFromRecentList);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::openPlugins,                 this, &MainWindow::openPlugins);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::openPreferences,             this, &MainWindow::openPreferences);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::openConfiguration,           this, &MainWindow::openConfiguration);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::openProjectSettings,         this, &MainWindow::openProjectSettings);
 }
 
 void MainWindow::loadDocks() {

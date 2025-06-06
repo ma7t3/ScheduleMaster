@@ -66,6 +66,7 @@ SOURCES += \
     Widgets/WdgWelcomeRecentProjectEntry.cpp
 
 HEADERS += \
+    ApplicationInterface.h \
     Commands/CmdBusstops.h \
     Commands/CmdGeneral.h \
     Dialogs/DlgConfigEditor.h \
@@ -100,7 +101,6 @@ HEADERS += \
     ItemModels/LocalConfigModel.h \
     ItemModels/StylesModel.h \
     MainWindow.h \
-    MainWindowInterface.h \
     ProjectData/ProjectData.h \
     ProjectData/ProjectDataItem.h \
     ProjectData/ProjectDataItemSignals.h \
