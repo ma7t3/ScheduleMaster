@@ -27,9 +27,13 @@ void GlobalActionWrapper::execute() {
 }
 
 void ActionController::init() {
+    if(initialized())
+        return;
+
     connect(IconController::instance(), &IconController::currentIconSetChanged,  ActionController::instance(), &ActionController::onIconSetChanged);
     connect(StyleHandler::instance(),   &StyleHandler::styleChanged,             ActionController::instance(), &ActionController::onIconSetChanged);
     connect(ActionManager::instance(),  &ActionManager::keyboardShortcutChanged, ActionController::instance(), &ActionController::onActionShortcutChanged);
+    Singleton::init();
 }
 
 QAction *ActionController::createAction(const QString &actionID, const ActionComponents &components,

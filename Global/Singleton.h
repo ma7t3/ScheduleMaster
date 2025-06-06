@@ -36,6 +36,31 @@ public:
         static Derived instance;
         return &instance;
     }
+
+    /**
+     * @brief Checks if the singleton instance has been initialized.
+     *
+     * This function can be used to check if the singleton instance has been initialized.
+     * It is useful when the singleton instance needs to be initialized explicitly.
+     *
+     * @return true if the singleton instance has been initialized, false otherwise.
+     */
+    static bool initialized() { return _init; }
+
+protected:
+    /**
+     * @brief Initializes the singleton instance.
+     *
+     * This function is used to initialize the singleton instance.
+     * It is useful when the singleton instance needs to be initialized explicitly.
+     */
+    static void init() { _init = true; }
+
+private:
+    /**
+     * @brief A boolean flag indicating whether the singleton instance has been initialized.
+     */
+    static inline bool _init = false;
 };
 
 #endif // SINGLETON_H
