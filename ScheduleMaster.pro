@@ -89,6 +89,7 @@ HEADERS += \
     Global/Logger.h \
     Global/ProjectFileHandler.h \
     Global/SettingsManager.h \
+    Global/Singleton.h \
     Global/StyleHandler.h \
     Global/StyleManager.h \
     Global/VariantConverter.h \

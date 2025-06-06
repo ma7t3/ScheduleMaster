@@ -6,8 +6,9 @@
 #include <QObject>
 #include <QToolButton>
 
-#include "ActionManager.h"
-#include "IconController.h"
+#include "Global/ActionManager.h"
+#include "Global/IconController.h"
+#include "Global/Singleton.h"
 
 /**
  * @brief The GlobalActionWrapper struct is a wrapper around an action that can be used as a global action.
@@ -41,15 +42,13 @@ struct GlobalActionWrapper {
  *
  * The ActionController is a singleton class, meaning that it can be accessed from anywhere in the application.
  */
-class ActionController : public QObject {
+class ActionController : public Singleton<ActionController> {
+    friend class Singleton<ActionController>;
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(ActionController);
+
 private:
-    /**
-     * @brief Constructs an ActionController object with the given parent.
-     *
-     * @param parent The parent object.
-     */
-    explicit ActionController(QObject *parent) : QObject(parent) {}
+    ActionController() : Singleton<ActionController>() {}
 
 public:
     /**
@@ -73,16 +72,6 @@ public:
      * @brief Initializes the ActionController.
      */
     static void init();
-
-    /**
-     * @brief Returns the instance of the ActionController.
-     *
-     * @return The instance of the ActionController.
-     */
-    static ActionController *instance();
-
-    ActionController &operator=(const ActionController &) = delete;
-    ActionController(const ActionController &) = delete;
 
     /**
      * @brief Creates a new QAction with the given actionID and components.

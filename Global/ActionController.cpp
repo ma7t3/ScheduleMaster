@@ -32,11 +32,6 @@ void ActionController::init() {
     connect(ActionManager::instance(),  &ActionManager::keyboardShortcutChanged, ActionController::instance(), &ActionController::onActionShortcutChanged);
 }
 
-ActionController *ActionController::instance() {
-    static ActionController instance(nullptr);
-    return &instance;
-}
-
 QAction *ActionController::createAction(const QString &actionID, const ActionComponents &components,
                                         QObject *parent) {
     return add(new QAction(parent), actionID, components);
