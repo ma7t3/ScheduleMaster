@@ -36,9 +36,7 @@ private:
 template <typename Derived, typename T>
 class GlobalConfigManager : public GlobalConfigManagerSignals {
 protected:
-    explicit GlobalConfigManager(QObject *parent) : GlobalConfigManagerSignals(parent) {
-        qDebug() << "Initializing GlobalConfigManager for" << typeid(T).name();
-    }
+    explicit GlobalConfigManager(QObject *parent) : GlobalConfigManagerSignals(parent) {}
 
 public:
 
@@ -55,8 +53,8 @@ public:
      * @brief Initializes the instance
      */
     static void init() {
-        instance();
-        _initializied;
+        qDebug() << "Initializing GlobalConfigManager for" << typeid(T).name();
+        instance(); // TODO: Remove
     }
 
     /**

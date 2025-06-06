@@ -14,13 +14,16 @@ ActionConfig::ActionConfig(const QJsonObject &jsonObject, const int &index) : Gl
     if(breadcrumb.join("").isEmpty())
         breadcrumb.clear();
 
-    canHaveShortcut = jsonObject.contains("defaultKeyboardShortcut");
-    defaultKeyboardShortcut = Global::parseKeyboardShortcutConfigString(jsonObject.value("defaultKeyboardShortcut"));
+    canHaveShortcut         = jsonObject.contains("defaultKeyboardShortcut");
+    defaultKeyboardShortcut = Global::parseKeyboardShortcutConfigString(
+        jsonObject.value("defaultKeyboardShortcut"));
 }
 
 ActionConfig::ActionConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
 
-ActionManager::ActionManager(QObject *parent) : GlobalConfigManager(parent) {
+void ActionManager::init() {
+    GlobalConfigManager::init();
+
     loadItems("Actions");
     const QList<ActionConfig> itemList = items();
     for(const ActionConfig &shortcut : itemList) {
@@ -34,25 +37,15 @@ ActionManager::ActionManager(QObject *parent) : GlobalConfigManager(parent) {
         SettingsManager::registerNewSettingsItem(item);
     }
 
-    SettingsManager::callOnChange(this,
-    [](const QString &id){
-        return id.startsWith("keyboardShortcuts/");
-    },
-    [](const QString &settingID, const QVariant &value) {
-        QString shortcutID = settingID;
-        shortcutID.remove("keyboardShortcuts/");
-        emit instance()->keyboardShortcutChanged(shortcutID, QKeySequence(value.toString()));
-        qDebug() << "Callback Recived: Shortcut changed!" << shortcutID << value;
-    });
-}
-
-ActionManager *ActionManager::instance() {
-    static ActionManager instance(nullptr);
-    return &instance;
-}
-
-void ActionManager::init() {
-    instance();
+    SettingsManager::callOnChange(
+        instance(),
+        [](const QString &id) { return id.startsWith("keyboardShortcuts/"); },
+        [](const QString &settingID, const QVariant &value) {
+            QString shortcutID = settingID;
+            shortcutID.remove("keyboardShortcuts/");
+            emit instance()->keyboardShortcutChanged(shortcutID, QKeySequence(value.toString()));
+            qDebug() << "Callback Recived: Shortcut changed!" << shortcutID << value;
+        });
 }
 
 bool ActionManager::shortcutIsDefault(const QString &id, const QKeySequence &sequence) {
@@ -73,14 +66,15 @@ QKeySequence ActionManager::keyboardShortcut(const QString &actionID) {
 }
 
 void ActionManager::setKeyboardShortcut(const QString &actionID, const QKeySequence shortcut) {
-    SettingsManager::setValue("keyboardShortcuts/" + actionID, shortcut.toString(QKeySequence::PortableText));
+    SettingsManager::setValue("keyboardShortcuts/" + actionID,
+                              shortcut.toString(QKeySequence::PortableText));
 }
 
 void ActionManager::importKeyboardShortcuts(const QJsonArray &jsonArray) {
     for(const QJsonValue &value : jsonArray) {
-        const QJsonObject jObj = value.toObject();
-        const QString id          = jObj.value("id").toString();
-        const QString keySequence = jObj.value("keySequence").toString();
+        const QJsonObject jObj        = value.toObject();
+        const QString     id          = jObj.value("id").toString();
+        const QString     keySequence = jObj.value("keySequence").toString();
         setKeyboardShortcut(id, keySequence);
     }
 }
@@ -100,8 +94,8 @@ QJsonArray ActionManager::exportKeyboardShortcuts() {
 bool ActionManager::addItem(const ActionConfig &actionConfig) {
     if(GlobalConfigManager::addItem(actionConfig) && actionConfig.canHaveShortcut) {
         SettingsItem settingsItem("keyboardShortcuts/" + actionConfig.id());
-        settingsItem.type = QMetaType::QKeySequence;
-        settingsItem.description = actionConfig.description;
+        settingsItem.type         = QMetaType::QKeySequence;
+        settingsItem.description  = actionConfig.description;
         settingsItem.defaultValue = actionConfig.defaultKeyboardShortcut;
         SettingsManager::registerNewSettingsItem(settingsItem);
         return true;
