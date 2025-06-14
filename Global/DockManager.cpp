@@ -9,12 +9,12 @@ DockConfig::DockConfig(const QJsonObject &jsonObject, const int &index) : Global
     defaultKeyboardShortcut = Global::parseKeyboardShortcutConfigString(jsonObject.value("defaultKeyboardShortcut"));
 }
 
-DockConfig::DockConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
+void DockManager::init() {
+    GlobalConfigManager::init();
 
-DockManager::DockManager(QObject *parent) : GlobalConfigManager(parent) {
     loadItems("Docks");
-
-    for(DockConfig &dock : items()) {
+    const QList<DockConfig> itemList = items();
+    for(const DockConfig &dock : itemList) {
         ActionConfig action(QString("view.docks.%1.toggle").arg(dock.id()));
         action.text                    = dock.name;
         action.description             = tr("Show/hide dock: %1").arg(dock.name);
