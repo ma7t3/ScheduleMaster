@@ -42,7 +42,6 @@ void ActionManager::init() {
             QString shortcutID = settingID;
             shortcutID.remove("keyboardShortcuts/");
             emit instance()->keyboardShortcutChanged(shortcutID, QKeySequence(value.toString()));
-            qDebug() << "Callback Recived: Shortcut changed!" << shortcutID << value;
         });
 }
 
