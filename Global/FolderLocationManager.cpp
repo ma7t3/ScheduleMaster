@@ -33,11 +33,18 @@ QString FolderLocationConfig::resolvePathPlaceholders(QString path) {
     return path;
 }
 
-FolderLocationConfig::FolderLocationConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
-
-FolderLocationManager::FolderLocationManager(QObject *parent) : GlobalConfigManager(parent) {
-    qDebug() << "Test";
+void FolderLocationManager::init() {
+    GlobalConfigManager::init();
     loadItems("Locations");
+
+    SettingsManager::callOnChange(
+        instance(),
+        [](const QString &id) { return id.startsWith("locations/"); },
+        [](const QString &settingID, const QVariant &value) {
+            QString locationID = settingID;
+            locationID.remove("locations/");
+            emit instance()->currentFolderLocationPathsChanged(locationID, value.toStringList());
+        });
 }
 
 QMap<QString, QStringList> FolderLocationManager::currentFolderLocations() {
@@ -74,7 +81,6 @@ QStringList FolderLocationManager::currentFolderLocationPaths(const QString &fol
 
 void FolderLocationManager::setCurrentFolderLocationPaths(const QString &folderLocationID, const QStringList &paths) {
     SettingsManager::setValue("locations/" + folderLocationID, paths);
-    emit instance()->currentFolderLocationPathsChanged(folderLocationID, paths);
 }
 
 void FolderLocationManager::setCurrentFolderLocations(const QMap<QString, QStringList> &folderLocations) {
