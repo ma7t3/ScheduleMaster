@@ -24,7 +24,7 @@ struct ActionConfig : public GlobalConfigItem {
      * @param id The ID of the action.
      * @param index The index of the action.
      */
-    ActionConfig(const QString &id, const int &index = 0);
+    ActionConfig(const QString &id, const int &index = 0) : GlobalConfigItem(id, index) {}
 
     bool canHaveShortcut; ///< Indicates if the action can have a shortcut.
     QString text; ///< The text of the action.
@@ -46,7 +46,7 @@ class ActionManager : public GlobalConfigManager<ActionManager, ActionConfig> {
     Q_OBJECT
     Q_DISABLE_COPY(ActionManager)
 
-private:
+protected:
     /**
      * @brief Constructs an ActionManager object.
      * @param parent The parent QObject.

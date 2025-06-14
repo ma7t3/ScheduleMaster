@@ -19,8 +19,6 @@ ActionConfig::ActionConfig(const QJsonObject &jsonObject, const int &index) : Gl
         jsonObject.value("defaultKeyboardShortcut"));
 }
 
-ActionConfig::ActionConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
-
 void ActionManager::init() {
     GlobalConfigManager::init();
 
