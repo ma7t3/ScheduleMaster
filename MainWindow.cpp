@@ -252,6 +252,7 @@ void MainWindow::openProjectFromFile(const QString &filePath) {
     qInfo() << "Open project file" << filePath;
     createFileHandlerProgressDialog(tr("Open project..."));
     _fileHandler->readFile(filePath);
+    LastUsedFilesManager::addLastUsedFile(filePath);
 }
 
 void MainWindow::showRecentFilesMenu() {
@@ -265,6 +266,7 @@ void MainWindow::saveProject() {
 
 void MainWindow::saveProjectAs() {
     qInfo() << "Save project as";
+    // TODO: LastUsedFilesManager::addLastUsedFile(filePath);
 }
 
 void MainWindow::saveProjectToFile(const QString &filePath) {
