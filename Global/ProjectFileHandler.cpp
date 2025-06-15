@@ -145,7 +145,7 @@ void ProjectFileHandler::finishRun(const FinishReason &reason) {
     _projectData->moveToThread(QApplication::instance()->thread());
     Global::blockSignalsRecursive(_projectData, false);
     switch(reason) {
-        case SuccessfulReason: qInfo()    << "   Finished succesfully!"; break;
+        case SuccessfulReason: qInfo()    << "   Finished successfully!"; break;
         case CancelReason:     qInfo()    << "   Canceled!"; break;
         case ErrorReason:      qWarning() << "   Failed!"; break;
     }
