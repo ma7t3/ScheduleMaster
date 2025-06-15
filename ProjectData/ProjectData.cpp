@@ -31,6 +31,7 @@ void ProjectData::reset() {
     _undoStack->clear();
     _filePath.clear();
     _busstops.clear();
+    emit cleared();
 }
 
 int ProjectData::busstopCount() const {
@@ -51,14 +52,19 @@ PDISet<Busstop> ProjectData::busstops() const {
 
 void ProjectData::addBusstop(Busstop *busstop) {
     _busstops.add(busstop);
+    emit busstopAdded(busstop);
 }
 
 void ProjectData::removeBusstop(Busstop *busstop) {
     _busstops.remove(busstop);
+    emit busstopRemoved(busstop);
 }
 
 void ProjectData::removeBusstop(const QUuid &id) {
+    Busstop *b = _busstops.value(id, nullptr);
     _busstops.remove(id);
+    if(b)
+        emit busstopRemoved(b);
 }
 
 Busstop *ProjectData::busstopOfPlatform(BusstopPlatform *busstopPlatform) {
@@ -87,6 +93,5 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
         if(i % 10 == 0) // we don't need to update for every single busstop :)
             emit progressUpdate(i + 1);
     }
-
     return true;
 }

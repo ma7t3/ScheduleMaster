@@ -153,6 +153,11 @@ signals:
      */
     void progressUpdate(const int &currentProgress);
 
+    void cleared();
+
+    void busstopAdded(Busstop *);
+    void busstopRemoved(Busstop *);
+
 private:
     /**
      * @brief The file path of the project file that is currently loaded. This can be an empty string if the file was never saved.
