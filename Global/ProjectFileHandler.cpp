@@ -93,14 +93,14 @@ void ProjectFileHandler::run() {
             finishRun(ErrorReason); return;
         }
 
-        _projectData->blockSignals(false);
+        // _projectData->blockSignals(false); // see above
         if(!startStep(tr("Loading project data...")))
             return;
 
         qInfo() << "Loading project data...";
 
         bool result = _projectData->setJson(doc.object(), [this](){return isInterruptionRequested();});
-        _projectData->blockSignals(true);
+        // _projectData->blockSignals(true); // see above
         finishRun(result ? SuccessfulReason : CancelReason);
         return;
     }
