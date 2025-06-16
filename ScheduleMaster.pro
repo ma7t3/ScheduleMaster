@@ -114,6 +114,7 @@ HEADERS += \
     ProjectData/LineDirection.h \
     ProjectData/Route.h \
     ProjectData/RouteBusstopItem.h \
+    ProjectDataModels/UnorderedProjectDataRowModel.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPage.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h \
