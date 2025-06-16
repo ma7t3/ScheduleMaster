@@ -64,6 +64,18 @@ public:
     static QList<T> items() { return _items.values(); }
 
     /**
+     * @brief Returns a list of all items inside the handler sorted by their index.
+     * @return The sorted item list
+     */
+    static QList<T> sortedItems() {
+        QList<T> list = _items.values();
+        std::sort(list.begin(), list.end(), [](const T &a, const T &b) {
+            return a.index() < b.index();
+        });
+        return list;
+    }
+
+    /**
      * @brief Returns a map of all items inside the handler using the item IDs as keys.
      * @return The item map
      */
