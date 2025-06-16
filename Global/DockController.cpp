@@ -3,6 +3,7 @@
 #include "Global/ActionController.h"
 #include "Widgets/Docks/DockWelcome.h"
 #include "Widgets/Docks/DockNews.h"
+#include "Widgets/Docks/DockBusstops.h"
 
 #include <QDockWidget>
 #include <QUndoView>
@@ -45,9 +46,9 @@ void DockController::loadStandardDocks() {
     addDock(DockManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
     addDock(DockManager::item("news"), new DockNews(static_cast<QWidget *>(parent())));
     addDock(DockManager::item("undoView"), new QUndoView(static_cast<QWidget *>(parent())));
+    addDock(DockManager::item("busstops"), new DockBusstops(static_cast<QWidget *>(parent())));
 
     // TODO: Implement dock classes
-    addDock(DockManager::item("busstops"), new QWidget(static_cast<QWidget *>(parent())));
     addDock(DockManager::item("lines"), new QWidget(static_cast<QWidget *>(parent())));
     addDock(DockManager::item("routes"), new QWidget(static_cast<QWidget *>(parent())));
 }

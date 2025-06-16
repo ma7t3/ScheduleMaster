@@ -1,0 +1,35 @@
+#ifndef DOCKBUSSTOPS_H
+#define DOCKBUSSTOPS_H
+
+#include <QWidget>
+#include <QSortFilterProxyModel>
+
+#include "DockAbstract.h"
+#include "ProjectDataModels/BusstopTableModel.h"
+
+namespace Ui {
+class DockBusstops;
+}
+
+class DockBusstops : public DockAbstract {
+    Q_OBJECT
+
+public:
+    explicit DockBusstops(QWidget *parent = nullptr);
+    ~DockBusstops();
+
+protected:
+    void onBusstopNew();
+    void onBusstopEdit();
+    void onBusstopDelete();
+
+private:
+    Ui::DockBusstops *ui;
+    QAction *_newAction, *_editAction, *_deleteAction, *_searchAction;
+    BusstopTableModel *_model;
+    QSortFilterProxyModel *_proxyModel;
+
+    ProjectData *_projectData;
+};
+
+#endif // DOCKBUSSTOPS_H
