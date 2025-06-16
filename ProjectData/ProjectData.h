@@ -142,7 +142,7 @@ public:
 signals:
 
     /**
-     * @brief This signals is emited once when loading the project data from a json object unsing the setJson method.
+     * @brief This signal is emited once when loading the project data from a json object unsing the setJson method.
      * @param maximum The total amount of elements inside the json that will be loaded.
      */
     void progressMaximum(const int &maximum);
@@ -153,9 +153,19 @@ signals:
      */
     void progressUpdate(const int &currentProgress);
 
+    /**
+     * @brief cleared This signal is emited whenever the clear() method was called after all items have been removed and the object returned to an empty state.
+     */
     void cleared();
 
+    /**
+     * @brief busstopAdded This signal is emited whenever a busstop is added to the project.
+     */
     void busstopAdded(Busstop *);
+
+    /**
+     * @brief busstopRemoved This signal is emited whenever a busstop is removed from the project.
+     */
     void busstopRemoved(Busstop *);
 
 private:
