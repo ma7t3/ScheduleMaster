@@ -224,6 +224,14 @@ public:
 
         QHash<QUuid, T *>::clear();
     }
+
+    QMap<QUuid, T*> toMap() const {
+        QMap<QUuid, T*> map;
+        for (auto it = this->constBegin(); it != this->constEnd(); ++it) {
+            map.insert(it.key(), it.value());
+        }
+        return map;
+    }
 };
 
 template <typename T>
