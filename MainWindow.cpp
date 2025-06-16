@@ -131,6 +131,7 @@ void MainWindow::showEvent(QShowEvent *event) {
 }
 
 void MainWindow::connectToInterface() {
+    ApplicationInterface::init(_projectData);
     connect(ApplicationInterface::instance(), &ApplicationInterface::newProject,                  this, &MainWindow::newProject);
     connect(ApplicationInterface::instance(), &ApplicationInterface::openProject,                 this, &MainWindow::openProject);
     connect(ApplicationInterface::instance(), &ApplicationInterface::openProjectFromFile,         this, &MainWindow::openProjectFromFile);
