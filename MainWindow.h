@@ -44,6 +44,7 @@ protected slots:
     void saveProjectAs();
     void saveProjectToFile(const QString &filePath);
     void closeProject();
+    void closeProjectBackToHome();
     void quitApplication();
 
     void removeProjectFromRecentList(const QString &filePath);

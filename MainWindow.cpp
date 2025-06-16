@@ -98,7 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(actionShowRecentFilesList,        &QAction::triggered,                         this, &MainWindow::showRecentFilesMenu);
     connect(ui->actionFileSaveProject,        &QAction::triggered,                         this, &MainWindow::saveProject);
     connect(ui->actionFileSaveProjectAs,      &QAction::triggered,                         this, &MainWindow::saveProjectAs);
-    connect(ui->actionFileCloseProject,       &QAction::triggered,                         this, &MainWindow::closeProject);
+    connect(ui->actionFileCloseProject,       &QAction::triggered,                         this, &MainWindow::closeProjectBackToHome);
     connect(ui->actionFileQuit,               &QAction::triggered,                         this, &MainWindow::quitApplication);
 
     connect(ui->actionEditPreferences,        &QAction::triggered,                         this, &MainWindow::openPreferences);
@@ -137,7 +137,7 @@ void MainWindow::connectToInterface() {
     connect(ApplicationInterface::instance(), &ApplicationInterface::openProjectFromFile,         this, &MainWindow::openProjectFromFile);
     connect(ApplicationInterface::instance(), &ApplicationInterface::saveProject,                 this, &MainWindow::saveProject);
     connect(ApplicationInterface::instance(), &ApplicationInterface::saveProjectAs,               this, &MainWindow::saveProjectAs);
-    connect(ApplicationInterface::instance(), &ApplicationInterface::closeProject,                this, &MainWindow::closeProject);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::closeProject,                this, &MainWindow::closeProjectBackToHome);
     connect(ApplicationInterface::instance(), &ApplicationInterface::quitApplication,             this, &MainWindow::quitApplication);
     connect(ApplicationInterface::instance(), &ApplicationInterface::removeProjectFromRecentList, this, &MainWindow::removeProjectFromRecentList);
     connect(ApplicationInterface::instance(), &ApplicationInterface::openPlugins,                 this, &MainWindow::openPlugins);
@@ -238,6 +238,7 @@ void MainWindow::showCrashWarning() {
 void MainWindow::newProject() {
     closeProject();
     qInfo() << "Create new project...";
+    _workspaceHandler->workspace("routing")->activate();
 }
 
 void MainWindow::openProject() {
@@ -278,6 +279,11 @@ void MainWindow::closeProject() {
     qInfo().noquote() << "Closing project" << _projectData->filePath();
     //TODO: Check for unsaved changes
     _projectData->reset();
+}
+
+void MainWindow::closeProjectBackToHome() {
+    closeProject();
+    _workspaceHandler->workspace("home")->activate();
 }
 
 void MainWindow::quitApplication() {
@@ -380,6 +386,8 @@ void MainWindow::onFileHandlerFinished() {
     _fileHandlerProgressDialog->deleteLater();
     _fileHandlerProgressDialog = nullptr;
     // TODO: reset all models
+    if(_workspaceHandler->currentWorkspace()->id() == "home")
+        _workspaceHandler->workspace("routing")->activate();
 }
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {
