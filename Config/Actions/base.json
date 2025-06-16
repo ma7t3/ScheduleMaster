@@ -751,6 +751,86 @@
         "defaultKeyboardShortcut": "Alt+X"
     },
     {
+        "id": "projectData.item.new",
+        "icon": "plus",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "New",
+            "de_DE" : "Neu"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Create new item",
+            "de_DE" : "Neuen Eintrag anlegen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": "Ctrl++"
+    },
+    {
+        "id": "projectData.item.edit",
+        "icon": "pen",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Edit",
+            "de_DE" : "Bearbeiten"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Edit item",
+            "de_DE" : "Eintrag bearbeiten"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": "Return"
+    },
+    {
+        "id": "projectData.item.duplicate",
+        "icon": "clone",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Duplicate",
+            "de_DE" : "Duplizieren"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Duplicate item",
+            "de_DE" : "Eintrag duplizieren"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": "Ctrl+D"
+    },
+    {
+        "id": "projectData.item.delete",
+        "icon": "xmark",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Delete",
+            "de_DE" : "Löschen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Delete item",
+            "de_DE" : "Eintrag löschen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": "Del"
+    },
+    {
         "id": "variantEditor.listItem.add",
         "icon": "plus",
         "text": {
