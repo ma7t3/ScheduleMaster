@@ -30,7 +30,7 @@ void ProjectFileHandler::saveFile(const QString &filePath, const bool &compress)
 
 void ProjectFileHandler::beforeStart(const QString &filePath) {
     _filePath = filePath;
-    Global::blockSignalsRecursive(_projectData, true);
+    //Global::blockSignalsRecursive(_projectData, true); // Why do we use it? Just leave it out for now
     _projectData->setParent(nullptr);
     _projectData->moveToThread(this);
     start();
@@ -143,7 +143,7 @@ void ProjectFileHandler::run() {
 
 void ProjectFileHandler::finishRun(const FinishReason &reason) {
     _projectData->moveToThread(QApplication::instance()->thread());
-    Global::blockSignalsRecursive(_projectData, false);
+    //Global::blockSignalsRecursive(_projectData, false); // see above
     switch(reason) {
         case SuccessfulReason: qInfo()    << "   Finished successfully!"; break;
         case CancelReason:     qInfo()    << "   Canceled!"; break;
