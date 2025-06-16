@@ -30,6 +30,17 @@ QMap<QString, QDockWidget *> DockController::docks() {
     return _docks;
 }
 
+QList<QDockWidget *> DockController::dockList() {
+    const QList<DockConfig> dockConfigs = DockManager::sortedItems();
+    QList<QDockWidget *> resultList;
+    for(const DockConfig &config : dockConfigs) {
+        QString id = config.id();
+        resultList << dock(id);
+    }
+
+    return resultList;
+}
+
 void DockController::loadStandardDocks() {
     addDock(DockManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
     addDock(DockManager::item("news"), new DockNews(static_cast<QWidget *>(parent())));
@@ -41,6 +52,6 @@ void DockController::loadStandardDocks() {
     addDock(DockManager::item("routes"), new QWidget(static_cast<QWidget *>(parent())));
 }
 
-QDockWidget *DockController::dock(const QString &id) const {
+QDockWidget *DockController::dock(const QString &id) {
     return _docks.value(id, nullptr);
 }

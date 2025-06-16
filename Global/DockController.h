@@ -25,6 +25,10 @@ class DockController : public QObject {
     Q_OBJECT
 public:
     explicit DockController(QObject *parent = nullptr);
+
+    /**
+     * @brief Loads all built-in standard docs
+     */
     void loadStandardDocks();
 
     /**
@@ -41,11 +45,17 @@ public:
     static QMap<QString, QDockWidget *> docks();
 
     /**
+     * @brief Gets all available docks as a list.
+     * @return A list containing all available docks ordered by their index.
+     */
+    static QList<QDockWidget *> dockList();
+
+    /**
      * @brief Gets a specific dock by its id.
      * @param id The id of the dock to get.
      * @return The dock with the given id or nullptr if no dock with the given id exists.
      */
-    QDockWidget *dock(const QString &id) const;
+    static QDockWidget *dock(const QString &id);
 
 signals:
     /**
