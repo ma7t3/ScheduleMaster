@@ -171,7 +171,7 @@ public:
      * @param flag The flag to filter by
      * @return A ProjectDataItemSet of all platforms that have the flag set.
      */
-    PDISet<BusstopPlatform> platformsWithFlag(const BusstopPlatformFlag &flag);
+    PDISet<BusstopPlatform> platformsWithFlag(const BusstopPlatformFlag &flag) const;
 
     /**
      * @brief Returns the default platform of the busstop.

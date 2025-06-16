@@ -61,7 +61,7 @@ void Busstop::removePlatform(const QUuid &id) {
     _data.platforms.remove(id);
 }
 
-PDISet<BusstopPlatform> Busstop::platformsWithFlag(const BusstopPlatformFlag &flag) {
+PDISet<BusstopPlatform> Busstop::platformsWithFlag(const BusstopPlatformFlag &flag) const {
     PDISet<BusstopPlatform> result;
     for(BusstopPlatform *platform : std::as_const(_data.platforms))
         if(platform->flags().testFlag(flag))
