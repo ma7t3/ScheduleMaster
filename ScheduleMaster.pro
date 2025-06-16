@@ -38,6 +38,7 @@ SOURCES += \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
+    ProjectDataModels/BusstopTableModel.cpp \
     Widgets/Docks/DockNews.cpp \
     Widgets/Docks/DockWelcome.cpp \
     Widgets/WdgGlobalSearchItem.cpp \
@@ -114,6 +115,7 @@ HEADERS += \
     ProjectData/LineDirection.h \
     ProjectData/Route.h \
     ProjectData/RouteBusstopItem.h \
+    ProjectDataModels/BusstopTableModel.h \
     ProjectDataModels/UnorderedProjectDataRowModel.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPage.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h \
