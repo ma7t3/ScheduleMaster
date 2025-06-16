@@ -38,7 +38,6 @@ SOURCES += \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
-    Widgets/Docks/DockAbstract.cpp \
     Widgets/Docks/DockNews.cpp \
     Widgets/Docks/DockWelcome.cpp \
     Widgets/WdgGlobalSearchItem.cpp \

@@ -14,6 +14,7 @@
 #include "Global/WorkspaceHandler.h"
 #include "ApplicationInterface.h"
 #include "ProjectData/ProjectData.h"
+#include "Widgets/Docks/DockAbstract.h"
 
 #include <QTimer>
 #include <QDesktopServices>
@@ -152,6 +153,19 @@ void MainWindow::loadDocks() {
     connect(_dockController, &DockController::dockAdded, this, &MainWindow::onDockAdded);
     _dockController->loadStandardDocks();
     static_cast<QUndoView *>(_dockController->dock("undoView")->widget())->setStack(_projectData->undoStack());
+
+    for(QDockWidget *dockWidget : _dockController->dockList()) {
+        DockAbstract *dock = qobject_cast<DockAbstract *>(dockWidget->widget());
+        if(!dock)
+            continue;
+
+        QMenu *menu = dock->globalMenu();
+        if(menu->isEmpty())
+            continue;
+
+        menu->setTitle(dockWidget->windowTitle());
+        ui->menubar->addMenu(menu);
+    }
 }
 
 void MainWindow::initToolbars() {
