@@ -48,6 +48,7 @@ void Busstop::addPlatform(BusstopPlatform *platform) {
         return;
 
     _data.platforms.add(platform);
+    emit changed();
 }
 
 void Busstop::removePlatform(BusstopPlatform *platform) {
@@ -55,10 +56,12 @@ void Busstop::removePlatform(BusstopPlatform *platform) {
         return;
 
     removePlatform(platform->id());
+    emit changed();
 }
 
 void Busstop::removePlatform(const QUuid &id) {
     _data.platforms.remove(id);
+    emit changed();
 }
 
 PDISet<BusstopPlatform> Busstop::platformsWithFlag(const BusstopPlatformFlag &flag) const {
