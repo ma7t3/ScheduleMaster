@@ -32,6 +32,18 @@ struct ProjectDataItemData {
     }
 
     /**
+     * @brief Returns the internal comment of the ProjectDataItemData.
+     * @return The internal comment
+     */
+    QString comment() const { return _comment; }
+
+    /**
+     * @brief Sets the internal comment of the ProjectDataItemData to newComment.
+     * @param newComment The comment to set
+     */
+    void setComment(const QString &newComment) { _comment = newComment; }
+
+    /**
      * @brief Retruns a cloned version of the data.
      *
      * This will create deep copies of all sub-items in containers.
@@ -71,9 +83,8 @@ struct ProjectDataItemData {
         }
 
         // Speicher der Kopien freigeben
-        for (auto *copy : selfCopyList) {
+        for (auto *copy : std::as_const(selfCopyList))
             delete copy;
-        }
     }
 
 protected:
@@ -94,6 +105,11 @@ protected:
      * @return The list of member pointers.
      */
     virtual QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() = 0;
+
+    /**
+     * @brief The _comment member variable is a general string that can be used to store an internal comment for every item in the ProjectData class.
+     */
+    QString _comment;
 };
 
 #endif // PROJECTDATAITEMDATA_H

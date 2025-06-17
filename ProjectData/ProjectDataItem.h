@@ -57,6 +57,18 @@ public:
     QString idAsString() const { return id().toString(QUuid::WithoutBraces); }
 
     /**
+     * @brief Returns the internal comment of the ProjectDataItem.
+     * @return The internal comment
+     */
+    QString comment() const { return _data.comment(); }
+
+    /**
+     * @brief Sets the internal comment of the ProjectDataItem to newComment.
+     * @param newComment The comment to set
+     */
+    void setComment(const QString &newComment) { _data.setComment(newComment); }
+
+    /**
      * @brief Returns a pointer to the root ProjectData object.
      *
      * Returns nullptr if this objects is not a child of a ProjectData object.
@@ -110,6 +122,7 @@ public:
     virtual QJsonObject toJson() const {
         QJsonObject jsonObject;
         jsonObject.insert("id", idAsString());
+        jsonObject.insert("comment", comment());
         return jsonObject;
     }
 
@@ -216,6 +229,7 @@ protected:
     virtual void fromJson(const QJsonObject &jsonObject) {
         QUuid id = QUuid::fromString(jsonObject.value("id").toString());
         setID(id.isNull() ? generateID() : id);
+        setComment(jsonObject.value("comment").toString());
     }
 
     /**
