@@ -48,7 +48,7 @@ private:
 class CmdBusstopsRemove : public Command {
 public:
     CmdBusstopsRemove(ProjectData *projectData, PDISet<Busstop> busstops) :
-        Command(busstops.size() > 1 ? QObject::tr("Remove %n busstop", "", busstops.size()) : QObject::tr("Remove busstop: %1").arg(busstops.values().first()->name())),
+        Command(busstops.size() > 1 ? QObject::tr("Remove %n busstops", "", busstops.size()) : QObject::tr("Remove busstop: %1").arg(busstops.values().first()->name())),
         projectData(projectData),
         busstops(busstops) {}
 
