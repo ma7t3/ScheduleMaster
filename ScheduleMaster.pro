@@ -42,6 +42,8 @@ SOURCES += \
     Widgets/Docks/DockBusstops.cpp \
     Widgets/Docks/DockNews.cpp \
     Widgets/Docks/DockWelcome.cpp \
+    Widgets/WdgBusstopFlagEditor.cpp \
+    Widgets/WdgBusstopPlatformEditor.cpp \
     Widgets/WdgGlobalSearchItem.cpp \
     main.cpp \
     MainWindow.cpp \
@@ -132,6 +134,8 @@ HEADERS += \
     Widgets/Docks/DockNews.h \
     Widgets/Docks/DockWelcome.h \
     Widgets/WdgAccentColorSelector.h \
+    Widgets/WdgBusstopFlagEditor.h \
+    Widgets/WdgBusstopPlatformEditor.h \
     Widgets/WdgColorSchemeSelector.h \
     Widgets/WdgGlobalSearchItem.h \
     Widgets/WdgVariantEditor.h \
@@ -154,6 +158,8 @@ FORMS += \
     Widgets/Docks/DockNews.ui \
     Widgets/Docks/DockWelcome.ui \
     Widgets/WdgAccentColorSelector.ui \
+    Widgets/WdgBusstopFlagEditor.ui \
+    Widgets/WdgBusstopPlatformEditor.ui \
     Widgets/WdgColorSchemeSelector.ui \
     Widgets/WdgGlobalSearchItem.ui \
     Widgets/WdgVariantEditor.ui \
