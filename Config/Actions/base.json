@@ -811,6 +811,25 @@
         "defaultKeyboardShortcut": "Ctrl+D"
     },
     {
+        "id": "projectData.item.setAsDefault",
+        "icon": "circle-check",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Set as Default",
+            "de_DE" : "Als Standard festlegen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Set Item as Default",
+            "de_DE" : "Eintrag als Standard festlegen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        }
+    },
+    {
         "id": "projectData.item.delete",
         "icon": "xmark",
         "text": {
