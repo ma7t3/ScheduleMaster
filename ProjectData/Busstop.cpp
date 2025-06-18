@@ -74,10 +74,10 @@ PDISet<BusstopPlatform> Busstop::platformsWithFlag(const BusstopPlatformFlag &fl
 }
 
 BusstopPlatform *Busstop::defaultPlatform() const {
-    if(!_data.defaultPlatform)
+    if(_data.defaultPlatform.isNull())
         return nullptr;
 
-    return _data.platforms.find(_data.defaultPlatform->id());
+    return _data.platforms.value(_data.defaultPlatform, nullptr);
 }
 
 bool Busstop::isDefaultPlatform(BusstopPlatform *platform) const {
@@ -88,7 +88,7 @@ void Busstop::setDefaultPlatform(BusstopPlatform *platform) {
     if(!platform || !_data.platforms.contains(platform))
         return;
 
-    _data.defaultPlatform = platform;
+    _data.defaultPlatform = platform->id();
     emit changed();
 }
 
@@ -111,15 +111,12 @@ void Busstop::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
     _data.name  = jsonObject.value("name").toString(tr("Unnamed busstop"));
     _data.flags = BusstopFlags::fromInt(jsonObject.value("flags").toInt(0));
-
-    QUuid defaultPlatformID = QUuid::fromString(jsonObject.value("defaultPlatform").toString());
+    _data.defaultPlatform = QUuid::fromString(jsonObject.value("defaultPlatform").toString());
 
     QJsonArray jsonPlatforms = jsonObject.value("platforms").toArray();
-    for(QJsonValue val : std::as_const(jsonPlatforms)) {
-        QJsonObject obj = val.toObject();
+    for(const QJsonValue &val : std::as_const(jsonPlatforms)) {
+        const QJsonObject obj = val.toObject();
         BusstopPlatform *bp = new BusstopPlatform(this, obj);
         _data.platforms.add(bp);
-        if(bp->id() == defaultPlatformID)
-            _data.defaultPlatform = bp;
     }
 }
