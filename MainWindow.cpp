@@ -25,6 +25,7 @@
 #include <QToolBar>
 #include <QUndoStack>
 #include <QUndoView>
+#include <QLayout>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -152,7 +153,7 @@ void MainWindow::loadDocks() {
     _dockController = new DockController(this);
     connect(_dockController, &DockController::dockAdded, this, &MainWindow::onDockAdded);
     _dockController->loadStandardDocks();
-    static_cast<QUndoView *>(_dockController->dock("undoView")->widget())->setStack(_projectData->undoStack());
+    static_cast<QUndoView *>(_dockController->dock("undoView")->widget()->layout()->itemAt(0)->widget())->setStack(_projectData->undoStack());
 
     for(QDockWidget *dockWidget : _dockController->dockList()) {
         DockAbstract *dock = qobject_cast<DockAbstract *>(dockWidget->widget());

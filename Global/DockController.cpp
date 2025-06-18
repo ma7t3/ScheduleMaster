@@ -7,6 +7,7 @@
 
 #include <QDockWidget>
 #include <QUndoView>
+#include <QVBoxLayout>
 
 DockController::DockController(QObject *parent) : QObject(parent) {}
 
@@ -45,7 +46,13 @@ QList<QDockWidget *> DockController::dockList() {
 void DockController::loadStandardDocks() {
     addDock(DockManager::item("welcome"), new DockWelcome(static_cast<QWidget *>(parent())));
     addDock(DockManager::item("news"), new DockNews(static_cast<QWidget *>(parent())));
-    addDock(DockManager::item("undoView"), new QUndoView(static_cast<QWidget *>(parent())));
+
+    QWidget *undoViewWidget = new QWidget(static_cast<QWidget *>(parent()));
+    QLayout *undoLayout = new QVBoxLayout(undoViewWidget);
+    undoLayout->addWidget(new QUndoView(static_cast<QWidget *>(parent())));
+    undoViewWidget->setLayout(undoLayout);
+    addDock(DockManager::item("undoView"), undoViewWidget);
+
     addDock(DockManager::item("busstops"), new DockBusstops(static_cast<QWidget *>(parent())));
 
     // TODO: Implement dock classes
