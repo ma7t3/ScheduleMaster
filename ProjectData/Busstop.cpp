@@ -49,6 +49,7 @@ void Busstop::addPlatform(BusstopPlatform *platform) {
 
     _data.platforms.add(platform);
     emit changed();
+    emit platformAdded(platform);
 }
 
 void Busstop::removePlatform(BusstopPlatform *platform) {
@@ -57,11 +58,14 @@ void Busstop::removePlatform(BusstopPlatform *platform) {
 
     removePlatform(platform->id());
     emit changed();
+    emit platformRemoved(platform);
 }
 
 void Busstop::removePlatform(const QUuid &id) {
+    BusstopPlatform *platform = _data.platforms.value(id);
     _data.platforms.remove(id);
     emit changed();
+    emit platformRemoved(platform);
 }
 
 PDISet<BusstopPlatform> Busstop::platformsWithFlag(const BusstopPlatformFlag &flag) const {
@@ -88,8 +92,11 @@ void Busstop::setDefaultPlatform(BusstopPlatform *platform) {
     if(!platform || !_data.platforms.contains(platform))
         return;
 
+    BusstopPlatform *before = defaultPlatform();
+
     _data.defaultPlatform = platform->id();
     emit changed();
+    emit defaultPlatformChanged(before, platform);
 }
 
 QJsonObject Busstop::toJson() const {

@@ -198,6 +198,11 @@ public:
 
     QJsonObject toJson() const override;
 
+signals:
+    void platformAdded(BusstopPlatform *platform);
+    void platformRemoved(BusstopPlatform *platform);
+    void defaultPlatformChanged(BusstopPlatform *before, BusstopPlatform *after);
+
 protected:
     void fromJson(const QJsonObject &jsonObject) override;
 };
