@@ -91,7 +91,13 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
             case 0: return QString("<p><b>%1</b></p><p><small>%2</small></p>").arg(shortcut.first.description, shortcut.first.id());
             } break;
         case Qt::FontRole: switch (index.column()) {
-            case 1: return shortcut.first.defaultKeyboardShortcut == shortcut.second ? QVariant() : QFont("", -1, QFont::Bold);
+            case 1:
+                QFont font;
+                font.setBold(true);
+                return shortcut.first.defaultKeyboardShortcut == shortcut.second
+                           ? QVariant()
+                           : font;
+
         } break;
         case IDRole: return shortcut.first.id();
         case ModifiedRole: return shortcut.first.defaultKeyboardShortcut != shortcut.second;
