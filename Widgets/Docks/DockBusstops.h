@@ -18,10 +18,19 @@ public:
     explicit DockBusstops(QWidget *parent = nullptr);
     ~DockBusstops();
 
-protected:
+    Busstop *currentBusstop() const;
+    PDISet<Busstop> selectedBusstops() const;
+
+protected slots:
     void onBusstopNew();
     void onBusstopEdit();
     void onBusstopDelete();
+
+    void onSelectionChanged();
+
+signals:
+    void currentBusstopChanged(Busstop *);
+    void selectedBusstopsChaned(PDISet<Busstop>);
 
 private:
     Ui::DockBusstops *ui;
@@ -31,6 +40,7 @@ private:
     BusstopTableModelDelegate *_delegate;
 
     ProjectData *_projectData;
+    Busstop *_currentBusstop;
 };
 
 #endif // DOCKBUSSTOPS_H

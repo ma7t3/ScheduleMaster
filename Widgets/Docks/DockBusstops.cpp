@@ -1,10 +1,13 @@
 #include "DockBusstops.h"
 #include "ui_DockBusstops.h"
 
-#include "Global/ActionController.h"
+#include <QMessageBox>
 
-#include <QInputDialog>
+#include "Global/ActionController.h"
 #include "ApplicationInterface.h"
+#include "Dialogs/DlgBusstopEditor.h"
+
+#include "Commands/CmdBusstops.h"
 
 DockBusstops::DockBusstops(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockBusstops),
@@ -12,6 +15,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
     _proxyModel(new QSortFilterProxyModel(this)),
     _delegate(new BusstopTableModelDelegate(this)),
     _projectData(ApplicationInterface::projectData()),
+    _currentBusstop(nullptr) {
     ui->setupUi(this);
 
     _newAction = addAction("");
@@ -34,6 +38,10 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ActionController::add(ui->tbNew,    "projectData.item.new", ActionController::AllExceptShortcutComponent);
     ActionController::add(ui->tbEdit,   "projectData.item.edit", ActionController::AllExceptShortcutComponent);
     ActionController::add(ui->tbDelete, "projectData.item.delete", ActionController::AllExceptShortcutComponent);
+
+    connect(_newAction,    &QAction::enabledChanged, ui->tbNew,    &QPushButton::setEnabled);
+    connect(_editAction,   &QAction::enabledChanged, ui->tbEdit,   &QPushButton::setEnabled);
+    connect(_deleteAction, &QAction::enabledChanged, ui->tbDelete, &QPushButton::setEnabled);
 
     connect(ui->tbNew,    &QPushButton::clicked, _newAction,    &QAction::trigger);
     connect(ui->tbEdit,   &QPushButton::clicked, _editAction,   &QAction::trigger);
@@ -70,20 +78,43 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ui->twBusstops->setItemDelegateForColumn(2, _delegate);
     ui->twBusstops->setItemDelegateForColumn(3, _delegate);
 
+    connect(ui->twBusstops, &QTableView::doubleClicked, this, &DockBusstops::onBusstopEdit);
+    connect(ui->twBusstops->selectionModel(), &QItemSelectionModel::selectionChanged, this, &DockBusstops::onSelectionChanged);
+
     connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterFixedString);
 
     connect(_searchAction, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
+
+    onSelectionChanged();
 }
 
 DockBusstops::~DockBusstops() {
     delete ui;
 }
 
+Busstop *DockBusstops::currentBusstop() const {
+    return _currentBusstop;
+}
+
+PDISet<Busstop> DockBusstops::selectedBusstops() const {
+    const QModelIndexList list = ui->twBusstops->selectionModel()->selectedRows();
+    PDISet<Busstop> busstops;
+    for(const QModelIndex &index : list) {
+        Busstop *b = _model->itemAt(_proxyModel->mapToSource(index).row());
+        busstops.add(b);
+    }
+    return busstops;
+}
+
+// TODO: Can we make this logic a bit "schlanker"?!
 void DockBusstops::onBusstopNew() {
-    const QString name = QInputDialog::getText(this, "TEST - New Busstop", "Name: ");
-    Busstop *b = new Busstop(_projectData);
-    b->setName(name);
-    _projectData->addBusstop(b);
+    DlgBusstopEditor dlg;
+    if(dlg.exec() != QDialog::Accepted)
+        return;
+
+    Busstop *b = dlg.busstop();
+    b->setParent(_projectData);
+    _projectData->undoStack()->push(new CmdBusstopNew(_projectData, b));
 }
 
 void DockBusstops::onBusstopEdit() {
@@ -91,21 +122,52 @@ void DockBusstops::onBusstopEdit() {
     if(!b)
         return;
 
-    const QString newName = QInputDialog::getText(this, "TEST - New Busstop", "Name: ", QLineEdit::Normal, b->name());
-    b->setName(newName);
+    DlgBusstopEditor dlg(b);
+    if(dlg.exec() != QDialog::Accepted)
+        return;
+
+    _projectData->undoStack()->push(new CmdBusstopEdit(b, dlg.busstop()));
 }
 
 void DockBusstops::onBusstopDelete() {
-    const QModelIndexList list = ui->twBusstops->selectionModel()->selectedRows();
-    QList<Busstop *> busstops;
-    for(const QModelIndex &index : list) {
-        Busstop *b = _model->itemAt(_proxyModel->mapToSource(index).row());
-        if(!b)
-            return;
+    const PDISet<Busstop> busstops = selectedBusstops();
+    QString bulletList;
+    for(Busstop *b : busstops) {
+        bulletList += QString("<li>%1</li>").arg(b->name());
+    }
 
-        busstops << b;
+    QMessageBox::StandardButton msg = QMessageBox::warning(
+        this,
+        tr("Delete busstop(s)"),
+        tr("<p><b>Do you really want to delete these %n busstop(s)?</b></p><ul>%1</ul>",
+           "",
+           busstops.count())
+            .arg(bulletList),
+        QMessageBox::Yes | QMessageBox::No);
+    if(msg != QMessageBox::Yes)
+        return;
+
+    _projectData->undoStack()->push(new CmdBusstopsRemove(_projectData, busstops));
+}
+
+void DockBusstops::onSelectionChanged() {
+    const QModelIndex current = ui->twBusstops->currentIndex();
+    const QModelIndexList list = ui->twBusstops->selectionModel()->selectedRows();
+    const int count = list.count();
+
+    _editAction->setEnabled(count == 1);
+    _deleteAction->setEnabled(count > 0);
+
+    Busstop *b;
+    if(current.isValid())
+        b = _model->itemAt(_proxyModel->mapToSource(current).row());
+    else
+        b = nullptr;
+
+    if(b != _currentBusstop) {
+        _currentBusstop = b;
+        emit currentBusstopChanged(b);
     }
-    for(Busstop *b : std::as_const(busstops)) {
-        _projectData->removeBusstop(b);
-    }
+
+    emit selectedBusstopsChaned(selectedBusstops());
 }

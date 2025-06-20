@@ -9,6 +9,7 @@ CONFIG += c++17
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Dialogs/DlgBusstopEditor.cpp \
     Dialogs/DlgConfigEditor.cpp \
     Dialogs/DlgGlobalSearch.cpp \
     Dialogs/DlgPreferences.cpp \
@@ -38,6 +39,7 @@ SOURCES += \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
+    ProjectDataModels/BusstopPlatformTableModel.cpp \
     ProjectDataModels/BusstopTableModel.cpp \
     Widgets/Docks/DockBusstops.cpp \
     Widgets/Docks/DockNews.cpp \
@@ -72,6 +74,7 @@ HEADERS += \
     ApplicationInterface.h \
     Commands/CmdBusstops.h \
     Commands/CmdGeneral.h \
+    Dialogs/DlgBusstopEditor.h \
     Dialogs/DlgConfigEditor.h \
     Dialogs/DlgGlobalSearch.h \
     Dialogs/DlgPreferences.h \
@@ -118,6 +121,7 @@ HEADERS += \
     ProjectData/LineDirection.h \
     ProjectData/Route.h \
     ProjectData/RouteBusstopItem.h \
+    ProjectDataModels/BusstopPlatformTableModel.h \
     ProjectDataModels/BusstopTableModel.h \
     ProjectDataModels/UnorderedProjectDataRowModel.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPage.h \
@@ -142,6 +146,7 @@ HEADERS += \
     Widgets/WdgWelcomeRecentProjectEntry.h
 
 FORMS += \
+    Dialogs/DlgBusstopEditor.ui \
     Dialogs/DlgConfigEditor.ui \
     Dialogs/DlgGlobalSearch.ui \
     Dialogs/DlgPreferences.ui \
