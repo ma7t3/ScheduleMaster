@@ -57,7 +57,10 @@ public:
      * @return A pointer to the item at the specified index.
      */
     T *itemAt(const int &index) const {
-        return _cache[index];
+        if(index >= 0 && index < _cache.count())
+            return _cache[index];
+        else
+            return nullptr;
     }
 
     /**
