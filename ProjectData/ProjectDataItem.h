@@ -66,7 +66,10 @@ public:
      * @brief Sets the internal comment of the ProjectDataItem to newComment.
      * @param newComment The comment to set
      */
-    void setComment(const QString &newComment) { _data.setComment(newComment); }
+    void setComment(const QString &newComment) {
+        _data.setComment(newComment);
+        emit changed();
+    }
 
     /**
      * @brief Returns a pointer to the root ProjectData object.
