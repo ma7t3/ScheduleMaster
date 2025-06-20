@@ -180,5 +180,8 @@
         <file>Icons/fontawesome.6.normal/newspaper.svg</file>
         <file>Icons/fontawesome.6.colorful/newspaper.svg</file>
         <file>Icons/classic/newspaper.ico</file>
+        <file>Icons/classic/busstop-terminus.ico</file>
+        <file>Icons/classic/busstop-transfer.ico</file>
+        <file>Icons/classic/busstop-transfer-central.ico</file>
     </qresource>
 </RCC>
