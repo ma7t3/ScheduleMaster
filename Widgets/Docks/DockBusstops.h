@@ -28,6 +28,7 @@ private:
     QAction *_newAction, *_editAction, *_deleteAction, *_searchAction;
     BusstopTableModel *_model;
     QSortFilterProxyModel *_proxyModel;
+    BusstopTableModelDelegate *_delegate;
 
     ProjectData *_projectData;
 };

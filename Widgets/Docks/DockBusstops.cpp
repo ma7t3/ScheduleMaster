@@ -10,7 +10,8 @@ DockBusstops::DockBusstops(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockBusstops),
     _model(new BusstopTableModel(this)),
     _proxyModel(new QSortFilterProxyModel(this)),
-    _projectData(ApplicationInterface::projectData()) {
+    _delegate(new BusstopTableModelDelegate(this)),
+    _projectData(ApplicationInterface::projectData()),
     ui->setupUi(this);
 
     _newAction = addAction("");
@@ -60,8 +61,14 @@ DockBusstops::DockBusstops(QWidget *parent) :
 
     ui->twBusstops->setModel(_proxyModel);
     ui->twBusstops->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    ui->twBusstops->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->twBusstops->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    ui->twBusstops->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    ui->twBusstops->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     ui->twBusstops->horizontalHeader()->setSortIndicator(0, Qt::AscendingOrder);
+
+    ui->twBusstops->setItemDelegateForColumn(1, _delegate);
+    ui->twBusstops->setItemDelegateForColumn(2, _delegate);
+    ui->twBusstops->setItemDelegateForColumn(3, _delegate);
 
     connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterFixedString);
 

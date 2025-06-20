@@ -2,10 +2,34 @@
 #define BUSSTOPTABLEMODEL_H
 
 #include <QAbstractItemModel>
+#include <QStyledItemDelegate>
+#include <QPainter>
 
 #include "ProjectDataModels/UnorderedProjectDataRowModel.h"
 #include "ProjectData/Busstop.h"
 #include "ProjectData/ProjectData.h"
+#include "Global/IconController.h"
+
+class BusstopTableModelDelegate : public QStyledItemDelegate {
+    Q_OBJECT
+
+public:
+    BusstopTableModelDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index) const override;
+
+    QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const override;
+
+protected:
+    void paintRoleIcons(QPainter *painter, const QStyleOptionViewItem &option, Busstop *busstop) const;
+    void paintPlatforms(QPainter *painter, const QStyleOptionViewItem &option, Busstop *busstop) const;
+    void paintLines(QPainter *painter, const QStyleOptionViewItem &option, Busstop *busstop) const;
+
+    Busstop *busstopAtIndex(const QModelIndex &index) const;
+
+    static QStringList iconIDsList(const BusstopFlags &flags);
+};
 
 class BusstopTableModel : public UnorderedProjectDataRowModel<Busstop> {
     Q_OBJECT
@@ -13,16 +37,18 @@ class BusstopTableModel : public UnorderedProjectDataRowModel<Busstop> {
 public:
     explicit BusstopTableModel(QObject *parent = nullptr);
 
-    // Header:
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
 
-    // Basic functionality:
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 protected:
     virtual PDISet<Busstop> fetch() const override;
+
+    static QString platformsToString(Busstop *b);
+    static QString flagsToString(const BusstopFlags &flags);
 
 private:
     ProjectData *_projectData;
