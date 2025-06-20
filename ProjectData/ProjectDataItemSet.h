@@ -225,7 +225,11 @@ public:
         QHash<QUuid, T *>::clear();
     }
 
-    QMap<QUuid, T*> toMap() const {
+    /**
+     * @brief Converts the ProjectDataItemSet to a QMap with QUuid as key and T* as value.
+     * @return The QMap containing all items in the set.
+     */
+    QMap<QUuid, T* > toMap() const {
         QMap<QUuid, T*> map;
         for (auto it = this->constBegin(); it != this->constEnd(); ++it) {
             map.insert(it.key(), it.value());
