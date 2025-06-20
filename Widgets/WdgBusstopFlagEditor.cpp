@@ -2,10 +2,17 @@
 #include "ui_WdgBusstopFlagEditor.h"
 
 #include <QMessageBox>
+#include "Global/IconController.h"
 
 WdgBusstopFlagEditor::WdgBusstopFlagEditor(QWidget *parent) :
     QWidget(parent), ui(new Ui::WdgBusstopFlagEditor), _anotherChecked(false) {
     ui->setupUi(this);
+
+    ui->cbStandard->setIcon(IconController::icon("busstop"));
+    ui->cbFinal->setIcon(IconController::icon("busstop-terminus"));
+    ui->cbTransfer->setIcon(IconController::icon("busstop-transfer"));
+    ui->cbCentralTransfer->setIcon(IconController::icon("busstop-transfer-central"));
+    ui->cbInternal->setIcon(IconController::icon("gear"));
 
     _checkboxes = {ui->cbFinal, ui->cbTransfer, ui->cbCentralTransfer, ui->cbInternal};
 
