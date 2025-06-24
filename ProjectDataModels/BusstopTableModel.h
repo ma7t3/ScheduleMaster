@@ -26,6 +26,8 @@ protected:
     void paintPlatforms(QPainter *painter, const QStyleOptionViewItem &option, Busstop *busstop) const;
     void paintLines(QPainter *painter, const QStyleOptionViewItem &option, Busstop *busstop) const;
 
+    QSize calculatePlatformsSizeHint(const QStyleOptionViewItem &option, Busstop *busstop) const;
+
     Busstop *busstopAtIndex(const QModelIndex &index) const;
 
     static QStringList iconIDsList(const BusstopFlags &flags);

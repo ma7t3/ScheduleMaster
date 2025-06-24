@@ -35,7 +35,7 @@ QSize BusstopTableModelDelegate::sizeHint(const QStyleOptionViewItem &option, co
         return QSize(80, -1);
 
     case 2:
-        return QSize();
+        return calculatePlatformsSizeHint(option, busstopAtIndex(index));
 
     case 3:
         return QSize(); // TODO
@@ -124,6 +124,35 @@ void BusstopTableModelDelegate::paintPlatforms(QPainter *painter,
 void BusstopTableModelDelegate::paintLines(QPainter *painter, const QStyleOptionViewItem &option,
                                            Busstop *busstop) const {
     // TODO
+}
+
+QSize BusstopTableModelDelegate::calculatePlatformsSizeHint(const QStyleOptionViewItem &option, Busstop *busstop) const {
+    const QList<BusstopPlatform *> platforms = busstop->platforms().values();
+
+    int width = 0;
+
+    const int spacing = 6;
+    const int horizontalPadding = 4;
+
+    for (BusstopPlatform *platform : platforms) {
+        bool isDefaultPlatform = busstop->isDefaultPlatform(platform);
+        QFont f = option.font;
+
+        if(isDefaultPlatform) {
+            f.setBold(true);
+        }
+
+        QString text = platform->name();
+        QFontMetrics fm(f);
+        QSize textSize = fm.size(Qt::TextSingleLine, text);
+
+        // Rechteckgröße dynamisch: mit etwas zusätzlichem Innenabstand
+        int boxWidth = textSize.width() + 2 * horizontalPadding;
+
+        width += boxWidth + spacing;
+    }
+
+    return QSize(width, -1);
 }
 
 Busstop *BusstopTableModelDelegate::busstopAtIndex(const QModelIndex &index) const {
