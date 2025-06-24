@@ -26,6 +26,6 @@ QJsonObject LineDirection::toJson() const {
 
 void LineDirection::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
-    _data.description = jsonObject.value("description").toString(tr("unkown line direction"));
+    setDescription(jsonObject.value("description").toString(tr("unkown line direction")));
 }
 

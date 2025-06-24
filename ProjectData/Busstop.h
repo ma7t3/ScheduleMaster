@@ -65,8 +65,10 @@ struct BusstopData : ProjectDataItemData<BusstopData> {
  */
 
 class Busstop : public ProjectDataItem<Busstop, BusstopData> {
+    friend class ProjectData;
+    friend class ProjectDataItem<Busstop, BusstopData>;
     Q_OBJECT
-public:
+private:
     /**
      * @brief Constructs a new Busstop object.
      *
@@ -86,6 +88,7 @@ public:
      */
     explicit Busstop(QObject *parent, const QJsonObject &jsonObject);
 
+public:
     /**
      * @brief Compares this Busstop with other by their names.
      * @param other
@@ -124,6 +127,20 @@ public:
      * See also flags().
      */
     void setFlags(const BusstopFlags &newFlags);
+
+    /**
+     * @brief Creates a new platform with an optionally given parent.
+     * @param parent The parent QObject of the BusstopPlatform object. If not given, the Busstop will take ownership.
+     * @return The created BusstopPlatform object
+     */
+    BusstopPlatform *createPlatform(QObject *parent = nullptr);
+
+    /**
+     * @brief Creates a new BusstopPlatform object based on the given QJsonObject.
+     * @param jsonObject The QJsonObject to read the BusstopPlatform data from
+     * @return The created BusstopPlatform object
+     */
+    BusstopPlatform *createPlatform(const QJsonObject &jsonObject);
 
     /**
      * @brief Returns the Busstop's platform count
@@ -195,6 +212,12 @@ public:
      * @param platform The BusstopPlatform to set as the new default platform
      */
     void setDefaultPlatform(BusstopPlatform *platform);
+
+    /**
+     * @brief Sets a new default platform.
+     * @param id The id of the BusstopPlatform to set as the new default platform.
+     */
+    void setDefaultPlatform(const QUuid &id);
 
     QJsonObject toJson() const override;
 

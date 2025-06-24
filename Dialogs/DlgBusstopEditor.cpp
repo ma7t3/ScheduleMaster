@@ -7,7 +7,7 @@
 
 DlgBusstopEditor::DlgBusstopEditor(Busstop *busstop, QWidget *parent) :
     QDialog(parent), ui(new Ui::DlgBusstopEditor), _platformMenu(new QMenu(this)),
-    _busstop(busstop ? busstop->clone() : new Busstop(this)),
+    _busstop(busstop),
     _model(new BusstopPlatformTableModel(this)),
     _proxyModel(new QSortFilterProxyModel(this)) {
     ui->setupUi(this);
@@ -75,7 +75,7 @@ Busstop *DlgBusstopEditor::busstop() const {
 }
 
 void DlgBusstopEditor::onPlatformNew() {
-    BusstopPlatform *newPlatform = new BusstopPlatform(_busstop);
+    BusstopPlatform *newPlatform = _busstop->createPlatform();
     _busstop->addPlatform(newPlatform);
     QModelIndex current = _proxyModel->mapFromSource(_model->index(_model->indexOfItem(newPlatform), 0));
     ui->twPlatforms->setCurrentIndex(current);

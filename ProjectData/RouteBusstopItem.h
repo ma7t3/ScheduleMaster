@@ -29,8 +29,10 @@ struct RouteBusstopItemData : ProjectDataItemData<RouteBusstopItemData> {
  * In addition, one Route can use the same Busstop multiple times. So there will be multiple differen RouteBusstopItems referencing the same Busstop.
  */
 class RouteBusstopItem : public ProjectDataItem<RouteBusstopItem, RouteBusstopItemData> {
+    friend class Route;
+    friend class ProjectDataItem<RouteBusstopItem, RouteBusstopItemData>;
     Q_OBJECT
-public:
+private:
     /**
      * @brief Constructs a new RouteBusstopItem object.
      *
@@ -63,6 +65,7 @@ public:
      */
     explicit RouteBusstopItem(QObject *parent, const QJsonObject &jsonObject);
 
+public:
     /**
      * @brief Returns the RouteBusstopItem's Busstop.
      *

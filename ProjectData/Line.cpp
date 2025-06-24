@@ -42,6 +42,14 @@ void Line::setColor(const QColor &newColor) {
     emit changed();
 }
 
+LineDirection *Line::createDirection(QObject *parent) {
+    return new LineDirection(parent ? parent : this);
+}
+
+LineDirection *Line::createDirection(const QJsonObject &jsonObject) {
+    return new LineDirection(this, jsonObject);
+}
+
 int Line::directionCount() const {
     return _data.directions.count();
 }
@@ -93,11 +101,11 @@ QJsonObject Line::toJson() const {
 
 void Line::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
-    _data.name        = jsonObject.value("name").toString(tr("Unnamed line"));
-    _data.description = jsonObject.value("description").toString();
-    _data.color       = QColor(jsonObject.value("color").toString());
+    setName(jsonObject.value("name").toString(tr("Unnamed line")));
+    setDescription(jsonObject.value("description").toString());
+    setColor(QColor(jsonObject.value("color").toString()));
     QJsonArray jsonDirections = jsonObject.value("directions").toArray();
     for(QJsonValue val : jsonDirections)
-        _data.directions.append(new LineDirection(this, val.toObject()));
+        _data.directions.append(createDirection(val.toObject()));
 }
 

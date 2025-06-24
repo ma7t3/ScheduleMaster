@@ -106,14 +106,14 @@ PDISet<Busstop> DockBusstops::selectedBusstops() const {
     return busstops;
 }
 
-// TODO: Can we make this logic a bit "schlanker"?!
 void DockBusstops::onBusstopNew() {
-    DlgBusstopEditor dlg;
-    if(dlg.exec() != QDialog::Accepted)
+    Busstop *b = _projectData->createBusstop();
+    DlgBusstopEditor dlg(b);
+    if(dlg.exec() != QDialog::Accepted) {
+        b->deleteLater();
         return;
+    }
 
-    Busstop *b = dlg.busstop();
-    b->setParent(_projectData);
     _projectData->undoStack()->push(new CmdBusstopNew(_projectData, b));
 }
 
@@ -122,7 +122,7 @@ void DockBusstops::onBusstopEdit() {
     if(!b)
         return;
 
-    DlgBusstopEditor dlg(b);
+    DlgBusstopEditor dlg(b->clone());
     if(dlg.exec() != QDialog::Accepted)
         return;
 
@@ -132,9 +132,8 @@ void DockBusstops::onBusstopEdit() {
 void DockBusstops::onBusstopDelete() {
     const PDISet<Busstop> busstops = selectedBusstops();
     QString bulletList;
-    for(Busstop *b : busstops) {
+    for(Busstop *b : busstops)
         bulletList += QString("<li>%1</li>").arg(b->name());
-    }
 
     QMessageBox::StandardButton msg = QMessageBox::warning(
         this,

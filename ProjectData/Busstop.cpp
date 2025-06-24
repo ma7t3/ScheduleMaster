@@ -31,6 +31,14 @@ void Busstop::setFlags(const BusstopFlags &newFlags) {
     emit changed();
 }
 
+BusstopPlatform *Busstop::createPlatform(QObject *parent) {
+    return new BusstopPlatform(parent ? parent : this);
+}
+
+BusstopPlatform *Busstop::createPlatform(const QJsonObject &jsonObject) {
+    return new BusstopPlatform(this, jsonObject);
+}
+
 int Busstop::platformCount() const {
     return _data.platforms.count();
 }
@@ -99,6 +107,13 @@ void Busstop::setDefaultPlatform(BusstopPlatform *platform) {
     emit defaultPlatformChanged(before, platform);
 }
 
+void Busstop::setDefaultPlatform(const QUuid &id) {
+    if(!_data.platforms.contains(id))
+        return;
+
+    setDefaultPlatform(_data.platforms.value(id));
+}
+
 QJsonObject Busstop::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.insert("name",  name());
@@ -116,14 +131,14 @@ QJsonObject Busstop::toJson() const {
 
 void Busstop::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
-    _data.name  = jsonObject.value("name").toString(tr("Unnamed busstop"));
-    _data.flags = BusstopFlags::fromInt(jsonObject.value("flags").toInt(0));
-    _data.defaultPlatform = QUuid::fromString(jsonObject.value("defaultPlatform").toString());
+    setName(jsonObject.value("name").toString(tr("Unnamed busstop")));
+    setFlags(BusstopFlags::fromInt(jsonObject.value("flags").toInt(0)));
+    setDefaultPlatform(QUuid::fromString(jsonObject.value("defaultPlatform").toString()));
 
     QJsonArray jsonPlatforms = jsonObject.value("platforms").toArray();
     for(const QJsonValue &val : std::as_const(jsonPlatforms)) {
         const QJsonObject obj = val.toObject();
-        BusstopPlatform *bp = new BusstopPlatform(this, obj);
-        _data.platforms.add(bp);
+        BusstopPlatform *bp = createPlatform(obj);
+        addPlatform(bp);
     }
 }

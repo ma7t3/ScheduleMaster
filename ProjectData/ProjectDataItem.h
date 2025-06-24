@@ -25,7 +25,7 @@
 
 template <typename DerivedType, typename DataType>
 class ProjectDataItem : public ProjectDataItemSignals {
-public:
+protected:
     /**
      * @brief Constructs a new ProjectDataItem object.
      *
@@ -40,6 +40,7 @@ public:
         setID(id.isNull() ? generateID() : id);
     }
 
+public:
     /**
      * @brief Returns the UUID of the ProjectDataItem.
      *

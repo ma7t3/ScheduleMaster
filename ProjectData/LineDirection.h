@@ -28,8 +28,10 @@ struct LineDirectionData : ProjectDataItemData<LineDirectionData> {
  * Every Line's Route has one specific direction it is connected to.
  */
 class LineDirection : public ProjectDataItem<LineDirection, LineDirectionData> {
+    friend class Line;
+    friend class ProjectDataItem<LineDirection, LineDirectionData>;
     Q_OBJECT
-public:
+private:
     /**
      * @brief Constructs a new LineDirection object.
      *
@@ -49,6 +51,7 @@ public:
      */
     explicit LineDirection(QObject *parent, const QJsonObject &);
 
+public:
     /**
      * @brief Returns the LineDirection's description.
      * @return The LineDirection's description

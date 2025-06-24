@@ -40,6 +40,6 @@ QJsonObject BusstopPlatform::toJson() const {
 
 void BusstopPlatform::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
-    _data.name  = jsonObject.value("name").toString(tr("unnamed busstop platform"));
-    _data.flags = BusstopPlatformFlags::fromInt(jsonObject.value("flags").toInt());
+    setName(jsonObject.value("name").toString(tr("unnamed busstop platform")));
+    setFlags(BusstopPlatformFlags::fromInt(jsonObject.value("flags").toInt()));
 }

@@ -47,6 +47,14 @@ void Route::setDirection(LineDirection *newDirection) {
     emit changed();
 }
 
+RouteBusstopItem *Route::createItem(Busstop *b, QObject *parent) {
+    return new RouteBusstopItem(parent ? parent : this, b);
+}
+
+RouteBusstopItem *Route::createItem(const QJsonObject &jsonObject) {
+    return new RouteBusstopItem(this, jsonObject);
+}
+
 int Route::busstopCount() const {
     return _data.busstops.count();
 }
@@ -157,8 +165,8 @@ QJsonObject Route::toJson() const {
 
 void Route::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
-    _data.name      = jsonObject.value("name").toString(tr("unnamed route"));
-    _data.code      = jsonObject.value("code").toInt(0);
-    _data.direction = qobject_cast<Line *>(parent())->direction(QUuid::fromString(jsonObject.value("direction").toString()));
+    setName(jsonObject.value("name").toString(tr("unnamed route")));
+    setCode(jsonObject.value("code").toInt(0));
+    setDirection(qobject_cast<Line *>(parent())->direction(QUuid::fromString(jsonObject.value("direction").toString())));
 }
 

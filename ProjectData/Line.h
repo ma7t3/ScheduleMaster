@@ -42,8 +42,10 @@ struct LineData : ProjectDataItemData<LineData> {
  */
 
 class Line : public ProjectDataItem<Line, LineData> {
+    friend class ProjectData;
+    friend class ProjectDataItem<Line, LineData>;
     Q_OBJECT
-public:
+private:
     /**
      * @brief Constructs a new Line object.
      *
@@ -63,6 +65,7 @@ public:
      */
     explicit Line(QObject *parent, const QJsonObject &jsonObject);
 
+public:
     /**
      * @brief Compares this Line with other by their names.
      * @param other
@@ -109,6 +112,20 @@ public:
      * @param newColor The new color
      */
     void setColor(const QColor &newColor);
+
+    /**
+     * @brief Creates a new direction with an optionally given parent.
+     * @param parent The parent QObject of the LineDirection object. If not given, the Line will take ownership.
+     * @return The created LineDirection object
+     */
+    LineDirection *createDirection(QObject *parent);
+
+    /**
+     * @brief Creates a new LineDirection object based on the given QJsonObject.
+     * @param jsonObject The QJsonObject to read the LineDirection data from
+     * @return The created LineDirection object
+     */
+    LineDirection *createDirection(const QJsonObject &jsonObject);
 
     /**
      * @brief Returns the number of Directions in the Line.

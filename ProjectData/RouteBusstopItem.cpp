@@ -48,5 +48,5 @@ void RouteBusstopItem::fromJson(const QJsonObject &jsonObject) {
         return;
 
     _data.busstop = projectData->busstop(busstopID);
-    _data.defaultPlatform = _data.busstop->platform(defaultPlatformID);
+    setDefaultPlatform(_data.busstop->platform(defaultPlatformID));
 }

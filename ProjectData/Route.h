@@ -48,8 +48,10 @@ struct RouteData : ProjectDataItemData<RouteData> {
  */
 
 class Route : public ProjectDataItem<Route, RouteData> {
+    friend class Line;
+    friend class ProjectDataItem<Route, RouteData>;
     Q_OBJECT
-public:
+private:
     /**
      * @brief Constructs a new Route object.
      *
@@ -69,6 +71,7 @@ public:
      */
     explicit Route(QObject *parent, const QJsonObject &jsonObject);
 
+public:
     /**
      * @brief Compares this Route with other by their names.
      * @param other
@@ -125,6 +128,20 @@ public:
      * See also direction().
      */
     void setDirection(LineDirection *newDirection);
+
+    /**
+     * @brief Creates a new RouteBusstopItem with an optionally given parent.
+     * @param parent The parent QObject of the RouteBusstopItem object. If not given, the Route will take ownership.
+     * @return The created RouteBusstopItem object
+     */
+    RouteBusstopItem *createItem(Busstop *b, QObject *parent = nullptr);
+
+    /**
+     * @brief Creates a new RouteBusstopItem object based on the given QJsonObject.
+     * @param jsonObject The QJsonObject to read the RouteBusstopItem data from
+     * @return The created RouteBusstopItem object
+     */
+    RouteBusstopItem *createItem(const QJsonObject &jsonObject);
 
     int busstopCount() const;
     RouteBusstopItem *busstop(const QUuid &id) const;

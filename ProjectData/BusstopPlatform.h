@@ -47,8 +47,10 @@ struct BusstopPlatformData : ProjectDataItemData<BusstopPlatformData> {
  */
 
 class BusstopPlatform : public ProjectDataItem<BusstopPlatform, BusstopPlatformData> {
+    friend class Busstop;
+    friend class ProjectDataItem<BusstopPlatform, BusstopPlatformData>;
     Q_OBJECT
-public:
+private:
     /**
      * @brief Constructs a new BusstopBusstopPlatform object.
      *
@@ -68,6 +70,7 @@ public:
      */
     explicit BusstopPlatform(QObject *parent, const QJsonObject &jsonObject);
 
+public:
     /**
      * @brief Compares this BusstopPlatform with other by their names.
      * @param other

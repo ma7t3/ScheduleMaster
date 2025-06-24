@@ -97,6 +97,20 @@ public:
     PDISet<Busstop> busstops() const;
 
     /**
+     * @brief Creates a new busstop object with an optionally given parent
+     * @param parent The parent QObject of the busstop object. If not given, the ProjectData will take ownership.
+     * @return The created busstop object
+     */
+    Busstop *createBusstop(QObject *parent = nullptr);
+
+    /**
+     * @brief Creates a new busstop object based on the given QJsonObject.
+     * @param jsonObject The QJsonObject to read the busstop data from.
+     * @return The created busstop object
+     */
+    Busstop *createBusstop(const QJsonObject &jsonObject);
+
+    /**
      * @brief Adds a busstop to the project.
      * @param busstop The Busstop to add.
      */

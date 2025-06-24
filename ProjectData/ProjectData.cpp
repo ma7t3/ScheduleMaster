@@ -50,6 +50,14 @@ PDISet<Busstop> ProjectData::busstops() const {
     return _busstops;
 }
 
+Busstop *ProjectData::createBusstop(QObject *parent) {
+    return new Busstop(parent ? parent : this);
+}
+
+Busstop *ProjectData::createBusstop(const QJsonObject &jsonObject) {
+    return new Busstop(this, jsonObject);
+}
+
 void ProjectData::addBusstop(Busstop *busstop) {
     _busstops.add(busstop);
     emit busstopAdded(busstop);
