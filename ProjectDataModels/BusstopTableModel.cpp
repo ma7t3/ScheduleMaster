@@ -70,7 +70,7 @@ void BusstopTableModelDelegate::paintPlatforms(QPainter *painter,
         return a->name() < b->name();
     });
 
-    painter->setBrush(QColor(128, 128, 128, 128));
+    painter->setBrush(QColor(128, 128, 128, 64));
 
     const int spacing = 6;
     const int verticalPadding = 2;
