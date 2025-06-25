@@ -44,7 +44,7 @@
                 {
                     "id": "busstops",
                     "visible": true,
-                    "area":  "top"
+                    "area":  "left"
                 },                {
                     "id": "undoView",
                     "visible": true,
@@ -61,10 +61,17 @@
                     "area":  "right"
                 }
             ],
+            "split": [
+                {
+                    "first": "undoView",
+                    "second": "busstops",
+                    "orientation": "horizontal"
+                }
+            ],
             "resize": [
                 {
                     "docks": ["undoView", "busstops"],
-                    "sizes": [0.15, 0.85],
+                    "sizes": [0.1, 0.9],
                     "orientation": "horizontal"
                 },
                 {
