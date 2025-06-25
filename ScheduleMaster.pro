@@ -124,6 +124,7 @@ HEADERS += \
     ProjectDataModels/BusstopPlatformTableModel.h \
     ProjectDataModels/BusstopTableModel.h \
     ProjectDataModels/UnorderedProjectDataRowModel.h \
+    ProjectDataModels/UnorderedProjectDataRowModelSignals.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPage.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h \

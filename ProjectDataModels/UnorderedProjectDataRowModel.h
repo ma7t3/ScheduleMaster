@@ -1,8 +1,10 @@
 #ifndef UNORDEREDPROJECTDATAROWMODEL_H
 #define UNORDEREDPROJECTDATAROWMODEL_H
 
-#include <QAbstractTableModel>
 #include <QUuid>
+#include <QTimer>
+
+#include "ProjectDataModels/UnorderedProjectDataRowModelSignals.h"
 
 #include "ProjectData/ProjectDataItemSet.h"
 
@@ -17,14 +19,15 @@
  * @tparam T The type of items managed by the model.
  */
 template<typename T>
-class UnorderedProjectDataRowModel : public QAbstractTableModel {
+class UnorderedProjectDataRowModel : public UnorderedProjectDataRowModelSignals {
 
 public:
     /**
      * @brief Constructs the model with an optional parent.
      * @param parent The parent QObject for memory management.
      */
-    explicit UnorderedProjectDataRowModel(QObject *parent = nullptr) : QAbstractTableModel(parent) {}
+    explicit UnorderedProjectDataRowModel(QObject *parent = nullptr) :
+        UnorderedProjectDataRowModelSignals(parent), _multipleRowsInserted(false) {}
 
     /**
      * @brief Returns the index for the specified row and column.
@@ -125,12 +128,19 @@ protected:
             return;
 
         const auto it = _data.lowerBound(item->id());
-        const int index = std::distance(_data.begin(), it);
+        const int row = std::distance(_data.begin(), it);
 
-        beginInsertRows(QModelIndex(), index, index);
+        beginInsertRows(QModelIndex(), row, row);
         _data.insert(item->id(), item);
-        _cache.insert(index, item);
+        _cache.insert(row, item);
         registerForUpdate(item);
+        _insertedIndexes << QPersistentModelIndex(index(row, 0));
+
+        if(!_multipleRowsInserted) {
+            QTimer::singleShot(1, this, &UnorderedProjectDataRowModel::processInsertedIndexes);
+            _multipleRowsInserted = true;
+        }
+
         endInsertRows();
     }
 
@@ -181,10 +191,21 @@ protected:
         _connections.remove(item);
     }
 
+    /**
+     * @brief Processes all inserted indexes within the last QEventLoopRun and emits a collective event.
+     */
+    void processInsertedIndexes() {
+        emit multipleRowsInserted(_insertedIndexes);
+        _insertedIndexes.clear();
+        _multipleRowsInserted = false;
+    }
+
 private:
     QMap<QUuid, T*> _data; ///< Map of data items identified by UUIDs.
     QList<T *> _cache; ///< Cached list of data items for fast access.
     QHash<T *, QMetaObject::Connection> _connections; ///< Connections for item updates.
+    QList<QPersistentModelIndex> _insertedIndexes; ///< Collection of all rows that where inserted during the current QEventLoopRun
+    bool _multipleRowsInserted; ///< Flag to indicate if multiple rows were inserted during the current QEventLoopRun
 };
 
 #endif // UNORDEREDPROJECTDATAROWMODEL_H
