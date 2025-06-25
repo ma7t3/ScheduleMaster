@@ -73,6 +73,14 @@ public:
     }
 
     /**
+     * @brief Returns all items currently shown in the model as a list.
+     * @return The list of all currently shown items
+     */
+    QList<T *> itemList() const {
+        return _data.values();
+    }
+
+    /**
      * @brief Resets the model, clearing and reloading all data.
      *
      * This function clears the current data, fetches new data, and updates the model.
