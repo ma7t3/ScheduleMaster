@@ -32,6 +32,8 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::onFontChanged);
 
     connect(ui->cbStyle,        &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::styleIndexChanged);
+
+    onStyleChanged(ui->cbStyle->currentIndex());;
 }
 
 WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
@@ -103,8 +105,8 @@ void WdgPreferencesPageAppearance::onStyleChanged(const int &index) {
     QString id = _stylesModel->style(ui->cbStyle->currentIndex());
     StyleHandler::applyStyle(id);
     StyleConfig style = StyleManager::item(id);
-    ui->flGeneral->setRowVisible(2, style.lightSupport && style.darkSupport);
-    ui->flGeneral->setRowVisible(3, style.accentColorSupport);
+    ui->flGeneral->setRowVisible(3, style.lightSupport && style.darkSupport);
+    ui->flGeneral->setRowVisible(4, style.accentColorSupport);
 }
 
 void WdgPreferencesPageAppearance::onAccentColorChanged(const QString &id) {
