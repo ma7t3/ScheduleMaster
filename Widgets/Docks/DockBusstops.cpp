@@ -81,6 +81,8 @@ DockBusstops::DockBusstops(QWidget *parent) :
     connect(ui->twBusstops, &QTableView::doubleClicked, this, &DockBusstops::onBusstopEdit);
     connect(ui->twBusstops->selectionModel(), &QItemSelectionModel::selectionChanged, this, &DockBusstops::onSelectionChanged);
 
+    connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &DockBusstops::onRowsAdded);
+
     connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterFixedString);
 
     connect(_searchAction, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
@@ -169,4 +171,10 @@ void DockBusstops::onSelectionChanged() {
     }
 
     emit selectedBusstopsChaned(selectedBusstops());
+}
+
+void DockBusstops::onRowsAdded(const QList<QPersistentModelIndex> &indexes) {
+    ui->twBusstops->clearSelection();
+    for(const QPersistentModelIndex &index : indexes)
+        ui->twBusstops->selectRow(_proxyModel->mapFromSource(index).row());
 }

@@ -27,6 +27,7 @@ protected slots:
     void onBusstopDelete();
 
     void onSelectionChanged();
+    void onRowsAdded(const QList<QPersistentModelIndex> &indexes);
 
 signals:
     void currentBusstopChanged(Busstop *);
