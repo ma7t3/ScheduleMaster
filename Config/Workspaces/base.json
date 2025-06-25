@@ -31,6 +31,37 @@
         }
     },
     {
+        "id": "busstops",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Busstops",
+            "de_DE": "Haltestellen"
+        },
+        "icon": "busstop",
+        "defaultKeyboardShortcut": "Alt+2",
+        "layout": {
+            "docks": [
+                {
+                    "id": "undoView",
+                    "visible": true,
+                    "area":  "left"
+                },
+                {
+                    "id": "busstops",
+                    "visible": true,
+                    "area":  "right"
+                }
+            ],
+            "resize": [
+                {
+                    "docks": ["undoView", "busstops"],
+                    "sizes": [0.1, 0.9],
+                    "orientation": "horizontal"
+                }
+            ]
+        }
+    },
+    {
         "id": "routing",
         "name": {
             "object": "translated_string",
@@ -38,7 +69,7 @@
             "de_DE": "Streckenplanung"
         },
         "icon": "route",
-        "defaultKeyboardShortcut": "Alt+2",
+        "defaultKeyboardShortcut": "Alt+3",
         "layout": {
             "docks": [
                 {
@@ -95,7 +126,7 @@
             "de_DE": "Fahrplanung"
         },
         "icon": "schedule-table",
-        "defaultKeyboardShortcut": "Alt+3",
+        "defaultKeyboardShortcut": "Alt+4",
         "layout": {
         }
     },
@@ -107,7 +138,7 @@
             "de_DE": "Dienste"
         },
         "icon": "clipboard",
-        "defaultKeyboardShortcut": "Alt+4",
+        "defaultKeyboardShortcut": "Alt+5",
         "layout": {
         }
     },
@@ -119,7 +150,7 @@
             "de_DE": "Veröffentlichen"
         },
         "icon": "globe",
-        "defaultKeyboardShortcut": "Alt+5",
+        "defaultKeyboardShortcut": "Alt+6",
         "layout": {
         }
     }
