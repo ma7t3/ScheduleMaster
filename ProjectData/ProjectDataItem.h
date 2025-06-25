@@ -186,6 +186,7 @@ public:
      */
     void setData(const DataType &newData) {
         _data = newData;
+        emit changed();
     }
 
     /**
@@ -194,6 +195,7 @@ public:
      */
     void mergeData(DataType mergeData) {
         _data.merge(mergeData);
+        emit changed();
     }
 
     /**
