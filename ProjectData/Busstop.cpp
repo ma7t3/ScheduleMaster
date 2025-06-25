@@ -56,6 +56,7 @@ void Busstop::addPlatform(BusstopPlatform *platform) {
         return;
 
     _data.platforms.add(platform);
+    connect(platform, &BusstopPlatform::changed, this, [this, platform](){emit platformChanged(platform);});
     emit changed();
     emit platformAdded(platform);
 }
@@ -65,13 +66,12 @@ void Busstop::removePlatform(BusstopPlatform *platform) {
         return;
 
     removePlatform(platform->id());
-    emit changed();
-    emit platformRemoved(platform);
 }
 
 void Busstop::removePlatform(const QUuid &id) {
     BusstopPlatform *platform = _data.platforms.value(id);
     _data.platforms.remove(id);
+    platform->disconnect(this);
     emit changed();
     emit platformRemoved(platform);
 }

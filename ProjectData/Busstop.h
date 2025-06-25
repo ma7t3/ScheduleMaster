@@ -224,6 +224,7 @@ public:
 signals:
     void platformAdded(BusstopPlatform *platform);
     void platformRemoved(BusstopPlatform *platform);
+    void platformChanged(BusstopPlatform *platform);
     void defaultPlatformChanged(BusstopPlatform *before, BusstopPlatform *after);
 
 protected:
