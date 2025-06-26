@@ -56,9 +56,11 @@ void loadStartupPreferences(QApplication *a) {
 }
 
 int main(int argc, char *argv[]) {
-    QSettings set("", "appearance.fontEngineGDI");
-    if(set.value("useGdiEngine", true).toBool())
+    QSettings set("ScheduleMaster", "ScheduleMaster");
+    if(set.value("appearance.fontEngineGDI", true).toBool())
         qputenv("QT_QPA_PLATFORM", "windows:fontengine=gdi");
+
+    qputenv("QT_SCALE_FACTOR", set.value("appearance.uiScale", 1.0).toString().toUtf8());
 
     QApplication a(argc, argv);
 

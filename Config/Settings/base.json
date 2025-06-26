@@ -121,6 +121,17 @@
         }
     },
     {
+        "id": "appearance.uiScale",
+        "type": "float",
+        "default": 1.0,
+        "requireRestart": true,
+        "description": {
+            "object": "translated_string",
+            "en_US": "The applications UI scale factor",
+            "de_DE": "Skalierungsfaktor der Benutzeroberfläche"
+        }
+    },
+    {
         "id": "appearance.workspacesToolbarPosition",
         "type": "int",
         "default": 4,
