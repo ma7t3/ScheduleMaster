@@ -71,7 +71,6 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ui->twBusstops->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->twBusstops->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     ui->twBusstops->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-    ui->twBusstops->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     ui->twBusstops->horizontalHeader()->setSortIndicator(0, Qt::AscendingOrder);
 
     ui->twBusstops->setItemDelegateForColumn(1, _delegate);
