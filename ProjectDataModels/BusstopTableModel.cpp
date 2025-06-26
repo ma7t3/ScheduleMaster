@@ -72,84 +72,71 @@ void BusstopTableModelDelegate::paintPlatforms(QPainter *painter,
 
     painter->setBrush(QColor(128, 128, 128, 64));
 
-    const int spacing = 6;
-    const int verticalPadding = 2;
-    const int horizontalPadding = 4;
+    const int boxHeight = option.rect.height();
+    const int itemHight = boxHeight - (2 * BoxVerticalPadding);
+    const int y         = option.rect.y() + BoxVerticalPadding;
 
-    int height = option.rect.height();
-    int y = option.rect.y();
+    int x = option.rect.x() + BoxHorizontalPadding;
 
-    // Berechnung der maximalen Rechteckhöhe (z.B. volle Zellhöhe minus Padding)
-    int boxHeight = height - 2 * verticalPadding;
+    for(BusstopPlatform *platform : std::as_const(platforms)) {
+        const QString text = platform->name();
+        const bool isDefaultPlatform = busstop->isDefaultPlatform(platform);
 
-    // Startpunkt X
-    int x = option.rect.x() + horizontalPadding;
+        QFont f = option.font;
+        f.setBold(isDefaultPlatform);
+        painter->setFont(f);
 
-    for (BusstopPlatform *platform : platforms) {
-        bool isDefaultPlatform = busstop->isDefaultPlatform(platform);
+        const QFontMetrics fm(f);
 
-        QString text = platform->name();
-        QSize textSize = option.fontMetrics.size(Qt::TextSingleLine, text);
+        const int textWidth = fm.size(Qt::TextSingleLine, text).width();
+        const int itemWidth = textWidth + (2 * ItemHorizontalPadding);
 
-        // Rechteckgröße dynamisch: mit etwas zusätzlichem Innenabstand
-        int boxWidth = textSize.width() + 2 * horizontalPadding;
+        const QRect itemRect(x, y, itemWidth, itemHight);
 
-        QRect boxRect(x, y + (height - boxHeight) / 2, boxWidth, boxHeight);
-
-        // Rechteck zeichnen
         painter->save();
         painter->setPen(Qt::NoPen);
         if(isDefaultPlatform)
             painter->setBrush(Qt::darkGreen);
 
-        painter->drawRoundedRect(boxRect, 4, 4);
+        painter->drawRoundedRect(itemRect, ItemBorderRadius, ItemBorderRadius);
         painter->restore();
         painter->save();
 
-        if(isDefaultPlatform) {
+        if(isDefaultPlatform)
             painter->setPen(Qt::white);
-            QFont f = option.font;
-            f.setBold(true);
-            painter->setFont(f);
-        }
 
-        // Text zeichnen, zentriert
-        painter->drawText(boxRect, Qt::AlignCenter, text);
+        painter->drawText(itemRect, Qt::AlignCenter, text);
         painter->restore();
 
-        x += boxWidth + spacing;
+        x += itemWidth + ItemGap;
     }
 }
 
 void BusstopTableModelDelegate::paintLines(QPainter *painter, const QStyleOptionViewItem &option,
                                            Busstop *busstop) const {
+
     // TODO
 }
 
 QSize BusstopTableModelDelegate::calculatePlatformsSizeHint(const QStyleOptionViewItem &option, Busstop *busstop) const {
     const QList<BusstopPlatform *> platforms = busstop->platforms().values();
 
-    int width = 0;
+    if(platforms.count() == 0)
+        return QSize(-1, -1);
 
-    const int spacing = 6;
-    const int horizontalPadding = 4;
+    // init base width
+    int width = (2 * BoxHorizontalPadding) + ((platforms.count() - 1) * ItemGap);
 
-    for (BusstopPlatform *platform : platforms) {
-        bool isDefaultPlatform = busstop->isDefaultPlatform(platform);
+    for(BusstopPlatform *platform : std::as_const(platforms)) {
+        const QString text = platform->name();
+        const bool isDefaultPlatform = busstop->isDefaultPlatform(platform);
+
         QFont f = option.font;
+        f.setBold(isDefaultPlatform);
+        const QFontMetrics fm(f);
+        const int textWidth = fm.size(Qt::TextSingleLine, text).width();
 
-        if(isDefaultPlatform) {
-            f.setBold(true);
-        }
-
-        QString text = platform->name();
-        QFontMetrics fm(f);
-        QSize textSize = fm.size(Qt::TextSingleLine, text);
-
-        // Rechteckgröße dynamisch: mit etwas zusätzlichem Innenabstand
-        int boxWidth = textSize.width() + 2 * horizontalPadding;
-
-        width += boxWidth + spacing;
+        width += (textWidth + (2 * ItemHorizontalPadding));
     }
 
     return QSize(width, -1);

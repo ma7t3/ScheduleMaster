@@ -31,6 +31,12 @@ protected:
     Busstop *busstopAtIndex(const QModelIndex &index) const;
 
     static QStringList iconIDsList(const BusstopFlags &flags);
+
+    static inline int BoxVerticalPadding    = 2;
+    static inline int BoxHorizontalPadding  = 4;
+    static inline int ItemHorizontalPadding = 4;
+    static inline int ItemGap               = 4;
+    static inline int ItemBorderRadius      = 4;
 };
 
 class BusstopTableModel : public UnorderedProjectDataRowModel<Busstop> {
