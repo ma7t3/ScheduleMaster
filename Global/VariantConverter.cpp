@@ -29,6 +29,18 @@ QVariant VariantConverter::convert(const QVariant &value, const QMetaType::Type 
     }
 
     switch (type) {
+    case QMetaType::Bool:
+        return value.toBool();
+
+    case QMetaType::Int:
+        return value.toInt();
+
+    case QMetaType::Float:
+        return value.toFloat();
+
+    case QMetaType::QString:
+        return value.toString();
+
     case QMetaType::QByteArray:
         return QByteArray(value.toByteArray());
 
