@@ -10,7 +10,8 @@ void CrashDetector::init() {
     if(initialized())
         return;
 
-    _lastCrashDetected = !SettingsManager::value("general.closeCheck").toBool();
+    const QVariant rawValue = SettingsManager::value("general.closeCheck");
+    _lastCrashDetected = rawValue.isValid() && !rawValue.toBool();
     SettingsManager::setValue("general.closeCheck", false);
 
     // trigger instance once to ensure it is created and the destructor is called later
