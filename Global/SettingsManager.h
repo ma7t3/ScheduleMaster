@@ -139,6 +139,17 @@ public:
      */
     static QStringList modifiedRestartRequiredSettings();
 
+    /**
+     * @brief Processes an item inside the SettingsManager.
+     *
+     * If the item isn't registered yet, this function does nothing.
+     *
+     * Otherwise, this function registers the item to the _restartRequiredSettings set if needed and
+     * sets it to the default value if it hasn't been set.
+     * @param id The id of the item
+     */
+    static void processItem(const QString &id);
+
     static void callOnChange(QObject *owner, FilterFunction filter, CallbackFunction callback);
 
 protected:

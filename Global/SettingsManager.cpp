@@ -32,8 +32,7 @@ SettingsManager::SettingsManager(QObject *parent) :
     loadItems("Settings");
     const QList<SettingsItem> list = items();
     for(const SettingsItem &item : list)
-        if(item.requiresRestart)
-            _restartRequiredSettings << item.id();
+        processItem(item.id());
 }
 
 QVariant SettingsManager::value(const QString &id) {
@@ -148,10 +147,9 @@ void SettingsManager::registerNewSettingsItem(const SettingsItem &item) {
     if(item.id().isEmpty())
         return;
 
-    if(item.requiresRestart)
-        _restartRequiredSettings << item.id();
-
     addItem(item);
+    processItem(item.id());
+
     qInfo().noquote() << "Registered new settings item: " + item.id();
 }
 
@@ -163,6 +161,16 @@ QStringList SettingsManager::modifiedRestartRequiredSettings() {
     QStringList list = _modifiedRestartRequiredSettings.values();
     list.sort();
     return list;
+}
+
+void SettingsManager::processItem(const QString &id) {
+    const SettingsItem item = GlobalConfigManager::item(id);
+
+    if(!_settings.contains(item.id()) && !item.isGroup)
+        _settings.setValue(item.id(), item.defaultValue);
+
+    if(item.requiresRestart)
+        _restartRequiredSettings << item.id();
 }
 
 void SettingsManager::callOnChange(QObject *owner, FilterFunction filter, CallbackFunction callback) {
