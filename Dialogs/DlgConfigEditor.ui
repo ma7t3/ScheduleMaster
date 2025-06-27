@@ -121,7 +121,7 @@
        <property name="title">
         <string>Current Value</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,1">
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,1">
         <item>
          <layout class="QFormLayout" name="formLayout">
           <item row="0" column="0">
@@ -165,6 +165,25 @@
          <widget class="QLabel" name="lDescription">
           <property name="text">
            <string>&lt;Desc&gt;</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lDontTouchWarning">
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: red;</string>
+          </property>
+          <property name="text">
+           <string>Warning:
+This setting is used and managed by ScheduleMaster internally. Changing it manually may breaks certain features or can lead to inaccurate or unexpected application behaviour!</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>

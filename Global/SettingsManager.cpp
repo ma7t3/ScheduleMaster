@@ -24,7 +24,8 @@ SettingsItem::SettingsItem(const QJsonObject &jsonObject, const int &index) : Gl
         if(jsonObject.contains("default"))
             defaultValue = VariantConverter::convertFromJson(jsonObject.value("default"), type);
 
-    requiresRestart = jsonObject.value("requireRestart").toBool(false);
+    requiresRestart  = jsonObject.value("requireRestart").toBool(false);
+    dontTouchWarning = jsonObject.value("dontTouchWarning").toBool(false);
 }
 
 SettingsManager::SettingsManager(QObject *parent) :

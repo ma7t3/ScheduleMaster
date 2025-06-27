@@ -26,6 +26,7 @@
         "type": "QByteArray",
         "default": "",
         "requireRestart": false,
+        "dontTouchWarning": true,
         "description": {
             "object": "translated_string",
             "en_US": "The main window's size and position",
@@ -37,6 +38,7 @@
         "type": "bool",
         "default": true,
         "requireRestart": false,
+        "dontTouchWarning": true,
         "description": {
             "object": "translated_string",
             "en_US": "The closeCheck is used to track the apps quiting process and to detect crashes",

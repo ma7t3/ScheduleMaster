@@ -15,7 +15,7 @@ public:
     QString description;
     QVariant defaultValue;
     QMetaType::Type type = QMetaType::Void, groupContentType = QMetaType::Void;
-    bool isGroup = false, requiresRestart = false;
+    bool isGroup = false, requiresRestart = false, dontTouchWarning = false;
 };
 
 /**

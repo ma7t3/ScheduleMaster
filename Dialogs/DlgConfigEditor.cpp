@@ -88,9 +88,10 @@ void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QMod
         ui->lID->setText(id);
 
         if(SettingsManager::itemExists(id)) {
-            SettingsItem item = SettingsManager::item(id)            ;
+            SettingsItem item = SettingsManager::item(id);
             ui->lDescription->setText(item.description);
             type = item.isGroup ? tr("group") : QMetaType(item.type).name();
+            ui->lDontTouchWarning->setVisible(item.dontTouchWarning);
         } else {
             ui->lDescription->setText("");
         }
@@ -104,6 +105,7 @@ void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QMod
     } else {
         ui->wdgValueEditor->setValue(QVariant());
         ui->gbCurrentValue->setVisible(false);
+        ui->lDontTouchWarning->setVisible(false);
     }
 }
 
