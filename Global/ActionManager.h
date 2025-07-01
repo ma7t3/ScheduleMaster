@@ -107,6 +107,9 @@ signals:
      * @param shortcut The new keyboard shortcut.
      */
     void keyboardShortcutChanged(const QString &keyboardShortcutID, const QKeySequence &shortcut);
+
+private:
+    static inline QHash<QString, QKeySequence> _keyboardShortcutsCache;
 };
 
 #endif // ACTIONMANAGER_H
