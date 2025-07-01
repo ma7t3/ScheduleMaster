@@ -57,6 +57,39 @@
         }
     },
     {
+        "id": "workspaces.onApplicationStartupWorkspace",
+        "type": "QString",
+        "default": "home",
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "Workspace that is activated when the application starts",
+            "de_DE": "Arbeitsbereich, der beim Programmstart aktiviert wird"
+        }
+    },
+    {
+        "id": "workspaces.onProjectOpenWorkspace",
+        "type": "QString",
+        "default": "routing",
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "Workspace that should be automatically switched to if the current project is opened",
+            "de_DE": "Arbeitsbereich, zu dem automatisch beim öffnen eines Projektes wechselt werden soll"
+        }
+    },
+    {
+        "id": "workspaces.onProjectCloseWorkspace",
+        "type": "QString",
+        "default": "home",
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "Workspace that should be automatically switched to if the current project is closed",
+            "de_DE": "Arbeitsbereich, zu dem automatisch beim schließen eines Projektes wechselt werden soll"
+        }
+    },
+    {
         "id": "appearance.theme",
         "type": "QString",
         "default": "system",

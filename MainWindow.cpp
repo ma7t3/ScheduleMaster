@@ -128,7 +128,9 @@ MainWindow::~MainWindow() {
 void MainWindow::showEvent(QShowEvent *event) {
     // This is shit but there is no way to make it a better way....
     QTimer::singleShot(100, this, [this](){
-        _workspaceHandler->workspace("home")->activate();
+        Workspace *workspace = _workspaceHandler->onApplicationStartupWorkspace();
+        if(workspace)
+            workspace->activate();
     });
 }
 
@@ -253,7 +255,7 @@ void MainWindow::showCrashWarning() {
 void MainWindow::newProject() {
     closeProject();
     qInfo() << "Create new project...";
-    _workspaceHandler->workspace("routing")->activate();
+    _workspaceHandler->switchToOnProjectOpenWorkspace();
 }
 
 void MainWindow::openProject() {
@@ -298,7 +300,7 @@ void MainWindow::closeProject() {
 
 void MainWindow::closeProjectBackToHome() {
     closeProject();
-    _workspaceHandler->workspace("home")->activate();
+    _workspaceHandler->switchToOnProjectCloseWorkspace();
 }
 
 void MainWindow::quitApplication() {
@@ -401,8 +403,8 @@ void MainWindow::onFileHandlerFinished() {
     _fileHandlerProgressDialog->deleteLater();
     _fileHandlerProgressDialog = nullptr;
     // TODO: reset all models
-    if(_workspaceHandler->currentWorkspace()->id() == "home")
-        _workspaceHandler->workspace("routing")->activate();
+    if(_workspaceHandler->currentWorkspace()->id() == _workspaceHandler->onProjectCloseWorkspace()->id())
+        _workspaceHandler->switchToOnProjectOpenWorkspace();
 }
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {

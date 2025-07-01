@@ -104,6 +104,36 @@ public:
      */
     Workspace *currentWorkspace();
 
+    /**
+     * @brief Returns a pointer to the workspace that should be activated when the application starts.
+     * @return The workspace pointer
+     */
+    Workspace *onApplicationStartupWorkspace();
+
+    /**
+     * @brief Returns a pointer to the workspace that is activaed automatically when opening a project.
+     * @return The workspace pointer
+     */
+    Workspace *onProjectOpenWorkspace();
+
+    /**
+     * @brief Returns a pointer to the workspace that is activaed automatically when closing a project.
+     * @return The workspace pointer
+     */
+    Workspace *onProjectCloseWorkspace();
+
+public slots:
+
+    /**
+     * @brief Actives the workspace that is set for being activated automatically when opening a project.
+     */
+    void switchToOnProjectOpenWorkspace();
+
+    /**
+     * @brief Actives the workspace that is set for being activated automatically when closing a project.
+     */
+    void switchToOnProjectCloseWorkspace();
+
 protected:
     /**
      * @brief Loads the workspaces from the global configuration
