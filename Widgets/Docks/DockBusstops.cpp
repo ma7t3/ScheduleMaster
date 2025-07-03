@@ -173,6 +173,10 @@ void DockBusstops::onSelectionChanged() {
 }
 
 void DockBusstops::onRowsAdded(const QList<QPersistentModelIndex> &indexes) {
+    // This is a quick and dirty fix to prevent selecting one random item when loading a file.....
+    if(indexes.count() == _projectData->busstops().count())
+        return;
+
     ui->twBusstops->clearSelection();
     for(const QPersistentModelIndex &index : indexes)
         ui->twBusstops->selectRow(_proxyModel->mapFromSource(index).row());
