@@ -5,7 +5,8 @@
 
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
-    _undoStack(new QUndoStack(this)) {
+    _undoStack(new QUndoStack(this)),
+    _loadingJson(false) {
     setObjectName(Global::ProjectDataRootObjectName);
 
     _busstops.setParentOwnsItems(true);
@@ -79,12 +80,18 @@ Busstop *ProjectData::busstopOfPlatform(BusstopPlatform *busstopPlatform) {
     return _busstops.filterOne([busstopPlatform](Busstop *b){return b->platforms().contains(busstopPlatform);});
 }
 
+bool ProjectData::isLoadingJson() const {
+    return _loadingJson;
+}
+
 QJsonObject ProjectData::toJson() const {
     // TODO: implement
     return {};
 }
 
 bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> cancelRequested) {
+    _loadingJson = true;
+
     QJsonArray jBusstops = jsonObject.value("busstops").toArray();
     const int busstopCount = jBusstops.count();
 
@@ -93,6 +100,7 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
     for(int i = 0; i < busstopCount; i++) {
         if(cancelRequested()) {
             reset();
+            _loadingJson = false;
             return false;
         }
 
@@ -101,5 +109,6 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
         if(i % 10 == 0) // we don't need to update for every single busstop :)
             emit progressUpdate(i + 1);
     }
+    _loadingJson = false;
     return true;
 }

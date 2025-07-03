@@ -137,6 +137,12 @@ public:
     Busstop *busstopOfPlatform(BusstopPlatform *);
 
     /**
+     * @brief Returns whether setJson() is currently beeing executed.
+     * @return The execution status of setJson().
+     */
+    bool isLoadingJson() const;
+
+    /**
      * @brief Converts the entire ProjectData to a JSON object (e.g. to save it to a file).
      * @return The QJsonObject
      */
@@ -203,6 +209,13 @@ private:
      * See also busstopCount(), busstops(), busstop(), addBusstop() and removeBusstop().
      */
     PDISet<Busstop> _busstops;
+
+    /**
+     * @brief A boolean that is set to true while setJson is being executed, otherwise false.
+     *
+     * See also isLoadingJson() and setJson().
+     */
+    bool _loadingJson;
 };
 
 #endif // PROJECTDATA_H
