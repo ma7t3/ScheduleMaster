@@ -6,7 +6,6 @@
 #include <QPainter>
 
 #include "ProjectDataModels/UnorderedProjectDataRowModel.h"
-#include "ProjectData/Busstop.h"
 #include "ProjectData/ProjectData.h"
 #include "Global/IconController.h"
 

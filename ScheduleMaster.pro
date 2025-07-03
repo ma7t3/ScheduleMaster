@@ -41,6 +41,7 @@ SOURCES += \
     ItemModels/StylesModel.cpp \
     ProjectDataModels/BusstopPlatformTableModel.cpp \
     ProjectDataModels/BusstopTableModel.cpp \
+    ProjectDataModels/LineTableModel.cpp \
     Widgets/Docks/DockBusstops.cpp \
     Widgets/Docks/DockNews.cpp \
     Widgets/Docks/DockWelcome.cpp \
@@ -123,6 +124,7 @@ HEADERS += \
     ProjectData/RouteBusstopItem.h \
     ProjectDataModels/BusstopPlatformTableModel.h \
     ProjectDataModels/BusstopTableModel.h \
+    ProjectDataModels/LineTableModel.h \
     ProjectDataModels/UnorderedProjectDataRowModel.h \
     ProjectDataModels/UnorderedProjectDataRowModelSignals.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPage.h \
