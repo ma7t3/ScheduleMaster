@@ -73,6 +73,8 @@ protected slots:
 private:
     Ui::MainWindow *ui;
 
+    bool _windowOnceShown;
+
     QProgressDialog *_fileHandlerProgressDialog;
 
     DockController *_dockController;

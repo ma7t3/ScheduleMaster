@@ -31,6 +31,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    _windowOnceShown(false),
     _dockController(nullptr),
     _workspaceHandler(new WorkspaceHandler(this)),
     _projectData(new ProjectData(this)),
@@ -126,6 +127,11 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::showEvent(QShowEvent *event) {
+    if(_windowOnceShown)
+        return;
+
+    _windowOnceShown = true;
+
     // This is shit but there is no way to make it a better way....
     QTimer::singleShot(100, this, [this](){
         Workspace *workspace = _workspaceHandler->onApplicationStartupWorkspace();
