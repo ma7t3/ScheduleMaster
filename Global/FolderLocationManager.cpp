@@ -37,14 +37,14 @@ void FolderLocationManager::init() {
     GlobalConfigManager::init();
     loadItems("Locations");
 
-    SettingsManager::callOnChange(
-        instance(),
-        [](const QString &id) { return id.startsWith("locations/"); },
-        [](const QString &settingID, const QVariant &value) {
-            QString locationID = settingID;
-            locationID.remove("locations/");
-            emit instance()->currentFolderLocationPathsChanged(locationID, value.toStringList());
-        });
+    connect(SettingsManager::instance(), &SettingsManager::valueChanged, instance(), [](const QString &settingID, const QVariant &value) {
+        if(!settingID.startsWith("locations/"))
+            return;
+
+        QString locationID = settingID;
+        locationID.remove("locations/");
+        emit instance()->currentFolderLocationPathsChanged(locationID, value.toStringList());
+    });
 }
 
 QMap<QString, QStringList> FolderLocationManager::currentFolderLocations() {

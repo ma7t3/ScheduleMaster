@@ -150,8 +150,6 @@ public:
      */
     static void processItem(const QString &id);
 
-    static void callOnChange(QObject *owner, FilterFunction filter, CallbackFunction callback);
-
 protected:
     /**
      * @brief Reads a setting silent (without logging).
@@ -182,13 +180,6 @@ signals:
     void keyRemoved(const QString &id);
 
 private:
-    struct CallbackEntry {
-        bool ownerDependet;
-        QPointer<QObject> owner;
-        FilterFunction filter;
-        CallbackFunction callback;
-    };
-
     /// QSettings object for the actual reading/writing
     static inline QSettings _settings = QSettings("ScheduleMaster", "ScheduleMaster");
 
@@ -197,8 +188,6 @@ private:
 
     /// Set of all settings IDs that were changed and require an application restart
     static inline QSet<QString> _modifiedRestartRequiredSettings;
-
-    static inline QList<CallbackEntry> _callbacks;
 };
 
 #endif // SETTINGSMANAGER_H

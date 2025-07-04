@@ -35,16 +35,16 @@ void ActionManager::init() {
         SettingsManager::registerNewSettingsItem(item);
     }
 
-    SettingsManager::callOnChange(
-        instance(),
-        [](const QString &id) { return id.startsWith("keyboardShortcuts/"); },
-        [](const QString &settingID, const QVariant &value) {
-            QString shortcutID = settingID;
-            const QKeySequence sequence = QKeySequence(value.toString());
-            shortcutID.remove("keyboardShortcuts/");
-            _keyboardShortcutsCache.insert(shortcutID, sequence);
-            emit instance()->keyboardShortcutChanged(shortcutID, sequence);
-        });
+    connect(SettingsManager::instance(), &SettingsManager::valueChanged, instance(), [](const QString &settingID, const QVariant &value){
+        if(!settingID.startsWith("keyboardShortcuts/"))
+            return;
+
+        QString shortcutID = settingID;
+        const QKeySequence sequence = QKeySequence(value.toString());
+        shortcutID.remove("keyboardShortcuts/");
+        _keyboardShortcutsCache.insert(shortcutID, sequence);
+        emit instance()->keyboardShortcutChanged(shortcutID, sequence);
+    });
 }
 
 bool ActionManager::shortcutIsDefault(const QString &id, const QKeySequence &sequence) {

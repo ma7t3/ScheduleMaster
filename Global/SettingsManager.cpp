@@ -75,14 +75,6 @@ QVariant SettingsManager::setValue(const QString &id, const QVariant &value) {
     else
         emit instance()->valueAdded(id, value);
 
-    for(const CallbackEntry &callback : std::as_const(_callbacks)) {
-        if(callback.ownerDependet && !callback.owner)
-            continue;
-
-        if(callback.filter(id))
-            callback.callback(id, convVal);
-    }
-
     return convVal;
 }
 
@@ -172,10 +164,6 @@ void SettingsManager::processItem(const QString &id) {
 
     if(item.requiresRestart)
         _restartRequiredSettings << item.id();
-}
-
-void SettingsManager::callOnChange(QObject *owner, FilterFunction filter, CallbackFunction callback) {
-    _callbacks << CallbackEntry{owner != nullptr, QPointer<QObject>(owner), filter, callback};
 }
 
 QVariant SettingsManager::readSilent(const QString &id) {
