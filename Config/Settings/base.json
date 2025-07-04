@@ -57,6 +57,17 @@
         }
     },
     {
+        "id": "general.deleteDialog.maxListCount",
+        "type": "int",
+        "default": 10,
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "Maximum count of list entries shown in the delete dialog",
+            "de_DE": "Die maximale Anzahl an Listeneinträgen, die im Löschen-Dialog angezeigt werden"
+        }
+    },
+    {
         "id": "workspaces.onApplicationStartupWorkspace",
         "type": "QString",
         "default": "home",

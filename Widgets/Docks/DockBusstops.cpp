@@ -4,6 +4,7 @@
 #include <QMessageBox>
 
 #include "Global/ActionController.h"
+#include "Global/SettingsManager.h"
 #include "ApplicationInterface.h"
 #include "Dialogs/DlgBusstopEditor.h"
 
@@ -132,17 +133,25 @@ void DockBusstops::onBusstopEdit() {
 
 void DockBusstops::onBusstopDelete() {
     const PDISet<Busstop> busstops = selectedBusstops();
-    QString bulletList;
-    for(Busstop *b : busstops)
-        bulletList += QString("<li>%1</li>").arg(b->name());
+    QStringList bulletList;
+    for(Busstop *b : busstops) {
+        if(bulletList.count() >= SettingsManager::value("general.deleteDialog.maxListCount").toInt())
+            break;
+        bulletList << QString("<li>%1</li>").arg(b->name());
+    }
+
+    bulletList.sort();
 
     QMessageBox::StandardButton msg = QMessageBox::warning(
         this,
         tr("Delete busstop(s)"),
-        tr("<p><b>Do you really want to delete these %n busstop(s)?</b></p><ul>%1</ul>",
+        tr("<p><b>Do you really want to delete these %n busstop(s)?</b></p><ul>%1</ul>%2",
            "",
            busstops.count())
-            .arg(bulletList),
+            .arg(bulletList.join(""))
+            .arg(bulletList.count() < busstops.count()
+                     ? tr("<i>%n more</i>", "", busstops.count() - bulletList.count())
+                     : ""),
         QMessageBox::Yes | QMessageBox::No);
     if(msg != QMessageBox::Yes)
         return;
