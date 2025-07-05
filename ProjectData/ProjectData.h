@@ -2,6 +2,7 @@
 #define PROJECTDATA_H
 
 #include "Busstop.h"
+#include "Line.h"
 #include "ProjectDataItemSet.h"
 
 #include <QObject>
@@ -137,6 +138,68 @@ public:
     Busstop *busstopOfPlatform(BusstopPlatform *);
 
     /**
+     * @brief Returns the number of lines in the project.
+     *
+     * See also lines().
+     * @return The number of lines in the project
+     */
+    int lineCount() const;
+
+    /**
+     * @brief Searches for a line by its UUID.
+     * @param id The UUID of the line to search for.
+     * @return A pointer to the line if it was found, otherwise nullptr.
+     */
+    Line *line(const QUuid &id) const;
+
+    /**
+     * @brief Searches for a line by its name.
+     * @param name The name of the line to search for.
+     * @return A pointer to the line if it was found, otherwise nullptr.
+     */
+    Line *findLineByName(const QString &name) const;
+
+    /**
+     * @brief Returns a list of all lines in the project.
+     *
+     * See also lineCount().
+     * @return A ProjectDataItemSet of all lines in the project.
+     */
+    PDISet<Line> lines() const;
+
+    /**
+     * @brief Creates a new line object with an optionally given parent
+     * @param parent The parent QObject of the line object. If not given, the ProjectData will take ownership.
+     * @return The created line object
+     */
+    Line *createLine(QObject *parent = nullptr);
+
+    /**
+     * @brief Creates a new line object based on the given QJsonObject.
+     * @param jsonObject The QJsonObject to read the line data from.
+     * @return The created line object
+     */
+    Line *createLine(const QJsonObject &jsonObject);
+
+    /**
+     * @brief Adds a line to the project.
+     * @param line The Line to add.
+     */
+    void addLine(Line *line);
+
+    /**
+     * @brief Removes a line from the project. This does nothing if the given line is not part of the project or is nullptr.
+     * @param line The Line to remove.
+     */
+    void removeLine(Line *line);
+
+    /**
+     * @brief Removes a line from the project by its UUID. This does nothing if there was no line found that matches the given UUID.
+     * @param id the Line's id to search for.
+     */
+    void removeLine(const QUuid &id);
+
+    /**
      * @brief Returns whether setJson() is currently beeing executed.
      * @return The execution status of setJson().
      */
@@ -188,6 +251,16 @@ signals:
      */
     void busstopRemoved(Busstop *);
 
+    /**
+     * @brief lineAdded This signal is emited whenever a line is added to the project.
+     */
+    void lineAdded(Line *);
+
+    /**
+     * @brief lineRemoved This signal is emited whenever a line is removed from the project.
+     */
+    void lineRemoved(Line *);
+
 private:
     /**
      * @brief The file path of the project file that is currently loaded. This can be an empty string if the file was never saved.
@@ -209,6 +282,13 @@ private:
      * See also busstopCount(), busstops(), busstop(), addBusstop() and removeBusstop().
      */
     PDISet<Busstop> _busstops;
+
+    /**
+     * @brief A hash that contains all lines of the project. The key is the UUID of the line.
+     *
+     * See also lineCount(), lines(), line(), addLine() and removeLine().
+     */
+    PDISet<Line> _lines;
 
     /**
      * @brief A boolean that is set to true while setJson is being executed, otherwise false.

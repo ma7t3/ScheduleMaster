@@ -32,6 +32,7 @@ void ProjectData::reset() {
     _undoStack->clear();
     _filePath.clear();
     _busstops.clear();
+    _lines.clear();
     emit cleared();
 }
 
@@ -80,6 +81,45 @@ Busstop *ProjectData::busstopOfPlatform(BusstopPlatform *busstopPlatform) {
     return _busstops.filterOne([busstopPlatform](Busstop *b){return b->platforms().contains(busstopPlatform);});
 }
 
+int ProjectData::lineCount() const {
+    return _lines.count();
+}
+
+Line *ProjectData::line(const QUuid &id) const {
+    return _lines.value(id, nullptr);
+}
+
+Line *ProjectData::findLineByName(const QString &name) const {
+    return _lines.filterOne([name](Line *l) { return l->name() == name; });
+}
+
+PDISet<Line> ProjectData::lines() const {
+    return _lines;
+}
+
+Line *ProjectData::createLine(QObject *parent) {
+    return new Line(parent ? parent : this);
+}
+
+Line *ProjectData::createLine(const QJsonObject &jsonObject) {
+    return new Line(this, jsonObject);
+}
+
+void ProjectData::addLine(Line *line) {
+    _lines.add(line);
+    emit lineAdded(line);
+}
+
+void ProjectData::removeLine(Line *line) {
+    _lines.remove(line);
+    emit lineRemoved(line);
+}
+
+void ProjectData::removeLine(const QUuid &id) {
+    Line *l = line(id);
+    removeLine(l);
+}
+
 bool ProjectData::isLoadingJson() const {
     return _loadingJson;
 }
@@ -93,7 +133,9 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
     _loadingJson = true;
 
     QJsonArray jBusstops = jsonObject.value("busstops").toArray();
+    QJsonArray jLines = jsonObject.value("lines").toArray();
     const int busstopCount = jBusstops.count();
+    const int lineCount = jLines.count();
 
     emit progressMaximum(busstopCount);
 
@@ -104,11 +146,25 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
             return false;
         }
 
-        Busstop *b = new Busstop(this, jBusstops[i].toObject());
+        Busstop *b = createBusstop(jBusstops[i].toObject());
         addBusstop(b);
         if(i % 10 == 0) // we don't need to update for every single busstop :)
             emit progressUpdate(i + 1);
     }
+
+    emit progressMaximum(lineCount);
+    for(int i = 0; i < lineCount; i++) {
+        if(cancelRequested()) {
+            reset();
+            _loadingJson = false;
+            return false;
+        }
+
+        Line *l = createLine(jLines[i].toObject());
+        addLine(l);
+        emit progressUpdate(i + 1);
+    }
+
     _loadingJson = false;
     return true;
 }
