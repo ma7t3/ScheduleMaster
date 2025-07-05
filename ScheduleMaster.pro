@@ -75,6 +75,7 @@ HEADERS += \
     ApplicationInterface.h \
     Commands/CmdBusstops.h \
     Commands/CmdGeneral.h \
+    Commands/CmdLines.h \
     Dialogs/DlgBusstopEditor.h \
     Dialogs/DlgConfigEditor.h \
     Dialogs/DlgGlobalSearch.h \
