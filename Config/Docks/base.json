@@ -34,7 +34,7 @@
         "name": {
             "object": "translated_string",
             "en_US": "Lines",
-            "de_DE": "Lines"
+            "de_DE": "Linien"
         },
         "icon": "bus",
         "defaultKeyboardShortcut": "Alt+L"
