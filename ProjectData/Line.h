@@ -118,7 +118,7 @@ public:
      * @param parent The parent QObject of the LineDirection object. If not given, the Line will take ownership.
      * @return The created LineDirection object
      */
-    LineDirection *createDirection(QObject *parent);
+    LineDirection *createDirection(QObject *parent = nullptr);
 
     /**
      * @brief Creates a new LineDirection object based on the given QJsonObject.
@@ -151,6 +151,13 @@ public:
     PDIList<LineDirection> directions() const;
 
     /**
+     * @brief Returns the index of the given direction.
+     * @param direction The LineDirection to search for
+     * @return The index of the given LineDirection or -1 if not found
+     */
+    int indexOfDirection(LineDirection *direction) const;
+
+    /**
      * @brief Appends a LineDirection to the end of the Line's LineDirection list.
      * @param direction The LineDirection to add.
      */
@@ -166,6 +173,20 @@ public:
     void insertDirection(const int &index, LineDirection *direction);
 
     /**
+     * @brief Moves the direction at the given index to a new position.
+     * @param from The current index of the LineDirection to move.
+     * @param to The new index of the LineDirection to move.
+     */
+    void moveDirection(const int &from, const int &to);
+
+    /**
+     * @brief Moves the direction to a new position.
+     * @param direction The LineDirection to move.
+     * @param to The new index of the LineDirection to move.
+     */
+    void moveDirection(LineDirection *direction, const int &to);
+
+    /**
      * @brief Removes a LineDirection from the Line. This does nothing if the given LineDirection is not part of the Line or is nullptr.
      * @param direction The LineDirection to remove.
      */
@@ -178,6 +199,12 @@ public:
     void removeDirection(const QUuid &id);
 
     QJsonObject toJson() const override;
+
+signals:
+    void directionAdded(int row, LineDirection *);
+    void directionRemoved(int row, LineDirection *);
+    void directionChanged(int row, LineDirection *);
+    void directionMoved(int from, int to);
 
 protected:
     void fromJson(const QJsonObject &jsonObject) override;

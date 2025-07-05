@@ -62,8 +62,14 @@ PDIList<LineDirection> Line::directions() const {
     return _data.directions;
 }
 
+int Line::indexOfDirection(LineDirection *direction) const {
+    return _data.directions.indexOf(direction);
+}
+
 void Line::appendDirection(LineDirection *lineDirection) {
     _data.directions.append(lineDirection);
+    connect(lineDirection, &LineDirection::changed, this, [this, lineDirection](){emit directionChanged(indexOfDirection(lineDirection), lineDirection);});
+    emit directionAdded(_data.directions.count() - 1, lineDirection);
     emit changed();
 }
 
@@ -72,17 +78,33 @@ void Line::insertDirection(const int &index, LineDirection *lineDirection) {
         return;
 
     _data.directions.insert(index, lineDirection);
+    connect(lineDirection, &LineDirection::changed, this, [this, lineDirection](){emit directionChanged(indexOfDirection(lineDirection), lineDirection);});
+    emit directionAdded(index, lineDirection);
     emit changed();
 }
 
+void Line::moveDirection(const int &from, const int &to) {
+    if(from < 0 || from >= directionCount() || to < 0 || to >= directionCount())
+        return;
+
+    _data.directions.insert(to, _data.directions.takeAt(from));
+    emit directionMoved(from, to);
+}
+
+void Line::moveDirection(LineDirection *direction, const int &to) {
+    moveDirection(indexOfDirection(direction), to);
+}
+
 void Line::removeDirection(LineDirection *lineDirection) {
+    const int index = indexOfDirection(lineDirection);
     _data.directions.remove(lineDirection);
+    lineDirection->disconnect(this);
+    emit directionRemoved(index, lineDirection);
     emit changed();
 }
 
 void Line::removeDirection(const QUuid &id) {
-    _data.directions.remove(id);
-    emit changed();
+    removeDirection(direction(id));
 }
 
 QJsonObject Line::toJson() const {
