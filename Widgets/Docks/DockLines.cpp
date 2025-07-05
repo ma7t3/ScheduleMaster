@@ -78,6 +78,7 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     connect(ui->twLines->selectionModel(), &QItemSelectionModel::selectionChanged, this, &DockLines::onSelectionChanged);
 
     connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &DockLines::onRowsAdded);
+    connect(_model, &QAbstractItemModel::modelReset, this, &DockLines::onSelectionChanged);
 
     connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterFixedString);
 
@@ -163,17 +164,12 @@ void DockLines::onSelectionChanged() {
     _editAction->setEnabled(count == 1);
     _deleteAction->setEnabled(count > 0);
 
-    Line *l;
-    if(current.isValid())
-        l = _model->itemAt(_proxyModel->mapToSource(current).row());
+    if(current.isValid() && count == 1)
+        _currentLine = _model->itemAt(_proxyModel->mapToSource(current).row());
     else
-        l = nullptr;
+        _currentLine = nullptr;
 
-    if(l != _currentLine) {
-        _currentLine = l;
-        emit currentLineChanged(l);
-    }
-
+    emit currentLineChanged(_currentLine);
     emit selectedLinesChaned(selectedLines());
 }
 
