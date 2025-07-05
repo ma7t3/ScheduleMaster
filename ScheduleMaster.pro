@@ -46,6 +46,7 @@ SOURCES += \
     ProjectDataModels/LineTableModel.cpp \
     ProjectDataModels/LineTableProxyModel.cpp \
     Widgets/Docks/DockBusstops.cpp \
+    Widgets/Docks/DockLines.cpp \
     Widgets/Docks/DockNews.cpp \
     Widgets/Docks/DockWelcome.cpp \
     Widgets/WdgBusstopFlagEditor.cpp \
@@ -147,6 +148,7 @@ HEADERS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h \
     Widgets/Docks/DockAbstract.h \
     Widgets/Docks/DockBusstops.h \
+    Widgets/Docks/DockLines.h \
     Widgets/Docks/DockNews.h \
     Widgets/Docks/DockWelcome.h \
     Widgets/WdgAccentColorSelector.h \
@@ -174,6 +176,7 @@ FORMS += \
     Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
     Widgets/Docks/DockBusstops.ui \
+    Widgets/Docks/DockLines.ui \
     Widgets/Docks/DockNews.ui \
     Widgets/Docks/DockWelcome.ui \
     Widgets/WdgAccentColorSelector.ui \
