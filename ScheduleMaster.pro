@@ -50,6 +50,7 @@ SOURCES += \
     Widgets/Docks/DockBusstops.cpp \
     Widgets/Docks/DockLines.cpp \
     Widgets/Docks/DockNews.cpp \
+    Widgets/Docks/DockRoutes.cpp \
     Widgets/Docks/DockWelcome.cpp \
     Widgets/WdgBusstopFlagEditor.cpp \
     Widgets/WdgBusstopPlatformEditor.cpp \
@@ -154,6 +155,7 @@ HEADERS += \
     Widgets/Docks/DockBusstops.h \
     Widgets/Docks/DockLines.h \
     Widgets/Docks/DockNews.h \
+    Widgets/Docks/DockRoutes.h \
     Widgets/Docks/DockWelcome.h \
     Widgets/WdgAccentColorSelector.h \
     Widgets/WdgBusstopFlagEditor.h \
@@ -182,6 +184,7 @@ FORMS += \
     Widgets/Docks/DockBusstops.ui \
     Widgets/Docks/DockLines.ui \
     Widgets/Docks/DockNews.ui \
+    Widgets/Docks/DockRoutes.ui \
     Widgets/Docks/DockWelcome.ui \
     Widgets/WdgAccentColorSelector.ui \
     Widgets/WdgBusstopFlagEditor.ui \
