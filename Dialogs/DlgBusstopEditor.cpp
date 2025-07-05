@@ -12,7 +12,7 @@ DlgBusstopEditor::DlgBusstopEditor(Busstop *busstop, QWidget *parent) :
     _proxyModel(new QSortFilterProxyModel(this)) {
     ui->setupUi(this);
 
-    setWindowTitle(busstop ? tr("Edit Busstop") : tr("Create Busstop"));
+    setWindowTitle(busstop->isClone() ? tr("Edit Busstop") : tr("Create Busstop"));
 
     ui->gbPlatformEditor->setVisible(false);
 
