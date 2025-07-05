@@ -107,6 +107,50 @@ void Line::removeDirection(const QUuid &id) {
     removeDirection(direction(id));
 }
 
+Route *Line::createRoute(QObject *parent) {
+    return new Route(parent ? parent : this);
+}
+
+Route *Line::createRoute(const QJsonObject &jsonObject) {
+    return new Route(this, jsonObject);
+}
+
+int Line::routeCount() const {
+    return _data.routes.count();
+}
+
+Route *Line::route(const QUuid &id) const {
+    return _data.routes.value(id, nullptr);
+}
+
+PDISet<Route> Line::routes() const {
+    return _data.routes;
+}
+
+void Line::addRoute(Route *route) {
+    if(!route)
+        return;
+
+    _data.routes.add(route);
+    connect(route, &Route::changed, this, [this, route](){emit routeChanged(route);});
+    emit routeAdded(route);
+    emit changed();
+}
+
+void Line::removeRoute(Route *route) {
+    if(!route)
+        return;
+
+    route->disconnect(this);
+    _data.routes.remove(route);
+    emit routeRemoved(route);
+    emit changed();
+}
+
+void Line::removeRoute(const QUuid &id) {
+    removeRoute(route(id));
+}
+
 QJsonObject Line::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.insert("name",        _data.name);
@@ -117,7 +161,12 @@ QJsonObject Line::toJson() const {
     for(LineDirection *current : _data.directions)
         jsonDirections.append(current->toJson());
 
+    QJsonArray jsonRoutes;
+    for(Route *current : _data.routes)
+        jsonRoutes.append(current->toJson());
+
     jsonObject.insert("directions", jsonDirections);
+    jsonObject.insert("routes", jsonRoutes);
     return jsonObject;
 }
 
@@ -126,8 +175,17 @@ void Line::fromJson(const QJsonObject &jsonObject) {
     setName(jsonObject.value("name").toString(tr("Unnamed line")));
     setDescription(jsonObject.value("description").toString());
     setColor(QColor(jsonObject.value("color").toString()));
-    QJsonArray jsonDirections = jsonObject.value("directions").toArray();
-    for(QJsonValue val : jsonDirections)
-        _data.directions.append(createDirection(val.toObject()));
-}
 
+    const QJsonArray jsonDirections = jsonObject.value("directions").toArray();
+    for(const QJsonValue &val : jsonDirections)
+        _data.directions.append(createDirection(val.toObject()));
+
+    const QJsonArray jsonRoutes = jsonObject.value("routes").toArray();
+    for(const QJsonValue &val : jsonRoutes) {
+        Route *r = createRoute(val.toObject());
+        if(route(r->id()))
+            r->setID(generateID()); // NOTE: This was only for testing purposes. If you have no idea, why this is, you can safely remove it! :)))
+
+        _data.routes.add(r);
+    }
+}

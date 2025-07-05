@@ -2,6 +2,7 @@
 #define LINE_H
 
 #include "LineDirection.h"
+#include "Route.h"
 #include "ProjectDataItemList.h"
 
 #include <QColor>
@@ -16,7 +17,7 @@ struct LineData : ProjectDataItemData<LineData> {
     /// Constructs a new LineData object. It should always call ProjectDataItemData::initParentOwnsItemMembers().
     LineData() {initParentOwnsItemMembers();}
 
-    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&directions};}
+    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&directions, &routes};}
 
     /// The Line's name
     QString name;
@@ -29,6 +30,9 @@ struct LineData : ProjectDataItemData<LineData> {
 
     /// The Line's directions
     PDIList<LineDirection> directions;
+
+    /// TThe Line's routes
+    PDISet<Route> routes;
     // routes, trips
 };
 
@@ -198,6 +202,61 @@ public:
      */
     void removeDirection(const QUuid &id);
 
+    /**
+     * @brief Creates a new route with an optionally given parent.
+     * @param parent The parent QObject of the Route object. If not given, the Line will take ownership.
+     * @return The created Route object
+     */
+    Route *createRoute(QObject *parent = nullptr);
+
+    /**
+     * @brief Creates a new Route object based on the given QJsonObject.
+     * @param jsonObject The QJsonObject to read the Route data from
+     * @return The created Route object
+     */
+    Route *createRoute(const QJsonObject &jsonObject);
+
+    /**
+     * @brief Returns the number of Routes in the Line.
+     *
+     * See also routes().
+     * @return The number of routes in the Line
+     */
+    int routeCount() const;
+
+    /**
+     * @brief Searches for a Route by its UUID.
+     * @param id The UUID of the Route to search for.
+     * @return A pointer to the Route if it was found, otherwise nullptr.
+     */
+    Route *route(const QUuid &id) const;
+
+    /**
+     * @brief Returns a list of all Routes in the Line.
+     *
+     * See also routeCount().
+     * @return A ProjectDataItemSet of all Routes in the Line.
+     */
+    PDISet<Route> routes() const;
+
+    /**
+     * @brief Adds a route to the line.
+     * @param route The Routeto add.
+     */
+    void addRoute(Route *route);
+
+    /**
+     * @brief Removes a route from the line. This does nothing if the given route is not part of the line or is nullptr.
+     * @param route The Route to remove.
+     */
+    void removeRoute(Route *route);
+
+    /**
+     * @brief Removes a route from the line by its UUID. This does nothing if there was no line found that matches the given UUID.
+     * @param id The id to search for.
+     */
+    void removeRoute(const QUuid &id);
+
     QJsonObject toJson() const override;
 
 signals:
@@ -205,6 +264,10 @@ signals:
     void directionRemoved(int row, LineDirection *);
     void directionChanged(int row, LineDirection *);
     void directionMoved(int from, int to);
+
+    void routeAdded(Route *);
+    void routeRemoved(Route *);
+    void routeChanged(Route *);
 
 protected:
     void fromJson(const QJsonObject &jsonObject) override;
