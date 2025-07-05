@@ -12,6 +12,7 @@ SOURCES += \
     Dialogs/DlgBusstopEditor.cpp \
     Dialogs/DlgConfigEditor.cpp \
     Dialogs/DlgGlobalSearch.cpp \
+    Dialogs/DlgLineEditor.cpp \
     Dialogs/DlgPreferences.cpp \
     Global/ActionController.cpp \
     Global/ActionManager.cpp \
@@ -82,6 +83,7 @@ HEADERS += \
     Dialogs/DlgBusstopEditor.h \
     Dialogs/DlgConfigEditor.h \
     Dialogs/DlgGlobalSearch.h \
+    Dialogs/DlgLineEditor.h \
     Dialogs/DlgPreferences.h \
     Global/ActionController.h \
     Global/ActionManager.h \
@@ -160,6 +162,7 @@ FORMS += \
     Dialogs/DlgBusstopEditor.ui \
     Dialogs/DlgConfigEditor.ui \
     Dialogs/DlgGlobalSearch.ui \
+    Dialogs/DlgLineEditor.ui \
     Dialogs/DlgPreferences.ui \
     MainWindow.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \
