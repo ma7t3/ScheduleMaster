@@ -850,6 +850,46 @@
         "defaultKeyboardShortcut": "Del"
     },
     {
+        "id": "projectData.item.moveUp",
+        "icon": "up",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Move up",
+            "de_DE" : "Nach oben bewegen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Move item up",
+            "de_DE" : "Eintrag nach oben bewegen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": "Ctrl+Alt+Up"
+    },
+    {
+        "id": "projectData.item.moveDown",
+        "icon": "down",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Move down",
+            "de_DE" : "Nach unten bewegen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Move item down",
+            "de_DE" : "Eintrag nach unten bewegen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": "Ctrl+Alt+Down"
+    },
+    {
         "id": "variantEditor.listItem.add",
         "icon": "plus",
         "text": {
