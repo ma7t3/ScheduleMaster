@@ -45,6 +45,8 @@ SOURCES += \
     ProjectDataModels/LineDirectionTableModel.cpp \
     ProjectDataModels/LineTableModel.cpp \
     ProjectDataModels/LineTableProxyModel.cpp \
+    ProjectDataModels/RouteTableModel.cpp \
+    ProjectDataModels/RouteTableProxyModel.cpp \
     Widgets/Docks/DockBusstops.cpp \
     Widgets/Docks/DockLines.cpp \
     Widgets/Docks/DockNews.cpp \
@@ -135,6 +137,8 @@ HEADERS += \
     ProjectDataModels/LineTableModel.h \
     ProjectDataModels/LineTableProxyModel.h \
     ProjectDataModels/OrderedProjectDataRowModel.h \
+    ProjectDataModels/RouteTableModel.h \
+    ProjectDataModels/RouteTableProxyModel.h \
     ProjectDataModels/UnorderedProjectDataRowModel.h \
     ProjectDataModels/UnorderedProjectDataRowModelSignals.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPage.h \
