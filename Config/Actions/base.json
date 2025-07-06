@@ -890,6 +890,66 @@
         "defaultKeyboardShortcut": "Ctrl+Alt+Down"
     },
     {
+        "id": "projectDataTable.showHideColumns",
+        "icon": "bars",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Columns",
+            "de_DE" : "Spalten"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show and hide columns",
+            "de_DE" : "Spalten ein- und ausblenden"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
+        "id": "projectDataTable.restoreDefaults",
+        "icon": "undo",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Restore defaults",
+            "de_DE" : "Standards wiederherstellen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Restore columns shown by default",
+            "de_DE" : "Standardmäßig angezeigte Spalten wiederherstellen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
+        "id": "projectDataTable.showInWindowAction",
+        "icon": "window-restore",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Show in  separate Window",
+            "de_DE" : "In separatem Fenster anzeigen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show column management in separate window",
+            "de_DE" : "Spaltenverwaltung in separatem Fenster anzeigen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
         "id": "variantEditor.listItem.add",
         "icon": "plus",
         "text": {
