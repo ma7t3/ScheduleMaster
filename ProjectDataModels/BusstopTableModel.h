@@ -13,7 +13,7 @@ class BusstopTableModelDelegate : public QStyledItemDelegate {
     Q_OBJECT
 
 public:
-    BusstopTableModelDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
+    BusstopTableModelDelegate(QObject *parent);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const override;
@@ -36,6 +36,9 @@ protected:
     static inline int ItemHorizontalPadding = 4;
     static inline int ItemGap               = 4;
     static inline int ItemBorderRadius      = 4;
+
+private:
+    ProjectData *_projectData;
 };
 
 class BusstopTableModel : public UnorderedProjectDataRowModel<Busstop> {

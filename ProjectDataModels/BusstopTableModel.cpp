@@ -4,6 +4,9 @@
 
 #include <QSortFilterProxyModel>
 
+BusstopTableModelDelegate::BusstopTableModelDelegate(QObject *parent) :
+    QStyledItemDelegate(parent), _projectData(ApplicationInterface::projectData()) {}
+
 void BusstopTableModelDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                       const QModelIndex &index) const {
 
@@ -72,9 +75,9 @@ void BusstopTableModelDelegate::paintPlatforms(QPainter *painter,
 
     painter->setBrush(QColor(128, 128, 128, 64));
 
-    const int boxHeight = option.rect.height();
-    const int itemHight = boxHeight - (2 * BoxVerticalPadding);
-    const int y         = option.rect.y() + BoxVerticalPadding;
+    const int boxHeight  = option.rect.height();
+    const int itemHeight = boxHeight - (2 * BoxVerticalPadding);
+    const int y          = option.rect.y() + BoxVerticalPadding;
 
     int x = option.rect.x() + BoxHorizontalPadding;
 
@@ -91,7 +94,7 @@ void BusstopTableModelDelegate::paintPlatforms(QPainter *painter,
         const int textWidth = fm.size(Qt::TextSingleLine, text).width();
         const int itemWidth = textWidth + (2 * ItemHorizontalPadding);
 
-        const QRect itemRect(x, y, itemWidth, itemHight);
+        const QRect itemRect(x, y, itemWidth, itemHeight);
 
         painter->save();
         painter->setPen(Qt::NoPen);
@@ -115,7 +118,76 @@ void BusstopTableModelDelegate::paintPlatforms(QPainter *painter,
 void BusstopTableModelDelegate::paintLines(QPainter *painter, const QStyleOptionViewItem &option,
                                            Busstop *busstop) const {
 
-    // TODO
+    QList<Line *> lines = _projectData->linesAtBusstop(busstop).values();
+    std::sort(lines.begin(), lines.end(), [](Line *a, Line *b){ return *a < *b; });
+
+    const int boxHeight  = option.rect.height();
+    const int itemHeight = boxHeight - (2 * BoxVerticalPadding);
+    const int y          = option.rect.y() + BoxVerticalPadding;
+
+    int x = option.rect.x() + BoxHorizontalPadding;
+
+    QFont f = option.font;
+    f.setBold(true);
+    painter->setFont(f);
+
+    for(Line *line : std::as_const(lines)) {
+        LineCardShape shape = line->cardShape();
+        shape = shape == ProjectDefaultShape ? OvalShape : shape; // FIXME
+
+        const float additionalPaddingFactor = (shape == OvalShape) ? 0.25
+                                              : (shape == EllipseShape || shape == HexagonShape)
+                                                  ? 0.5
+                                                  : 0;
+
+        const QString text = line->name();
+        painter->setBrush(line->color());
+        const QFontMetrics fm(f);
+
+        const int textWidth = fm.size(Qt::TextSingleLine, text).width();
+        const int itemWidth = std::max(textWidth + (2 * ItemHorizontalPadding)
+                                           + itemHeight * additionalPaddingFactor,
+                                       itemHeight + itemHeight * additionalPaddingFactor);
+
+        const QRectF itemRect(x, y, itemWidth, itemHeight);
+
+        painter->setPen(Qt::NoPen);
+        switch(shape) {
+        default: case RectangleShape:
+            painter->drawRect(itemRect);
+            break;
+
+        case RoundedRectangleShape:
+            painter->drawRoundedRect(itemRect, ItemBorderRadius, ItemBorderRadius);
+            break;
+
+        case OvalShape:
+            painter->drawRoundedRect(itemRect, itemHeight / 2, itemHeight / 2);
+            break;
+
+        case EllipseShape:
+            painter->drawEllipse(itemRect);
+            break;
+
+        case HexagonShape:
+            QPointF points[6] = {
+                QPointF(x,                              y + itemHeight / 2), // far left
+                QPointF(x + itemHeight / 2,             y), // top left
+                QPointF(x + itemWidth - itemHeight / 2, y), // top right
+                QPointF(x + itemWidth                 , y + itemHeight / 2), // far right
+                QPointF(x + itemWidth - itemHeight / 2, y + itemHeight), // bottom right
+                QPointF(x + itemHeight / 2,             y + itemHeight), // bottom left
+            };
+
+            painter->drawPolygon(points, 6);
+            break;
+        }
+
+        painter->setPen(Global::contrastColor(line->color()));
+        painter->drawText(itemRect, Qt::AlignCenter, text);
+
+        x += itemWidth + ItemGap;
+    }
 }
 
 QSize BusstopTableModelDelegate::calculatePlatformsSizeHint(const QStyleOptionViewItem &option, Busstop *busstop) const {
@@ -171,6 +243,15 @@ BusstopTableModel::BusstopTableModel(QObject *parent) :
 
     connect(_projectData, &ProjectData::busstopAdded, this, &BusstopTableModel::onItemAdded);
     connect(_projectData, &ProjectData::busstopRemoved, this, &BusstopTableModel::onItemRemoved);
+
+    connect(_projectData, &ProjectData::lineChanged, this, [this](Line *line) {
+        const PDISet<Busstop> busstops = line->allBusstops();
+        for(Busstop *b : busstops) {
+            const int row = indexOfItem(b);
+            if(row >= 0)
+                emit dataChanged(createIndex(row, 3), createIndex(row, 3));
+        }
+    });
 }
 
 int BusstopTableModel::columnCount(const QModelIndex &parent) const {
