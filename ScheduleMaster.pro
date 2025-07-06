@@ -56,6 +56,7 @@ SOURCES += \
     Widgets/WdgBusstopPlatformEditor.cpp \
     Widgets/WdgColorSelector.cpp \
     Widgets/WdgGlobalSearchItem.cpp \
+    Widgets/WdgTableColumnVisibilitySelector.cpp \
     main.cpp \
     MainWindow.cpp \
     ProjectData/ProjectData.cpp \
@@ -163,6 +164,7 @@ HEADERS += \
     Widgets/WdgColorSchemeSelector.h \
     Widgets/WdgColorSelector.h \
     Widgets/WdgGlobalSearchItem.h \
+    Widgets/WdgTableColumnVisibilitySelector.h \
     Widgets/WdgVariantEditor.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
 
@@ -192,6 +194,7 @@ FORMS += \
     Widgets/WdgColorSchemeSelector.ui \
     Widgets/WdgColorSelector.ui \
     Widgets/WdgGlobalSearchItem.ui \
+    Widgets/WdgTableColumnVisibilitySelector.ui \
     Widgets/WdgVariantEditor.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
 
