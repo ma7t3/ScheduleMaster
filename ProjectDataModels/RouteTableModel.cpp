@@ -21,22 +21,34 @@ void RouteTableModel::setLine(Line *line) {
 
 int RouteTableModel::columnCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return 6;
+    return 8;
 }
 
 QVariant RouteTableModel::headerData(int section, Qt::Orientation orientation, int role) const {
-    if(orientation != Qt::Horizontal || role != Qt::DisplayRole)
+    if(orientation != Qt::Horizontal
+       || (role != Qt::DisplayRole
+           && role != ColumnVisibleByDefaultRole
+           && role != ColumnMandatoryRole))
         return QVariant();
 
-    switch(section) {
-        case 0: return tr("Code");
-        case 1: return tr("Direction");
-        case 2: return tr("Name");
-        case 3: return tr("First Busstop");
-        case 4: return tr("Last Busstop");
-        case 5: return tr("Stop Count");
-        case 6: return tr("Profile Count");
-        case 7: return tr("Duration");
+    switch(role) {
+    case ColumnVisibleByDefaultRole:
+        return section <= 5;
+
+    case ColumnMandatoryRole:
+        return section == 2;
+
+    case Qt::DisplayRole:
+        switch(section) {
+            case 0: return tr("Code");
+            case 1: return tr("Direction");
+            case 2: return tr("Name");
+            case 3: return tr("First Busstop");
+            case 4: return tr("Last Busstop");
+            case 5: return tr("Stop Count");
+            case 6: return tr("Profile Count");
+            case 7: return tr("Duration");
+        }
     }
 
     return QVariant();

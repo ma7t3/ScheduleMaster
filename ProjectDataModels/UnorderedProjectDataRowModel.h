@@ -8,6 +8,11 @@
 
 #include "ProjectData/ProjectDataItemSet.h"
 
+enum CustomHeaderRoles {
+    ColumnVisibleByDefaultRole = Qt::UserRole + 1,
+    ColumnMandatoryRole = Qt::UserRole + 2,
+};
+
 /**
  * @class UnorderedProjectDataRowModel
  * @brief A model handling a set of unordered project data items within a table view.

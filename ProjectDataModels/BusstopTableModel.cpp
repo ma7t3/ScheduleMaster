@@ -179,18 +179,30 @@ int BusstopTableModel::columnCount(const QModelIndex &parent) const {
 }
 
 QVariant BusstopTableModel::headerData(int section, Qt::Orientation orientation, int role) const {
-    if(orientation != Qt::Horizontal || role != Qt::DisplayRole)
+    if(orientation != Qt::Horizontal
+       || (role != Qt::DisplayRole
+           && role != ColumnVisibleByDefaultRole
+           && role != ColumnMandatoryRole))
         return QVariant();
 
-    switch(section) {
-    case 0:
-        return tr("Name");
-    case 1:
-        return tr("Roles");
-    case 2:
-        return tr("Platforms");
-    case 3:
-        return tr("Lines");
+    switch(role) {
+    case ColumnVisibleByDefaultRole:
+        return true;
+
+    case ColumnMandatoryRole:
+        return section == 0;
+
+    case Qt::DisplayRole:
+        switch(section) {
+        case 0:
+            return tr("Name");
+        case 1:
+            return tr("Roles");
+        case 2:
+            return tr("Platforms");
+        case 3:
+            return tr("Lines");
+        }
     }
 
     return QVariant();
