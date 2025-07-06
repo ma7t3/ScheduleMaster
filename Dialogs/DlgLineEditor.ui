@@ -59,9 +59,6 @@
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="lLineCardShape">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="text">
            <string>Line Card Shape:</string>
           </property>
@@ -69,9 +66,21 @@
         </item>
         <item row="3" column="1">
          <widget class="QComboBox" name="cbLineCardShape">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
+          <item>
+           <property name="text">
+            <string>Project Default</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Rectangle</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Rounded Rectangle</string>
+           </property>
+          </item>
           <item>
            <property name="text">
             <string>Oval</string>
@@ -79,7 +88,7 @@
           </item>
           <item>
            <property name="text">
-            <string>Rectangle</string>
+            <string>Ellipse</string>
            </property>
           </item>
           <item>

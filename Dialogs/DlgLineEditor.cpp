@@ -73,6 +73,7 @@ DlgLineEditor::DlgLineEditor(Line *line, QWidget *parent) :
     ui->leName->setText(line->name());
     ui->leDescription->setText(line->description());
     ui->wdgColorSelector->setColor(line->color());
+    ui->cbLineCardShape->setCurrentIndex(line->cardShape());
 
     ui->pteComment->setPlainText(line->comment());
 
@@ -153,6 +154,7 @@ void DlgLineEditor::accept() {
     _line->setName(ui->leName->text());
     _line->setDescription(ui->leDescription->text());
     _line->setColor(ui->wdgColorSelector->color());
+    _line->setCardShape(static_cast<LineCardShape>(ui->cbLineCardShape->currentIndex()));
 
     _line->setComment(ui->pteComment->toPlainText());
     QDialog::accept();

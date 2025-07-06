@@ -42,6 +42,14 @@ void Line::setColor(const QColor &newColor) {
     emit changed();
 }
 
+LineCardShape Line::cardShape() const {
+    return _data.cardShape;
+}
+
+void Line::setCardShape(const LineCardShape &newShape) {
+    _data.cardShape = newShape;
+}
+
 LineDirection *Line::createDirection(QObject *parent) {
     return new LineDirection(parent ? parent : this);
 }

@@ -8,6 +8,18 @@
 #include <QColor>
 
 /**
+ * @brief The LineCardShape enum describes the look of a line card when displayed in views.
+ */
+enum LineCardShape {
+    ProjectDefaultShape = 0, ///< The projects default shape for line cards.
+    RectangleShape = 1, ///< A rectangular shape for line cards.
+    RoundedRectangleShape = 2, ///< A rectangular shape for line cards.
+    OvalShape = 3, ///< An oval shape for line cards.
+    EllipseShape = 4, ///< An oval shape for line cards.
+    HexagonShape = 5 ///< A hexagonal shape for line cards.
+};
+
+/**
  * @struct LineData
  * @brief The LineData class contains the actual data of a Line object.
  *
@@ -27,6 +39,9 @@ struct LineData : ProjectDataItemData<LineData> {
 
     /// The Line's color
     QColor color;
+
+    /// The Line's card shape
+    LineCardShape cardShape = ProjectDefaultShape;
 
     /// The Line's directions
     PDIList<LineDirection> directions;
@@ -116,6 +131,18 @@ public:
      * @param newColor The new color
      */
     void setColor(const QColor &newColor);
+
+    /**
+     * @brief Returns the Line's card shape.
+     * @return The line's card shape
+     */
+    LineCardShape cardShape() const;
+
+    /**
+     * @brief Replaces the Line's card shape
+     * @param newShape The new card shape
+     */
+    void setCardShape(const LineCardShape &newShape);
 
     /**
      * @brief Creates a new direction with an optionally given parent.
