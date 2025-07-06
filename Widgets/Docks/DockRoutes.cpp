@@ -73,6 +73,20 @@ DockRoutes::DockRoutes(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockR
     ui->twRoutes->horizontalHeader()->setSectionResizeMode(7, QHeaderView::ResizeToContents);
 
     ui->twRoutes->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twRoutes, this);
+
+    ActionController::add(ui->tbColumns, "projectDataTable.showHideColumns");
+    ui->tbColumns->setMenu(_columnVisibilitySelector->menu());
+
+    ui->twRoutes->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->twRoutes->horizontalHeader(),
+            &QHeaderView::customContextMenuRequested,
+            this,
+            [this](const QPoint &pos) {
+                _columnVisibilitySelector->menu()->popup(
+                    ui->twRoutes->horizontalHeader()->mapToGlobal(pos));
+            });
 }
 
 DockRoutes::~DockRoutes() {

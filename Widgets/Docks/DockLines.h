@@ -6,6 +6,7 @@
 #include "DockAbstract.h"
 #include "ProjectDataModels/LineTableModel.h"
 #include "ProjectDataModels/LineTableProxyModel.h"
+#include "Widgets/WdgTableColumnVisibilitySelector.h"
 
 class QSortFilterProxyModel;
 class QAction;
@@ -41,6 +42,8 @@ private:
     QAction *_newAction, *_editAction, *_deleteAction, *_searchAction;
     LineTableModel *_model;
     LineTableProxyModel *_proxyModel;
+
+    WdgTableColumnVisibilitySelector *_columnVisibilitySelector;
 
     ProjectData *_projectData;
     Line *_currentLine;

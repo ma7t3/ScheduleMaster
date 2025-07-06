@@ -4,6 +4,8 @@
 #include <QWidget>
 #include "DockAbstract.h"
 
+#include "Widgets/WdgTableColumnVisibilitySelector.h"
+
 class Line;
 class RouteTableModel;
 class RouteTableProxyModel;
@@ -33,6 +35,8 @@ protected slots:
 private:
     Ui::DockRoutes *ui;
     QAction *_actionNew, *_actionEdit, *_actionDuplicate, *_actionDelete;
+
+    WdgTableColumnVisibilitySelector *_columnVisibilitySelector;
 
     Line *_line;
     RouteTableModel *_model;

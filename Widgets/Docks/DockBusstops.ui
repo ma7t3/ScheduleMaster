@@ -53,14 +53,28 @@
     </layout>
    </item>
    <item>
-    <widget class="QLineEdit" name="leSearch">
-     <property name="placeholderText">
-      <string>Search...</string>
-     </property>
-     <property name="clearButtonEnabled">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="leSearch">
+       <property name="placeholderText">
+        <string>Search...</string>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="tbColumns">
+       <property name="text">
+        <string>Columns</string>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QTableView" name="twBusstops">

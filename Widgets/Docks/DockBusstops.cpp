@@ -88,6 +88,20 @@ DockBusstops::DockBusstops(QWidget *parent) :
 
     connect(_searchAction, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
 
+    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twBusstops, this);
+
+    ActionController::add(ui->tbColumns, "projectDataTable.showHideColumns");
+    ui->tbColumns->setMenu(_columnVisibilitySelector->menu());
+
+    ui->twBusstops->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->twBusstops->horizontalHeader(),
+            &QHeaderView::customContextMenuRequested,
+            this,
+            [this](const QPoint &pos) {
+                _columnVisibilitySelector->menu()->popup(
+                    ui->twBusstops->horizontalHeader()->mapToGlobal(pos));
+            });
+
     onSelectionChanged();
 }
 
