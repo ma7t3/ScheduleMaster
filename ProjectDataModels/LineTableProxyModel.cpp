@@ -7,13 +7,9 @@
 LineTableProxyModel::LineTableProxyModel(QObject *parent) : QSortFilterProxyModel{parent} {}
 
 bool LineTableProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
-    QString lineNameA = static_cast<Line *>(left.internalPointer())->name();
-    QString lineNameB = static_cast<Line *>(right.internalPointer())->name();
-
-    static thread_local QCollator collator;
-    collator.setNumericMode(true);
-    collator.setCaseSensitivity(Qt::CaseInsensitive);
-    return collator.compare(lineNameA, lineNameB) < 0;
+    Line *a = static_cast<Line *>(left.internalPointer());
+    Line *b = static_cast<Line *>(right.internalPointer());
+    return *a < *b;
 }
 
 bool LineTableProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const {

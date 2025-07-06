@@ -1,6 +1,7 @@
 #include "Line.h"
 
 #include <QJsonArray>
+#include <QCollator>
 
 Line::Line(QObject *parent, const QUuid &id, const bool &isClone) :
     ProjectDataItem(parent, id, isClone) {
@@ -12,7 +13,13 @@ Line::Line(QObject *parent, const QJsonObject &jsonObject) :
 }
 
 bool Line::operator<(const Line &other) const {
-    return name() < other.name();
+    QString lineNameA = name();
+    QString lineNameB = other.name();
+
+    static thread_local QCollator collator;
+    collator.setNumericMode(true);
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    return collator.compare(lineNameA, lineNameB) < 0;
 }
 
 QString Line::name() const {
