@@ -1,5 +1,6 @@
 #include "Route.h"
 
+#include "ProjectData.h"
 #include "Line.h"
 
 Route::Route(QObject *parent, const QUuid &id, const bool &isClone) :
@@ -168,5 +169,16 @@ void Route::fromJson(const QJsonObject &jsonObject) {
     setName(jsonObject.value("name").toString(tr("unnamed route")));
     setCode(jsonObject.value("code").toInt(0));
     setDirection(qobject_cast<Line *>(parent())->direction(QUuid::fromString(jsonObject.value("direction").toString())));
+
+    QJsonArray busstopsArray = jsonObject.value("busstops").toArray();
+    for(const QJsonValue &val : busstopsArray) {
+        if(val.isString()) { // Compatibility for older file versions
+            const QUuid id = QUuid::fromString(val.toString());
+            Busstop *b = findParent<ProjectData>()->busstop(id);
+            appendBusstop(createItem(b));
+        } else {
+            appendBusstop(createItem(val.toObject()));
+        }
+    }
 }
 
