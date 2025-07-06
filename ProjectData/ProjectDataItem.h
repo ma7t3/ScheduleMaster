@@ -73,20 +73,18 @@ public:
     }
 
     /**
-     * @brief Returns a pointer to the root ProjectData object.
-     *
-     * Returns nullptr if this objects is not a child of a ProjectData object.
-     * @return The ProjectData pointer
+     * @brief Finds the first parent of type T of the QObject.
+     * @return The parent that is of type T or nullptr if there is no such parent
      */
-    QObject *projectDataRoot() const {
-        QObject *root = parent();
-        while(root) {
-            if(root->objectName() == Global::ProjectDataRootObjectName)
-                return root;
+    template<typename T>
+    T *findParent() const {
+        QObject *obj = parent();
+        while(obj) {
+            if(T *casted = qobject_cast<T *>(obj))
+                return casted;
 
-            root = root->parent();
+            obj = obj->parent();
         }
-
         return nullptr;
     }
 

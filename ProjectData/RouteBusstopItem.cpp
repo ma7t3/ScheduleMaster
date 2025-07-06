@@ -43,7 +43,7 @@ void RouteBusstopItem::fromJson(const QJsonObject &jsonObject) {
     QUuid busstopID = QUuid::fromString(jsonObject.value("busstop").toString());
     QUuid defaultPlatformID = QUuid::fromString(jsonObject.value("defaultPlatform").toString());
 
-    ProjectData *projectData = qobject_cast<ProjectData*>(projectDataRoot());
+    ProjectData *projectData = findParent<ProjectData>();
     if(!projectData)
         return;
 

@@ -22,8 +22,6 @@ public:
 
     static QKeySequence parseKeyboardShortcutConfigString(const QJsonValue &value);
 
-    static const inline QString ProjectDataRootObjectName = "PROJECT_DATA_ROOT";
-
     Global(const Global&) = delete;
     Global& operator=(const Global&) = delete;
 };

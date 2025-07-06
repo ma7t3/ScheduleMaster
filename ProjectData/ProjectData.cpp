@@ -7,7 +7,6 @@ ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
     _undoStack(new QUndoStack(this)),
     _loadingJson(false) {
-    setObjectName(Global::ProjectDataRootObjectName);
 
     _busstops.setParentOwnsItems(true);
 }
