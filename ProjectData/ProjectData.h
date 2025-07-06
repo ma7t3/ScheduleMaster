@@ -247,6 +247,11 @@ signals:
     void busstopAdded(Busstop *);
 
     /**
+     * @brief busstopChanged This signal is emited whenever a busstop inside the project is changed
+     */
+    void busstopChanged(Busstop *);
+
+    /**
      * @brief busstopRemoved This signal is emited whenever a busstop is removed from the project.
      */
     void busstopRemoved(Busstop *);
@@ -255,6 +260,11 @@ signals:
      * @brief lineAdded This signal is emited whenever a line is added to the project.
      */
     void lineAdded(Line *);
+
+    /**
+     * @brief lineChanged This signal is emited whenever a line inside the project is changed
+     */
+    void lineChanged(Line *);
 
     /**
      * @brief lineRemoved This signal is emited whenever a line is removed from the project.

@@ -61,19 +61,20 @@ Busstop *ProjectData::createBusstop(const QJsonObject &jsonObject) {
 
 void ProjectData::addBusstop(Busstop *busstop) {
     _busstops.add(busstop);
+    connect(busstop, &Busstop::changed, this, [this, busstop](){emit busstopChanged(busstop);});
     emit busstopAdded(busstop);
 }
 
 void ProjectData::removeBusstop(Busstop *busstop) {
+    if(!busstop)
+        return;
     _busstops.remove(busstop);
+    busstop->disconnect(this);
     emit busstopRemoved(busstop);
 }
 
 void ProjectData::removeBusstop(const QUuid &id) {
-    Busstop *b = _busstops.value(id, nullptr);
-    _busstops.remove(id);
-    if(b)
-        emit busstopRemoved(b);
+    removeBusstop(busstop(id));
 }
 
 Busstop *ProjectData::busstopOfPlatform(BusstopPlatform *busstopPlatform) {
@@ -106,17 +107,20 @@ Line *ProjectData::createLine(const QJsonObject &jsonObject) {
 
 void ProjectData::addLine(Line *line) {
     _lines.add(line);
+    connect(line, &Line::changed, this, [this, line](){emit lineChanged(line);});
     emit lineAdded(line);
 }
 
 void ProjectData::removeLine(Line *line) {
+    if(!line)
+        return;
     _lines.remove(line);
+    line->disconnect(this);
     emit lineRemoved(line);
 }
 
 void ProjectData::removeLine(const QUuid &id) {
-    Line *l = line(id);
-    removeLine(l);
+    removeLine(line(id));
 }
 
 bool ProjectData::isLoadingJson() const {
