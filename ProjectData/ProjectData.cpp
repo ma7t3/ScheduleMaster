@@ -123,6 +123,18 @@ void ProjectData::removeLine(const QUuid &id) {
     removeLine(line(id));
 }
 
+PDISet<Line> ProjectData::linesAtBusstop(Busstop *busstop) const {
+    PDISet<Line> result;
+    for(Line *l : _lines) {
+        const PDISet<Route> routes = l->routes();
+        for(Route *r : routes)
+            if(r->containsBusstop(busstop))
+                result.add(l);
+    }
+
+    return result;
+}
+
 bool ProjectData::isLoadingJson() const {
     return _loadingJson;
 }

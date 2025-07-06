@@ -200,6 +200,13 @@ public:
     void removeLine(const QUuid &id);
 
     /**
+     * @brief Returns a set of all lines that contain routes containing the given busstop.
+     * @param busstop The busstop to find lines at
+     * @return The list of lines using the given busstop
+     */
+    PDISet<Line> linesAtBusstop(Busstop *busstop) const;
+
+    /**
      * @brief Returns whether setJson() is currently beeing executed.
      * @return The execution status of setJson().
      */
