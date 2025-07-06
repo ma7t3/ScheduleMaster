@@ -284,6 +284,12 @@ public:
      */
     void removeRoute(const QUuid &id);
 
+    /**
+     * @brief Returns a set of all busstops that are part of the line meaning all busstops that are part of any route of the line.
+     * @return The set of all used busstops
+     */
+    PDISet<Busstop> allBusstops() const;
+
     QJsonObject toJson() const override;
 
 signals:

@@ -166,6 +166,15 @@ void Line::removeRoute(const QUuid &id) {
     removeRoute(route(id));
 }
 
+PDISet<Busstop> Line::allBusstops() const {
+    PDISet<Busstop> set;
+    for(Route *r : _data.routes)
+        for(RouteBusstopItem *b : r->busstops())
+            set.add(b->busstop());
+
+    return set;
+}
+
 QJsonObject Line::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.insert("name",        _data.name);
