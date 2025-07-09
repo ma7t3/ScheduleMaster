@@ -35,6 +35,7 @@ SOURCES += \
     Global/Workspace.cpp \
     Global/WorkspaceHandler.cpp \
     Global/WorkspaceManager.cpp \
+	InterfaceImpl/AppInterfaceImpl.cpp \
     ItemModels/IconSetsModel.cpp \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
@@ -114,6 +115,7 @@ HEADERS += \
     Global/Workspace.h \
     Global/WorkspaceHandler.h \
     Global/WorkspaceManager.h \
+	InterfaceImpl/AppInterfaceImpl.h \
     ItemModels/IconSetsModel.h \
     ItemModels/KeyboardShortcutsModel.h \
     ItemModels/LanguagesModel.h \
@@ -197,6 +199,11 @@ FORMS += \
     Widgets/WdgTableColumnVisibilitySelector.ui \
     Widgets/WdgVariantEditor.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
+
+INCLUDEPATH += $$PWD/ScheduleMasterInterface
+
+LIBS += -L$$PWD/lib \
+    -lScheduleMasterInterface
 
 RESOURCES = Resources.qrc
 

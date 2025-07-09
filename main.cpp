@@ -21,6 +21,7 @@
 #include "Global/CrashDetector.h"
 #include "Global/IconSetManager.h"
 #include "Global/IconController.h"
+#include "InterfaceImpl/AppInterfaceImpl.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/Splashscreen/slpashscreen_light.png";
@@ -63,7 +64,6 @@ int main(int argc, char *argv[]) {
     qputenv("QT_SCALE_FACTOR", set.value("appearance.uiScale", 1.0).toString().toUtf8());
 
     QApplication a(argc, argv);
-
     a.setOverrideCursor(QCursor(Qt::WaitCursor));
 
     QPair<QColor, QString> ssConfig = splashScreenConfig();
@@ -76,6 +76,9 @@ int main(int argc, char *argv[]) {
     // init logger
     Logger logger(&a);
     qInfo() << "Starting ScheduleMaster...";
+
+    qInfo() << "Loading Application Interface...";
+    appInterface;
 
     splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
     SettingsManager::init();
