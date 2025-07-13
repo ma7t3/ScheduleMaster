@@ -101,6 +101,7 @@ int main(int argc, char *argv[]) {
     StyleHandler::applyColorScheme();
     StyleHandler::applyAccentColor();
     MainWindow w;
+    appInterface->setMainWindow(&w);
 
 #ifndef QT_DEBUG
     a.thread()->sleep(2);

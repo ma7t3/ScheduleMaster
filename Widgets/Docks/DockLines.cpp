@@ -1,7 +1,8 @@
 #include "DockLines.h"
 #include "ui_DockLines.h"
 
-#include "ApplicationInterface.h"
+#include "InterfaceImpl/AppInterfaceImpl.h"
+
 #include "Global/ActionController.h"
 #include "Global/SettingsManager.h"
 #include "ProjectDataModels/LineTableModel.h"
@@ -18,7 +19,7 @@
 DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLines),
     _model(new LineTableModel(this)),
     _proxyModel(new LineTableProxyModel(this)),
-    _projectData(ApplicationInterface::projectData()) {
+    _projectData(appInterface->projectManagerImpl()->projectImpl()) {
     ui->setupUi(this);
 
     _newAction = addAction("");

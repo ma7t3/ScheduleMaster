@@ -3,8 +3,9 @@
 
 #include "Global/ActionController.h"
 #include "Global/LastUsedFilesManager.h"
-#include "ApplicationInterface.h"
 #include "Widgets/WdgWelcomeRecentProjectEntry.h"
+
+#include "InterfaceImpl/AppInterfaceImpl.h"
 
 #include <QDateTime>
 #include <QFileInfo>
@@ -49,14 +50,16 @@ DockWelcome::DockWelcome(QWidget *parent) :
 
     connect(LastUsedFilesManager::instance(), &LastUsedFilesManager::lastUsedFilesChanged, this, &DockWelcome::updateRecentProjectsList);
 
-    connect(this, &DockWelcome::newProject,            ApplicationInterface::instance(), &ApplicationInterface::newProject);
-    connect(this, &DockWelcome::openProject,           ApplicationInterface::instance(), &ApplicationInterface::openProject);
-    connect(this, &DockWelcome::openProjectFromFile,   ApplicationInterface::instance(), &ApplicationInterface::openProjectFromFile);
-    connect(this, &DockWelcome::openPlugins,           ApplicationInterface::instance(), &ApplicationInterface::openPlugins);
-    connect(this, &DockWelcome::openPreferences,       ApplicationInterface::instance(), &ApplicationInterface::openPreferences);
-    connect(this, &DockWelcome::quitApplication,       ApplicationInterface::instance(), &ApplicationInterface::quitApplication);
+    connect(this, &DockWelcome::newProject,            appInterface->projectManagerImpl(), &ProjectManagerImpl::newProject);
+    connect(this, &DockWelcome::openProject,           appInterface->projectManagerImpl(), &ProjectManagerImpl::openProject);
+    connect(this, &DockWelcome::openProjectFromFile,   appInterface->projectManagerImpl(), &ProjectManagerImpl::openProjectFromLocation);
+    connect(this, &DockWelcome::openPlugins,           appInterface, &AppInterfaceImpl::openPlugiunsDialog);
+    connect(this, &DockWelcome::openPreferences,       appInterface, &AppInterfaceImpl::openPreferencesDialog);
+    connect(this, &DockWelcome::quitApplication,       appInterface, &AppInterfaceImpl::quit);
 
-    connect(this, &DockWelcome::removeProjectFromList, ApplicationInterface::instance(), &ApplicationInterface::removeProjectFromRecentList);
+    connect(this, &DockWelcome::removeProjectFromList, this, [](const QString &path) {
+        LastUsedFilesManager::removeLastUsedFile(path);
+    });
 }
 
 DockWelcome::~DockWelcome() {

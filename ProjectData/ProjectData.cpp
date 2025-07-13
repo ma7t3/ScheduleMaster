@@ -4,7 +4,7 @@
 #include <QUndoStack>
 
 ProjectData::ProjectData(QObject *parent) :
-    QObject(parent),
+    IProjectDataInterface(parent),
     _undoStack(new QUndoStack(this)),
     _loadingJson(false) {
 

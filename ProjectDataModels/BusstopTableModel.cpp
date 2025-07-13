@@ -1,11 +1,11 @@
 #include "BusstopTableModel.h"
 
-#include "ApplicationInterface.h"
-
 #include <QSortFilterProxyModel>
 
+#include "InterfaceImpl/AppInterfaceImpl.h"
+
 BusstopTableModelDelegate::BusstopTableModelDelegate(QObject *parent) :
-    QStyledItemDelegate(parent), _projectData(ApplicationInterface::projectData()) {}
+    QStyledItemDelegate(parent), _projectData(appInterface->projectManagerImpl()->projectImpl()) {}
 
 void BusstopTableModelDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                       const QModelIndex &index) const {
@@ -238,7 +238,7 @@ QStringList BusstopTableModelDelegate::iconIDsList(const BusstopFlags &flags) {
 }
 
 BusstopTableModel::BusstopTableModel(QObject *parent) :
-    UnorderedProjectDataRowModel(parent), _projectData(ApplicationInterface::projectData()) {
+    UnorderedProjectDataRowModel(parent),_projectData(appInterface->projectManagerImpl()->projectImpl()) {
     connect(_projectData, &ProjectData::cleared,  this, &BusstopTableModel::reset);
 
     connect(_projectData, &ProjectData::busstopAdded, this, &BusstopTableModel::onItemAdded);

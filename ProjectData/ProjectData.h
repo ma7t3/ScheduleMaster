@@ -5,6 +5,7 @@
 #include "Line.h"
 #include "ProjectDataItemSet.h"
 
+#include <ScheduleMasterInterface/IScheduleMasterInterface.h>
 #include <QObject>
 #include <QUuid>
 
@@ -18,7 +19,7 @@ class QUndoStack;
  * there is always only one ProjectData instance which is created within the MainWindow.
  */
 
-class ProjectData : public QObject {
+class ProjectData : public IProjectDataInterface {
     Q_OBJECT
 public:
     /**

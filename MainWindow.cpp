@@ -12,7 +12,6 @@
 #include "Global/ProjectFileHandler.h"
 #include "Global/Workspace.h"
 #include "Global/WorkspaceHandler.h"
-#include "ApplicationInterface.h"
 #include "ProjectData/ProjectData.h"
 #include "Widgets/Docks/DockAbstract.h"
 
@@ -27,6 +26,8 @@
 #include <QUndoView>
 #include <QLayout>
 
+#include "InterfaceImpl/AppInterfaceImpl.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -34,8 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _windowOnceShown(false),
     _dockController(nullptr),
     _workspaceHandler(new WorkspaceHandler(this)),
-    _projectData(new ProjectData(this)),
-    _fileHandler(new ProjectFileHandler(_projectData, this)),
+    _projectData(appInterface->projectManagerImpl()->projectImpl()),
+    _fileHandler(appInterface->projectManagerImpl()->fileHandler()),
     _globalSearch(new DlgGlobalSearch(this)) {
     ui->setupUi(this);
 
@@ -96,12 +97,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     updateRecentProjectsList();
 
-    connect(ui->actionFileNewProject,         &QAction::triggered,                         this, &MainWindow::newProject);
-    connect(ui->actionFileOpenProject,        &QAction::triggered,                         this, &MainWindow::openProject);
+    connect(ui->actionFileNewProject,         &QAction::triggered,                         appInterface->projectManagerImpl(), &ProjectManagerImpl::newProject);
+    connect(ui->actionFileOpenProject,        &QAction::triggered,                         appInterface->projectManagerImpl(), &ProjectManagerImpl::openProject);
+    connect(ui->actionFileSaveProject,        &QAction::triggered,                         appInterface->projectManagerImpl(), &ProjectManagerImpl::saveProject);
+    connect(ui->actionFileSaveProjectAs,      &QAction::triggered,                         appInterface->projectManagerImpl(), &ProjectManagerImpl::saveProjectAs);
+    connect(ui->actionFileCloseProject,       &QAction::triggered,                         appInterface->projectManagerImpl(), &ProjectManagerImpl::closeProject);
+
     connect(actionShowRecentFilesList,        &QAction::triggered,                         this, &MainWindow::showRecentFilesMenu);
-    connect(ui->actionFileSaveProject,        &QAction::triggered,                         this, &MainWindow::saveProject);
-    connect(ui->actionFileSaveProjectAs,      &QAction::triggered,                         this, &MainWindow::saveProjectAs);
-    connect(ui->actionFileCloseProject,       &QAction::triggered,                         this, &MainWindow::closeProjectBackToHome);
     connect(ui->actionFileQuit,               &QAction::triggered,                         this, &MainWindow::quitApplication);
 
     connect(ui->actionEditPreferences,        &QAction::triggered,                         this, &MainWindow::openPreferences);
@@ -126,6 +128,39 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+WorkspaceHandler *MainWindow::workspaceHandler() const {
+    return _workspaceHandler;
+}
+
+bool MainWindow::requestNewProject() {
+    _workspaceHandler->switchToOnProjectOpenWorkspace();
+    return true;
+}
+
+QString MainWindow::requestOpenProjectDialog() {
+    return QFileDialog::getOpenFileName(this, tr("Open Project File"), FolderLocationManager::currentFolderLocationPaths("projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
+}
+
+bool MainWindow::requestOpenProject() {
+    createFileHandlerProgressDialog(tr("Open project..."));
+    _workspaceHandler->switchToOnProjectOpenWorkspace();
+    return true;
+}
+
+bool MainWindow::requestSaveProject() {
+    return true;
+}
+
+QString MainWindow::requestSaveProjectAsDialog() {
+    return QFileDialog::getOpenFileName(this, tr("Save Project File"), FolderLocationManager::currentFolderLocationPaths("projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
+}
+
+bool MainWindow::requestProjectClose() {
+    // TODO: Check for unsaved changes
+    _workspaceHandler->switchToOnProjectCloseWorkspace();
+    return true;
+}
+
 void MainWindow::showEvent(QShowEvent *event) {
     if(_windowOnceShown)
         return;
@@ -141,7 +176,8 @@ void MainWindow::showEvent(QShowEvent *event) {
 }
 
 void MainWindow::connectToInterface() {
-    ApplicationInterface::init(_projectData);
+    // FIXME
+    /*ApplicationInterface::init(_projectData);
     connect(ApplicationInterface::instance(), &ApplicationInterface::newProject,                  this, &MainWindow::newProject);
     connect(ApplicationInterface::instance(), &ApplicationInterface::openProject,                 this, &MainWindow::openProject);
     connect(ApplicationInterface::instance(), &ApplicationInterface::openProjectFromFile,         this, &MainWindow::openProjectFromFile);
@@ -153,7 +189,7 @@ void MainWindow::connectToInterface() {
     connect(ApplicationInterface::instance(), &ApplicationInterface::openPlugins,                 this, &MainWindow::openPlugins);
     connect(ApplicationInterface::instance(), &ApplicationInterface::openPreferences,             this, &MainWindow::openPreferences);
     connect(ApplicationInterface::instance(), &ApplicationInterface::openConfiguration,           this, &MainWindow::openConfiguration);
-    connect(ApplicationInterface::instance(), &ApplicationInterface::openProjectSettings,         this, &MainWindow::openProjectSettings);
+    connect(ApplicationInterface::instance(), &ApplicationInterface::openProjectSettings,         this, &MainWindow::openProjectSettings);*/
 }
 
 void MainWindow::loadDocks() {
@@ -227,7 +263,7 @@ void MainWindow::updateRecentProjectsList() {
 
         QAction *action = menu->addAction(QString::number(i) + ": " + fileName);
         action->setToolTip(path);
-        connect(action, &QAction::triggered, this, [this, path](){openProjectFromFile(path);});
+        connect(action, &QAction::triggered, this, [path](){appInterface->projectManagerImpl()->openProjectFromLocation(path);});
         i++;
     }
     menu->addSeparator();
@@ -258,55 +294,9 @@ void MainWindow::showCrashWarning() {
     }
 }
 
-void MainWindow::newProject() {
-    closeProject();
-    qInfo() << "Create new project...";
-    _workspaceHandler->switchToOnProjectOpenWorkspace();
-}
-
-void MainWindow::openProject() {
-    const QString path = QFileDialog::getOpenFileName(this, tr("Open Project File"), FolderLocationManager::currentFolderLocationPaths("projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
-    if(path.isEmpty())
-        return;
-
-    openProjectFromFile(path);
-}
-
-void MainWindow::openProjectFromFile(const QString &filePath) {
-    closeProject();
-    qInfo() << "Open project file" << filePath;
-    createFileHandlerProgressDialog(tr("Open project..."));
-    _fileHandler->readFile(filePath);
-    LastUsedFilesManager::addLastUsedFile(filePath);
-}
-
 void MainWindow::showRecentFilesMenu() {
     QPoint cursorPos = QCursor::pos();
     ui->menuFileOpenRecent->popup(QPoint(cursorPos.x() - 12, cursorPos.y() - 12));
-}
-
-void MainWindow::saveProject() {
-    qInfo() << "Save project";
-}
-
-void MainWindow::saveProjectAs() {
-    qInfo() << "Save project as";
-    // TODO: LastUsedFilesManager::addLastUsedFile(filePath);
-}
-
-void MainWindow::saveProjectToFile(const QString &filePath) {
-    qInfo() << "Save project to file" << filePath;
-}
-
-void MainWindow::closeProject() {
-    qInfo().noquote() << "Closing project" << _projectData->filePath();
-    //TODO: Check for unsaved changes
-    _projectData->reset();
-}
-
-void MainWindow::closeProjectBackToHome() {
-    closeProject();
-    _workspaceHandler->switchToOnProjectCloseWorkspace();
 }
 
 void MainWindow::quitApplication() {

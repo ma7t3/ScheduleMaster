@@ -23,6 +23,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public:
+    WorkspaceHandler *workspaceHandler() const;
+
+    bool requestNewProject();
+    QString requestOpenProjectDialog();
+    bool requestOpenProject();
+    bool requestSaveProject();
+    QString requestSaveProjectAsDialog();
+    bool requestProjectClose();
+
 protected:
     void connectToInterface();
 
@@ -35,16 +45,7 @@ protected:
 
 protected slots:
     void showCrashWarning();
-
-    void newProject();
-    void openProject();
-    void openProjectFromFile(const QString &filePath);
     void showRecentFilesMenu();
-    void saveProject();
-    void saveProjectAs();
-    void saveProjectToFile(const QString &filePath);
-    void closeProject();
-    void closeProjectBackToHome();
     void quitApplication();
 
     void removeProjectFromRecentList(const QString &filePath);

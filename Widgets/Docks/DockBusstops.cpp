@@ -5,8 +5,9 @@
 
 #include "Global/ActionController.h"
 #include "Global/SettingsManager.h"
-#include "ApplicationInterface.h"
 #include "Dialogs/DlgBusstopEditor.h"
+
+#include "InterfaceImpl/AppInterfaceImpl.h"
 
 #include "Commands/CmdBusstops.h"
 
@@ -15,7 +16,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
     _model(new BusstopTableModel(this)),
     _proxyModel(new QSortFilterProxyModel(this)),
     _delegate(new BusstopTableModelDelegate(this)),
-    _projectData(ApplicationInterface::projectData()),
+    _projectData(appInterface->projectManagerImpl()->projectImpl()),
     _currentBusstop(nullptr) {
     ui->setupUi(this);
 

@@ -1,10 +1,10 @@
 #include "LineTableModel.h"
 
-#include "ApplicationInterface.h"
+#include "InterfaceImpl/AppInterfaceImpl.h"
 
 #include <QFont>
 
-LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel<Line>(parent), _projectData(ApplicationInterface::projectData()) {
+LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel<Line>(parent), _projectData(appInterface->projectManagerImpl()->projectImpl()) {
     connect(_projectData, &ProjectData::cleared,  this, &LineTableModel::reset);
 
     connect(_projectData, &ProjectData::lineAdded, this, &LineTableModel::onItemAdded);
