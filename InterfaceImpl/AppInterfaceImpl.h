@@ -1,7 +1,9 @@
 #ifndef APPINTERFACEIMPL_H
 #define APPINTERFACEIMPL_H
 
-#include <IScheduleMasterInterface.h>
+#include <ScheduleMasterInterface/IScheduleMasterInterface.h>
+
+#include "ProjectManagerImpl.h"
 
 #define appInterface (AppInterfaceImpl::instance())
 
@@ -9,18 +11,29 @@ class AppInterfaceImpl : public IScheduleMasterInterface {
     Q_OBJECT
 
 protected:
-    AppInterfaceImpl() = default;
-    virtual ~AppInterfaceImpl() override = default;
+    AppInterfaceImpl();
+    ~AppInterfaceImpl() override;
 
 public:
     static AppInterfaceImpl *instance();
 
-    virtual void openPreferencesDialog() override;
-    virtual void openConfigurationDialog() override;
+    void setMainWindow(MainWindow *mainWindow);
 
-    virtual IProjectManagerInterface *projectManager() override;
-    virtual IMainWindowInterface *mainWindow() override;
+    void openPreferencesDialog() override;
+    void openPlugiunsDialog() override;
+    void openConfigurationDialog() override;
 
+    void quit() override;
+
+    IProjectManagerInterface *projectManager() const override;
+    ProjectManagerImpl *projectManagerImpl() const;
+
+    IMainWindowInterface *mainWindow() const override;
+
+protected:
+    ProjectManagerImpl *_projectManager;
+
+    MainWindow *_mainWindow;
 };
 
 #endif // APPINTERFACEIMPL_H

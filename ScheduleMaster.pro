@@ -35,7 +35,8 @@ SOURCES += \
     Global/Workspace.cpp \
     Global/WorkspaceHandler.cpp \
     Global/WorkspaceManager.cpp \
-	InterfaceImpl/AppInterfaceImpl.cpp \
+    InterfaceImpl/AppInterfaceImpl.cpp \
+    InterfaceImpl/ProjectManagerImpl.cpp \
     ItemModels/IconSetsModel.cpp \
     ItemModels/KeyboardShortcutsModel.cpp \
     ItemModels/LanguagesModel.cpp \
@@ -116,6 +117,7 @@ HEADERS += \
     Global/WorkspaceHandler.h \
     Global/WorkspaceManager.h \
 	InterfaceImpl/AppInterfaceImpl.h \
+    InterfaceImpl/ProjectManagerImpl.h \
     ItemModels/IconSetsModel.h \
     ItemModels/KeyboardShortcutsModel.h \
     ItemModels/LanguagesModel.h \

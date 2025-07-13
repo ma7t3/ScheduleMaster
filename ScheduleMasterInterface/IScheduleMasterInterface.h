@@ -11,7 +11,7 @@ class SCHEDULEMASTERINTERFACE_EXPORT IProjectDataInterface : public QObject {
     Q_DISABLE_COPY_MOVE(IProjectDataInterface)
 
 protected:
-    IProjectDataInterface() = default;
+    IProjectDataInterface(QObject *parent) : QObject(parent) {};
     virtual ~IProjectDataInterface() override = default;
 
 public:
@@ -43,7 +43,7 @@ public:
     virtual void addActionToStandardToolBar(const StandardToolBar &toolBar, QAction *action) = 0;
     virtual void addToolBar(QToolBar *toolBar) = 0;
 
-    virtual QMainWindow *qMainWindow() = 0;
+    virtual QMainWindow *qMainWindow() const = 0;
 
 signals:
     void aboutToClose();
@@ -55,20 +55,21 @@ class SCHEDULEMASTERINTERFACE_EXPORT IProjectManagerInterface : public QObject {
     Q_DISABLE_COPY_MOVE(IProjectManagerInterface)
 
 protected:
-    IProjectManagerInterface() = default;
+    IProjectManagerInterface(QObject *parent) : QObject(parent) {};
     virtual ~IProjectManagerInterface() override = default;
 
 public:
-    virtual IProjectDataInterface *project() = 0;
+    virtual IProjectDataInterface *project() const = 0;
+    virtual QStringList lastUsedProjectFiles() const = 0;
 
-    virtual void newProject() = 0;
-    virtual void openProject() = 0;
-    virtual void openProjectFromLocation(const QString &url) = 0;
-    virtual void saveProject() = 0;
-    virtual void saveProjectAs() = 0;
-    virtual void saveProjectToLocation(const QString &url) = 0;
-    virtual void closeProject() = 0;
-    virtual QStringList lastUsedProjectFiles() = 0;
+public slots:
+    virtual bool newProject() = 0;
+    virtual bool openProject() = 0;
+    virtual bool openProjectFromLocation(const QString &url) = 0;
+    virtual bool saveProject() = 0;
+    virtual bool saveProjectAs() = 0;
+    virtual bool saveProjectToLocation(const QString &url) = 0;
+    virtual bool closeProject() = 0;
 
 signals:
     void projectAboutToClose(const QString &url);
@@ -90,10 +91,13 @@ protected:
 
 public:
     virtual void openPreferencesDialog() = 0;
+    virtual void openPlugiunsDialog() = 0;
     virtual void openConfigurationDialog() = 0;
 
-    virtual IProjectManagerInterface *projectManager() = 0;
-    virtual IMainWindowInterface *mainWindow() = 0;
+    virtual void quit() = 0;
+
+    virtual IProjectManagerInterface *projectManager() const = 0;
+    virtual IMainWindowInterface *mainWindow() const = 0;
 };
 
 #endif // ISCHEDULEMASTERINTERFACE_H
