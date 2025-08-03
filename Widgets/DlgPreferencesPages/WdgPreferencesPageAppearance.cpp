@@ -1,6 +1,7 @@
 #include "WdgPreferencesPageAppearance.h"
 #include "ui_WdgPreferencesPageAppearance.h"
 
+#include "Global/SettingsManager.h"
 #include "Global/StyleHandler.h"
 #include "ItemModels/StylesModel.h"
 #include "ItemModels/IconSetsModel.h"
@@ -24,6 +25,8 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     connect(ui->acsAccentColor, &WdgAccentColorSelector::currentAccentColorChanged, this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::setUnsaved);
     connect(ui->cbGDIEngine,    &QCheckBox::checkStateChanged,                      this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->hsUiScale,      &QSlider::valueChanged,                             this, &WdgPreferencesPageAppearance::setUnsaved);
+    connect(ui->sbUiScale,      &QSpinBox::valueChanged,                            this, &WdgPreferencesPageAppearance::setUnsaved);
 
     connect(ui->cbStyle,        &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::onStyleChanged);
     connect(ui->cbIconSet,      &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::onIconSetChanged);
@@ -32,6 +35,9 @@ WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     connect(ui->fcbFont,        &QFontComboBox::currentFontChanged,                 this, &WdgPreferencesPageAppearance::onFontChanged);
 
     connect(ui->cbStyle,        &QComboBox::currentIndexChanged,                    this, &WdgPreferencesPageAppearance::styleIndexChanged);
+
+    connect(ui->hsUiScale,      &QSlider::valueChanged,                             ui->sbUiScale, &QSpinBox::setValue);
+    connect(ui->sbUiScale,      &QSpinBox::valueChanged,                            ui->hsUiScale, &QSlider::setValue);
 
     onStyleChanged(ui->cbStyle->currentIndex());;
 }
@@ -48,6 +54,7 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->cbIconSet->setCurrentIndex(_iconSetsModel->indexOficonSet(IconSetManager::currentIconSet()));
     ui->cssColorScheme->setColorScheme(StyleManager::currentColorScheme());
     ui->acsAccentColor->setAccentColor(StyleManager::currentAccentColorID());
+    ui->sbUiScale->setValue(SettingsManager::value("appearance.uiScale").toFloat() * 100);
     WdgPreferencesPage::reloadPreferences();
 }
 
@@ -67,6 +74,7 @@ void WdgPreferencesPageAppearance::savePreferences() {
         StyleManager::setCurrentColorScheme(style.supportedColorSchemes().first());
 
     StyleManager::setCurrentAccentColor(ui->acsAccentColor->accentColorID());
+    SettingsManager::setValue("appearance.uiScale", ui->sbUiScale->value() / 100.0);
     WdgPreferencesPage::savePreferences();
 }
 
