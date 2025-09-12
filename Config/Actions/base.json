@@ -771,6 +771,26 @@
         "defaultKeyboardShortcut": "Ctrl++"
     },
     {
+        "id": "projectData.item.add",
+        "icon": "plus",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Add",
+            "de_DE" : "Hinzufügen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Add item",
+            "de_DE" : "Eintrag hinzufügen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": "Ctrl++"
+    },
+    {
         "id": "projectData.item.edit",
         "icon": "pen",
         "text": {
@@ -850,6 +870,26 @@
         "defaultKeyboardShortcut": "Del"
     },
     {
+        "id": "projectData.item.remove",
+        "icon": "minus",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Remove",
+            "de_DE" : "Entfernen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Remove item",
+            "de_DE" : "Eintrag entfernen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": "Del"
+    },
+    {
         "id": "projectData.item.moveUp",
         "icon": "up",
         "text": {
@@ -888,6 +928,26 @@
             "de_DE" : "Allgemein"
         },
         "defaultKeyboardShortcut": "Ctrl+Alt+Down"
+    },
+    {
+        "id": "projectDataList.reverse",
+        "icon": "reverse",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Reverse",
+            "de_DE" : "Umkehren"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Reverse order",
+            "de_DE" : "Reihenfolge umkehren"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "General",
+            "de_DE" : "Allgemein"
+        },
+        "defaultKeyboardShortcut": ""
     },
     {
         "id": "projectDataTable.showHideColumns",
