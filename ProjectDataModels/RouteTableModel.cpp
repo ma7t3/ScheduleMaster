@@ -14,9 +14,11 @@ void RouteTableModel::setLine(Line *line) {
 
     _line = line;
     reset();
-    connect(_line, &Line::routeAdded,   this, &RouteTableModel::onItemAdded);
-    connect(_line, &Line::routeChanged, this, &RouteTableModel::onItemUpdated);
-    connect(_line, &Line::routeRemoved, this, &RouteTableModel::onItemRemoved);
+    if(_line) {
+        connect(_line, &Line::routeAdded,   this, &RouteTableModel::onItemAdded);
+        connect(_line, &Line::routeChanged, this, &RouteTableModel::onItemUpdated);
+        connect(_line, &Line::routeRemoved, this, &RouteTableModel::onItemRemoved);
+    }
 }
 
 int RouteTableModel::columnCount(const QModelIndex &parent) const {
