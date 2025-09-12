@@ -163,7 +163,7 @@ public:
                 button->setText(actionConfig.text);
 
             if(components.testFlag(TooltipComponent))
-                button->setToolTip(actionConfig.tooltip);
+                button->setToolTip(actionConfig.tooltip.isEmpty()? actionConfig.description : actionConfig.tooltip);
 
             if(components.testFlag(IconComponent))
                 button->setIcon(IconController::icon(actionConfig.icon));
@@ -184,7 +184,7 @@ public:
                 action->setText(actionConfig.text);
 
             if(components.testFlag(TooltipComponent))
-                action->setToolTip(actionConfig.tooltip);
+                action->setToolTip(actionConfig.tooltip.isEmpty()? actionConfig.description : actionConfig.tooltip);
 
             if(components.testFlag(IconComponent))
                 action->setIcon(IconController::icon(actionConfig.icon));
