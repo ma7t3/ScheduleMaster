@@ -45,6 +45,7 @@ SOURCES += \
     ProjectDataModels/LineDirectionTableModel.cpp \
     ProjectDataModels/LineTableModel.cpp \
     ProjectDataModels/LineTableProxyModel.cpp \
+    ProjectDataModels/RouteBusstopTableModel.cpp \
     ProjectDataModels/RouteTableModel.cpp \
     ProjectDataModels/RouteTableProxyModel.cpp \
     Widgets/Docks/DockBusstops.cpp \
@@ -139,6 +140,7 @@ HEADERS += \
     ProjectDataModels/LineTableModel.h \
     ProjectDataModels/LineTableProxyModel.h \
     ProjectDataModels/OrderedProjectDataRowModel.h \
+    ProjectDataModels/RouteBusstopTableModel.h \
     ProjectDataModels/RouteTableModel.h \
     ProjectDataModels/RouteTableProxyModel.h \
     ProjectDataModels/UnorderedProjectDataRowModel.h \
