@@ -170,6 +170,12 @@ public:
 
     QJsonObject toJson() const override;
 
+signals:
+    void busstopAdded(int row, RouteBusstopItem *);
+    void busstopRemoved(int row, RouteBusstopItem *);
+    void busstopChanged(int row, RouteBusstopItem *);
+    void busstopMoved(int from, int to);
+
 protected:
     void fromJson(const QJsonObject &jsonObject) override;
 };

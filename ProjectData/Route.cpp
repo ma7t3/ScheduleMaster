@@ -135,11 +135,19 @@ int Route::indexOfBusstop(RouteBusstopItem *busstopItem) const {
 
 void Route::appendBusstop(RouteBusstopItem *busstop) {
     _data.busstops.append(busstop);
+    connect(busstop, &Busstop::changed, this, [this, busstop]() {
+        emit busstopChanged(indexOfBusstop(busstop), busstop);
+    });
+    emit busstopAdded(_data.busstops.count() - 1, busstop);
     emit changed();
 }
 
 void Route::insertBusstop(const int &index, RouteBusstopItem *busstop) {
     _data.busstops.insert(index, busstop);
+    connect(busstop, &Busstop::changed, this, [this, busstop]() {
+        emit busstopChanged(indexOfBusstop(busstop), busstop);
+    });
+    emit busstopAdded(index, busstop);
     emit changed();
 }
 
@@ -148,6 +156,7 @@ void Route::moveBusstop(const int &from, const int &to) {
         return;
 
     _data.busstops.insert(to, _data.busstops.takeAt(from));
+    emit busstopMoved(from, to);
 }
 
 void Route::moveBusstop(RouteBusstopItem *busstop, const int &to) {
@@ -155,18 +164,23 @@ void Route::moveBusstop(RouteBusstopItem *busstop, const int &to) {
 }
 
 void Route::removeBusstop(RouteBusstopItem *busstop) {
+    const int index = indexOfBusstop(busstop);
     _data.busstops.remove(busstop);
+    busstop->disconnect(this);
+    emit busstopRemoved(index, busstop);
     emit changed();
 }
 
 void Route::removeBusstop(const QUuid &id) {
-    _data.busstops.remove(id);
-    emit changed();
+    removeBusstop(busstop(id));
 }
 
 void Route::removeBusstopAt(const int &index) {
-    _data.busstops.removeAt(index);
-    emit changed();
+    if(index < 0 || index >= busstopCount())
+        return;
+
+    RouteBusstopItem *b = _data.busstops.at(index);
+    removeBusstop(b);
 }
 
 void Route::reverseBusstopOrder() {
