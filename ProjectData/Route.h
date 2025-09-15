@@ -156,6 +156,8 @@ public:
     Busstop *firstCommonBusstop(Route *route, const bool &sameDefaultPlatform = false) const;
     Busstop *lastCommonBusstop(Route *route, const bool &sameDefaultPlatform = false) const;
 
+    int indexOfBusstop(RouteBusstopItem *busstopItem) const;
+
     void appendBusstop(RouteBusstopItem *busstop);
     void insertBusstop(const int &index, RouteBusstopItem *busstop);
     void removeBusstop(RouteBusstopItem *busstop);

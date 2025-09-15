@@ -129,6 +129,10 @@ Busstop *Route::lastCommonBusstop(Route *route, const bool &sameDefaultPlatform)
     return busstops.last()->busstop();
 }
 
+int Route::indexOfBusstop(RouteBusstopItem *busstopItem) const {
+    return _data.busstops.indexOf(busstopItem);
+}
+
 void Route::appendBusstop(RouteBusstopItem *busstop) {
     _data.busstops.append(busstop);
     emit changed();
