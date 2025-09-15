@@ -75,7 +75,7 @@ QVariant RouteTableModel::data(const QModelIndex &index, int role) const {
 
         switch(index.column()) {
         case 0: return route->code();
-        case 1: return route->direction()->description();
+        case 1: return route->direction() ? route->direction()->description() : "";
         case 2: return route->name();
         case 3: return route->busstopCount() > 0 ? route->firstBusstop()->busstop()->name() : "";
         case 4: return route->busstopCount() > 0 ? route->lastBusstop()->busstop()->name() : "";
