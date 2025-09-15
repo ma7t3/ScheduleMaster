@@ -18,7 +18,7 @@
 DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLines),
     _model(new LineTableModel(this)),
     _proxyModel(new LineTableProxyModel(this)),
-    _projectData(ApplicationInterface::projectData()) {
+    _projectData(ApplicationInterface::projectData()), _currentLine(nullptr) {
     ui->setupUi(this);
 
     _newAction = addAction("");
@@ -50,8 +50,8 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     connect(ui->pbEdit,   &QPushButton::clicked, _editAction,   &QAction::trigger);
     connect(ui->pbDelete, &QPushButton::clicked, _deleteAction, &QAction::trigger);
 
-    connect(_newAction, &QAction::triggered,    this, &DockLines::onLineNew);
-    connect(_editAction, &QAction::triggered,   this, &DockLines::onLineEdit);
+    connect(_newAction,    &QAction::triggered, this, &DockLines::onLineNew);
+    connect(_editAction,   &QAction::triggered, this, &DockLines::onLineEdit);
     connect(_deleteAction, &QAction::triggered, this, &DockLines::onLineDelete);
 
     ui->twLines->setContextMenuPolicy(Qt::CustomContextMenu);
