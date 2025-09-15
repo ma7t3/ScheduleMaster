@@ -166,6 +166,8 @@ public:
     void removeBusstop(const QUuid &id);
     void removeBusstopAt(const int &index);
 
+    void reverseBusstopOrder();
+
     QJsonObject toJson() const override;
 
 protected:

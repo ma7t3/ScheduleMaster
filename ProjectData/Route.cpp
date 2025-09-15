@@ -169,6 +169,14 @@ void Route::removeBusstopAt(const int &index) {
     emit changed();
 }
 
+void Route::reverseBusstopOrder() {
+    int n = _data.busstops.count() - 1;
+    for (int i = 0; i < n; i++) {
+        _data.busstops.insert(i, _data.busstops.takeAt(n));
+        emit busstopMoved(n, i);
+    }
+}
+
 QJsonObject Route::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.insert("name", name());
