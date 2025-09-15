@@ -29,22 +29,26 @@ DockRoutes::DockRoutes(QWidget *parent) :
     if(dockLines)
         connect(dockLines, &DockLines::currentLineChanged, this, &DockRoutes::setLine);
 
-    _actionNew = ui->twRoutes->addAction("");
+    _actionNew = addAction("");
     _actionNew->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    _actionEdit = ui->twRoutes->addAction("");
+    _actionEdit = addAction("");
     _actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    _actionDuplicate = ui->twRoutes->addAction("");
+    _actionDuplicate = addAction("");
     _actionDuplicate->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    _actionDelete = ui->twRoutes->addAction("");
+    _actionDelete = addAction("");
     _actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
+    _actionSearch = addAction("");
+    _actionSearch->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
     ActionController::add(_actionNew,       "projectData.item.new");
     ActionController::add(_actionEdit,      "projectData.item.edit");
     ActionController::add(_actionDuplicate, "projectData.item.duplicate");
     ActionController::add(_actionDelete,    "projectData.item.delete");
+    ActionController::add(_actionSearch,    "projectDataTable.focusSearch");
 
     ActionController::add(ui->pbNew,        "projectData.item.new",       ActionController::AllExceptShortcutComponent);
     ActionController::add(ui->pbEdit,       "projectData.item.edit",      ActionController::AllExceptShortcutComponent);
@@ -83,13 +87,26 @@ DockRoutes::DockRoutes(QWidget *parent) :
     ui->twRoutes->horizontalHeader()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
     ui->twRoutes->horizontalHeader()->setSectionResizeMode(7, QHeaderView::ResizeToContents);
 
-    ui->twRoutes->setContextMenuPolicy(Qt::ActionsContextMenu);
+    ui->twRoutes->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(ui->twRoutes, &QWidget::customContextMenuRequested, this, [this](QPoint pos) {
+        globalMenu()->popup(ui->twRoutes->mapToGlobal(pos));
+    });
+
+    globalMenu()->addAction(_actionNew);
+    globalMenu()->addAction(_actionEdit);
+    globalMenu()->addAction(_actionDuplicate);
+    globalMenu()->addAction(_actionDelete);
 
     connect(ui->twRoutes, &QTableView::doubleClicked, this, &DockRoutes::onRouteEdit);
     connect(ui->twRoutes->selectionModel(), &QItemSelectionModel::selectionChanged, this, &DockRoutes::onSelectionChanged);
 
     connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &DockRoutes::onRowsAdded);
     connect(_model, &QAbstractItemModel::modelReset, this, &DockRoutes::onSelectionChanged);
+
+    connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
+
+    connect(_actionSearch, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
 
     _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twRoutes, this);
 

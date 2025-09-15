@@ -31,3 +31,20 @@ bool RouteTableProxyModel::lessThan(const QModelIndex &sourceLeft,
 
     return false;
 }
+
+bool RouteTableProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const {
+    QModelIndex codeIndex         = sourceModel()->index(sourceRow, 0, sourceParent);
+    QModelIndex nameIndex         = sourceModel()->index(sourceRow, 2, sourceParent);
+    QModelIndex firstBusstopIndex = sourceModel()->index(sourceRow, 3, sourceParent);
+    QModelIndex lastBusstopIndex  = sourceModel()->index(sourceRow, 4, sourceParent);
+
+    QString code         = codeIndex.data().toString();
+    QString name         = nameIndex.data().toString();
+    QString firstBusstop = firstBusstopIndex.data().toString();
+    QString lastBusstop  = lastBusstopIndex.data().toString();
+
+    const QRegularExpression expr = filterRegularExpression();
+
+    return expr.match(name).hasMatch() || expr.match(code).hasMatch()
+           || expr.match(firstBusstop).hasMatch() || expr.match(lastBusstop).hasMatch();
+}
