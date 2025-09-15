@@ -160,6 +160,8 @@ public:
 
     void appendBusstop(RouteBusstopItem *busstop);
     void insertBusstop(const int &index, RouteBusstopItem *busstop);
+    void moveBusstop(const int &from, const int &to);
+    void moveBusstop(RouteBusstopItem *busstop, const int &to);
     void removeBusstop(RouteBusstopItem *busstop);
     void removeBusstop(const QUuid &id);
     void removeBusstopAt(const int &index);

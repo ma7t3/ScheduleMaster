@@ -143,6 +143,17 @@ void Route::insertBusstop(const int &index, RouteBusstopItem *busstop) {
     emit changed();
 }
 
+void Route::moveBusstop(const int &from, const int &to) {
+    if(from < 0 || from >= busstopCount() || to < 0 || to >= busstopCount())
+        return;
+
+    _data.busstops.insert(to, _data.busstops.takeAt(from));
+}
+
+void Route::moveBusstop(RouteBusstopItem *busstop, const int &to) {
+    moveBusstop(indexOfBusstop(busstop), to);
+}
+
 void Route::removeBusstop(RouteBusstopItem *busstop) {
     _data.busstops.remove(busstop);
     emit changed();
