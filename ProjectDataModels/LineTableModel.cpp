@@ -9,6 +9,8 @@ LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel<L
 
     connect(_projectData, &ProjectData::lineAdded, this, &LineTableModel::onItemAdded);
     connect(_projectData, &ProjectData::lineRemoved, this, &LineTableModel::onItemRemoved);
+
+    reset();
 }
 
 int LineTableModel::columnCount(const QModelIndex &parent) const {
