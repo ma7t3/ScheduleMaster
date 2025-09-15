@@ -80,7 +80,7 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &DockLines::onRowsAdded);
     connect(_model, &QAbstractItemModel::modelReset, this, &DockLines::onSelectionChanged);
 
-    connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterFixedString);
+    connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
     connect(_searchAction, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
 

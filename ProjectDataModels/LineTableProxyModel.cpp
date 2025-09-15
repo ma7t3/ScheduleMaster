@@ -18,6 +18,7 @@ bool LineTableProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sou
     QString name        = nameIndex.data(Qt::DisplayRole).toString();
     QString description = descriptionIndex.data(Qt::DisplayRole).toString();
 
-    const QString filter = filterRegularExpression().pattern();
-    return name.contains(filter, filterCaseSensitivity()) || description.contains(filter, filterCaseSensitivity());
+    const QRegularExpression expr = filterRegularExpression();
+
+    return expr.match(name).hasMatch() || expr.match(description).hasMatch();
 }

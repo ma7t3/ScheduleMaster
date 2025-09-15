@@ -84,7 +84,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
     connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &DockBusstops::onRowsAdded);
     connect(_model, &QAbstractItemModel::modelReset, this, &DockBusstops::onSelectionChanged);
 
-    connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterFixedString);
+    connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
     connect(_searchAction, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
 
