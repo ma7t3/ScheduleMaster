@@ -2,16 +2,27 @@
 #include "ui_DockRoutes.h"
 
 #include <QDockWidget>
+#include <QUndoStack>
+#include <QMessageBox>
 
 #include "Global/ActionController.h"
 #include "Global/DockController.h"
 #include "DockLines.h"
+#include "ProjectDataModels/RouteTableModel.h"
+
+#include "Commands/CmdRoutes.h"
 
 #include "ProjectDataModels/RouteTableModel.h"
 #include "ProjectDataModels/RouteTableProxyModel.h"
 
-DockRoutes::DockRoutes(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockRoutes), _line(nullptr),
-    _model(new RouteTableModel(this)), _proxyModel(new RouteTableProxyModel(this)) {
+#include "ApplicationInterface.h"
+#include "Dialogs/DlgRouteEditor.h"
+
+#include "Global/SettingsManager.h"
+
+DockRoutes::DockRoutes(QWidget *parent) :
+    DockAbstract(parent), ui(new Ui::DockRoutes), _projectData(ApplicationInterface::projectData()), _line(nullptr),
+    _currentRoute(nullptr), _model(new RouteTableModel(this)), _proxyModel(new RouteTableProxyModel(this)) {
     ui->setupUi(this);
 
     DockLines *dockLines = dynamic_cast<DockLines *>(DockController::dock("lines")->widget());
@@ -74,6 +85,12 @@ DockRoutes::DockRoutes(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockR
 
     ui->twRoutes->setContextMenuPolicy(Qt::ActionsContextMenu);
 
+    connect(ui->twRoutes, &QTableView::doubleClicked, this, &DockRoutes::onRouteEdit);
+    connect(ui->twRoutes->selectionModel(), &QItemSelectionModel::selectionChanged, this, &DockRoutes::onSelectionChanged);
+
+    connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &DockRoutes::onRowsAdded);
+    connect(_model, &QAbstractItemModel::modelReset, this, &DockRoutes::onSelectionChanged);
+
     _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twRoutes, this);
 
     ActionController::add(ui->tbColumns, "projectDataTable.showHideColumns");
@@ -87,6 +104,9 @@ DockRoutes::DockRoutes(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockR
                 _columnVisibilitySelector->menu()->popup(
                     ui->twRoutes->horizontalHeader()->mapToGlobal(pos));
             });
+
+    setLine(nullptr);
+    onSelectionChanged();
 }
 
 DockRoutes::~DockRoutes() {
@@ -97,15 +117,108 @@ Line *DockRoutes::currentLine() const {
     return _line;
 }
 
+Route *DockRoutes::currentRoute() const {
+    return _currentRoute;
+}
+
+PDISet<Route> DockRoutes::selectedRoutes() const {
+    const QModelIndexList list = ui->twRoutes->selectionModel()->selectedRows();
+    PDISet<Route> routes;
+    for(const QModelIndex &index : list) {
+        Route *r = _model->itemAt(_proxyModel->mapToSource(index).row());
+        routes.add(r);
+    }
+    return routes;
+}
+
 void DockRoutes::setLine(Line *line) {
     _line = line;
     _model->setLine(line);
+    _actionNew->setEnabled(_line);
 }
 
-void DockRoutes::onRouteNew() {}
+void DockRoutes::onRouteNew() {
+    if(!_line)
+        return;
 
-void DockRoutes::onRouteEdit() {}
+    Route *r = _line->createRoute();
+    DlgRouteEditor dlg(r);
+    if(dlg.exec() != QDialog::Accepted) {
+        r->deleteLater();
+        return;
+    }
 
-void DockRoutes::onRouteDuplicate() {}
+    _projectData->undoStack()->push(new CmdRouteNew(_line, r));
+}
 
-void DockRoutes::onRouteDelete() {}
+void DockRoutes::onRouteEdit() {
+    Route *r = _model->itemAt(_proxyModel->mapToSource(ui->twRoutes->currentIndex()).row());
+    if(!r)
+        return;
+
+    DlgRouteEditor dlg(r->clone());
+    if(dlg.exec() != QDialog::Accepted)
+        return;
+
+    _projectData->undoStack()->push(new CmdRouteEdit(r, dlg.route()));
+}
+
+void DockRoutes::onRouteDuplicate() {
+    //TODO
+}
+
+void DockRoutes::onRouteDelete() {
+    const PDISet<Route> routes = selectedRoutes();
+    QStringList bulletList;
+    for(Route *r : routes) {
+        if(bulletList.count() >= SettingsManager::value("general.deleteDialog.maxListCount").toInt())
+            break;
+        bulletList << QString("<li>%1</li>").arg(r->name());
+    }
+
+    bulletList.sort();
+
+    QMessageBox::StandardButton msg = QMessageBox::warning(
+        this,
+        tr("Delete routes(s)"),
+        tr("<p><b>Do you really want to delete these %n routes(s)?</b></p><ul>%1</ul>%2",
+           "",
+           routes.count())
+            .arg(bulletList.join(""))
+            .arg(bulletList.count() < routes.count()
+                     ? tr("<i>%n more</i>", "", routes.count() - bulletList.count())
+                     : ""),
+        QMessageBox::Yes | QMessageBox::No);
+    if(msg != QMessageBox::Yes)
+        return;
+
+    _projectData->undoStack()->push(new CmdRoutesRemove(_line, routes));
+}
+
+void DockRoutes::onSelectionChanged() {
+    const QModelIndex current = ui->twRoutes->currentIndex();
+    const QModelIndexList list = ui->twRoutes->selectionModel()->selectedRows();
+    const int count = list.count();
+
+    _actionEdit->setEnabled(count == 1);
+    _actionDuplicate->setEnabled(count == 1);
+    _actionDelete->setEnabled(count > 0);
+
+    if(current.isValid() && count == 1)
+        _currentRoute = _model->itemAt(_proxyModel->mapToSource(current).row());
+    else
+        _currentRoute = nullptr;
+
+    emit currentRouteChanged(_currentRoute);
+    emit selectedRoutesChaned(selectedRoutes());
+}
+
+void DockRoutes::onRowsAdded(const QList<QPersistentModelIndex> &indexes) {
+    // This is a quick and dirty fix to prevent selecting one random item when loading a file.....
+    if(indexes.count() == _projectData->lines().count())
+        return;
+
+    ui->twRoutes->clearSelection();
+    for(const QPersistentModelIndex &index : indexes)
+        ui->twRoutes->selectRow(_proxyModel->mapFromSource(index).row());
+}

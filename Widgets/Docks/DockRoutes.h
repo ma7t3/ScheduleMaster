@@ -2,10 +2,13 @@
 #define DOCKROUTES_H
 
 #include <QWidget>
+#include <QPersistentModelIndex>
 #include "DockAbstract.h"
 
 #include "Widgets/WdgTableColumnVisibilitySelector.h"
+#include "ProjectData/Route.h"
 
+class ProjectData;
 class Line;
 class RouteTableModel;
 class RouteTableProxyModel;
@@ -22,6 +25,8 @@ public:
     ~DockRoutes();
 
     Line *currentLine() const;
+    Route *currentRoute() const;
+    PDISet<Route> selectedRoutes() const;
 
 public slots:
     void setLine(Line *line);
@@ -32,13 +37,22 @@ protected slots:
     void onRouteDuplicate();
     void onRouteDelete();
 
+    void onSelectionChanged();
+    void onRowsAdded(const QList<QPersistentModelIndex> &indexes);
+
+signals:
+    void currentRouteChanged(Route *);
+    void selectedRoutesChaned(PDISet<Route>);
+
 private:
     Ui::DockRoutes *ui;
     QAction *_actionNew, *_actionEdit, *_actionDuplicate, *_actionDelete;
 
     WdgTableColumnVisibilitySelector *_columnVisibilitySelector;
+    ProjectData *_projectData;
 
     Line *_line;
+    Route *_currentRoute;
     RouteTableModel *_model;
     RouteTableProxyModel *_proxyModel;
 };
