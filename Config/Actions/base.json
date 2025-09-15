@@ -343,7 +343,7 @@
     },
     {
         "id": "application.preferences.keyboardShortcuts.focusSearch",
-        "icon": "keyboard",
+        "icon": "magnifying-glass",
         "text": {
             "object": "translated_string",
             "en_US" : "Focus Searchbar",
@@ -948,6 +948,26 @@
             "de_DE" : "Allgemein"
         },
         "defaultKeyboardShortcut": ""
+    },
+    {
+        "id": "projectDataTable.focusSearch",
+        "icon": "magnifying-glass",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Focus Searchbar",
+            "de_DE" : "Suchleiste fokussieren"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Focus Searchbar",
+            "de_DE" : "Suchleiste fokussieren"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Project Data Table",
+            "de_DE" : "Datentabelle"
+        },
+        "defaultKeyboardShortcut": "standard:22"
     },
     {
         "id": "projectDataTable.showHideColumns",

@@ -34,7 +34,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ActionController::add(_newAction,    "projectData.item.new");
     ActionController::add(_editAction,   "projectData.item.edit");
     ActionController::add(_deleteAction, "projectData.item.delete");
-    ActionController::add(_searchAction, "application.preferences.keyboardShortcuts.focusSearch");
+    ActionController::add(_searchAction, "projectDataTable.focusSearch");
 
     ActionController::add(ui->tbNew,    "projectData.item.new", ActionController::AllExceptShortcutComponent);
     ActionController::add(ui->tbEdit,   "projectData.item.edit", ActionController::AllExceptShortcutComponent);

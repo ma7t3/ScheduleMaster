@@ -36,7 +36,7 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     ActionController::add(_newAction,    "projectData.item.new");
     ActionController::add(_editAction,   "projectData.item.edit");
     ActionController::add(_deleteAction, "projectData.item.delete");
-    ActionController::add(_searchAction, "application.preferences.keyboardShortcuts.focusSearch");
+    ActionController::add(_searchAction, "projectDataTable.focusSearch");
 
     ActionController::add(ui->pbNew,    "projectData.item.new",    ActionController::AllExceptShortcutComponent);
     ActionController::add(ui->pbEdit,   "projectData.item.edit",   ActionController::AllExceptShortcutComponent);
