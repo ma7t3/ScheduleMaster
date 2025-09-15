@@ -252,6 +252,8 @@ BusstopTableModel::BusstopTableModel(QObject *parent) :
                 emit dataChanged(createIndex(row, 3), createIndex(row, 3));
         }
     });
+
+    reset();
 }
 
 int BusstopTableModel::columnCount(const QModelIndex &parent) const {
