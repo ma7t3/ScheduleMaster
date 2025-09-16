@@ -18,51 +18,48 @@
 DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLines),
     _model(new LineTableModel(this)),
     _proxyModel(new LineTableProxyModel(this)),
-    _projectData(ApplicationInterface::projectData()), _currentLine(nullptr) {
+    _projectData(ApplicationInterface::projectData()) {
     ui->setupUi(this);
 
-    _newAction = addAction("");
-    _newAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    // ACTION SETUP
 
-    _editAction = addAction("");
-    _editAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    _actionNew = addAction("");
+    _actionNew->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    _deleteAction = addAction("");
-    _deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    _actionEdit = addAction("");
+    _actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    _searchAction = addAction("");
-    _searchAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    _actionDelete = addAction("");
+    _actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    ActionController::add(_newAction,    "projectData.item.new");
-    ActionController::add(_editAction,   "projectData.item.edit");
-    ActionController::add(_deleteAction, "projectData.item.delete");
-    ActionController::add(_searchAction, "projectDataTable.focusSearch");
+    _actionSearch = addAction("");
+    _actionSearch->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    ActionController::add(ui->pbNew,    "projectData.item.new",    ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->pbEdit,   "projectData.item.edit",   ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->pbDelete, "projectData.item.delete", ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionNew,    ui->pbNew,    "projectData.item.new",    ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionEdit,   ui->pbEdit,   "projectData.item.edit",   ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionDelete, ui->pbDelete, "projectData.item.delete", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
-    connect(_newAction,    &QAction::enabledChanged, ui->pbNew,    &QPushButton::setEnabled);
-    connect(_editAction,   &QAction::enabledChanged, ui->pbEdit,   &QPushButton::setEnabled);
-    connect(_deleteAction, &QAction::enabledChanged, ui->pbDelete, &QPushButton::setEnabled);
+    ActionController::add(_actionSearch, "projectDataTable.focusSearch");
 
-    connect(ui->pbNew,    &QPushButton::clicked, _newAction,    &QAction::trigger);
-    connect(ui->pbEdit,   &QPushButton::clicked, _editAction,   &QAction::trigger);
-    connect(ui->pbDelete, &QPushButton::clicked, _deleteAction, &QAction::trigger);
+    connect(_actionNew,    &QAction::triggered, this, &DockLines::onLineNew);
+    connect(_actionEdit,   &QAction::triggered, this, &DockLines::onLineEdit);
+    connect(_actionDelete, &QAction::triggered, this, &DockLines::onLineDelete);
+    connect(_actionSearch, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
 
-    connect(_newAction,    &QAction::triggered, this, &DockLines::onLineNew);
-    connect(_editAction,   &QAction::triggered, this, &DockLines::onLineEdit);
-    connect(_deleteAction, &QAction::triggered, this, &DockLines::onLineDelete);
+
+    // CONTEXT MENU
 
     ui->twLines->setContextMenuPolicy(Qt::CustomContextMenu);
-
     connect(ui->twLines, &QWidget::customContextMenuRequested, this, [this](QPoint pos) {
         globalMenu()->popup(ui->twLines->mapToGlobal(pos));
     });
 
-    globalMenu()->addAction(_newAction);
-    globalMenu()->addAction(_editAction);
-    globalMenu()->addAction(_deleteAction);
+    globalMenu()->addAction(_actionNew);
+    globalMenu()->addAction(_actionEdit);
+    globalMenu()->addAction(_actionDelete);
+
+
+    // VIEW/MODEL SETUP
 
     _proxyModel->setSourceModel(_model);
     _proxyModel->setSortRole(Qt::DisplayRole);
@@ -75,14 +72,22 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     ui->twLines->horizontalHeader()->setSortIndicator(0, Qt::AscendingOrder);
 
     connect(ui->twLines, &QTableView::doubleClicked, this, &DockLines::onLineEdit);
-    connect(ui->twLines->selectionModel(), &QItemSelectionModel::selectionChanged, this, &DockLines::onSelectionChanged);
 
-    connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &DockLines::onRowsAdded);
-    connect(_model, &QAbstractItemModel::modelReset, this, &DockLines::onSelectionChanged);
+    connect(ui->twLines, &WdgProjectDataTableViewSignals::currentItemChanged, this, [this](){
+        emit currentLineChanged(currentLine());
+    });
+
+    connect(ui->twLines, &WdgProjectDataTableViewSignals::selectedItemsChanged, this, [this](){
+        emit selectedLinesChaned(selectedLines());
+    });
+
+    ui->twLines->addSelectionDependentAction(_actionEdit,   [](const int &n) { return n == 1; });
+    ui->twLines->addSelectionDependentAction(_actionDelete, [](const int &n) { return n > 0; });
 
     connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
-    connect(_searchAction, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
+
+    // COLUMN VISIBILITY SELECTOR
 
     _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twLines, this);
 
@@ -97,8 +102,6 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
                 _columnVisibilitySelector->menu()->popup(
                     ui->twLines->horizontalHeader()->mapToGlobal(pos));
             });
-
-    onSelectionChanged();
 }
 
 DockLines::~DockLines() {
@@ -106,17 +109,11 @@ DockLines::~DockLines() {
 }
 
 Line *DockLines::currentLine() const {
-    return _currentLine;
+    return ui->twLines->currentItem();
 }
 
 PDISet<Line> DockLines::selectedLines() const {
-    const QModelIndexList list = ui->twLines->selectionModel()->selectedRows();
-    PDISet<Line> lines;
-    for(const QModelIndex &index : list) {
-        Line *l = _model->itemAt(_proxyModel->mapToSource(index).row());
-        lines.add(l);
-    }
-    return lines;
+    return ui->twLines->selectedItems();
 }
 
 void DockLines::onLineNew() {
@@ -168,31 +165,4 @@ void DockLines::onLineDelete() {
         return;
 
     _projectData->undoStack()->push(new CmdLinesRemove(_projectData, lines));
-}
-
-void DockLines::onSelectionChanged() {
-    const QModelIndex current = ui->twLines->currentIndex();
-    const QModelIndexList list = ui->twLines->selectionModel()->selectedRows();
-    const int count = list.count();
-
-    _editAction->setEnabled(count == 1);
-    _deleteAction->setEnabled(count > 0);
-
-    if(current.isValid() && count == 1)
-        _currentLine = _model->itemAt(_proxyModel->mapToSource(current).row());
-    else
-        _currentLine = nullptr;
-
-    emit currentLineChanged(_currentLine);
-    emit selectedLinesChaned(selectedLines());
-}
-
-void DockLines::onRowsAdded(const QList<QPersistentModelIndex> &indexes) {
-    // This is a quick and dirty fix to prevent selecting one random item when loading a file.....
-    if(indexes.count() == _projectData->lines().count())
-        return;
-
-    ui->twLines->clearSelection();
-    for(const QPersistentModelIndex &index : indexes)
-        ui->twLines->selectRow(_proxyModel->mapFromSource(index).row());
 }

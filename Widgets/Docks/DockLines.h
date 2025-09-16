@@ -30,23 +30,19 @@ protected slots:
     void onLineEdit();
     void onLineDelete();
 
-    void onSelectionChanged();
-    void onRowsAdded(const QList<QPersistentModelIndex> &indexes);
-
 signals:
     void currentLineChanged(Line *);
     void selectedLinesChaned(PDISet<Line>);
 
 private:
     Ui::DockLines *ui;
-    QAction *_newAction, *_editAction, *_deleteAction, *_searchAction;
+    QAction *_actionNew, *_actionEdit, *_actionDelete, *_actionSearch;
     LineTableModel *_model;
     LineTableProxyModel *_proxyModel;
 
     WdgTableColumnVisibilitySelector *_columnVisibilitySelector;
 
     ProjectData *_projectData;
-    Line *_currentLine;
 };
 
 #endif // DOCKLINES_H
