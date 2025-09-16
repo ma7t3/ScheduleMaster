@@ -408,7 +408,6 @@ void MainWindow::onFileHandlerFinished() {
     _fileHandlerProgressDialog->close();
     _fileHandlerProgressDialog->deleteLater();
     _fileHandlerProgressDialog = nullptr;
-    // TODO: reset all models
     if(!_workspaceHandler->onProjectCloseWorkspace())
         return;
 
