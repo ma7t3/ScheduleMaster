@@ -109,7 +109,7 @@ DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
 
     ui->twRouteBusstops->setItemDelegateForColumn(2, _routeBusstopDelegate);
 
-    connect(ui->leBusstopsSearch, &QLineEdit::textChanged, _allBusstopsProxyModel, &QSortFilterProxyModel::setFilterFixedString);
+    connect(ui->leBusstopsSearch, &QLineEdit::textChanged, _allBusstopsProxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
     ui->pteComment->setPlainText(_route->comment());
     ui->leName->setText(route->name());
