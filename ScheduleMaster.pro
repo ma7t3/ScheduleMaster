@@ -169,6 +169,7 @@ HEADERS += \
     Widgets/WdgColorSchemeSelector.h \
     Widgets/WdgColorSelector.h \
     Widgets/WdgGlobalSearchItem.h \
+    Widgets/WdgProjectDataTableView.h \
     Widgets/WdgTableColumnVisibilitySelector.h \
     Widgets/WdgVariantEditor.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
