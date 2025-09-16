@@ -84,7 +84,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="twRoutes">
+    <widget class="WdgProjectDataTableView&lt;Route&gt;" name="twRoutes">
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
      </property>
@@ -107,6 +107,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WdgProjectDataTableView&lt;Route&gt;</class>
+   <extends>QTableView</extends>
+   <header>Widgets\WdgProjectDataTableView.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

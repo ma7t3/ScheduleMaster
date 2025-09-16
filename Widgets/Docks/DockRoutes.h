@@ -37,9 +37,6 @@ protected slots:
     void onRouteDuplicate();
     void onRouteDelete();
 
-    void onSelectionChanged();
-    void onRowsAdded(const QList<QPersistentModelIndex> &indexes);
-
 signals:
     void currentRouteChanged(Route *);
     void selectedRoutesChaned(PDISet<Route>);
@@ -52,7 +49,6 @@ private:
     ProjectData *_projectData;
 
     Line *_line;
-    Route *_currentRoute;
     RouteTableModel *_model;
     RouteTableProxyModel *_proxyModel;
 };

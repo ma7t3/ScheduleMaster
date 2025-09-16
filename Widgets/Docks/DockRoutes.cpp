@@ -22,12 +22,14 @@
 
 DockRoutes::DockRoutes(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockRoutes), _projectData(ApplicationInterface::projectData()), _line(nullptr),
-    _currentRoute(nullptr), _model(new RouteTableModel(this)), _proxyModel(new RouteTableProxyModel(this)) {
+    _model(new RouteTableModel(this)), _proxyModel(new RouteTableProxyModel(this)) {
     ui->setupUi(this);
 
     DockLines *dockLines = dynamic_cast<DockLines *>(DockController::dock("lines")->widget());
     if(dockLines)
         connect(dockLines, &DockLines::currentLineChanged, this, &DockRoutes::setLine);
+
+    // ACTION SETUP
 
     _actionNew = addAction("");
     _actionNew->setShortcutContext(Qt::WidgetWithChildrenShortcut);
@@ -44,31 +46,32 @@ DockRoutes::DockRoutes(QWidget *parent) :
     _actionSearch = addAction("");
     _actionSearch->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    ActionController::add(_actionNew,       "projectData.item.new");
-    ActionController::add(_actionEdit,      "projectData.item.edit");
-    ActionController::add(_actionDuplicate, "projectData.item.duplicate");
-    ActionController::add(_actionDelete,    "projectData.item.delete");
+    ActionController::addSyncedActionAndButton(_actionNew,       ui->pbNew,       "projectData.item.new",       ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionEdit,      ui->pbEdit,      "projectData.item.edit",      ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionDuplicate, ui->pbDuplicate, "projectData.item.duplicate", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionDelete,    ui->pbDelete,    "projectData.item.delete",    ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+
     ActionController::add(_actionSearch,    "projectDataTable.focusSearch");
-
-    ActionController::add(ui->pbNew,        "projectData.item.new",       ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->pbEdit,       "projectData.item.edit",      ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->pbDuplicate,  "projectData.item.duplicate", ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->pbDelete,     "projectData.item.delete",    ActionController::AllExceptShortcutComponent);
-
-    connect(_actionNew,       &QAction::enabledChanged, ui->pbNew,       &QPushButton::setEnabled);
-    connect(_actionEdit,      &QAction::enabledChanged, ui->pbEdit,      &QPushButton::setEnabled);
-    connect(_actionDuplicate, &QAction::enabledChanged, ui->pbDuplicate, &QPushButton::setEnabled);
-    connect(_actionDelete,    &QAction::enabledChanged, ui->pbDelete,    &QPushButton::setEnabled);
-
-    connect(ui->pbNew,       &QPushButton::clicked, _actionNew,       &QAction::trigger);
-    connect(ui->pbEdit,      &QPushButton::clicked, _actionEdit,      &QAction::trigger);
-    connect(ui->pbDuplicate, &QPushButton::clicked, _actionDuplicate, &QAction::trigger);
-    connect(ui->pbDelete,    &QPushButton::clicked, _actionDelete,    &QAction::trigger);
 
     connect(_actionNew,       &QAction::triggered, this, &DockRoutes::onRouteNew);
     connect(_actionEdit,      &QAction::triggered, this, &DockRoutes::onRouteEdit);
     connect(_actionDuplicate, &QAction::triggered, this, &DockRoutes::onRouteDuplicate);
     connect(_actionDelete,    &QAction::triggered, this, &DockRoutes::onRouteDelete);
+    connect(_actionSearch,    &QAction::triggered, ui->leSearch, [this]() { ui->leSearch->setFocus(); });
+
+    // CONTEXT MENU
+
+    connect(ui->twRoutes, &QWidget::customContextMenuRequested, this, [this](QPoint pos) {
+        globalMenu()->popup(ui->twRoutes->mapToGlobal(pos));
+    });
+
+    globalMenu()->addAction(_actionNew);
+    globalMenu()->addAction(_actionEdit);
+    globalMenu()->addAction(_actionDuplicate);
+    globalMenu()->addAction(_actionDelete);
+
+
+    // VIEW/MODEL SETUP
 
     _proxyModel->setSourceModel(_model);
     _proxyModel->setSortRole(Qt::DisplayRole);
@@ -89,24 +92,24 @@ DockRoutes::DockRoutes(QWidget *parent) :
 
     ui->twRoutes->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(ui->twRoutes, &QWidget::customContextMenuRequested, this, [this](QPoint pos) {
-        globalMenu()->popup(ui->twRoutes->mapToGlobal(pos));
+    connect(ui->twRoutes, &QTableView::doubleClicked, this, &DockRoutes::onRouteEdit);
+
+    connect(ui->twRoutes, &WdgProjectDataTableViewSignals::currentItemChanged, this, [this](){
+        emit currentRouteChanged(currentRoute());
     });
 
-    globalMenu()->addAction(_actionNew);
-    globalMenu()->addAction(_actionEdit);
-    globalMenu()->addAction(_actionDuplicate);
-    globalMenu()->addAction(_actionDelete);
+    connect(ui->twRoutes, &WdgProjectDataTableViewSignals::selectedItemsChanged, this, [this](){
+        emit selectedRoutesChaned(selectedRoutes());
+    });
 
-    connect(ui->twRoutes, &QTableView::doubleClicked, this, &DockRoutes::onRouteEdit);
-    connect(ui->twRoutes->selectionModel(), &QItemSelectionModel::selectionChanged, this, &DockRoutes::onSelectionChanged);
-
-    connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &DockRoutes::onRowsAdded);
-    connect(_model, &QAbstractItemModel::modelReset, this, &DockRoutes::onSelectionChanged);
+    ui->twRoutes->addSelectionDependentAction(_actionEdit,      [](const int &n) { return n == 1; });
+    ui->twRoutes->addSelectionDependentAction(_actionDuplicate, [](const int &n) { return n == 1; });
+    ui->twRoutes->addSelectionDependentAction(_actionDelete,    [](const int &n) { return n > 0; });
 
     connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
-    connect(_actionSearch, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
+
+    // COLUMN VISIBILITY SELECTOR
 
     _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twRoutes, this);
 
@@ -123,7 +126,6 @@ DockRoutes::DockRoutes(QWidget *parent) :
             });
 
     setLine(nullptr);
-    onSelectionChanged();
 }
 
 DockRoutes::~DockRoutes() {
@@ -134,24 +136,18 @@ Line *DockRoutes::currentLine() const {
     return _line;
 }
 
-Route *DockRoutes::currentRoute() const {
-    return _currentRoute;
-}
-
-PDISet<Route> DockRoutes::selectedRoutes() const {
-    const QModelIndexList list = ui->twRoutes->selectionModel()->selectedRows();
-    PDISet<Route> routes;
-    for(const QModelIndex &index : list) {
-        Route *r = _model->itemAt(_proxyModel->mapToSource(index).row());
-        routes.add(r);
-    }
-    return routes;
-}
-
 void DockRoutes::setLine(Line *line) {
     _line = line;
     _model->setLine(line);
     _actionNew->setEnabled(_line);
+}
+
+Route *DockRoutes::currentRoute() const {
+    return ui->twRoutes->currentItem();
+}
+
+PDISet<Route> DockRoutes::selectedRoutes() const {
+    return ui->twRoutes->selectedItems();
 }
 
 void DockRoutes::onRouteNew() {
@@ -210,32 +206,4 @@ void DockRoutes::onRouteDelete() {
         return;
 
     _projectData->undoStack()->push(new CmdRoutesRemove(_line, routes));
-}
-
-void DockRoutes::onSelectionChanged() {
-    const QModelIndex current = ui->twRoutes->currentIndex();
-    const QModelIndexList list = ui->twRoutes->selectionModel()->selectedRows();
-    const int count = list.count();
-
-    _actionEdit->setEnabled(count == 1);
-    _actionDuplicate->setEnabled(count == 1);
-    _actionDelete->setEnabled(count > 0);
-
-    if(current.isValid() && count == 1)
-        _currentRoute = _model->itemAt(_proxyModel->mapToSource(current).row());
-    else
-        _currentRoute = nullptr;
-
-    emit currentRouteChanged(_currentRoute);
-    emit selectedRoutesChaned(selectedRoutes());
-}
-
-void DockRoutes::onRowsAdded(const QList<QPersistentModelIndex> &indexes) {
-    // This is a quick and dirty fix to prevent selecting one random item when loading a file.....
-    if(indexes.count() == _projectData->lines().count())
-        return;
-
-    ui->twRoutes->clearSelection();
-    for(const QPersistentModelIndex &index : indexes)
-        ui->twRoutes->selectRow(_proxyModel->mapFromSource(index).row());
 }
