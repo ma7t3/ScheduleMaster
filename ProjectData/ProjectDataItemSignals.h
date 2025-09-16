@@ -17,6 +17,22 @@ public:
     /// Construcs a new ProjectDataItemSignals object.
     explicit ProjectDataItemSignals(QObject *parent) : QObject(parent) {}
 
+    /**
+     * @brief Finds the first parent of type T of the QObject.
+     * @return The parent that is of type T or nullptr if there is no such parent
+     */
+    template<typename T>
+    T *findParent() const {
+        QObject *obj = parent();
+        while(obj) {
+            if(T *casted = qobject_cast<T *>(obj))
+                return casted;
+
+            obj = obj->parent();
+        }
+        return nullptr;
+    }
+
 signals:
     /**
      * @brief This signal is emited whenever the data is changed.
