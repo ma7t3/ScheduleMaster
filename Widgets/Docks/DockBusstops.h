@@ -27,16 +27,13 @@ protected slots:
     void onBusstopEdit();
     void onBusstopDelete();
 
-    void onSelectionChanged();
-    void onRowsAdded(const QList<QPersistentModelIndex> &indexes);
-
 signals:
     void currentBusstopChanged(Busstop *);
     void selectedBusstopsChaned(PDISet<Busstop>);
 
 private:
     Ui::DockBusstops *ui;
-    QAction *_newAction, *_editAction, *_deleteAction, *_searchAction;
+    QAction *_actionNew, *_actionEdit, *_actionDelete, *_actionSearch;
     BusstopTableModel *_model;
     QSortFilterProxyModel *_proxyModel;
     BusstopTableModelDelegate *_delegate;
@@ -44,7 +41,6 @@ private:
     WdgTableColumnVisibilitySelector *_columnVisibilitySelector;
 
     ProjectData *_projectData;
-    Busstop *_currentBusstop;
 };
 
 #endif // DOCKBUSSTOPS_H

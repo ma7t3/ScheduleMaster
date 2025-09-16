@@ -15,52 +15,48 @@ DockBusstops::DockBusstops(QWidget *parent) :
     _model(new BusstopTableModel(this)),
     _proxyModel(new QSortFilterProxyModel(this)),
     _delegate(new BusstopTableModelDelegate(this)),
-    _projectData(ApplicationInterface::projectData()),
-    _currentBusstop(nullptr) {
+    _projectData(ApplicationInterface::projectData()) {
     ui->setupUi(this);
 
-    _newAction = addAction("");
-    _newAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    // ACTION SETUP
 
-    _editAction = addAction("");
-    _editAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    _actionNew = addAction("");
+    _actionNew->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    _deleteAction = addAction("");
-    _deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    _actionEdit = addAction("");
+    _actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    _searchAction = addAction("");
-    _searchAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    _actionDelete = addAction("");
+    _actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    ActionController::add(_newAction,    "projectData.item.new");
-    ActionController::add(_editAction,   "projectData.item.edit");
-    ActionController::add(_deleteAction, "projectData.item.delete");
-    ActionController::add(_searchAction, "projectDataTable.focusSearch");
+    _actionSearch = addAction("");
+    _actionSearch->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    ActionController::add(ui->tbNew,    "projectData.item.new", ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->tbEdit,   "projectData.item.edit", ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->tbDelete, "projectData.item.delete", ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionNew,    ui->pbNew,    "projectData.item.new",    ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionEdit,   ui->pbEdit,   "projectData.item.edit",   ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionDelete, ui->pbDelete, "projectData.item.delete", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
-    connect(_newAction,    &QAction::enabledChanged, ui->tbNew,    &QPushButton::setEnabled);
-    connect(_editAction,   &QAction::enabledChanged, ui->tbEdit,   &QPushButton::setEnabled);
-    connect(_deleteAction, &QAction::enabledChanged, ui->tbDelete, &QPushButton::setEnabled);
+    ActionController::add(_actionSearch, "projectDataTable.focusSearch");
 
-    connect(ui->tbNew,    &QPushButton::clicked, _newAction,    &QAction::trigger);
-    connect(ui->tbEdit,   &QPushButton::clicked, _editAction,   &QAction::trigger);
-    connect(ui->tbDelete, &QPushButton::clicked, _deleteAction, &QAction::trigger);
+    connect(_actionNew,    &QAction::triggered, this, &DockBusstops::onBusstopNew);
+    connect(_actionEdit,   &QAction::triggered, this, &DockBusstops::onBusstopEdit);
+    connect(_actionDelete, &QAction::triggered, this, &DockBusstops::onBusstopDelete);
+    connect(_actionSearch, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
 
-    connect(_newAction, &QAction::triggered,    this, &DockBusstops::onBusstopNew);
-    connect(_editAction, &QAction::triggered,   this, &DockBusstops::onBusstopEdit);
-    connect(_deleteAction, &QAction::triggered, this, &DockBusstops::onBusstopDelete);
+
+    // CONTEXT MENU
 
     ui->twBusstops->setContextMenuPolicy(Qt::CustomContextMenu);
-
     connect(ui->twBusstops, &QWidget::customContextMenuRequested, this, [this](QPoint pos) {
         globalMenu()->popup(ui->twBusstops->mapToGlobal(pos));
     });
 
-    globalMenu()->addAction(_newAction);
-    globalMenu()->addAction(_editAction);
-    globalMenu()->addAction(_deleteAction);
+    globalMenu()->addAction(_actionNew);
+    globalMenu()->addAction(_actionEdit);
+    globalMenu()->addAction(_actionDelete);
+
+
+    // VIEW/MODEL SETUP
 
     _proxyModel->setSourceModel(_model);
     _proxyModel->setSortRole(Qt::DisplayRole);
@@ -79,14 +75,22 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ui->twBusstops->setItemDelegateForColumn(3, _delegate);
 
     connect(ui->twBusstops, &QTableView::doubleClicked, this, &DockBusstops::onBusstopEdit);
-    connect(ui->twBusstops->selectionModel(), &QItemSelectionModel::selectionChanged, this, &DockBusstops::onSelectionChanged);
 
-    connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &DockBusstops::onRowsAdded);
-    connect(_model, &QAbstractItemModel::modelReset, this, &DockBusstops::onSelectionChanged);
+    connect(ui->twBusstops, &WdgProjectDataTableViewSignals::currentItemChanged, this, [this](){
+        emit currentBusstopChanged(currentBusstop());
+    });
+
+    connect(ui->twBusstops, &WdgProjectDataTableViewSignals::selectedItemsChanged, this, [this](){
+        emit selectedBusstopsChaned(selectedBusstops());
+    });
+
+    ui->twBusstops->addSelectionDependentAction(_actionEdit,   [](const int &n) { return n == 1; });
+    ui->twBusstops->addSelectionDependentAction(_actionDelete, [](const int &n) { return n > 0; });
 
     connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
-    connect(_searchAction, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
+
+    // COLUMN VISIBILITY SELECTOR
 
     _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twBusstops, this);
 
@@ -101,8 +105,6 @@ DockBusstops::DockBusstops(QWidget *parent) :
                 _columnVisibilitySelector->menu()->popup(
                     ui->twBusstops->horizontalHeader()->mapToGlobal(pos));
             });
-
-    onSelectionChanged();
 }
 
 DockBusstops::~DockBusstops() {
@@ -110,17 +112,11 @@ DockBusstops::~DockBusstops() {
 }
 
 Busstop *DockBusstops::currentBusstop() const {
-    return _currentBusstop;
+    return ui->twBusstops->currentItem();
 }
 
 PDISet<Busstop> DockBusstops::selectedBusstops() const {
-    const QModelIndexList list = ui->twBusstops->selectionModel()->selectedRows();
-    PDISet<Busstop> busstops;
-    for(const QModelIndex &index : list) {
-        Busstop *b = _model->itemAt(_proxyModel->mapToSource(index).row());
-        busstops.add(b);
-    }
-    return busstops;
+    return ui->twBusstops->selectedItems();
 }
 
 void DockBusstops::onBusstopNew() {
@@ -135,7 +131,7 @@ void DockBusstops::onBusstopNew() {
 }
 
 void DockBusstops::onBusstopEdit() {
-    Busstop *b = _model->itemAt(_proxyModel->mapToSource(ui->twBusstops->currentIndex()).row());
+    Busstop *b = currentBusstop();
     if(!b)
         return;
 
@@ -172,31 +168,4 @@ void DockBusstops::onBusstopDelete() {
         return;
 
     _projectData->undoStack()->push(new CmdBusstopsRemove(_projectData, busstops));
-}
-
-void DockBusstops::onSelectionChanged() {
-    const QModelIndex current = ui->twBusstops->currentIndex();
-    const QModelIndexList list = ui->twBusstops->selectionModel()->selectedRows();
-    const int count = list.count();
-
-    _editAction->setEnabled(count == 1);
-    _deleteAction->setEnabled(count > 0);
-
-    if(current.isValid() && count == 1)
-        _currentBusstop = _model->itemAt(_proxyModel->mapToSource(current).row());
-    else
-        _currentBusstop = nullptr;
-
-    emit currentBusstopChanged(_currentBusstop);
-    emit selectedBusstopsChaned(selectedBusstops());
-}
-
-void DockBusstops::onRowsAdded(const QList<QPersistentModelIndex> &indexes) {
-    // This is a quick and dirty fix to prevent selecting one random item when loading a file.....
-    if(indexes.count() == _projectData->busstops().count())
-        return;
-
-    ui->twBusstops->clearSelection();
-    for(const QPersistentModelIndex &index : indexes)
-        ui->twBusstops->selectRow(_proxyModel->mapFromSource(index).row());
 }
