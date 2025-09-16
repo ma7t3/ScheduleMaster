@@ -48,7 +48,7 @@ public:
         }
 
         connect(_model, &UnorderedProjectDataRowModelSignals::multipleRowsInserted, this, &WdgProjectDataTableView::onRowsAdded);
-        connect(this, &QTableView::currentIndex, this, [this]() { emit currentItemChanged(); });
+        connect(selectionModel(), &QItemSelectionModel::currentChanged, this, [this]() { emit currentItemChanged(); });
         connect(selectionModel(), &QItemSelectionModel::selectionChanged, this, [this]() {
             updateSelectionDependentActions();
             emit selectedItemsChanged();
