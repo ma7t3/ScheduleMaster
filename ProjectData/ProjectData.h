@@ -229,6 +229,8 @@ public:
      */
     bool setJson(const QJsonObject &jsonObject, std::function<bool()> cancelRequested = [](){return false;});
 
+    void notifyMovedBackToMainThread();
+
 signals:
 
     /**

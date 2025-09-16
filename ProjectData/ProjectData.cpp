@@ -2,6 +2,7 @@
 
 #include <QJsonArray>
 #include <QUndoStack>
+#include <QTimer>
 
 ProjectData::ProjectData(QObject *parent) :
     QObject(parent),
@@ -157,7 +158,6 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
     for(int i = 0; i < busstopCount; i++) {
         if(cancelRequested()) {
             reset();
-            _loadingJson = false;
             return false;
         }
 
@@ -171,7 +171,6 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
     for(int i = 0; i < lineCount; i++) {
         if(cancelRequested()) {
             reset();
-            _loadingJson = false;
             return false;
         }
 
@@ -180,6 +179,9 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
         emit progressUpdate(i + 1);
     }
 
-    _loadingJson = false;
     return true;
+}
+
+void ProjectData::notifyMovedBackToMainThread() {
+    QTimer::singleShot(1, this, [this]() { _loadingJson = false; });
 }
