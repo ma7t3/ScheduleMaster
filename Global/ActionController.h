@@ -215,6 +215,17 @@ public:
         return widget;
     }
 
+    static void addSyncedActionAndButton(QAction *action, QPushButton *button,
+                                         const QString &actionID,
+                                         const ActionComponents &actionComponents = AllComponents,
+                                         const ActionComponents &buttonComponents = AllComponents) {
+        add(action, actionID, actionComponents);
+        add(button, actionID, buttonComponents);
+
+        connect(action, &QAction::enabledChanged, button, &QPushButton::setEnabled);
+        connect(button, &QPushButton::clicked,    action, &QAction::trigger);
+    }
+
     /**
      * @brief Adds the given widget (usually a QAction or button) as a global action to the ActionController.
      *
