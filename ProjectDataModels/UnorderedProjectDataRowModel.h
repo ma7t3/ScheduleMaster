@@ -5,6 +5,7 @@
 #include <QTimer>
 
 #include "ProjectDataModels/UnorderedProjectDataRowModelSignals.h"
+#include "ProjectData/ProjectData.h"
 
 #include "ProjectData/ProjectDataItemSet.h"
 
@@ -32,7 +33,7 @@ public:
      * @param parent The parent QObject for memory management.
      */
     explicit UnorderedProjectDataRowModel(QObject *parent = nullptr) :
-        UnorderedProjectDataRowModelSignals(parent), _multipleRowsInserted(false) {}
+        UnorderedProjectDataRowModelSignals(parent), _multipleRowsInserted(false), _projectData(nullptr), _shouldSelectItemsOnInsert(false) {}
 
     /**
      * @brief Returns the index for the specified row and column.
@@ -110,6 +111,15 @@ public:
         endResetModel();
     }
 
+    // TODO
+    /**
+     * @brief shouldSelectItemsOnInsert
+     * @return
+     */
+    bool shouldSelectItemsOnInsert() const {
+        return _shouldSelectItemsOnInsert;
+    }
+
 protected:
     /**
      * @brief Fetches the data set to be managed by the model.
@@ -132,6 +142,9 @@ protected:
         if(_data.contains(item->id()))
             return;
 
+        if(!_projectData)
+            _projectData = static_cast<ProjectDataItemSignals *>(item)->findParent<ProjectData>();
+
         const auto it = _data.lowerBound(item->id());
         const int row = std::distance(_data.begin(), it);
 
@@ -141,8 +154,11 @@ protected:
         registerForUpdate(item);
         _insertedIndexes << QPersistentModelIndex(index(row, 0));
 
+        _shouldSelectItemsOnInsert = !_projectData->isLoadingJson();
+
         if(!_multipleRowsInserted) {
             QTimer::singleShot(1, this, &UnorderedProjectDataRowModel::processInsertedIndexes);
+
             _multipleRowsInserted = true;
         }
 
@@ -211,6 +227,8 @@ private:
     QHash<T *, QMetaObject::Connection> _connections; ///< Connections for item updates.
     QList<QPersistentModelIndex> _insertedIndexes; ///< Collection of all rows that where inserted during the current QEventLoopRun
     bool _multipleRowsInserted; ///< Flag to indicate if multiple rows were inserted during the current QEventLoopRun
+    bool _shouldSelectItemsOnInsert;
+    ProjectData *_projectData;
 };
 
 #endif // UNORDEREDPROJECTDATAROWMODEL_H
