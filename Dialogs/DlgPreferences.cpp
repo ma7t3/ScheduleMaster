@@ -18,6 +18,7 @@
 #include <QFileDialog>
 #include <QListWidgetItem>
 #include <QLocale>
+#include <QProcess>
 
 DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     ui(new Ui::DlgPreferences) {
@@ -129,16 +130,27 @@ bool DlgPreferences::unsavedChanges() {
 }
 
 void DlgPreferences::checkRestartRequired() {
-    if(SettingsManager::restartRequired()) {
-        const QStringList items = SettingsManager::modifiedRestartRequiredSettings();
+    if(!SettingsManager::restartRequired())
+    return;
 
-        QStringList itemNames;
-        for(const QString &item : items)
-            itemNames << SettingsManager::item(item).description.split("\n").first();
+    const QStringList items = SettingsManager::modifiedRestartRequiredSettings();
 
-        QString itemList = "<ul><li>" + itemNames.join("</li><li>") + "</li></ul>";
+    QStringList itemNames;
+    for(const QString &item : items)
+        itemNames << SettingsManager::item(item).description.split("\n").first();
 
-        QMessageBox::information(this, tr("Restart required"), tr("<p>Some settings require an application restart to be applied:</p>") + itemList);
+    QString itemList = "<ul><li>" + itemNames.join("</li><li>") + "</li></ul>";
+
+    const QMessageBox::StandardButton msg = QMessageBox::information(this,
+                             tr("Restart required"),
+                             tr("<p>Some settings require an application restart to be "
+                                "applied:</p>%1<p>Do you want to restart now?</p>")
+                                 .arg(itemList),
+                             QMessageBox::Yes | QMessageBox::No);
+
+    if(msg == QMessageBox::Yes) {
+        qApp->quit();
+        QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
     }
 }
 
