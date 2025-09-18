@@ -6,6 +6,7 @@
 
 #include "DockAbstract.h"
 #include "ProjectDataModels/BusstopTableModel.h"
+#include "ProjectDataModels/BusstopTableProxyModel.h"
 #include "Widgets/WdgTableColumnVisibilitySelector.h"
 
 namespace Ui {
@@ -35,7 +36,7 @@ private:
     Ui::DockBusstops *ui;
     QAction *_actionNew, *_actionEdit, *_actionDelete, *_actionSearch;
     BusstopTableModel *_model;
-    QSortFilterProxyModel *_proxyModel;
+    BusstopTableProxyModel *_proxyModel;
     BusstopTableModelDelegate *_delegate;
 
     WdgTableColumnVisibilitySelector *_columnVisibilitySelector;

@@ -4,15 +4,10 @@
 
 #include "ProjectData/Route.h"
 
-RouteTableProxyModel::RouteTableProxyModel(QObject *parent) : QSortFilterProxyModel(parent) {}
+RouteTableProxyModel::RouteTableProxyModel(QObject *parent) : SortFilterProxyModel(parent) {}
 
 bool RouteTableProxyModel::lessThan(const QModelIndex &sourceLeft,
                                     const QModelIndex &sourceRight) const {
-
-    static const QList<int> customColumns = {0, 1, 5, 6, 7};
-    if(!customColumns.contains(sortColumn()))
-        return QSortFilterProxyModel::lessThan(sourceLeft, sourceRight);
-
     Route *left = static_cast<Route *>(sourceLeft.internalPointer());
     Route *right = static_cast<Route *>(sourceRight.internalPointer());
 
@@ -25,23 +20,23 @@ bool RouteTableProxyModel::lessThan(const QModelIndex &sourceLeft,
                    ? left->code() < right->code()
                    : l->indexOfDirection(left->direction())
                          < l->indexOfDirection(right->direction());
-    case 5: return left->busstopCount() < right->busstopCount();
-    default: return false; // TODO 6 + 7
+    case 5: return left->busstopCount() < right->busstopCount(); // TODO 6 + 7
+    default: return QSortFilterProxyModel::lessThan(sourceLeft, sourceRight);
     }
 
     return false;
 }
 
 bool RouteTableProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const {
-    QModelIndex codeIndex         = sourceModel()->index(sourceRow, 0, sourceParent);
-    QModelIndex nameIndex         = sourceModel()->index(sourceRow, 2, sourceParent);
-    QModelIndex firstBusstopIndex = sourceModel()->index(sourceRow, 3, sourceParent);
-    QModelIndex lastBusstopIndex  = sourceModel()->index(sourceRow, 4, sourceParent);
+    const QModelIndex codeIndex         = sourceModel()->index(sourceRow, 0, sourceParent);
+    const QModelIndex nameIndex         = sourceModel()->index(sourceRow, 2, sourceParent);
+    const QModelIndex firstBusstopIndex = sourceModel()->index(sourceRow, 3, sourceParent);
+    const QModelIndex lastBusstopIndex  = sourceModel()->index(sourceRow, 4, sourceParent);
 
-    QString code         = codeIndex.data().toString();
-    QString name         = nameIndex.data().toString();
-    QString firstBusstop = firstBusstopIndex.data().toString();
-    QString lastBusstop  = lastBusstopIndex.data().toString();
+    const QString code         = codeIndex.data().toString();
+    const QString name         = nameIndex.data().toString();
+    const QString firstBusstop = firstBusstopIndex.data().toString();
+    const QString lastBusstop  = lastBusstopIndex.data().toString();
 
     const QRegularExpression expr = filterRegularExpression();
 

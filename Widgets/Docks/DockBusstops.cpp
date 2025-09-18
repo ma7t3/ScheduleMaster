@@ -13,7 +13,7 @@
 DockBusstops::DockBusstops(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockBusstops),
     _model(new BusstopTableModel(this)),
-    _proxyModel(new QSortFilterProxyModel(this)),
+    _proxyModel(new BusstopTableProxyModel(this)),
     _delegate(new BusstopTableModelDelegate(this)),
     _projectData(ApplicationInterface::projectData()) {
     ui->setupUi(this);

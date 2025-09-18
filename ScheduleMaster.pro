@@ -43,12 +43,14 @@ SOURCES += \
     ItemModels/StylesModel.cpp \
     ProjectDataModels/BusstopPlatformTableModel.cpp \
     ProjectDataModels/BusstopTableModel.cpp \
+    ProjectDataModels/BusstopTableProxyModel.cpp \
     ProjectDataModels/LineDirectionTableModel.cpp \
     ProjectDataModels/LineTableModel.cpp \
     ProjectDataModels/LineTableProxyModel.cpp \
     ProjectDataModels/RouteBusstopTableModel.cpp \
     ProjectDataModels/RouteTableModel.cpp \
     ProjectDataModels/RouteTableProxyModel.cpp \
+    ProjectDataModels/SortFilterProxyModel.cpp \
     Widgets/Docks/DockBusstops.cpp \
     Widgets/Docks/DockLines.cpp \
     Widgets/Docks/DockNews.cpp \
@@ -139,6 +141,7 @@ HEADERS += \
     ProjectData/RouteBusstopItem.h \
     ProjectDataModels/BusstopPlatformTableModel.h \
     ProjectDataModels/BusstopTableModel.h \
+    ProjectDataModels/BusstopTableProxyModel.h \
     ProjectDataModels/LineDirectionTableModel.h \
     ProjectDataModels/LineTableModel.h \
     ProjectDataModels/LineTableProxyModel.h \
@@ -146,6 +149,7 @@ HEADERS += \
     ProjectDataModels/RouteBusstopTableModel.h \
     ProjectDataModels/RouteTableModel.h \
     ProjectDataModels/RouteTableProxyModel.h \
+    ProjectDataModels/SortFilterProxyModel.h \
     ProjectDataModels/UnorderedProjectDataRowModel.h \
     ProjectDataModels/UnorderedProjectDataRowModelSignals.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPage.h \

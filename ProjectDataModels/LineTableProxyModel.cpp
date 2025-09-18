@@ -4,12 +4,18 @@
 
 #include <QCollator>
 
-LineTableProxyModel::LineTableProxyModel(QObject *parent) : QSortFilterProxyModel{parent} {}
+LineTableProxyModel::LineTableProxyModel(QObject *parent) : SortFilterProxyModel{parent} {}
 
 bool LineTableProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
-    Line *a = static_cast<Line *>(left.internalPointer());
-    Line *b = static_cast<Line *>(right.internalPointer());
-    return *a < *b;
+    switch(sortColumn()) {
+    case 0: {
+        Line *a = static_cast<Line *>(left.internalPointer());
+        Line *b = static_cast<Line *>(right.internalPointer());
+        return *a < *b;
+    }
+    default:
+        return QSortFilterProxyModel::lessThan(left, right);
+    }
 }
 
 bool LineTableProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const {

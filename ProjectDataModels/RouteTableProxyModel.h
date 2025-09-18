@@ -2,9 +2,9 @@
 #define ROUTETABLEPROXYMODEL_H
 
 #include <QObject>
-#include <QSortFilterProxyModel>
+#include "ProjectDataModels/SortFilterProxyModel.h"
 
-class RouteTableProxyModel : public QSortFilterProxyModel {
+class RouteTableProxyModel : public SortFilterProxyModel {
     Q_OBJECT
 public:
     explicit RouteTableProxyModel(QObject *parent = nullptr);
