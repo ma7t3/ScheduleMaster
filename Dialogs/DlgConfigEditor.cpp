@@ -94,6 +94,7 @@ void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QMod
             ui->lDontTouchWarning->setVisible(item.dontTouchWarning);
         } else {
             ui->lDescription->setText("");
+            ui->lDontTouchWarning->hide();
         }
 
         ui->lType->setText(type);
