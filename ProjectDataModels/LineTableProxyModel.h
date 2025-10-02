@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include "ProjectDataModels/SortFilterProxyModel.h"
+#include "Widgets/FilterPopups/WdgBusstopsFilterPopup.h"
 
-class LineTableProxyModel : public SortFilterProxyModel {
+class LineTableProxyModel : public SortFilterProxyModel<WdgBusstopsFilterPopup> {
     Q_OBJECT
 public:
     explicit LineTableProxyModel(QObject *parent = nullptr);

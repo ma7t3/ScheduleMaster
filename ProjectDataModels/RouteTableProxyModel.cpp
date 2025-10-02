@@ -4,7 +4,9 @@
 
 #include "ProjectData/Route.h"
 
-RouteTableProxyModel::RouteTableProxyModel(QObject *parent) : SortFilterProxyModel(parent) {}
+#include <QWidget>
+
+RouteTableProxyModel::RouteTableProxyModel(QObject *parent) : SortFilterProxyModel<WdgBusstopsFilterPopup>(nullptr, parent) {}
 
 bool RouteTableProxyModel::lessThan(const QModelIndex &sourceLeft,
                                     const QModelIndex &sourceRight) const {

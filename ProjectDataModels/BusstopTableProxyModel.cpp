@@ -1,8 +1,12 @@
 #include "BusstopTableProxyModel.h"
 
 #include "ProjectData/ProjectData.h"
+#include "Widgets/FilterPopups/WdgBusstopsFilterPopup.h"
 
-BusstopTableProxyModel::BusstopTableProxyModel(QObject *parent) : SortFilterProxyModel(parent) {}
+#include "ApplicationInterface.h"
+
+BusstopTableProxyModel::BusstopTableProxyModel(QAbstractButton *popupButton, QObject *parent) :
+    SortFilterProxyModel<WdgBusstopsFilterPopup>(popupButton, parent), _projectData(ApplicationInterface::projectData()) {}
 
 bool BusstopTableProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
     Busstop *leftB  = static_cast<Busstop *>(left.internalPointer());
@@ -31,5 +35,19 @@ bool BusstopTableProxyModel::lessThan(const QModelIndex &left, const QModelIndex
 
 bool BusstopTableProxyModel::filterAcceptsRow(int sourceRow,
                                               const QModelIndex &sourceParent) const {
-    return QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent);
+
+    if(!QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent))
+        return false;
+
+    const BusstopFlags flags = filterPopup()->filterFlags();
+    Busstop *b = static_cast<Busstop *>(sourceModel()->index(sourceRow, 0).internalPointer());
+    PDISet<Line> linesAtBusstop = _projectData->linesAtBusstop(b);
+    PDISet<Line> selectedLines  = filterPopup()->filterLines();
+
+    const bool anyLineMatch = std::any_of(linesAtBusstop.begin(), selectedLines.end(), [selectedLines](Line *l) {
+        return selectedLines.contains(l);
+    }) || selectedLines.isEmpty();
+
+    return ((flags == BusstopFlag::StandardBusstop) || (b->flags() & flags)) && anyLineMatch;
 }
+

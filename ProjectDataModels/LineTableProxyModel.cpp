@@ -3,8 +3,9 @@
 #include "ProjectData/Line.h"
 
 #include <QCollator>
+#include <QWidget>
 
-LineTableProxyModel::LineTableProxyModel(QObject *parent) : SortFilterProxyModel{parent} {}
+LineTableProxyModel::LineTableProxyModel(QObject *parent) : SortFilterProxyModel<WdgBusstopsFilterPopup>(nullptr, parent) {}
 
 bool LineTableProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
     switch(sortColumn()) {
