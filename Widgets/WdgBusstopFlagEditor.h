@@ -20,6 +20,7 @@ public:
     BusstopFlags flags() const;
 
 public slots:
+    void setEditorMode(const bool &b);
     void setFlags(const BusstopFlags &flags);
 
 protected slots:
@@ -29,10 +30,14 @@ protected slots:
 protected:
     void blockAllCheckboxSignals(const bool &block);
 
+signals:
+    void flagsChanged(const BusstopFlags &flags);
+
 private:
     Ui::WdgBusstopFlagEditor *ui;
     QList<QCheckBox *> _checkboxes;
 
+    bool _editorMode;
     bool _anotherChecked;
 };
 

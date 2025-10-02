@@ -5,7 +5,7 @@
 #include "Global/IconController.h"
 
 WdgBusstopFlagEditor::WdgBusstopFlagEditor(QWidget *parent) :
-    QWidget(parent), ui(new Ui::WdgBusstopFlagEditor), _anotherChecked(false) {
+    QWidget(parent), ui(new Ui::WdgBusstopFlagEditor), _editorMode(true), _anotherChecked(false) {
     ui->setupUi(this);
 
     ui->cbStandard->setIcon(IconController::icon("busstop"));
@@ -41,6 +41,10 @@ BusstopFlags WdgBusstopFlagEditor::flags() const {
     return flags;
 }
 
+void WdgBusstopFlagEditor::setEditorMode(const bool &b) {
+    _editorMode = b;
+}
+
 void WdgBusstopFlagEditor::setFlags(const BusstopFlags &flags) {
     if(flags.testFlag(BusstopFlag::StandardBusstop)) {
         ui->cbStandard->setChecked(true);
@@ -50,14 +54,19 @@ void WdgBusstopFlagEditor::setFlags(const BusstopFlags &flags) {
         ui->cbCentralTransfer->setChecked(flags.testFlag(BusstopFlag::CentralTransferBusstop));
         ui->cbInternal->setChecked(flags.testFlag(BusstopFlag::InternalBusstop));
     }
+
+    emit flagsChanged(this->flags());
 }
 
 void WdgBusstopFlagEditor::onStandardCheckboxToggled(const bool &checked) {
-    if(checked)
+    if(checked) {
         for(QCheckBox *cb : std::as_const(_checkboxes))
             cb->setChecked(false);
-    else {
-        QMessageBox::warning(this, tr("Unable to uncheck \"Standard Busstop\""), tr("You cannot uncheck this option because it's the default value. Check another one instead."));
+
+        emit flagsChanged(this->flags());
+    } else {
+        if(_editorMode)
+            QMessageBox::warning(this, tr("Unable to uncheck \"Standard Busstop\""), tr("You cannot uncheck this option because it's the default value. Check another one instead."));
         ui->cbStandard->setChecked(true);
     }
 }
@@ -67,21 +76,25 @@ void WdgBusstopFlagEditor::onAnyCheckboxToggled(QCheckBox *checkbox) {
         return cb->isChecked();
     });
 
-    if(checkbox->isChecked()) {
-        if(checkbox == ui->cbCentralTransfer) {
-            blockAllCheckboxSignals(true);
-            ui->cbTransfer->setChecked(false);
-            blockAllCheckboxSignals(false);
-        } else if(checkbox == ui->cbTransfer) {
-            blockAllCheckboxSignals(true);
-            ui->cbCentralTransfer->setChecked(false);
-            blockAllCheckboxSignals(false);
+    if(_editorMode) {
+        if(checkbox->isChecked()) {
+            if(checkbox == ui->cbCentralTransfer) {
+                blockAllCheckboxSignals(true);
+                ui->cbTransfer->setChecked(false);
+                blockAllCheckboxSignals(false);
+            } else if(checkbox == ui->cbTransfer) {
+                blockAllCheckboxSignals(true);
+                ui->cbCentralTransfer->setChecked(false);
+                blockAllCheckboxSignals(false);
+            }
         }
     }
 
     blockAllCheckboxSignals(true);
     ui->cbStandard->setChecked(!anyChecked);
     blockAllCheckboxSignals(false);
+
+    emit flagsChanged(this->flags());
 }
 
 void WdgBusstopFlagEditor::blockAllCheckboxSignals(const bool &block) {
