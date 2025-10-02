@@ -39,7 +39,7 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     ActionController::addSyncedActionAndButton(_actionEdit,   ui->pbEdit,   "projectData.item.edit",   ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionDelete, ui->pbDelete, "projectData.item.delete", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
-    ActionController::add(_actionSearch, "projectDataTable.focusSearch");
+    ActionController::add(_actionSearch, "projectDataTable.search.focus");
 
     connect(_actionNew,    &QAction::triggered, this, &DockLines::onLineNew);
     connect(_actionEdit,   &QAction::triggered, this, &DockLines::onLineEdit);

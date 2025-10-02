@@ -35,14 +35,19 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ActionController::addSyncedActionAndButton(_actionEdit,   ui->pbEdit,   "projectData.item.edit",   ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionDelete, ui->pbDelete, "projectData.item.delete", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
-    ActionController::add(_actionSearch, "projectDataTable.focusSearch");
     ActionController::add(ui->pbFilter, "projectDataTable.filter.open", ActionController::AllExceptShortcutComponent);
 
+    ActionController::add(_actionSearch, "projectDataTable.search.focus");
 
     connect(_actionNew,    &QAction::triggered, this, &DockBusstops::onBusstopNew);
     connect(_actionEdit,   &QAction::triggered, this, &DockBusstops::onBusstopEdit);
     connect(_actionDelete, &QAction::triggered, this, &DockBusstops::onBusstopDelete);
     connect(_actionSearch, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
+
+    QAction *clearSearchAction = ui->leSearch->addAction("");
+    clearSearchAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ActionController::add(clearSearchAction, "projectDataTable.search.clear", ActionController::ShortcutComponent);
+    connect(clearSearchAction, &QAction::triggered, ui->leSearch, &QLineEdit::clear);
 
 
     // CONTEXT MENU

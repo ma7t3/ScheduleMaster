@@ -51,7 +51,7 @@ DockRoutes::DockRoutes(QWidget *parent) :
     ActionController::addSyncedActionAndButton(_actionDuplicate, ui->pbDuplicate, "projectData.item.duplicate", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionDelete,    ui->pbDelete,    "projectData.item.delete",    ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
-    ActionController::add(_actionSearch,    "projectDataTable.focusSearch");
+    ActionController::add(_actionSearch,    "projectDataTable.search.focus");
 
     connect(_actionNew,       &QAction::triggered, this, &DockRoutes::onRouteNew);
     connect(_actionEdit,      &QAction::triggered, this, &DockRoutes::onRouteEdit);
