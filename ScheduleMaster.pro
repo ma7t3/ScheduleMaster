@@ -45,20 +45,25 @@ SOURCES += \
     ProjectDataModels/BusstopTableModel.cpp \
     ProjectDataModels/BusstopTableProxyModel.cpp \
     ProjectDataModels/LineDirectionTableModel.cpp \
+    ProjectDataModels/LineSelectionListModel.cpp \
+    ProjectDataModels/LineSelectionListProxyModel.cpp \
     ProjectDataModels/LineTableModel.cpp \
     ProjectDataModels/LineTableProxyModel.cpp \
     ProjectDataModels/RouteBusstopTableModel.cpp \
     ProjectDataModels/RouteTableModel.cpp \
     ProjectDataModels/RouteTableProxyModel.cpp \
-    ProjectDataModels/SortFilterProxyModel.cpp \
     Widgets/Docks/DockBusstops.cpp \
     Widgets/Docks/DockLines.cpp \
     Widgets/Docks/DockNews.cpp \
     Widgets/Docks/DockRoutes.cpp \
     Widgets/Docks/DockWelcome.cpp \
+    Widgets/FilterPopups/WdgBusstopsFilterPopup.cpp \
+    Widgets/FilterPopups/WdgFilterPopup.cpp \
+    Widgets/FilterPopups/WdgFilterPopupContent.cpp \
     Widgets/WdgBusstopFlagEditor.cpp \
     Widgets/WdgBusstopPlatformEditor.cpp \
     Widgets/WdgColorSelector.cpp \
+    Widgets/WdgFilterBanner.cpp \
     Widgets/WdgGlobalSearchItem.cpp \
     Widgets/WdgTableColumnVisibilitySelector.cpp \
     main.cpp \
@@ -143,6 +148,8 @@ HEADERS += \
     ProjectDataModels/BusstopTableModel.h \
     ProjectDataModels/BusstopTableProxyModel.h \
     ProjectDataModels/LineDirectionTableModel.h \
+    ProjectDataModels/LineSelectionListModel.h \
+    ProjectDataModels/LineSelectionListProxyModel.h \
     ProjectDataModels/LineTableModel.h \
     ProjectDataModels/LineTableProxyModel.h \
     ProjectDataModels/OrderedProjectDataRowModel.h \
@@ -167,11 +174,15 @@ HEADERS += \
     Widgets/Docks/DockNews.h \
     Widgets/Docks/DockRoutes.h \
     Widgets/Docks/DockWelcome.h \
+    Widgets/FilterPopups/WdgBusstopsFilterPopup.h \
+    Widgets/FilterPopups/WdgFilterPopup.h \
+    Widgets/FilterPopups/WdgFilterPopupContent.h \
     Widgets/WdgAccentColorSelector.h \
     Widgets/WdgBusstopFlagEditor.h \
     Widgets/WdgBusstopPlatformEditor.h \
     Widgets/WdgColorSchemeSelector.h \
     Widgets/WdgColorSelector.h \
+    Widgets/WdgFilterBanner.h \
     Widgets/WdgGlobalSearchItem.h \
     Widgets/WdgProjectDataTableView.h \
     Widgets/WdgTableColumnVisibilitySelector.h \
@@ -199,11 +210,14 @@ FORMS += \
     Widgets/Docks/DockNews.ui \
     Widgets/Docks/DockRoutes.ui \
     Widgets/Docks/DockWelcome.ui \
+    Widgets/FilterPopups/WdgBusstopsFilterPopup.ui \
+    Widgets/FilterPopups/WdgFilterPopup.ui \
     Widgets/WdgAccentColorSelector.ui \
     Widgets/WdgBusstopFlagEditor.ui \
     Widgets/WdgBusstopPlatformEditor.ui \
     Widgets/WdgColorSchemeSelector.ui \
     Widgets/WdgColorSelector.ui \
+    Widgets/WdgFilterBanner.ui \
     Widgets/WdgGlobalSearchItem.ui \
     Widgets/WdgTableColumnVisibilitySelector.ui \
     Widgets/WdgVariantEditor.ui \
