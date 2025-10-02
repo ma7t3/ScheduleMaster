@@ -13,7 +13,6 @@
 DockBusstops::DockBusstops(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockBusstops),
     _model(new BusstopTableModel(this)),
-    _proxyModel(new BusstopTableProxyModel(this)),
     _delegate(new BusstopTableModelDelegate(this)),
     _projectData(ApplicationInterface::projectData()) {
     ui->setupUi(this);
@@ -37,6 +36,8 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ActionController::addSyncedActionAndButton(_actionDelete, ui->pbDelete, "projectData.item.delete", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
     ActionController::add(_actionSearch, "projectDataTable.focusSearch");
+    ActionController::add(ui->pbFilter, "projectDataTable.filter.open", ActionController::AllExceptShortcutComponent);
+
 
     connect(_actionNew,    &QAction::triggered, this, &DockBusstops::onBusstopNew);
     connect(_actionEdit,   &QAction::triggered, this, &DockBusstops::onBusstopEdit);
@@ -58,11 +59,10 @@ DockBusstops::DockBusstops(QWidget *parent) :
 
     // VIEW/MODEL SETUP
 
+    _proxyModel = new BusstopTableProxyModel(ui->pbFilter, this);
+    _proxyModel->setFilterBanner(ui->filterBanner);
+    _proxyModel->setQuickSearchEdit(ui->leSearch);
     _proxyModel->setSourceModel(_model);
-    _proxyModel->setSortRole(Qt::DisplayRole);
-    _proxyModel->setSortLocaleAware(true);
-    _proxyModel->setFilterRole(Qt::DisplayRole);
-    _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     ui->twBusstops->setModel(_proxyModel);
     ui->twBusstops->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
@@ -87,15 +87,13 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ui->twBusstops->addSelectionDependentAction(_actionEdit,   [](const int &n) { return n == 1; });
     ui->twBusstops->addSelectionDependentAction(_actionDelete, [](const int &n) { return n > 0; });
 
-    connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
-
 
     // COLUMN VISIBILITY SELECTOR
 
     _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twBusstops, this);
 
-    ActionController::add(ui->tbColumns, "projectDataTable.showHideColumns");
-    ui->tbColumns->setMenu(_columnVisibilitySelector->menu());
+    ActionController::add(ui->pbColumns, "projectDataTable.showHideColumns");
+    ui->pbColumns->setMenu(_columnVisibilitySelector->menu());
 
     ui->twBusstops->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->twBusstops->horizontalHeader(),

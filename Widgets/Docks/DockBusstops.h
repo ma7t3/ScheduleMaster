@@ -34,7 +34,7 @@ signals:
 
 private:
     Ui::DockBusstops *ui;
-    QAction *_actionNew, *_actionEdit, *_actionDelete, *_actionSearch;
+    QAction *_actionNew, *_actionEdit, *_actionDelete, *_actionSearch, *_actionFilter;
     BusstopTableModel *_model;
     BusstopTableProxyModel *_proxyModel;
     BusstopTableModelDelegate *_delegate;
