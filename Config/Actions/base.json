@@ -970,6 +970,46 @@
         "defaultKeyboardShortcut": "standard:22"
     },
     {
+        "id": "projectDataTable.filter.open",
+        "icon": "filter",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Filter",
+            "de_DE" : "Filter"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show Filter",
+            "de_DE" : "Filter anzeigen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Project Data Table",
+            "de_DE" : "Datentabelle"
+        },
+        "defaultKeyboardShortcut": "Ctrl+Shift+F"
+    },
+    {
+        "id": "projectDataTable.filter.clear",
+        "icon": "xmark",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Clear Filter",
+            "de_DE" : "Filter zurücksetzen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Clear Filter",
+            "de_DE" : "Filter zurücksetzen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Project Data Table",
+            "de_DE" : "Datentabelle"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
         "id": "projectDataTable.showHideColumns",
         "icon": "bars",
         "text": {
