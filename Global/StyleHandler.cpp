@@ -107,6 +107,7 @@ void StyleHandler::applyColorScheme(const Qt::ColorScheme &colorScheme) {
 
     qDebug().noquote() << "apply color scheme: " << (colorScheme == Qt::ColorScheme::Unknown ? "auto" : colorScheme == Qt::ColorScheme::Light ? "light" : "dark");
     QApplication::styleHints()->setColorScheme(colorScheme);
+    emit instance()->colorSchemeChanged(colorScheme);
 }
 
 void StyleHandler::applyAccentColor(const QString &id) {

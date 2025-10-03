@@ -41,6 +41,7 @@ protected slots:
 
 signals:
     void styleChanged(const QString &);
+    void colorSchemeChanged(const Qt::ColorScheme &);
     void accentColorChanged(const QString &);
 
 private:
