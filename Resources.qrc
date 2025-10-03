@@ -183,5 +183,8 @@
         <file>Icons/classic/busstop-terminus.ico</file>
         <file>Icons/classic/busstop-transfer.ico</file>
         <file>Icons/classic/busstop-transfer-central.ico</file>
+        <file>Icons/fontawesome.6.colorful/filter.svg</file>
+        <file>Icons/fontawesome.6.normal/filter.svg</file>
+        <file>Icons/classic/filter.ico</file>
     </qresource>
 </RCC>

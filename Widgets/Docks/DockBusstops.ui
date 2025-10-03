@@ -65,7 +65,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pbFilter">
+      <widget class="QToolButton" name="pbFilter">
        <property name="text">
         <string>Filter</string>
        </property>
