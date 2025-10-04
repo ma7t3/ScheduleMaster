@@ -61,6 +61,7 @@ SOURCES += \
     Widgets/FilterPopups/WdgFilterPopup.cpp \
     Widgets/FilterPopups/WdgFilterPopupContent.cpp \
     Widgets/FilterPopups/WdgLineFilterPopup.cpp \
+    Widgets/FilterPopups/WdgRouteFilterPopup.cpp \
     Widgets/WdgBusstopFlagEditor.cpp \
     Widgets/WdgBusstopPlatformEditor.cpp \
     Widgets/WdgColorSelector.cpp \
@@ -180,6 +181,7 @@ HEADERS += \
     Widgets/FilterPopups/WdgFilterPopup.h \
     Widgets/FilterPopups/WdgFilterPopupContent.h \
     Widgets/FilterPopups/WdgLineFilterPopup.h \
+    Widgets/FilterPopups/WdgRouteFilterPopup.h \
     Widgets/WdgAccentColorSelector.h \
     Widgets/WdgBusstopFlagEditor.h \
     Widgets/WdgBusstopPlatformEditor.h \
@@ -217,6 +219,7 @@ FORMS += \
     Widgets/FilterPopups/WdgBusstopsFilterPopup.ui \
     Widgets/FilterPopups/WdgFilterPopup.ui \
     Widgets/FilterPopups/WdgLineFilterPopup.ui \
+    Widgets/FilterPopups/WdgRouteFilterPopup.ui \
     Widgets/WdgAccentColorSelector.ui \
     Widgets/WdgBusstopFlagEditor.ui \
     Widgets/WdgBusstopPlatformEditor.ui \

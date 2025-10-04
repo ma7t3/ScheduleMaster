@@ -6,7 +6,7 @@
 
 #include <QWidget>
 
-RouteTableProxyModel::RouteTableProxyModel(QObject *parent) : SortFilterProxyModel<WdgBusstopsFilterPopup>(nullptr, parent) {}
+RouteTableProxyModel::RouteTableProxyModel(QAbstractButton *popupButton, QObject *parent) : SortFilterProxyModel<WdgRouteFilterPopup>(popupButton, parent) {}
 
 bool RouteTableProxyModel::lessThan(const QModelIndex &sourceLeft,
                                     const QModelIndex &sourceRight) const {
@@ -30,6 +30,20 @@ bool RouteTableProxyModel::lessThan(const QModelIndex &sourceLeft,
 }
 
 bool RouteTableProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const {
+    Route *r = static_cast<Route *>(sourceModel()->index(sourceRow, 0).internalPointer());
+    LineDirection *filterDirection = filterPopup()->filterDirection();
+    Busstop *filterFirstBusstop = filterPopup()->filterFirstBusstop();
+    Busstop *filterLastBusstop = filterPopup()->filterLastBusstop();
+
+    if(filterDirection && r->direction() != filterDirection)
+        return false;
+
+    if(filterFirstBusstop && r->firstBusstop()->busstop() != filterFirstBusstop)
+        return false;
+
+    if(filterLastBusstop && r->lastBusstop()->busstop() != filterLastBusstop)
+        return false;
+
     const QModelIndex codeIndex         = sourceModel()->index(sourceRow, 0, sourceParent);
     const QModelIndex nameIndex         = sourceModel()->index(sourceRow, 2, sourceParent);
     const QModelIndex firstBusstopIndex = sourceModel()->index(sourceRow, 3, sourceParent);
