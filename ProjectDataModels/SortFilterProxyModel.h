@@ -18,7 +18,7 @@ public:
         QSortFilterProxyModel(parent),
         _filterPopup(popupButton ? new WdgFilterPopup(popupButton) : nullptr),
         _filterPopupContent(_filterPopup ? new FilterPopupType(_filterPopup) : nullptr),
-        _filterPopupButton(popupButton), _filterBanner(nullptr), _filterBannerClosed(false),
+        _filterPopupButton(popupButton), _filterBanner(nullptr), _clearFilterAction(nullptr), _filterBannerClosed(false),
         _quickSearchEdit(nullptr), _contentWidgetSet(false) {
 
         if(_filterPopupButton)
@@ -31,6 +31,7 @@ public:
             connect(_filterPopupContent, &WdgFilterPopupContent::filterChanged, this, [this](){
                 invalidateFilter();
                 updateFilterBannerVisibility();
+                updateClearFilterActionEnabled();
             });
 
         setSortLocaleAware(true);
@@ -54,6 +55,22 @@ public:
         updateFilterBannerVisibility();
     }
 
+    void setClearFilterAction(QAction *action) {
+        if(_clearFilterAction)
+            _clearFilterAction->disconnect(this);
+
+        _clearFilterAction = action;
+        connect(_clearFilterAction, &QAction::triggered, this, [this](){
+            if(_filterPopupContent)
+                _filterPopupContent->reset();
+
+            if(_quickSearchEdit)
+                _quickSearchEdit->clear();
+        });
+
+        updateClearFilterActionEnabled();
+    }
+
     void setQuickSearchEdit(QLineEdit *lineEdit) {
         if(_quickSearchEdit)
             _quickSearchEdit->disconnect(this);
@@ -65,10 +82,14 @@ public:
                 [this](const QString &filterString){
                     setFilterWildcard(filterString);
                     updateFilterBannerVisibility();
+                    updateClearFilterActionEnabled();
                 });
 
         updateFilterBannerVisibility();
+        updateClearFilterActionEnabled();
     }
+
+    FilterPopupType *filterPopup() const { return _filterPopupContent; }
 
 protected:
     void showPopup() {
@@ -126,13 +147,22 @@ protected:
         }
     }
 
-    FilterPopupType *filterPopup() const { return _filterPopupContent; }
+    void updateClearFilterActionEnabled() {
+        if(!_clearFilterAction)
+            return;
+
+        _clearFilterAction->setEnabled(
+            _quickSearchEdit
+                ? (!_quickSearchEdit->text().isEmpty() || _filterPopupContent->filterIsEnabled())
+                : _filterPopupContent->filterIsEnabled());
+    }
 
 private:
     WdgFilterPopup *_filterPopup;
     FilterPopupType *_filterPopupContent;
     QAbstractButton *_filterPopupButton;
     WdgFilterBanner *_filterBanner;
+    QAction *_clearFilterAction;
     bool _filterBannerClosed;
     QLineEdit *_quickSearchEdit;
     bool _contentWidgetSet;
