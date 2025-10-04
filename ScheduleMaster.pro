@@ -66,6 +66,7 @@ SOURCES += \
     Widgets/WdgColorSelector.cpp \
     Widgets/WdgFilterBanner.cpp \
     Widgets/WdgGlobalSearchItem.cpp \
+    Widgets/WdgProjectDataTableQuickSearchLineEdit.cpp \
     Widgets/WdgTableColumnVisibilitySelector.cpp \
     main.cpp \
     MainWindow.cpp \
@@ -186,6 +187,7 @@ HEADERS += \
     Widgets/WdgColorSelector.h \
     Widgets/WdgFilterBanner.h \
     Widgets/WdgGlobalSearchItem.h \
+    Widgets/WdgProjectDataTableQuickSearchLineEdit.h \
     Widgets/WdgProjectDataTableView.h \
     Widgets/WdgTableColumnVisibilitySelector.h \
     Widgets/WdgVariantEditor.h \
