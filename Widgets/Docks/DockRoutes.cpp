@@ -52,10 +52,7 @@ DockRoutes::DockRoutes(QWidget *parent) :
 
     // CONTEXT MENU
 
-    connect(ui->twRoutes, &QWidget::customContextMenuRequested, this, [this](QPoint pos) {
-        globalMenu()->popup(ui->twRoutes->mapToGlobal(pos));
-    });
-
+    ui->twRoutes->setItemContextMenu(globalMenu());
     globalMenu()->addAction(_actionNew);
     globalMenu()->addAction(_actionEdit);
     globalMenu()->addAction(_actionDuplicate);
@@ -80,8 +77,6 @@ DockRoutes::DockRoutes(QWidget *parent) :
     ui->twRoutes->horizontalHeader()->setSectionResizeMode(5, QHeaderView::ResizeToContents);
     ui->twRoutes->horizontalHeader()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
     ui->twRoutes->horizontalHeader()->setSectionResizeMode(7, QHeaderView::ResizeToContents);
-
-    ui->twRoutes->setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(ui->twRoutes, &QTableView::doubleClicked, this, &DockRoutes::onRouteEdit);
 

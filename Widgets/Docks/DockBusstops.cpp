@@ -45,11 +45,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
 
     // CONTEXT MENU
 
-    ui->twBusstops->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->twBusstops, &QWidget::customContextMenuRequested, this, [this](QPoint pos) {
-        globalMenu()->popup(ui->twBusstops->mapToGlobal(pos));
-    });
-
+    ui->twBusstops->setItemContextMenu(globalMenu());
     globalMenu()->addAction(_actionNew);
     globalMenu()->addAction(_actionEdit);
     globalMenu()->addAction(_actionDelete);

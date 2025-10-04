@@ -3,6 +3,8 @@
 
 #include <QTableView>
 #include <QSortFilterProxyModel>
+#include <QPoint>
+#include <QMenu>
 
 #include "ProjectData/ProjectDataItemSet.h"
 #include "ProjectDataModels/UnorderedProjectDataRowModel.h"
@@ -22,7 +24,13 @@ template<typename T>
 class WdgProjectDataTableView : public WdgProjectDataTableViewSignals {
 public:
     WdgProjectDataTableView(QWidget *parent = nullptr) :
-        WdgProjectDataTableViewSignals(parent), _proxyModel(nullptr), _model(nullptr) {}
+        WdgProjectDataTableViewSignals(parent), _proxyModel(nullptr), _model(nullptr), _contextMenu(nullptr) {
+        setContextMenuPolicy(Qt::CustomContextMenu);
+
+        connect(this, &QWidget::customContextMenuRequested, this, [this](QPoint pos) {
+            _contextMenu->popup(mapToGlobal(pos));
+        });
+    }
 
     void setModel(QAbstractItemModel *model) override {
         if(_model)
@@ -57,6 +65,10 @@ public:
         connect(_model, &QAbstractItemModel::modelReset, this, &WdgProjectDataTableView::updateSelectionDependentActions);
 
         updateSelectionDependentActions();
+    }
+
+    void setItemContextMenu(QMenu *menu) {
+        _contextMenu = menu;
     }
 
     T *currentItem() const {
@@ -107,6 +119,7 @@ protected:
     QSortFilterProxyModel *_proxyModel;
     UnorderedProjectDataRowModel<T> *_model;
     QHash<QAction *, std::function<bool(const int &)>> _selectionDependentActions;
+    QMenu *_contextMenu;
 };
 
 #endif // WDGPROJECTDATATABLEVIEW_H

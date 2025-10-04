@@ -48,11 +48,7 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
 
     // CONTEXT MENU
 
-    ui->twLines->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->twLines, &QWidget::customContextMenuRequested, this, [this](QPoint pos) {
-        globalMenu()->popup(ui->twLines->mapToGlobal(pos));
-    });
-
+    ui->twLines->setItemContextMenu(globalMenu());
     globalMenu()->addAction(_actionNew);
     globalMenu()->addAction(_actionEdit);
     globalMenu()->addAction(_actionDelete);
