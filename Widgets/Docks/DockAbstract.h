@@ -11,6 +11,17 @@ public:
 
     QMenu *globalMenu() const { return _globalMenu; }
 
+protected:
+    QAction *setupAction(const Qt::ShortcutContext shortcutContext = Qt::WidgetWithChildrenShortcut,
+                         QWidget *parent = nullptr) {
+        if(!parent)
+            parent = this;
+
+        QAction *action = parent->addAction("");
+        action->setShortcutContext(shortcutContext);
+        return action;
+    }
+
 signals:
 
 private:

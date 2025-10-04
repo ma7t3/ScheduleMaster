@@ -31,20 +31,11 @@ DockRoutes::DockRoutes(QWidget *parent) :
 
     // ACTION SETUP
 
-    _actionNew = addAction("");
-    _actionNew->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-
-    _actionEdit = addAction("");
-    _actionEdit->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-
-    _actionDuplicate = addAction("");
-    _actionDuplicate->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-
-    _actionDelete = addAction("");
-    _actionDelete->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-
-    _actionSearch = addAction("");
-    _actionSearch->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    _actionNew         = setupAction();
+    _actionEdit        = setupAction();
+    _actionDuplicate   = setupAction();
+    _actionDelete      = setupAction();
+    _actionSearch      = setupAction();
 
     ActionController::addSyncedActionAndButton(_actionNew,       ui->pbNew,       "projectData.item.new",       ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionEdit,      ui->pbEdit,      "projectData.item.edit",      ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
