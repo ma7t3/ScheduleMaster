@@ -42,6 +42,7 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     connect(_actionNew,    &QAction::triggered, this, &DockLines::onLineNew);
     connect(_actionEdit,   &QAction::triggered, this, &DockLines::onLineEdit);
     connect(_actionDelete, &QAction::triggered, this, &DockLines::onLineDelete);
+    connect(_actionFilter, &QAction::triggered, this, [this](){ui->tbFilter->click();});
 
     ui->leSearch->setFocusAction(_actionSearch);
 
