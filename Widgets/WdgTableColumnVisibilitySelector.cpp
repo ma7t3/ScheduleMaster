@@ -6,14 +6,28 @@
 
 #include <QTreeView>
 #include <QTableView>
+#include <QHeaderView>
 #include <QMenu>
 
-WdgTableColumnVisibilitySelector::WdgTableColumnVisibilitySelector(QAbstractItemView *view,
+WdgTableColumnVisibilitySelector::WdgTableColumnVisibilitySelector(QTableView *view,
+                                                                   QToolButton *triggerButton,
                                                                    QWidget *parent) :
     QDialog(parent), ui(new Ui::WdgTableColumnVisibilitySelector), _view(view),
     _model(view->model()), _menu(new QMenu(this)), _restoreDefaultsAction(addAction("Restore Defaults")), _showInWindowAction(addAction("Show in Window")) {
 
     ui->setupUi(this);
+
+    ActionController::add(triggerButton, "projectDataTable.showHideColumns");
+    triggerButton->setMenu(menu());
+
+    _view->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(_view->horizontalHeader(),
+            &QHeaderView::customContextMenuRequested,
+            this,
+            [this](const QPoint &pos) {
+                menu()->popup(_view->horizontalHeader()->mapToGlobal(pos));
+            });
 
     ActionController::add(_restoreDefaultsAction, "projectDataTable.restoreDefaults");
     ActionController::add(_showInWindowAction, "projectDataTable.showInWindowAction");

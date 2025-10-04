@@ -2,10 +2,13 @@
 #define WDGTABLECOLUMNVISIBILITYSELECTOR_H
 
 #include <QDialog>
+
+
 class QAbstractItemModel;
-class QAbstractItemView;
+class QTableView;
 class QAbstractButton;
 class QListWidgetItem;
+class QToolButton;
 
 namespace Ui {
 class WdgTableColumnVisibilitySelector;
@@ -15,7 +18,7 @@ class WdgTableColumnVisibilitySelector : public QDialog {
     Q_OBJECT
 
 public:
-    explicit WdgTableColumnVisibilitySelector(QAbstractItemView *view, QWidget *parent = nullptr);
+    explicit WdgTableColumnVisibilitySelector(QTableView *view, QToolButton *triggerButton, QWidget *parent = nullptr);
     ~WdgTableColumnVisibilitySelector();
 
     QMenu *menu();
@@ -36,7 +39,7 @@ private slots:
 private:
     Ui::WdgTableColumnVisibilitySelector *ui;
 
-    QAbstractItemView *_view;
+    QTableView *_view;
     QAbstractItemModel *_model;
     QMenu *_menu;
     QAction *_restoreDefaultsAction, *_showInWindowAction;

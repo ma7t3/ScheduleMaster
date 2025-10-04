@@ -97,22 +97,7 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     ui->twLines->addSelectionDependentAction(_actionEdit,   [](const int &n) { return n == 1; });
     ui->twLines->addSelectionDependentAction(_actionDelete, [](const int &n) { return n > 0; });
 
-
-    // COLUMN VISIBILITY SELECTOR
-
-    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twLines, this);
-
-    ActionController::add(ui->tbColumns, "projectDataTable.showHideColumns");
-    ui->tbColumns->setMenu(_columnVisibilitySelector->menu());
-
-    ui->twLines->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->twLines->horizontalHeader(),
-            &QHeaderView::customContextMenuRequested,
-            this,
-            [this](const QPoint &pos) {
-                _columnVisibilitySelector->menu()->popup(
-                    ui->twLines->horizontalHeader()->mapToGlobal(pos));
-            });
+    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twLines, ui->tbColumns, this);
 }
 
 DockLines::~DockLines() {

@@ -100,22 +100,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ui->twBusstops->addSelectionDependentAction(_actionEdit,   [](const int &n) { return n == 1; });
     ui->twBusstops->addSelectionDependentAction(_actionDelete, [](const int &n) { return n > 0; });
 
-
-    // COLUMN VISIBILITY SELECTOR
-
-    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twBusstops, this);
-
-    ActionController::add(ui->pbColumns, "projectDataTable.showHideColumns");
-    ui->pbColumns->setMenu(_columnVisibilitySelector->menu());
-
-    ui->twBusstops->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->twBusstops->horizontalHeader(),
-            &QHeaderView::customContextMenuRequested,
-            this,
-            [this](const QPoint &pos) {
-                _columnVisibilitySelector->menu()->popup(
-                    ui->twBusstops->horizontalHeader()->mapToGlobal(pos));
-            });
+    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twBusstops, ui->pbColumns, this);
 }
 
 DockBusstops::~DockBusstops() {

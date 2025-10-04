@@ -108,22 +108,7 @@ DockRoutes::DockRoutes(QWidget *parent) :
 
     connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
-
-    // COLUMN VISIBILITY SELECTOR
-
-    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twRoutes, this);
-
-    ActionController::add(ui->tbColumns, "projectDataTable.showHideColumns");
-    ui->tbColumns->setMenu(_columnVisibilitySelector->menu());
-
-    ui->twRoutes->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->twRoutes->horizontalHeader(),
-            &QHeaderView::customContextMenuRequested,
-            this,
-            [this](const QPoint &pos) {
-                _columnVisibilitySelector->menu()->popup(
-                    ui->twRoutes->horizontalHeader()->mapToGlobal(pos));
-            });
+    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twRoutes, ui->tbColumns, this);
 
     setLine(nullptr);
 }
