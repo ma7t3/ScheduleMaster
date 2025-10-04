@@ -1,6 +1,8 @@
 #include "WdgFilterPopup.h"
 #include "ui_WdgFilterPopup.h"
 
+#include "Global/ActionController.h"
+
 #include <QScreen>
 
 WdgFilterPopup::WdgFilterPopup(QWidget *parent) :
@@ -9,6 +11,8 @@ WdgFilterPopup::WdgFilterPopup(QWidget *parent) :
     setWindowFlags(Qt::Popup);
 
     connect(ui->pbClose, &QPushButton::clicked, this, &QWidget::hide);
+
+    ActionController::add(ui->pbClearFilter, "projectDataTable.filter.clear", ActionController::AllExceptIconComponent);
 }
 
 WdgFilterPopup::~WdgFilterPopup() {

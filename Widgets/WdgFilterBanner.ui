@@ -33,7 +33,7 @@
    <item>
     <widget class="QToolButton" name="tbClearFilter">
      <property name="text">
-      <string>Clear filter</string>
+      <string notr="true">Clear filter</string>
      </property>
     </widget>
    </item>
@@ -60,7 +60,7 @@
    <item>
     <widget class="QToolButton" name="tbClose">
      <property name="text">
-      <string>Close</string>
+      <string notr="true">Close</string>
      </property>
     </widget>
    </item>

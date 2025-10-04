@@ -1030,6 +1030,26 @@
         "defaultKeyboardShortcut": ""
     },
     {
+        "id": "projectDataTable.filterBanner.close",
+        "icon": "xmark",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Close",
+            "de_DE" : "Schließen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Close",
+            "de_DE" : "Schließen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Project Data Table > Filter Banner",
+            "de_DE" : "Datentabelle > Filter-Banner"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
         "id": "projectDataTable.showHideColumns",
         "icon": "bars",
         "text": {

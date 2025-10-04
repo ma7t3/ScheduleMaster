@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>205</width>
+    <width>224</width>
     <height>53</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <item>
       <widget class="QPushButton" name="pbClearFilter">
        <property name="text">
-        <string>Clear Filter</string>
+        <string notr="true">Clear Filter</string>
        </property>
       </widget>
      </item>
