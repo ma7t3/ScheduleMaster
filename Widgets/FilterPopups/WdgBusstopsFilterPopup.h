@@ -1,8 +1,6 @@
 #ifndef WDGBUSSTOPSFILTERPOPUP_H
 #define WDGBUSSTOPSFILTERPOPUP_H
 
-#include <QWidget>
-
 #include "Widgets/FilterPopups/WdgFilterPopupContent.h"
 #include "ProjectData/Busstop.h"
 

@@ -8,13 +8,13 @@ class WdgFilterPopupContent : public QWidget {
 public:
     explicit WdgFilterPopupContent(QWidget *parent = nullptr);
 
-    virtual void reset() = 0;
     virtual bool filterIsEnabled() const = 0;
+
+public slots:
+    virtual void reset() = 0;
 
 signals:
     void filterChanged();
-
-signals:
 };
 
 #endif // WDGFILTERPOPUPCONTENT_H
