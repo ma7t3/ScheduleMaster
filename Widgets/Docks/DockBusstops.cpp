@@ -30,7 +30,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ActionController::addSyncedActionAndButton(_actionEdit,   ui->pbEdit,   "projectData.item.edit",   ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionDelete, ui->pbDelete, "projectData.item.delete", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
-    ActionController::add(ui->pbFilter, "projectDataTable.filter.open", ActionController::AllExceptShortcutComponent);
+    ActionController::add(ui->tbFilter, "projectDataTable.filter.open", ActionController::AllExceptShortcutComponent);
     ActionController::add(_actionFilter, "projectDataTable.filter.open");
 
     ActionController::add(_actionClearFilter, "projectDataTable.filter.clear");
@@ -39,7 +39,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
     connect(_actionNew,    &QAction::triggered, this, &DockBusstops::onBusstopNew);
     connect(_actionEdit,   &QAction::triggered, this, &DockBusstops::onBusstopEdit);
     connect(_actionDelete, &QAction::triggered, this, &DockBusstops::onBusstopDelete);
-    connect(_actionFilter, &QAction::triggered, this, [this](){ui->pbFilter->click();});
+    connect(_actionFilter, &QAction::triggered, this, [this](){ui->tbFilter->click();});
 
     ui->leSearch->setFocusAction(_actionSearch);
 
@@ -56,7 +56,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
 
     // VIEW/MODEL SETUP
 
-    _proxyModel = new BusstopTableProxyModel(ui->pbFilter, this);
+    _proxyModel = new BusstopTableProxyModel(ui->tbFilter, this);
     _proxyModel->setFilterBanner(ui->filterBanner);
     _proxyModel->setClearFilterAction(_actionClearFilter);
     _proxyModel->setQuickSearchEdit(ui->leSearch);
@@ -85,7 +85,7 @@ DockBusstops::DockBusstops(QWidget *parent) :
     ui->twBusstops->addSelectionDependentAction(_actionEdit,   [](const int &n) { return n == 1; });
     ui->twBusstops->addSelectionDependentAction(_actionDelete, [](const int &n) { return n > 0; });
 
-    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twBusstops, ui->pbColumns, this);
+    _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twBusstops, ui->tbColumns, this);
 }
 
 DockBusstops::~DockBusstops() {

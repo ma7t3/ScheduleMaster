@@ -58,14 +58,14 @@
       <widget class="WdgProjectDataTableQuickSearchLineEdit" name="leSearch"/>
      </item>
      <item>
-      <widget class="QToolButton" name="pbFilter">
+      <widget class="QToolButton" name="tbFilter">
        <property name="text">
         <string>Filter</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="pbColumns">
+      <widget class="QToolButton" name="tbColumns">
        <property name="text">
         <string>Columns</string>
        </property>
