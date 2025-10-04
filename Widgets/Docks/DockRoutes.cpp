@@ -22,7 +22,7 @@
 
 DockRoutes::DockRoutes(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockRoutes), _projectData(ApplicationInterface::projectData()), _line(nullptr),
-    _model(new RouteTableModel(this)), _proxyModel(new RouteTableProxyModel(this)) {
+    _model(new RouteTableModel(this)) {
     ui->setupUi(this);
 
     DockLines *dockLines = dynamic_cast<DockLines *>(DockController::dock("lines")->widget());
@@ -36,19 +36,28 @@ DockRoutes::DockRoutes(QWidget *parent) :
     _actionDuplicate   = setupAction();
     _actionDelete      = setupAction();
     _actionSearch      = setupAction();
+    _actionFilter      = setupAction();
+    _actionClearFilter = setupAction();
 
     ActionController::addSyncedActionAndButton(_actionNew,       ui->pbNew,       "projectData.item.new",       ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionEdit,      ui->pbEdit,      "projectData.item.edit",      ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionDuplicate, ui->pbDuplicate, "projectData.item.duplicate", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionDelete,    ui->pbDelete,    "projectData.item.delete",    ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
-    ActionController::add(_actionSearch,    "projectDataTable.search.focus");
+    ActionController::add(ui->tbFilter, "projectDataTable.filter.open", ActionController::AllExceptShortcutComponent);
+    ActionController::add(_actionFilter, "projectDataTable.filter.open");
+
+    ActionController::add(_actionClearFilter, "projectDataTable.filter.clear");
+    ActionController::add(_actionSearch, "projectDataTable.search.focus");
+
 
     connect(_actionNew,       &QAction::triggered, this, &DockRoutes::onRouteNew);
     connect(_actionEdit,      &QAction::triggered, this, &DockRoutes::onRouteEdit);
     connect(_actionDuplicate, &QAction::triggered, this, &DockRoutes::onRouteDuplicate);
     connect(_actionDelete,    &QAction::triggered, this, &DockRoutes::onRouteDelete);
-    connect(_actionSearch,    &QAction::triggered, ui->leSearch, [this]() { ui->leSearch->setFocus(); });
+    connect(_actionFilter,    &QAction::triggered, this, [this](){ui->tbFilter->click();});
+
+    ui->leSearch->setFocusAction(_actionSearch);
 
     // CONTEXT MENU
 
@@ -57,15 +66,18 @@ DockRoutes::DockRoutes(QWidget *parent) :
     globalMenu()->addAction(_actionEdit);
     globalMenu()->addAction(_actionDuplicate);
     globalMenu()->addAction(_actionDelete);
+    globalMenu()->addSeparator();
+    globalMenu()->addAction(_actionFilter);
+    globalMenu()->addAction(_actionClearFilter);
 
 
     // VIEW/MODEL SETUP
 
+    _proxyModel = new RouteTableProxyModel(ui->tbFilter, this);
+    _proxyModel->setFilterBanner(ui->filterBanner);
+    _proxyModel->setClearFilterAction(_actionClearFilter);
+    _proxyModel->setQuickSearchEdit(ui->leSearch);
     _proxyModel->setSourceModel(_model);
-    _proxyModel->setSortRole(Qt::DisplayRole);
-    _proxyModel->setSortLocaleAware(true);
-    _proxyModel->setFilterRole(Qt::DisplayRole);
-    _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     ui->twRoutes->setModel(_proxyModel);
     ui->twRoutes->sortByColumn(1, Qt::AscendingOrder);
@@ -92,8 +104,6 @@ DockRoutes::DockRoutes(QWidget *parent) :
     ui->twRoutes->addSelectionDependentAction(_actionDuplicate, [](const int &n) { return n == 1; });
     ui->twRoutes->addSelectionDependentAction(_actionDelete,    [](const int &n) { return n > 0; });
 
-    connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
-
     _columnVisibilitySelector = new WdgTableColumnVisibilitySelector(ui->twRoutes, ui->tbColumns, this);
 
     setLine(nullptr);
@@ -111,6 +121,7 @@ void DockRoutes::setLine(Line *line) {
     _line = line;
     _model->setLine(line);
     _actionNew->setEnabled(_line);
+    _proxyModel->filterPopup()->setLine(_line);
 }
 
 Route *DockRoutes::currentRoute() const {

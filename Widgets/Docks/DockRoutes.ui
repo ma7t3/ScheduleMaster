@@ -62,12 +62,12 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLineEdit" name="leSearch">
-       <property name="placeholderText">
-        <string>Search...</string>
-       </property>
-       <property name="clearButtonEnabled">
-        <bool>true</bool>
+      <widget class="WdgProjectDataTableQuickSearchLineEdit" name="leSearch"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="tbFilter">
+       <property name="text">
+        <string>Filter</string>
        </property>
       </widget>
      </item>
@@ -82,6 +82,9 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="WdgFilterBanner" name="filterBanner" native="true"/>
    </item>
    <item>
     <widget class="WdgProjectDataTableView&lt;Route&gt;" name="twRoutes">
@@ -112,6 +115,17 @@
    <class>WdgProjectDataTableView&lt;Route&gt;</class>
    <extends>QTableView</extends>
    <header>Widgets\WdgProjectDataTableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>WdgFilterBanner</class>
+   <extends>QWidget</extends>
+   <header>Widgets\WdgFilterBanner.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WdgProjectDataTableQuickSearchLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Widgets\WdgProjectDataTableQuickSearchLineEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

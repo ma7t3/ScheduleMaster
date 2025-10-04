@@ -43,7 +43,7 @@ signals:
 
 private:
     Ui::DockRoutes *ui;
-    QAction *_actionNew, *_actionEdit, *_actionDuplicate, *_actionDelete, *_actionSearch;
+    QAction *_actionNew, *_actionEdit, *_actionDuplicate, *_actionDelete, *_actionSearch, *_actionFilter, *_actionClearFilter;
 
     WdgTableColumnVisibilitySelector *_columnVisibilitySelector;
     ProjectData *_projectData;
