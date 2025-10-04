@@ -6,6 +6,7 @@
 #include <QScreen>
 #include <QAbstractButton>
 #include <QLineEdit>
+#include <QDockWidget>
 
 #include "Widgets/FilterPopups/WdgFilterPopup.h"
 #include "Widgets/FilterPopups/WdgFilterPopupContent.h"
@@ -96,31 +97,26 @@ protected:
         if(!_filterPopupButton || !_filterPopup || !_filterPopupContent)
             return;
 
+        if(_filterPopup->isVisible())
+            return;
+
         if(!_contentWidgetSet) {
             _filterPopup->setContentWidget(_filterPopupContent);
             _filterPopup->resize(_filterPopupContent->size());
             _contentWidgetSet = true;
         }
 
-        QPoint pos = _filterPopupButton->mapToGlobal(QPoint(0, _filterPopupButton->height()));
+        QObject *dockParent = _filterPopupButton;
+        while(!dynamic_cast<QDockWidget *>(dockParent))
+            dockParent = dockParent->parent();
 
-        QScreen *screen = QGuiApplication::screenAt(pos);
-        if(!screen)
-            screen = QGuiApplication::primaryScreen();
-        const QRect screenGeometry = screen->availableGeometry();
+        const bool dockIsVisible = static_cast<QDockWidget *>(dockParent)->isVisible();
+        _filterPopup->setWindowFlags(dockIsVisible ? Qt::Popup : Qt::Tool);
 
-        const QRect popupRect(pos, _filterPopup->size());
-
-        if(popupRect.right() > screenGeometry.right()) {
-            pos.setX(screenGeometry.right() - _filterPopup->width());
-        }
-
-        if(popupRect.bottom() > screenGeometry.bottom()) {
-            pos.setY(pos.y() - _filterPopup->height() - _filterPopupButton->height());
-        }
-
-        _filterPopup->move(pos);
-        _filterPopup->show();
+        if(dockIsVisible)
+            _filterPopup->showPopup(_filterPopupButton->mapToGlobal(QPoint(0, _filterPopupButton->height())));
+        else
+            _filterPopup->showTool(QCursor::pos());
     }
 
     void resetFilter() {

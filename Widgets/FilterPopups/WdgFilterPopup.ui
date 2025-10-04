@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>224</width>
+    <width>281</width>
     <height>53</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Filter</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -35,6 +35,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="tbPopOut">
+       <property name="text">
+        <string>Pop Out</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pbClose">

@@ -6,6 +6,8 @@
 
 #include "Widgets/FilterPopups/WdgFilterPopupContent.h"
 
+class QHBoxLayout;
+
 namespace Ui {
 class WdgFilterPopup;
 }
@@ -18,6 +20,9 @@ public:
     ~WdgFilterPopup();
 
     void setContentWidget(WdgFilterPopupContent *widget);
+
+    void showTool(QPoint pos);
+    void showPopup(QPoint pos);
 
 private:
     Ui::WdgFilterPopup *ui;
