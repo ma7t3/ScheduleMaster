@@ -43,5 +43,5 @@ QVariant LineDirectionTableModel::data(const QModelIndex &index, int role) const
 }
 
 PDIList<LineDirection> LineDirectionTableModel::fetch() const {
-    return _line->directions();
+    return _line ? _line->directions() : PDIList<LineDirection>();
 }
