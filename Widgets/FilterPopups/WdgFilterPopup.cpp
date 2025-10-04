@@ -12,7 +12,10 @@ WdgFilterPopup::WdgFilterPopup(QWidget *parent) :
 
     connect(ui->pbClose, &QPushButton::clicked, this, &QWidget::hide);
 
-    ActionController::add(ui->pbClearFilter, "projectDataTable.filter.clear", ActionController::AllExceptIconComponent);
+    ActionController::add(ui->pbClearFilter,
+                          "projectDataTable.filter.clear",
+                          ActionController::AllExceptIconComponent
+                              & ActionController::AllExceptShortcutComponent);
 }
 
 WdgFilterPopup::~WdgFilterPopup() {

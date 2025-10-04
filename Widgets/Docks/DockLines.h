@@ -36,7 +36,7 @@ signals:
 
 private:
     Ui::DockLines *ui;
-    QAction *_actionNew, *_actionEdit, *_actionDelete, *_actionSearch;
+    QAction *_actionNew, *_actionEdit, *_actionDelete, *_actionSearch, *_actionFilter, *_actionClearFilter;
     LineTableModel *_model;
     LineTableProxyModel *_proxyModel;
 

@@ -5,7 +5,8 @@
 #include <QCollator>
 #include <QWidget>
 
-LineTableProxyModel::LineTableProxyModel(QObject *parent) : SortFilterProxyModel<WdgBusstopsFilterPopup>(nullptr, parent) {}
+LineTableProxyModel::LineTableProxyModel(QAbstractButton *popupButton, QObject *parent) :
+    SortFilterProxyModel<WdgLineFilterPopup>(popupButton, parent) {}
 
 bool LineTableProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
     switch(sortColumn()) {

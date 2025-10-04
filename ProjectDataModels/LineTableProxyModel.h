@@ -3,12 +3,12 @@
 
 #include <QObject>
 #include "ProjectDataModels/SortFilterProxyModel.h"
-#include "Widgets/FilterPopups/WdgBusstopsFilterPopup.h"
+#include "Widgets/FilterPopups/WdgLineFilterPopup.h"
 
-class LineTableProxyModel : public SortFilterProxyModel<WdgBusstopsFilterPopup> {
+class LineTableProxyModel : public SortFilterProxyModel<WdgLineFilterPopup> {
     Q_OBJECT
 public:
-    explicit LineTableProxyModel(QObject *parent = nullptr);
+    explicit LineTableProxyModel(QAbstractButton *popupButton, QObject *parent = nullptr);
 
 protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;

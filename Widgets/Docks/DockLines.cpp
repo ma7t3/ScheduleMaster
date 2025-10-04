@@ -17,7 +17,6 @@
 
 DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLines),
     _model(new LineTableModel(this)),
-    _proxyModel(new LineTableProxyModel(this)),
     _projectData(ApplicationInterface::projectData()) {
     ui->setupUi(this);
 
@@ -35,16 +34,31 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     _actionSearch = addAction("");
     _actionSearch->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
+    _actionFilter = addAction("");
+    _actionFilter->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
+    _actionClearFilter= addAction("");
+    _actionClearFilter->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
     ActionController::addSyncedActionAndButton(_actionNew,    ui->pbNew,    "projectData.item.new",    ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionEdit,   ui->pbEdit,   "projectData.item.edit",   ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
     ActionController::addSyncedActionAndButton(_actionDelete, ui->pbDelete, "projectData.item.delete", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
+    ActionController::add(ui->tbFilter, "projectDataTable.filter.open", ActionController::AllExceptShortcutComponent);
+    ActionController::add(_actionFilter, "projectDataTable.filter.open");
+
+    ActionController::add(_actionClearFilter, "projectDataTable.filter.clear");
     ActionController::add(_actionSearch, "projectDataTable.search.focus");
 
     connect(_actionNew,    &QAction::triggered, this, &DockLines::onLineNew);
     connect(_actionEdit,   &QAction::triggered, this, &DockLines::onLineEdit);
     connect(_actionDelete, &QAction::triggered, this, &DockLines::onLineDelete);
     connect(_actionSearch, &QAction::triggered, ui->leSearch, [this](){ui->leSearch->setFocus();});
+
+    QAction *clearSearchAction = ui->leSearch->addAction("");
+    clearSearchAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ActionController::add(clearSearchAction, "projectDataTable.search.clear", ActionController::ShortcutComponent);
+    connect(clearSearchAction, &QAction::triggered, ui->leSearch, &QLineEdit::clear);
 
 
     // CONTEXT MENU
@@ -57,15 +71,18 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
     globalMenu()->addAction(_actionNew);
     globalMenu()->addAction(_actionEdit);
     globalMenu()->addAction(_actionDelete);
+    globalMenu()->addSeparator();
+    globalMenu()->addAction(_actionFilter);
+    globalMenu()->addAction(_actionClearFilter);
 
 
     // VIEW/MODEL SETUP
 
+    _proxyModel = new LineTableProxyModel(ui->tbFilter, this);
+    _proxyModel->setFilterBanner(ui->filterBanner);
+    _proxyModel->setClearFilterAction(_actionClearFilter);
+    _proxyModel->setQuickSearchEdit(ui->leSearch);
     _proxyModel->setSourceModel(_model);
-    _proxyModel->setSortRole(Qt::DisplayRole);
-    _proxyModel->setSortLocaleAware(true);
-    _proxyModel->setFilterRole(Qt::DisplayRole);
-    _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     ui->twLines->setModel(_proxyModel);
     ui->twLines->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
@@ -83,8 +100,6 @@ DockLines::DockLines(QWidget *parent) : DockAbstract(parent), ui(new Ui::DockLin
 
     ui->twLines->addSelectionDependentAction(_actionEdit,   [](const int &n) { return n == 1; });
     ui->twLines->addSelectionDependentAction(_actionDelete, [](const int &n) { return n > 0; });
-
-    connect(ui->leSearch, &QLineEdit::textChanged, _proxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
 
     // COLUMN VISIBILITY SELECTOR
