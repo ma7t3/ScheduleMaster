@@ -130,9 +130,12 @@ void DlgRouteEditor::onBusstopAdd() {
     if(!source)
         return;
 
+    const QModelIndex insertIndex = ui->twRouteBusstops->currentIndex();
+    const int insertRow = insertIndex.isValid() ? insertIndex.row() + 1 : _routeBusstopModel->rowCount();
+
     RouteBusstopItem *b = _route->createItem(source);
-    _route->appendBusstop(b);
-    ui->twRouteBusstops->setCurrentIndex(_routeBusstopModel->index(_routeBusstopModel->rowCount() - 1, 0));
+    _route->insertBusstop(insertRow, b);
+    ui->twRouteBusstops->setCurrentIndex(_routeBusstopModel->index(insertRow, 0));
 }
 
 void DlgRouteEditor::onBusstopRemove() {
