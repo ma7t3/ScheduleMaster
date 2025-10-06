@@ -80,7 +80,7 @@ QVariant RouteTableModel::data(const QModelIndex &index, int role) const {
         case 3: return route->busstopCount() > 0 ? route->firstBusstop()->busstop()->name() : "";
         case 4: return route->busstopCount() > 0 ? route->lastBusstop()->busstop()->name() : "";
         case 5: return route->busstopCount();
-        case 6: return "";
+        case 6: return route->timeProfileCount();
         case 7: return "";
         }
     }
