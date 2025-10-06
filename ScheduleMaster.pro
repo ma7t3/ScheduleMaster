@@ -41,6 +41,8 @@ SOURCES += \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
+    ProjectData/TimeProfile.cpp \
+    ProjectData/TimeProfileItem.cpp \
     ProjectDataModels/BusstopPlatformTableModel.cpp \
     ProjectDataModels/BusstopTableModel.cpp \
     ProjectDataModels/BusstopTableProxyModel.cpp \
@@ -147,6 +149,8 @@ HEADERS += \
     ProjectData/LineDirection.h \
     ProjectData/Route.h \
     ProjectData/RouteBusstopItem.h \
+    ProjectData/TimeProfile.h \
+    ProjectData/TimeProfileItem.h \
     ProjectDataModels/BusstopPlatformTableModel.h \
     ProjectDataModels/BusstopTableModel.h \
     ProjectDataModels/BusstopTableProxyModel.h \

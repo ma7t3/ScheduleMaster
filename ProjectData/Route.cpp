@@ -56,6 +56,14 @@ RouteBusstopItem *Route::createItem(const QJsonObject &jsonObject) {
     return new RouteBusstopItem(this, jsonObject);
 }
 
+TimeProfile *Route::createTimeProfile(QObject *parent) {
+    return new TimeProfile(parent ? parent : this);
+}
+
+TimeProfile *Route::createTimeProfile(const QJsonObject &jsonObject) {
+    return new TimeProfile(this, jsonObject);
+}
+
 int Route::busstopCount() const {
     return _data.busstops.count();
 }
@@ -134,12 +142,6 @@ int Route::indexOfBusstop(RouteBusstopItem *busstopItem) const {
 }
 
 void Route::appendBusstop(RouteBusstopItem *busstop) {
-    _data.busstops.append(busstop);
-    connect(busstop, &Busstop::changed, this, [this, busstop]() {
-        emit busstopChanged(indexOfBusstop(busstop), busstop);
-    });
-    emit busstopAdded(_data.busstops.count() - 1, busstop);
-    emit changed();
     insertBusstop(busstopCount(), busstop);
 }
 
@@ -192,6 +194,67 @@ void Route::reverseBusstopOrder() {
     }
 }
 
+int Route::timeProfileCount() const {
+    return _data.timeProfiles.count();
+}
+
+TimeProfile *Route::timeProfile(const QUuid &id) const {
+    return _data.timeProfiles.find(id);
+}
+
+PDIList<TimeProfile> Route::timeProfiles() const {
+    return _data.timeProfiles;
+}
+
+int Route::indexOfTimeProfile(TimeProfile *timeProfile) {
+    return _data.timeProfiles.indexOf(timeProfile);
+}
+
+void Route::appendTimeProfile(TimeProfile *timeProfile) {
+    insertTimeProfile(timeProfileCount(), timeProfile);
+}
+
+void Route::insertTimeProfile(const int &index, TimeProfile *timeProfile) {
+    _data.timeProfiles.insert(index, timeProfile);
+    connect(timeProfile, &TimeProfile::itemChanged, this, [this, timeProfile]{
+        emit timeProfileChanged(indexOfTimeProfile(timeProfile), timeProfile);
+    });
+    emit timeProfileAdded(index, timeProfile);
+    emit changed();
+}
+
+void Route::moveTimeProfile(const int &from, const int &to) {
+    if(from < 0 || from >= timeProfileCount() || to < 0 || to >= timeProfileCount())
+        return;
+
+    _data.busstops.insert(to, _data.busstops.takeAt(from));
+    emit timeProfileMoved(from, to);
+}
+
+void Route::moveTimeProfile(TimeProfile *timeProfile, const int &to) {
+    moveTimeProfile(indexOfTimeProfile(timeProfile), to);
+}
+
+void Route::removeTimeProfile(TimeProfile *timeProfile) {
+    const int index = indexOfTimeProfile(timeProfile);
+    _data.timeProfiles.remove(timeProfile);
+    timeProfile->disconnect(this);
+    emit timeProfileRemoved(index, timeProfile);
+    emit changed();
+}
+
+void Route::removeTimeProfile(const QUuid &id) {
+    removeTimeProfile(timeProfile(id));
+}
+
+void Route::removeTimeProfile(const int &index) {
+    if(index < 0 || index >= timeProfileCount())
+        return;
+
+    TimeProfile *p = _data.timeProfiles.at(index);
+    removeTimeProfile(p);
+}
+
 QJsonObject Route::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
     jsonObject.insert("name", name());
@@ -208,6 +271,7 @@ void Route::fromJson(const QJsonObject &jsonObject) {
     setCode(jsonObject.value("code").toInt(0));
     setDirection(qobject_cast<Line *>(parent())->direction(QUuid::fromString(jsonObject.value("direction").toString())));
 
+    const QJsonArray busstopsArray = jsonObject.value("busstops").toArray();
     for(const QJsonValue &val : busstopsArray) {
         if(val.isString()) { // Compatibility for older file versions
             const QUuid id = QUuid::fromString(val.toString());
@@ -216,6 +280,11 @@ void Route::fromJson(const QJsonObject &jsonObject) {
         } else {
             appendBusstop(createItem(val.toObject()));
         }
+    }
+
+    const QJsonArray profilesArray = jsonObject.value("timeProfiles").toArray();
+    for(const QJsonValue &val : profilesArray) {
+        appendTimeProfile(createTimeProfile(val.toObject()));
     }
 }
 

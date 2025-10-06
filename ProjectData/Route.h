@@ -2,6 +2,7 @@
 #define ROUTE_H
 
 #include "RouteBusstopItem.h"
+#include "TimeProfile.h"
 #include "ProjectDataItemList.h"
 
 class LineDirection;
@@ -35,6 +36,9 @@ struct RouteData : ProjectDataItemData<RouteData> {
 
     /// The Route's busstops
     PDIList<RouteBusstopItem> busstops;
+
+    /// The Route's time-profiles
+    PDIList<TimeProfile> timeProfiles;
 };
 
 /**
@@ -143,6 +147,9 @@ public:
      */
     RouteBusstopItem *createItem(const QJsonObject &jsonObject);
 
+    TimeProfile *createTimeProfile(QObject *parent = nullptr);
+    TimeProfile *createTimeProfile(const QJsonObject &jsonObject);
+
     int busstopCount() const;
     RouteBusstopItem *busstop(const QUuid &id) const;
     PDIList<RouteBusstopItem> busstops() const;
@@ -168,6 +175,19 @@ public:
 
     void reverseBusstopOrder();
 
+    int timeProfileCount() const;
+    TimeProfile *timeProfile(const QUuid &id) const;
+    PDIList<TimeProfile> timeProfiles() const;
+    int indexOfTimeProfile(TimeProfile *timeProfile);
+
+    void appendTimeProfile(TimeProfile *timeProfile);
+    void insertTimeProfile(const int &index, TimeProfile *timeProfile);
+    void moveTimeProfile(const int &from, const int &to);
+    void moveTimeProfile(TimeProfile *timeProfile, const int &to);
+    void removeTimeProfile(TimeProfile *timeProfile);
+    void removeTimeProfile(const QUuid &id);
+    void removeTimeProfile(const int &index);
+
     QJsonObject toJson() const override;
 
 signals:
@@ -175,6 +195,11 @@ signals:
     void busstopRemoved(int row, RouteBusstopItem *);
     void busstopChanged(int row, RouteBusstopItem *);
     void busstopMoved(int from, int to);
+
+    void timeProfileAdded(int row, TimeProfile *);
+    void timeProfileRemoved(int row, TimeProfile *);
+    void timeProfileChanged(int row, TimeProfile *);
+    void timeProfileMoved(int from, int to);
 
 protected:
     void fromJson(const QJsonObject &jsonObject) override;

@@ -1,0 +1,71 @@
+#include "TimeProfile.h"
+
+#include "ProjectData/Route.h"
+
+TimeProfile::TimeProfile(QObject *parent, const QUuid &id, const bool &isClone) :
+    ProjectDataItem(parent, id, isClone) {}
+
+TimeProfile::TimeProfile(QObject *parent, const QJsonObject &jsonObject) : ProjectDataItem(parent) {
+    fromJson(jsonObject);
+}
+
+QString TimeProfile::name() const {
+    return _data.name;
+}
+
+void TimeProfile::setName(const QString &name) {
+    _data.name = name;
+    emit changed();
+}
+
+float TimeProfile::duration() {
+    float duration = 0;
+    Route *r = findParent<Route>();
+
+    for(RouteBusstopItem *b : r->busstops())
+        duration = std::max(duration, item(b)->arrival());
+
+    return duration;
+}
+
+PDISet<TimeProfileItem> TimeProfile::items() {
+    Route *r = findParent<Route>();
+    PDISet<TimeProfileItem> items;
+    const PDIList<RouteBusstopItem> busstops = r->busstops();
+
+    for(RouteBusstopItem *b : busstops)
+        items.add(item(b));
+
+    return items;
+}
+
+TimeProfileItem *TimeProfile::item(RouteBusstopItem *busstop) {
+    for(TimeProfileItem *item : std::as_const(_data.items)) {
+        if(item->routeBusstopItemID() == busstop->id())
+            return item;
+    }
+
+    TimeProfileItem *item = new TimeProfileItem(this);
+    _data.items.add(item);
+    connect(item, &TimeProfileItem::changed, this, [this, item] { emit itemChanged(item); });
+    return item;
+}
+
+QJsonObject TimeProfile::toJson() const {
+    QJsonObject jsonObject = ProjectDataItem::toJson();
+    // TODO
+    return jsonObject;
+}
+
+TimeProfileItem *TimeProfile::createItem(const QJsonObject &jsonObject) {
+    return new TimeProfileItem(this, jsonObject);
+}
+
+void TimeProfile::fromJson(const QJsonObject &jsonObject) {
+    ProjectDataItem::fromJson(jsonObject);
+    setName(jsonObject.value("name").toString(tr("Time Profile")));
+
+    const QJsonArray items = jsonObject.value("items").toArray();
+    for(const QJsonValue &val : items)
+        _data.items.add(createItem(val.toObject()));
+}
