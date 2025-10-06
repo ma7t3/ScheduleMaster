@@ -54,6 +54,7 @@ SOURCES += \
     ProjectDataModels/RouteBusstopTableModel.cpp \
     ProjectDataModels/RouteTableModel.cpp \
     ProjectDataModels/RouteTableProxyModel.cpp \
+    ProjectDataModels/TimeProfileTableModel.cpp \
     Widgets/Docks/DockBusstops.cpp \
     Widgets/Docks/DockLines.cpp \
     Widgets/Docks/DockNews.cpp \
@@ -164,6 +165,7 @@ HEADERS += \
     ProjectDataModels/RouteTableModel.h \
     ProjectDataModels/RouteTableProxyModel.h \
     ProjectDataModels/SortFilterProxyModel.h \
+    ProjectDataModels/TimeProfileTableModel.h \
     ProjectDataModels/UnorderedProjectDataRowModel.h \
     ProjectDataModels/UnorderedProjectDataRowModelSignals.h \
     Widgets/DlgPreferencesPages/WdgPreferencesPage.h \
