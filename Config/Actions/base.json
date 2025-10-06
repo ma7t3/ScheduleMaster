@@ -1027,7 +1027,7 @@
             "en_US" : "Project Data Table",
             "de_DE" : "Datentabelle"
         },
-        "defaultKeyboardShortcut": ""
+        "defaultKeyboardShortcut": "Shift+Esc"
     },
     {
         "id": "projectDataTable.filterBanner.close",
