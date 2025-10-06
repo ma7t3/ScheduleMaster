@@ -140,6 +140,7 @@ void Route::appendBusstop(RouteBusstopItem *busstop) {
     });
     emit busstopAdded(_data.busstops.count() - 1, busstop);
     emit changed();
+    insertBusstop(busstopCount(), busstop);
 }
 
 void Route::insertBusstop(const int &index, RouteBusstopItem *busstop) {
@@ -207,7 +208,6 @@ void Route::fromJson(const QJsonObject &jsonObject) {
     setCode(jsonObject.value("code").toInt(0));
     setDirection(qobject_cast<Line *>(parent())->direction(QUuid::fromString(jsonObject.value("direction").toString())));
 
-    QJsonArray busstopsArray = jsonObject.value("busstops").toArray();
     for(const QJsonValue &val : busstopsArray) {
         if(val.isString()) { // Compatibility for older file versions
             const QUuid id = QUuid::fromString(val.toString());
