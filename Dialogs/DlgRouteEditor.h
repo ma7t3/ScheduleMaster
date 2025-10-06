@@ -12,6 +12,7 @@ class RouteBusstopTableModel;
 class RouteBusstopTableDelegate;
 class BusstopTableModel;
 class QSortFilterProxyModel;
+class TimeProfileTableModel;
 
 namespace Ui {
 class DlgRouteEditor;
@@ -33,7 +34,13 @@ protected slots:
     void onBusstopDown();
     void onBusstopsReverse();
 
+    void onProfileNew();
+    void onProfileDelete();
+    void onProfileUp();
+    void onProfileDown();
+
     void accept() override;
+    void reject() override;
 
 private:
     Ui::DlgRouteEditor *ui;
@@ -49,6 +56,7 @@ private:
     QSortFilterProxyModel *_allBusstopsProxyModel;
     RouteBusstopTableModel *_routeBusstopModel;
     RouteBusstopTableDelegate *_routeBusstopDelegate;
+    TimeProfileTableModel *_timeProfileModel;
 };
 
 #endif // DLGROUTEEDITOR_H

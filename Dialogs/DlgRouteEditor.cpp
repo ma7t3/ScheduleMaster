@@ -2,12 +2,15 @@
 #include "ui_DlgRouteEditor.h"
 
 #include <QSortFilterProxyModel>
+#include <QMessageBox>
+#include <QInputDialog>
 
 #include "Global/ActionController.h"
 #include "ProjectData/Line.h"
 #include "ProjectDataModels/LineDirectionTableModel.h"
 #include "ProjectDataModels/BusstopTableModel.h"
 #include "ProjectDataModels/RouteBusstopTableModel.h"
+#include "ProjectDataModels/TimeProfileTableModel.h"
 
 #include "ApplicationInterface.h"
 
@@ -17,7 +20,8 @@ DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
     _allBusstopsModel(new BusstopTableModel(this)),
     _allBusstopsProxyModel(new QSortFilterProxyModel(this)),
     _routeBusstopModel(new RouteBusstopTableModel(this)),
-    _routeBusstopDelegate(new RouteBusstopTableDelegate(this)) {
+    _routeBusstopDelegate(new RouteBusstopTableDelegate(this)),
+    _timeProfileModel(new TimeProfileTableModel(this)) {
     ui->setupUi(this);
 
     _projectData = ApplicationInterface::projectData();
@@ -52,39 +56,77 @@ DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
     _actionProfileDown = ui->twProfiles->addAction("");
     _actionProfileDown->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    ActionController::add(ui->pbBusstopAdd,      "projectData.item.add",      ActionController::IconComponent|ActionController::TooltipComponent);
-    ActionController::add(ui->pbBusstopRemove,   "projectData.item.remove",   ActionController::IconComponent|ActionController::TooltipComponent);
-    ActionController::add(ui->pbBusstopUp,       "projectData.item.moveUp",   ActionController::IconComponent|ActionController::TooltipComponent);
-    ActionController::add(ui->pbBusstopDown,     "projectData.item.moveDown", ActionController::IconComponent|ActionController::TooltipComponent);
-    ActionController::add(ui->pbBusstopsReverse, "projectDataList.reverse",   ActionController::IconComponent|ActionController::TooltipComponent);
+    ActionController::addSyncedActionAndButton(_actionBusstopAdd,
+                                               ui->pbBusstopAdd,
+                                               "projectData.item.add",
+                                               ActionController::AllComponents,
+                                               ActionController::IconComponent
+                                                   | ActionController::TooltipComponent);
 
-    ActionController::add(_actionBusstopAdd,      "projectData.item.add");
-    ActionController::add(_actionBusstopRemove,   "projectData.item.remove");
-    ActionController::add(_actionBusstopUp,       "projectData.item.moveUp");
-    ActionController::add(_actionBusstopDown,     "projectData.item.moveDown");
-    ActionController::add(_actionBusstopsReverse, "projectDataList.reverse");
+    ActionController::addSyncedActionAndButton(_actionBusstopRemove,
+                                               ui->pbBusstopRemove,
+                                               "projectData.item.remove",
+                                               ActionController::AllComponents,
+                                               ActionController::IconComponent
+                                                   | ActionController::TooltipComponent);
 
-    ActionController::add(ui->pbProfileNew,       "projectData.item.new",      ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->pbProfileDelete,    "projectData.item.delete",   ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->pbProfileUp,        "projectData.item.moveUp",   ActionController::IconComponent|ActionController::TooltipComponent);
-    ActionController::add(ui->pbProfileDown,      "projectData.item.moveDown", ActionController::IconComponent|ActionController::TooltipComponent);
+    ActionController::addSyncedActionAndButton(_actionBusstopUp,
+                                               ui->pbBusstopUp,
+                                               "projectData.item.moveUp",
+                                               ActionController::AllComponents,
+                                               ActionController::IconComponent
+                                                   | ActionController::TooltipComponent);
 
-    ActionController::add(_actionProfileNew,      "projectData.item.new");
-    ActionController::add(_actionProfileDelete,   "projectData.item.delete");
-    ActionController::add(_actionProfileUp,       "projectData.item.moveUp");
-    ActionController::add(_actionProfileDown,     "projectData.item.moveDown");
+    ActionController::addSyncedActionAndButton(_actionBusstopDown,
+                                               ui->pbBusstopDown,
+                                               "projectData.item.moveDown",
+                                               ActionController::AllComponents,
+                                               ActionController::IconComponent
+                                                   | ActionController::TooltipComponent);
 
-    connect(ui->pbBusstopAdd,      &QPushButton::clicked, this, &DlgRouteEditor::onBusstopAdd);
-    connect(ui->pbBusstopRemove,   &QPushButton::clicked, this, &DlgRouteEditor::onBusstopRemove);
-    connect(ui->pbBusstopUp,       &QPushButton::clicked, this, &DlgRouteEditor::onBusstopUp);
-    connect(ui->pbBusstopDown,     &QPushButton::clicked, this, &DlgRouteEditor::onBusstopDown);
-    connect(ui->pbBusstopsReverse, &QPushButton::clicked, this, &DlgRouteEditor::onBusstopsReverse);
+    ActionController::addSyncedActionAndButton(_actionBusstopsReverse,
+                                               ui->pbBusstopsReverse,
+                                               "projectDataList.reverse",
+                                               ActionController::AllComponents,
+                                               ActionController::IconComponent
+                                                   | ActionController::TooltipComponent);
+
+    ActionController::addSyncedActionAndButton(_actionProfileNew,
+                                               ui->pbProfileNew,
+                                               "projectData.item.new",
+                                               ActionController::AllComponents,
+                                               ActionController::AllExceptShortcutComponent);
+
+    ActionController::addSyncedActionAndButton(_actionProfileDelete,
+                                               ui->pbProfileDelete,
+                                               "projectData.item.delete",
+                                               ActionController::AllComponents,
+                                               ActionController::AllExceptShortcutComponent);
+
+    ActionController::addSyncedActionAndButton(_actionProfileUp,
+                                               ui->pbProfileUp,
+                                               "projectData.item.moveUp",
+                                               ActionController::AllComponents,
+                                               ActionController::IconComponent
+                                                   | ActionController::TooltipComponent);
+
+    ActionController::addSyncedActionAndButton(_actionProfileDown,
+                                               ui->pbProfileDown,
+                                               "projectData.item.moveDown",
+                                               ActionController::AllComponents,
+                                               ActionController::IconComponent
+                                                   | ActionController::TooltipComponent);
 
     connect(_actionBusstopAdd,      &QAction::triggered, this, &DlgRouteEditor::onBusstopAdd);
     connect(_actionBusstopRemove,   &QAction::triggered, this, &DlgRouteEditor::onBusstopRemove);
     connect(_actionBusstopUp,       &QAction::triggered, this, &DlgRouteEditor::onBusstopUp);
     connect(_actionBusstopDown,     &QAction::triggered, this, &DlgRouteEditor::onBusstopDown);
     connect(_actionBusstopsReverse, &QAction::triggered, this, &DlgRouteEditor::onBusstopsReverse);
+
+    connect(_actionProfileNew,      &QAction::triggered, this, &DlgRouteEditor::onProfileNew);
+    connect(_actionProfileDelete,   &QAction::triggered, this, &DlgRouteEditor::onProfileDelete);
+    connect(_actionProfileUp,       &QAction::triggered, this, &DlgRouteEditor::onProfileUp);
+    connect(_actionProfileDown,     &QAction::triggered, this, &DlgRouteEditor::onProfileDown);
 
     connect(ui->lwAllBusstops, &QAbstractItemView::doubleClicked, this, &DlgRouteEditor::onBusstopAdd);
 
@@ -110,6 +152,9 @@ DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
     ui->twRouteBusstops->setItemDelegateForColumn(2, _routeBusstopDelegate);
 
     connect(ui->leBusstopsSearch, &QLineEdit::textChanged, _allBusstopsProxyModel, &QSortFilterProxyModel::setFilterWildcard);
+
+    _timeProfileModel->setRoute(_route);
+    ui->twProfiles->setModel(_timeProfileModel);
 
     ui->pteComment->setPlainText(_route->comment());
     ui->leName->setText(route->name());
@@ -167,10 +212,62 @@ void DlgRouteEditor::onBusstopsReverse() {
     _route->reverseBusstopOrder();
 }
 
+void DlgRouteEditor::onProfileNew() {
+    bool ok;
+    const QString name = QInputDialog::getText(this, tr("Create Time Profile"), tr("Name:"), QLineEdit::Normal, "", &ok);
+    if(!ok)
+        return;
+
+    TimeProfile *p = _route->createTimeProfile();
+    p->setName(name);
+    _route->appendTimeProfile(p);
+    ui->twProfiles->setCurrentIndex(_timeProfileModel->index(_timeProfileModel->rowCount() - 1, 0));
+}
+
+void DlgRouteEditor::onProfileDelete() {
+    const int row = ui->twProfiles->currentIndex().row();
+    TimeProfile *p = _timeProfileModel->itemAt(row);
+    if(!p)
+        return;
+
+    const QMessageBox::StandardButton msg = QMessageBox::warning(
+        this,
+        tr("Delete Time Profile"),
+        tr("<p><b>Do you really want to delete this time profile?</b><p><ul><li>%1</li></ul>")
+            .arg(p->name()),
+        QMessageBox::Yes|QMessageBox::No);
+
+    if(msg != QMessageBox::Yes)
+        return;
+
+    _route->removeTimeProfile(p);
+}
+
+void DlgRouteEditor::onProfileUp() {
+    const int row = ui->twProfiles->currentIndex().row();
+    if(row <= 0)
+        return;
+
+    _route->moveTimeProfile(row, row - 1);
+}
+
+void DlgRouteEditor::onProfileDown() {
+    const int row = ui->twProfiles->currentIndex().row();
+    if(row >= _timeProfileModel->rowCount() - 1)
+        return;
+
+    _route->moveTimeProfile(row, row + 1);
+}
+
 void DlgRouteEditor::accept() {
     _route->setComment(ui->pteComment->toPlainText());
     _route->setName(ui->leName->text());
     _route->setCode(ui->sbCode->value());
     _route->setDirection(_directionModel->itemAt(ui->cbDirection->currentIndex()));
     QDialog::accept();
+}
+
+void DlgRouteEditor::reject() {
+    // TODO
+    QDialog::reject();
 }

@@ -88,7 +88,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="stopSequencePage">
         <attribute name="title">
@@ -205,9 +205,6 @@
         </layout>
        </widget>
        <widget class="QWidget" name="timeProfilesPage">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
         <attribute name="title">
          <string>Time Profiles</string>
         </attribute>
