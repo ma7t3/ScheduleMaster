@@ -274,7 +274,7 @@ QStringList LocalConfigModel::settingsIDList(const QModelIndexList &indexList) {
 }
 
 void LocalConfigModel::setSettingPreview(const QModelIndex &index, const QVariant &value) {
-    if(!index.isValid()) {
+    if(!index.isValid() || settingIsGroup(index)) {
         _previewIndex = QModelIndex();
         _previewValue = QVariant();
         return;
