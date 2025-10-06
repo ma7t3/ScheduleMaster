@@ -39,6 +39,8 @@ protected slots:
     void onProfileUp();
     void onProfileDown();
 
+    void onSomethingChanged();
+
     void accept() override;
     void reject() override;
 
@@ -57,6 +59,8 @@ private:
     RouteBusstopTableModel *_routeBusstopModel;
     RouteBusstopTableDelegate *_routeBusstopDelegate;
     TimeProfileTableModel *_timeProfileModel;
+
+    bool _changed;
 };
 
 #endif // DLGROUTEEDITOR_H

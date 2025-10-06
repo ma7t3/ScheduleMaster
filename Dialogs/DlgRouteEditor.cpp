@@ -21,7 +21,8 @@ DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
     _allBusstopsProxyModel(new QSortFilterProxyModel(this)),
     _routeBusstopModel(new RouteBusstopTableModel(this)),
     _routeBusstopDelegate(new RouteBusstopTableDelegate(this)),
-    _timeProfileModel(new TimeProfileTableModel(this)) {
+    _timeProfileModel(new TimeProfileTableModel(this)),
+    _changed(false) {
     ui->setupUi(this);
 
     _projectData = ApplicationInterface::projectData();
@@ -181,6 +182,7 @@ void DlgRouteEditor::onBusstopAdd() {
     RouteBusstopItem *b = _route->createItem(source);
     _route->insertBusstop(insertRow, b);
     ui->twRouteBusstops->setCurrentIndex(_routeBusstopModel->index(insertRow, 0));
+    onSomethingChanged();
 }
 
 void DlgRouteEditor::onBusstopRemove() {
@@ -190,6 +192,7 @@ void DlgRouteEditor::onBusstopRemove() {
         return;
 
     _route->removeBusstop(b);
+    onSomethingChanged();
 }
 
 void DlgRouteEditor::onBusstopUp() {
@@ -198,6 +201,7 @@ void DlgRouteEditor::onBusstopUp() {
         return;
 
     _route->moveBusstop(row, row - 1);
+    onSomethingChanged();
 }
 
 void DlgRouteEditor::onBusstopDown() {
@@ -206,10 +210,12 @@ void DlgRouteEditor::onBusstopDown() {
         return;
 
     _route->moveBusstop(row, row + 1);
+    onSomethingChanged();
 }
 
 void DlgRouteEditor::onBusstopsReverse() {
     _route->reverseBusstopOrder();
+    onSomethingChanged();
 }
 
 void DlgRouteEditor::onProfileNew() {
@@ -222,6 +228,7 @@ void DlgRouteEditor::onProfileNew() {
     p->setName(name);
     _route->appendTimeProfile(p);
     ui->twProfiles->setCurrentIndex(_timeProfileModel->index(_timeProfileModel->rowCount() - 1, 0));
+    onSomethingChanged();
 }
 
 void DlgRouteEditor::onProfileDelete() {
@@ -241,6 +248,7 @@ void DlgRouteEditor::onProfileDelete() {
         return;
 
     _route->removeTimeProfile(p);
+    onSomethingChanged();
 }
 
 void DlgRouteEditor::onProfileUp() {
@@ -249,6 +257,7 @@ void DlgRouteEditor::onProfileUp() {
         return;
 
     _route->moveTimeProfile(row, row - 1);
+    onSomethingChanged();
 }
 
 void DlgRouteEditor::onProfileDown() {
@@ -257,6 +266,11 @@ void DlgRouteEditor::onProfileDown() {
         return;
 
     _route->moveTimeProfile(row, row + 1);
+    onSomethingChanged();
+}
+
+void DlgRouteEditor::onSomethingChanged() {
+    _changed = true;
 }
 
 void DlgRouteEditor::accept() {
@@ -268,6 +282,13 @@ void DlgRouteEditor::accept() {
 }
 
 void DlgRouteEditor::reject() {
-    // TODO
-    QDialog::reject();
+    if(_changed) {
+        QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved changes"), tr("<p><b>There are some changes that aren't save now!</b></p><p>Do you want to save or discard them?</p>"), QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel, QMessageBox::Save);
+
+        switch(msg) {
+        case QMessageBox::Save:    QDialog::accept(); break;
+        case QMessageBox::Discard: QDialog::reject(); break;
+        default: return;
+        }
+    }
 }
