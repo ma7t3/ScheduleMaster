@@ -179,12 +179,9 @@ void DlgPreferences::reject() {
         QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved changes"), tr("<p><b>There are some changes in your preferences that aren't save now!</b></p><p>Do you want to save or discard them?</p>"), QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel, QMessageBox::Save);
 
         switch(msg) {
-        case QMessageBox::Save: savePreferences(); QDialog::accept();
-        case QMessageBox::Discard: break;
+        case QMessageBox::Save:    savePreferences();           QDialog::accept(); break;
+        case QMessageBox::Discard: discardPreviewPreferences(); QDialog::reject(); break;
         default: return;
         }
     }
-
-    discardPreviewPreferences();
-    QDialog::reject();
 }

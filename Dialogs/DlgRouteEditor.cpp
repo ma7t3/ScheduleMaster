@@ -161,6 +161,11 @@ DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
     ui->leName->setText(route->name());
     ui->sbCode->setValue(route->code());
     ui->cbDirection->setCurrentIndex(_directionModel->indexOfItem(_route->direction()));
+
+    connect(ui->leName,      &QLineEdit::textChanged,         this, &DlgRouteEditor::onSomethingChanged);
+    connect(ui->sbCode,      &QSpinBox::valueChanged,         this, &DlgRouteEditor::onSomethingChanged);
+    connect(ui->cbDirection, &QComboBox::currentIndexChanged, this, &DlgRouteEditor::onSomethingChanged);
+    connect(ui->pteComment,  &QPlainTextEdit::textChanged,    this, &DlgRouteEditor::onSomethingChanged);
 }
 
 DlgRouteEditor::~DlgRouteEditor() {
@@ -286,9 +291,11 @@ void DlgRouteEditor::reject() {
         QMessageBox::StandardButton msg = QMessageBox::warning(this, tr("Unsaved changes"), tr("<p><b>There are some changes that aren't save now!</b></p><p>Do you want to save or discard them?</p>"), QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel, QMessageBox::Save);
 
         switch(msg) {
-        case QMessageBox::Save:    QDialog::accept(); break;
-        case QMessageBox::Discard: QDialog::reject(); break;
+        case QMessageBox::Save: accept(); return;
+        case QMessageBox::Discard: break;
         default: return;
         }
     }
+
+    QDialog::reject();
 }
