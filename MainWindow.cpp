@@ -296,6 +296,10 @@ void MainWindow::saveProjectAs() {
 
 void MainWindow::saveProjectToFile(const QString &filePath) {
     qInfo() << "Save project to file" << filePath;
+    createFileHandlerProgressDialog(tr("Save project..."));
+    _fileHandler->saveFile(filePath, !filePath.endsWith(".json"));
+    LastUsedFilesManager::addLastUsedFile(filePath);
+    _projectData->undoStack()->setClean();
 }
 
 void MainWindow::closeProject() {
