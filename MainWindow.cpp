@@ -265,7 +265,12 @@ void MainWindow::newProject() {
 }
 
 void MainWindow::openProject() {
-    const QString path = QFileDialog::getOpenFileName(this, tr("Open Project File"), FolderLocationManager::currentFolderLocationPaths("projectFilesDefault").first(), tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
+    const QString path = QFileDialog::getOpenFileName(
+        this,
+        tr("Open Project File"),
+        FolderLocationManager::currentFolderLocationPaths("projectFilesDefault").first(),
+        tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
+
     if(path.isEmpty())
         return;
 
