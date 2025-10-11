@@ -18,6 +18,7 @@ void RouteTableModel::setLine(Line *line) {
         connect(_line, &Line::routeAdded,   this, &RouteTableModel::onItemAdded);
         connect(_line, &Line::routeChanged, this, &RouteTableModel::onItemUpdated);
         connect(_line, &Line::routeRemoved, this, &RouteTableModel::onItemRemoved);
+        connect(_line, &QObject::destroyed, this, [this]() { setLine(nullptr); });
     }
 }
 

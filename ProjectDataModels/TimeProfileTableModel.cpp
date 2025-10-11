@@ -15,6 +15,7 @@ void TimeProfileTableModel::setRoute(Route *route) {
     connect(_route, &Route::timeProfileRemoved, this, &TimeProfileTableModel::onItemRemoved);
     connect(_route, &Route::timeProfileChanged, this, &TimeProfileTableModel::onItemUpdated);
     connect(_route, &Route::timeProfileMoved,   this, &TimeProfileTableModel::onItemMoved);
+    connect(_route, &QObject::destroyed,        this, [this]() { setRoute(nullptr); });
    }
 
 int TimeProfileTableModel::columnCount(const QModelIndex &parent) const {

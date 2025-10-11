@@ -30,9 +30,15 @@ QUndoStack *ProjectData::undoStack() const {
 
 void ProjectData::reset() {
     _undoStack->clear();
+
     _filePath.clear();
+
+    qDeleteAll(_busstops);
     _busstops.clear();
+
+    qDeleteAll(_lines);
     _lines.clear();
+
     emit cleared();
 }
 

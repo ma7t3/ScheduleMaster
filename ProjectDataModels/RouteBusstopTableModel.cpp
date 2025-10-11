@@ -64,6 +64,7 @@ void RouteBusstopTableModel::setRoute(Route *route) {
     connect(_route, &Route::busstopRemoved, this, &RouteBusstopTableModel::onItemRemoved);
     connect(_route, &Route::busstopChanged, this, &RouteBusstopTableModel::onItemUpdated);
     connect(_route, &Route::busstopMoved,   this, &RouteBusstopTableModel::onItemMoved);
+    connect(_route, &QObject::destroyed,    this, [this]() { setRoute(nullptr); });
 }
 
 int RouteBusstopTableModel::columnCount(const QModelIndex &parent) const {

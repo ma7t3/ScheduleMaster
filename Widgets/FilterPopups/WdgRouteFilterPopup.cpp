@@ -37,6 +37,8 @@ void RouteFilterPopupBusstopProxyModel::setReferenceLine(Line *line) {
         _relevantRoutes = _referenceLine->routes();
         for(Route *r : std::as_const(_relevantRoutes))
             connect(r, &Route::changed, this, [this]() { invalidateFilter(); });
+
+        connect(_referenceLine, &QObject::destroyed, this, [this]() { setReferenceLine(nullptr); });
     }
 
     invalidateFilter();

@@ -7,9 +7,9 @@
 LineSelectionListModel::LineSelectionListModel(QObject *parent) :
     UnorderedProjectDataRowModel<Line>(parent), _projectData(ApplicationInterface::projectData()),
     _checkboxesEnabled(false) {
-    connect(_projectData, &ProjectData::cleared,  this, &LineSelectionListModel::reset);
+    connect(_projectData, &ProjectData::cleared,     this, &LineSelectionListModel::reset);
 
-    connect(_projectData, &ProjectData::lineAdded, this, &LineSelectionListModel::onItemAdded);
+    connect(_projectData, &ProjectData::lineAdded,   this, &LineSelectionListModel::onItemAdded);
     connect(_projectData, &ProjectData::lineRemoved, this, &LineSelectionListModel::onItemRemoved);
 
     reset();

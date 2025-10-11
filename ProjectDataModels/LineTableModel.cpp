@@ -5,9 +5,9 @@
 #include <QFont>
 
 LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel<Line>(parent), _projectData(ApplicationInterface::projectData()) {
-    connect(_projectData, &ProjectData::cleared,  this, &LineTableModel::reset);
+    connect(_projectData, &ProjectData::cleared,     this, &LineTableModel::reset);
 
-    connect(_projectData, &ProjectData::lineAdded, this, &LineTableModel::onItemAdded);
+    connect(_projectData, &ProjectData::lineAdded,   this, &LineTableModel::onItemAdded);
     connect(_projectData, &ProjectData::lineRemoved, this, &LineTableModel::onItemRemoved);
 
     reset();

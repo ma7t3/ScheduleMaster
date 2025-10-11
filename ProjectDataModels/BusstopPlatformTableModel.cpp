@@ -15,9 +15,10 @@ void BusstopPlatformTableModel::setBusstop(Busstop *busstop) {
 
     _busstop = busstop;
     reset();
-    connect(_busstop, &Busstop::platformAdded, this, &BusstopPlatformTableModel::onItemAdded);
-    connect(_busstop, &Busstop::platformRemoved, this, &BusstopPlatformTableModel::onItemRemoved);
+    connect(_busstop, &Busstop::platformAdded,          this, &BusstopPlatformTableModel::onItemAdded);
+    connect(_busstop, &Busstop::platformRemoved,        this, &BusstopPlatformTableModel::onItemRemoved);
     connect(_busstop, &Busstop::defaultPlatformChanged, this, &BusstopPlatformTableModel::onDefaultPlatformChanged);
+    connect(_busstop, &QObject::destroyed,              this, [this]() { setBusstop(nullptr); });
 }
 
 int BusstopPlatformTableModel::columnCount(const QModelIndex &parent) const {
