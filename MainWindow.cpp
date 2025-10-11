@@ -327,15 +327,36 @@ void MainWindow::saveProjectToFile(const QString &filePath) {
     _projectData->undoStack()->setClean();
 }
 
-void MainWindow::closeProject() {
+bool MainWindow::closeProject() {
+    if(!_projectData->undoStack()->isClean()) {
+        QMessageBox::StandardButton msg = QMessageBox::warning(
+            this,
+            tr("Unsaved changes"),
+            tr("<p><b>There are some changes in your project that aren't saved now!</b></p>"
+               "<p>Do you want to save them before closing the application?</p>"),
+            QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel,
+            QMessageBox::Save);
+
+        switch(msg) {
+            case QMessageBox::Save: {
+                bool ok = saveProject(); break;
+                if(!ok)
+                    return false;
+            }
+
+            case QMessageBox::Discard: break;
+            default: return false;
+        }
+    }
     qInfo().noquote() << "Closing project" << _projectData->filePath();
-    //TODO: Check for unsaved changes
+    _fileHandler->wait();
     _projectData->reset();
+    return true;
 }
 
 void MainWindow::closeProjectBackToHome() {
-    closeProject();
-    _workspaceHandler->switchToOnProjectCloseWorkspace();
+    if(closeProject())
+        _workspaceHandler->switchToOnProjectCloseWorkspace();
 }
 
 void MainWindow::quitApplication() {

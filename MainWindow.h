@@ -43,7 +43,7 @@ protected slots:
     bool saveProject();
     bool saveProjectAs();
     void saveProjectToFile(const QString &filePath);
-    void closeProject();
+    bool closeProject();
     void closeProjectBackToHome();
     void quitApplication();
 
