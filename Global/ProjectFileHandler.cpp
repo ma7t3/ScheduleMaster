@@ -101,6 +101,9 @@ void ProjectFileHandler::run() {
 
         bool result = _projectData->setJson(doc.object(), [this](){return isInterruptionRequested();});
         // _projectData->blockSignals(true); // see above
+        if(result)
+            _projectData->setFilePath(_filePath);
+
         finishRun(result ? SuccessfulReason : CancelReason);
         return;
     }
@@ -136,6 +139,8 @@ void ProjectFileHandler::run() {
 
         qInfo() << "Writing data to file...";
         f.write(writeData);
+
+        _projectData->setFilePath(_filePath);
 
         finishRun(SuccessfulReason);
     }
