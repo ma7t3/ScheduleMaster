@@ -172,8 +172,7 @@ bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> c
 
         Busstop *b = createBusstop(jBusstops[i].toObject());
         addBusstop(b);
-        if(i % 10 == 0) // we don't need to update for every single busstop :)
-            emit progressUpdate(i + 1);
+        emit progressUpdate(i + 1);
     }
 
     emit progressMaximum(lineCount);
