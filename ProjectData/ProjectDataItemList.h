@@ -277,6 +277,14 @@ public:
 
         QList<T *>::clear();
     }
+
+    QJsonArray toJson() const override {
+        QJsonArray result;
+        for(T *item : *this) {
+            result.append(item->toJson());
+        }
+        return result;
+    }
 };
 
 template <typename T>

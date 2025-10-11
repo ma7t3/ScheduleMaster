@@ -5,7 +5,6 @@
 
 #include <QHash>
 #include <QUuid>
-#include <QDebug>
 
 /**
  * @class ProjectDataItemSet
@@ -235,6 +234,14 @@ public:
             map.insert(it.key(), it.value());
         }
         return map;
+    }
+
+    QJsonArray toJson() const override {
+        QJsonArray result;
+        for(T *item : *this) {
+            result.append(item->toJson());
+        }
+        return result;
     }
 };
 

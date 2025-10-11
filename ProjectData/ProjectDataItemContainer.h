@@ -1,6 +1,8 @@
 #ifndef PROJECTDATAITEMCONTAINER_H
 #define PROJECTDATAITEMCONTAINER_H
 
+#include <QJsonArray>
+
 /**
  * @class ProjectDataItemContainer
  * @brief The ProjectDataItemContainer class is a general parent class for storing ProjectDataItems.
@@ -89,6 +91,8 @@ public:
      * This is a virtual function that is implemented by the subclassed PDIList and PDISet.
      */
     virtual void clear() = 0;
+
+    virtual QJsonArray toJson() const = 0;
 
 private:
     /**
