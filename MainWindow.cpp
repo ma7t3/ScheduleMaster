@@ -26,6 +26,7 @@
 #include <QUndoStack>
 #include <QUndoView>
 #include <QLayout>
+#include <QCloseEvent>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -138,6 +139,13 @@ void MainWindow::showEvent(QShowEvent *event) {
         if(workspace)
             workspace->activate();
     });
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    if(closeProject())
+        event->accept();
+    else
+        event->ignore();
 }
 
 void MainWindow::connectToInterface() {

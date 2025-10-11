@@ -32,6 +32,7 @@ protected:
     void updateRecentProjectsList();
 
     void showEvent(QShowEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
 
 protected slots:
     void showCrashWarning();
