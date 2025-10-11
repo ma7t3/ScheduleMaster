@@ -120,6 +120,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(_fileHandler,                     &ProjectFileHandler::progressStepUpdate,     this, &MainWindow::onFileHandlerProgressUpdate);
     connect(_fileHandler,                     &QThread::finished,                          this, &MainWindow::onFileHandlerFinished);
 
+    connect(_projectData->undoStack(), &QUndoStack::cleanChanged, this, [this](const bool &clean){
+        updateSaveActionEnabled();
+        updateWindowTitle();
+    });
+
+    updateSaveActionEnabled();
+    updateWindowTitle();
     showCrashWarning();
 }
 
@@ -266,6 +273,18 @@ void MainWindow::showCrashWarning() {
     }
 }
 
+void MainWindow::updateWindowTitle() {
+    setWindowTitle(
+        "ScheduleMaster"
+        + (_projectData->isKnownFile() ? (" - " + _projectData->filePath().split("/").last()) : "")
+        + (_projectData->undoStack()->isClean() ? "" : " *")
+    );
+}
+
+void MainWindow::updateSaveActionEnabled() {
+    ui->actionFileSaveProject->setEnabled(!_projectData->isKnownFile() || !_projectData->undoStack()->isClean());
+}
+
 void MainWindow::newProject() {
     closeProject();
     qInfo() << "Create new project...";
@@ -359,6 +378,8 @@ bool MainWindow::closeProject() {
     qInfo().noquote() << "Closing project" << _projectData->filePath();
     _fileHandler->wait();
     _projectData->reset();
+    updateSaveActionEnabled();
+    updateWindowTitle();
     return true;
 }
 
@@ -471,6 +492,9 @@ void MainWindow::onFileHandlerFinished() {
 
     if(_workspaceHandler->currentWorkspace()->id() == _workspaceHandler->onProjectCloseWorkspace()->id())
         _workspaceHandler->switchToOnProjectOpenWorkspace();
+
+    updateSaveActionEnabled();
+    updateWindowTitle();
 }
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {

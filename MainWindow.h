@@ -37,6 +37,9 @@ protected:
 protected slots:
     void showCrashWarning();
 
+    void updateWindowTitle();
+    void updateSaveActionEnabled();
+
     void newProject();
     void openProject();
     void openProjectFromFile(const QString &filePath);
