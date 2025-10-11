@@ -40,8 +40,8 @@ protected slots:
     void openProject();
     void openProjectFromFile(const QString &filePath);
     void showRecentFilesMenu();
-    void saveProject();
-    void saveProjectAs();
+    bool saveProject();
+    bool saveProjectAs();
     void saveProjectToFile(const QString &filePath);
     void closeProject();
     void closeProjectBackToHome();

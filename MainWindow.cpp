@@ -285,13 +285,33 @@ void MainWindow::showRecentFilesMenu() {
     ui->menuFileOpenRecent->popup(QPoint(cursorPos.x() - 12, cursorPos.y() - 12));
 }
 
-void MainWindow::saveProject() {
-    qInfo() << "Save project";
+bool MainWindow::saveProject() {
+    qInfo() << "Save project...";
+    if(_projectData->isKnownFile()) {
+        if(_projectData->undoStack()->isClean())
+            return true;
+
+        saveProjectToFile(_projectData->filePath());
+        return true;
+    } else
+        return saveProjectAs();
 }
 
-void MainWindow::saveProjectAs() {
-    qInfo() << "Save project as";
-    // TODO: LastUsedFilesManager::addLastUsedFile(filePath);
+bool MainWindow::saveProjectAs() {
+    qInfo() << "Save project as...";
+    const QString path = QFileDialog::getSaveFileName(
+        this,
+        tr("Save Project File"),
+        _projectData->isKnownFile()
+            ? _projectData->filePath()
+            : FolderLocationManager::currentFolderLocationPaths("projectFilesDefault").first(),
+        tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
+
+    if(path.isEmpty())
+        return false;
+
+    saveProjectToFile(path);
+    return true;
 }
 
 void MainWindow::saveProjectToFile(const QString &filePath) {
