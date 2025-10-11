@@ -33,10 +33,10 @@ void ProjectData::reset() {
 
     _filePath.clear();
 
-    qDeleteAll(_busstops);
+    std::ranges::for_each(_busstops, [](auto *o){ if (o) o->deleteLater(); });
     _busstops.clear();
 
-    qDeleteAll(_lines);
+    std::ranges::for_each(_lines, [](auto *o){ if (o) o->deleteLater(); });
     _lines.clear();
 
     emit cleared();
