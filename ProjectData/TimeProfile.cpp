@@ -54,7 +54,10 @@ TimeProfileItem *TimeProfile::item(RouteBusstopItem *busstop) const {
 
 QJsonObject TimeProfile::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
-    // TODO
+
+    jsonObject.insert("name",  name());
+    jsonObject.insert("items", items().toJson());
+
     return jsonObject;
 }
 

@@ -141,8 +141,11 @@ bool ProjectData::isLoadingJson() const {
 }
 
 QJsonObject ProjectData::toJson() const {
-    // TODO: implement
-    return {};
+    return QJsonObject{
+        {"_fileInfo", QJsonObject{{"appVersion", "Unofficial-2025-10-10-001"}}},
+        {"busstops", _busstops.toJson()},
+        {"lines", _lines.toJson()},
+    };
 }
 
 bool ProjectData::setJson(const QJsonObject &jsonObject, std::function<bool()> cancelRequested) {

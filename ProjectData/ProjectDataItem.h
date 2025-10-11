@@ -106,10 +106,11 @@ public:
      * @return the QJsonObject
      */
     virtual QJsonObject toJson() const {
-        QJsonObject jsonObject;
-        jsonObject.insert("id", idAsString());
-        jsonObject.insert("comment", comment());
-        return jsonObject;
+        return QJsonObject {
+            {"object", metaObject()->className()},
+            {"id", idAsString()},
+            {"comment", comment()}
+        };
     }
 
     /**

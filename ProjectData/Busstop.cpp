@@ -116,16 +116,15 @@ void Busstop::setDefaultPlatform(const QUuid &id) {
 
 QJsonObject Busstop::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
-    jsonObject.insert("name",  name());
-    jsonObject.insert("flags", flags().toInt());
+    jsonObject.insert("name",      name());
+    jsonObject.insert("flags",     flags().toInt());
 
-    QJsonArray jsonPlatforms;
-    for(BusstopPlatform *current : _data.platforms)
-        jsonPlatforms.append(current->toJson());
+    jsonObject.insert("platforms", platforms().toJson());
 
-    jsonObject.insert("platforms", jsonPlatforms);
     BusstopPlatform *defaultPlatform = this->defaultPlatform();
-    jsonObject.insert("defaultPlatform", defaultPlatform ? defaultPlatform->idAsString() : "");
+    jsonObject.insert("defaultPlatform",
+                      defaultPlatform ? QJsonValue(defaultPlatform->idAsString())
+                                      : QJsonValue::Null);
     return jsonObject;
 }
 

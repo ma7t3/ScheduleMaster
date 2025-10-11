@@ -177,20 +177,13 @@ PDISet<Busstop> Line::allBusstops() const {
 
 QJsonObject Line::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
-    jsonObject.insert("name",        _data.name);
-    jsonObject.insert("description", _data.description);
-    jsonObject.insert("color",       _data.color.name());
+    jsonObject.insert("name",        name());
+    jsonObject.insert("description", description());
+    jsonObject.insert("color",       color().name());
+    jsonObject.insert("cardShape",   cardShape());
+    jsonObject.insert("directions",  directions().toJson());
+    jsonObject.insert("routes",      routes().toJson());
 
-    QJsonArray jsonDirections;
-    for(LineDirection *current : _data.directions)
-        jsonDirections.append(current->toJson());
-
-    QJsonArray jsonRoutes;
-    for(Route *current : _data.routes)
-        jsonRoutes.append(current->toJson());
-
-    jsonObject.insert("directions", jsonDirections);
-    jsonObject.insert("routes", jsonRoutes);
     return jsonObject;
 }
 
@@ -199,6 +192,7 @@ void Line::fromJson(const QJsonObject &jsonObject) {
     setName(jsonObject.value("name").toString(tr("Unnamed line")));
     setDescription(jsonObject.value("description").toString());
     setColor(QColor(jsonObject.value("color").toString()));
+    setCardShape(static_cast<LineCardShape>(jsonObject.value("cardShape").toInt()));
 
     const QJsonArray jsonDirections = jsonObject.value("directions").toArray();
     for(const QJsonValue &val : jsonDirections)

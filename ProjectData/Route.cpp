@@ -257,10 +257,14 @@ void Route::removeTimeProfile(const int &index) {
 
 QJsonObject Route::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
+
     jsonObject.insert("name", name());
     jsonObject.insert("code", code());
     LineDirection *ld = direction();
-    jsonObject.insert("direction", ld ? ld->id().toString() : "");
+    jsonObject.insert("direction", ld ? QJsonValue(ld->id().toString()) : QJsonValue::Null);
+
+    jsonObject.insert("busstops",     busstops().toJson());
+    jsonObject.insert("timeProfiles", timeProfiles().toJson());
 
     return jsonObject;
 }

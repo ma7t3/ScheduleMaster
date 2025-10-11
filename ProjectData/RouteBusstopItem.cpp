@@ -31,8 +31,12 @@ void RouteBusstopItem::setDefaultPlatform(BusstopPlatform *platform) {
 
 QJsonObject RouteBusstopItem::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
-    jsonObject.insert("busstop", _data.busstop->id().toString());
-    jsonObject.insert("defaultPlatform", _data.defaultPlatform->id().toString());
+    jsonObject.insert("busstop", busstop()->idAsString());
+
+    BusstopPlatform *defaultPlatform = this->defaultPlatform();
+    jsonObject.insert("defaultPlatform",
+                      defaultPlatform ? QJsonValue(defaultPlatform->idAsString())
+                                      : QJsonValue::Null);
 
     return jsonObject;
 }

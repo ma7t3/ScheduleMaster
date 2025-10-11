@@ -48,7 +48,12 @@ void TimeProfileItem::setDeparture(const float &value) {
 
 QJsonObject TimeProfileItem::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
-    // TODO
+
+    jsonObject.insert("busstopID", _data.busstopID.toString(QUuid::WithoutBraces));
+
+    jsonObject.insert("dep", departure());
+    jsonObject.insert("arr", hasArrival() ? QJsonValue(arrival()) : QJsonValue::Null);
+
     return jsonObject;
 }
 

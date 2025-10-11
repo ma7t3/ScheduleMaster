@@ -20,7 +20,7 @@ void LineDirection::setDescription(const QString &newDescription) {
 
 QJsonObject LineDirection::toJson() const {
     QJsonObject jsonObject = ProjectDataItem::toJson();
-    jsonObject.insert("description", _data.description);
+    jsonObject.insert("description", description());
     return jsonObject;
 }
 
