@@ -50,6 +50,10 @@ public:
      */
     void saveFile(const QString &filePath, const bool &compress);
 
+    FinishReason finishReason() const;
+
+    QString errorString() const;
+
 protected:
 
     /**
@@ -81,7 +85,7 @@ protected:
      * This function should always be called when ending the run method. It is executed in this thread.
      * @param reason The reason, why the thread finished.
      */
-    void finishRun(const FinishReason &reason);
+    void finishRun(const FinishReason &reason, const QString &errorString = "");
 
     /**
      * @brief The WorkMode enum describes, what activity the thread should do
@@ -124,6 +128,10 @@ private:
 
     /// The ProjectData instance to write to/read from
     ProjectData *_projectData;
+
+    FinishReason _finishReason;
+
+    QString _errorString;
 
     /// Static definition of the file header in uncompressed files (depricated)
     static const inline QByteArray uncompressedHeader = "SMP0";

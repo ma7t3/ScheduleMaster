@@ -484,17 +484,34 @@ void MainWindow::onFileHandlerProgressUpdate(const int &current) {
 void MainWindow::onFileHandlerFinished() {
     // TODO: Handle if an error occured
     _projectData->setParent(this);
+    const QString title = _fileHandlerProgressDialog->windowTitle();
     _fileHandlerProgressDialog->close();
     _fileHandlerProgressDialog->deleteLater();
     _fileHandlerProgressDialog = nullptr;
+
+    switch(_fileHandler->finishReason()) {
+    case ProjectFileHandler::CancelReason:
+        return;
+
+    case ProjectFileHandler::ErrorReason: {
+            const QString errorString = _fileHandler->errorString();
+            if(!errorString.isEmpty())
+                QMessageBox::critical(this, title, tr("<p><b>The operation failed because an error occured:</b></p><p>%1</p>").arg(errorString));
+
+            return;
+        }
+
+    default: break;
+    }
+
+    updateSaveActionEnabled();
+    updateWindowTitle();
+
     if(!_workspaceHandler->onProjectCloseWorkspace())
         return;
 
     if(_workspaceHandler->currentWorkspace()->id() == _workspaceHandler->onProjectCloseWorkspace()->id())
         _workspaceHandler->switchToOnProjectOpenWorkspace();
-
-    updateSaveActionEnabled();
-    updateWindowTitle();
 }
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {
