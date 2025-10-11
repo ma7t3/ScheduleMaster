@@ -28,7 +28,7 @@ float TimeProfile::duration() {
     return duration;
 }
 
-PDISet<TimeProfileItem> TimeProfile::items() {
+PDISet<TimeProfileItem> TimeProfile::items() const {
     Route *r = findParent<Route>();
     PDISet<TimeProfileItem> items;
     const PDIList<RouteBusstopItem> busstops = r->busstops();
@@ -39,15 +39,16 @@ PDISet<TimeProfileItem> TimeProfile::items() {
     return items;
 }
 
-TimeProfileItem *TimeProfile::item(RouteBusstopItem *busstop) {
+TimeProfileItem *TimeProfile::item(RouteBusstopItem *busstop) const {
     for(TimeProfileItem *item : std::as_const(_data.items)) {
         if(item->routeBusstopItemID() == busstop->id())
             return item;
     }
 
-    TimeProfileItem *item = new TimeProfileItem(this);
+    auto *self = const_cast<TimeProfile*>(this);
+    TimeProfileItem *item = new TimeProfileItem(self);
     _data.items.add(item);
-    connect(item, &TimeProfileItem::changed, this, [this, item] { emit itemChanged(item); });
+    connect(item, &TimeProfileItem::changed, self, [self, item] { emit self->itemChanged(item); });
     return item;
 }
 

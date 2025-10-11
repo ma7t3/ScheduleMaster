@@ -10,7 +10,7 @@ struct TimeProfileData : ProjectDataItemData<TimeProfileData> {
 
     QString name;
 
-    PDISet<TimeProfileItem> items;
+    mutable PDISet<TimeProfileItem> items;
 };
 
 class TimeProfile : public ProjectDataItem<TimeProfile, TimeProfileData> {
@@ -26,8 +26,8 @@ public:
 
     float duration();
 
-    PDISet<TimeProfileItem> items();
-    TimeProfileItem *item(RouteBusstopItem *busstop);
+    PDISet<TimeProfileItem> items() const;
+    TimeProfileItem *item(RouteBusstopItem *busstop) const;
 
     QJsonObject toJson() const override;
 
