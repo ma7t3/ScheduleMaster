@@ -37,9 +37,13 @@ public:
         ProjectDataItemSet *otherSet = dynamic_cast<ProjectDataItemSet *>(mergeContainer);
 
         // remove
-        for(T *current : *this)
-            if(!otherSet->contains(current->id()))
-                remove(current);
+        for (auto it = this->begin(); it != this->end(); ) {
+            if (!otherSet->contains(it.value()->id())) {
+                it = this->erase(it);
+            } else {
+                ++it;
+            }
+        }
 
         // update
         for(T *current : *this)

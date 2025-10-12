@@ -39,11 +39,13 @@ public:
 
     void mergeItems(ProjectDataItemContainer *mergeContainer) override {
         ProjectDataItemList *otherList = dynamic_cast<ProjectDataItemList *>(mergeContainer);
+        if(!otherList)
+            return;
 
         // remove
-        for(T *current : *this)
-            if(!otherList->contains(current->id()))
-                remove(current->id());
+        for(int i = this->count() - 1; i >= 0; --i)
+            if(!otherList->contains(this->at(i)->id()))
+                this->removeAt(i);
 
         // update
         for(T *current : *this)
@@ -61,7 +63,7 @@ public:
             indexMap.insert(otherList->at(i)->id(), i);
 
         std::sort(this->begin(), this->end(), [&](const auto &a, const auto &b) {return indexMap[a->id()] < indexMap[b->id()];});
-    };
+    }
 
     void dumpData() const override {
         int i = 0;
