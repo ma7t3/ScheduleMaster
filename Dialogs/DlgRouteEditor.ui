@@ -194,6 +194,16 @@
             </widget>
            </item>
            <item>
+            <widget class="QCheckBox" name="cbAutoSelectPlatforms">
+             <property name="text">
+              <string>Automatically select platforms from other routes</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QTreeView" name="twRouteBusstops">
              <property name="editTriggers">
               <set>QAbstractItemView::EditTrigger::AllEditTriggers</set>

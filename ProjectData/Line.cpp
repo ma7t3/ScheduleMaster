@@ -122,6 +122,33 @@ void Line::removeDirection(const QUuid &id) {
     removeDirection(direction(id));
 }
 
+BusstopPlatform *Line::findMostUsedPlatform(LineDirection *ld, Busstop *b) {
+    const PDISet<Route> otherRoutes = routes().filter(
+        [b, ld](Route *r) { return r->containsBusstop(b) && (!ld || ld == r->direction()); });
+
+    QHash<BusstopPlatform *, int> countMap;
+
+    for(Route *r : otherRoutes) {
+        const PDIList<RouteBusstopItem> busstops = r->busstops().filter([b](RouteBusstopItem *item) { return item->busstop() == b; });
+
+        for(RouteBusstopItem *rb : busstops) {
+            BusstopPlatform *bp = rb->defaultPlatform();
+            countMap.insert(bp, countMap.value(bp, 0) + 1);
+        }
+    }
+
+    BusstopPlatform *maxBP = nullptr; int maxCount = 0;
+
+    for(auto it = countMap.begin(); it != countMap.end(); it++) {
+        if(it.value() > maxCount) {
+            maxBP = it.key();
+            maxCount = it.value();
+        }
+    }
+
+    return maxBP;
+}
+
 Route *Line::createRoute(QObject *parent) {
     return new Route(parent ? parent : this);
 }
@@ -140,6 +167,13 @@ Route *Line::route(const QUuid &id) const {
 
 PDISet<Route> Line::routes() const {
     return _data.routes;
+}
+
+PDISet<Route> Line::routesToDirection(LineDirection *direction) const {
+    if(!direction)
+        return {};
+
+    return _data.routes.filter([direction](Route *r) { return r->direction() == direction; });
 }
 
 void Line::addRoute(Route *route) {

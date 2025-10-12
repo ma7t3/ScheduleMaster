@@ -185,6 +185,13 @@ void DlgRouteEditor::onBusstopAdd() {
     const int insertRow = insertIndex.isValid() ? insertIndex.row() + 1 : _routeBusstopModel->rowCount();
 
     RouteBusstopItem *b = _route->createItem(source);
+    LineDirection *ld = _directionModel->itemAt(ui->cbDirection->currentIndex());
+    if(ld && source->hasPlatforms() && ui->cbAutoSelectPlatforms->isChecked()) {
+        Line *l = _route->findParent<Line>();
+        if(l)
+            b->setDefaultPlatform(l->findMostUsedPlatform(ld, source));
+    }
+
     _route->insertBusstop(insertRow, b);
     ui->twRouteBusstops->setCurrentIndex(_routeBusstopModel->index(insertRow, 0));
     onSomethingChanged();

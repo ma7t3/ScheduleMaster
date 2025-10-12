@@ -229,6 +229,8 @@ public:
      */
     void removeDirection(const QUuid &id);
 
+    BusstopPlatform *findMostUsedPlatform(LineDirection *ld, Busstop *b);
+
     /**
      * @brief Creates a new route with an optionally given parent.
      * @param parent The parent QObject of the Route object. If not given, the Line will take ownership.
@@ -265,6 +267,8 @@ public:
      * @return A ProjectDataItemSet of all Routes in the Line.
      */
     PDISet<Route> routes() const;
+
+    PDISet<Route> routesToDirection(LineDirection *direction) const;
 
     /**
      * @brief Adds a route to the line.
