@@ -205,6 +205,13 @@ public:
         return clone;
     }
 
+    DerivedType *duplicate() const {
+        DerivedType *duplicate = new DerivedType(parent(), generateID());
+        duplicate->setData(cloneData());
+        duplicate->setObjectName(idAsString());
+        return duplicate;
+    }
+
 protected:
     /**
      * @brief Reads a JSON object and fills the ProjectDataItem with the data from the JSON object.

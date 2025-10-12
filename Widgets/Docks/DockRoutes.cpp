@@ -159,7 +159,17 @@ void DockRoutes::onRouteEdit() {
 }
 
 void DockRoutes::onRouteDuplicate() {
-    //TODO
+    Route *r = _model->itemAt(_proxyModel->mapToSource(ui->twRoutes->currentIndex()).row());
+    if(!r)
+        return;
+
+    DlgRouteEditor dlg(r->duplicate());
+    if(dlg.exec() != QDialog::Accepted) {
+        dlg.route()->deleteLater();
+        return;
+    }
+
+    _projectData->undoStack()->push(new CmdRouteNew(_line, dlg.route()));
 }
 
 void DockRoutes::onRouteDelete() {
