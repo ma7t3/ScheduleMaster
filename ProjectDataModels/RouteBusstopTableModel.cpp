@@ -14,7 +14,7 @@ QWidget *RouteBusstopTableDelegate::createEditor(QWidget *parent,
     if(!b)
         return nullptr;
 
-    if(b->busstop()->platformCount() == 0)
+    if(!b->busstop()->hasPlatforms())
         return nullptr;
 
     QComboBox *cbx = new QComboBox(parent);
