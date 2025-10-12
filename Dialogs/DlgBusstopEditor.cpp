@@ -2,6 +2,7 @@
 #include "ui_DlgBusstopEditor.h"
 
 #include "Global/ActionController.h"
+#include "Global/ActionController.h"
 
 #include <QInputDialog>
 
@@ -24,9 +25,9 @@ DlgBusstopEditor::DlgBusstopEditor(Busstop *busstop, QWidget *parent) :
     connect(_actionDeletePlatform,     &QAction::triggered, this, &DlgBusstopEditor::onPlatformDelete);
     connect(_actionSetDefaultPlatform, &QAction::triggered, this, &DlgBusstopEditor::onPlatformSetDefault);
 
-    connect(ui->pbPlatformNew,        &QPushButton::clicked, _actionNewPlatform,        &QAction::trigger);
-    connect(ui->pbPlatformDelete,     &QPushButton::clicked, _actionDeletePlatform,     &QAction::trigger);
-    connect(ui->pbPlatformSetDefault, &QPushButton::clicked, _actionSetDefaultPlatform, &QAction::trigger);
+    ActionController::addSyncedActionAndButton(_actionNewPlatform,        ui->pbPlatformNew, "projectData.item.new",                 ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionDeletePlatform,     ui->pbPlatformDelete, "projectData.item.delete",           ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    ActionController::addSyncedActionAndButton(_actionSetDefaultPlatform, ui->pbPlatformSetDefault, "projectData.item.setAsDefault", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
 
     _platformMenu->addActions({_actionNewPlatform, _actionDeletePlatform});
     _platformMenu->addSeparator();
@@ -49,15 +50,6 @@ DlgBusstopEditor::DlgBusstopEditor(Busstop *busstop, QWidget *parent) :
     });
 
     connect(ui->twPlatforms->selectionModel(), &QItemSelectionModel::currentChanged, this, &DlgBusstopEditor::onCurrentPlatformChanged);
-
-    ActionController::add(_actionNewPlatform,        "projectData.item.new");
-    ActionController::add(_actionDeletePlatform,     "projectData.item.delete");
-    ActionController::add(_actionSetDefaultPlatform, "projectData.item.setAsDefault");
-
-    ActionController::add(ui->pbPlatformNew,        "projectData.item.new");
-
-    ActionController::add(ui->pbPlatformDelete,     "projectData.item.delete");
-    ActionController::add(ui->pbPlatformSetDefault, "projectData.item.setAsDefault");
 
     ui->leName->setText(_busstop->name());
 
