@@ -136,7 +136,6 @@ void Busstop::fromJson(const QJsonObject &jsonObject) {
     ProjectDataItem::fromJson(jsonObject);
     setName(jsonObject.value("name").toString(tr("Unnamed busstop")));
     setFlags(BusstopFlags::fromInt(jsonObject.value("flags").toInt(0)));
-    setDefaultPlatform(QUuid::fromString(jsonObject.value("defaultPlatform").toString()));
 
     QJsonArray jsonPlatforms = jsonObject.value("platforms").toArray();
     for(const QJsonValue &val : std::as_const(jsonPlatforms)) {
@@ -144,4 +143,6 @@ void Busstop::fromJson(const QJsonObject &jsonObject) {
         BusstopPlatform *bp = createPlatform(obj);
         addPlatform(bp);
     }
+
+    setDefaultPlatform(QUuid::fromString(jsonObject.value("defaultPlatform").toString()));
 }
