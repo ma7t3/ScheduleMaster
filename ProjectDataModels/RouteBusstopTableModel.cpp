@@ -22,8 +22,9 @@ QWidget *RouteBusstopTableDelegate::createEditor(QWidget *parent,
     std::sort(platforms.begin(), platforms.end(), [](BusstopPlatform *a, BusstopPlatform *b) {
         return a->name() < b->name();
     });
-    for(BusstopPlatform *bp : platforms) {
-        cbx->addItem(bp->name());
+    for(BusstopPlatform *bp : std::as_const(platforms)) {
+        cbx->addItem(bp->comment().isEmpty() ? bp->name()
+                                             : QString("%1 (%2)").arg(bp->name(), bp->comment()));
         cbx->setItemData(cbx->count() - 1, bp->id());
     }
 
@@ -115,7 +116,7 @@ QVariant RouteBusstopTableModel::data(const QModelIndex &index, int role) const 
         return b->busstop()->name();
 
     case 2:
-        return defaultPlatform ? defaultPlatform->name() : "";
+        return defaultPlatform ? defaultPlatform->name() : b->busstop()->hasPlatforms() ? tr("<not set>") : "";
     }
 
     return QVariant();
