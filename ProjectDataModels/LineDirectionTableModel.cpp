@@ -9,11 +9,13 @@ void LineDirectionTableModel::setLine(Line *line) {
 
     _line = line;
     reset();
-    connect(_line, &Line::directionAdded,   this, &LineDirectionTableModel::onItemInserted);
-    connect(_line, &Line::directionRemoved, this, &LineDirectionTableModel::onItemRemoved);
-    connect(_line, &Line::directionChanged, this, &LineDirectionTableModel::onItemUpdated);
-    connect(_line, &Line::directionMoved,   this, &LineDirectionTableModel::onItemMoved);
-    connect(_line, &QObject::destroyed,     this, [this]() { setLine(nullptr); });
+    if(_line) {
+        connect(_line, &Line::directionAdded,   this, &LineDirectionTableModel::onItemInserted);
+        connect(_line, &Line::directionRemoved, this, &LineDirectionTableModel::onItemRemoved);
+        connect(_line, &Line::directionChanged, this, &LineDirectionTableModel::onItemUpdated);
+        connect(_line, &Line::directionMoved,   this, &LineDirectionTableModel::onItemMoved);
+        connect(_line, &QObject::destroyed,     this, [this]() { setLine(nullptr); });
+    }
 }
 
 int LineDirectionTableModel::columnCount(const QModelIndex &parent) const {
