@@ -142,6 +142,8 @@ public:
      */
     BusstopPlatform *createPlatform(const QJsonObject &jsonObject);
 
+    bool hasPlatforms() const;
+
     /**
      * @brief Returns the Busstop's platform count
      *

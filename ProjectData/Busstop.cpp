@@ -39,6 +39,10 @@ BusstopPlatform *Busstop::createPlatform(const QJsonObject &jsonObject) {
     return new BusstopPlatform(this, jsonObject);
 }
 
+bool Busstop::hasPlatforms() const {
+    return platformCount() > 0;
+}
+
 int Busstop::platformCount() const {
     return _data.platforms.count();
 }
