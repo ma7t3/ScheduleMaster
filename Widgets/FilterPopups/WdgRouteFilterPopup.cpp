@@ -52,7 +52,8 @@ bool RouteFilterPopupBusstopProxyModel::filterAcceptsRow(int sourceRow,
 
     bool ok = false;
     for(Route *r : _relevantRoutes)
-        ok |= (r->firstBusstop()->busstop() == b) || (r->lastBusstop()->busstop() == b);
+        if(r->busstopCount() > 0)
+            ok |= (r->firstBusstop()->busstop() == b) || (r->lastBusstop()->busstop() == b);
 
     return ok;
 }
