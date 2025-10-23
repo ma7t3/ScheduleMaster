@@ -3,12 +3,13 @@
 #include "ProjectData/ProjectData.h"
 
 TimeProfileItem::TimeProfileItem(QObject *parent, RouteBusstopItem *busstop, const QUuid &id,
-                                 const bool &isClone) : ProjectDataItem(parent, id, isClone) {
+                                 TimeProfileItem *original) :
+    ProjectDataItem(parent, id, original) {
     _data.busstopID = busstop->id();
 }
 
-TimeProfileItem::TimeProfileItem(QObject *parent, const QUuid &id, const bool &isClone) :
-    ProjectDataItem(parent, id, isClone) {}
+TimeProfileItem::TimeProfileItem(QObject *parent, const QUuid &id, TimeProfileItem *original) :
+    ProjectDataItem(parent, id, original) {}
 
 TimeProfileItem::TimeProfileItem(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItem(parent) {

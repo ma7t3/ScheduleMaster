@@ -2,13 +2,13 @@
 
 #include "ProjectData.h"
 
-RouteBusstopItem::RouteBusstopItem(QObject *parent, Busstop *busstop, const QUuid &id, const bool &isClone) :
-    ProjectDataItem(parent, id, isClone) {
+RouteBusstopItem::RouteBusstopItem(QObject *parent, Busstop *busstop, const QUuid &id, RouteBusstopItem *original) :
+    ProjectDataItem(parent, id, original) {
     _data.busstop = busstop;
 }
 
-RouteBusstopItem::RouteBusstopItem(QObject *parent, const QUuid &id, const bool &isClone) :
-    ProjectDataItem(parent, id, isClone) {
+RouteBusstopItem::RouteBusstopItem(QObject *parent, const QUuid &id, RouteBusstopItem *original) :
+    ProjectDataItem(parent, id, original) {
 }
 
 RouteBusstopItem::RouteBusstopItem(QObject *parent, const QJsonObject &jsonObject) :

@@ -1,7 +1,7 @@
 #include "Busstop.h"
 
-Busstop::Busstop(QObject *parent, const QUuid &id, const bool &isClone) :
-    ProjectDataItem(parent, id, isClone) {
+Busstop::Busstop(QObject *parent, const QUuid &id, Busstop *original) :
+    ProjectDataItem(parent, id, original) {
 }
 
 Busstop::Busstop(QObject *parent, const QJsonObject &jsonObject) :

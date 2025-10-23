@@ -49,13 +49,13 @@ struct ProjectDataItemData {
      * This will create deep copies of all sub-items in containers.
      * @return The cloned data
      */
-    DerivedType clone() const {
+    DerivedType clone(QObject *parent) const {
         DerivedType copy = static_cast<const DerivedType &>(*this);
-        copy.cloneContainerItems();
+        copy.cloneContainerItems(parent);
         return copy;
     }
 
-    void merge(DerivedType &mergeData) {
+    void merge(DerivedType &mergeData, QObject *parent) {
         // Speichere die aktuellen Container-Referenzen
         QList<ProjectDataItemContainer *> selfList = parentOwnsItemsMembersList();
         QList<ProjectDataItemContainer *> selfCopyList;
@@ -70,7 +70,7 @@ struct ProjectDataItemData {
 
         // Merge der Container-Variablen (analog zu originalem Code)
         for (int i = 0; i < selfList.size(); i++) {
-            selfCopyList[i]->mergeItems(otherCopyList[i]);
+            selfCopyList[i]->mergeItems(otherCopyList[i], parent);
         }
 
         selfList = parentOwnsItemsMembersList();
@@ -91,9 +91,9 @@ protected:
     /**
      * @brief Clones all items in the containers that are owned by the parent object and replaces the content of the container with the copies.
      */
-    void cloneContainerItems() {
+    void cloneContainerItems(QObject *parent) {
         for(ProjectDataItemContainer *container : parentOwnsItemsMembersList())
-            container->cloneItems();
+            container->cloneItems(parent);
     }
 
     /**

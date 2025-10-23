@@ -2,8 +2,8 @@
 
 #include "ProjectData/Route.h"
 
-TimeProfile::TimeProfile(QObject *parent, const QUuid &id, const bool &isClone) :
-    ProjectDataItem(parent, id, isClone) {}
+TimeProfile::TimeProfile(QObject *parent, const QUuid &id, TimeProfile *original) :
+    ProjectDataItem(parent, id, original) {}
 
 TimeProfile::TimeProfile(QObject *parent, const QJsonObject &jsonObject) : ProjectDataItem(parent) {
     fromJson(jsonObject);

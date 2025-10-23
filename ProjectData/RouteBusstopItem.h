@@ -42,7 +42,7 @@ private:
      * @param id The optional ID to be used. It can't be changed later.
      * @param isClone Specifies if the object is created as a clone.
      */
-    explicit RouteBusstopItem(QObject *parent, Busstop *busstop, const QUuid &id = QUuid(), const bool &isClone = false);
+    explicit RouteBusstopItem(QObject *parent, Busstop *busstop, const QUuid &id = QUuid(), RouteBusstopItem *original = nullptr);
 
     /**
      * @brief Constructs a new RouteBusstopItem object.
@@ -54,7 +54,7 @@ private:
      * @param id The optional ID to be used. It can't be changed later.
      * @param isClone Specifies if the object is created as a clone.
      */
-    explicit RouteBusstopItem(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
+    explicit RouteBusstopItem(QObject *parent, const QUuid &id = QUuid(), RouteBusstopItem *original = nullptr);
 
     /**
      * @brief Constructs a new RouteBusstopItem object by parsing a JSON object.

@@ -3,8 +3,8 @@
 #include <QJsonArray>
 #include <QCollator>
 
-Line::Line(QObject *parent, const QUuid &id, const bool &isClone) :
-    ProjectDataItem(parent, id, isClone) {
+Line::Line(QObject *parent, const QUuid &id, Line *original) :
+    ProjectDataItem(parent, id, original) {
 }
 
 Line::Line(QObject *parent, const QJsonObject &jsonObject) :

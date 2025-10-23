@@ -28,12 +28,12 @@ public:
         return new ProjectDataItemSet(*this);
     };
 
-    void cloneItems() override {
+    void cloneItems(QObject *parent) override {
         for(T *item : *this)
-            QHash<QUuid, T* >::insert(item->id(), item->clone());
+            QHash<QUuid, T* >::insert(item->id(), item->clone(parent));
     }
 
-    void mergeItems(ProjectDataItemContainer *mergeContainer) override {
+    void mergeItems(ProjectDataItemContainer *mergeContainer, QObject *parent) override {
         ProjectDataItemSet *otherSet = dynamic_cast<ProjectDataItemSet *>(mergeContainer);
 
         // remove
@@ -47,13 +47,17 @@ public:
 
         // update
         for(T *current : *this)
-            if(otherSet->contains(current->id()))
+            if(otherSet->contains(current->id())) {
                 current->mergeData(otherSet->find(current->id())->data());
+                current->setParent(parent);
+            }
 
         // add
         for(T *current : *otherSet)
-            if(!contains(current->id()))
+            if(!contains(current->id())) {
                 add(current);
+                current->setParent(parent);
+            }
     };
 
     void dumpData() const override {

@@ -33,10 +33,10 @@ protected:
      * @param parent The QObject-parent
      * @param id The optional ID to be used. It can't be changed later.
      */
-    explicit ProjectDataItem(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false) :
+    explicit ProjectDataItem(QObject *parent, const QUuid &id = QUuid(), DerivedType *original = nullptr) :
         ProjectDataItemSignals(parent),
         _inUse(false),
-        _isClone(isClone) {
+        _original(original) {
         setID(id.isNull() ? generateID() : id);
     }
 
@@ -88,7 +88,7 @@ public:
      * See also isClone().
      * @return Whether the item is in use or not.
      */
-    bool inUse() const { return _isClone ? true : _inUse; }
+    bool inUse() const { return isClone() ? true : _inUse; }
 
     /**
      * @brief Change the isUsed status of the item.
@@ -123,7 +123,7 @@ public:
         jsonObject.insert("_address", QString("0x%1").arg(reinterpret_cast<quintptr>(this), 0, 16).toUpper());
         jsonObject.insert("_type", metaObject()->className());
         jsonObject.insert("_inUse", _inUse);
-        jsonObject.insert("_isClone", _isClone);
+        jsonObject.insert("_isClone", isClone());
         return QJsonDocument(jsonObject).toJson(format);
     }
 
@@ -157,8 +157,8 @@ public:
      * See also data() and setData().
      * @return
      */
-    DataType cloneData() const {
-        return _data.clone();
+    DataType cloneData(QObject *parent) const {
+        return _data.clone(parent);
     }
 
     /**
@@ -177,7 +177,7 @@ public:
      * @param mergeData The new data to merge
      */
     void mergeData(DataType mergeData) {
-        _data.merge(mergeData);
+        _data.merge(mergeData, this);
         emit changed();
     }
 
@@ -186,7 +186,19 @@ public:
      * @return Whether the item is a clone or not.
      */
     bool isClone() const {
-        return _isClone;
+        return _original;
+    }
+
+    DerivedType *original() const {
+        return _original;
+    }
+
+    DerivedType *origin() const {
+        DerivedType *current = const_cast<DerivedType *>(static_cast<const DerivedType *>(this));
+        while (current->original())
+            current = current->original();
+
+        return current;
     }
 
     /**
@@ -198,10 +210,16 @@ public:
      * **Note:** This changes the objectName to the id formated as a string with "-clone" appended.
      * @return
      */
-    DerivedType *clone() const {
-        DerivedType *clone = new DerivedType(parent(), id(), true);
-        clone->setData(cloneData());
+    DerivedType *clone(QObject *parent = nullptr) const {
+        if(!parent)
+            parent = this->parent();
+
+        DerivedType *clone = new DerivedType(parent,
+                                             id(),
+                                             const_cast<DerivedType *>(
+                                                 static_cast<const DerivedType *>(this)));
         clone->setObjectName(objectName() + "-clone");
+        clone->setData(cloneData(clone));
         return clone;
     }
 
@@ -263,15 +281,7 @@ private:
      */
     bool _inUse;
 
-    /**
-     * @brief The isClone property.
-     *
-     * This property specifies whether the item is a clone of another item.
-     *
-     * Clones are created when editing data. This is important when the user wants to edit some data inside the programm.
-     * They should always just edit a clone. Then the changed, cloned data can be merged into the original using ProjectDataItem::mergeData().
-     */
-    bool _isClone;
+    DerivedType *_original;
 };
 
 #endif // PROJECTDATAITEM_H

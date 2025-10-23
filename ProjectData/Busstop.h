@@ -77,7 +77,7 @@ private:
      * @param id The optional ID to be used. It can't be changed later.
      * @param isClone Specifies if the object is created as a clone.
      */
-    explicit Busstop(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
+    explicit Busstop(QObject *parent, const QUuid &id = QUuid(), Busstop *original = nullptr);
 
     /**
      * @brief Constructs a new Busstop object by parsing a JSON object.

@@ -18,8 +18,8 @@ class TimeProfileItem : public ProjectDataItem<TimeProfileItem, TimeProfileItemD
     Q_OBJECT
 
 private:
-    explicit TimeProfileItem(QObject *parent, RouteBusstopItem *busstop, const QUuid &id = QUuid(), const bool &isClone = false);
-    explicit TimeProfileItem(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
+    explicit TimeProfileItem(QObject *parent, RouteBusstopItem *busstop, const QUuid &id = QUuid(), TimeProfileItem *original = nullptr);
+    explicit TimeProfileItem(QObject *parent, const QUuid &id = QUuid(), TimeProfileItem *original = nullptr);
     explicit TimeProfileItem(QObject *parent, const QJsonObject &jsonObject);
 
 public:

@@ -32,12 +32,12 @@ public:
         return new ProjectDataItemList(*this);
     };
 
-    void cloneItems() override {
+    void cloneItems(QObject *parent) override {
         for(int i = 0; i < this->count(); i++)
-            this->replace(i, this->at(i)->clone());
+            this->replace(i, this->at(i)->clone(parent));
     }
 
-    void mergeItems(ProjectDataItemContainer *mergeContainer) override {
+    void mergeItems(ProjectDataItemContainer *mergeContainer, QObject *parent) override {
         ProjectDataItemList *otherList = dynamic_cast<ProjectDataItemList *>(mergeContainer);
         if(!otherList)
             return;
@@ -49,13 +49,17 @@ public:
 
         // update
         for(T *current : *this)
-            if(otherList->contains(current->id()))
+            if(otherList->contains(current->id())) {
                 current->mergeData(otherList->find(current->id())->data());
+                current->setParent(parent);
+            }
 
         // add
         for(T *current : *otherList)
-            if(!contains(current->id()))
+            if(!contains(current->id())) {
                 append(current);
+                current->setParent(parent);
+            }
 
         // reorder
         QMap<QUuid, int> indexMap;

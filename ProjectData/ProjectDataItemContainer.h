@@ -55,7 +55,7 @@ public:
      *
      * So the original items won't be part of the container anymore. You should always save them before or call this function only on clones.
      */
-    virtual void cloneItems() = 0;
+    virtual void cloneItems(QObject *parent) = 0;
 
     /**
      * @brief Merges another container into this one.
@@ -66,7 +66,7 @@ public:
      * This is a virtual function that is implemented by the subclassed PDIList and PDISet.
      * @param mergeContainer The container to merge from
      */
-    virtual void mergeItems(ProjectDataItemContainer *mergeContainer) = 0;
+    virtual void mergeItems(ProjectDataItemContainer *mergeContainer, QObject *parent) = 0;
 
     /**
      * @brief Write a debug output of the container's items to the console.

@@ -18,7 +18,7 @@ class TimeProfile : public ProjectDataItem<TimeProfile, TimeProfileData> {
 
     Q_OBJECT
 public:
-    explicit TimeProfile(QObject *parent, const QUuid &id = QUuid(), const bool &isClone = false);
+    explicit TimeProfile(QObject *parent, const QUuid &id = QUuid(), TimeProfile *original = nullptr);
     explicit TimeProfile(QObject *parent, const QJsonObject &jsonObject);
 
     QString name() const;
