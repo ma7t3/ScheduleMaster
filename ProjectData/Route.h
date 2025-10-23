@@ -17,7 +17,7 @@ struct RouteData : ProjectDataItemData<RouteData> {
     /// Constructs a new RouteData object. It should always call ProjectDataItemData::initParentOwnsItemMembers().
     RouteData() {initParentOwnsItemMembers();}
 
-    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&busstops};}
+    QList<ProjectDataItemContainer *> parentOwnsItemsMembersList() override {return {&busstops, &timeProfiles};}
 
     /// The Route's name
     QString name;
