@@ -45,8 +45,8 @@ TimeProfileItem *TimeProfile::item(RouteBusstopItem *busstop) const {
             return item;
     }
 
-    auto *self = const_cast<TimeProfile*>(this);
-    TimeProfileItem *item = new TimeProfileItem(self);
+    auto *self = const_cast<TimeProfile *>(this);
+    TimeProfileItem *item = const_cast<TimeProfile *>(this)->createItem(busstop);
     _data.items.add(item);
     connect(item, &TimeProfileItem::changed, self, [self, item] { emit self->itemChanged(item); });
     return item;
@@ -59,6 +59,10 @@ QJsonObject TimeProfile::toJson() const {
     jsonObject.insert("items", items().toJson());
 
     return jsonObject;
+}
+
+TimeProfileItem *TimeProfile::createItem(RouteBusstopItem *item, QObject *parent) {
+    return new TimeProfileItem(parent ? parent : this, item);
 }
 
 TimeProfileItem *TimeProfile::createItem(const QJsonObject &jsonObject) {

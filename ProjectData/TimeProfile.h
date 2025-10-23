@@ -32,6 +32,7 @@ public:
     QJsonObject toJson() const override;
 
 protected:
+    TimeProfileItem *createItem(RouteBusstopItem *item, QObject *parent = nullptr);
     TimeProfileItem *createItem(const QJsonObject &jsonObject);
 
 signals:
