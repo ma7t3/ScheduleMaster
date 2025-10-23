@@ -57,6 +57,8 @@ public:
      */
     virtual void cloneItems(QObject *parent) = 0;
 
+    virtual void duplicateItems(QObject *parent) = 0;
+
     /**
      * @brief Merges another container into this one.
      *

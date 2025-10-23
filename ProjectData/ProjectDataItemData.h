@@ -55,6 +55,12 @@ struct ProjectDataItemData {
         return copy;
     }
 
+    DerivedType duplicate(QObject *parent) const {
+        DerivedType copy = static_cast<const DerivedType &>(*this);
+        copy.duplicateContainerItems(parent);
+        return copy;
+    }
+
     void merge(DerivedType &mergeData, QObject *parent) {
         // Speichere die aktuellen Container-Referenzen
         QList<ProjectDataItemContainer *> selfList = parentOwnsItemsMembersList();
@@ -94,6 +100,11 @@ protected:
     void cloneContainerItems(QObject *parent) {
         for(ProjectDataItemContainer *container : parentOwnsItemsMembersList())
             container->cloneItems(parent);
+    }
+
+    void duplicateContainerItems(QObject *parent) {
+        for(ProjectDataItemContainer *container : parentOwnsItemsMembersList())
+            container->duplicateItems(parent);
     }
 
     /**

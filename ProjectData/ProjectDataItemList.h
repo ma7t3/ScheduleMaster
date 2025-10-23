@@ -37,6 +37,11 @@ public:
             this->replace(i, this->at(i)->clone(parent));
     }
 
+    void duplicateItems(QObject *parent) override {
+        for(int i = 0; i < this->count(); i++)
+            this->replace(i, this->at(i)->duplicate(parent));
+    }
+
     void mergeItems(ProjectDataItemContainer *mergeContainer, QObject *parent) override {
         ProjectDataItemList *otherList = dynamic_cast<ProjectDataItemList *>(mergeContainer);
         if(!otherList)

@@ -33,6 +33,11 @@ public:
             QHash<QUuid, T* >::insert(item->id(), item->clone(parent));
     }
 
+    void duplicateItems(QObject *parent) override {
+        for(T *item : *this)
+            QHash<QUuid, T* >::insert(item->id(), item->duplicate(parent));
+    }
+
     void mergeItems(ProjectDataItemContainer *mergeContainer, QObject *parent) override {
         ProjectDataItemSet *otherSet = dynamic_cast<ProjectDataItemSet *>(mergeContainer);
 

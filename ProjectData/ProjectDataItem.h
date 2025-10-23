@@ -161,6 +161,10 @@ public:
         return _data.clone(parent);
     }
 
+    DataType duplicateData(QObject *parent) const {
+        return _data.duplicate(parent);
+    }
+
     /**
      * @brief Replaces the ProjectDataItem's data.
      * @param newData The new data
@@ -223,9 +227,12 @@ public:
         return clone;
     }
 
-    DerivedType *duplicate() const {
-        DerivedType *duplicate = new DerivedType(parent(), generateID());
-        duplicate->setData(cloneData());
+    DerivedType *duplicate(QObject *parent = nullptr) const {
+        if(!parent)
+            parent = this->parent();
+
+        DerivedType *duplicate = new DerivedType(parent, generateID());
+        duplicate->setData(duplicateData(duplicate));
         duplicate->setObjectName(idAsString());
         return duplicate;
     }
