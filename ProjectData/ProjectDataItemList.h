@@ -289,6 +289,14 @@ public:
         QList<T *>::clear();
     }
 
+    template<typename R, typename Function>
+    QList<R> map(Function f) {
+        QList<R> result;
+        for(T *item : *this)
+            result.append(f(item));
+        return result;
+    }
+
     QJsonArray toJson() const override {
         QJsonArray result;
         for(T *item : *this) {
