@@ -20,7 +20,7 @@ void TimeProfileTableModel::setRoute(Route *route) {
 
 int TimeProfileTableModel::columnCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return 2;
+    return 3;
 }
 
 QVariant TimeProfileTableModel::headerData(int section, Qt::Orientation orientation,
@@ -29,10 +29,10 @@ QVariant TimeProfileTableModel::headerData(int section, Qt::Orientation orientat
         return QVariant();
 
     switch(section) {
-    case 0:
+    case 1:
         return tr("Name");
 
-    case 1:
+    case 2:
         return tr("Duration");
     }
 
@@ -46,10 +46,10 @@ QVariant TimeProfileTableModel::data(const QModelIndex &index, int role) const {
     TimeProfile *p = itemAt(index.row());
 
     switch(index.column()) {
-        case 0:
+        case 1:
             return p->name();
 
-        case 1: {
+        case 2: {
             QLocale locale;
             double minutes = p->duration();
 

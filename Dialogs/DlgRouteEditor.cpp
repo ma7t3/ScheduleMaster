@@ -156,6 +156,12 @@ DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
 
     _timeProfileModel->setRoute(_route);
     ui->twProfiles->setModel(_timeProfileModel);
+    ui->twProfiles->setColumnHidden(0, true);
+    ui->twProfiles->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    ui->twProfiles->header()->setSectionResizeMode(2, QHeaderView::Fixed);
+    ui->twProfiles->header()->resizeSection(2, 20);
+
+    connect(ui->twProfiles->selectionModel(), &QItemSelectionModel::currentChanged, this, &DlgRouteEditor::onCurrentTimeProfileChanged);
 
     ui->pteComment->setPlainText(_route->comment());
     ui->leName->setText(route->name());
@@ -166,6 +172,14 @@ DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
     connect(ui->sbCode,      &QSpinBox::valueChanged,         this, &DlgRouteEditor::onSomethingChanged);
     connect(ui->cbDirection, &QComboBox::currentIndexChanged, this, &DlgRouteEditor::onSomethingChanged);
     connect(ui->pteComment,  &QPlainTextEdit::textChanged,    this, &DlgRouteEditor::onSomethingChanged);
+
+    connect(ui->timeProfileEditor, &WdgTimeProfileEditor::somethingChanged, this, &DlgRouteEditor::onSomethingChanged);
+
+    connect(ui->tabWidget, &QTabWidget::currentChanged, ui->timeProfileEditor, &WdgTimeProfileEditor::reload);
+
+    onCurrentTimeProfileChanged();
+
+    ui->splitter->setSizes({0, 1});
 }
 
 DlgRouteEditor::~DlgRouteEditor() {
@@ -279,6 +293,13 @@ void DlgRouteEditor::onProfileDown() {
 
     _route->moveTimeProfile(row, row + 1);
     onSomethingChanged();
+}
+
+void DlgRouteEditor::onCurrentTimeProfileChanged() {
+    const QModelIndex current = ui->twProfiles->currentIndex();
+    TimeProfile *p = static_cast<TimeProfile *>(current.internalPointer());
+    ui->timeProfileEditor->setTimeProfile(p);
+    ui->gbCurrentProfile->setVisible(current.isValid());
 }
 
 void DlgRouteEditor::onSomethingChanged() {

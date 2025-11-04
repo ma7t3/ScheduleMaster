@@ -72,6 +72,8 @@ SOURCES += \
     Widgets/WdgGlobalSearchItem.cpp \
     Widgets/WdgProjectDataTableQuickSearchLineEdit.cpp \
     Widgets/WdgTableColumnVisibilitySelector.cpp \
+    Widgets/WdgTimeProfileEditor.cpp \
+    Widgets/WdgTimeProfileEditorTable.cpp \
     main.cpp \
     MainWindow.cpp \
     ProjectData/ProjectData.cpp \
@@ -198,6 +200,8 @@ HEADERS += \
     Widgets/WdgProjectDataTableQuickSearchLineEdit.h \
     Widgets/WdgProjectDataTableView.h \
     Widgets/WdgTableColumnVisibilitySelector.h \
+    Widgets/WdgTimeProfileEditor.h \
+    Widgets/WdgTimeProfileEditorTable.h \
     Widgets/WdgVariantEditor.h \
     Widgets/WdgWelcomeRecentProjectEntry.h
 
@@ -234,6 +238,7 @@ FORMS += \
     Widgets/WdgFilterBanner.ui \
     Widgets/WdgGlobalSearchItem.ui \
     Widgets/WdgTableColumnVisibilitySelector.ui \
+    Widgets/WdgTimeProfileEditor.ui \
     Widgets/WdgVariantEditor.ui \
     Widgets/WdgWelcomeRecentProjectEntry.ui
 

@@ -39,6 +39,8 @@ protected slots:
     void onProfileUp();
     void onProfileDown();
 
+    void onCurrentTimeProfileChanged();
+
     void onSomethingChanged();
 
     void accept() override;
