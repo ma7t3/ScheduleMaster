@@ -1110,6 +1110,26 @@
         "defaultKeyboardShortcut": ""
     },
     {
+        "id": "timeProfileEditor.options",
+        "icon": "gear",
+        "text": {
+            "object": "translated_string",
+            "en_US" : "Options",
+            "de_DE" : "Optionen"
+        },
+        "description": {
+            "object": "translated_string",
+            "en_US" : "Show/hide options",
+            "de_DE" : "Optionen verbergen/anzeigen"
+        },
+        "breadcrumb": {
+            "object": "translated_string",
+            "en_US" : "Create/Edit Route > Create/Edit Time Profile",
+            "de_DE" : "Route erstellen/bearbeiten > Fahrtzeitprofil erstellen/bearbeiten"
+        },
+        "defaultKeyboardShortcut": ""
+    },
+    {
         "id": "variantEditor.listItem.add",
         "icon": "plus",
         "text": {
