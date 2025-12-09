@@ -42,6 +42,7 @@ SOURCES += \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
+    ProjectData/ProjectDataItem.cpp \
     ProjectData/TimeProfile.cpp \
     ProjectData/TimeProfileItem.cpp \
     ProjectDataModels/BusstopPlatformTableModel.cpp \
@@ -142,7 +143,6 @@ HEADERS += \
     MainWindow.h \
     ProjectData/ProjectData.h \
     ProjectData/ProjectDataItem.h \
-    ProjectData/ProjectDataItemSignals.h \
     ProjectData/ProjectDataItemData.h \
     ProjectData/ProjectDataItemContainer.h \
     ProjectData/ProjectDataItemList.h \

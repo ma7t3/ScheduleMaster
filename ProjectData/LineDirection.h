@@ -27,9 +27,9 @@ struct LineDirectionData : ProjectDataItemData<LineDirectionData> {
  * Every line can have multiple LineDirections (usually 1 or 2) which specify, which travel directions the Line has.
  * Every Line's Route has one specific direction it is connected to.
  */
-class LineDirection : public ProjectDataItem<LineDirection, LineDirectionData> {
+class LineDirection : public ProjectDataItemCRTP<LineDirection, LineDirectionData> {
     friend class Line;
-    friend class ProjectDataItem<LineDirection, LineDirectionData>;
+    friend class ProjectDataItemCRTP<LineDirection, LineDirectionData>;
     Q_OBJECT
 private:
     /**

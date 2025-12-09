@@ -4,15 +4,15 @@
 
 TimeProfileItem::TimeProfileItem(QObject *parent, RouteBusstopItem *busstop, const QUuid &id,
                                  TimeProfileItem *original) :
-    ProjectDataItem(parent, id, original) {
+    ProjectDataItemCRTP(parent, id, original) {
     _data.busstopID = busstop->id();
 }
 
 TimeProfileItem::TimeProfileItem(QObject *parent, const QUuid &id, TimeProfileItem *original) :
-    ProjectDataItem(parent, id, original) {}
+    ProjectDataItemCRTP(parent, id, original) {}
 
 TimeProfileItem::TimeProfileItem(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent) {
+    ProjectDataItemCRTP(parent) {
     fromJson(jsonObject);
 }
 
@@ -48,7 +48,7 @@ void TimeProfileItem::setDeparture(const float &value) {
 }
 
 QJsonObject TimeProfileItem::toJson() const {
-    QJsonObject jsonObject = ProjectDataItem::toJson();
+    QJsonObject jsonObject = ProjectDataItemCRTP::toJson();
 
     jsonObject.insert("busstopID", _data.busstopID.toString(QUuid::WithoutBraces));
 
@@ -59,7 +59,7 @@ QJsonObject TimeProfileItem::toJson() const {
 }
 
 void TimeProfileItem::fromJson(const QJsonObject &jsonObject) {
-    ProjectDataItem::fromJson(jsonObject);
+    ProjectDataItemCRTP::fromJson(jsonObject);
     // TODO
 
     const QUuid busstopID = QUuid::fromString(jsonObject.value("busstopID").toString());

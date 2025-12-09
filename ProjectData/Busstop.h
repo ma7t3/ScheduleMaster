@@ -64,9 +64,9 @@ struct BusstopData : ProjectDataItemData<BusstopData> {
  * It can have multiple platforms where buses can stop.
  */
 
-class Busstop : public ProjectDataItem<Busstop, BusstopData> {
+class Busstop : public ProjectDataItemCRTP<Busstop, BusstopData> {
     friend class ProjectData;
-    friend class ProjectDataItem<Busstop, BusstopData>;
+    friend class ProjectDataItemCRTP<Busstop, BusstopData>;
     Q_OBJECT
 private:
     /**

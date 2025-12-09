@@ -1,11 +1,11 @@
 #include "LineDirection.h"
 
 LineDirection::LineDirection(QObject *parent, const QUuid &id, LineDirection *original) :
-    ProjectDataItem(parent, id, original) {
+    ProjectDataItemCRTP(parent, id, original) {
 }
 
 LineDirection::LineDirection(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent) {
+    ProjectDataItemCRTP(parent) {
     fromJson(jsonObject);
 }
 
@@ -19,13 +19,13 @@ void LineDirection::setDescription(const QString &newDescription) {
 }
 
 QJsonObject LineDirection::toJson() const {
-    QJsonObject jsonObject = ProjectDataItem::toJson();
+    QJsonObject jsonObject = ProjectDataItemCRTP::toJson();
     jsonObject.insert("description", description());
     return jsonObject;
 }
 
 void LineDirection::fromJson(const QJsonObject &jsonObject) {
-    ProjectDataItem::fromJson(jsonObject);
+    ProjectDataItemCRTP::fromJson(jsonObject);
     setDescription(jsonObject.value("description").toString(tr("unkown line direction")));
 }
 

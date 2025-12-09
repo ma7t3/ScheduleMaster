@@ -28,9 +28,9 @@ struct RouteBusstopItemData : ProjectDataItemData<RouteBusstopItemData> {
  * It contains information about which busstop is used and which platform is prefered.
  * In addition, one Route can use the same Busstop multiple times. So there will be multiple differen RouteBusstopItems referencing the same Busstop.
  */
-class RouteBusstopItem : public ProjectDataItem<RouteBusstopItem, RouteBusstopItemData> {
+class RouteBusstopItem : public ProjectDataItemCRTP<RouteBusstopItem, RouteBusstopItemData> {
     friend class Route;
-    friend class ProjectDataItem<RouteBusstopItem, RouteBusstopItemData>;
+    friend class ProjectDataItemCRTP<RouteBusstopItem, RouteBusstopItemData>;
     Q_OBJECT
 private:
     /**

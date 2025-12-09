@@ -46,9 +46,9 @@ struct BusstopPlatformData : ProjectDataItemData<BusstopPlatformData> {
  * One busstop has a name and certain flags that describe its features.
  */
 
-class BusstopPlatform : public ProjectDataItem<BusstopPlatform, BusstopPlatformData> {
+class BusstopPlatform : public ProjectDataItemCRTP<BusstopPlatform, BusstopPlatformData> {
     friend class Busstop;
-    friend class ProjectDataItem<BusstopPlatform, BusstopPlatformData>;
+    friend class ProjectDataItemCRTP<BusstopPlatform, BusstopPlatformData>;
     Q_OBJECT
 private:
     /**

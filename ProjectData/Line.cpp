@@ -4,11 +4,11 @@
 #include <QCollator>
 
 Line::Line(QObject *parent, const QUuid &id, Line *original) :
-    ProjectDataItem(parent, id, original) {
+    ProjectDataItemCRTP(parent, id, original) {
 }
 
 Line::Line(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent) {
+    ProjectDataItemCRTP(parent) {
     fromJson(jsonObject);
 }
 
@@ -210,7 +210,7 @@ PDISet<Busstop> Line::allBusstops() const {
 }
 
 QJsonObject Line::toJson() const {
-    QJsonObject jsonObject = ProjectDataItem::toJson();
+    QJsonObject jsonObject = ProjectDataItemCRTP::toJson();
     jsonObject.insert("name",        name());
     jsonObject.insert("description", description());
     jsonObject.insert("color",       color().name());
@@ -222,7 +222,7 @@ QJsonObject Line::toJson() const {
 }
 
 void Line::fromJson(const QJsonObject &jsonObject) {
-    ProjectDataItem::fromJson(jsonObject);
+    ProjectDataItemCRTP::fromJson(jsonObject);
     setName(jsonObject.value("name").toString(tr("Unnamed line")));
     setDescription(jsonObject.value("description").toString());
     setColor(QColor(jsonObject.value("color").toString()));
@@ -236,7 +236,7 @@ void Line::fromJson(const QJsonObject &jsonObject) {
     for(const QJsonValue &val : jsonRoutes) {
         Route *r = createRoute(val.toObject());
         if(route(r->id()))
-            r->setID(generateID()); // NOTE: This was only for testing purposes. If you have no idea, why this is, you can safely remove it! :)))
+            r->setID(QUuid::createUuid()); // NOTE: This was only for testing purposes. If you have no idea, why this is, you can safely remove it! :)))
 
         _data.routes.add(r);
     }

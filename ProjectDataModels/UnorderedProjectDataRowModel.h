@@ -143,7 +143,7 @@ protected:
             return;
 
         if(!_projectData)
-            _projectData = static_cast<ProjectDataItemSignals *>(item)->findParent<ProjectData>();
+            _projectData = static_cast<ProjectDataItem *>(item)->findParent<ProjectData>();
 
         const auto it = _data.lowerBound(item->id());
         const int row = std::distance(_data.begin(), it);

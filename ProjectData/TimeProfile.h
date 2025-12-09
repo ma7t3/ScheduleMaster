@@ -13,8 +13,8 @@ struct TimeProfileData : ProjectDataItemData<TimeProfileData> {
     mutable PDISet<TimeProfileItem> items;
 };
 
-class TimeProfile : public ProjectDataItem<TimeProfile, TimeProfileData> {
-    friend class ProjectDataItem<TimeProfile, TimeProfileData>;
+class TimeProfile : public ProjectDataItemCRTP<TimeProfile, TimeProfileData> {
+    friend class ProjectDataItemCRTP<TimeProfile, TimeProfileData>;
 
     Q_OBJECT
 public:

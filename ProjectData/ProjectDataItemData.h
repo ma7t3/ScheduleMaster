@@ -61,7 +61,7 @@ struct ProjectDataItemData {
         return copy;
     }
 
-    void merge(DerivedType &mergeData, QObject *parent) {
+    void merge(DerivedType mergeData, QObject *parent) {
         // Speichere die aktuellen Container-Referenzen
         QList<ProjectDataItemContainer *> selfList = parentOwnsItemsMembersList();
         QList<ProjectDataItemContainer *> selfCopyList;

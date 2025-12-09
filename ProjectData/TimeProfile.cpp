@@ -3,9 +3,9 @@
 #include "ProjectData/Route.h"
 
 TimeProfile::TimeProfile(QObject *parent, const QUuid &id, TimeProfile *original) :
-    ProjectDataItem(parent, id, original) {}
+    ProjectDataItemCRTP(parent, id, original) {}
 
-TimeProfile::TimeProfile(QObject *parent, const QJsonObject &jsonObject) : ProjectDataItem(parent) {
+TimeProfile::TimeProfile(QObject *parent, const QJsonObject &jsonObject) : ProjectDataItemCRTP(parent) {
     fromJson(jsonObject);
 }
 
@@ -53,7 +53,7 @@ TimeProfileItem *TimeProfile::item(RouteBusstopItem *busstop) const {
 }
 
 QJsonObject TimeProfile::toJson() const {
-    QJsonObject jsonObject = ProjectDataItem::toJson();
+    QJsonObject jsonObject = ProjectDataItemCRTP::toJson();
 
     jsonObject.insert("name",  name());
     jsonObject.insert("items", items().toJson());
@@ -70,7 +70,7 @@ TimeProfileItem *TimeProfile::createItem(const QJsonObject &jsonObject) {
 }
 
 void TimeProfile::fromJson(const QJsonObject &jsonObject) {
-    ProjectDataItem::fromJson(jsonObject);
+    ProjectDataItemCRTP::fromJson(jsonObject);
     setName(jsonObject.value("name").toString(tr("Time Profile")));
 
     const QJsonArray items = jsonObject.value("items").toArray();

@@ -1,11 +1,11 @@
 #include "Busstop.h"
 
 Busstop::Busstop(QObject *parent, const QUuid &id, Busstop *original) :
-    ProjectDataItem(parent, id, original) {
+    ProjectDataItemCRTP(parent, id, original) {
 }
 
 Busstop::Busstop(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent) {
+    ProjectDataItemCRTP(parent) {
     fromJson(jsonObject);
 }
 
@@ -119,7 +119,7 @@ void Busstop::setDefaultPlatform(const QUuid &id) {
 }
 
 QJsonObject Busstop::toJson() const {
-    QJsonObject jsonObject = ProjectDataItem::toJson();
+    QJsonObject jsonObject = ProjectDataItemCRTP::toJson();
     jsonObject.insert("name",      name());
     jsonObject.insert("flags",     flags().toInt());
 
@@ -133,7 +133,7 @@ QJsonObject Busstop::toJson() const {
 }
 
 void Busstop::fromJson(const QJsonObject &jsonObject) {
-    ProjectDataItem::fromJson(jsonObject);
+    ProjectDataItemCRTP::fromJson(jsonObject);
     setName(jsonObject.value("name").toString(tr("Unnamed busstop")));
     setFlags(BusstopFlags::fromInt(jsonObject.value("flags").toInt(0)));
 

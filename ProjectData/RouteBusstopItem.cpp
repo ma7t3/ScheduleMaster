@@ -3,16 +3,16 @@
 #include "ProjectData.h"
 
 RouteBusstopItem::RouteBusstopItem(QObject *parent, Busstop *busstop, const QUuid &id, RouteBusstopItem *original) :
-    ProjectDataItem(parent, id, original) {
+    ProjectDataItemCRTP(parent, id, original) {
     _data.busstop = busstop;
 }
 
 RouteBusstopItem::RouteBusstopItem(QObject *parent, const QUuid &id, RouteBusstopItem *original) :
-    ProjectDataItem(parent, id, original) {
+    ProjectDataItemCRTP(parent, id, original) {
 }
 
 RouteBusstopItem::RouteBusstopItem(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent) {
+    ProjectDataItemCRTP(parent) {
     fromJson(jsonObject);
 }
 
@@ -30,7 +30,7 @@ void RouteBusstopItem::setDefaultPlatform(BusstopPlatform *platform) {
 }
 
 QJsonObject RouteBusstopItem::toJson() const {
-    QJsonObject jsonObject = ProjectDataItem::toJson();
+    QJsonObject jsonObject = ProjectDataItemCRTP::toJson();
     jsonObject.insert("busstop", busstop()->idAsString());
 
     BusstopPlatform *defaultPlatform = this->defaultPlatform();
@@ -42,7 +42,7 @@ QJsonObject RouteBusstopItem::toJson() const {
 }
 
 void RouteBusstopItem::fromJson(const QJsonObject &jsonObject) {
-    ProjectDataItem::fromJson(jsonObject);
+    ProjectDataItemCRTP::fromJson(jsonObject);
 
     QUuid busstopID = QUuid::fromString(jsonObject.value("busstop").toString());
     QUuid defaultPlatformID = QUuid::fromString(jsonObject.value("defaultPlatform").toString());

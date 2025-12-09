@@ -51,9 +51,9 @@ struct RouteData : ProjectDataItemData<RouteData> {
  * Every route is assigned to one LineDirection as well but it doesn't take ownership of the direction since multiple routes can be assigned to the same direction.
  */
 
-class Route : public ProjectDataItem<Route, RouteData> {
+class Route : public ProjectDataItemCRTP<Route, RouteData> {
     friend class Line;
-    friend class ProjectDataItem<Route, RouteData>;
+    friend class ProjectDataItemCRTP<Route, RouteData>;
     Q_OBJECT
 private:
     /**

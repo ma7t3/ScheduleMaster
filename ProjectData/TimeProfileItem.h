@@ -12,9 +12,9 @@ struct TimeProfileItemData : ProjectDataItemData<TimeProfileItemData> {
     float departure = 0, arrival = -1;
 };
 
-class TimeProfileItem : public ProjectDataItem<TimeProfileItem, TimeProfileItemData> {
+class TimeProfileItem : public ProjectDataItemCRTP<TimeProfileItem, TimeProfileItemData> {
     friend class TimeProfile;
-    friend class ProjectDataItem<TimeProfileItem, TimeProfileItemData>;
+    friend class ProjectDataItemCRTP<TimeProfileItem, TimeProfileItemData>;
     Q_OBJECT
 
 private:

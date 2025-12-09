@@ -60,9 +60,9 @@ struct LineData : ProjectDataItemData<LineData> {
  * Every line also has multiple trips which you can think of as instances of one route with a certain time.
  */
 
-class Line : public ProjectDataItem<Line, LineData> {
+class Line : public ProjectDataItemCRTP<Line, LineData> {
     friend class ProjectData;
-    friend class ProjectDataItem<Line, LineData>;
+    friend class ProjectDataItemCRTP<Line, LineData>;
     Q_OBJECT
 private:
     /**

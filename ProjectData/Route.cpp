@@ -4,11 +4,11 @@
 #include "Line.h"
 
 Route::Route(QObject *parent, const QUuid &id, Route *original) :
-    ProjectDataItem(parent, id, original) {
+    ProjectDataItemCRTP(parent, id, original) {
 }
 
 Route::Route(QObject *parent, const QJsonObject &jsonObject) :
-    ProjectDataItem(parent) {
+    ProjectDataItemCRTP(parent) {
     fromJson(jsonObject);
 }
 
@@ -256,7 +256,7 @@ void Route::removeTimeProfile(const int &index) {
 }
 
 QJsonObject Route::toJson() const {
-    QJsonObject jsonObject = ProjectDataItem::toJson();
+    QJsonObject jsonObject = ProjectDataItemCRTP::toJson();
 
     jsonObject.insert("name", name());
     jsonObject.insert("code", code());
@@ -270,7 +270,7 @@ QJsonObject Route::toJson() const {
 }
 
 void Route::fromJson(const QJsonObject &jsonObject) {
-    ProjectDataItem::fromJson(jsonObject);
+    ProjectDataItemCRTP::fromJson(jsonObject);
     setName(jsonObject.value("name").toString(tr("unnamed route")));
     setCode(jsonObject.value("code").toInt(0));
     setDirection(qobject_cast<Line *>(parent())->direction(QUuid::fromString(jsonObject.value("direction").toString())));
