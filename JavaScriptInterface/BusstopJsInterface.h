@@ -2,13 +2,15 @@
 #define BUSSTOPJSINTERFACE_H
 
 #include "ProjectDataItemJsInterface.h"
-
 #include "ProjectData/Busstop.h"
+
+#include <QJSValue>
 
 class BusstopJsInterface : public ProjectDataItemJsInterfaceCRTP<Busstop> {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(BusstopFlagsJsInterface flags READ flags WRITE setFlags NOTIFY flagsChanged)
+    Q_PROPERTY(QJSValue platforms READ platforms NOTIFY platformsChanged)
 
 public:
     explicit BusstopJsInterface(QObject *parent = nullptr);
@@ -30,6 +32,8 @@ public:
     BusstopFlagsJsInterface flags() const;
     void setFlags(const BusstopFlagsJsInterface &flags);
 
+    QJSValue platforms() const;
+
 protected:
     virtual void connectToTarget(Busstop *target) override;
     virtual void disconnectFromTarget(Busstop *target) override;
@@ -37,6 +41,7 @@ protected:
 signals:
     void nameChanged();
     void flagsChanged();
+    void platformsChanged();
 };
 
 

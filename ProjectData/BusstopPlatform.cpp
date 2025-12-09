@@ -1,12 +1,16 @@
 #include "BusstopPlatform.h"
 
+#include "JavaScriptInterface/BusstopPlatformJsInterface.h"
+
 BusstopPlatform::BusstopPlatform(QObject *parent, const QUuid &id, BusstopPlatform *original) :
     ProjectDataItemCRTP(parent, id, original) {
+    createJsInterface<BusstopPlatformJsInterface>();
 }
 
 BusstopPlatform::BusstopPlatform(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItemCRTP(parent) {
     fromJson(jsonObject);
+    createJsInterface<BusstopPlatformJsInterface>();
 }
 
 bool BusstopPlatform::operator<(const BusstopPlatform &other) const {
