@@ -46,6 +46,17 @@
         }
     },
     {
+        "id": "general.suppressCrashWarning",
+        "type": "bool",
+        "default": false,
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "Suppress the crash warning during the application startup",
+            "de_DE": "Absturzwarnung beim Programmstart unterdrücken"
+        }
+    },
+    {
         "id": "general.lastUsedFiles",
         "type": "QStringList",
         "default": [],
