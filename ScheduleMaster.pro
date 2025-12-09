@@ -107,6 +107,7 @@ HEADERS += \
     Commands/CmdGeneral.h \
     Commands/CmdLines.h \
     Commands/CmdRoutes.h \
+    Commands/CmdScripting.h \
     Dialogs/DlgBusstopEditor.h \
     Dialogs/DlgConfigEditor.h \
     Dialogs/DlgGlobalSearch.h \
