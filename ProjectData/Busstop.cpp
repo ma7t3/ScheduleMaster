@@ -1,12 +1,16 @@
 #include "Busstop.h"
 
+#include "JavaScriptInterface/BusstopJsInterface.h"
+
 Busstop::Busstop(QObject *parent, const QUuid &id, Busstop *original) :
     ProjectDataItemCRTP(parent, id, original) {
+    createJsInterface<BusstopJsInterface>();
 }
 
 Busstop::Busstop(QObject *parent, const QJsonObject &jsonObject) :
     ProjectDataItemCRTP(parent) {
     fromJson(jsonObject);
+    createJsInterface<BusstopJsInterface>();
 }
 
 bool Busstop::operator<(const Busstop &other) const {

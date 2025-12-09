@@ -42,6 +42,7 @@ SOURCES += \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
+    JavaScriptInterface/BusstopJsInterface.cpp \
     JavaScriptInterface/ProjectDataJsInterface.cpp \
     ProjectData/ProjectDataItem.cpp \
     ProjectData/TimeProfile.cpp \
@@ -141,6 +142,7 @@ HEADERS += \
     ItemModels/LanguagesModel.h \
     ItemModels/LocalConfigModel.h \
     ItemModels/StylesModel.h \
+    JavaScriptInterface/BusstopJsInterface.h \
     JavaScriptInterface/JavaScriptInterface.h \
     JavaScriptInterface/ProjectDataItemJsInterface.h \
     JavaScriptInterface/ProjectDataJsInterface.h \
