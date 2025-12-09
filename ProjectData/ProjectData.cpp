@@ -42,6 +42,18 @@ void ProjectData::reset() {
     emit cleared();
 }
 
+QList<ProjectDataItem *> ProjectData::jsModifiedItems() const {
+    QList<ProjectDataItem *> items;
+
+    for(Busstop *b : _busstops)
+        items.append(b->jsModifiedItems());
+
+    for(Line *l : _lines)
+        items.append(l->jsModifiedItems());
+
+    return items;
+}
+
 int ProjectData::busstopCount() const {
     return _busstops.count();
 }

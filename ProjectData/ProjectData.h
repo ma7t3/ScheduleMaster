@@ -67,6 +67,8 @@ public:
      */
     void reset();
 
+    QList<ProjectDataItem *> jsModifiedItems() const;
+
     /**
      * @brief Returns the number of busstops in the project.
      *
