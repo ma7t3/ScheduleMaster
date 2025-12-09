@@ -8,6 +8,8 @@
 #include <QMap>
 #include <QDebug>
 
+class ProjectDataItem;
+
 /**
  * @class ProjectDataItemList
  * @brief The ProjectDataItemList class is container for storing ProjectDataItems in a defined order.
@@ -80,6 +82,14 @@ public:
             qDebug().noquote() << i << current->dump();
             i++;
         }
+    }
+
+    virtual QList<ProjectDataItem  *> valuesBasePtr() const override {
+        QList<ProjectDataItem *> list;
+        for(T *item : *this)
+            list.append(item);
+
+        return list;
     }
 
     /**

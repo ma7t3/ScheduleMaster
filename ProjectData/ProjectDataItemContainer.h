@@ -3,6 +3,8 @@
 
 #include <QJsonArray>
 
+class ProjectDataItem;
+
 /**
  * @class ProjectDataItemContainer
  * @brief The ProjectDataItemContainer class is a general parent class for storing ProjectDataItems.
@@ -25,6 +27,8 @@ public:
     ProjectDataItemContainer() : _parentOwnsItems(false) {}
 
     virtual ~ProjectDataItemContainer() = default;
+
+    virtual QList<ProjectDataItem  *> valuesBasePtr() const = 0;
 
     /**
      * @brief Returns if the _parentOwnsItems property is set to true.

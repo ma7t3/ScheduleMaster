@@ -6,6 +6,8 @@
 #include <QHash>
 #include <QUuid>
 
+class ProjectDataItem;
+
 /**
  * @class ProjectDataItemSet
  * @brief The ProjectDataItemSet class is container for storing ProjectDataItems without a defined order.
@@ -63,7 +65,14 @@ public:
                 add(current);
                 current->setParent(parent);
             }
-    };
+    }
+
+    virtual QList<ProjectDataItem  *> valuesBasePtr() const override {
+        QList<ProjectDataItem  *> values;
+        for(T *item : this->values())
+            values.append(item);
+        return values;
+    }
 
     void dumpData() const override {
         for(T *current : this->values()) {
