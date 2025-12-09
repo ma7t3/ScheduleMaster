@@ -153,5 +153,56 @@
         "defaultKeyboardShortcut": "Alt+6",
         "layout": {
         }
+    },
+    {
+        "id": "scripting",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Scripting",
+            "de_DE": "Scripten"
+        },
+        "icon": "code",
+        "defaultKeyboardShortcut": "Alt+7",
+        "layout": {
+            "docks": [
+                {
+                    "id": "busstops",
+                    "visible": false,
+                    "area": "left"
+                },
+                {
+                    "id": "lines",
+                    "visible": false,
+                    "area": "left"
+                },
+                {
+                    "id": "routes",
+                    "visible": false,
+                    "area": "left"
+                },
+                {
+                    "id": "scriptEditor",
+                    "visible": true,
+                    "area": "right"
+                }
+            ],
+            "tabify": [
+                {
+                    "first": "busstops",
+                    "second": "lines"
+                },
+                {
+                    "first": "lines",
+                    "second": "routes"
+                }
+            ],
+            "resize": [
+                {
+                    "docks": ["busstops", "scriptEditor"],
+                    "sizes": [0.5, 0.5],
+                    "direction": "horizontal"
+                }
+            ]
+        }
     }
 ]
