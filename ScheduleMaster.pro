@@ -63,6 +63,7 @@ SOURCES += \
     Widgets/Docks/DockLines.cpp \
     Widgets/Docks/DockNews.cpp \
     Widgets/Docks/DockRoutes.cpp \
+    Widgets/Docks/DockScriptEditor.cpp \
     Widgets/Docks/DockWelcome.cpp \
     Widgets/FilterPopups/WdgBusstopsFilterPopup.cpp \
     Widgets/FilterPopups/WdgFilterPopup.cpp \
@@ -192,6 +193,7 @@ HEADERS += \
     Widgets/Docks/DockLines.h \
     Widgets/Docks/DockNews.h \
     Widgets/Docks/DockRoutes.h \
+    Widgets/Docks/DockScriptEditor.h \
     Widgets/Docks/DockWelcome.h \
     Widgets/FilterPopups/WdgBusstopsFilterPopup.h \
     Widgets/FilterPopups/WdgFilterPopup.h \
@@ -233,6 +235,7 @@ FORMS += \
     Widgets/Docks/DockLines.ui \
     Widgets/Docks/DockNews.ui \
     Widgets/Docks/DockRoutes.ui \
+    Widgets/Docks/DockScriptEditor.ui \
     Widgets/Docks/DockWelcome.ui \
     Widgets/FilterPopups/WdgBusstopsFilterPopup.ui \
     Widgets/FilterPopups/WdgFilterPopup.ui \

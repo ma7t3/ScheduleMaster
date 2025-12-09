@@ -50,6 +50,16 @@
         "defaultKeyboardShortcut": "Alt+R"
     },
     {
+        "id": "scriptEditor",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Script Editor",
+            "de_DE": "Script-Editor"
+        },
+        "icon": "code",
+        "defaultKeyboardShortcut": "Alt+S"
+    },
+    {
         "id": "undoView",
         "name": {
             "object": "translated_string",
