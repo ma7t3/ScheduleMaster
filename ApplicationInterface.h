@@ -3,7 +3,8 @@
 
 #include <QObject>
 
-#include "ProjectData/ProjectData.h"
+class QUndoStack;
+class ProjectData;
 
 class ApplicationInterface : public QObject {
     Q_OBJECT
@@ -13,18 +14,13 @@ private:
     explicit ApplicationInterface() : QObject(nullptr) {}
 
 public:
-    static void init(ProjectData *projectData) {
-        _projectData = projectData;
-    }
+    static void init(ProjectData *projectData);
 
-    static ApplicationInterface *instance() {
-        static ApplicationInterface instance;
-        return &instance;
-    }
+    static ApplicationInterface *instance();
 
-    static ProjectData *projectData() {
-        return _projectData;
-    }
+    static ProjectData *projectData();
+
+    static QUndoStack *undoStack();
 
 signals:
     void newProject();
