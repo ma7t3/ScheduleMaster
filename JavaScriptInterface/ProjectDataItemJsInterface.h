@@ -102,6 +102,7 @@ protected:
     virtual void connectToTarget(TargetType *target) {};
     virtual void disconnectFromTarget(TargetType *target) {};
 
+private:
     TargetType *_target, *_operationOriginal;
 };
 

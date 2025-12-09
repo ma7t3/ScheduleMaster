@@ -12,12 +12,12 @@ void BusstopJsInterface::setName(const QString &name) {
 }
 
 BusstopJsInterface::BusstopFlagsJsInterface BusstopJsInterface::flags() const {
-    return BusstopFlagsJsInterface(_target->flags().toInt());
+    return BusstopFlagsJsInterface(target()->flags().toInt());
 }
 
 void BusstopJsInterface::setFlags(const BusstopFlagsJsInterface &flags) {
     startOperation();
-    _target->setFlags(BusstopFlags(flags.toInt()));
+    target()->setFlags(BusstopFlags(flags.toInt()));
 }
 
 void BusstopJsInterface::connectToTarget(Busstop *target) {
