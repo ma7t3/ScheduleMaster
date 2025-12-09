@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -42,6 +42,7 @@ SOURCES += \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
+    JavaScriptInterface/ProjectDataJsInterface.cpp \
     ProjectData/ProjectDataItem.cpp \
     ProjectData/TimeProfile.cpp \
     ProjectData/TimeProfileItem.cpp \
@@ -140,6 +141,9 @@ HEADERS += \
     ItemModels/LanguagesModel.h \
     ItemModels/LocalConfigModel.h \
     ItemModels/StylesModel.h \
+    JavaScriptInterface/JavaScriptInterface.h \
+    JavaScriptInterface/ProjectDataItemJsInterface.h \
+    JavaScriptInterface/ProjectDataJsInterface.h \
     MainWindow.h \
     ProjectData/ProjectData.h \
     ProjectData/ProjectDataItem.h \
