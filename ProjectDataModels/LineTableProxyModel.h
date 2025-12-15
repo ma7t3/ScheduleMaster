@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "ProjectDataModels/SortFilterProxyModel.h"
-#include "Widgets/FilterPopups/WdgLineFilterPopup.h"
+#include "src/ui/widgets/FilterPopups/WdgLineFilterPopup.h"
 
 class LineTableProxyModel : public SortFilterProxyModel<WdgLineFilterPopup> {
     Q_OBJECT

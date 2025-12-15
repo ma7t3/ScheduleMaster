@@ -15,7 +15,7 @@
 #include "Global/SettingsManager.h"
 #include "ApplicationInterface.h"
 #include "ProjectData/ProjectData.h"
-#include "Widgets/Docks/DockAbstract.h"
+#include "src/ui/widgets/Docks/DockAbstract.h"
 
 #include <QTimer>
 #include <QDesktopServices>

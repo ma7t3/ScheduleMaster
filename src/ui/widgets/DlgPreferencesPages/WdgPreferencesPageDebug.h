@@ -1,7 +1,7 @@
 #ifndef WDGPREFERENCESPAGEDEBUG_H
 #define WDGPREFERENCESPAGEDEBUG_H
 
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 namespace Ui {
 class WdgPreferencesPageDebug;

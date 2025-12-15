@@ -6,7 +6,7 @@
 #include "DockAbstract.h"
 #include "ProjectDataModels/LineTableModel.h"
 #include "ProjectDataModels/LineTableProxyModel.h"
-#include "Widgets/WdgTableColumnVisibilitySelector.h"
+#include "src/ui/widgets/WdgTableColumnVisibilitySelector.h"
 
 class QSortFilterProxyModel;
 class QAction;

@@ -330,7 +330,7 @@
   <customwidget>
    <class>WdgTimeProfileEditor</class>
    <extends>QWidget</extends>
-   <header>Widgets\WdgTimeProfileEditor.h</header>
+   <header>src\ui\widgets\WdgTimeProfileEditor.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

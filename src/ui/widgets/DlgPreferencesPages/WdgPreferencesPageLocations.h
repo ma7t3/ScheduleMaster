@@ -1,7 +1,7 @@
 #ifndef WDGPREFERENCESPAGELOCATIONS_H
 #define WDGPREFERENCESPAGELOCATIONS_H
 
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 #include "Global/FolderLocationManager.h"
 

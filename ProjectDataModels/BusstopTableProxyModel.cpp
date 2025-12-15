@@ -1,7 +1,7 @@
 #include "BusstopTableProxyModel.h"
 
 #include "ProjectData/ProjectData.h"
-#include "Widgets/FilterPopups/WdgBusstopsFilterPopup.h"
+#include "src/ui/widgets/FilterPopups/WdgBusstopsFilterPopup.h"
 
 #include "ApplicationInterface.h"
 

@@ -182,13 +182,13 @@
   <customwidget>
    <class>WdgAccentColorSelector</class>
    <extends>QWidget</extends>
-   <header>Widgets/WdgAccentColorSelector.h</header>
+   <header>src\ui\widgets\WdgAccentColorSelector.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>WdgColorSchemeSelector</class>
    <extends>QWidget</extends>
-   <header>Widgets/WdgColorSchemeSelector.h</header>
+   <header>src\ui\widgets\WdgColorSchemeSelector.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

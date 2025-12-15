@@ -221,7 +221,7 @@ This setting is used and managed by ScheduleMaster internally. Changing it manua
   <customwidget>
    <class>WdgVariantEditor</class>
    <extends>QWidget</extends>
-   <header>Widgets\WdgVariantEditor.h</header>
+   <header>src\ui\widgets\WdgVariantEditor.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

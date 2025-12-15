@@ -8,9 +8,9 @@
 #include <QLineEdit>
 #include <QDockWidget>
 
-#include "Widgets/FilterPopups/WdgFilterPopup.h"
-#include "Widgets/FilterPopups/WdgFilterPopupContent.h"
-#include "Widgets/WdgFilterBanner.h"
+#include "src/ui/widgets/FilterPopups/WdgFilterPopup.h"
+#include "src/ui/widgets/FilterPopups/WdgFilterPopupContent.h"
+#include "src/ui/widgets/WdgFilterBanner.h"
 
 template<typename FilterPopupType>
 class SortFilterProxyModel : public QSortFilterProxyModel {

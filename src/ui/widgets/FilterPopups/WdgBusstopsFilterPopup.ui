@@ -57,7 +57,7 @@
   <customwidget>
    <class>WdgBusstopFlagEditor</class>
    <extends>QWidget</extends>
-   <header>Widgets\WdgBusstopFlagEditor.h</header>
+   <header>src\ui\widgets\WdgBusstopFlagEditor.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

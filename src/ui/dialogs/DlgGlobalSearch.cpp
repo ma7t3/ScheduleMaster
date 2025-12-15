@@ -4,7 +4,7 @@
 #include "Global/ActionManager.h"
 #include "Global/ActionController.h"
 #include "Global/IconController.h"
-#include "Widgets/WdgGlobalSearchItem.h"
+#include "src/ui/widgets/WdgGlobalSearchItem.h"
 
 #include <QKeyEvent>
 

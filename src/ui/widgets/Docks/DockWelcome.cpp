@@ -4,7 +4,7 @@
 #include "Global/ActionController.h"
 #include "Global/LastUsedFilesManager.h"
 #include "ApplicationInterface.h"
-#include "Widgets/WdgWelcomeRecentProjectEntry.h"
+#include "src/ui/widgets/WdgWelcomeRecentProjectEntry.h"
 
 #include <QDateTime>
 #include <QFileInfo>

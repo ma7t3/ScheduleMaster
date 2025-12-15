@@ -55,25 +55,25 @@ SOURCES += \
     ProjectDataModels/RouteTableModel.cpp \
     ProjectDataModels/RouteTableProxyModel.cpp \
     ProjectDataModels/TimeProfileTableModel.cpp \
-    Widgets/Docks/DockBusstops.cpp \
-    Widgets/Docks/DockLines.cpp \
-    Widgets/Docks/DockNews.cpp \
-    Widgets/Docks/DockRoutes.cpp \
-    Widgets/Docks/DockWelcome.cpp \
-    Widgets/FilterPopups/WdgBusstopsFilterPopup.cpp \
-    Widgets/FilterPopups/WdgFilterPopup.cpp \
-    Widgets/FilterPopups/WdgFilterPopupContent.cpp \
-    Widgets/FilterPopups/WdgLineFilterPopup.cpp \
-    Widgets/FilterPopups/WdgRouteFilterPopup.cpp \
-    Widgets/WdgBusstopFlagEditor.cpp \
-    Widgets/WdgBusstopPlatformEditor.cpp \
-    Widgets/WdgColorSelector.cpp \
-    Widgets/WdgFilterBanner.cpp \
-    Widgets/WdgGlobalSearchItem.cpp \
-    Widgets/WdgProjectDataTableQuickSearchLineEdit.cpp \
-    Widgets/WdgTableColumnVisibilitySelector.cpp \
-    Widgets/WdgTimeProfileEditor.cpp \
-    Widgets/WdgTimeProfileEditorTable.cpp \
+    src/ui/widgets/Docks/DockBusstops.cpp \
+    src/ui/widgets/Docks/DockLines.cpp \
+    src/ui/widgets/Docks/DockNews.cpp \
+    src/ui/widgets/Docks/DockRoutes.cpp \
+    src/ui/widgets/Docks/DockWelcome.cpp \
+    src/ui/widgets/FilterPopups/WdgBusstopsFilterPopup.cpp \
+    src/ui/widgets/FilterPopups/WdgFilterPopup.cpp \
+    src/ui/widgets/FilterPopups/WdgFilterPopupContent.cpp \
+    src/ui/widgets/FilterPopups/WdgLineFilterPopup.cpp \
+    src/ui/widgets/FilterPopups/WdgRouteFilterPopup.cpp \
+    src/ui/widgets/WdgBusstopFlagEditor.cpp \
+    src/ui/widgets/WdgBusstopPlatformEditor.cpp \
+    src/ui/widgets/WdgColorSelector.cpp \
+    src/ui/widgets/WdgFilterBanner.cpp \
+    src/ui/widgets/WdgGlobalSearchItem.cpp \
+    src/ui/widgets/WdgProjectDataTableQuickSearchLineEdit.cpp \
+    src/ui/widgets/WdgTableColumnVisibilitySelector.cpp \
+    src/ui/widgets/WdgTimeProfileEditor.cpp \
+    src/ui/widgets/WdgTimeProfileEditorTable.cpp \
     main.cpp \
     MainWindow.cpp \
     ProjectData/ProjectData.cpp \
@@ -83,19 +83,19 @@ SOURCES += \
     ProjectData/LineDirection.cpp \
     ProjectData/Route.cpp \
     ProjectData/RouteBusstopItem.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPage.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageHome.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.cpp \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.cpp \
-    Widgets/WdgAccentColorSelector.cpp \
-    Widgets/WdgColorSchemeSelector.cpp \
-    Widgets/WdgVariantEditor.cpp \
-    Widgets/WdgWelcomeRecentProjectEntry.cpp
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.cpp \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.cpp \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.cpp \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.cpp \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageHome.cpp \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.cpp \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageLocations.cpp \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.cpp \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.cpp \
+    src/ui/widgets/WdgAccentColorSelector.cpp \
+    src/ui/widgets/WdgColorSchemeSelector.cpp \
+    src/ui/widgets/WdgVariantEditor.cpp \
+    src/ui/widgets/WdgWelcomeRecentProjectEntry.cpp
 
 HEADERS += \
     ApplicationInterface.h \
@@ -170,40 +170,40 @@ HEADERS += \
     ProjectDataModels/TimeProfileTableModel.h \
     ProjectDataModels/UnorderedProjectDataRowModel.h \
     ProjectDataModels/UnorderedProjectDataRowModelSignals.h \
-    Widgets/DlgPreferencesPages/WdgPreferencesPage.h \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageHome.h \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h \
-    Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h \
-    Widgets/Docks/DockAbstract.h \
-    Widgets/Docks/DockBusstops.h \
-    Widgets/Docks/DockLines.h \
-    Widgets/Docks/DockNews.h \
-    Widgets/Docks/DockRoutes.h \
-    Widgets/Docks/DockWelcome.h \
-    Widgets/FilterPopups/WdgBusstopsFilterPopup.h \
-    Widgets/FilterPopups/WdgFilterPopup.h \
-    Widgets/FilterPopups/WdgFilterPopupContent.h \
-    Widgets/FilterPopups/WdgLineFilterPopup.h \
-    Widgets/FilterPopups/WdgRouteFilterPopup.h \
-    Widgets/WdgAccentColorSelector.h \
-    Widgets/WdgBusstopFlagEditor.h \
-    Widgets/WdgBusstopPlatformEditor.h \
-    Widgets/WdgColorSchemeSelector.h \
-    Widgets/WdgColorSelector.h \
-    Widgets/WdgFilterBanner.h \
-    Widgets/WdgGlobalSearchItem.h \
-    Widgets/WdgProjectDataTableQuickSearchLineEdit.h \
-    Widgets/WdgProjectDataTableView.h \
-    Widgets/WdgTableColumnVisibilitySelector.h \
-    Widgets/WdgTimeProfileEditor.h \
-    Widgets/WdgTimeProfileEditorTable.h \
-    Widgets/WdgVariantEditor.h \
-    Widgets/WdgWelcomeRecentProjectEntry.h
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageHome.h \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h \
+    src/ui/widgets/Docks/DockAbstract.h \
+    src/ui/widgets/Docks/DockBusstops.h \
+    src/ui/widgets/Docks/DockLines.h \
+    src/ui/widgets/Docks/DockNews.h \
+    src/ui/widgets/Docks/DockRoutes.h \
+    src/ui/widgets/Docks/DockWelcome.h \
+    src/ui/widgets/FilterPopups/WdgBusstopsFilterPopup.h \
+    src/ui/widgets/FilterPopups/WdgFilterPopup.h \
+    src/ui/widgets/FilterPopups/WdgFilterPopupContent.h \
+    src/ui/widgets/FilterPopups/WdgLineFilterPopup.h \
+    src/ui/widgets/FilterPopups/WdgRouteFilterPopup.h \
+    src/ui/widgets/WdgAccentColorSelector.h \
+    src/ui/widgets/WdgBusstopFlagEditor.h \
+    src/ui/widgets/WdgBusstopPlatformEditor.h \
+    src/ui/widgets/WdgColorSchemeSelector.h \
+    src/ui/widgets/WdgColorSelector.h \
+    src/ui/widgets/WdgFilterBanner.h \
+    src/ui/widgets/WdgGlobalSearchItem.h \
+    src/ui/widgets/WdgProjectDataTableQuickSearchLineEdit.h \
+    src/ui/widgets/WdgProjectDataTableView.h \
+    src/ui/widgets/WdgTableColumnVisibilitySelector.h \
+    src/ui/widgets/WdgTimeProfileEditor.h \
+    src/ui/widgets/WdgTimeProfileEditorTable.h \
+    src/ui/widgets/WdgVariantEditor.h \
+    src/ui/widgets/WdgWelcomeRecentProjectEntry.h
 
 FORMS += \
     src/ui/dialogs/DlgBusstopEditor.ui \
@@ -213,34 +213,34 @@ FORMS += \
     src/ui/dialogs/DlgPreferences.ui \
     src/ui/dialogs/DlgRouteEditor.ui \
     MainWindow.ui \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.ui \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.ui \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageHome.ui \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.ui \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
-    Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
-    Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
-    Widgets/Docks/DockBusstops.ui \
-    Widgets/Docks/DockLines.ui \
-    Widgets/Docks/DockNews.ui \
-    Widgets/Docks/DockRoutes.ui \
-    Widgets/Docks/DockWelcome.ui \
-    Widgets/FilterPopups/WdgBusstopsFilterPopup.ui \
-    Widgets/FilterPopups/WdgFilterPopup.ui \
-    Widgets/FilterPopups/WdgLineFilterPopup.ui \
-    Widgets/FilterPopups/WdgRouteFilterPopup.ui \
-    Widgets/WdgAccentColorSelector.ui \
-    Widgets/WdgBusstopFlagEditor.ui \
-    Widgets/WdgBusstopPlatformEditor.ui \
-    Widgets/WdgColorSchemeSelector.ui \
-    Widgets/WdgColorSelector.ui \
-    Widgets/WdgFilterBanner.ui \
-    Widgets/WdgGlobalSearchItem.ui \
-    Widgets/WdgTableColumnVisibilitySelector.ui \
-    Widgets/WdgTimeProfileEditor.ui \
-    Widgets/WdgVariantEditor.ui \
-    Widgets/WdgWelcomeRecentProjectEntry.ui
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.ui \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.ui \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageHome.ui \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.ui \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageLocations.ui \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.ui \
+    src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.ui \
+    src/ui/widgets/Docks/DockBusstops.ui \
+    src/ui/widgets/Docks/DockLines.ui \
+    src/ui/widgets/Docks/DockNews.ui \
+    src/ui/widgets/Docks/DockRoutes.ui \
+    src/ui/widgets/Docks/DockWelcome.ui \
+    src/ui/widgets/FilterPopups/WdgBusstopsFilterPopup.ui \
+    src/ui/widgets/FilterPopups/WdgFilterPopup.ui \
+    src/ui/widgets/FilterPopups/WdgLineFilterPopup.ui \
+    src/ui/widgets/FilterPopups/WdgRouteFilterPopup.ui \
+    src/ui/widgets/WdgAccentColorSelector.ui \
+    src/ui/widgets/WdgBusstopFlagEditor.ui \
+    src/ui/widgets/WdgBusstopPlatformEditor.ui \
+    src/ui/widgets/WdgColorSchemeSelector.ui \
+    src/ui/widgets/WdgColorSelector.ui \
+    src/ui/widgets/WdgFilterBanner.ui \
+    src/ui/widgets/WdgGlobalSearchItem.ui \
+    src/ui/widgets/WdgTableColumnVisibilitySelector.ui \
+    src/ui/widgets/WdgTimeProfileEditor.ui \
+    src/ui/widgets/WdgVariantEditor.ui \
+    src/ui/widgets/WdgWelcomeRecentProjectEntry.ui
 
 RESOURCES = Resources.qrc
 

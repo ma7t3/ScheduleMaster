@@ -2,7 +2,7 @@
 
 #include "Global/ActionController.h"
 #include "Global/WorkspaceManager.h"
-#include "Widgets/Docks/DockAbstract.h"
+#include "src/ui/widgets/Docks/DockAbstract.h"
 
 #include "Global/DockController.h"
 

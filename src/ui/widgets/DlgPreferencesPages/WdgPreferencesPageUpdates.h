@@ -1,7 +1,7 @@
 #ifndef WDGPREFERENCESPAGEUPDATES_H
 #define WDGPREFERENCESPAGEUPDATES_H
 
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 namespace Ui {
 class WdgPreferencesPageUpdates;

@@ -1,7 +1,7 @@
 #ifndef WDGPREFERENCESPAGEAPPEARANCE_H
 #define WDGPREFERENCESPAGEAPPEARANCE_H
 
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 class StylesModel;
 class IconSetsModel;

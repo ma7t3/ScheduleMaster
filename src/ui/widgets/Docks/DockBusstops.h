@@ -7,7 +7,7 @@
 #include "DockAbstract.h"
 #include "ProjectDataModels/BusstopTableModel.h"
 #include "ProjectDataModels/BusstopTableProxyModel.h"
-#include "Widgets/WdgTableColumnVisibilitySelector.h"
+#include "src/ui/widgets/WdgTableColumnVisibilitySelector.h"
 
 namespace Ui {
 class DockBusstops;

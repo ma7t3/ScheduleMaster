@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "ProjectDataModels/SortFilterProxyModel.h"
-#include "Widgets/FilterPopups/WdgRouteFilterPopup.h"
+#include "src/ui/widgets/FilterPopups/WdgRouteFilterPopup.h"
 
 class RouteTableProxyModel : public SortFilterProxyModel<WdgRouteFilterPopup> {
     Q_OBJECT

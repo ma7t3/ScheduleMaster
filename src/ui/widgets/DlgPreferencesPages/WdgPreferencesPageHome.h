@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QToolButton>
 
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 class LanguagesModel;
 class StylesModel;

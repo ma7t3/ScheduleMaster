@@ -3,14 +3,14 @@
 
 #include "src/ui/dialogs/DlgConfigEditor.h"
 #include "Global/SettingsManager.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
 
 #include "Global/IconController.h"
 

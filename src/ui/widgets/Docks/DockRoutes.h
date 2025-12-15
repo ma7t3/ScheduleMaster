@@ -5,7 +5,7 @@
 #include <QPersistentModelIndex>
 #include "DockAbstract.h"
 
-#include "Widgets/WdgTableColumnVisibilitySelector.h"
+#include "src/ui/widgets/WdgTableColumnVisibilitySelector.h"
 #include "ProjectData/Route.h"
 
 class ProjectData;

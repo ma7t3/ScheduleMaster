@@ -1,11 +1,11 @@
 #include "DockController.h"
 
 #include "Global/ActionController.h"
-#include "Widgets/Docks/DockWelcome.h"
-#include "Widgets/Docks/DockNews.h"
-#include "Widgets/Docks/DockBusstops.h"
-#include "Widgets/Docks/DockLines.h"
-#include "Widgets/Docks/DockRoutes.h"
+#include "src/ui/widgets/Docks/DockWelcome.h"
+#include "src/ui/widgets/Docks/DockNews.h"
+#include "src/ui/widgets/Docks/DockBusstops.h"
+#include "src/ui/widgets/Docks/DockLines.h"
+#include "src/ui/widgets/Docks/DockRoutes.h"
 
 #include <QDockWidget>
 #include <QUndoView>

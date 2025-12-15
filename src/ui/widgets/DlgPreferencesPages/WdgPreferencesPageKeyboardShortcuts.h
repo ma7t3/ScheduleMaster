@@ -1,7 +1,7 @@
 #ifndef WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H
 #define WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H
 
-#include "Widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 class KeyboardShortcutsSortFilterProxyModel;
 class KeyboardShortcutsModel;

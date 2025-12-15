@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DockBusstops</class>
- <widget class="QWidget" name="DockBusstops">
+ <class>DockLines</class>
+ <widget class="QWidget" name="DockLines">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>600</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,11 +15,11 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="hlButtonBar">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="pbNew">
        <property name="text">
-        <string>New</string>
+        <string>Add</string>
        </property>
       </widget>
      </item>
@@ -53,9 +53,13 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="WdgProjectDataTableQuickSearchLineEdit" name="leSearch"/>
+      <widget class="WdgProjectDataTableQuickSearchLineEdit" name="leSearch">
+       <property name="text">
+        <string notr="true"/>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QToolButton" name="tbFilter">
@@ -80,7 +84,7 @@
     <widget class="WdgFilterBanner" name="filterBanner" native="true"/>
    </item>
    <item>
-    <widget class="WdgProjectDataTableView&lt;Busstop&gt;" name="twBusstops">
+    <widget class="WdgProjectDataTableView&lt;Line&gt;" name="twLines">
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
      </property>
@@ -105,20 +109,20 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>WdgFilterBanner</class>
-   <extends>QWidget</extends>
-   <header>Widgets\WdgFilterBanner.h</header>
-   <container>1</container>
+   <class>WdgProjectDataTableView&lt;Line&gt;</class>
+   <extends>QTableView</extends>
+   <header>src\ui\widgets\WdgProjectDataTableView.h</header>
   </customwidget>
   <customwidget>
-   <class>WdgProjectDataTableView&lt;Busstop&gt;</class>
-   <extends>QTableView</extends>
-   <header>Widgets\WdgProjectDataTableView.h</header>
+   <class>WdgFilterBanner</class>
+   <extends>QWidget</extends>
+   <header>src\ui\widgets\WdgFilterBanner.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>WdgProjectDataTableQuickSearchLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>Widgets\WdgProjectDataTableQuickSearchLineEdit.h</header>
+   <header>src\ui\widgets\WdgProjectDataTableQuickSearchLineEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
