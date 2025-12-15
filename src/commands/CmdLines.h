@@ -1,7 +1,7 @@
 #ifndef CMDLINES_H
 #define CMDLINES_H
 
-#include "Commands/CmdGeneral.h"
+#include "CmdGeneral.h"
 #include "ProjectData/ProjectData.h"
 
 class CmdLineNew : public Command {

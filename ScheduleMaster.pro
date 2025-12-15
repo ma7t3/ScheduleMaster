@@ -99,10 +99,10 @@ SOURCES += \
 
 HEADERS += \
     ApplicationInterface.h \
-    Commands/CmdBusstops.h \
-    Commands/CmdGeneral.h \
-    Commands/CmdLines.h \
-    Commands/CmdRoutes.h \
+    src/commands/CmdBusstops.h \
+    src/commands/CmdGeneral.h \
+    src/commands/CmdLines.h \
+    src/commands/CmdRoutes.h \
     Dialogs/DlgBusstopEditor.h \
     Dialogs/DlgConfigEditor.h \
     Dialogs/DlgGlobalSearch.h \

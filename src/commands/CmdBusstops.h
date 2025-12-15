@@ -1,7 +1,7 @@
 #ifndef CMDBUSSTOPS_H
 #define CMDBUSSTOPS_H
 
-#include "Commands/CmdGeneral.h"
+#include "CmdGeneral.h"
 #include "ProjectData/ProjectData.h"
 
 class CmdBusstopNew : public Command {

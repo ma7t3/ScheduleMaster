@@ -8,7 +8,7 @@
 
 #include "Dialogs/DlgLineEditor.h"
 
-#include "Commands/CmdLines.h"
+#include "src/commands/CmdLines.h"
 
 #include <QAction>
 #include <QSortFilterProxyModel>

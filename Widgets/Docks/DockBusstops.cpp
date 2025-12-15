@@ -8,7 +8,7 @@
 #include "ApplicationInterface.h"
 #include "Dialogs/DlgBusstopEditor.h"
 
-#include "Commands/CmdBusstops.h"
+#include "src/commands/CmdBusstops.h"
 
 DockBusstops::DockBusstops(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockBusstops),

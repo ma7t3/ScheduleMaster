@@ -10,7 +10,7 @@
 #include "DockLines.h"
 #include "ProjectDataModels/RouteTableModel.h"
 
-#include "Commands/CmdRoutes.h"
+#include "src/commands/CmdRoutes.h"
 
 #include "ProjectDataModels/RouteTableModel.h"
 #include "ProjectDataModels/RouteTableProxyModel.h"

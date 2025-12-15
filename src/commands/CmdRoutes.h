@@ -1,7 +1,7 @@
 #ifndef CMDROUTES_H
 #define CMDROUTES_H
 
-#include "Commands/CmdGeneral.h"
+#include "CmdGeneral.h"
 #include "ProjectData/Line.h"
 
 class CmdRouteNew : public Command {
