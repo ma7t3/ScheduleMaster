@@ -1,7 +1,7 @@
 #include "DlgPreferences.h"
 #include "ui_DlgPreferences.h"
 
-#include "Dialogs/DlgConfigEditor.h"
+#include "src/ui/dialogs/DlgConfigEditor.h"
 #include "Global/SettingsManager.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
 #include "Widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"

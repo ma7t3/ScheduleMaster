@@ -6,7 +6,7 @@
 #include "Global/ActionController.h"
 #include "Global/SettingsManager.h"
 #include "ApplicationInterface.h"
-#include "Dialogs/DlgBusstopEditor.h"
+#include "src/ui/dialogs/DlgBusstopEditor.h"
 
 #include "src/commands/CmdBusstops.h"
 

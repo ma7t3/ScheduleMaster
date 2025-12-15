@@ -6,7 +6,7 @@
 #include "Global/SettingsManager.h"
 #include "ProjectDataModels/LineTableModel.h"
 
-#include "Dialogs/DlgLineEditor.h"
+#include "src/ui/dialogs/DlgLineEditor.h"
 
 #include "src/commands/CmdLines.h"
 

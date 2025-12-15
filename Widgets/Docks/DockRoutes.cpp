@@ -16,7 +16,7 @@
 #include "ProjectDataModels/RouteTableProxyModel.h"
 
 #include "ApplicationInterface.h"
-#include "Dialogs/DlgRouteEditor.h"
+#include "src/ui/dialogs/DlgRouteEditor.h"
 
 #include "Global/SettingsManager.h"
 

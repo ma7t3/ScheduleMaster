@@ -1,8 +1,8 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-#include "Dialogs/DlgGlobalSearch.h"
-#include "Dialogs/DlgPreferences.h"
+#include "src/ui/dialogs/DlgGlobalSearch.h"
+#include "src/ui/dialogs/DlgPreferences.h"
 #include "Global/ActionController.h"
 #include "Global/CrashDetector.h"
 #include "Global/DockController.h"

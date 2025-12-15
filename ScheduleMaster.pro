@@ -9,12 +9,12 @@ CONFIG += c++20
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Dialogs/DlgBusstopEditor.cpp \
-    Dialogs/DlgConfigEditor.cpp \
-    Dialogs/DlgGlobalSearch.cpp \
-    Dialogs/DlgLineEditor.cpp \
-    Dialogs/DlgPreferences.cpp \
-    Dialogs/DlgRouteEditor.cpp \
+    src/ui/dialogs/DlgBusstopEditor.cpp \
+    src/ui/dialogs/DlgConfigEditor.cpp \
+    src/ui/dialogs/DlgGlobalSearch.cpp \
+    src/ui/dialogs/DlgLineEditor.cpp \
+    src/ui/dialogs/DlgPreferences.cpp \
+    src/ui/dialogs/DlgRouteEditor.cpp \
     Global/ActionController.cpp \
     Global/ActionManager.cpp \
     Global/AppInfo.cpp \
@@ -103,12 +103,12 @@ HEADERS += \
     src/commands/CmdGeneral.h \
     src/commands/CmdLines.h \
     src/commands/CmdRoutes.h \
-    Dialogs/DlgBusstopEditor.h \
-    Dialogs/DlgConfigEditor.h \
-    Dialogs/DlgGlobalSearch.h \
-    Dialogs/DlgLineEditor.h \
-    Dialogs/DlgPreferences.h \
-    Dialogs/DlgRouteEditor.h \
+    src/ui/dialogs/DlgBusstopEditor.h \
+    src/ui/dialogs/DlgConfigEditor.h \
+    src/ui/dialogs/DlgGlobalSearch.h \
+    src/ui/dialogs/DlgLineEditor.h \
+    src/ui/dialogs/DlgPreferences.h \
+    src/ui/dialogs/DlgRouteEditor.h \
     Global/ActionController.h \
     Global/ActionManager.h \
     Global/AppInfo.h \
@@ -206,12 +206,12 @@ HEADERS += \
     Widgets/WdgWelcomeRecentProjectEntry.h
 
 FORMS += \
-    Dialogs/DlgBusstopEditor.ui \
-    Dialogs/DlgConfigEditor.ui \
-    Dialogs/DlgGlobalSearch.ui \
-    Dialogs/DlgLineEditor.ui \
-    Dialogs/DlgPreferences.ui \
-    Dialogs/DlgRouteEditor.ui \
+    src/ui/dialogs/DlgBusstopEditor.ui \
+    src/ui/dialogs/DlgConfigEditor.ui \
+    src/ui/dialogs/DlgGlobalSearch.ui \
+    src/ui/dialogs/DlgLineEditor.ui \
+    src/ui/dialogs/DlgPreferences.ui \
+    src/ui/dialogs/DlgRouteEditor.ui \
     MainWindow.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \
     Widgets/DlgPreferencesPages/WdgPreferencesPageDebug.ui \
