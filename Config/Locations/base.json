@@ -24,6 +24,18 @@
         "changeRequiresRestart": true
     },
     {
+        "id": "scripts",
+        "name": {
+            "object": "translated_string",
+            "en_US": "Scripts",
+            "de_DE": "Skripte"
+        },
+        "default": ["${HOME}/ScheduleMaster/Scripts"],
+        "icon": "code",
+        "multiple": false,
+        "changeRequiresRestart": false
+    },
+    {
         "id": "plugins",
         "name": {
             "object": "translated_string",
