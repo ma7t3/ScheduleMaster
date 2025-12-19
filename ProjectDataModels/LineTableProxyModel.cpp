@@ -1,6 +1,6 @@
 #include "LineTableProxyModel.h"
 
-#include "ProjectData/Line.h"
+#include "src/projectdata/Line.h"
 
 #include <QCollator>
 #include <QWidget>

@@ -6,7 +6,7 @@
 #include "DockAbstract.h"
 
 #include "src/ui/widgets/WdgTableColumnVisibilitySelector.h"
-#include "ProjectData/Route.h"
+#include "src/projectdata/Route.h"
 
 class ProjectData;
 class Line;

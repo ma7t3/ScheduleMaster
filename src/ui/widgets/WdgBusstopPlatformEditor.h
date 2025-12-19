@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QCheckBox>
-#include "ProjectData/BusstopPlatform.h"
+#include "src/projectdata/BusstopPlatform.h"
 
 namespace Ui {
 class WdgBusstopPlatformEditor;

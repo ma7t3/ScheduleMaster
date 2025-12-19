@@ -2,7 +2,7 @@
 #define WDGBUSSTOPSFILTERPOPUP_H
 
 #include "src/ui/widgets/FilterPopups/WdgFilterPopupContent.h"
-#include "ProjectData/Busstop.h"
+#include "src/projectdata/Busstop.h"
 
 #include "ProjectDataModels/LineSelectionListModel.h"
 #include "ProjectDataModels/LineSelectionListProxyModel.h"

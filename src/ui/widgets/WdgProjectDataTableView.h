@@ -6,7 +6,7 @@
 #include <QPoint>
 #include <QMenu>
 
-#include "ProjectData/ProjectDataItemSet.h"
+#include "src/projectdata/ProjectDataItemSet.h"
 #include "ProjectDataModels/UnorderedProjectDataRowModel.h"
 
 class WdgProjectDataTableViewSignals : public QTableView {

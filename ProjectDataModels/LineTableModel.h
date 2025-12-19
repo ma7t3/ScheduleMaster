@@ -4,8 +4,8 @@
 #include <QAbstractItemModel>
 
 #include "ProjectDataModels/UnorderedProjectDataRowModel.h"
-#include "ProjectData/ProjectData.h"
-#include "ProjectData/Line.h"
+#include "src/projectdata/ProjectData.h"
+#include "src/projectdata/Line.h"
 
 class LineTableModel : public UnorderedProjectDataRowModel<Line> {
     Q_OBJECT

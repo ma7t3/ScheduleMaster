@@ -1,6 +1,6 @@
 #include "BusstopTableProxyModel.h"
 
-#include "ProjectData/ProjectData.h"
+#include "src/projectdata/ProjectData.h"
 #include "src/ui/widgets/FilterPopups/WdgBusstopsFilterPopup.h"
 
 #include "ApplicationInterface.h"

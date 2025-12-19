@@ -2,7 +2,7 @@
 #define LINEDIRECTIONTABLEMODEL_H
 
 #include "ProjectDataModels/OrderedProjectDataRowModel.h"
-#include "ProjectData/Line.h"
+#include "src/projectdata/Line.h"
 
 #include <QObject>
 

@@ -3,8 +3,8 @@
 
 #include <QTableWidget>
 
-#include "ProjectData/RouteBusstopItem.h"
-#include "ProjectData/ProjectDataItemList.h"
+#include "src/projectdata/RouteBusstopItem.h"
+#include "src/projectdata/ProjectDataItemList.h"
 
 class TimeProfile;
 class Route;

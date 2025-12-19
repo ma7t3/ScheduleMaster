@@ -6,7 +6,7 @@
 #include "Global/ActionController.h"
 #include "ProjectDataModels/LineDirectionTableModel.h"
 #include "ProjectDataModels/BusstopTableModel.h"
-#include "ProjectData/Line.h"
+#include "src/projectdata/Line.h"
 
 RouteFilterPopupBusstopProxyModel::RouteFilterPopupBusstopProxyModel(QObject *parent) : QSortFilterProxyModel(parent), _referenceLine(nullptr) {}
 

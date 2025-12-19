@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QSortFilterProxyModel>
 
-#include "ProjectData/Busstop.h"
+#include "src/projectdata/Busstop.h"
 #include "ProjectDataModels/BusstopPlatformTableModel.h"
 
 namespace Ui {

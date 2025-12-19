@@ -2,7 +2,7 @@
 #define ROUTETABLEMODEL_H
 
 #include "ProjectDataModels/UnorderedProjectDataRowModel.h"
-#include "ProjectData/Line.h"
+#include "src/projectdata/Line.h"
 
 class RouteTableModel : public UnorderedProjectDataRowModel<Route> {
     Q_OBJECT

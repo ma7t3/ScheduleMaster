@@ -1,6 +1,6 @@
 #include "TimeProfile.h"
 
-#include "ProjectData/Route.h"
+#include "src/projectdata/Route.h"
 
 TimeProfile::TimeProfile(QObject *parent, const QUuid &id, TimeProfile *original) :
     ProjectDataItem(parent, id, original) {}

@@ -2,7 +2,7 @@
 #define TIMEPROFILETABLEMODEL_H
 
 #include "ProjectDataModels/OrderedProjectDataRowModel.h"
-#include "ProjectData/Route.h"
+#include "src/projectdata/Route.h"
 
 class TimeProfileTableModel : public OrderedProjectDataRowModel<TimeProfile> {
     Q_OBJECT

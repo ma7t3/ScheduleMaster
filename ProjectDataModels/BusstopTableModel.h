@@ -6,7 +6,7 @@
 #include <QPainter>
 
 #include "ProjectDataModels/UnorderedProjectDataRowModel.h"
-#include "ProjectData/ProjectData.h"
+#include "src/projectdata/ProjectData.h"
 #include "Global/IconController.h"
 
 class BusstopTableModelDelegate : public QStyledItemDelegate {

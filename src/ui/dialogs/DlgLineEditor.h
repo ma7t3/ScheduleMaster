@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include "ProjectData/Line.h"
+#include "src/projectdata/Line.h"
 #include "ProjectDataModels/LineDirectionTableModel.h"
 
 namespace Ui {

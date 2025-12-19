@@ -1,7 +1,7 @@
 #include "WdgTimeProfileEditor.h"
 #include "ui_WdgTimeProfileEditor.h"
 
-#include "ProjectData/TimeProfile.h"
+#include "src/projectdata/TimeProfile.h"
 
 #include "Global/ActionController.h"
 

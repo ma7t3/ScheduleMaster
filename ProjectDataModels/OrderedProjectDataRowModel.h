@@ -3,7 +3,7 @@
 
 #include "ProjectDataModels/UnorderedProjectDataRowModelSignals.h"
 
-#include "ProjectData/ProjectDataItemList.h"
+#include "src/projectdata/ProjectDataItemList.h"
 
 #include <QTimer>
 

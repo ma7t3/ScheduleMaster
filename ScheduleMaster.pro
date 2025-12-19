@@ -41,8 +41,8 @@ SOURCES += \
     ItemModels/LanguagesModel.cpp \
     ItemModels/LocalConfigModel.cpp \
     ItemModels/StylesModel.cpp \
-    ProjectData/TimeProfile.cpp \
-    ProjectData/TimeProfileItem.cpp \
+    src/projectdata/TimeProfile.cpp \
+    src/projectdata/TimeProfileItem.cpp \
     ProjectDataModels/BusstopPlatformTableModel.cpp \
     ProjectDataModels/BusstopTableModel.cpp \
     ProjectDataModels/BusstopTableProxyModel.cpp \
@@ -76,13 +76,13 @@ SOURCES += \
     src/ui/widgets/WdgTimeProfileEditorTable.cpp \
     main.cpp \
     MainWindow.cpp \
-    ProjectData/ProjectData.cpp \
-    ProjectData/Busstop.cpp \
-    ProjectData/BusstopPlatform.cpp \
-    ProjectData/Line.cpp \
-    ProjectData/LineDirection.cpp \
-    ProjectData/Route.cpp \
-    ProjectData/RouteBusstopItem.cpp \
+    src/projectdata/ProjectData.cpp \
+    src/projectdata/Busstop.cpp \
+    src/projectdata/BusstopPlatform.cpp \
+    src/projectdata/Line.cpp \
+    src/projectdata/LineDirection.cpp \
+    src/projectdata/Route.cpp \
+    src/projectdata/RouteBusstopItem.cpp \
     src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.cpp \
     src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.cpp \
     src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.cpp \
@@ -139,21 +139,21 @@ HEADERS += \
     ItemModels/LocalConfigModel.h \
     ItemModels/StylesModel.h \
     MainWindow.h \
-    ProjectData/ProjectData.h \
-    ProjectData/ProjectDataItem.h \
-    ProjectData/ProjectDataItemSignals.h \
-    ProjectData/ProjectDataItemData.h \
-    ProjectData/ProjectDataItemContainer.h \
-    ProjectData/ProjectDataItemList.h \
-    ProjectData/ProjectDataItemSet.h \
-    ProjectData/Busstop.h \
-    ProjectData/BusstopPlatform.h \
-    ProjectData/Line.h \
-    ProjectData/LineDirection.h \
-    ProjectData/Route.h \
-    ProjectData/RouteBusstopItem.h \
-    ProjectData/TimeProfile.h \
-    ProjectData/TimeProfileItem.h \
+    src/projectdata/ProjectData.h \
+    src/projectdata/ProjectDataItem.h \
+    src/projectdata/ProjectDataItemSignals.h \
+    src/projectdata/ProjectDataItemData.h \
+    src/projectdata/ProjectDataItemContainer.h \
+    src/projectdata/ProjectDataItemList.h \
+    src/projectdata/ProjectDataItemSet.h \
+    src/projectdata/Busstop.h \
+    src/projectdata/BusstopPlatform.h \
+    src/projectdata/Line.h \
+    src/projectdata/LineDirection.h \
+    src/projectdata/Route.h \
+    src/projectdata/RouteBusstopItem.h \
+    src/projectdata/TimeProfile.h \
+    src/projectdata/TimeProfileItem.h \
     ProjectDataModels/BusstopPlatformTableModel.h \
     ProjectDataModels/BusstopTableModel.h \
     ProjectDataModels/BusstopTableProxyModel.h \

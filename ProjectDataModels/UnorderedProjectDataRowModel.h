@@ -5,9 +5,9 @@
 #include <QTimer>
 
 #include "ProjectDataModels/UnorderedProjectDataRowModelSignals.h"
-#include "ProjectData/ProjectData.h"
+#include "src/projectdata/ProjectData.h"
 
-#include "ProjectData/ProjectDataItemSet.h"
+#include "src/projectdata/ProjectDataItemSet.h"
 
 enum CustomHeaderRoles {
     ColumnVisibleByDefaultRole = Qt::UserRole + 1,

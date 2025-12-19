@@ -14,7 +14,7 @@
 #include "Global/WorkspaceHandler.h"
 #include "Global/SettingsManager.h"
 #include "ApplicationInterface.h"
-#include "ProjectData/ProjectData.h"
+#include "src/projectdata/ProjectData.h"
 #include "src/ui/widgets/Docks/DockAbstract.h"
 
 #include <QTimer>

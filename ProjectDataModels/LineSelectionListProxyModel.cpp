@@ -1,6 +1,6 @@
 #include "LineSelectionListProxyModel.h"
 
-#include "ProjectData/Line.h"
+#include "src/projectdata/Line.h"
 
 LineSelectionListProxyModel::LineSelectionListProxyModel(QObject *parent) :
     QSortFilterProxyModel{parent} {}
