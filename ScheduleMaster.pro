@@ -9,6 +9,7 @@ CONFIG += c++20
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/core/ApplicationInterfaceImpl.cpp \
     src/ui/dialogs/DlgBusstopEditor.cpp \
     src/ui/dialogs/DlgConfigEditor.cpp \
     src/ui/dialogs/DlgGlobalSearch.cpp \
@@ -99,10 +100,13 @@ SOURCES += \
 
 HEADERS += \
     ApplicationInterface.h \
+    ScheduleMaster_global.h \
+    src/api/ScheduleMaster.h \
     src/commands/CmdBusstops.h \
     src/commands/CmdGeneral.h \
     src/commands/CmdLines.h \
     src/commands/CmdRoutes.h \
+    src/core/ApplicationInterfaceImpl.h \
     src/namespace.h \
     src/ui/dialogs/DlgBusstopEditor.h \
     src/ui/dialogs/DlgConfigEditor.h \

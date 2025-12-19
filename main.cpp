@@ -8,6 +8,9 @@
 #include <QSplashScreen>
 #include <QThread>
 
+#include "src/namespace.h"
+#include "src/core/ApplicationInterfaceImpl.h"
+
 #include "Global/Logger.h"
 #include "Global/SettingsManager.h"
 #include "Global/ActionController.h"
@@ -63,8 +66,8 @@ int main(int argc, char *argv[]) {
     qputenv("QT_SCALE_FACTOR", set.value("appearance.uiScale", 1.0).toString().toUtf8());
 
     QApplication a(argc, argv);
-
     a.setOverrideCursor(QCursor(Qt::WaitCursor));
+    SM::ApplicationInterfaceImpl scheduleMasterApp(nullptr);
 
     QPair<QColor, QString> ssConfig = splashScreenConfig();
     QSplashScreen splashscreen(QPixmap(ssConfig.second));
