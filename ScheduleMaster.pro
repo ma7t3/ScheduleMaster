@@ -11,6 +11,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 SOURCES += \
     src/core/ApplicationInterfaceImpl.cpp \
     src/core/CrashDetectorImpl.cpp \
+    src/core/GlobalConfigRepository.cpp \
     src/core/LoggerImpl.cpp \
     src/ui/dialogs/DlgBusstopEditor.cpp \
     src/ui/dialogs/DlgConfigEditor.cpp \
@@ -110,6 +111,7 @@ HEADERS += \
     src/commands/CmdRoutes.h \
     src/core/ApplicationInterfaceImpl.h \
     src/core/CrashDetectorImpl.h \
+    src/core/GlobalConfigRepository.h \
     src/core/LoggerImpl.h \
     src/namespace.h \
     src/ui/dialogs/DlgBusstopEditor.h \

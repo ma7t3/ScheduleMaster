@@ -1,6 +1,8 @@
 #ifndef GLOBALCONFIGMANAGER_H
 #define GLOBALCONFIGMANAGER_H
 
+#include "src/core/GlobalConfigRepository.h"
+
 #include "Global/GlobalConfigManagerSignals.h"
 
 #include <QObject>
@@ -9,29 +11,7 @@
 #include <QDir>
 #include <QFile>
 
-struct GlobalConfigItem {
-public:
-    GlobalConfigItem(const QString &id, const int &index = 0) : _id(id), _index(index) {}
-    GlobalConfigItem(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0) : _index(index) {
-        _id = jsonObject.value("id").toString();
-    }
-
-    bool operator==(const GlobalConfigItem &other) const {
-        return id() == other.id();
-    }
-
-    QString id() const {
-        return _id;
-    }
-
-    int index() const {
-        return _index;
-    }
-
-private:
-    QString _id;
-    int _index;
-};
+using GlobalConfigItem = ScheduleMaster::Core::GlobalConfigItem;
 
 template <typename Derived, typename T>
 class GlobalConfigManager : public GlobalConfigManagerSignals {
