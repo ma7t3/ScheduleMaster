@@ -75,7 +75,7 @@ SOURCES += \
     src/ui/widgets/WdgTimeProfileEditor.cpp \
     src/ui/widgets/WdgTimeProfileEditorTable.cpp \
     main.cpp \
-    MainWindow.cpp \
+    src/ui/MainWindow.cpp \
     src/projectdata/ProjectData.cpp \
     src/projectdata/Busstop.cpp \
     src/projectdata/BusstopPlatform.cpp \
@@ -138,7 +138,7 @@ HEADERS += \
     ItemModels/LanguagesModel.h \
     ItemModels/LocalConfigModel.h \
     ItemModels/StylesModel.h \
-    MainWindow.h \
+    src/ui/MainWindow.h \
     src/projectdata/ProjectData.h \
     src/projectdata/ProjectDataItem.h \
     src/projectdata/ProjectDataItemSignals.h \
@@ -212,7 +212,7 @@ FORMS += \
     src/ui/dialogs/DlgLineEditor.ui \
     src/ui/dialogs/DlgPreferences.ui \
     src/ui/dialogs/DlgRouteEditor.ui \
-    MainWindow.ui \
+    src/ui/MainWindow.ui \
     src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.ui \
     src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.ui \
     src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.ui \
