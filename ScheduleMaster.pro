@@ -103,6 +103,7 @@ HEADERS += \
     src/commands/CmdGeneral.h \
     src/commands/CmdLines.h \
     src/commands/CmdRoutes.h \
+    src/namespace.h \
     src/ui/dialogs/DlgBusstopEditor.h \
     src/ui/dialogs/DlgConfigEditor.h \
     src/ui/dialogs/DlgGlobalSearch.h \
