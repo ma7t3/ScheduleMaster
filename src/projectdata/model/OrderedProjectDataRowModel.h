@@ -1,7 +1,7 @@
 #ifndef ORDEREDPROJECTDATAROWMODEL_H
 #define ORDEREDPROJECTDATAROWMODEL_H
 
-#include "ProjectDataModels/UnorderedProjectDataRowModelSignals.h"
+#include "src/projectdata/model/UnorderedProjectDataRowModelSignals.h"
 
 #include "src/projectdata/ProjectDataItemList.h"
 

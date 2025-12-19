@@ -4,8 +4,8 @@
 #include <QWidget>
 
 #include "DockAbstract.h"
-#include "ProjectDataModels/LineTableModel.h"
-#include "ProjectDataModels/LineTableProxyModel.h"
+#include "src/projectdata/model/LineTableModel.h"
+#include "src/projectdata/model/LineTableProxyModel.h"
 #include "src/ui/widgets/WdgTableColumnVisibilitySelector.h"
 
 class QSortFilterProxyModel;

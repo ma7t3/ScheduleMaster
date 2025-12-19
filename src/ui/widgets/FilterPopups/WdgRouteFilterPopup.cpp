@@ -4,8 +4,8 @@
 #include <QSortFilterProxyModel>
 
 #include "Global/ActionController.h"
-#include "ProjectDataModels/LineDirectionTableModel.h"
-#include "ProjectDataModels/BusstopTableModel.h"
+#include "src/projectdata/model/LineDirectionTableModel.h"
+#include "src/projectdata/model/BusstopTableModel.h"
 #include "src/projectdata/Line.h"
 
 RouteFilterPopupBusstopProxyModel::RouteFilterPopupBusstopProxyModel(QObject *parent) : QSortFilterProxyModel(parent), _referenceLine(nullptr) {}

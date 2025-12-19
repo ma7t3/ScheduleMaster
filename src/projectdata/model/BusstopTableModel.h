@@ -5,7 +5,7 @@
 #include <QStyledItemDelegate>
 #include <QPainter>
 
-#include "ProjectDataModels/UnorderedProjectDataRowModel.h"
+#include "src/projectdata/model/UnorderedProjectDataRowModel.h"
 #include "src/projectdata/ProjectData.h"
 #include "Global/IconController.h"
 

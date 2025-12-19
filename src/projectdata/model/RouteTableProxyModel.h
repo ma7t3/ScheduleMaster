@@ -2,7 +2,7 @@
 #define ROUTETABLEPROXYMODEL_H
 
 #include <QObject>
-#include "ProjectDataModels/SortFilterProxyModel.h"
+#include "src/projectdata/model/SortFilterProxyModel.h"
 #include "src/ui/widgets/FilterPopups/WdgRouteFilterPopup.h"
 
 class RouteTableProxyModel : public SortFilterProxyModel<WdgRouteFilterPopup> {

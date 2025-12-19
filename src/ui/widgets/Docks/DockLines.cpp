@@ -4,7 +4,7 @@
 #include "ApplicationInterface.h"
 #include "Global/ActionController.h"
 #include "Global/SettingsManager.h"
-#include "ProjectDataModels/LineTableModel.h"
+#include "src/projectdata/model/LineTableModel.h"
 
 #include "src/ui/dialogs/DlgLineEditor.h"
 

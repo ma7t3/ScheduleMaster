@@ -5,8 +5,8 @@
 #include <QSortFilterProxyModel>
 
 #include "DockAbstract.h"
-#include "ProjectDataModels/BusstopTableModel.h"
-#include "ProjectDataModels/BusstopTableProxyModel.h"
+#include "src/projectdata/model/BusstopTableModel.h"
+#include "src/projectdata/model/BusstopTableProxyModel.h"
 #include "src/ui/widgets/WdgTableColumnVisibilitySelector.h"
 
 namespace Ui {

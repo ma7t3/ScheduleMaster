@@ -1,7 +1,7 @@
 #ifndef BUSSTOPPLATFORMTABLEMODEL_H
 #define BUSSTOPPLATFORMTABLEMODEL_H
 
-#include "ProjectDataModels/UnorderedProjectDataRowModel.h"
+#include "src/projectdata/model/UnorderedProjectDataRowModel.h"
 #include "src/projectdata/Busstop.h"
 
 class BusstopPlatformTableModel : public UnorderedProjectDataRowModel<BusstopPlatform> {

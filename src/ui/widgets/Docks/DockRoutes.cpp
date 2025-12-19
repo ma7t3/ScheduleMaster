@@ -8,12 +8,12 @@
 #include "Global/ActionController.h"
 #include "Global/DockController.h"
 #include "DockLines.h"
-#include "ProjectDataModels/RouteTableModel.h"
+#include "src/projectdata/model/RouteTableModel.h"
 
 #include "src/commands/CmdRoutes.h"
 
-#include "ProjectDataModels/RouteTableModel.h"
-#include "ProjectDataModels/RouteTableProxyModel.h"
+#include "src/projectdata/model/RouteTableModel.h"
+#include "src/projectdata/model/RouteTableProxyModel.h"
 
 #include "ApplicationInterface.h"
 #include "src/ui/dialogs/DlgRouteEditor.h"

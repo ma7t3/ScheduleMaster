@@ -1,7 +1,7 @@
 #ifndef ROUTETABLEMODEL_H
 #define ROUTETABLEMODEL_H
 
-#include "ProjectDataModels/UnorderedProjectDataRowModel.h"
+#include "src/projectdata/model/UnorderedProjectDataRowModel.h"
 #include "src/projectdata/Line.h"
 
 class RouteTableModel : public UnorderedProjectDataRowModel<Route> {

@@ -4,7 +4,7 @@
 #include <QUuid>
 #include <QTimer>
 
-#include "ProjectDataModels/UnorderedProjectDataRowModelSignals.h"
+#include "src/projectdata/model/UnorderedProjectDataRowModelSignals.h"
 #include "src/projectdata/ProjectData.h"
 
 #include "src/projectdata/ProjectDataItemSet.h"

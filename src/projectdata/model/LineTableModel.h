@@ -3,7 +3,7 @@
 
 #include <QAbstractItemModel>
 
-#include "ProjectDataModels/UnorderedProjectDataRowModel.h"
+#include "src/projectdata/model/UnorderedProjectDataRowModel.h"
 #include "src/projectdata/ProjectData.h"
 #include "src/projectdata/Line.h"
 

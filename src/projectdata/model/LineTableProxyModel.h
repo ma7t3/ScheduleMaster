@@ -2,7 +2,7 @@
 #define LINETABLEPROXYMODEL_H
 
 #include <QObject>
-#include "ProjectDataModels/SortFilterProxyModel.h"
+#include "src/projectdata/model/SortFilterProxyModel.h"
 #include "src/ui/widgets/FilterPopups/WdgLineFilterPopup.h"
 
 class LineTableProxyModel : public SortFilterProxyModel<WdgLineFilterPopup> {

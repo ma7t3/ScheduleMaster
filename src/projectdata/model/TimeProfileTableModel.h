@@ -1,7 +1,7 @@
 #ifndef TIMEPROFILETABLEMODEL_H
 #define TIMEPROFILETABLEMODEL_H
 
-#include "ProjectDataModels/OrderedProjectDataRowModel.h"
+#include "src/projectdata/model/OrderedProjectDataRowModel.h"
 #include "src/projectdata/Route.h"
 
 class TimeProfileTableModel : public OrderedProjectDataRowModel<TimeProfile> {

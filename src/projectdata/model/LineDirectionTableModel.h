@@ -1,7 +1,7 @@
 #ifndef LINEDIRECTIONTABLEMODEL_H
 #define LINEDIRECTIONTABLEMODEL_H
 
-#include "ProjectDataModels/OrderedProjectDataRowModel.h"
+#include "src/projectdata/model/OrderedProjectDataRowModel.h"
 #include "src/projectdata/Line.h"
 
 #include <QObject>

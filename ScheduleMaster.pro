@@ -43,18 +43,18 @@ SOURCES += \
     ItemModels/StylesModel.cpp \
     src/projectdata/TimeProfile.cpp \
     src/projectdata/TimeProfileItem.cpp \
-    ProjectDataModels/BusstopPlatformTableModel.cpp \
-    ProjectDataModels/BusstopTableModel.cpp \
-    ProjectDataModels/BusstopTableProxyModel.cpp \
-    ProjectDataModels/LineDirectionTableModel.cpp \
-    ProjectDataModels/LineSelectionListModel.cpp \
-    ProjectDataModels/LineSelectionListProxyModel.cpp \
-    ProjectDataModels/LineTableModel.cpp \
-    ProjectDataModels/LineTableProxyModel.cpp \
-    ProjectDataModels/RouteBusstopTableModel.cpp \
-    ProjectDataModels/RouteTableModel.cpp \
-    ProjectDataModels/RouteTableProxyModel.cpp \
-    ProjectDataModels/TimeProfileTableModel.cpp \
+    src/projectdata/model/BusstopPlatformTableModel.cpp \
+    src/projectdata/model/BusstopTableModel.cpp \
+    src/projectdata/model/BusstopTableProxyModel.cpp \
+    src/projectdata/model/LineDirectionTableModel.cpp \
+    src/projectdata/model/LineSelectionListModel.cpp \
+    src/projectdata/model/LineSelectionListProxyModel.cpp \
+    src/projectdata/model/LineTableModel.cpp \
+    src/projectdata/model/LineTableProxyModel.cpp \
+    src/projectdata/model/RouteBusstopTableModel.cpp \
+    src/projectdata/model/RouteTableModel.cpp \
+    src/projectdata/model/RouteTableProxyModel.cpp \
+    src/projectdata/model/TimeProfileTableModel.cpp \
     src/ui/widgets/Docks/DockBusstops.cpp \
     src/ui/widgets/Docks/DockLines.cpp \
     src/ui/widgets/Docks/DockNews.cpp \
@@ -154,22 +154,22 @@ HEADERS += \
     src/projectdata/RouteBusstopItem.h \
     src/projectdata/TimeProfile.h \
     src/projectdata/TimeProfileItem.h \
-    ProjectDataModels/BusstopPlatformTableModel.h \
-    ProjectDataModels/BusstopTableModel.h \
-    ProjectDataModels/BusstopTableProxyModel.h \
-    ProjectDataModels/LineDirectionTableModel.h \
-    ProjectDataModels/LineSelectionListModel.h \
-    ProjectDataModels/LineSelectionListProxyModel.h \
-    ProjectDataModels/LineTableModel.h \
-    ProjectDataModels/LineTableProxyModel.h \
-    ProjectDataModels/OrderedProjectDataRowModel.h \
-    ProjectDataModels/RouteBusstopTableModel.h \
-    ProjectDataModels/RouteTableModel.h \
-    ProjectDataModels/RouteTableProxyModel.h \
-    ProjectDataModels/SortFilterProxyModel.h \
-    ProjectDataModels/TimeProfileTableModel.h \
-    ProjectDataModels/UnorderedProjectDataRowModel.h \
-    ProjectDataModels/UnorderedProjectDataRowModelSignals.h \
+    src/projectdata/model/BusstopPlatformTableModel.h \
+    src/projectdata/model/BusstopTableModel.h \
+    src/projectdata/model/BusstopTableProxyModel.h \
+    src/projectdata/model/LineDirectionTableModel.h \
+    src/projectdata/model/LineSelectionListModel.h \
+    src/projectdata/model/LineSelectionListProxyModel.h \
+    src/projectdata/model/LineTableModel.h \
+    src/projectdata/model/LineTableProxyModel.h \
+    src/projectdata/model/OrderedProjectDataRowModel.h \
+    src/projectdata/model/RouteBusstopTableModel.h \
+    src/projectdata/model/RouteTableModel.h \
+    src/projectdata/model/RouteTableProxyModel.h \
+    src/projectdata/model/SortFilterProxyModel.h \
+    src/projectdata/model/TimeProfileTableModel.h \
+    src/projectdata/model/UnorderedProjectDataRowModel.h \
+    src/projectdata/model/UnorderedProjectDataRowModelSignals.h \
     src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h \
     src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h \
     src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h \
