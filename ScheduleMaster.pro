@@ -10,6 +10,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 SOURCES += \
     src/core/ApplicationInterfaceImpl.cpp \
+    src/core/CrashDetectorImpl.cpp \
     src/ui/dialogs/DlgBusstopEditor.cpp \
     src/ui/dialogs/DlgConfigEditor.cpp \
     src/ui/dialogs/DlgGlobalSearch.cpp \
@@ -19,7 +20,6 @@ SOURCES += \
     Global/ActionController.cpp \
     Global/ActionManager.cpp \
     Global/AppInfo.cpp \
-    Global/CrashDetector.cpp \
     Global/DockController.cpp \
     Global/DockManager.cpp \
     Global/FolderLocationManager.cpp \
@@ -101,12 +101,14 @@ SOURCES += \
 HEADERS += \
     ApplicationInterface.h \
     ScheduleMaster_global.h \
+    src/api/ICrashDetector.h \
     src/api/ScheduleMaster.h \
     src/commands/CmdBusstops.h \
     src/commands/CmdGeneral.h \
     src/commands/CmdLines.h \
     src/commands/CmdRoutes.h \
     src/core/ApplicationInterfaceImpl.h \
+    src/core/CrashDetectorImpl.h \
     src/namespace.h \
     src/ui/dialogs/DlgBusstopEditor.h \
     src/ui/dialogs/DlgConfigEditor.h \
@@ -117,7 +119,6 @@ HEADERS += \
     Global/ActionController.h \
     Global/ActionManager.h \
     Global/AppInfo.h \
-    Global/CrashDetector.h \
     Global/DockController.h \
     Global/DockManager.h \
     Global/FolderLocationManager.h \

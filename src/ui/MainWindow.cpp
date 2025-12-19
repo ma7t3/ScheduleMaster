@@ -1,10 +1,12 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "src/namespace.h"
+#include "src/core/ApplicationInterfaceImpl.h"
+
 #include "src/ui/dialogs/DlgGlobalSearch.h"
 #include "src/ui/dialogs/DlgPreferences.h"
 #include "Global/ActionController.h"
-#include "Global/CrashDetector.h"
 #include "Global/DockController.h"
 #include "Global/FolderLocationManager.h"
 #include "Global/LastUsedFilesManager.h"
@@ -251,7 +253,7 @@ void MainWindow::updateRecentProjectsList() {
 }
 
 void MainWindow::showCrashWarning() {
-    if(CrashDetector::crashDetected() && !SettingsManager::value("general.suppressCrashWarning").toBool()) {
+    if(SM::app->crashDetector()->crashDetected() && !SettingsManager::value("general.suppressCrashWarning").toBool()) {
         const QString lastLogfilePath = Logger::lastLogfilePath();
         bool logfileSaved = QFile::exists(lastLogfilePath);
 

@@ -2,8 +2,10 @@
 
 #include "AppInfo.h"
 #include "FolderLocationManager.h"
-#include "CrashDetector.h"
 #include "SettingsManager.h"
+
+#include "src/namespace.h"
+#include "src/core/ApplicationInterfaceImpl.h"
 
 #include <QDir>
 
@@ -14,7 +16,7 @@ Logger::Logger(QObject *parent) : QObject(parent) {
     QDir logDir = FolderLocationManager::currentFolderLocationPaths("logfile").first();
 
     // check if crash was detected. In this case copy logfile
-    if(CrashDetector::crashDetected()) {
+    if(SM::app->crashDetector()->crashDetected()) {
         const QDateTime now(QDateTime::currentDateTime());
         QString newFileName = logDir.path() + "/logfile_crash_" + now.toString("yyyy-MM-dd_hh-mm-ss") + ".txt";
         if(QFile::copy(logDir.path() + "/logfile.txt", newFileName))

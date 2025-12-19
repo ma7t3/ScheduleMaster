@@ -21,7 +21,6 @@
 #include "Global/WorkspaceManager.h"
 #include "Global/FolderLocationManager.h"
 #include "Global/ActionManager.h"
-#include "Global/CrashDetector.h"
 #include "Global/IconSetManager.h"
 #include "Global/IconController.h"
 
@@ -72,9 +71,6 @@ int main(int argc, char *argv[]) {
     QPair<QColor, QString> ssConfig = splashScreenConfig();
     QSplashScreen splashscreen(QPixmap(ssConfig.second));
     splashscreen.show();
-
-    // init crash detector
-    CrashDetector::init();
 
     // init logger
     Logger logger(&a);
