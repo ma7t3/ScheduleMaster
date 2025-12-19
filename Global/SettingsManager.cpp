@@ -39,9 +39,7 @@ SettingsManager::SettingsManager(QObject *parent) :
 QVariant SettingsManager::value(const QString &id) {
     QVariant value = readSilent(id);
 
-    //Logger::setPrefix(staticMetaObject.className());
     qDebug().noquote() << "Read setting: " << id << " << " << value;
-    //Logger::resetPrefix();
 
     return value;
 }
@@ -64,9 +62,7 @@ QVariant SettingsManager::setValue(const QString &id, const QVariant &value) {
     if(restartRequired)
         _modifiedRestartRequiredSettings << id;
 
-    //Logger::setPrefix(staticMetaObject.className());
     qDebug().noquote() << "Save setting: " << id << " = " << convVal << (restartRequired ? " (requires restart)" : "");
-    //Logger::resetPrefix();
 
     _settings.setValue(id, convVal);
 
@@ -84,9 +80,7 @@ void SettingsManager::removeKey(const QString &id) {
     if(restartRequired)
         _modifiedRestartRequiredSettings << id;
 
-    //Logger::setPrefix(staticMetaObject.className());
     qDebug().noquote() << "Remove setting: " << id << (restartRequired ? " (requires restart)" : "");
-    //Logger::resetPrefix();
 
     _settings.remove(id);
     emit instance()->keyRemoved(id);

@@ -4,6 +4,7 @@
 #include "ScheduleMaster_global.h"
 
 #include "ICrashDetector.h"
+#include "ILogger.h"
 
 namespace ScheduleMaster {
 
@@ -12,6 +13,7 @@ public:
     virtual ~IApplicationInterface() = default;
 
     virtual ICrashDetector *crashDetector() const = 0;
+    virtual ILogger *logger() const = 0;
 };
 
 }

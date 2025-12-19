@@ -3,11 +3,18 @@
 
 #include <QObject>
 #include "src/api/ScheduleMaster.h"
-#include "src/core/CrashDetectorImpl.h"
+
+#define app ApplicationInterfaceImpl::instance()
+
+namespace ScheduleMaster {
+class ICrashDetector;
+class ILogger;
+}
 
 namespace ScheduleMaster::Core {
 
-#define app ApplicationInterfaceImpl::instance()
+class CrashDetectorImpl;
+class LoggerImpl;
 
 class ApplicationInterfaceImpl : public QObject, public IApplicationInterface {
     Q_OBJECT
@@ -17,12 +24,14 @@ public:
     static ApplicationInterfaceImpl *instance();
 
     virtual ICrashDetector *crashDetector() const override;
+    virtual ILogger *logger() const override;
 
 protected:
     static inline ApplicationInterfaceImpl *_self = nullptr;
 
 private:
     CrashDetectorImpl *_crashDetector;
+    LoggerImpl *_logger;
 };
 
 }

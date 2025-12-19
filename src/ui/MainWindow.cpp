@@ -10,7 +10,6 @@
 #include "Global/DockController.h"
 #include "Global/FolderLocationManager.h"
 #include "Global/LastUsedFilesManager.h"
-#include "Global/Logger.h"
 #include "Global/ProjectFileHandler.h"
 #include "Global/Workspace.h"
 #include "Global/WorkspaceHandler.h"
@@ -254,7 +253,7 @@ void MainWindow::updateRecentProjectsList() {
 
 void MainWindow::showCrashWarning() {
     if(SM::app->crashDetector()->crashDetected() && !SettingsManager::value("general.suppressCrashWarning").toBool()) {
-        const QString lastLogfilePath = Logger::lastLogfilePath();
+        const QString lastLogfilePath = SM::app->logger()->lastLogfilePath();
         bool logfileSaved = QFile::exists(lastLogfilePath);
 
         qInfo() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + lastLogfilePath : "");

@@ -11,6 +11,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 SOURCES += \
     src/core/ApplicationInterfaceImpl.cpp \
     src/core/CrashDetectorImpl.cpp \
+    src/core/LoggerImpl.cpp \
     src/ui/dialogs/DlgBusstopEditor.cpp \
     src/ui/dialogs/DlgConfigEditor.cpp \
     src/ui/dialogs/DlgGlobalSearch.cpp \
@@ -28,7 +29,6 @@ SOURCES += \
     Global/IconSetManager.cpp \
     Global/LanguageManager.cpp \
     Global/LastUsedFilesManager.cpp \
-    Global/Logger.cpp \
     Global/ProjectFileHandler.cpp \
     Global/SettingsManager.cpp \
     Global/StyleHandler.cpp \
@@ -102,6 +102,7 @@ HEADERS += \
     ApplicationInterface.h \
     ScheduleMaster_global.h \
     src/api/ICrashDetector.h \
+    src/api/ILogger.h \
     src/api/ScheduleMaster.h \
     src/commands/CmdBusstops.h \
     src/commands/CmdGeneral.h \
@@ -109,6 +110,7 @@ HEADERS += \
     src/commands/CmdRoutes.h \
     src/core/ApplicationInterfaceImpl.h \
     src/core/CrashDetectorImpl.h \
+    src/core/LoggerImpl.h \
     src/namespace.h \
     src/ui/dialogs/DlgBusstopEditor.h \
     src/ui/dialogs/DlgConfigEditor.h \
@@ -129,7 +131,6 @@ HEADERS += \
     Global/IconSetManager.h \
     Global/LanguageManager.h \
     Global/LastUsedFilesManager.h \
-    Global/Logger.h \
     Global/ProjectFileHandler.h \
     Global/SettingsManager.h \
     Global/Singleton.h \

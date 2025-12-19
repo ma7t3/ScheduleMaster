@@ -11,7 +11,6 @@
 #include "src/namespace.h"
 #include "src/core/ApplicationInterfaceImpl.h"
 
-#include "Global/Logger.h"
 #include "Global/SettingsManager.h"
 #include "Global/ActionController.h"
 #include "Global/StyleHandler.h"
@@ -72,8 +71,6 @@ int main(int argc, char *argv[]) {
     QSplashScreen splashscreen(QPixmap(ssConfig.second));
     splashscreen.show();
 
-    // init logger
-    Logger logger(&a);
     qInfo() << "Starting ScheduleMaster...";
 
     splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);

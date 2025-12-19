@@ -1,8 +1,11 @@
 #ifndef WDGPREFERENCESPAGEGENERAL_H
 #define WDGPREFERENCESPAGEGENERAL_H
 
+#include "src/namespace.h"
+
 #include "WdgPreferencesPage.h"
 
+namespace ScheduleMaster::Core { class LoggerImpl; }
 class LanguagesModel;
 
 namespace Ui {
@@ -40,6 +43,7 @@ private:
     Ui::WdgPreferencesPageGeneral *ui;
 
     LanguagesModel *_languagesModel;
+    SM::LoggerImpl *_logger;
 };
 
 #endif // WDGPREFERENCESPAGEGENERAL_H
