@@ -101,7 +101,7 @@ SOURCES += \
 
 HEADERS += \
     ApplicationInterface.h \
-    ScheduleMaster_global.h \
+    src/api/ScheduleMaster_global.h \
     src/api/ICrashDetector.h \
     src/api/ILogger.h \
     src/api/ScheduleMaster.h \
