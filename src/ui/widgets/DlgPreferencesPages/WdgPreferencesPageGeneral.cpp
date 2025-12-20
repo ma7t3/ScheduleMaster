@@ -4,10 +4,10 @@
 #include "src/namespace.h"
 #include "src/core/LoggerImpl.h"
 #include "src/core/ApplicationInterfaceImpl.h"
+#include "src/api/IFolderLocationService.h"
 
 #include "Global/ActionController.h"
 #include "Global/LanguageManager.h"
-#include "Global/FolderLocationManager.h"
 #include "Global/IconController.h"
 #include "ItemModels/LanguagesModel.h"
 
@@ -82,7 +82,7 @@ void WdgPreferencesPageGeneral::setLanguageIndex(const int &index) {
 
 void WdgPreferencesPageGeneral::openLogfileLocation() {
     qInfo() << "Opening logfile location...";
-    QStringList list = FolderLocationManager::currentFolderLocationPaths("logfile");
+    QStringList list = SM::app->folderLocationService()->currentFolderLocationPaths("logfile");
     if(list.isEmpty())
         return;
 
@@ -91,7 +91,7 @@ void WdgPreferencesPageGeneral::openLogfileLocation() {
 
 void WdgPreferencesPageGeneral::openLogfile() {
     qInfo() << "Opening logfile...";
-    QStringList list = FolderLocationManager::currentFolderLocationPaths("logfile");
+    QStringList list = SM::app->folderLocationService()->currentFolderLocationPaths("logfile");
     if(list.isEmpty())
         return;
 

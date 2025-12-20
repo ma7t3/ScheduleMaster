@@ -3,12 +3,14 @@
 
 #include "src/namespace.h"
 #include "src/core/ApplicationInterfaceImpl.h"
+#include "src/api/ICrashDetector.h"
+#include "src/api/ILogger.h"
+#include "src/api/IFolderLocationService.h"
 
 #include "src/ui/dialogs/DlgGlobalSearch.h"
 #include "src/ui/dialogs/DlgPreferences.h"
 #include "Global/ActionController.h"
 #include "Global/DockController.h"
-#include "Global/FolderLocationManager.h"
 #include "Global/LastUsedFilesManager.h"
 #include "Global/ProjectFileHandler.h"
 #include "Global/Workspace.h"
@@ -297,7 +299,7 @@ void MainWindow::openProject() {
     const QString path = QFileDialog::getOpenFileName(
         this,
         tr("Open Project File"),
-        FolderLocationManager::currentFolderLocationPaths("projectFilesDefault").first(),
+        SM::app->folderLocationService()->currentFolderLocationPaths("projectFilesDefault").first(),
         tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
 
     if(path.isEmpty())
@@ -338,7 +340,7 @@ bool MainWindow::saveProjectAs() {
         tr("Save Project File"),
         _projectData->isKnownFile()
             ? _projectData->filePath()
-            : FolderLocationManager::currentFolderLocationPaths("projectFilesDefault").first(),
+            : SM::app->folderLocationService()->currentFolderLocationPaths("projectFilesDefault").first(),
         tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
 
     if(path.isEmpty())

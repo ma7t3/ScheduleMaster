@@ -9,9 +9,13 @@ CONFIG += c++20
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/api/GlobalConfigItem.cpp \
+    src/api/IFolderLocationService.cpp \
     src/core/ApplicationInterfaceImpl.cpp \
     src/core/CrashDetectorImpl.cpp \
+    src/core/FolderLocationServiceImpl.cpp \
     src/core/GlobalConfigRepository.cpp \
+    src/core/GlobalConfigService.cpp \
     src/core/LoggerImpl.cpp \
     src/ui/dialogs/DlgBusstopEditor.cpp \
     src/ui/dialogs/DlgConfigEditor.cpp \
@@ -24,7 +28,6 @@ SOURCES += \
     Global/AppInfo.cpp \
     Global/DockController.cpp \
     Global/DockManager.cpp \
-    Global/FolderLocationManager.cpp \
     Global/Global.cpp \
     Global/IconController.cpp \
     Global/IconSetManager.cpp \
@@ -101,8 +104,10 @@ SOURCES += \
 
 HEADERS += \
     ApplicationInterface.h \
+    src/api/GlobalConfigItem.h \
     src/api/ScheduleMaster_global.h \
     src/api/ICrashDetector.h \
+    src/api/IFolderLocationService.h \
     src/api/ILogger.h \
     src/api/ScheduleMaster.h \
     src/commands/CmdBusstops.h \
@@ -111,7 +116,9 @@ HEADERS += \
     src/commands/CmdRoutes.h \
     src/core/ApplicationInterfaceImpl.h \
     src/core/CrashDetectorImpl.h \
+    src/core/FolderLocationServiceImpl.h \
     src/core/GlobalConfigRepository.h \
+    src/core/GlobalConfigService.h \
     src/core/LoggerImpl.h \
     src/namespace.h \
     src/ui/dialogs/DlgBusstopEditor.h \
@@ -125,7 +132,6 @@ HEADERS += \
     Global/AppInfo.h \
     Global/DockController.h \
     Global/DockManager.h \
-    Global/FolderLocationManager.h \
     Global/Global.h \
     Global/GlobalConfigManager.h \
     Global/GlobalConfigManagerSignals.h \

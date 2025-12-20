@@ -3,10 +3,11 @@
 
 #include "ScheduleMaster_global.h"
 
-#include "ICrashDetector.h"
-#include "ILogger.h"
-
 namespace ScheduleMaster {
+
+class ICrashDetector;
+class ILogger;
+class IFolderLocationService;
 
 class SCHEDULEMASTERINTERFACE_EXPORT IApplicationInterface {
 public:
@@ -14,6 +15,7 @@ public:
 
     virtual ICrashDetector *crashDetector() const = 0;
     virtual ILogger *logger() const = 0;
+    virtual IFolderLocationService *folderLocationService() const = 0;
 };
 
 }

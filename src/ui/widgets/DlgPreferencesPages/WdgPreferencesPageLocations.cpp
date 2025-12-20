@@ -1,6 +1,10 @@
 #include "WdgPreferencesPageLocations.h"
 #include "ui_WdgPreferencesPageLocations.h"
 
+#include "src/namespace.h"
+#include "src/core/ApplicationInterfaceImpl.h"
+#include "src/api/IFolderLocationService.h"
+
 #include "Global/ActionController.h"
 #include "Global/IconController.h"
 
@@ -35,10 +39,8 @@ WdgPreferencesPageLocations::~WdgPreferencesPageLocations() {
 void WdgPreferencesPageLocations::reloadPreferences() {
     ui->lwLocationCategories->clear();
 
-    QList<FolderLocationConfig> locations = FolderLocationManager::items();
-    std::sort(locations.begin(), locations.end(), [](FolderLocationConfig a, FolderLocationConfig b){return a.index() < b.index();});
-
-    for(const FolderLocationConfig &loc : std::as_const(locations)) {
+    QList<SMA::FolderLocationConfig> locations = SM::app->folderLocationService()->folderLocations();
+    for(const SMA::FolderLocationConfig &loc : std::as_const(locations)) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
         item->setData(Qt::UserRole, loc.id());
         item->setIcon(IconController::icon(loc.icon));
@@ -48,7 +50,7 @@ void WdgPreferencesPageLocations::reloadPreferences() {
         _folderLocations.insert(loc.id(), loc);
     }
 
-    _folderLocationsPaths = FolderLocationManager::currentFolderLocations();
+    _folderLocationsPaths = SM::app->folderLocationService()->currentFolderLocations();
 
     WdgPreferencesPage::reloadPreferences();
 }
@@ -56,7 +58,7 @@ void WdgPreferencesPageLocations::reloadPreferences() {
 void WdgPreferencesPageLocations::savePreferences() {
     ui->lwLocationCategories->setCurrentItem(nullptr);
 
-    FolderLocationManager::setCurrentFolderLocations(_folderLocationsPaths);
+    SM::app->folderLocationService()->setCurrentFolderLocations(_folderLocationsPaths);
 
     WdgPreferencesPage::savePreferences();
 }
@@ -99,7 +101,7 @@ void WdgPreferencesPageLocations::on_lwLocationCategories_currentItemChanged(QLi
 
     if(current) {
         QString id = current->data(Qt::UserRole).toString();
-        FolderLocationConfig loc = _folderLocations[id];
+        SMA::FolderLocationConfig loc = _folderLocations[id];
         ui->swLocationSelector->setCurrentIndex(_folderLocations[id].multiple ? 1 : 0);
 
         QStringList paths = _folderLocationsPaths[id];

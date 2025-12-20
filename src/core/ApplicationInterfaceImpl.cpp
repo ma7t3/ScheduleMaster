@@ -2,6 +2,7 @@
 
 #include "src/core/CrashDetectorImpl.h"
 #include "src/core/LoggerImpl.h"
+#include "src/core/FolderLocationServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 
@@ -9,6 +10,7 @@ ApplicationInterfaceImpl::ApplicationInterfaceImpl(QObject *parent) : QObject(pa
     _self = this;
 
     _crashDetector = new CrashDetectorImpl(this);
+    _folderLocationService = new FolderLocationServiceImpl(this);
     _logger = new LoggerImpl(this);
 }
 
@@ -22,6 +24,10 @@ ICrashDetector *ApplicationInterfaceImpl::crashDetector() const {
 
 ILogger *ApplicationInterfaceImpl::logger() const {
     return _logger;
+}
+
+IFolderLocationService *ApplicationInterfaceImpl::folderLocationService() const {
+    return _folderLocationService;
 }
 
 }

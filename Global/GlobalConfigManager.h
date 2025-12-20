@@ -1,7 +1,7 @@
 #ifndef GLOBALCONFIGMANAGER_H
 #define GLOBALCONFIGMANAGER_H
 
-#include "src/core/GlobalConfigRepository.h"
+#include "src/api/GlobalConfigItem.h"
 
 #include "Global/GlobalConfigManagerSignals.h"
 
@@ -11,7 +11,7 @@
 #include <QDir>
 #include <QFile>
 
-using GlobalConfigItem = ScheduleMaster::Core::GlobalConfigItem;
+using GlobalConfigItem = ScheduleMaster::GlobalConfigItem;
 
 template <typename Derived, typename T>
 class GlobalConfigManager : public GlobalConfigManagerSignals {

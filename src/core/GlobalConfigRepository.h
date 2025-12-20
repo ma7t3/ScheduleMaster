@@ -8,20 +8,6 @@
 
 namespace ScheduleMaster::Core {
 
-struct GlobalConfigItem {
-public:
-    GlobalConfigItem(const QString &id, const int &index = 0) : _id(id), _index(index) {}
-    GlobalConfigItem(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
-
-    bool operator==(const GlobalConfigItem &other) const;
-    QString id() const;
-    int index() const;
-
-private:
-    QString _id;
-    int _index;
-};
-
 class GlobalConfigRepository : public QObject {
     Q_OBJECT
 public:
@@ -39,12 +25,14 @@ signals:
     void itemRemoved(const QString &id);
 };
 
-template <typename T, typename Derived>
+template <typename T>
 class GlobalConfigRepositoryCRTP : public GlobalConfigRepository {
-protected:
-    explicit GlobalConfigRepositoryCRTP(QObject *parent) : GlobalConfigRepository(parent) {}
-
 public:
+    explicit GlobalConfigRepositoryCRTP(QObject *parent, const QString &resourceName = "") : GlobalConfigRepository(parent) {
+        if(!resourceName.isEmpty())
+            loadItems(resourceName);
+    }
+
     QList<T> items() const { return _items.values(); }
 
     QList<T> sortedItems() const {

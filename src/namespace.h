@@ -1,6 +1,9 @@
 #ifndef NAMESPACE_H
 #define NAMESPACE_H
 
+namespace ScheduleMaster {}
+namespace SMA = ScheduleMaster;
+
 namespace ScheduleMaster::Core {}
 namespace SM = ScheduleMaster::Core;
 
