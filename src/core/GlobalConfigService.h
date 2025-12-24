@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "Service.h"
+
 class GlobalConfigService : public QObject {
     Q_OBJECT
 public:
@@ -11,8 +13,8 @@ public:
 signals:
 };
 
-template<typename RepositoryType>
-class GlobalConfigServiceCRTP : public GlobalConfigService {
+template<typename RepositoryType, typename Derived>
+class GlobalConfigServiceCRTP : public GlobalConfigService, public Service<Derived> {
 public:
     explicit GlobalConfigServiceCRTP(QObject *parent = nullptr, const QString &resourceName = "") :
         GlobalConfigService(parent), _repository(new RepositoryType(this, resourceName)) {}

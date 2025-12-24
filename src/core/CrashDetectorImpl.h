@@ -3,11 +3,12 @@
 
 #include <QObject>
 
+#include "Service.h"
 #include "src/api/ICrashDetector.h"
 
 namespace ScheduleMaster::Core {
 
-class CrashDetectorImpl : public QObject, public ICrashDetector {
+class CrashDetectorImpl : public QObject, public Service<CrashDetectorImpl>, public ICrashDetector {
     Q_OBJECT
 
 public:
@@ -21,7 +22,6 @@ signals:
 private:
     bool _crashDetected;
 };
-
 }
 
 #endif // CRASHDETECTORIMPL_H

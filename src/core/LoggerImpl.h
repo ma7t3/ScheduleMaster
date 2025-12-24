@@ -3,11 +3,12 @@
 
 #include <QObject>
 
+#include "Service.h"
 #include "src/api/ILogger.h"
 
 namespace ScheduleMaster::Core {
 
-class LoggerImpl : public QObject, public ILogger {
+class LoggerImpl : public QObject, public Service<LoggerImpl>, public ILogger {
     Q_OBJECT
 public:
     explicit LoggerImpl(QObject *parent = nullptr);

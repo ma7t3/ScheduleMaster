@@ -12,7 +12,7 @@ namespace ScheduleMaster::Core {
 using FolderLocationRepository = GlobalConfigRepositoryCRTP<FolderLocationConfig>;
 
 class FolderLocationServiceImpl :
-    public GlobalConfigServiceCRTP<FolderLocationRepository>,
+    public GlobalConfigServiceCRTP<FolderLocationRepository, FolderLocationServiceImpl>,
     public IFolderLocationService {
     Q_OBJECT
 

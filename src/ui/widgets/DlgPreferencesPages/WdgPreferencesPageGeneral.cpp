@@ -1,10 +1,8 @@
 #include "WdgPreferencesPageGeneral.h"
 #include "ui_WdgPreferencesPageGeneral.h"
 
-#include "src/namespace.h"
 #include "src/core/LoggerImpl.h"
-#include "src/core/ApplicationInterfaceImpl.h"
-#include "src/api/IFolderLocationService.h"
+#include "src/core/FolderLocationServiceImpl.h"
 
 #include "Global/ActionController.h"
 #include "Global/LanguageManager.h"
@@ -16,7 +14,7 @@
 WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageGeneral),
-    _languagesModel(new LanguagesModel(this)), _logger(static_cast<SM::LoggerImpl *>(SM::app->logger())) {
+    _languagesModel(new LanguagesModel(this)), _logger(static_cast<SM::LoggerImpl *>(SM::LoggerImpl::instance())) {
     ui->setupUi(this);
 
     ui->cbLanguage->setModel(_languagesModel);
@@ -82,7 +80,7 @@ void WdgPreferencesPageGeneral::setLanguageIndex(const int &index) {
 
 void WdgPreferencesPageGeneral::openLogfileLocation() {
     qInfo() << "Opening logfile location...";
-    QStringList list = SM::app->folderLocationService()->currentFolderLocationPaths("logfile");
+    QStringList list = SM::FolderLocationServiceImpl::instance()->currentFolderLocationPaths("logfile");
     if(list.isEmpty())
         return;
 
@@ -91,7 +89,7 @@ void WdgPreferencesPageGeneral::openLogfileLocation() {
 
 void WdgPreferencesPageGeneral::openLogfile() {
     qInfo() << "Opening logfile...";
-    QStringList list = SM::app->folderLocationService()->currentFolderLocationPaths("logfile");
+    QStringList list = SM::FolderLocationServiceImpl::instance()->currentFolderLocationPaths("logfile");
     if(list.isEmpty())
         return;
 

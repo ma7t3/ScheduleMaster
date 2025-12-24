@@ -2,8 +2,7 @@
 #include "ui_WdgPreferencesPageLocations.h"
 
 #include "src/namespace.h"
-#include "src/core/ApplicationInterfaceImpl.h"
-#include "src/api/IFolderLocationService.h"
+#include "src/core/FolderLocationServiceImpl.h"
 
 #include "Global/ActionController.h"
 #include "Global/IconController.h"
@@ -39,7 +38,7 @@ WdgPreferencesPageLocations::~WdgPreferencesPageLocations() {
 void WdgPreferencesPageLocations::reloadPreferences() {
     ui->lwLocationCategories->clear();
 
-    QList<SMA::FolderLocationConfig> locations = SM::app->folderLocationService()->folderLocations();
+    QList<SMA::FolderLocationConfig> locations = SM::FolderLocationServiceImpl::instance()->folderLocations();
     for(const SMA::FolderLocationConfig &loc : std::as_const(locations)) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
         item->setData(Qt::UserRole, loc.id());
@@ -50,7 +49,7 @@ void WdgPreferencesPageLocations::reloadPreferences() {
         _folderLocations.insert(loc.id(), loc);
     }
 
-    _folderLocationsPaths = SM::app->folderLocationService()->currentFolderLocations();
+    _folderLocationsPaths = SM::FolderLocationServiceImpl::instance()->currentFolderLocations();
 
     WdgPreferencesPage::reloadPreferences();
 }
@@ -58,7 +57,7 @@ void WdgPreferencesPageLocations::reloadPreferences() {
 void WdgPreferencesPageLocations::savePreferences() {
     ui->lwLocationCategories->setCurrentItem(nullptr);
 
-    SM::app->folderLocationService()->setCurrentFolderLocations(_folderLocationsPaths);
+    SM::FolderLocationServiceImpl::instance()->setCurrentFolderLocations(_folderLocationsPaths);
 
     WdgPreferencesPage::savePreferences();
 }

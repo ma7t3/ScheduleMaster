@@ -120,6 +120,7 @@ HEADERS += \
     src/core/GlobalConfigRepository.h \
     src/core/GlobalConfigService.h \
     src/core/LoggerImpl.h \
+    src/core/Service.h \
     src/namespace.h \
     src/ui/dialogs/DlgBusstopEditor.h \
     src/ui/dialogs/DlgConfigEditor.h \

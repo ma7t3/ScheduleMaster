@@ -2,10 +2,9 @@
 #include "ui_MainWindow.h"
 
 #include "src/namespace.h"
-#include "src/core/ApplicationInterfaceImpl.h"
-#include "src/api/ICrashDetector.h"
-#include "src/api/ILogger.h"
-#include "src/api/IFolderLocationService.h"
+#include "src/core/CrashDetectorImpl.h"
+#include "src/core/LoggerImpl.h"
+#include "src/core/FolderLocationServiceImpl.h"
 
 #include "src/ui/dialogs/DlgGlobalSearch.h"
 #include "src/ui/dialogs/DlgPreferences.h"
@@ -254,8 +253,8 @@ void MainWindow::updateRecentProjectsList() {
 }
 
 void MainWindow::showCrashWarning() {
-    if(SM::app->crashDetector()->crashDetected() && !SettingsManager::value("general.suppressCrashWarning").toBool()) {
-        const QString lastLogfilePath = SM::app->logger()->lastLogfilePath();
+    if(SM::CrashDetectorImpl::instance()->crashDetected() && !SettingsManager::value("general.suppressCrashWarning").toBool()) {
+        const QString lastLogfilePath = SM::LoggerImpl::instance()->lastLogfilePath();
         bool logfileSaved = QFile::exists(lastLogfilePath);
 
         qInfo() << "crash detected" + (logfileSaved ? ", logfile saved separately: " + lastLogfilePath : "");
@@ -299,7 +298,7 @@ void MainWindow::openProject() {
     const QString path = QFileDialog::getOpenFileName(
         this,
         tr("Open Project File"),
-        SM::app->folderLocationService()->currentFolderLocationPaths("projectFilesDefault").first(),
+        SM::FolderLocationServiceImpl::instance()->currentFolderLocationPaths("projectFilesDefault").first(),
         tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
 
     if(path.isEmpty())
@@ -340,7 +339,7 @@ bool MainWindow::saveProjectAs() {
         tr("Save Project File"),
         _projectData->isKnownFile()
             ? _projectData->filePath()
-            : SM::app->folderLocationService()->currentFolderLocationPaths("projectFilesDefault").first(),
+            : SM::FolderLocationServiceImpl::instance()->currentFolderLocationPaths("projectFilesDefault").first(),
         tr("ScheduleMaster Project File (*.smp);;JSON (*.json)"));
 
     if(path.isEmpty())
