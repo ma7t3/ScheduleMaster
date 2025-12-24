@@ -3,21 +3,25 @@
 #include "Global/VariantConverter.h"
 #include "Global/IconController.h"
 
+#include "src/namespace.h"
+#include "src/core/ApplicationInterfaceImpl.h"
+#include "src/core/SettingsServiceImpl.h"
+
 #include <QIcon>
 
 LocalConfigModelSetting::LocalConfigModelSetting(const QString &id, LocalConfigModelSetting *parentSetting, QObject *parent) :
     QObject(parent), _deleted(false) {
     _id = id;
 
-    _unkown = !SettingsManager::itemExists(id);
+    _unkown = !SM::SettingsServiceImpl::instance()->settingExists(id);
 
     if(!_unkown)
-        _metaData = SettingsManager::item(id);
+        _metaData = SM::SettingsServiceImpl::instance()->settingMetaData(id);
 
-    _value = SettingsManager::value(id);
+    _value = SM::SettingsServiceImpl::instance()->value(id);
 
-    const QStringList groupKeys = SettingsManager::groupSubGroups(id);
-    const QStringList settingKeys = SettingsManager::keysInGroup(id);
+    const QStringList groupKeys = SM::SettingsServiceImpl::instance()->groupSubGroups(id);
+    const QStringList settingKeys = SM::SettingsServiceImpl::instance()->keysInGroup(id);
 
     _parent = parentSetting;
 
@@ -35,8 +39,8 @@ LocalConfigModelSetting::LocalConfigModelSetting(const QString &id, LocalConfigM
         _children << setting;
     }
 
-    connect(SettingsManager::instance(), &SettingsManager::valueChanged, this, &LocalConfigModelSetting::onSettingChanged);
-    connect(SettingsManager::instance(), &SettingsManager::keyRemoved,   this, &LocalConfigModelSetting::onSettingRemoved);
+    connect(static_cast<SM::SettingsServiceImpl *>(SM::SettingsServiceImpl::instance()), &SM::SettingsServiceImpl::valueChanged, this, &LocalConfigModelSetting::onSettingChanged);
+    connect(static_cast<SM::SettingsServiceImpl *>(SM::SettingsServiceImpl::instance()), &SM::SettingsServiceImpl::keyRemoved,   this, &LocalConfigModelSetting::onSettingRemoved);
 }
 
 QString LocalConfigModelSetting::id() const {
@@ -47,7 +51,7 @@ bool LocalConfigModelSetting::isGroup() const {
     return _metaData.isGroup;
 }
 
-SettingsItem LocalConfigModelSetting::metaData() const {
+SMA::SettingsItem LocalConfigModelSetting::metaData() const {
     return _metaData;
 }
 
@@ -207,7 +211,7 @@ QVariant LocalConfigModel::data(const QModelIndex &index, int role) const {
         return QVariant();
 
     bool unknownSetting = setting->isUnknown();
-    SettingsItem metaData = setting->metaData();
+    SMA::SettingsItem metaData = setting->metaData();
     bool isGroup = setting->isGroup();
 
     if(role == Qt::DecorationRole) {
@@ -321,8 +325,8 @@ void LocalConfigModel::reloadSettings() {
     endPreview();
     _settings.clear();
 
-    const QStringList groups = SettingsManager::groups();
-    const QStringList settings = SettingsManager::keys();
+    const QStringList groups = SM::SettingsServiceImpl::instance()->groups();
+    const QStringList settings = SM::SettingsServiceImpl::instance()->keys();
 
     for(const QString &key : groups) {
         LocalConfigModelSetting *setting = new LocalConfigModelSetting(key, nullptr, this);

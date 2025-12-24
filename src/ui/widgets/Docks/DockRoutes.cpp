@@ -5,6 +5,9 @@
 #include <QUndoStack>
 #include <QMessageBox>
 
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
+
 #include "Global/ActionController.h"
 #include "Global/DockController.h"
 #include "DockLines.h"
@@ -17,8 +20,6 @@
 
 #include "ApplicationInterface.h"
 #include "src/ui/dialogs/DlgRouteEditor.h"
-
-#include "Global/SettingsManager.h"
 
 DockRoutes::DockRoutes(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockRoutes), _projectData(ApplicationInterface::projectData()), _line(nullptr),
@@ -176,7 +177,7 @@ void DockRoutes::onRouteDelete() {
     const PDISet<Route> routes = selectedRoutes();
     QStringList bulletList;
     for(Route *r : routes) {
-        if(bulletList.count() >= SettingsManager::value("general.deleteDialog.maxListCount").toInt())
+        if(bulletList.count() >= SM::SettingsServiceImpl::instance()->value("general.deleteDialog.maxListCount").toInt())
             break;
         bulletList << QString("<li>%1</li>").arg(r->name());
     }

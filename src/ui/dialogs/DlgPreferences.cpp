@@ -1,8 +1,10 @@
 #include "DlgPreferences.h"
 #include "ui_DlgPreferences.h"
 
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
+
 #include "src/ui/dialogs/DlgConfigEditor.h"
-#include "Global/SettingsManager.h"
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
@@ -130,14 +132,14 @@ bool DlgPreferences::unsavedChanges() {
 }
 
 void DlgPreferences::checkRestartRequired() {
-    if(!SettingsManager::restartRequired())
+    if(!SM::SettingsServiceImpl::instance()->restartRequired())
     return;
 
-    const QStringList items = SettingsManager::modifiedRestartRequiredSettings();
+    const QStringList items = SM::SettingsServiceImpl::instance()->modifiedRestartRequiredSettings();
 
     QStringList itemNames;
     for(const QString &item : items)
-        itemNames << SettingsManager::item(item).description.split("\n").first();
+        itemNames << SM::SettingsServiceImpl::instance()->settingMetaData(item).description.split("\n").first();
 
     QString itemList = "<ul><li>" + itemNames.join("</li><li>") + "</li></ul>";
 

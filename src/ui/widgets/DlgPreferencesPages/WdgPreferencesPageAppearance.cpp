@@ -1,7 +1,9 @@
 #include "WdgPreferencesPageAppearance.h"
 #include "ui_WdgPreferencesPageAppearance.h"
 
-#include "Global/SettingsManager.h"
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
+
 #include "Global/StyleHandler.h"
 #include "ItemModels/StylesModel.h"
 #include "ItemModels/IconSetsModel.h"
@@ -54,7 +56,7 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->cbIconSet->setCurrentIndex(_iconSetsModel->indexOficonSet(IconSetManager::currentIconSet()));
     ui->cssColorScheme->setColorScheme(StyleManager::currentColorScheme());
     ui->acsAccentColor->setAccentColor(StyleManager::currentAccentColorID());
-    ui->sbUiScale->setValue(SettingsManager::value("appearance.uiScale").toFloat() * 100);
+    ui->sbUiScale->setValue(SM::SettingsServiceImpl::instance()->value("appearance.uiScale").toFloat() * 100);
     WdgPreferencesPage::reloadPreferences();
 }
 
@@ -74,7 +76,7 @@ void WdgPreferencesPageAppearance::savePreferences() {
         StyleManager::setCurrentColorScheme(style.supportedColorSchemes().first());
 
     StyleManager::setCurrentAccentColor(ui->acsAccentColor->accentColorID());
-    SettingsManager::setValue("appearance.uiScale", ui->sbUiScale->value() / 100.0);
+    SM::SettingsServiceImpl::instance()->setValue("appearance.uiScale", ui->sbUiScale->value() / 100.0);
     WdgPreferencesPage::savePreferences();
 }
 

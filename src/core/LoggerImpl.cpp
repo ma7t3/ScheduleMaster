@@ -1,10 +1,11 @@
 #include "LoggerImpl.h"
 
+#include "src/namespace.h"
 #include "src/core/FolderLocationServiceImpl.h"
 #include "src/core/CrashDetectorImpl.h"
+#include "src/core/SettingsServiceImpl.h"
 
 #include "Global/AppInfo.h"
-#include "Global/SettingsManager.h"
 
 #include <QDir>
 #include <QFile>
@@ -126,7 +127,7 @@ void LoggerImpl::log(const QtMsgType &type, const QMessageLogContext &context,
 
 void LoggerImpl::setLogfileMode(const LogfileMode &newLogfileMode) {
     _logfileMode = newLogfileMode;
-    SettingsManager::setValue("general.logfileMode", newLogfileMode);
+    SM::SettingsServiceImpl::instance()->setValue("general.logfileMode", newLogfileMode);
 }
 
 bool LoggerImpl::currentLogfileExists() const {
@@ -139,7 +140,7 @@ QString LoggerImpl::lastLogfilePath() const {
 
 ILogger::LogfileMode LoggerImpl::logfileMode() const {
     bool ok;
-    int intValue = SettingsManager::value("general.logfileMode").toInt(&ok);
+    int intValue = SM::SettingsServiceImpl::instance()->value("general.logfileMode").toInt(&ok);
     if(!ok || intValue < 0 || intValue > 3)
         return DefaultLog;
 

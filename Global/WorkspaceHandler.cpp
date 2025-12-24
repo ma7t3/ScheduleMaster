@@ -2,7 +2,9 @@
 
 #include "Global/Workspace.h"
 #include "Global/ActionController.h"
-#include "Global/SettingsManager.h"
+
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
 
 #include <QMenu>
 #include <QToolBar>
@@ -67,15 +69,15 @@ Workspace *WorkspaceHandler::currentWorkspace() {
 }
 
 Workspace *WorkspaceHandler::onApplicationStartupWorkspace() {
-    return workspace(SettingsManager::value("workspaces.onApplicationStartupWorkspace").toString());
+    return workspace(SM::SettingsServiceImpl::instance()->value("workspaces.onApplicationStartupWorkspace").toString());
 }
 
 Workspace *WorkspaceHandler::onProjectOpenWorkspace() {
-    return workspace(SettingsManager::value("workspaces.onProjectOpenWorkspace").toString());
+    return workspace(SM::SettingsServiceImpl::instance()->value("workspaces.onProjectOpenWorkspace").toString());
 }
 
 Workspace *WorkspaceHandler::onProjectCloseWorkspace() {
-    return workspace(SettingsManager::value("workspaces.onProjectCloseWorkspace").toString());
+    return workspace(SM::SettingsServiceImpl::instance()->value("workspaces.onProjectCloseWorkspace").toString());
 }
 
 void WorkspaceHandler::switchToOnProjectOpenWorkspace() {

@@ -11,12 +11,14 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 SOURCES += \
     src/api/GlobalConfigItem.cpp \
     src/api/IFolderLocationService.cpp \
+    src/api/ISettingsService.cpp \
     src/core/ApplicationInterfaceImpl.cpp \
     src/core/CrashDetectorImpl.cpp \
     src/core/FolderLocationServiceImpl.cpp \
     src/core/GlobalConfigRepository.cpp \
     src/core/GlobalConfigService.cpp \
     src/core/LoggerImpl.cpp \
+    src/core/SettingsServiceImpl.cpp \
     src/ui/dialogs/DlgBusstopEditor.cpp \
     src/ui/dialogs/DlgConfigEditor.cpp \
     src/ui/dialogs/DlgGlobalSearch.cpp \
@@ -34,7 +36,6 @@ SOURCES += \
     Global/LanguageManager.cpp \
     Global/LastUsedFilesManager.cpp \
     Global/ProjectFileHandler.cpp \
-    Global/SettingsManager.cpp \
     Global/StyleHandler.cpp \
     Global/StyleManager.cpp \
     Global/VariantConverter.cpp \
@@ -105,6 +106,7 @@ SOURCES += \
 HEADERS += \
     ApplicationInterface.h \
     src/api/GlobalConfigItem.h \
+    src/api/ISettingsService.h \
     src/api/ScheduleMaster_global.h \
     src/api/ICrashDetector.h \
     src/api/IFolderLocationService.h \
@@ -121,6 +123,7 @@ HEADERS += \
     src/core/GlobalConfigService.h \
     src/core/LoggerImpl.h \
     src/core/Service.h \
+    src/core/SettingsServiceImpl.h \
     src/namespace.h \
     src/ui/dialogs/DlgBusstopEditor.h \
     src/ui/dialogs/DlgConfigEditor.h \
@@ -141,7 +144,6 @@ HEADERS += \
     Global/LanguageManager.h \
     Global/LastUsedFilesManager.h \
     Global/ProjectFileHandler.h \
-    Global/SettingsManager.h \
     Global/Singleton.h \
     Global/StyleHandler.h \
     Global/StyleManager.h \

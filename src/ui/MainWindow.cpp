@@ -5,6 +5,7 @@
 #include "src/core/CrashDetectorImpl.h"
 #include "src/core/LoggerImpl.h"
 #include "src/core/FolderLocationServiceImpl.h"
+#include "src/core/SettingsServiceImpl.h"
 
 #include "src/ui/dialogs/DlgGlobalSearch.h"
 #include "src/ui/dialogs/DlgPreferences.h"
@@ -14,7 +15,6 @@
 #include "Global/ProjectFileHandler.h"
 #include "Global/Workspace.h"
 #include "Global/WorkspaceHandler.h"
-#include "Global/SettingsManager.h"
 #include "ApplicationInterface.h"
 #include "src/projectdata/ProjectData.h"
 #include "src/ui/widgets/Docks/DockAbstract.h"
@@ -253,7 +253,7 @@ void MainWindow::updateRecentProjectsList() {
 }
 
 void MainWindow::showCrashWarning() {
-    if(SM::CrashDetectorImpl::instance()->crashDetected() && !SettingsManager::value("general.suppressCrashWarning").toBool()) {
+    if(SM::CrashDetectorImpl::instance()->crashDetected() && !SM::SettingsServiceImpl::instance()->value("general.suppressCrashWarning").toBool()) {
         const QString lastLogfilePath = SM::LoggerImpl::instance()->lastLogfilePath();
         bool logfileSaved = QFile::exists(lastLogfilePath);
 

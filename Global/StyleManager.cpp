@@ -3,7 +3,8 @@
 #include <QGuiApplication>
 #include <QFont>
 
-#include "SettingsManager.h"
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
 
 StyleConfig::StyleConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     name               = jsonObject.value("name").toString(id());
@@ -69,19 +70,19 @@ QMap<QString, QColor> StyleManager::accentColors() {
 }
 
 QString StyleManager::currentStyle() {
-    return SettingsManager::value("appearance.theme").toString();
+    return SM::SettingsServiceImpl::instance()->value("appearance.theme").toString();
 }
 
 void StyleManager::setCurrentStyle(const QString &styleID) {
     if(!itemExists(styleID))
         return;
 
-    SettingsManager::setValue("appearance.theme", styleID);
+    SM::SettingsServiceImpl::instance()->setValue("appearance.theme", styleID);
     emit instance()->styleChanged(styleID);
 }
 
 Qt::ColorScheme StyleManager::currentColorScheme() {
-    int intVal = SettingsManager::value("appearance.colorScheme").toInt();
+    int intVal = SM::SettingsServiceImpl::instance()->value("appearance.colorScheme").toInt();
     if(intVal < 0 || intVal > 2)
         return Qt::ColorScheme::Unknown;
 
@@ -89,12 +90,12 @@ Qt::ColorScheme StyleManager::currentColorScheme() {
 }
 
 void StyleManager::setCurrentColorScheme(const Qt::ColorScheme &colorScheme) {
-    SettingsManager::setValue("appearance.colorScheme", static_cast<int>(colorScheme));
+    SM::SettingsServiceImpl::instance()->setValue("appearance.colorScheme", static_cast<int>(colorScheme));
     emit instance()->colorSchemeChanged(colorScheme);
 }
 
 QString StyleManager::currentAccentColorID() {
-    return SettingsManager::value("appearance.accentColor").toString();
+    return SM::SettingsServiceImpl::instance()->value("appearance.accentColor").toString();
 }
 
 QColor StyleManager::currentAccentColor() {
@@ -102,12 +103,12 @@ QColor StyleManager::currentAccentColor() {
 }
 
 void StyleManager::setCurrentAccentColor(const QString &accentColorID) {
-    SettingsManager::setValue("appearance.accentColor", accentColorID);
+    SM::SettingsServiceImpl::instance()->setValue("appearance.accentColor", accentColorID);
     emit instance()->accentColorChanged(accentColorID);
 }
 
 QString StyleManager::currentUiFontFamily() {
-    QString str = SettingsManager::value("appearance.font").toString();
+    QString str = SM::SettingsServiceImpl::instance()->value("appearance.font").toString();
     if(str.isEmpty())
         return qGuiApp->font().family();
     else
@@ -115,16 +116,16 @@ QString StyleManager::currentUiFontFamily() {
 }
 
 void StyleManager::setCurrentUiFontFamily(const QString &fontFamily) {
-    SettingsManager::setValue("appearance.font", fontFamily);
+    SM::SettingsServiceImpl::instance()->setValue("appearance.font", fontFamily);
     emit instance()->uiFontFamilyChanged(fontFamily);
 }
 
 bool StyleManager::gdiFontEngineEnabled() {
-    return SettingsManager::value("appearance.fontEngineGDI").toBool();
+    return SM::SettingsServiceImpl::instance()->value("appearance.fontEngineGDI").toBool();
 }
 
 void StyleManager::setGdiFontEngineEnabled(const bool &enabled) {
-    SettingsManager::setValue("appearance.fontEngineGDI", enabled);
+    SM::SettingsServiceImpl::instance()->setValue("appearance.fontEngineGDI", enabled);
 }
 
 void StyleManager::loadAccentColors() {

@@ -7,11 +7,13 @@
 #include <QTranslator>
 #include <QSplashScreen>
 #include <QThread>
+#include <QSettings>
 
 #include "src/namespace.h"
 #include "src/core/ApplicationInterfaceImpl.h"
+#include "src/core/CrashDetectorImpl.h"
+#include "src/core/SettingsServiceImpl.h"
 
-#include "Global/SettingsManager.h"
 #include "Global/ActionController.h"
 #include "Global/StyleHandler.h"
 #include "Global/StyleManager.h"
@@ -64,7 +66,7 @@ int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
     a.setOverrideCursor(QCursor(Qt::WaitCursor));
-    SM::ApplicationInterfaceImpl scheduleMasterApp(nullptr);
+    SM::ApplicationInterfaceImpl appInterface;
 
     QPair<QColor, QString> ssConfig = splashScreenConfig();
     QSplashScreen splashscreen(QPixmap(ssConfig.second));
@@ -73,7 +75,6 @@ int main(int argc, char *argv[]) {
     qInfo() << "Starting ScheduleMaster...";
 
     splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
-    SettingsManager::init();
     LanguageManager::init();
     IconSetManager::init();
     StyleManager::init();
@@ -98,7 +99,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     qInfo() << "Loading main window size and position...";
-    bool ok = w.restoreGeometry(SettingsManager::value("general.mainWindowGeometry").toByteArray());
+    bool ok = w.restoreGeometry(SM::SettingsServiceImpl::instance()->value("general.mainWindowGeometry").toByteArray());
     if(!ok)
         w.showMaximized();
     else
@@ -111,7 +112,7 @@ int main(int argc, char *argv[]) {
     a.restoreOverrideCursor();
 
     int result = a.exec();
-    SettingsManager::setValue("general.mainWindowGeometry", w.saveGeometry());
+    SM::SettingsServiceImpl::instance()->setValue("general.mainWindowGeometry", w.saveGeometry());
     qInfo() << "Closing ScheduleMaster...";
     return result;
 }

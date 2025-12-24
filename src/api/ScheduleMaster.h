@@ -8,6 +8,7 @@ namespace ScheduleMaster {
 class ICrashDetector;
 class ILogger;
 class IFolderLocationService;
+class ISettingsService;
 
 class SCHEDULEMASTERINTERFACE_EXPORT IApplicationInterface {
 public:
@@ -16,6 +17,7 @@ public:
     virtual ICrashDetector *crashDetector() const = 0;
     virtual ILogger *logger() const = 0;
     virtual IFolderLocationService *folderLocationService() const = 0;
+    virtual ISettingsService *settingsService() const = 0;
 };
 
 }

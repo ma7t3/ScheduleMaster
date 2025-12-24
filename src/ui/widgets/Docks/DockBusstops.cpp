@@ -3,8 +3,10 @@
 
 #include <QMessageBox>
 
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
+
 #include "Global/ActionController.h"
-#include "Global/SettingsManager.h"
 #include "ApplicationInterface.h"
 #include "src/ui/dialogs/DlgBusstopEditor.h"
 
@@ -127,7 +129,7 @@ void DockBusstops::onBusstopDelete() {
     const PDISet<Busstop> busstops = selectedBusstops();
     QStringList bulletList;
     for(Busstop *b : busstops) {
-        if(bulletList.count() >= SettingsManager::value("general.deleteDialog.maxListCount").toInt())
+        if(bulletList.count() >= SM::SettingsServiceImpl::instance()->value("general.deleteDialog.maxListCount").toInt())
             break;
         bulletList << QString("<li>%1</li>").arg(b->name());
     }

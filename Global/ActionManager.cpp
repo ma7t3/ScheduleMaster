@@ -1,8 +1,11 @@
 #include "ActionManager.h"
 
-#include "Global/SettingsManager.h"
-
 #include "Global/Global.h"
+
+#include "src/namespace.h"
+#include "src/core/ApplicationInterfaceImpl.h"
+#include "src/api/ISettingsService.h"
+#include "src/core/SettingsServiceImpl.h"
 
 ActionConfig::ActionConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     text        = jsonObject.value("text").toString(id());
@@ -28,23 +31,26 @@ void ActionManager::init() {
         if(!shortcut.canHaveShortcut)
             continue;
 
-        SettingsItem item("keyboardShortcuts/" + shortcut.id());
+        SMA::SettingsItem item("keyboardShortcuts/" + shortcut.id());
         item.type         = QMetaType::QKeySequence;
         item.description  = shortcut.description;
         item.defaultValue = shortcut.defaultKeyboardShortcut;
-        SettingsManager::registerNewSettingsItem(item);
+        SM::SettingsServiceImpl::instance()->registerSetting(item);
     }
 
-    connect(SettingsManager::instance(), &SettingsManager::valueChanged, instance(), [](const QString &settingID, const QVariant &value){
-        if(!settingID.startsWith("keyboardShortcuts/"))
-            return;
+    connect(static_cast<SM::SettingsServiceImpl *>(SM::SettingsServiceImpl::instance()),
+            &SM::SettingsServiceImpl::valueChanged,
+            instance(),
+            [](const QString &settingID, const QVariant &value) {
+                if(!settingID.startsWith("keyboardShortcuts/"))
+                    return;
 
-        QString shortcutID = settingID;
-        const QKeySequence sequence = QKeySequence(value.toString());
-        shortcutID.remove("keyboardShortcuts/");
-        _keyboardShortcutsCache.insert(shortcutID, sequence);
-        emit instance()->keyboardShortcutChanged(shortcutID, sequence);
-    });
+                QString shortcutID = settingID;
+                const QKeySequence sequence = QKeySequence(value.toString());
+                shortcutID.remove("keyboardShortcuts/");
+                _keyboardShortcutsCache.insert(shortcutID, sequence);
+                emit instance()->keyboardShortcutChanged(shortcutID, sequence);
+            });
 }
 
 bool ActionManager::shortcutIsDefault(const QString &id, const QKeySequence &sequence) {
@@ -60,8 +66,8 @@ QKeySequence ActionManager::keyboardShortcut(const QString &actionID) {
 
     const QString fullID = "keyboardShortcuts/" + actionID;
 
-    if(SettingsManager::keyExists(fullID)) {
-        const QKeySequence sequence = QKeySequence(SettingsManager::value(fullID).toString());
+    if(SM::SettingsServiceImpl::instance()->keyExists(fullID)) {
+        const QKeySequence sequence = QKeySequence(SM::SettingsServiceImpl::instance()->value(fullID).toString());
         _keyboardShortcutsCache.insert(actionID, sequence);
         return sequence;
     }
@@ -72,7 +78,7 @@ QKeySequence ActionManager::keyboardShortcut(const QString &actionID) {
 }
 
 void ActionManager::setKeyboardShortcut(const QString &actionID, const QKeySequence shortcut) {
-    SettingsManager::setValue("keyboardShortcuts/" + actionID,
+    SM::SettingsServiceImpl::instance()->setValue("keyboardShortcuts/" + actionID,
                               shortcut.toString(QKeySequence::PortableText));
 
     _keyboardShortcutsCache.insert(actionID, shortcut);
@@ -89,7 +95,7 @@ void ActionManager::importKeyboardShortcuts(const QJsonArray &jsonArray) {
 
 QJsonArray ActionManager::exportKeyboardShortcuts() {
     QJsonArray array;
-    const QStringList keys = SettingsManager::keysInGroup("keyboardShortcuts");
+    const QStringList keys = SM::SettingsServiceImpl::instance()->keysInGroup("keyboardShortcuts");
     for(const QString &id : keys) {
         QJsonObject obj;
         obj["id"] = id;
@@ -101,11 +107,11 @@ QJsonArray ActionManager::exportKeyboardShortcuts() {
 
 bool ActionManager::addItem(const ActionConfig &actionConfig) {
     if(GlobalConfigManager::addItem(actionConfig) && actionConfig.canHaveShortcut) {
-        SettingsItem settingsItem("keyboardShortcuts/" + actionConfig.id());
+        SMA::SettingsItem settingsItem("keyboardShortcuts/" + actionConfig.id());
         settingsItem.type         = QMetaType::QKeySequence;
         settingsItem.description  = actionConfig.description;
         settingsItem.defaultValue = actionConfig.defaultKeyboardShortcut;
-        SettingsManager::registerNewSettingsItem(settingsItem);
+        SM::SettingsServiceImpl::instance()->registerSetting(settingsItem);
         return true;
     }
     return false;

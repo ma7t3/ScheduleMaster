@@ -13,7 +13,7 @@ class CrashDetectorImpl : public QObject, public Service<CrashDetectorImpl>, pub
 
 public:
     explicit CrashDetectorImpl(QObject *parent = nullptr);
-    virtual ~CrashDetectorImpl() override;
+    void shutdown();
 
     virtual bool crashDetected() const override;
 

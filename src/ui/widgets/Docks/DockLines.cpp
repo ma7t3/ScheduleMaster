@@ -1,9 +1,11 @@
 #include "DockLines.h"
 #include "ui_DockLines.h"
 
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
+
 #include "ApplicationInterface.h"
 #include "Global/ActionController.h"
-#include "Global/SettingsManager.h"
 #include "src/projectdata/model/LineTableModel.h"
 
 #include "src/ui/dialogs/DlgLineEditor.h"
@@ -125,7 +127,7 @@ void DockLines::onLineDelete() {
     const PDISet<Line> lines = selectedLines();
     QStringList bulletList;
     for(Line *l : lines) {
-        if(bulletList.count() >= SettingsManager::value("general.deleteDialog.maxListCount").toInt())
+        if(bulletList.count() >= SM::SettingsServiceImpl::instance()->value("general.deleteDialog.maxListCount").toInt())
             break;
         bulletList << QString("<li>%1</li>").arg(l->name());
     }

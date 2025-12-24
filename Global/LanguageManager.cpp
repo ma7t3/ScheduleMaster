@@ -1,6 +1,7 @@
 #include "LanguageManager.h"
 
-#include "SettingsManager.h"
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
 
 LanguageConfig::LanguageConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
 
@@ -8,7 +9,7 @@ LanguageConfig::LanguageConfig(const QJsonObject &json, const int &index) : Glob
 
 LanguageManager::LanguageManager(QObject *parent) : GlobalConfigManager(parent) {
     loadItems("Languages");
-    QString str = SettingsManager::value("general.language").toString();
+    QString str = SM::SettingsServiceImpl::instance()->value("general.language").toString();
     QLocale tmpLocale(str);
     QLocale locale;
     if(str == "system" || !LanguageManager::isSupported(tmpLocale.name()))
@@ -28,7 +29,7 @@ bool LanguageManager::isSupported(const QString &languageID) {
 }
 
 QLocale LanguageManager::currentLocale() {
-    return QLocale(SettingsManager::value("general.language").toString());
+    return QLocale(SM::SettingsServiceImpl::instance()->value("general.language").toString());
 }
 
 QLocale::Language LanguageManager::currentLanguage() {
@@ -36,6 +37,6 @@ QLocale::Language LanguageManager::currentLanguage() {
 }
 
 void LanguageManager::setCurrentLanguage(const QString &languageID) {
-    SettingsManager::setValue("general.language", languageID);
+    SM::SettingsServiceImpl::instance()->setValue("general.language", languageID);
     emit instance()->currentLanguageChanged(languageID);
 }

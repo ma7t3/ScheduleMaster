@@ -1,9 +1,10 @@
 #include "IFolderLocationService.h"
 
-// TODO: [core-rework] remove
-#include "Global/SettingsManager.h"
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QStandardPaths>
 
 namespace ScheduleMaster {
@@ -26,7 +27,7 @@ FolderLocationConfig::FolderLocationConfig(const QJsonObject &jsonObject, const 
     item.description     = name;
     item.requiresRestart = requiresRestart;
     item.defaultValue    = defaultPaths;
-    SettingsManager::registerNewSettingsItem(item);
+    SM::SettingsServiceImpl::instance()->registerSetting(item);
 }
 
 QString FolderLocationConfig::resolvePathPlaceholders(QString path) {

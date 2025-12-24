@@ -3,7 +3,8 @@
 
 #include <QAbstractItemModel>
 
-#include "Global/SettingsManager.h"
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
 
 class LocalConfigModelSetting : public QObject {
     Q_OBJECT
@@ -12,7 +13,7 @@ public:
 
     QString id() const;
     bool isGroup() const;
-    SettingsItem metaData() const;
+    SMA::SettingsItem metaData() const;
     bool isUnknown() const;
     QVariant value();
 
@@ -36,7 +37,7 @@ signals:
 
 private:
     QString _id;
-    SettingsItem _metaData;
+    SMA::SettingsItem _metaData;
     bool _unkown, _deleted;
     QVariant _value;
     LocalConfigModelSetting *_parent;

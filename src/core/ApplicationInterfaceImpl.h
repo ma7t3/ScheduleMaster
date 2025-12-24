@@ -2,7 +2,9 @@
 #define SCHEDULEMASTERIMPL_H
 
 #include <QObject>
+#include <QDebug>
 #include "src/api/ScheduleMaster.h"
+#include "src/core/CrashDetectorImpl.h"
 
 #define app ApplicationInterfaceImpl::instance()
 
@@ -10,6 +12,7 @@ namespace ScheduleMaster {
 class ICrashDetector;
 class ILogger;
 class IFolderLocationService;
+class ISettingsService;
 }
 
 namespace ScheduleMaster::Core {
@@ -17,17 +20,21 @@ namespace ScheduleMaster::Core {
 class CrashDetectorImpl;
 class LoggerImpl;
 class FolderLocationServiceImpl;
+class SettingsServiceImpl;
 
 class ApplicationInterfaceImpl : public QObject, public IApplicationInterface {
     Q_OBJECT
 
 public:
-    explicit ApplicationInterfaceImpl(QObject *parent);
+    explicit ApplicationInterfaceImpl(QObject *parent = nullptr);
+    virtual ~ApplicationInterfaceImpl() { CrashDetectorImpl::instance()->shutdown(); }
+
     static ApplicationInterfaceImpl *instance();
 
     virtual ICrashDetector *crashDetector() const override;
     virtual ILogger *logger() const override;
     virtual IFolderLocationService *folderLocationService() const override;
+    virtual ISettingsService *settingsService() const override;
 
 protected:
     static inline ApplicationInterfaceImpl *_self = nullptr;
@@ -36,6 +43,7 @@ private:
     CrashDetectorImpl *_crashDetector;
     LoggerImpl *_logger;
     FolderLocationServiceImpl *_folderLocationService;
+    SettingsServiceImpl *_settingsService;
 };
 
 }

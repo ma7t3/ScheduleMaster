@@ -1,17 +1,18 @@
 #include "CrashDetectorImpl.h"
 
-#include "Global/SettingsManager.h"
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 
 CrashDetectorImpl::CrashDetectorImpl(QObject *parent) : QObject(parent) {
-    const QVariant rawValue = SettingsManager::value("general.closeCheck");
+    const QVariant rawValue = SM::SettingsServiceImpl::instance()->value("general.closeCheck");
     _crashDetected = rawValue.isValid() && !rawValue.toBool();
-    SettingsManager::setValue("general.closeCheck", false);
+    SM::SettingsServiceImpl::instance()->setValue("general.closeCheck", false);
 }
 
-CrashDetectorImpl::~CrashDetectorImpl() {
-    SettingsManager::setValue("general.closeCheck", true);
+void CrashDetectorImpl::shutdown() {
+    SM::SettingsServiceImpl::instance()->setValue("general.closeCheck", true);
 }
 
 bool CrashDetectorImpl::crashDetected() const {

@@ -1,6 +1,7 @@
 #include "IconSetManager.h"
 
-#include "Global/SettingsManager.h"
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
 
 IconSetConfig::IconSetConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     name = jsonObject.value("name").toString();
@@ -15,10 +16,10 @@ IconSetManager::IconSetManager(QObject *parent) : GlobalConfigManager(parent) {
 }
 
 QString IconSetManager::currentIconSet() {
-    return SettingsManager::value("appearance.iconSet").toString();
+    return SM::SettingsServiceImpl::instance()->value("appearance.iconSet").toString();
 }
 
 void IconSetManager::setCurrentIconSet(const QString &iconSetID) {
-    SettingsManager::setValue("appearance.iconSet", iconSetID);
+    SM::SettingsServiceImpl::instance()->setValue("appearance.iconSet", iconSetID);
     emit instance()->currentIconSetChanged(iconSetID);
 }

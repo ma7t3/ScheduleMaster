@@ -1,6 +1,7 @@
 #include "LastUsedFilesManager.h"
 
-#include "SettingsManager.h"
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
 
 LastUsedFilesManager::LastUsedFilesManager(QObject *parent) : QObject(parent) {}
 
@@ -14,7 +15,7 @@ void LastUsedFilesManager::init() {
 }
 
 QStringList LastUsedFilesManager::lastUsedFiles() {
-    return SettingsManager::value("general.lastUsedFiles").toStringList();
+    return SM::SettingsServiceImpl::instance()->value("general.lastUsedFiles").toStringList();
 }
 
 void LastUsedFilesManager::addLastUsedFile(const QString &filePath) {
@@ -27,7 +28,7 @@ void LastUsedFilesManager::addLastUsedFile(const QString &filePath) {
 void LastUsedFilesManager::setLastUsedFiles(const QStringList &list) {
     QStringList modifiedList = list;
     modifiedList.replaceInStrings("\\", "/");
-    SettingsManager::setValue("general.lastUsedFiles", modifiedList);
+    SM::SettingsServiceImpl::instance()->setValue("general.lastUsedFiles", modifiedList);
     emit instance()->lastUsedFilesChanged();
 }
 
@@ -38,5 +39,5 @@ void LastUsedFilesManager::removeLastUsedFile(const QString &filePath) {
 }
 
 void LastUsedFilesManager::clearLastUsedFiles() {
-    SettingsManager::setValue("general.lastUsedFiles", QStringList{});
+    SM::SettingsServiceImpl::instance()->setValue("general.lastUsedFiles", QStringList{});
 }

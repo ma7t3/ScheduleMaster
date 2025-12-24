@@ -4,6 +4,9 @@
 #include "Global/ActionController.h"
 #include "ItemModels/LocalConfigModel.h"
 
+#include "src/namespace.h"
+#include "src/core/SettingsServiceImpl.h"
+
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QTreeWidgetItem>
@@ -77,7 +80,7 @@ void DlgConfigEditor::reject() {
 void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous) {
     // save previous
     if(previous.isValid() && !_model->settingIsGroup(previous) && !_model->settingIsDeleted(previous))
-        SettingsManager::setValue(_model->settingID(previous), ui->wdgValueEditor->value());
+        SM::SettingsServiceImpl::instance()->setValue(_model->settingID(previous), ui->wdgValueEditor->value());
 
     // load current
     if(current.isValid()) {
@@ -87,8 +90,8 @@ void DlgConfigEditor::onCurrentRowChanged(const QModelIndex &current, const QMod
 
         ui->lID->setText(id);
 
-        if(SettingsManager::itemExists(id)) {
-            SettingsItem item = SettingsManager::item(id);
+        if(SM::SettingsServiceImpl::instance()->settingExists(id)) {
+            SMA::SettingsItem item = SM::SettingsServiceImpl::instance()->settingMetaData(id);
             ui->lDescription->setText(item.description);
             type = item.isGroup ? tr("group") : QMetaType(item.type).name();
             ui->lDontTouchWarning->setVisible(item.dontTouchWarning);
@@ -126,8 +129,8 @@ void DlgConfigEditor::onSelectionChanged() {
     bool canRestoreDefault = false, canDelete = false;
 
     for(const QString &id : settings) {
-        bool exists = SettingsManager::itemExists(id);
-        canRestoreDefault |= exists && !SettingsManager::item(id).isGroup;
+        bool exists = SM::SettingsServiceImpl::instance()->settingExists(id);
+        canRestoreDefault |= exists && !SM::SettingsServiceImpl::instance()->settingMetaData(id).isGroup;
         canDelete |= !exists;
     }
 
@@ -156,10 +159,10 @@ void DlgConfigEditor::onSettingRestoreDefault() {
         return;
 
     for(const QString &id : std::as_const(IDs)) {
-        if(!SettingsManager::itemExists(id))
+        if(!SM::SettingsServiceImpl::instance()->settingExists(id))
             continue;
 
-        QVariant defaultValue = SettingsManager::restoreDefaultValue(id);
+        QVariant defaultValue = SM::SettingsServiceImpl::instance()->restoreDefaultValue(id);
         ui->wdgValueEditor->setValue(defaultValue);
     }
 }
@@ -178,11 +181,11 @@ void DlgConfigEditor::onSettingDelete() {
         return;
 
     for(const QString &id : std::as_const(IDs)) {
-        if(SettingsManager::itemExists(id)) {
-            QVariant defaultValue = SettingsManager::restoreDefaultValue(id);
+        if(SM::SettingsServiceImpl::instance()->settingExists(id)) {
+            QVariant defaultValue = SM::SettingsServiceImpl::instance()->restoreDefaultValue(id);
             ui->wdgValueEditor->setValue(defaultValue);
         } else {
-            SettingsManager::removeKey(id);
+            SM::SettingsServiceImpl::instance()->removeKey(id);
         }
     }
 }

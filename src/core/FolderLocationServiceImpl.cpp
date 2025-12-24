@@ -1,6 +1,8 @@
 #include "FolderLocationServiceImpl.h"
 
-#include "Global/SettingsManager.h"
+#include "src/namespace.h"
+#include "src/core/ApplicationInterfaceImpl.h"
+#include "src/core/SettingsServiceImpl.h"
 
 #include <QCoreApplication>
 #include <QStandardPaths>
@@ -8,7 +10,7 @@
 namespace ScheduleMaster::Core {
 
 FolderLocationServiceImpl::FolderLocationServiceImpl(QObject *parent) : GlobalConfigServiceCRTP(parent, "Locations") {
-    connect(SettingsManager::instance(), &SettingsManager::valueChanged, this, [this](const QString &settingID, const QVariant &value) {
+    connect(static_cast<SettingsServiceImpl *>(SM::SettingsServiceImpl::instance()), &SettingsServiceImpl::valueChanged, this, [this](const QString &settingID, const QVariant &value) {
         if(!settingID.startsWith("locations/"))
             return;
 
@@ -21,13 +23,13 @@ FolderLocationServiceImpl::FolderLocationServiceImpl(QObject *parent) : GlobalCo
 QMap<QString, QStringList> FolderLocationServiceImpl::currentFolderLocations() const {
     QMap<QString, QStringList> data;
 
-    const QStringList keys = SettingsManager::keysInGroup("locations");
+    const QStringList keys = SM::SettingsServiceImpl::instance()->keysInGroup("locations");
 
     const QStringList standardKeys = repository()->itemIDs();
     for(const QString &key : standardKeys) {
         if(!keys.contains(key)) {
-            data[key] = SettingsManager::item("locations/" + key).defaultValue.toStringList();
-            SettingsManager::setValue("locations/" + key, data[key]);
+            data[key] = SM::SettingsServiceImpl::instance()->settingMetaData("locations/" + key).defaultValue.toStringList();
+            SM::SettingsServiceImpl::instance()->setValue("locations/" + key, data[key]);
         }
     }
 
@@ -38,10 +40,10 @@ QMap<QString, QStringList> FolderLocationServiceImpl::currentFolderLocations() c
 }
 
 QStringList FolderLocationServiceImpl::currentFolderLocationPaths(const QString &folderLocationID) const {
-    QStringList values = SettingsManager::value("locations/" + folderLocationID).toStringList();
+    QStringList values = SM::SettingsServiceImpl::instance()->value("locations/" + folderLocationID).toStringList();
     if(values.empty()) {
-        values = SettingsManager::item("locations/" + folderLocationID).defaultValue.toStringList();
-        SettingsManager::setValue("locations/" + folderLocationID, values);
+        values = SM::SettingsServiceImpl::instance()->settingMetaData("locations/" + folderLocationID).defaultValue.toStringList();
+        SM::SettingsServiceImpl::instance()->setValue("locations/" + folderLocationID, values);
     }
 
     if(values.isEmpty())
@@ -52,7 +54,7 @@ QStringList FolderLocationServiceImpl::currentFolderLocationPaths(const QString 
 
 void FolderLocationServiceImpl::setCurrentFolderLocationPaths(const QString &folderLocationID,
                                                           const QStringList &paths) {
-    SettingsManager::setValue("locations/" + folderLocationID, paths);
+    SM::SettingsServiceImpl::instance()->setValue("locations/" + folderLocationID, paths);
 }
 
 void FolderLocationServiceImpl::setCurrentFolderLocations(
