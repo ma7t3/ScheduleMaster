@@ -72,8 +72,6 @@ int main(int argc, char *argv[]) {
     QSplashScreen splashscreen(QPixmap(ssConfig.second));
     splashscreen.show();
 
-    qInfo() << "Starting ScheduleMaster...";
-
     splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
     LanguageManager::init();
     IconSetManager::init();

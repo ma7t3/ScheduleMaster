@@ -28,9 +28,17 @@ signals:
 template <typename T>
 class GlobalConfigRepositoryCRTP : public GlobalConfigRepository {
 public:
-    explicit GlobalConfigRepositoryCRTP(QObject *parent, const QString &resourceName = "") : GlobalConfigRepository(parent) {
-        if(!resourceName.isEmpty())
-            loadItems(resourceName);
+    explicit GlobalConfigRepositoryCRTP(QObject *parent, const QString &resourceName = "") :
+        GlobalConfigRepository(parent), _resourceName(resourceName), _initialized(false) {}
+
+    void init() {
+        if(_initialized)
+            return;
+
+        if(!_resourceName.isEmpty())
+            loadItems(_resourceName);
+
+        _initialized = true;
     }
 
     QList<T> items() const { return _items.values(); }
@@ -137,6 +145,8 @@ protected:
     }
 
     QMap<QString, T> _items;
+    QString _resourceName;
+    bool _initialized;
 };
 
 }

@@ -8,12 +8,17 @@
 namespace ScheduleMaster::Core {
 
 ApplicationInterfaceImpl::ApplicationInterfaceImpl(QObject *parent) : QObject(parent) {
+
     _self = this;
 
     _settingsService = new SettingsServiceImpl(this);
     _crashDetector = new CrashDetectorImpl(this);
     _folderLocationService = new FolderLocationServiceImpl(this);
     _logger = new LoggerImpl(this);
+
+    qInfo() << "Starting ScheduleMaster...";
+    _settingsService->initRepository();
+    _folderLocationService->initRepository();
 }
 
 ApplicationInterfaceImpl *ApplicationInterfaceImpl::instance() {

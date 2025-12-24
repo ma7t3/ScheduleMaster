@@ -19,6 +19,8 @@ public:
     explicit GlobalConfigServiceCRTP(QObject *parent = nullptr, const QString &resourceName = "") :
         GlobalConfigService(parent), _repository(new RepositoryType(this, resourceName)) {}
 
+    void initRepository() { _repository->init(); }
+
 protected:
     RepositoryType *repository() const { return _repository; }
 

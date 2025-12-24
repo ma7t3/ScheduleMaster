@@ -46,7 +46,9 @@ QStringList FolderLocationServiceImpl::currentFolderLocationPaths(const QString 
         SM::SettingsServiceImpl::instance()->setValue("locations/" + folderLocationID, values);
     }
 
-    if(values.isEmpty())
+    if(values.isEmpty() && folderLocationID == "logfile")
+        values << QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/logs";
+    else if(values.isEmpty())
         values << "";
 
     return values;
