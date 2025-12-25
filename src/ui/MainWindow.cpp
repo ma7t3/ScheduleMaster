@@ -6,12 +6,12 @@
 #include "src/core/LoggerImpl.h"
 #include "src/core/FolderLocationServiceImpl.h"
 #include "src/core/SettingsServiceImpl.h"
+#include "src/core/LastUsedFilesServiceImpl.h"
 
 #include "src/ui/dialogs/DlgGlobalSearch.h"
 #include "src/ui/dialogs/DlgPreferences.h"
 #include "Global/ActionController.h"
 #include "Global/DockController.h"
-#include "Global/LastUsedFilesManager.h"
 #include "Global/ProjectFileHandler.h"
 #include "Global/Workspace.h"
 #include "Global/WorkspaceHandler.h"
@@ -116,7 +116,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(actionShowDockList,               &QAction::triggered,                         this, &MainWindow::showDockMenu);
     connect(actionShowWorkspaceList,          &QAction::triggered,                         this, &MainWindow::showWorkspaceMenu);
 
-    connect(LastUsedFilesManager::instance(), &LastUsedFilesManager::lastUsedFilesChanged, this, &MainWindow::updateRecentProjectsList);
+    connect(SM::LastUsedFilesServiceImpl::instance(), &SM::LastUsedFilesServiceImpl::lastUsedFilesChanged, this, &MainWindow::updateRecentProjectsList);
 
     connect(_fileHandler,                     &ProjectFileHandler::progressStepChanged,    this, &MainWindow::onFileHandlerProgressStepChanged);
     connect(_fileHandler,                     &ProjectFileHandler::progressStepMaximum,    this, &MainWindow::onFileHandlerProgressMaximum);
@@ -234,10 +234,10 @@ void MainWindow::updateRecentProjectsList() {
 
     menu->clear();
 
-    QStringList list = LastUsedFilesManager::lastUsedFiles();
+    const QStringList list = SM::LastUsedFilesServiceImpl::instance()->lastUsedFiles();
 
     int i = 0;
-    for(const QString &path : std::as_const(list)) {
+    for(const QString &path : list) {
         if(i > 9)
             return;
 
@@ -312,7 +312,7 @@ void MainWindow::openProjectFromFile(const QString &filePath) {
     qInfo() << "Open project file" << filePath;
     createFileHandlerProgressDialog(tr("Open project..."));
     _fileHandler->readFile(filePath);
-    LastUsedFilesManager::addLastUsedFile(filePath);
+    SM::LastUsedFilesServiceImpl::instance()->addLastUsedFile(filePath);
 }
 
 void MainWindow::showRecentFilesMenu() {
@@ -353,7 +353,7 @@ void MainWindow::saveProjectToFile(const QString &filePath) {
     qInfo() << "Save project to file" << filePath;
     createFileHandlerProgressDialog(tr("Save project..."));
     _fileHandler->saveFile(filePath, !filePath.endsWith(".json"));
-    LastUsedFilesManager::addLastUsedFile(filePath);
+    SM::LastUsedFilesServiceImpl::instance()->addLastUsedFile(filePath);
     _projectData->undoStack()->setClean();
 }
 
@@ -404,7 +404,7 @@ void MainWindow::removeProjectFromRecentList(const QString &filePath) {
     if(msg != QMessageBox::Yes)
         return;
 
-    LastUsedFilesManager::removeLastUsedFile(filePath);
+    SM::LastUsedFilesServiceImpl::instance()->removeLastUsedFile(filePath);
 }
 
 void MainWindow::showDockMenu() {

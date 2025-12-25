@@ -10,6 +10,7 @@ class ILogger;
 class IFolderLocationService;
 class ISettingsService;
 class ILanguageService;
+class ILastUsedFilesService;
 
 class SCHEDULEMASTERINTERFACE_EXPORT IApplicationInterface {
 public:
@@ -20,6 +21,7 @@ public:
     virtual IFolderLocationService *folderLocationService() const = 0;
     virtual ISettingsService *settingsService() const = 0;
     virtual ILanguageService *languageService() const = 0;
+    virtual ILastUsedFilesService *lastUsedFilesService() const = 0;
 };
 
 }

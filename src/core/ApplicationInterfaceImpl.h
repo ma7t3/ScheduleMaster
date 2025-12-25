@@ -14,6 +14,7 @@ class ILogger;
 class IFolderLocationService;
 class ISettingsService;
 class ILanguageService;
+class ILastUsedFilesService;
 }
 
 namespace ScheduleMaster::Core {
@@ -23,6 +24,7 @@ class LoggerImpl;
 class FolderLocationServiceImpl;
 class SettingsServiceImpl;
 class LanguageServiceImpl;
+class LastUsedFilesServiceImpl;
 
 class ApplicationInterfaceImpl : public QObject, public IApplicationInterface {
     Q_OBJECT
@@ -38,6 +40,7 @@ public:
     virtual IFolderLocationService *folderLocationService() const override;
     virtual ISettingsService *settingsService() const override;
     virtual ILanguageService *languageService() const override;
+    virtual ILastUsedFilesService *lastUsedFilesService() const override;
 
 protected:
     static inline ApplicationInterfaceImpl *_self = nullptr;
@@ -48,6 +51,7 @@ private:
     FolderLocationServiceImpl *_folderLocationService;
     SettingsServiceImpl *_settingsService;
     LanguageServiceImpl *_languageService;
+    LastUsedFilesServiceImpl *_lastUsedFilesService;
 };
 
 }

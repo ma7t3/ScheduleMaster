@@ -5,6 +5,7 @@
 #include "src/core/FolderLocationServiceImpl.h"
 #include "src/core/SettingsServiceImpl.h"
 #include "src/core/LanguageServiceImpl.h"
+#include "src/core/LastUsedFilesServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 
@@ -21,6 +22,7 @@ ApplicationInterfaceImpl::ApplicationInterfaceImpl(QObject *parent) : QObject(pa
     _folderLocationService->initRepository();
 
     _languageService = new LanguageServiceImpl(this);
+    _lastUsedFilesService = new LastUsedFilesServiceImpl(this);
 }
 
 ApplicationInterfaceImpl *ApplicationInterfaceImpl::instance() {
@@ -45,5 +47,9 @@ ISettingsService *ApplicationInterfaceImpl::settingsService() const {
 
 ILanguageService *ApplicationInterfaceImpl::languageService() const {
     return _languageService;
+}
+
+ILastUsedFilesService *ApplicationInterfaceImpl::lastUsedFilesService() const {
+    return _lastUsedFilesService;
 }
 }

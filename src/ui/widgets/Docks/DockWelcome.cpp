@@ -1,8 +1,10 @@
 #include "DockWelcome.h"
 #include "ui_DockWelcome.h"
 
+#include "src/namespace.h"
+#include "src/core/LastUsedFilesServiceImpl.h"
+
 #include "Global/ActionController.h"
-#include "Global/LastUsedFilesManager.h"
 #include "ApplicationInterface.h"
 #include "src/ui/widgets/WdgWelcomeRecentProjectEntry.h"
 
@@ -47,7 +49,7 @@ DockWelcome::DockWelcome(QWidget *parent) :
     ActionController::add(_recentFileOpenLocation, "project.recentFiles.openItemDirectory");
     ActionController::add(_recentFileRemove,       "project.recentFiles.removeItem");
 
-    connect(LastUsedFilesManager::instance(), &LastUsedFilesManager::lastUsedFilesChanged, this, &DockWelcome::updateRecentProjectsList);
+    connect(SM::LastUsedFilesServiceImpl::instance(), &SM::LastUsedFilesServiceImpl::lastUsedFilesChanged, this, &DockWelcome::updateRecentProjectsList);
 
     connect(this, &DockWelcome::newProject,            ApplicationInterface::instance(), &ApplicationInterface::newProject);
     connect(this, &DockWelcome::openProject,           ApplicationInterface::instance(), &ApplicationInterface::openProject);
@@ -64,12 +66,12 @@ DockWelcome::~DockWelcome() {
 }
 
 void DockWelcome::updateRecentProjectsList() {
-    QStringList lastUsedFiles = LastUsedFilesManager::lastUsedFiles();
+    const QStringList lastUsedFiles = SM::LastUsedFilesServiceImpl::instance()->lastUsedFiles();
 
     int scrollbarPos = ui->lwRecentProjects->verticalScrollBar()->value();
     ui->lwRecentProjects->clear();
 
-    for(QString current : std::as_const(lastUsedFiles)) {
+    for(QString current : lastUsedFiles) {
         QListWidgetItem *itm = new QListWidgetItem(ui->lwRecentProjects);
         ui->lwRecentProjects->addItem(itm);
         WdgWelcomeRecentProjectEntry *wdg = new WdgWelcomeRecentProjectEntry(ui->lwRecentProjects);

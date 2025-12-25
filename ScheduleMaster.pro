@@ -19,6 +19,7 @@ SOURCES += \
     src/core/GlobalConfigRepository.cpp \
     src/core/GlobalConfigService.cpp \
     src/core/LanguageServiceImpl.cpp \
+    src/core/LastUsedFilesServiceImpl.cpp \
     src/core/LoggerImpl.cpp \
     src/core/SettingsServiceImpl.cpp \
     src/ui/dialogs/DlgBusstopEditor.cpp \
@@ -35,7 +36,6 @@ SOURCES += \
     Global/Global.cpp \
     Global/IconController.cpp \
     Global/IconSetManager.cpp \
-    Global/LastUsedFilesManager.cpp \
     Global/ProjectFileHandler.cpp \
     Global/StyleHandler.cpp \
     Global/StyleManager.cpp \
@@ -108,6 +108,7 @@ HEADERS += \
     ApplicationInterface.h \
     src/api/GlobalConfigItem.h \
     src/api/ILanguageService.h \
+    src/api/ILastUsedFilesService.h \
     src/api/ISettingsService.h \
     src/api/ScheduleMaster_global.h \
     src/api/ICrashDetector.h \
@@ -124,6 +125,7 @@ HEADERS += \
     src/core/GlobalConfigRepository.h \
     src/core/GlobalConfigService.h \
     src/core/LanguageServiceImpl.h \
+    src/core/LastUsedFilesServiceImpl.h \
     src/core/LoggerImpl.h \
     src/core/Service.h \
     src/core/SettingsServiceImpl.h \
@@ -144,7 +146,6 @@ HEADERS += \
     Global/GlobalConfigManagerSignals.h \
     Global/IconController.h \
     Global/IconSetManager.h \
-    Global/LastUsedFilesManager.h \
     Global/ProjectFileHandler.h \
     Global/Singleton.h \
     Global/StyleHandler.h \
