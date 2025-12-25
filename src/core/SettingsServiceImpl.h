@@ -20,7 +20,6 @@ class SettingsServiceImpl :
 
 public:
     explicit SettingsServiceImpl(QObject *parent = nullptr);
-    void init();
 
     virtual QVariant value(const QString &id) const override;
     virtual QVariant setValue(const QString &id, const QVariant &value) override;
@@ -43,8 +42,10 @@ public:
     virtual bool registerSetting(const SettingsItem &item) override;
 
 protected:
-    void processItem(const QString &id);
     QVariant readSilent(const QString &id) const;
+
+protected slots:
+    void processItem(const QString &id);
 
 signals:
     void valueAdded(const QString &id, const QVariant &value);

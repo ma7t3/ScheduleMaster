@@ -131,7 +131,7 @@ protected:
                 if(t->id().isEmpty())
                     continue;
 
-                _items.insert(t->id(), t);
+                addItem(t);
             } else {
                 T t(obj, index);
                 if(t.id().isEmpty())

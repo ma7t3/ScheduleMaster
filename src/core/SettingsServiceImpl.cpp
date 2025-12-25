@@ -5,12 +5,8 @@
 namespace ScheduleMaster::Core {
 
 SettingsServiceImpl::SettingsServiceImpl(QObject *parent) : GlobalConfigServiceCRTP(parent, "Settings"), _settings("ScheduleMaster", "ScheduleMaster") {
-    const QList<SettingsItem> list = repository()->items();
-    for(const SettingsItem &item : list)
-        processItem(item.id());
+    connect(repository(), &SettingsRepository::itemAdded, this, &SettingsServiceImpl::processItem);
 }
-
-void SettingsServiceImpl::init() {}
 
 QVariant SettingsServiceImpl::value(const QString &id) const {
     QVariant value = readSilent(id);
@@ -133,20 +129,8 @@ bool SettingsServiceImpl::registerSetting(const SettingsItem &item) {
     if(!repository()->addItem(item))
         return false;
 
-    processItem(item.id());
-
     qInfo().noquote() << "Registered new settings item: " + item.id();
     return true;
-}
-
-void SettingsServiceImpl::processItem(const QString &id) {
-    const SettingsItem item = repository()->item(id);
-
-    if(!_settings.contains(item.id()) && !item.isGroup)
-        _settings.setValue(item.id(), item.defaultValue);
-
-    if(item.requiresRestart)
-        _restartRequiredSettings << item.id();
 }
 
 QVariant SettingsServiceImpl::readSilent(const QString &id) const {
@@ -164,6 +148,16 @@ QVariant SettingsServiceImpl::readSilent(const QString &id) const {
     } else {
         return _settings.value(id);
     }
+}
+
+void SettingsServiceImpl::processItem(const QString &id) {
+    const SettingsItem item = repository()->item(id);
+
+    if(!_settings.contains(item.id()) && !item.isGroup)
+        _settings.setValue(item.id(), item.defaultValue);
+
+    if(item.requiresRestart)
+        _restartRequiredSettings << item.id();
 }
 
 }
