@@ -20,8 +20,6 @@
 #include "Global/DockManager.h"
 #include "Global/WorkspaceManager.h"
 #include "Global/ActionManager.h"
-#include "Global/IconSetManager.h"
-#include "Global/IconController.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/Splashscreen/slpashscreen_light.png";
@@ -72,13 +70,11 @@ int main(int argc, char *argv[]) {
     splashscreen.show();
 
     splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
-    IconSetManager::init();
     StyleManager::init();
     ActionManager::init();
     DockManager::init();
     WorkspaceManager::init();
 
-    IconController::init();
     ActionController::init();
 
     splashscreen.showMessage(QObject::tr("Loading preferences..."), Qt::AlignBottom, ssConfig.first);

@@ -1,10 +1,12 @@
 #include "WdgPreferencesPageKeyboardShortcuts.h"
 #include "ui_WdgPreferencesPageKeyboardShortcuts.h"
 
+#include "src/namespace.h"
+#include "src/core/IconServiceImpl.h"
+
 #include "Global/ActionManager.h"
 #include "ItemModels/KeyboardShortcutsModel.h"
 #include "Global/ActionController.h"
-#include "Global/IconController.h"
 
 #include <QStandardPaths>
 #include <QSortFilterProxyModel>
@@ -124,7 +126,7 @@ QString WdgPreferencesPageKeyboardShortcuts::name() {
 }
 
 QIcon WdgPreferencesPageKeyboardShortcuts::icon() {
-    return IconController::icon("keyboard");
+    return SM::IconServiceImpl::instance()->icon("keyboard");
 }
 
 void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelIndex &current, const QModelIndex &previous) {
@@ -139,7 +141,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelInde
     const ActionConfig metadata = _model->metaData(mappedIndex);
     const QKeySequence shortcut = _model->shortcut(mappedIndex);
 
-    ui->lIcon->setPixmap(IconController::icon(metadata.icon).pixmap(32));
+    ui->lIcon->setPixmap(SM::IconServiceImpl::instance()->icon(metadata.icon).pixmap(32));
     ui->lBreadcrumb->setText(metadata.breadcrumb.join(" > "));
     ui->lName->setText(metadata.description);
     ui->lID->setText(metadata.id());

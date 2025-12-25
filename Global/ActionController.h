@@ -6,8 +6,10 @@
 #include <QObject>
 #include <QToolButton>
 
+#include "src/namespace.h"
+#include "src/core/IconServiceImpl.h"
+
 #include "Global/ActionManager.h"
-#include "Global/IconController.h"
 #include "Global/Singleton.h"
 
 /**
@@ -166,7 +168,7 @@ public:
                 button->setToolTip(actionConfig.tooltip.isEmpty()? actionConfig.description : actionConfig.tooltip);
 
             if(components.testFlag(IconComponent))
-                button->setIcon(IconController::icon(actionConfig.icon));
+                button->setIcon(SM::IconServiceImpl::instance()->icon(actionConfig.icon));
 
             if(components.testFlag(ShortcutComponent)) {
                 QKeySequence shortcut = ActionManager::keyboardShortcut(actionID);
@@ -187,7 +189,7 @@ public:
                 action->setToolTip(actionConfig.tooltip.isEmpty()? actionConfig.description : actionConfig.tooltip);
 
             if(components.testFlag(IconComponent))
-                action->setIcon(IconController::icon(actionConfig.icon));
+                action->setIcon(SM::IconServiceImpl::instance()->icon(actionConfig.icon));
 
             if(components.testFlag(ShortcutComponent)) {
                 QKeySequence shortcut = ActionManager::keyboardShortcut(actionID);
@@ -206,7 +208,7 @@ public:
                 menu->setToolTip(actionConfig.tooltip);
 
             if(components.testFlag(IconComponent))
-                menu->setIcon(IconController::icon(actionConfig.icon));
+                menu->setIcon(SM::IconServiceImpl::instance()->icon(actionConfig.icon));
         } else {
             qWarning() << "Cannot add action to ActionController. Unsupported type:"
                        << typeid(T).name();

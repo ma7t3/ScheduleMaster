@@ -3,9 +3,9 @@
 
 #include "src/namespace.h"
 #include "src/core/FolderLocationServiceImpl.h"
+#include "src/core/IconServiceImpl.h"
 
 #include "Global/ActionController.h"
-#include "Global/IconController.h"
 
 #include <QListWidgetItem>
 #include <QFileDialog>
@@ -24,7 +24,7 @@ WdgPreferencesPageLocations::WdgPreferencesPageLocations(QWidget *parent) :
 
     ui->lwLocationCategories->setCurrentRow(0);
 
-    connect(IconController::instance(), &IconController::currentIconSetChanged, this, &WdgPreferencesPageLocations::onIconSetChanged);
+    connect(SM::IconServiceImpl::instance(), &SM::IconServiceImpl::currentIconSetChanged, this, &WdgPreferencesPageLocations::onIconSetChanged);
 
     ActionController::add(ui->pbBrowseLocationSingleFolder,    "application.preferences.locations.singleLocation.browse", ActionController::AllExceptTextComponent);
     ActionController::add(ui->pbLocationMultipleFoldersAdd,    "application.preferences.locations.multipleLocation.add");
@@ -42,7 +42,7 @@ void WdgPreferencesPageLocations::reloadPreferences() {
     for(const SMA::FolderLocationConfig &loc : std::as_const(locations)) {
         QListWidgetItem *item = new QListWidgetItem(loc.name);
         item->setData(Qt::UserRole, loc.id());
-        item->setIcon(IconController::icon(loc.icon));
+        item->setIcon(SM::IconServiceImpl::instance()->icon(loc.icon));
         item->setSizeHint(QSize(0, 28));
         ui->lwLocationCategories->addItem(item);
 
@@ -75,7 +75,7 @@ QString WdgPreferencesPageLocations::name() {
 }
 
 QIcon WdgPreferencesPageLocations::icon() {
-    return IconController::icon("folder-open");
+    return SM::IconServiceImpl::instance()->icon("folder-open");
 }
 
 void WdgPreferencesPageLocations::on_lwLocationCategories_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous) {
@@ -146,6 +146,6 @@ void WdgPreferencesPageLocations::onIconSetChanged() {
     for(int i = 0; i < ui->lwLocationCategories->count(); i++) {
         QListWidgetItem *item = ui->lwLocationCategories->item(i);
         QString id = item->data(Qt::UserRole).toString();
-        item->setIcon(IconController::icon(_folderLocations[id].icon));
+        item->setIcon(SM::IconServiceImpl::instance()->icon(_folderLocations[id].icon));
     }
 }

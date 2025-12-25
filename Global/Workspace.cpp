@@ -1,5 +1,8 @@
 #include "Workspace.h"
 
+#include "src/namespace.h"
+#include "src/core/IconServiceImpl.h"
+
 #include "Global/ActionController.h"
 #include "Global/WorkspaceManager.h"
 #include "src/ui/widgets/Docks/DockAbstract.h"
@@ -35,7 +38,7 @@ Workspace::Workspace(const WorkspaceConfig &config, QObject *parent) : QObject(p
     _name = config.name;
     _icon = config.icon;
     _layout = config.layout;
-    _action = new QAction(IconController::icon(_icon), _name, this);
+    _action = new QAction(SM::IconServiceImpl::instance()->icon(_icon), _name, this);
     setupAction();
 }
 
@@ -62,7 +65,7 @@ QString Workspace::icon() const {
 
 void Workspace::setIcon(const QString &newIcon) {
     _icon = newIcon;
-    _action->setIcon(IconController::icon(_icon));
+    _action->setIcon(SM::IconServiceImpl::instance()->icon(_icon));
 }
 
 QAction *Workspace::action() const {

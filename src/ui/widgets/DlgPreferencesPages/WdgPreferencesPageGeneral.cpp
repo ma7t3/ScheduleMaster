@@ -1,12 +1,13 @@
 #include "WdgPreferencesPageGeneral.h"
 #include "ui_WdgPreferencesPageGeneral.h"
 
+#include "src/namespace.h"
 #include "src/core/LoggerImpl.h"
 #include "src/core/LanguageServiceImpl.h"
 #include "src/core/FolderLocationServiceImpl.h"
+#include "src/core/IconServiceImpl.h"
 
 #include "Global/ActionController.h"
-#include "Global/IconController.h"
 #include "ItemModels/LanguagesModel.h"
 
 #include <QDesktopServices>
@@ -71,7 +72,7 @@ QString WdgPreferencesPageGeneral::name() {
 }
 
 QIcon WdgPreferencesPageGeneral::icon() {
-    return IconController::icon("gear");
+    return SM::IconServiceImpl::instance()->icon("gear");
 }
 
 void WdgPreferencesPageGeneral::setLanguageIndex(const int &index) {

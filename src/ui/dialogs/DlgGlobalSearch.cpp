@@ -1,9 +1,11 @@
 #include "DlgGlobalSearch.h"
 #include "ui_DlgGlobalSearch.h"
 
+#include "src/namespace.h"
+#include "src/core/IconServiceImpl.h"
+
 #include "Global/ActionManager.h"
 #include "Global/ActionController.h"
-#include "Global/IconController.h"
 #include "src/ui/widgets/WdgGlobalSearchItem.h"
 
 #include <QKeyEvent>
@@ -49,7 +51,7 @@ void DlgGlobalSearch::updateResults() {
         if(action.description.contains(ui->leSearch->text(), Qt::CaseInsensitive) ||
             action.id().contains(ui->leSearch->text(), Qt::CaseInsensitive)) {
             QListWidgetItem *item = new QListWidgetItem;
-            item->setIcon(IconController::icon(action.icon));
+            item->setIcon(SM::IconServiceImpl::instance()->icon(action.icon));
             item->setData(Qt::UserRole, action.id());
             ui->listWidget->addItem(item);
             WdgGlobalSearchItem *widget = new WdgGlobalSearchItem(action, ui->listWidget);

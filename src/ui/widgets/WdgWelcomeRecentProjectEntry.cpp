@@ -1,8 +1,10 @@
 #include "WdgWelcomeRecentProjectEntry.h"
 #include "ui_WdgWelcomeRecentProjectEntry.h"
 
+#include "src/namespace.h"
+#include "src/core/IconServiceImpl.h"
+
 #include "Global/ActionController.h"
-#include "Global/IconController.h"
 
 #include <QDateTime>
 #include <QStyleHints>
@@ -23,7 +25,7 @@ WdgWelcomeRecentProjectEntry::WdgWelcomeRecentProjectEntry(QWidget *parent) :
     ActionController::add(ui->pbOpen, "project.recentFiles.openItem", ActionController::IconComponent);
     ActionController::add(ui->pbRemove, "project.recentFiles.removeItem", ActionController::IconComponent);
 
-    connect(IconController::instance(), &IconController::currentIconSetChanged, this, &WdgWelcomeRecentProjectEntry::updateIcon);
+    connect(SM::IconServiceImpl::instance(), &SM::IconServiceImpl::currentIconSetChanged, this, &WdgWelcomeRecentProjectEntry::updateIcon);
     updateIcon();
 }
 
@@ -75,6 +77,6 @@ void WdgWelcomeRecentProjectEntry::setupLastUsedLabel() {
 }
 
 void WdgWelcomeRecentProjectEntry::updateIcon() {
-    _icon = IconController::icon(_fileExists ? "file" : "file-close");
+    _icon = SM::IconServiceImpl::instance()->icon(_fileExists ? "file" : "file-close");
     update();
 }

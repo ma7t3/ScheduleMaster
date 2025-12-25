@@ -1,9 +1,10 @@
 #include "BusstopPlatformTableModel.h"
 
-#include "Global/IconController.h"
-
 #include <QFont>
 #include <QIcon>
+
+#include "src/namespace.h"
+#include "src/core/IconServiceImpl.h"
 
 BusstopPlatformTableModel::BusstopPlatformTableModel(QObject *parent) :
     UnorderedProjectDataRowModel(parent), _busstop(nullptr) {
@@ -61,7 +62,7 @@ QVariant BusstopPlatformTableModel::data(const QModelIndex &index, int role) con
     case Qt::DecorationRole:
         switch(index.column()) {
         case 0:
-            return IconController::icon(_busstop->isDefaultPlatform(platform) ? "circle-check"
+            return SM::IconServiceImpl::instance()->icon(_busstop->isDefaultPlatform(platform) ? "circle-check"
                                                                               : "busstop");
         case 1:
             return QVariant();

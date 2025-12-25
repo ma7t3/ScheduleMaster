@@ -11,6 +11,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 SOURCES += \
     src/api/GlobalConfigItem.cpp \
     src/api/IFolderLocationService.cpp \
+    src/api/IIconService.cpp \
     src/api/ILanguageService.cpp \
     src/api/ISettingsService.cpp \
     src/core/ApplicationInterfaceImpl.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
     src/core/FolderLocationServiceImpl.cpp \
     src/core/GlobalConfigRepository.cpp \
     src/core/GlobalConfigService.cpp \
+    src/core/IconServiceImpl.cpp \
     src/core/LanguageServiceImpl.cpp \
     src/core/LastUsedFilesServiceImpl.cpp \
     src/core/LoggerImpl.cpp \
@@ -34,8 +36,6 @@ SOURCES += \
     Global/DockController.cpp \
     Global/DockManager.cpp \
     Global/Global.cpp \
-    Global/IconController.cpp \
-    Global/IconSetManager.cpp \
     Global/ProjectFileHandler.cpp \
     Global/StyleHandler.cpp \
     Global/StyleManager.cpp \
@@ -107,6 +107,7 @@ SOURCES += \
 HEADERS += \
     ApplicationInterface.h \
     src/api/GlobalConfigItem.h \
+    src/api/IIconService.h \
     src/api/ILanguageService.h \
     src/api/ILastUsedFilesService.h \
     src/api/ISettingsService.h \
@@ -124,6 +125,7 @@ HEADERS += \
     src/core/FolderLocationServiceImpl.h \
     src/core/GlobalConfigRepository.h \
     src/core/GlobalConfigService.h \
+    src/core/IconServiceImpl.h \
     src/core/LanguageServiceImpl.h \
     src/core/LastUsedFilesServiceImpl.h \
     src/core/LoggerImpl.h \
@@ -144,8 +146,6 @@ HEADERS += \
     Global/Global.h \
     Global/GlobalConfigManager.h \
     Global/GlobalConfigManagerSignals.h \
-    Global/IconController.h \
-    Global/IconSetManager.h \
     Global/ProjectFileHandler.h \
     Global/Singleton.h \
     Global/StyleHandler.h \

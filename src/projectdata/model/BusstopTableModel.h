@@ -7,7 +7,6 @@
 
 #include "src/projectdata/model/UnorderedProjectDataRowModel.h"
 #include "src/projectdata/ProjectData.h"
-#include "Global/IconController.h"
 
 class BusstopTableModelDelegate : public QStyledItemDelegate {
     Q_OBJECT

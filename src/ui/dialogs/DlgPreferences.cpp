@@ -3,6 +3,7 @@
 
 #include "src/namespace.h"
 #include "src/core/SettingsServiceImpl.h"
+#include "src/core/IconServiceImpl.h"
 
 #include "src/ui/dialogs/DlgConfigEditor.h"
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
@@ -13,8 +14,6 @@
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h"
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
-
-#include "Global/IconController.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -54,7 +53,7 @@ DlgPreferences::DlgPreferences(QWidget *parent) : QDialog(parent),
     connect(home, &WdgPreferencesPageHome::openPageRequested,          this, &DlgPreferences::setCurrentPage);
     connect(home, &WdgPreferencesPageHome::openConfigEditorRequested,  this, &DlgPreferences::openConfigEditor);
 
-    connect(IconController::instance(), &IconController::currentIconSetChanged, this, &DlgPreferences::onIconSetChanged);
+    connect(SM::IconServiceImpl::instance(), &SM::IconServiceImpl::currentIconSetChanged, this, &DlgPreferences::onIconSetChanged);
 }
 
 DlgPreferences::~DlgPreferences() {

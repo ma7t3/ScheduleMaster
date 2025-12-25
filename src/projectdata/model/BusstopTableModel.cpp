@@ -2,6 +2,9 @@
 
 #include "ApplicationInterface.h"
 
+#include "src/namespace.h"
+#include "src/core/IconServiceImpl.h"
+
 #include <QSortFilterProxyModel>
 
 BusstopTableModelDelegate::BusstopTableModelDelegate(QObject *parent) :
@@ -59,7 +62,7 @@ void BusstopTableModelDelegate::paintRoleIcons(QPainter *painter,
 
     int x = 2;
     for(const QString &iconID : std::as_const(iconIDs)) {
-        painter->drawPixmap(rect.x() + x, rect.y() + 1, IconController::icon(iconID).pixmap(height - 2, height - 2));
+        painter->drawPixmap(rect.x() + x, rect.y() + 1, SM::IconServiceImpl::instance()->icon(iconID).pixmap(height - 2, height - 2));
         x += height + 2;
     }
 }

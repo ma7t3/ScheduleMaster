@@ -1,5 +1,7 @@
 #include "IconSetsModel.h"
 
+#include "src/core/IconServiceImpl.h"
+
 IconSetsModel::IconSetsModel(QObject *parent) : QAbstractListModel(parent) {
     reload();
 }
@@ -41,6 +43,6 @@ int IconSetsModel::indexOficonSet(const QString &iconSetID) {
 
 void IconSetsModel::reload() {
     beginResetModel();
-    _iconSets = IconSetManager::items();
+    _iconSets = SM::IconServiceImpl::instance()->iconSets();
     endResetModel();
 }

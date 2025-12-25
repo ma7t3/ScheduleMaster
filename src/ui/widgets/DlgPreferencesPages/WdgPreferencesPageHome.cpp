@@ -3,9 +3,9 @@
 
 #include "src/namespace.h"
 #include "src/core/LanguageServiceImpl.h"
+#include "src/core/IconServiceImpl.h"
 
 #include "Global/StyleManager.h"
-#include "Global/IconController.h"
 #include "ItemModels/LanguagesModel.h"
 #include "ItemModels/StylesModel.h"
 
@@ -23,7 +23,7 @@ WdgPreferencesPageHome::WdgPreferencesPageHome(QWidget *parent) :
     connect(ui->cbStyle,    &QComboBox::activated, this, &WdgPreferencesPageHome::styleIndexChanged);
     reloadPreferences();
 
-    connect(IconController::instance(), &IconController::currentIconSetChanged, this, &WdgPreferencesPageHome::setBoxIcons);
+    connect(SM::IconServiceImpl::instance(), &SM::IconServiceImpl::currentIconSetChanged, this, &WdgPreferencesPageHome::setBoxIcons);
     setBoxIcons();
 }
 
@@ -54,7 +54,7 @@ QString WdgPreferencesPageHome::name() {
 }
 
 QIcon WdgPreferencesPageHome::icon() {
-    return IconController::icon("house");
+    return SM::IconServiceImpl::instance()->icon("house");
 }
 
 void WdgPreferencesPageHome::setLanguageIndex(const int &index) {
@@ -86,13 +86,13 @@ void WdgPreferencesPageHome::on_clbAppearance_clicked() {
 }
 
 void WdgPreferencesPageHome::setBoxIcons() {
-    ui->lTitleIconLanguage->setPixmap(IconController::icon("gear").pixmap(24, 24));
-    ui->lTitleIconUpdates->setPixmap(IconController::icon("circle-rotate").pixmap(24, 24));
-    ui->lTitleIconTheme->setPixmap(IconController::icon("sun-moon").pixmap(24, 24));
-    ui->lTitleIconPlugins->setPixmap(IconController::icon("puzzle-piece").pixmap(24, 24));
-    ui->lTitleIconKeyboardShortcuts->setPixmap(IconController::icon("keyboard").pixmap(24, 24));
-    ui->lTitleIconAbout->setPixmap(IconController::icon("circle-info").pixmap(24, 24));
-    ui->lTitleIconTroubleshootingDebugging->setPixmap(IconController::icon("bug").pixmap(24, 24));
+    ui->lTitleIconLanguage->setPixmap(SM::IconServiceImpl::instance()->icon("gear").pixmap(24, 24));
+    ui->lTitleIconUpdates->setPixmap(SM::IconServiceImpl::instance()->icon("circle-rotate").pixmap(24, 24));
+    ui->lTitleIconTheme->setPixmap(SM::IconServiceImpl::instance()->icon("sun-moon").pixmap(24, 24));
+    ui->lTitleIconPlugins->setPixmap(SM::IconServiceImpl::instance()->icon("puzzle-piece").pixmap(24, 24));
+    ui->lTitleIconKeyboardShortcuts->setPixmap(SM::IconServiceImpl::instance()->icon("keyboard").pixmap(24, 24));
+    ui->lTitleIconAbout->setPixmap(SM::IconServiceImpl::instance()->icon("circle-info").pixmap(24, 24));
+    ui->lTitleIconTroubleshootingDebugging->setPixmap(SM::IconServiceImpl::instance()->icon("bug").pixmap(24, 24));
 }
 
 void WdgPreferencesPageHome::on_clbOpenLogfileLocation_clicked() {

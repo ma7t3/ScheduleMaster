@@ -30,7 +30,7 @@ void ActionController::init() {
     if(initialized())
         return;
 
-    connect(IconController::instance(), &IconController::currentIconSetChanged,  ActionController::instance(), &ActionController::onIconSetChanged);
+    connect(SM::IconServiceImpl::instance(), &SM::IconServiceImpl::currentIconSetChanged,  ActionController::instance(), &ActionController::onIconSetChanged);
     connect(StyleHandler::instance(),   &StyleHandler::styleChanged,             ActionController::instance(), &ActionController::onIconSetChanged);
     connect(ActionManager::instance(),  &ActionManager::keyboardShortcutChanged, ActionController::instance(), &ActionController::onActionShortcutChanged);
     Singleton::init();
@@ -84,7 +84,7 @@ void ActionController::onIconSetChanged() {
 
         QString actionID = it.value().first;
         ActionConfig actionConfig = ActionManager::item(actionID);
-        it.key()->setIcon(IconController::icon(actionConfig.icon));
+        it.key()->setIcon(SM::IconServiceImpl::instance()->icon(actionConfig.icon));
     }
 
     for(auto it = _menus.begin(); it != _menus.end(); ++it) {
@@ -93,7 +93,7 @@ void ActionController::onIconSetChanged() {
 
         QString actionID = it.value().first;
         ActionConfig actionConfig = ActionManager::item(actionID);
-        it.key()->setIcon(IconController::icon(actionConfig.icon));
+        it.key()->setIcon(SM::IconServiceImpl::instance()->icon(actionConfig.icon));
     }
 
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it) {
@@ -102,7 +102,7 @@ void ActionController::onIconSetChanged() {
 
         QString actionID = it.value().first;
         ActionConfig actionConfig = ActionManager::item(actionID);
-        it.key()->setIcon(IconController::icon(actionConfig.icon));
+        it.key()->setIcon(SM::IconServiceImpl::instance()->icon(actionConfig.icon));
     }
 }
 

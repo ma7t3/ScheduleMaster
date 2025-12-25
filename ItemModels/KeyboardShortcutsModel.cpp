@@ -3,7 +3,8 @@
 #include <QIcon>
 #include <QFont>
 
-#include "Global/IconController.h"
+#include "src/namespace.h"
+#include "src/core/IconServiceImpl.h"
 
 KeyboardShortcutsSortFilterProxyModel::KeyboardShortcutsSortFilterProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent),
@@ -85,7 +86,7 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
             case 1: return shortcut.second.toString(QKeySequence::NativeText);
         } break;
         case Qt::DecorationRole: switch(index.column()) {
-            case 0: return IconController::icon(shortcut.first.icon);
+            case 0: return SM::IconServiceImpl::instance()->icon(shortcut.first.icon);
         } break;
         case Qt::ToolTipRole: switch(index.column()) {
             case 0: return QString("<p><b>%1</b></p><p><small>%2</small></p>").arg(shortcut.first.description, shortcut.first.id());

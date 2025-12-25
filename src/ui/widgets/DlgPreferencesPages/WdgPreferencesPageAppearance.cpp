@@ -3,11 +3,11 @@
 
 #include "src/namespace.h"
 #include "src/core/SettingsServiceImpl.h"
+#include "src/core/IconServiceImpl.h"
 
 #include "Global/StyleHandler.h"
 #include "ItemModels/StylesModel.h"
 #include "ItemModels/IconSetsModel.h"
-#include "Global/IconController.h"
 
 WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     WdgPreferencesPage(parent),
@@ -53,7 +53,7 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->cbGDIEngine->setChecked(StyleManager::gdiFontEngineEnabled());
 
     ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(StyleManager::currentStyle()));
-    ui->cbIconSet->setCurrentIndex(_iconSetsModel->indexOficonSet(IconSetManager::currentIconSet()));
+    ui->cbIconSet->setCurrentIndex(_iconSetsModel->indexOficonSet(SM::IconServiceImpl::instance()->currentIconSet()));
     ui->cssColorScheme->setColorScheme(StyleManager::currentColorScheme());
     ui->acsAccentColor->setAccentColor(StyleManager::currentAccentColorID());
     ui->sbUiScale->setValue(SM::SettingsServiceImpl::instance()->value("appearance.uiScale").toFloat() * 100);
@@ -65,7 +65,7 @@ void WdgPreferencesPageAppearance::savePreferences() {
     StyleManager::setGdiFontEngineEnabled(ui->cbGDIEngine->isChecked());
 
     StyleManager::setCurrentStyle(_stylesModel->style(ui->cbStyle->currentIndex()));
-    IconSetManager::setCurrentIconSet(_iconSetsModel->iconSet(ui->cbIconSet->currentIndex()));
+    SM::IconServiceImpl::instance()->setCurrentIconSet(_iconSetsModel->iconSet(ui->cbIconSet->currentIndex()));
 
     Qt::ColorScheme colorScheme = ui->cssColorScheme->colorScheme();
 
@@ -83,7 +83,7 @@ void WdgPreferencesPageAppearance::savePreferences() {
 void WdgPreferencesPageAppearance::discardPreviewPreferences() {
     StyleHandler::applyFont();
     StyleHandler::applyStyle();
-    IconController::applyIconSet();
+    SM::IconServiceImpl::instance()->discardIconSetPreview();
     StyleHandler::applyAccentColor();
     StyleHandler::applyColorScheme();
     WdgPreferencesPage::discardPreviewPreferences();
@@ -98,7 +98,7 @@ QString WdgPreferencesPageAppearance::name() {
 }
 
 QIcon WdgPreferencesPageAppearance::icon() {
-    return IconController::icon("sun-moon");
+    return SM::IconServiceImpl::instance()->icon("sun-moon");
 }
 
 void WdgPreferencesPageAppearance::setStyleIndex(const int &index) {
@@ -107,7 +107,7 @@ void WdgPreferencesPageAppearance::setStyleIndex(const int &index) {
 
 void WdgPreferencesPageAppearance::onIconSetChanged(const int &index) {
     QString id = _iconSetsModel->iconSet(ui->cbIconSet->currentIndex());
-    IconController::applyIconSet(id);
+    SM::IconServiceImpl::instance()->previewIconSet(id);
 }
 
 void WdgPreferencesPageAppearance::onStyleChanged(const int &index) {

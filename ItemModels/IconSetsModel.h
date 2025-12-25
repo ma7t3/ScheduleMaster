@@ -3,7 +3,8 @@
 
 #include <QAbstractListModel>
 
-#include "Global/IconSetManager.h"
+#include "src/namespace.h"
+#include "src/api/IIconService.h"
 
 class IconSetsModel : public QAbstractListModel
 {
@@ -22,7 +23,7 @@ public:
     void reload();
 
 private:
-    QList<IconSetConfig> _iconSets;
+    QList<SMA::IconSetConfig> _iconSets;
 };
 
 #endif // ICONSETSMODEL_H

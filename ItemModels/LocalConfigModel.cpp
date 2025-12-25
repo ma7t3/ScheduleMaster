@@ -1,11 +1,11 @@
 #include "LocalConfigModel.h"
 
 #include "Global/VariantConverter.h"
-#include "Global/IconController.h"
 
 #include "src/namespace.h"
 #include "src/core/ApplicationInterfaceImpl.h"
 #include "src/core/SettingsServiceImpl.h"
+#include "src/core/IconServiceImpl.h"
 
 #include <QIcon>
 
@@ -216,11 +216,11 @@ QVariant LocalConfigModel::data(const QModelIndex &index, int role) const {
 
     if(role == Qt::DecorationRole) {
         if(isGroup)
-            return IconController::icon("folder-open");
+            return SM::IconServiceImpl::instance()->icon("folder-open");
         else if(unknownSetting)
-            return IconController::icon("file-close");
+            return SM::IconServiceImpl::instance()->icon("file-close");
         else
-            return IconController::icon("file-gear");
+            return SM::IconServiceImpl::instance()->icon("file-gear");
     }
 
     switch(index.column()) {
