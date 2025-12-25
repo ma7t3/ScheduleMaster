@@ -2,10 +2,10 @@
 #include "ui_WdgPreferencesPageGeneral.h"
 
 #include "src/core/LoggerImpl.h"
+#include "src/core/LanguageServiceImpl.h"
 #include "src/core/FolderLocationServiceImpl.h"
 
 #include "Global/ActionController.h"
-#include "Global/LanguageManager.h"
 #include "Global/IconController.h"
 #include "ItemModels/LanguagesModel.h"
 
@@ -40,7 +40,7 @@ WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {
 }
 
 void WdgPreferencesPageGeneral::reloadPreferences() {
-    ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(LanguageManager::currentLanguage()));
+    ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(SM::LanguageServiceImpl::instance()->currentLanguage()));
 
     // logfile mode
     ui->cbLogfileMode->setCurrentIndex(_logger->logfileMode());
@@ -50,7 +50,7 @@ void WdgPreferencesPageGeneral::reloadPreferences() {
 
 void WdgPreferencesPageGeneral::savePreferences() {
     // language
-    LanguageManager::setCurrentLanguage(_languagesModel->language(ui->cbLanguage->currentIndex()).locale.name());
+    SM::LanguageServiceImpl::instance()->setCurrentLanguage(_languagesModel->language(ui->cbLanguage->currentIndex()).locale.name());
 
     // logfile mode
     _logger->setLogfileMode(static_cast<SM::LoggerImpl::LogfileMode>(ui->cbLogfileMode->currentIndex()));

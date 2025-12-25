@@ -1,7 +1,8 @@
 #ifndef LANGUAGESMODEL_H
 #define LANGUAGESMODEL_H
 
-#include "Global/LanguageManager.h"
+#include "src/namespace.h"
+#include "src/core/LanguageServiceImpl.h"
 
 #include <QAbstractListModel>
 
@@ -14,15 +15,15 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    LanguageConfig language(const QModelIndex &index);
-    LanguageConfig language(const int &index);
-    int indexOfLanguage(const LanguageConfig &language);
+    SMA::LanguageConfig language(const QModelIndex &index);
+    SMA::LanguageConfig language(const int &index);
+    int indexOfLanguage(const SMA::LanguageConfig &language);
     int indexOfLanguage(const QLocale::Language &language);
 
     void reload();
 
 private:
-    QList<LanguageConfig> _languages;
+    QList<SMA::LanguageConfig> _languages;
 };
 
 #endif // LANGUAGESMODEL_H

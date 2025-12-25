@@ -17,7 +17,6 @@
 #include "Global/ActionController.h"
 #include "Global/StyleHandler.h"
 #include "Global/StyleManager.h"
-#include "Global/LanguageManager.h"
 #include "Global/DockManager.h"
 #include "Global/WorkspaceManager.h"
 #include "Global/ActionManager.h"
@@ -73,7 +72,6 @@ int main(int argc, char *argv[]) {
     splashscreen.show();
 
     splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
-    LanguageManager::init();
     IconSetManager::init();
     StyleManager::init();
     ActionManager::init();

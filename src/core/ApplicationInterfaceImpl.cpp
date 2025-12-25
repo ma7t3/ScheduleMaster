@@ -4,11 +4,11 @@
 #include "src/core/LoggerImpl.h"
 #include "src/core/FolderLocationServiceImpl.h"
 #include "src/core/SettingsServiceImpl.h"
+#include "src/core/LanguageServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 
 ApplicationInterfaceImpl::ApplicationInterfaceImpl(QObject *parent) : QObject(parent) {
-
     _self = this;
 
     _settingsService = new SettingsServiceImpl(this);
@@ -19,6 +19,8 @@ ApplicationInterfaceImpl::ApplicationInterfaceImpl(QObject *parent) : QObject(pa
     qInfo() << "Starting ScheduleMaster...";
     _settingsService->initRepository();
     _folderLocationService->initRepository();
+
+    _languageService = new LanguageServiceImpl(this);
 }
 
 ApplicationInterfaceImpl *ApplicationInterfaceImpl::instance() {
@@ -41,4 +43,7 @@ ISettingsService *ApplicationInterfaceImpl::settingsService() const {
     return _settingsService;
 }
 
+ILanguageService *ApplicationInterfaceImpl::languageService() const {
+    return _languageService;
+}
 }

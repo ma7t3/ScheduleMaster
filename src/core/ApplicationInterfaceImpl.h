@@ -13,6 +13,7 @@ class ICrashDetector;
 class ILogger;
 class IFolderLocationService;
 class ISettingsService;
+class ILanguageService;
 }
 
 namespace ScheduleMaster::Core {
@@ -21,6 +22,7 @@ class CrashDetectorImpl;
 class LoggerImpl;
 class FolderLocationServiceImpl;
 class SettingsServiceImpl;
+class LanguageServiceImpl;
 
 class ApplicationInterfaceImpl : public QObject, public IApplicationInterface {
     Q_OBJECT
@@ -35,6 +37,7 @@ public:
     virtual ILogger *logger() const override;
     virtual IFolderLocationService *folderLocationService() const override;
     virtual ISettingsService *settingsService() const override;
+    virtual ILanguageService *languageService() const override;
 
 protected:
     static inline ApplicationInterfaceImpl *_self = nullptr;
@@ -44,6 +47,7 @@ private:
     LoggerImpl *_logger;
     FolderLocationServiceImpl *_folderLocationService;
     SettingsServiceImpl *_settingsService;
+    LanguageServiceImpl *_languageService;
 };
 
 }

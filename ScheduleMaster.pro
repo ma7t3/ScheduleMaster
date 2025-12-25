@@ -11,12 +11,14 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 SOURCES += \
     src/api/GlobalConfigItem.cpp \
     src/api/IFolderLocationService.cpp \
+    src/api/ILanguageService.cpp \
     src/api/ISettingsService.cpp \
     src/core/ApplicationInterfaceImpl.cpp \
     src/core/CrashDetectorImpl.cpp \
     src/core/FolderLocationServiceImpl.cpp \
     src/core/GlobalConfigRepository.cpp \
     src/core/GlobalConfigService.cpp \
+    src/core/LanguageServiceImpl.cpp \
     src/core/LoggerImpl.cpp \
     src/core/SettingsServiceImpl.cpp \
     src/ui/dialogs/DlgBusstopEditor.cpp \
@@ -33,7 +35,6 @@ SOURCES += \
     Global/Global.cpp \
     Global/IconController.cpp \
     Global/IconSetManager.cpp \
-    Global/LanguageManager.cpp \
     Global/LastUsedFilesManager.cpp \
     Global/ProjectFileHandler.cpp \
     Global/StyleHandler.cpp \
@@ -106,6 +107,7 @@ SOURCES += \
 HEADERS += \
     ApplicationInterface.h \
     src/api/GlobalConfigItem.h \
+    src/api/ILanguageService.h \
     src/api/ISettingsService.h \
     src/api/ScheduleMaster_global.h \
     src/api/ICrashDetector.h \
@@ -121,6 +123,7 @@ HEADERS += \
     src/core/FolderLocationServiceImpl.h \
     src/core/GlobalConfigRepository.h \
     src/core/GlobalConfigService.h \
+    src/core/LanguageServiceImpl.h \
     src/core/LoggerImpl.h \
     src/core/Service.h \
     src/core/SettingsServiceImpl.h \
@@ -141,7 +144,6 @@ HEADERS += \
     Global/GlobalConfigManagerSignals.h \
     Global/IconController.h \
     Global/IconSetManager.h \
-    Global/LanguageManager.h \
     Global/LastUsedFilesManager.h \
     Global/ProjectFileHandler.h \
     Global/Singleton.h \

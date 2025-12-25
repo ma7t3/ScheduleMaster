@@ -1,7 +1,9 @@
 #include "WdgPreferencesPageHome.h"
 #include "ui_WdgPreferencesPageHome.h"
 
-#include "Global/LanguageManager.h"
+#include "src/namespace.h"
+#include "src/core/LanguageServiceImpl.h"
+
 #include "Global/StyleManager.h"
 #include "Global/IconController.h"
 #include "ItemModels/LanguagesModel.h"
@@ -30,7 +32,7 @@ WdgPreferencesPageHome::~WdgPreferencesPageHome() {
 }
 
 void WdgPreferencesPageHome::reloadPreferences() {
-    ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(LanguageManager::currentLanguage()));
+    ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(SM::LanguageServiceImpl::instance()->currentLanguage()));
     ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(StyleManager::currentStyle()));
     WdgPreferencesPage::reloadPreferences();
 }
