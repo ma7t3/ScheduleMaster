@@ -1,6 +1,6 @@
 #include "ActionController.h"
 
-#include "Global/StyleHandler.h"
+#include "src/core/AppearanceServiceImpl.h"
 
 GlobalActionWrapper::GlobalActionWrapper(QObject *widget) : widget(widget) {
     if(widget) {
@@ -30,9 +30,21 @@ void ActionController::init() {
     if(initialized())
         return;
 
-    connect(SM::IconServiceImpl::instance(), &SM::IconServiceImpl::currentIconSetChanged,  ActionController::instance(), &ActionController::onIconSetChanged);
-    connect(StyleHandler::instance(),   &StyleHandler::styleChanged,             ActionController::instance(), &ActionController::onIconSetChanged);
-    connect(ActionManager::instance(),  &ActionManager::keyboardShortcutChanged, ActionController::instance(), &ActionController::onActionShortcutChanged);
+    connect(SM::IconServiceImpl::instance(),
+            &SM::IconServiceImpl::currentIconSetChanged,
+            ActionController::instance(),
+            &ActionController::onIconSetChanged);
+
+    connect(SM::AppearanceServiceImpl::instance(),
+            &SM::AppearanceServiceImpl::currentStyleChanged,
+            ActionController::instance(),
+            &ActionController::onIconSetChanged);
+
+    connect(ActionManager::instance(),
+            &ActionManager::keyboardShortcutChanged,
+            ActionController::instance(),
+            &ActionController::onActionShortcutChanged);
+
     Singleton::init();
 }
 

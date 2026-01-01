@@ -16,7 +16,7 @@ QVariant StylesModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid() || role != Qt::DisplayRole)
         return QVariant();
 
-    StyleConfig style = _styles.at(index.row());
+    SMA::StyleConfig style = _styles.at(index.row());
     return style.name;
 }
 
@@ -44,6 +44,6 @@ int StylesModel::indexOfStyle(const QString &styleID) {
 
 void StylesModel::reload() {
     beginResetModel();
-    _styles = StyleManager::items();
+    _styles = SM::AppearanceServiceImpl::instance()->styles();
     endResetModel();
 }

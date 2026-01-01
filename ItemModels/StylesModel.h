@@ -3,7 +3,8 @@
 
 #include <QAbstractListModel>
 
-#include "Global/StyleManager.h"
+#include "src/namespace.h"
+#include "src/core/AppearanceServiceImpl.h"
 
 class StylesModel : public QAbstractListModel {
     Q_OBJECT
@@ -21,7 +22,7 @@ public:
     void reload();
 
 private:
-    QList<StyleConfig> _styles;
+    QList<SMA::StyleConfig> _styles;
 };
 
 #endif // STYLESMODEL_H

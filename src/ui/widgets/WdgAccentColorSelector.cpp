@@ -1,7 +1,8 @@
 #include "WdgAccentColorSelector.h"
 #include "ui_WdgAccentColorSelector.h"
 
-#include "Global/StyleManager.h"
+#include "src/namespace.h"
+#include "src/core/AppearanceServiceImpl.h"
 
 #include <QToolButton>
 
@@ -11,7 +12,7 @@ WdgAccentColorSelector::WdgAccentColorSelector(QWidget *parent) :
     _currentColor(-1) {
     ui->setupUi(this);
 
-    _accentColorIDs << StyleManager::accentColors().keys();
+    _accentColorIDs << SM::AppearanceServiceImpl::instance()->accentColors().keys();
 
     _buttons << ui->tbSystem;
     _buttons << ui->tbBlue;
@@ -39,7 +40,7 @@ QString WdgAccentColorSelector::accentColorID() const {
 }
 
 QColor WdgAccentColorSelector::accentColor() const {
-    return _currentColor == -1 ? QColor() : StyleManager::accentColor(_accentColorIDs.at(_currentColor));
+    return _currentColor == -1 ? QColor() : SM::AppearanceServiceImpl::instance()->accentColor(_accentColorIDs.at(_currentColor));
 }
 
 void WdgAccentColorSelector::setAccentColor(const QString &id) {
@@ -50,8 +51,8 @@ void WdgAccentColorSelector::setAccentColor(const QString &id) {
 
 QString WdgAccentColorSelector::generateStyleSheet(const QString &id, const bool &selected) const {
     QString styleSheetTemplate = "background-color: %1; border-radius: 16px";
-    const QColor color     = id == "system" ? QColor(128, 128, 128) : StyleManager::accentColor(id);
-    const QColor darkColor = id == "system" ? QColor(64, 64, 64) : StyleManager::accentColorDark(id);
+    const QColor color     = id == "system" ? QColor(128, 128, 128) : SM::AppearanceServiceImpl::instance()->accentColor(id);
+    const QColor darkColor = QColor(color.red() * 0.5, color.green() * 0.5, color.blue() * 0.5);
     return styleSheetTemplate.arg(color.name()) + (selected ?  QString("; border: 3px solid %1;").arg(darkColor.name()) : "");
 }
 

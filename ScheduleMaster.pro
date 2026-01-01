@@ -10,10 +10,12 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 SOURCES += \
     src/api/GlobalConfigItem.cpp \
+    src/api/IAppearanceService.cpp \
     src/api/IFolderLocationService.cpp \
     src/api/IIconService.cpp \
     src/api/ILanguageService.cpp \
     src/api/ISettingsService.cpp \
+    src/core/AppearanceServiceImpl.cpp \
     src/core/ApplicationInterfaceImpl.cpp \
     src/core/CrashDetectorImpl.cpp \
     src/core/FolderLocationServiceImpl.cpp \
@@ -24,6 +26,7 @@ SOURCES += \
     src/core/LastUsedFilesServiceImpl.cpp \
     src/core/LoggerImpl.cpp \
     src/core/SettingsServiceImpl.cpp \
+    src/core/StyleRepository.cpp \
     src/ui/dialogs/DlgBusstopEditor.cpp \
     src/ui/dialogs/DlgConfigEditor.cpp \
     src/ui/dialogs/DlgGlobalSearch.cpp \
@@ -37,8 +40,6 @@ SOURCES += \
     Global/DockManager.cpp \
     Global/Global.cpp \
     Global/ProjectFileHandler.cpp \
-    Global/StyleHandler.cpp \
-    Global/StyleManager.cpp \
     Global/VariantConverter.cpp \
     Global/Workspace.cpp \
     Global/WorkspaceHandler.cpp \
@@ -107,6 +108,7 @@ SOURCES += \
 HEADERS += \
     ApplicationInterface.h \
     src/api/GlobalConfigItem.h \
+    src/api/IAppearanceService.h \
     src/api/IIconService.h \
     src/api/ILanguageService.h \
     src/api/ILastUsedFilesService.h \
@@ -120,6 +122,7 @@ HEADERS += \
     src/commands/CmdGeneral.h \
     src/commands/CmdLines.h \
     src/commands/CmdRoutes.h \
+    src/core/AppearanceServiceImpl.h \
     src/core/ApplicationInterfaceImpl.h \
     src/core/CrashDetectorImpl.h \
     src/core/FolderLocationServiceImpl.h \
@@ -131,6 +134,7 @@ HEADERS += \
     src/core/LoggerImpl.h \
     src/core/Service.h \
     src/core/SettingsServiceImpl.h \
+    src/core/StyleRepository.h \
     src/namespace.h \
     src/ui/dialogs/DlgBusstopEditor.h \
     src/ui/dialogs/DlgConfigEditor.h \
@@ -148,8 +152,6 @@ HEADERS += \
     Global/GlobalConfigManagerSignals.h \
     Global/ProjectFileHandler.h \
     Global/Singleton.h \
-    Global/StyleHandler.h \
-    Global/StyleManager.h \
     Global/VariantConverter.h \
     Global/Workspace.h \
     Global/WorkspaceHandler.h \

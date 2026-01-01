@@ -16,6 +16,7 @@ class ISettingsService;
 class ILanguageService;
 class ILastUsedFilesService;
 class IIconService;
+class IAppearanceService;
 }
 
 namespace ScheduleMaster::Core {
@@ -27,6 +28,7 @@ class SettingsServiceImpl;
 class LanguageServiceImpl;
 class LastUsedFilesServiceImpl;
 class IconServiceImpl;
+class AppearanceServiceImpl;
 
 class ApplicationInterfaceImpl : public QObject, public IApplicationInterface {
     Q_OBJECT
@@ -44,6 +46,7 @@ public:
     virtual ILanguageService *languageService() const override;
     virtual ILastUsedFilesService *lastUsedFilesService() const override;
     virtual IIconService *iconService() const override;
+    virtual IAppearanceService *appearanceService() const override;
 
 protected:
     static inline ApplicationInterfaceImpl *_self = nullptr;
@@ -56,6 +59,7 @@ private:
     LanguageServiceImpl *_languageService;
     LastUsedFilesServiceImpl *_lastUsedFilesService;
     IconServiceImpl *_iconService;
+    AppearanceServiceImpl *_appearanceService;
 };
 
 }

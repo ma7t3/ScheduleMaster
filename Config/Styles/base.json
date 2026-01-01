@@ -1,12 +1,13 @@
 [
     {
-        "id": "system",
-        "name": "System",
+        "id": "windowsDesktop",
+        "name": "Windows Desktop",
         "lightSupport": true,
         "darkSupport": false,
         "accentColorSupport": false,
         "applyPalette": false,
-        "type": "systemDefault"
+        "type": "styleFactory",
+        "styleFactoryName": "windowsvista"
     },
     {
         "id": "fusion",

@@ -7,6 +7,7 @@
 #include "src/core/LanguageServiceImpl.h"
 #include "src/core/LastUsedFilesServiceImpl.h"
 #include "src/core/IconServiceImpl.h"
+#include "src/core/AppearanceServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 
@@ -25,6 +26,7 @@ ApplicationInterfaceImpl::ApplicationInterfaceImpl(QObject *parent) : QObject(pa
     _languageService = new LanguageServiceImpl(this);
     _iconService = new IconServiceImpl(this);
     _lastUsedFilesService = new LastUsedFilesServiceImpl(this);
+    _appearanceService = new AppearanceServiceImpl(this);
 }
 
 ApplicationInterfaceImpl *ApplicationInterfaceImpl::instance() {
@@ -57,5 +59,9 @@ ILastUsedFilesService *ApplicationInterfaceImpl::lastUsedFilesService() const {
 
 IIconService *ApplicationInterfaceImpl::iconService() const {
     return _iconService;
+}
+
+IAppearanceService *ApplicationInterfaceImpl::appearanceService() const {
+    return _appearanceService;
 }
 }

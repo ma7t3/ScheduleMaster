@@ -13,10 +13,9 @@
 #include "src/core/ApplicationInterfaceImpl.h"
 #include "src/core/CrashDetectorImpl.h"
 #include "src/core/SettingsServiceImpl.h"
+#include "src/core/AppearanceServiceImpl.h"
 
 #include "Global/ActionController.h"
-#include "Global/StyleHandler.h"
-#include "Global/StyleManager.h"
 #include "Global/DockManager.h"
 #include "Global/WorkspaceManager.h"
 #include "Global/ActionManager.h"
@@ -45,10 +44,6 @@ QPair<QColor, QString> splashScreenConfig() {
 void loadStartupPreferences(QApplication *a) {
     qInfo() << "Loading preferences...";
 
-    // style
-    qInfo() << "   Loading style handler...";
-    StyleHandler::init();
-
     // language
     qInfo() << "   Loading language...";
     // TODO: Reimplement ui translations; Work with QLocale instead!
@@ -70,7 +65,6 @@ int main(int argc, char *argv[]) {
     splashscreen.show();
 
     splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
-    StyleManager::init();
     ActionManager::init();
     DockManager::init();
     WorkspaceManager::init();
@@ -81,9 +75,6 @@ int main(int argc, char *argv[]) {
     loadStartupPreferences(&a);
 
     splashscreen.showMessage(QObject::tr("Loading main window..."), Qt::AlignBottom, ssConfig.first);
-    StyleHandler::applyStyle();
-    StyleHandler::applyColorScheme();
-    StyleHandler::applyAccentColor();
     MainWindow w;
 
 #ifndef QT_DEBUG
@@ -97,8 +88,7 @@ int main(int argc, char *argv[]) {
     else
         w.show();
 
-    // now, apply font. This is necessary because otherwise some ui components (e.g. the menubar) don't take the font if it was set when the mainWindow isn't shown
-    StyleHandler::applyFont();
+    SM::AppearanceServiceImpl::instance()->applyAppearance();
 
     splashscreen.finish(&w);
     a.restoreOverrideCursor();

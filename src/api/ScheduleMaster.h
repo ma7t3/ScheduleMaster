@@ -12,6 +12,7 @@ class ISettingsService;
 class ILanguageService;
 class ILastUsedFilesService;
 class IIconService;
+class IAppearanceService;
 
 class SCHEDULEMASTERINTERFACE_EXPORT IApplicationInterface {
 public:
@@ -24,6 +25,7 @@ public:
     virtual ILanguageService *languageService() const = 0;
     virtual ILastUsedFilesService *lastUsedFilesService() const = 0;
     virtual IIconService *iconService() const = 0;
+    virtual IAppearanceService *appearanceService() const = 0;
 };
 
 }

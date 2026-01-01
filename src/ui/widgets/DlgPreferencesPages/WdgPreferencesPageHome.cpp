@@ -4,8 +4,8 @@
 #include "src/namespace.h"
 #include "src/core/LanguageServiceImpl.h"
 #include "src/core/IconServiceImpl.h"
+#include "src/core/AppearanceServiceImpl.h"
 
-#include "Global/StyleManager.h"
 #include "ItemModels/LanguagesModel.h"
 #include "ItemModels/StylesModel.h"
 
@@ -33,7 +33,7 @@ WdgPreferencesPageHome::~WdgPreferencesPageHome() {
 
 void WdgPreferencesPageHome::reloadPreferences() {
     ui->cbLanguage->setCurrentIndex(_languagesModel->indexOfLanguage(SM::LanguageServiceImpl::instance()->currentLanguage()));
-    ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(StyleManager::currentStyle()));
+    ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(SM::AppearanceServiceImpl::instance()->currentStyleID()));
     WdgPreferencesPage::reloadPreferences();
 }
 

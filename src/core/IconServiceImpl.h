@@ -40,6 +40,7 @@ private:
     QString _currentIconSetID, _currentIconSetPreviewID;
 
 };
-}
+
+} // namespace ScheduleMaster::Core
 
 #endif // ICONSERVICEIMPL_H

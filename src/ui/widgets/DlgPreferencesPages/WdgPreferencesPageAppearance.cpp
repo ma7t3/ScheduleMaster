@@ -4,8 +4,8 @@
 #include "src/namespace.h"
 #include "src/core/SettingsServiceImpl.h"
 #include "src/core/IconServiceImpl.h"
+#include "src/core/AppearanceServiceImpl.h"
 
-#include "Global/StyleHandler.h"
 #include "ItemModels/StylesModel.h"
 #include "ItemModels/IconSetsModel.h"
 
@@ -49,43 +49,46 @@ WdgPreferencesPageAppearance::~WdgPreferencesPageAppearance() {
 }
 
 void WdgPreferencesPageAppearance::reloadPreferences() {
-    ui->fcbFont->setCurrentFont(QFont(StyleManager::currentUiFontFamily()));
-    ui->cbGDIEngine->setChecked(StyleManager::gdiFontEngineEnabled());
+    static auto appearanceService = SM::AppearanceServiceImpl::instance();
+    ui->fcbFont->setCurrentFont(QFont(appearanceService->currentUiFontFamily()));
+    ui->cbGDIEngine->setChecked(SM::SettingsServiceImpl::instance()->value("appearance.fontEngineGDI").toBool());
 
-    ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(StyleManager::currentStyle()));
+    ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(appearanceService->currentStyleID()));
     ui->cbIconSet->setCurrentIndex(_iconSetsModel->indexOficonSet(SM::IconServiceImpl::instance()->currentIconSet()));
-    ui->cssColorScheme->setColorScheme(StyleManager::currentColorScheme());
-    ui->acsAccentColor->setAccentColor(StyleManager::currentAccentColorID());
+    ui->cssColorScheme->setColorScheme(appearanceService->currentColorScheme());
+    ui->acsAccentColor->setAccentColor(appearanceService->currentAccentColorID());
     ui->sbUiScale->setValue(SM::SettingsServiceImpl::instance()->value("appearance.uiScale").toFloat() * 100);
     WdgPreferencesPage::reloadPreferences();
 }
 
 void WdgPreferencesPageAppearance::savePreferences() {
-    StyleManager::setCurrentUiFontFamily(ui->fcbFont->currentFont().family());
-    StyleManager::setGdiFontEngineEnabled(ui->cbGDIEngine->isChecked());
+    static auto appearanceService = SM::AppearanceServiceImpl::instance();
+    appearanceService->setCurrentUiFontFamily(ui->fcbFont->currentFont().family());
+    SM::SettingsServiceImpl::instance()->setValue("appearance.fontEngineGDI", ui->cbGDIEngine->isChecked());
 
-    StyleManager::setCurrentStyle(_stylesModel->style(ui->cbStyle->currentIndex()));
+    appearanceService->setCurrentStyle(_stylesModel->style(ui->cbStyle->currentIndex()));
     SM::IconServiceImpl::instance()->setCurrentIconSet(_iconSetsModel->iconSet(ui->cbIconSet->currentIndex()));
 
     Qt::ColorScheme colorScheme = ui->cssColorScheme->colorScheme();
 
-    StyleConfig style = StyleManager::item(_stylesModel->style(ui->cbStyle->currentIndex()));
+    SMA::StyleConfig style = appearanceService->style(_stylesModel->style(ui->cbStyle->currentIndex()));
     if(style.supportsColorScheme(colorScheme))
-        StyleManager::setCurrentColorScheme(ui->cssColorScheme->colorScheme());
+        appearanceService->setCurrentColorScheme(ui->cssColorScheme->colorScheme());
     else
-        StyleManager::setCurrentColorScheme(style.supportedColorSchemes().first());
+        appearanceService->setCurrentColorScheme(style.supportedColorSchemes().first());
 
-    StyleManager::setCurrentAccentColor(ui->acsAccentColor->accentColorID());
+    appearanceService->setCurrentAccentColor(ui->acsAccentColor->accentColorID());
     SM::SettingsServiceImpl::instance()->setValue("appearance.uiScale", ui->sbUiScale->value() / 100.0);
     WdgPreferencesPage::savePreferences();
 }
 
 void WdgPreferencesPageAppearance::discardPreviewPreferences() {
-    StyleHandler::applyFont();
-    StyleHandler::applyStyle();
+    static auto appearanceService = SM::AppearanceServiceImpl::instance();
+    appearanceService->endStylePreview();
+    appearanceService->endColorSchemePreview();
+    appearanceService->endAccentColorPreview();
+    appearanceService->endUiFontFamilyPreview();
     SM::IconServiceImpl::instance()->discardIconSetPreview();
-    StyleHandler::applyAccentColor();
-    StyleHandler::applyColorScheme();
     WdgPreferencesPage::discardPreviewPreferences();
 }
 
@@ -113,20 +116,20 @@ void WdgPreferencesPageAppearance::onIconSetChanged(const int &index) {
 void WdgPreferencesPageAppearance::onStyleChanged(const int &index) {
     Q_UNUSED(index);
     QString id = _stylesModel->style(ui->cbStyle->currentIndex());
-    StyleHandler::applyStyle(id);
-    StyleConfig style = StyleManager::item(id);
+    SM::AppearanceServiceImpl::instance()->previewStyle(id);
+    SMA::StyleConfig style = SM::AppearanceServiceImpl::instance()->style(id);
     ui->flGeneral->setRowVisible(3, style.lightSupport && style.darkSupport);
     ui->flGeneral->setRowVisible(4, style.accentColorSupport);
 }
 
 void WdgPreferencesPageAppearance::onAccentColorChanged(const QString &id) {
-    StyleHandler::applyAccentColor(id);
+    SM::AppearanceServiceImpl::instance()->previewAccentColor(id);
 }
 
 void WdgPreferencesPageAppearance::onColorSchemeChanged(const Qt::ColorScheme &colorScheme) {
-    StyleHandler::applyColorScheme(colorScheme);
+    SM::AppearanceServiceImpl::instance()->previewColorScheme(colorScheme);
 }
 
 void WdgPreferencesPageAppearance::onFontChanged(const QFont &f) {
-    StyleHandler::applyFont(f.family());
+    SM::AppearanceServiceImpl::instance()->previewUiFontFamily(f.family());
 }
