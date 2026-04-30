@@ -24,15 +24,15 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
 
     reloadPreferences();
 
-    _restoreDefaultShortcutAction = ui->twShortcuts->addAction(QIcon(":/Icons/classic/undo.ico"),      tr("Restore Default"));
-    _removeShortcutAction         = ui->twShortcuts->addAction(QIcon(":/Icons/classic/xmark.ico"),    tr("Remove Shortcut"));
+    _restoreDefaultShortcutAction = ui->twShortcuts->addAction(QIcon(":/icons/classic/undo.ico"),      tr("Restore Default"));
+    _removeShortcutAction         = ui->twShortcuts->addAction(QIcon(":/icons/classic/xmark.ico"),    tr("Remove Shortcut"));
     QAction *separatorAction       = ui->twShortcuts->addAction(""); separatorAction->setSeparator(true);
-    _copyIDAction                 = ui->twShortcuts->addAction(QIcon(":/Icons/classic/clone.ico"), tr("Copy ID"));
+    _copyIDAction                 = ui->twShortcuts->addAction(QIcon(":/icons/classic/clone.ico"), tr("Copy ID"));
 
-    _showOnlyModifiedAction       = addAction(QIcon(":/Icons/classic/pen.ico"), tr("Show only modified")); _showOnlyModifiedAction->setCheckable(true);
-    _importAction                 = addAction(QIcon(":/Icons/classic/file-import.ico"), tr("Import"));
-    _exportAction                 = addAction(QIcon(":/Icons/classic/file-export.ico"), tr("Export"));
-    _resetAllAction               = addAction(QIcon(":/Icons/classic/undo.ico"), tr("Reset All"));
+    _showOnlyModifiedAction       = addAction(QIcon(":/icons/classic/pen.ico"), tr("Show only modified")); _showOnlyModifiedAction->setCheckable(true);
+    _importAction                 = addAction(QIcon(":/icons/classic/file-import.ico"), tr("Import"));
+    _exportAction                 = addAction(QIcon(":/icons/classic/file-export.ico"), tr("Export"));
+    _resetAllAction               = addAction(QIcon(":/icons/classic/undo.ico"), tr("Reset All"));
     _focusSearchAction            = addAction("");
 
     ActionController::add(_restoreDefaultShortcutAction, "application.preferences.keyboardShortcuts.restoreDefaultShortcut");

@@ -19,7 +19,7 @@ DockWelcome::DockWelcome(QWidget *parent) :
     ui(new Ui::DockWelcome) {
     ui->setupUi(this);
 
-    ui->lIcon->setPixmap(QPixmap(":/Icons/ScheduleMaster_64px.ico"));
+    ui->lIcon->setPixmap(QPixmap(":/icons/ScheduleMaster_64px.ico"));
 
     _recentFileOpen         = ui->lwRecentProjects->addAction("");
     _recentFileOpenLocation = ui->lwRecentProjects->addAction("");

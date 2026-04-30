@@ -111,18 +111,18 @@
   <customwidget>
    <class>WdgProjectDataTableView&lt;Line&gt;</class>
    <extends>QTableView</extends>
-   <header>src\ui\widgets\WdgProjectDataTableView.h</header>
+   <header>src/ui/widgets/WdgProjectDataTableView.h</header>
   </customwidget>
   <customwidget>
    <class>WdgFilterBanner</class>
    <extends>QWidget</extends>
-   <header>src\ui\widgets\WdgFilterBanner.h</header>
+   <header>src/ui/widgets/WdgFilterBanner.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>WdgProjectDataTableQuickSearchLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>src\ui\widgets\WdgProjectDataTableQuickSearchLineEdit.h</header>
+   <header>src/ui/widgets/WdgProjectDataTableQuickSearchLineEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

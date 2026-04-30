@@ -21,11 +21,11 @@ WdgVariantEditor::WdgVariantEditor(QWidget *parent) :
 
     ui->cbBool->installEventFilter(this);
 
-    _listAddAction    = ui->lwList->addAction(QIcon(":/Icons/classic/plus.ico"),      tr("Add"));
-    _listEditAction   = ui->lwList->addAction(QIcon(":/Icons/classic/pen.ico"),     tr("Edit"));
-    _listDeleteAction = ui->lwList->addAction(QIcon(":/Icons/classic/xmark.ico"),   tr("Delete"));
-    _listUpAction     = ui->lwList->addAction(QIcon(":/Icons/classic/up.ico"),   tr("Up"));
-    _listDownAction   = ui->lwList->addAction(QIcon(":/Icons/classic/down.ico"), tr("Down"));
+    _listAddAction    = ui->lwList->addAction(QIcon(":/icons/classic/plus.ico"),      tr("Add"));
+    _listEditAction   = ui->lwList->addAction(QIcon(":/icons/classic/pen.ico"),     tr("Edit"));
+    _listDeleteAction = ui->lwList->addAction(QIcon(":/icons/classic/xmark.ico"),   tr("Delete"));
+    _listUpAction     = ui->lwList->addAction(QIcon(":/icons/classic/up.ico"),   tr("Up"));
+    _listDownAction   = ui->lwList->addAction(QIcon(":/icons/classic/down.ico"), tr("Down"));
 
     ActionController::add(_listAddAction,    "variantEditor.listItem.add");
     ActionController::add(_listEditAction,   "variantEditor.listItem.edit");

@@ -21,20 +21,20 @@
 #include "Global/ActionManager.h"
 
 QPair<QColor, QString> splashScreenConfig() {
-    QString imagePath = ":/Splashscreen/slpashscreen_light.png";
+    QString imagePath = ":/splashscreen/slpashscreen_light.png";
     QColor messageColor = QColor(0, 0, 0);
     if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark) {
-        imagePath = ":/Splashscreen/splashscreen_dark.png";
+        imagePath = ":/splashscreen/splashscreen_dark.png";
         messageColor = QColor(255, 255, 255);
     }
 
     QDate now = QDate::currentDate();
 
     if(now.dayOfYear() > 300 && now.dayOfYear() < 310)
-        imagePath = ":/Splashscreen/splashscreen_halloween.png";
+        imagePath = ":/splashscreen/splashscreen_halloween.png";
 
     if(now.dayOfYear() > 330 && now.dayOfYear() < 365) {
-        imagePath = ":/Splashscreen/splashscreen_christmas.png";
+        imagePath = ":/splashscreen/splashscreen_christmas.png";
         messageColor = QColor(255, 255, 255);
     }
 

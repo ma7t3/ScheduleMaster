@@ -78,14 +78,14 @@ QIcon IconServiceImpl::icon(const QString &iconID) const {
 
 QString IconServiceImpl::createFilePath(const QString &iconID, const IconSetConfig &config) {
     const bool dark = QApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
-    QString filePath = ":/Icons/" + config.id() + "/" + (dark ? "dark" : "light") + "/" + iconID + "." + config.format;
+    QString filePath = ":/icons/" + config.id() + "/" + (dark ? "dark" : "light") + "/" + iconID + "." + config.format;
     if(QFile::exists(filePath))
         return filePath;
 
-    filePath = ":/Icons/" + config.id() + "/" + (dark ? "light" : "dark") + "/" + iconID + "." + config.format;
+    filePath = ":/icons/" + config.id() + "/" + (dark ? "light" : "dark") + "/" + iconID + "." + config.format;
     if(QFile::exists(filePath))
         return filePath;
 
-    return ":/Icons/" + config.id() + "/" + iconID + "." + config.format;
+    return ":/icons/" + config.id() + "/" + iconID + "." + config.format;
 }
 }

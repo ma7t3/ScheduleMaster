@@ -204,7 +204,7 @@ protected:
      * @return The parsed JSON document or a null document if the parsing fails
      */
     static QJsonDocument loadSingleConfigResource(const QString &resource) {
-        return parseJsonFile(":/Config/" + resource + ".json");
+        return parseJsonFile(":/config/" + resource + ".json");
     }
 
     /**
@@ -217,7 +217,7 @@ protected:
     static QJsonArray loadMultiConfigResource(const QString &resource) {
         QJsonArray data;
 
-        const QDir dir(":/Config/" + resource);
+        const QDir dir(":/config/" + resource);
         const QStringList entrys = dir.entryList();
         for(const QString &entry : entrys) {
             const QJsonDocument doc = parseJsonFile(dir.path() + "/" + entry);
