@@ -58,6 +58,10 @@ QMap<QString, QColor> AppearanceServiceImpl::accentColors() const {
     return repository()->accentColors();
 }
 
+QStringList AppearanceServiceImpl::accentColorIDs() const {
+    return repository()->accentColors().keys();
+}
+
 QString AppearanceServiceImpl::currentAccentColorID() const {
     return isAccentColorPreviewEnabled() ? _previewAccentColorID : SettingsServiceImpl::instance()->value("appearance.accentColor").toString();
 }
@@ -226,7 +230,6 @@ void AppearanceServiceImpl::applyStyle(const QString &id) {
         } else {
             qWarning().noquote() << "Cannot apply style " << id << " because it is currently not supported.";
         }
-        break;
         break;
     case StyleConfig::InvalidType: break;
     }

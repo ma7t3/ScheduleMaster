@@ -20,6 +20,7 @@ public:
 
     virtual QColor accentColor(const QString &accentColorID) const override;
     virtual QMap<QString, QColor> accentColors() const override;
+    virtual QStringList accentColorIDs() const override;
 
     virtual QString currentAccentColorID() const override;
     virtual QColor currentAccentColor() const override;

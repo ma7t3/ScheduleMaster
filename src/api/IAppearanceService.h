@@ -34,6 +34,7 @@ public:
 
     virtual QColor accentColor(const QString &accentColorID) const = 0;
     virtual QMap<QString, QColor> accentColors() const = 0;
+    virtual QStringList accentColorIDs() const = 0;
 
     virtual QString currentAccentColorID() const = 0;
     virtual QColor currentAccentColor() const = 0;
