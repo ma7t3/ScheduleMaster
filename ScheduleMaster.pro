@@ -15,6 +15,7 @@ SOURCES += \
     src/api/IIconService.cpp \
     src/api/ILanguageService.cpp \
     src/api/ISettingsService.cpp \
+    src/api/helpers.cpp \
     src/core/AppearanceServiceImpl.cpp \
     src/core/ApplicationInterfaceImpl.cpp \
     src/core/CrashDetectorImpl.cpp \
@@ -118,6 +119,7 @@ HEADERS += \
     src/api/IFolderLocationService.h \
     src/api/ILogger.h \
     src/api/ScheduleMaster.h \
+    src/api/helpers.h \
     src/commands/CmdBusstops.h \
     src/commands/CmdGeneral.h \
     src/commands/CmdLines.h \
