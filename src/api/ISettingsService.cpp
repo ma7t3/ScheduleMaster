@@ -1,7 +1,6 @@
 #include "ISettingsService.h"
 
-// TODO: [core-rework] remove/fix
-#include "Global/VariantConverter.h"
+#include "helpers.h"
 
 namespace ScheduleMaster {
 
@@ -23,7 +22,7 @@ SettingsItem::SettingsItem(const QJsonObject &jsonObject, const int &index) : Gl
 
     if (!isGroup)
         if(jsonObject.contains("default"))
-            defaultValue = VariantConverter::convertFromJson(jsonObject.value("default"), type);
+            defaultValue = convertVariantFromJson(jsonObject.value("default"), type);
 
     requiresRestart  = jsonObject.value("requireRestart").toBool(false);
     dontTouchWarning = jsonObject.value("dontTouchWarning").toBool(false);

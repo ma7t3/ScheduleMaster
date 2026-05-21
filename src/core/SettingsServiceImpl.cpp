@@ -1,6 +1,6 @@
 #include "SettingsServiceImpl.h"
 
-#include "Global/VariantConverter.h"
+#include "helpers.h"
 
 namespace ScheduleMaster::Core {
 
@@ -22,7 +22,7 @@ QVariant SettingsServiceImpl::setValue(const QString &id, const QVariant &value)
     QVariant convVal;
 
     if(exists)
-        convVal = VariantConverter::convert(value, static_cast<QMetaType::Type>(repository()->item(id).type));
+        convVal = convertVariant(value, static_cast<QMetaType::Type>(repository()->item(id).type));
     else
         convVal = value;
 
@@ -138,7 +138,7 @@ QVariant SettingsServiceImpl::readSilent(const QString &id) const {
     if(repository()->itemExists(id)) {
         SettingsItem itm = repository()->item(id);
         QVariant rawValue = _settings.value(id, itm.defaultValue);
-        value = VariantConverter::convert(rawValue, itm.type);
+        value = convertVariant(rawValue, itm.type);
         if(!keyExists(id) && !itm.isGroup) {
             auto *self = const_cast<SettingsServiceImpl *>(this);
             self->setValue(id, value); // init with default value

@@ -4,8 +4,14 @@
 #include <QJsonValue>
 #include <QKeySequence>
 
+#include "ScheduleMaster_global.h"
+
 namespace ScheduleMaster {
-    QKeySequence parseKeyboardShortcutConfigString(const QJsonValue &value);
+    SCHEDULEMASTERINTERFACE_EXPORT QKeySequence parseKeyboardShortcutConfigString(const QJsonValue &value);
+
+    SCHEDULEMASTERINTERFACE_EXPORT QVariant convertVariant(const QVariant &value, const QMetaType::Type &type);
+    SCHEDULEMASTERINTERFACE_EXPORT QString  convertVariantToString(const QVariant &value);
+    SCHEDULEMASTERINTERFACE_EXPORT QVariant convertVariantFromJson(const QJsonValue &value, const QMetaType::Type &type);
 }
 
 #endif // HELPERS_H
