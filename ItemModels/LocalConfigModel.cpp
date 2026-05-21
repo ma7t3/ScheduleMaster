@@ -1,6 +1,6 @@
 #include "LocalConfigModel.h"
 
-#include "Global/VariantConverter.h"
+#include "src/api/helpers.h"
 
 #include "src/namespace.h"
 #include "src/core/ApplicationInterfaceImpl.h"
@@ -344,7 +344,7 @@ void LocalConfigModel::reloadSettings() {
 }
 
 QString LocalConfigModel::valueString(const QVariant &value) {
-    QString string = VariantConverter::convertToString(value);
+    QString string = ScheduleMaster::convertVariantToString(value);
     int typeID = value.typeId();
 
     if(typeID == QMetaType::QByteArray)

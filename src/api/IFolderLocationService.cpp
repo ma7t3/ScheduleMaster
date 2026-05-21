@@ -1,7 +1,7 @@
 #include "IFolderLocationService.h"
 
-#include "src/namespace.h"
-#include "src/core/SettingsServiceImpl.h"
+#include "ScheduleMaster.h"
+#include "ISettingsService.h"
 
 #include <QCoreApplication>
 #include <QDir>
@@ -27,7 +27,7 @@ FolderLocationConfig::FolderLocationConfig(const QJsonObject &jsonObject, const 
     item.description     = name;
     item.requiresRestart = requiresRestart;
     item.defaultValue    = defaultPaths;
-    SM::SettingsServiceImpl::instance()->registerSetting(item);
+    IApplicationInterface::instance()->settingsService()->registerSetting(item);
 }
 
 QString FolderLocationConfig::resolvePathPlaceholders(QString path) {

@@ -16,7 +16,9 @@ class IAppearanceService;
 
 class SCHEDULEMASTERINTERFACE_EXPORT IApplicationInterface {
 public:
+    IApplicationInterface() { _self = this; }
     virtual ~IApplicationInterface() = default;
+    static IApplicationInterface *instance() { return _self; }
 
     virtual ICrashDetector *crashDetector() const = 0;
     virtual ILogger *logger() const = 0;
@@ -26,6 +28,9 @@ public:
     virtual ILastUsedFilesService *lastUsedFilesService() const = 0;
     virtual IIconService *iconService() const = 0;
     virtual IAppearanceService *appearanceService() const = 0;
+
+protected:
+    static inline IApplicationInterface *_self = nullptr;
 };
 
 }

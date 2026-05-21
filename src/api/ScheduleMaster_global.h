@@ -3,9 +3,6 @@
 
 #include <QtCore/QtGlobal>
 
-// test
-#define SCHEDULEMASTER_API
-
 #if defined(SCHEDULEMASTER_API)
 #define SCHEDULEMASTERINTERFACE_EXPORT Q_DECL_EXPORT
 #else
