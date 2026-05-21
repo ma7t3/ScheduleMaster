@@ -1,6 +1,7 @@
 add_library(ScheduleMasterInterface SHARED
     GlobalConfigItem.cpp GlobalConfigItem.h
     helpers.cpp helpers.h
+    IActionService.cpp IActionService.h
     IAppearanceService.cpp IAppearanceService.h
     ICrashDetector.h
     IFolderLocationService.cpp IFolderLocationService.h
