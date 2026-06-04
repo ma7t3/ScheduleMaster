@@ -1,10 +1,12 @@
 #include "DlgLineEditor.h"
 #include "ui_DlgLineEditor.h"
 
-#include "Global/ActionController.h"
+#include "src/namespace.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QMenu>
 
 DlgLineEditor::DlgLineEditor(Line *line, QWidget *parent) :
     QDialog(parent), ui(new Ui::DlgLineEditor), _directionMenu(new QMenu(this)), _line(line), _model(new LineDirectionTableModel(this)) {
@@ -12,11 +14,11 @@ DlgLineEditor::DlgLineEditor(Line *line, QWidget *parent) :
 
     setWindowTitle(line->isClone() ? tr("Edit Line") : tr("Create Line"));
 
-    ActionController::add(ui->pbDirectionsNew,      "projectData.item.new",      ActionController::IconComponent);
-    ActionController::add(ui->pbDirectionsEdit,     "projectData.item.edit",     ActionController::IconComponent);
-    ActionController::add(ui->pbDirectionsDelete,   "projectData.item.delete",   ActionController::IconComponent);
-    ActionController::add(ui->pbDirectionsMoveUp,   "projectData.item.moveUp",   ActionController::IconComponent);
-    ActionController::add(ui->pbDirectionsMoveDown, "projectData.item.moveDown", ActionController::IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbDirectionsNew,      "projectData.item.new",      SMA::IActionService::IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbDirectionsEdit,     "projectData.item.edit",     SMA::IActionService::IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbDirectionsDelete,   "projectData.item.delete",   SMA::IActionService::IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbDirectionsMoveUp,   "projectData.item.moveUp",   SMA::IActionService::IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbDirectionsMoveDown, "projectData.item.moveDown", SMA::IActionService::IconComponent);
 
     _directionNew      = ui->twDirections->addAction("");
     _directionEdit     = ui->twDirections->addAction("");
@@ -24,11 +26,11 @@ DlgLineEditor::DlgLineEditor(Line *line, QWidget *parent) :
     _directionMoveUp   = ui->twDirections->addAction("");
     _directionMoveDown = ui->twDirections->addAction("");
 
-    ActionController::add(_directionNew,      "projectData.item.new");
-    ActionController::add(_directionEdit,     "projectData.item.edit");
-    ActionController::add(_directionDelete,   "projectData.item.delete");
-    ActionController::add(_directionMoveUp,   "projectData.item.moveUp");
-    ActionController::add(_directionMoveDown, "projectData.item.moveDown");
+    SM::ActionServiceImpl::instance()->addAction(_directionNew,      "projectData.item.new");
+    SM::ActionServiceImpl::instance()->addAction(_directionEdit,     "projectData.item.edit");
+    SM::ActionServiceImpl::instance()->addAction(_directionDelete,   "projectData.item.delete");
+    SM::ActionServiceImpl::instance()->addAction(_directionMoveUp,   "projectData.item.moveUp");
+    SM::ActionServiceImpl::instance()->addAction(_directionMoveDown, "projectData.item.moveDown");
 
     _directionNew->setShortcutContext(Qt::WidgetShortcut);
     _directionEdit->setShortcutContext(Qt::WidgetShortcut);

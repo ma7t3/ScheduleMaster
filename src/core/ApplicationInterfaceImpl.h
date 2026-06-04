@@ -8,7 +8,7 @@
 
 #define app ApplicationInterfaceImpl::instance()
 
-namespace ScheduleMaster {
+/*namespace ScheduleMaster {
 class ICrashDetector;
 class ILogger;
 class IFolderLocationService;
@@ -17,7 +17,7 @@ class ILanguageService;
 class ILastUsedFilesService;
 class IIconService;
 class IAppearanceService;
-}
+}*/
 
 namespace ScheduleMaster::Core {
 
@@ -29,6 +29,7 @@ class LanguageServiceImpl;
 class LastUsedFilesServiceImpl;
 class IconServiceImpl;
 class AppearanceServiceImpl;
+class ActionServiceImpl;
 
 class ApplicationInterfaceImpl : public QObject, public IApplicationInterface {
     Q_OBJECT
@@ -47,6 +48,7 @@ public:
     virtual ILastUsedFilesService *lastUsedFilesService() const override;
     virtual IIconService *iconService() const override;
     virtual IAppearanceService *appearanceService() const override;
+    virtual IActionService *actionService() const override;
 
 protected:
     static inline ApplicationInterfaceImpl *_self = nullptr;
@@ -60,6 +62,7 @@ private:
     LastUsedFilesServiceImpl *_lastUsedFilesService;
     IconServiceImpl *_iconService;
     AppearanceServiceImpl *_appearanceService;
+    ActionServiceImpl *_actionService;
 };
 
 }

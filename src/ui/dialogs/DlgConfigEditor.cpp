@@ -1,11 +1,11 @@
 #include "DlgConfigEditor.h"
 #include "ui_DlgConfigEditor.h"
 
-#include "Global/ActionController.h"
 #include "ItemModels/LocalConfigModel.h"
 
 #include "src/namespace.h"
 #include "src/core/SettingsServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -29,13 +29,13 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     QAction *seperator = ui->treeView->addAction("");
     seperator->setSeparator(true);
 
-    ActionController::add(_restoreDefaultAction, "application.configuration.key.restoreDefault");
-    ActionController::add(_deleteAction,         "application.configuration.key.delete");
-    ActionController::add(_copyIDAction,         "application.configuration.key.copyID");
+    SM::ActionServiceImpl::instance()->addAction(_restoreDefaultAction, "application.configuration.key.restoreDefault");
+    SM::ActionServiceImpl::instance()->addAction(_deleteAction,         "application.configuration.key.delete");
+    SM::ActionServiceImpl::instance()->addAction(_copyIDAction,         "application.configuration.key.copyID");
 
-    ActionController::add(ui->pbReload,          "application.configuration.reload");
-    ActionController::add(ui->pbCopyID,          "application.configuration.key.copyID",         ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->pbRestoreDefault,  "application.configuration.key.restoreDefault", ActionController::AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbReload,          "application.configuration.reload");
+    SM::ActionServiceImpl::instance()->addButton(ui->pbCopyID,          "application.configuration.key.copyID",         SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbRestoreDefault,  "application.configuration.key.restoreDefault", SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
 
     _restoreDefaultAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     _deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);

@@ -7,10 +7,10 @@
 #include "src/core/FolderLocationServiceImpl.h"
 #include "src/core/SettingsServiceImpl.h"
 #include "src/core/LastUsedFilesServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include "src/ui/dialogs/DlgGlobalSearch.h"
 #include "src/ui/dialogs/DlgPreferences.h"
-#include "Global/ActionController.h"
 #include "Global/DockController.h"
 #include "Global/ProjectFileHandler.h"
 #include "Global/Workspace.h"
@@ -64,31 +64,47 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qDebug() << "   Loading shortcuts...";
 
-    ActionController::addAsGlobalAction(ui->actionFileNewProject,      "project.new");
-    ActionController::addAsGlobalAction(ui->actionFileOpenProject,     "project.open");
-    ActionController::add(_openProjectFromFileInRecentFilesMenuAction, "project.open", ActionController::IconComponent);
-    ActionController::add(ui->menuFileOpenRecent,                      "project.recentFiles");
-    QAction *actionShowRecentFilesList = ActionController::addAsGlobalAction(addAction(""), "project.recentFiles");
-    ActionController::addAsGlobalAction(ui->actionFileSaveProject,     "project.save");
-    ActionController::addAsGlobalAction(ui->actionFileSaveProjectAs,   "project.saveAs");
-    ActionController::addAsGlobalAction(ui->actionFileCloseProject,    "project.close");
-    ActionController::addAsGlobalAction(ui->actionFileQuit,            "application.quit");
+    SM::ActionServiceImpl::instance()->addAction(ui->actionFileNewProject,      "project.new");
+    SM::ActionServiceImpl::instance()->setGlobalAction("project.new", ui->actionFileNewProject);
+    SM::ActionServiceImpl::instance()->addAction(ui->actionFileOpenProject,     "project.open");
+    SM::ActionServiceImpl::instance()->setGlobalAction("project.open", ui->actionFileOpenProject);
 
-    ActionController::addAsGlobalAction(ui->actionEditPreferences,     "application.preferences.open");
-    ActionController::addAsGlobalAction(ui->actionEditProjectSettings, "project.settings.open");
-    ActionController::addAsGlobalAction(ui->actionEditConfiguration,   "application.configuration.open");
+    SM::ActionServiceImpl::instance()->addAction(_openProjectFromFileInRecentFilesMenuAction, "project.open", SM::ActionServiceImpl::instance()->IconComponent);
+    SM::ActionServiceImpl::instance()->addMenu(ui->menuFileOpenRecent,                      "project.recentFiles");
 
-    ActionController::addAsGlobalAction(_undoAction,                   "edit.undo");
-    ActionController::addAsGlobalAction(_redoAction,                   "edit.redo");
+    QAction *actionShowRecentFilesList = SM::ActionServiceImpl::instance()->addAction(addAction(""), "project.recentFiles");
+    SM::ActionServiceImpl::instance()->setGlobalAction("project.recentFiles", actionShowRecentFilesList);
+    SM::ActionServiceImpl::instance()->addAction(ui->actionFileSaveProject,     "project.save");
+    SM::ActionServiceImpl::instance()->setGlobalAction("project.save", ui->actionFileSaveProject);
+    SM::ActionServiceImpl::instance()->addAction(ui->actionFileSaveProjectAs,   "project.saveAs");
+    SM::ActionServiceImpl::instance()->setGlobalAction("project.saveAs", ui->actionFileSaveProjectAs);
+    SM::ActionServiceImpl::instance()->addAction(ui->actionFileCloseProject,    "project.close");
+    SM::ActionServiceImpl::instance()->setGlobalAction("project.close", ui->actionFileCloseProject);
+    SM::ActionServiceImpl::instance()->addAction(ui->actionFileQuit,            "application.quit");
+    SM::ActionServiceImpl::instance()->setGlobalAction("application.quit", ui->actionFileQuit);
 
-    ActionController::add(ui->menuDocks,                               "view.docks");
-    ActionController::add(ui->menuWorkspaces,                          "view.workspaces");
-    ActionController::add(ui->actionViewToolbars,                      "view.toolbars");
+    SM::ActionServiceImpl::instance()->addAction(ui->actionEditPreferences,     "application.preferences.open");
+    SM::ActionServiceImpl::instance()->setGlobalAction("application.preferences.open", ui->actionEditPreferences);
+    SM::ActionServiceImpl::instance()->addAction(ui->actionEditProjectSettings, "project.settings.open");
+    SM::ActionServiceImpl::instance()->setGlobalAction("project.settings.open", ui->actionEditProjectSettings);
+    SM::ActionServiceImpl::instance()->addAction(ui->actionEditConfiguration,   "application.configuration.open");
+    SM::ActionServiceImpl::instance()->setGlobalAction("application.configuration.open", ui->actionEditConfiguration);
 
-    QAction *actionShowDockList      = ActionController::addAsGlobalAction(addAction(""), "view.docks");
-    QAction *actionShowWorkspaceList = ActionController::addAsGlobalAction(addAction(""), "view.workspaces");
+    SM::ActionServiceImpl::instance()->addAction(_undoAction,                   "edit.undo");
+    SM::ActionServiceImpl::instance()->setGlobalAction("edit.undo", _undoAction);
+    SM::ActionServiceImpl::instance()->addAction(_redoAction,                   "edit.redo");
+    SM::ActionServiceImpl::instance()->setGlobalAction("edit.redo", _redoAction);
 
-    ActionController::add(ui->actionViewGlobalSearch,    "application.globalSearch.open");
+    SM::ActionServiceImpl::instance()->addMenu(ui->menuDocks,                               "view.docks");
+    SM::ActionServiceImpl::instance()->addMenu(ui->menuWorkspaces,                          "view.workspaces");
+    SM::ActionServiceImpl::instance()->addAction(ui->actionViewToolbars,                      "view.toolbars");
+
+    QAction *actionShowDockList      = SM::ActionServiceImpl::instance()->addAction(addAction(""), "view.docks");
+    SM::ActionServiceImpl::instance()->setGlobalAction("view.docks", actionShowDockList);
+    QAction *actionShowWorkspaceList = SM::ActionServiceImpl::instance()->addAction(addAction(""), "view.workspaces");
+    SM::ActionServiceImpl::instance()->setGlobalAction("view.workspaces", actionShowWorkspaceList);
+
+    SM::ActionServiceImpl::instance()->addAction(ui->actionViewGlobalSearch,    "application.globalSearch.open");
 
 
     ui->menuEdit->insertAction(ui->actionEditPreferences, _undoAction);

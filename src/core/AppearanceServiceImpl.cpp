@@ -118,7 +118,7 @@ void AppearanceServiceImpl::setCurrentStyle(const QString &styleID) {
     endStylePreview();
 }
 
-bool AppearanceServiceImpl::registerStyle(StyleConfig styleConfig) {
+bool AppearanceServiceImpl::registerStyle(const StyleConfig &styleConfig) {
     return repository()->addItem(styleConfig);
 }
 

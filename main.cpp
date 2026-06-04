@@ -14,11 +14,10 @@
 #include "src/core/CrashDetectorImpl.h"
 #include "src/core/SettingsServiceImpl.h"
 #include "src/core/AppearanceServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
-#include "Global/ActionController.h"
 #include "Global/DockManager.h"
 #include "Global/WorkspaceManager.h"
-#include "Global/ActionManager.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/splashscreen/slpashscreen_light.png";
@@ -69,11 +68,8 @@ int main(int argc, char *argv[]) {
     splashscreen.show();
 
     splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
-    ActionManager::init();
     DockManager::init();
     WorkspaceManager::init();
-
-    ActionController::init();
 
     splashscreen.showMessage(QObject::tr("Loading preferences..."), Qt::AlignBottom, ssConfig.first);
     loadStartupPreferences(&a);

@@ -1,11 +1,9 @@
 #include "WdgGlobalSearchItem.h"
 #include "ui_WdgGlobalSearchItem.h"
 
-#include "Global/ActionController.h"
-
 #include <QStyle>
 
-WdgGlobalSearchItem::WdgGlobalSearchItem(const ActionConfig &actionConfig, QWidget *parent) : QWidget(parent), ui(new Ui::WdgGlobalSearchItem) {
+WdgGlobalSearchItem::WdgGlobalSearchItem(const SMA::ActionConfig &actionConfig, QWidget *parent) : QWidget(parent), ui(new Ui::WdgGlobalSearchItem) {
     ui->setupUi(this);
     setAction(actionConfig);
 
@@ -19,10 +17,10 @@ WdgGlobalSearchItem::~WdgGlobalSearchItem() {
     delete ui;
 }
 
-void WdgGlobalSearchItem::setAction(const ActionConfig &actionConfig) {
+void WdgGlobalSearchItem::setAction(const SMA::ActionConfig &actionConfig) {
     ui->lText->setText(actionConfig.description);
     ui->lBreadcrumb->setText(actionConfig.breadcrumb.join(" > "));
-    ui->lShortcut->setText(ActionController::globalAction(actionConfig.id()).shortcut.toString(QKeySequence::NativeText));
+    ui->lShortcut->setText(SM::ActionServiceImpl::instance()->globalAction(actionConfig.id()).shortcut.toString(QKeySequence::NativeText));
 }
 
 void WdgGlobalSearchItem::setSelected(const bool &selected) {

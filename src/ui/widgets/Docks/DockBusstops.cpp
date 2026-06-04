@@ -5,8 +5,8 @@
 
 #include "src/namespace.h"
 #include "src/core/SettingsServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
-#include "Global/ActionController.h"
 #include "ApplicationInterface.h"
 #include "src/ui/dialogs/DlgBusstopEditor.h"
 
@@ -28,15 +28,15 @@ DockBusstops::DockBusstops(QWidget *parent) :
     _actionFilter      = setupAction();
     _actionClearFilter = setupAction();
 
-    ActionController::addSyncedActionAndButton(_actionNew,    ui->pbNew,    "projectData.item.new",    ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
-    ActionController::addSyncedActionAndButton(_actionEdit,   ui->pbEdit,   "projectData.item.edit",   ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
-    ActionController::addSyncedActionAndButton(_actionDelete, ui->pbDelete, "projectData.item.delete", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionNew,    ui->pbNew,    "projectData.item.new",    SM::ActionServiceImpl::instance()->AllComponents, SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionEdit,   ui->pbEdit,   "projectData.item.edit",   SM::ActionServiceImpl::instance()->AllComponents, SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionDelete, ui->pbDelete, "projectData.item.delete", SM::ActionServiceImpl::instance()->AllComponents, SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
 
-    ActionController::add(ui->tbFilter, "projectDataTable.filter.open", ActionController::AllExceptShortcutComponent);
-    ActionController::add(_actionFilter, "projectDataTable.filter.open");
+    SM::ActionServiceImpl::instance()->addButton(ui->tbFilter, "projectDataTable.filter.open", SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addAction(_actionFilter, "projectDataTable.filter.open");
 
-    ActionController::add(_actionClearFilter, "projectDataTable.filter.clear");
-    ActionController::add(_actionSearch, "projectDataTable.search.focus");
+    SM::ActionServiceImpl::instance()->addAction(_actionClearFilter, "projectDataTable.filter.clear");
+    SM::ActionServiceImpl::instance()->addAction(_actionSearch, "projectDataTable.search.focus");
 
     connect(_actionNew,    &QAction::triggered, this, &DockBusstops::onBusstopNew);
     connect(_actionEdit,   &QAction::triggered, this, &DockBusstops::onBusstopEdit);

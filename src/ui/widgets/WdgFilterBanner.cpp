@@ -1,7 +1,8 @@
 #include "WdgFilterBanner.h"
 #include "ui_WdgFilterBanner.h"
 
-#include "Global/ActionController.h"
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QPainter>
 
@@ -12,8 +13,8 @@ WdgFilterBanner::WdgFilterBanner(QWidget *parent) : QWidget(parent), ui(new Ui::
     connect(ui->tbClose,         &QAbstractButton::clicked, this, &WdgFilterBanner::close);
     connect(ui->tbDontShowAgain, &QAbstractButton::clicked, this, &WdgFilterBanner::dontShowAgain);
 
-    ActionController::add(ui->tbClearFilter, "projectDataTable.filter.clear", ActionController::TextComponent);
-    ActionController::add(ui->tbClose,       "projectDataTable.filterBanner.close");
+    SM::ActionServiceImpl::instance()->addButton(ui->tbClearFilter, "projectDataTable.filter.clear", SM::ActionServiceImpl::instance()->TextComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->tbClose,       "projectDataTable.filterBanner.close");
 }
 
 WdgFilterBanner::~WdgFilterBanner() {

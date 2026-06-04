@@ -1,17 +1,18 @@
 #include "WorkspaceHandler.h"
 
 #include "Global/Workspace.h"
-#include "Global/ActionController.h"
 
 #include "src/namespace.h"
 #include "src/core/SettingsServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QMenu>
 #include <QToolBar>
 
 WorkspaceHandler::WorkspaceHandler(QObject *parent) : QObject(parent), _workspacesMenu(nullptr), _workspacesToolbar(nullptr) {
     _restoreLayoutAction = new QAction(this);
-    ActionController::addAsGlobalAction(_restoreLayoutAction, "view.workspaces.restoreDefaultLayout");
+    SM::ActionServiceImpl::instance()->addAction(_restoreLayoutAction, "view.workspaces.restoreDefaultLayout");
+    SM::ActionServiceImpl::instance()->setGlobalAction("view.workspaces.restoreDefaultLayout", _restoreLayoutAction);
     connect(_restoreLayoutAction, &QAction::triggered, this, &WorkspaceHandler::restoreCurrentWorkspace);
     loadWorkspaces();
 }

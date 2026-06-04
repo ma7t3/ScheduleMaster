@@ -1,7 +1,8 @@
 #include "WdgFilterPopup.h"
 #include "ui_WdgFilterPopup.h"
 
-#include "Global/ActionController.h"
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QScreen>
 
@@ -13,10 +14,10 @@ WdgFilterPopup::WdgFilterPopup(QWidget *parent) :
 
     connect(ui->pbClose, &QPushButton::clicked, this, &QWidget::hide);
 
-    ActionController::add(ui->pbClearFilter,
+    SM::ActionServiceImpl::instance()->addButton(ui->pbClearFilter,
                           "projectDataTable.filter.clear",
-                          ActionController::AllExceptIconComponent
-                              & ActionController::AllExceptShortcutComponent);
+                          SM::ActionServiceImpl::instance()->AllExceptIconComponent
+                              & SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
 
     connect(ui->tbPopOut, &QAbstractButton::clicked, this, [this]() {
         QPoint buttonPos = mapToGlobal(ui->tbPopOut->pos());

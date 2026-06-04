@@ -1,6 +1,7 @@
 #include "DockController.h"
 
-#include "Global/ActionController.h"
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 #include "src/ui/widgets/Docks/DockWelcome.h"
 #include "src/ui/widgets/Docks/DockNews.h"
 #include "src/ui/widgets/Docks/DockBusstops.h"
@@ -22,9 +23,9 @@ void DockController::addDock(const DockConfig &dock, QWidget *contentWidget) {
     _docks.insert(dock.id(), dockWidget);
 
     QAction *toggleAction = dockWidget->toggleViewAction();
-    QString actionText = toggleAction->text();
-    ActionController::addAsGlobalAction(toggleAction, QString("view.docks.%1.toggle").arg(dock.id()));
-    toggleAction->setText(actionText);
+    const QString actionID = QString("view.docks.%1.toggle").arg(dock.id());
+    SM::ActionServiceImpl::instance()->addAction(toggleAction, actionID);
+    SM::ActionServiceImpl::instance()->setGlobalAction(actionID, toggleAction);
     _dockToggleActions.insert(dock.id(), toggleAction);
 
     emit dockAdded(dock.id(), dockWidget, toggleAction);

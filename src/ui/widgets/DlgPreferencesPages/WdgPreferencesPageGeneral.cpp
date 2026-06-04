@@ -6,8 +6,8 @@
 #include "src/core/LanguageServiceImpl.h"
 #include "src/core/FolderLocationServiceImpl.h"
 #include "src/core/IconServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
-#include "Global/ActionController.h"
 #include "ItemModels/LanguagesModel.h"
 
 #include <QDesktopServices>
@@ -32,8 +32,8 @@ WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     connect(ui->cbLanguage,        &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
     connect(ui->cbLogfileMode,     &QComboBox::currentIndexChanged, this, &WdgPreferencesPageGeneral::setUnsaved);
 
-    ActionController::add(ui->tbLogfileLocation, "application.preferences.general.openLogfileLocation");
-    ActionController::add(openLogfileAction,     "application.preferences.general.openCurrentLogfile");
+    SM::ActionServiceImpl::instance()->addButton(ui->tbLogfileLocation, "application.preferences.general.openLogfileLocation");
+    SM::ActionServiceImpl::instance()->addAction(openLogfileAction,     "application.preferences.general.openCurrentLogfile");
 }
 
 WdgPreferencesPageGeneral::~WdgPreferencesPageGeneral() {

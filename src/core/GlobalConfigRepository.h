@@ -6,6 +6,16 @@
 #include <QJsonArray>
 #include <QDir>
 
+/* OVERVIEW FOR BASIC REPOSITORY/SERVICE OPERATIONS (PUBLIC API)
+ *
+ * retrieve a list of all items => items()
+ * retrieve a map of all items with their IDs as keys (?) => itemsMap() ?
+ * retrieve a list of all item IDs => itemIDs()
+ * check whether an item exists by the ID => itemExists()
+ * register a new item => addItem()
+ *
+ */
+
 namespace ScheduleMaster::Core {
 
 class GlobalConfigRepository : public QObject {

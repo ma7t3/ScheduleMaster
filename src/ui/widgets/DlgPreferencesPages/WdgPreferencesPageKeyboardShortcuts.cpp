@@ -3,10 +3,9 @@
 
 #include "src/namespace.h"
 #include "src/core/IconServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
-#include "Global/ActionManager.h"
 #include "ItemModels/KeyboardShortcutsModel.h"
-#include "Global/ActionController.h"
 
 #include <QStandardPaths>
 #include <QSortFilterProxyModel>
@@ -35,17 +34,17 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
     _resetAllAction               = addAction(QIcon(":/icons/classic/undo.ico"), tr("Reset All"));
     _focusSearchAction            = addAction("");
 
-    ActionController::add(_restoreDefaultShortcutAction, "application.preferences.keyboardShortcuts.restoreDefaultShortcut");
-    ActionController::add(_removeShortcutAction,         "application.preferences.keyboardShortcuts.removeShortcut");
-    ActionController::add(_copyIDAction,                 "application.preferences.keyboardShortcuts.copyID");
-    ActionController::add(_showOnlyModifiedAction,       "application.preferences.keyboardShortcuts.showOnlyModified");
-    ActionController::add(_importAction,                 "application.preferences.keyboardShortcuts.import");
-    ActionController::add(_exportAction,                 "application.preferences.keyboardShortcuts.export");
-    ActionController::add(_resetAllAction,               "application.preferences.keyboardShortcuts.resetAll");
-    ActionController::add(_focusSearchAction,            "application.preferences.keyboardShortcuts.focusSearch");
+    SM::ActionServiceImpl::instance()->addAction(_restoreDefaultShortcutAction, "application.preferences.keyboardShortcuts.restoreDefaultShortcut");
+    SM::ActionServiceImpl::instance()->addAction(_removeShortcutAction,         "application.preferences.keyboardShortcuts.removeShortcut");
+    SM::ActionServiceImpl::instance()->addAction(_copyIDAction,                 "application.preferences.keyboardShortcuts.copyID");
+    SM::ActionServiceImpl::instance()->addAction(_showOnlyModifiedAction,       "application.preferences.keyboardShortcuts.showOnlyModified");
+    SM::ActionServiceImpl::instance()->addAction(_importAction,                 "application.preferences.keyboardShortcuts.import");
+    SM::ActionServiceImpl::instance()->addAction(_exportAction,                 "application.preferences.keyboardShortcuts.export");
+    SM::ActionServiceImpl::instance()->addAction(_resetAllAction,               "application.preferences.keyboardShortcuts.resetAll");
+    SM::ActionServiceImpl::instance()->addAction(_focusSearchAction,            "application.preferences.keyboardShortcuts.focusSearch");
 
-    ActionController::add(ui->tbID,                      "application.preferences.keyboardShortcuts.copyID", ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->tbRestoreDefault,          "application.preferences.keyboardShortcuts.restoreDefaultShortcut", ActionController::AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->tbID,                      "application.preferences.keyboardShortcuts.copyID", SMA::IActionService::AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->tbRestoreDefault,          "application.preferences.keyboardShortcuts.restoreDefaultShortcut", SMA::IActionService::AllExceptShortcutComponent);
 
     QMenu *actionsMenu = new QMenu(ui->tbActions);
     actionsMenu->addAction(_showOnlyModifiedAction);
@@ -96,7 +95,7 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
 
     connect(_focusSearchAction,                &QAction::triggered,                   ui->leSearch,            [this](){ui->leSearch->setFocus(Qt::ShortcutFocusReason);});
 
-    ActionController::add(ui->tbActions, "application.preferences.keyboardShortcuts.actions");
+    SM::ActionServiceImpl::instance()->addButton(ui->tbActions, "application.preferences.keyboardShortcuts.actions");
 }
 
 WdgPreferencesPageKeyboardShortcuts::~WdgPreferencesPageKeyboardShortcuts() {
@@ -138,7 +137,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCurrentIndexChanged(const QModelInde
 
     QModelIndex mappedIndex = _sortFilterProxyModel->mapToSource(ui->twShortcuts->currentIndex());
 
-    const ActionConfig metadata = _model->metaData(mappedIndex);
+    const SMA::ActionConfig metadata = _model->metaData(mappedIndex);
     const QKeySequence shortcut = _model->shortcut(mappedIndex);
 
     ui->lIcon->setPixmap(SM::IconServiceImpl::instance()->icon(metadata.icon).pixmap(32));
@@ -162,7 +161,7 @@ void WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut() {
         return;
 
     const QString id = _model->metaData(current).id();
-    QKeySequence shortcut = ActionManager::item(id).defaultKeyboardShortcut;
+    QKeySequence shortcut = SM::ActionServiceImpl::instance()->action(id).defaultKeyboardShortcut;
     _model->setModifiedShortcut(id, shortcut);
     ui->kseShortcut->blockSignals(true);
     ui->kseShortcut->setKeySequence(shortcut);
@@ -188,7 +187,7 @@ void WdgPreferencesPageKeyboardShortcuts::onCopyID() {
     if(!current.isValid())
         return;
 
-    const ActionConfig shortcut = _model->metaData(current);
+    const SMA::ActionConfig shortcut = _model->metaData(current);
     QApplication::clipboard()->setText(shortcut.id());
 }
 
@@ -222,7 +221,7 @@ void WdgPreferencesPageKeyboardShortcuts::onImport() {
     }
 
     QJsonArray array = doc.array();
-    ActionManager::importKeyboardShortcuts(array);
+    SM::ActionServiceImpl::instance()->importKeyboardShortcuts(array);
     _model->reload();
 }
 
@@ -237,7 +236,7 @@ void WdgPreferencesPageKeyboardShortcuts::onExport() {
         return;
     }
 
-    QJsonArray array = ActionManager::exportKeyboardShortcuts();
+    QJsonArray array = SM::ActionServiceImpl::instance()->exportKeyboardShortcuts();
     QJsonDocument document(array);
     QString jsonString = document.toJson();
 

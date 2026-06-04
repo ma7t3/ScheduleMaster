@@ -1,10 +1,10 @@
 #include "Workspace.h"
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
-#include "Global/ActionController.h"
-#include "Global/WorkspaceManager.h"
+
 #include "src/ui/widgets/Docks/DockAbstract.h"
 
 #include "Global/DockController.h"
@@ -194,7 +194,9 @@ void Workspace::restore() {
 void Workspace::setupAction() {
     _action->setParent(this);
     _action->setCheckable(true);
-    ActionController::addAsGlobalAction(_action, QString("view.workspaces.%1.activate").arg(_id));
+    const QString actionID = QString("view.workspaces.%1.activate").arg(_id);
+    SM::ActionServiceImpl::instance()->addAction(_action, actionID);
+    SM::ActionServiceImpl::instance()->setGlobalAction(actionID, _action);
 
     _action->setText(_name);
 

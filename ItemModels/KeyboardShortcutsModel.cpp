@@ -5,6 +5,7 @@
 
 #include "src/namespace.h"
 #include "src/core/IconServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
 KeyboardShortcutsSortFilterProxyModel::KeyboardShortcutsSortFilterProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent),
@@ -78,7 +79,7 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
         return QVariant();
 
     const int row = index.row();
-    const QPair<ActionConfig, QKeySequence> shortcut = _shortcuts[row];
+    const QPair<SMA::ActionConfig, QKeySequence> shortcut = _shortcuts[row];
 
     switch(role) {
         case Qt::DisplayRole: switch(index.column()) {
@@ -107,9 +108,9 @@ QVariant KeyboardShortcutsModel::data(const QModelIndex &index, int role) const 
     return QVariant();
 }
 
-ActionConfig KeyboardShortcutsModel::metaData(const QModelIndex &index) const {
+SMA::ActionConfig KeyboardShortcutsModel::metaData(const QModelIndex &index) const {
     if(!index.isValid() || index.parent().isValid())
-        return ActionConfig();
+        return SMA::ActionConfig();
 
     return _shortcuts[index.row()].first;
 }
@@ -132,14 +133,14 @@ void KeyboardShortcutsModel::setModifiedShortcut(const QString &id, const QKeySe
 }
 
 void KeyboardShortcutsModel::setAllShortcutsToDefault() {
-    for(const QPair<ActionConfig, QKeySequence> &shortcut : std::as_const(_shortcuts))
+    for(const QPair<SMA::ActionConfig, QKeySequence> &shortcut : std::as_const(_shortcuts))
         if(shortcut.first.defaultKeyboardShortcut != shortcut.second)
             setModifiedShortcut(shortcut.first.id(), shortcut.first.defaultKeyboardShortcut);
 }
 
 void KeyboardShortcutsModel::saveShortcuts() {
     for (QHash<QString, QKeySequence>::const_iterator it = _changedShortcuts.constBegin(); it != _changedShortcuts.constEnd(); ++it)
-        ActionManager::setKeyboardShortcut(it.key(), it.value());
+        SM::ActionServiceImpl::instance()->setKeyboardShortcut(it.key(), it.value());
 }
 
 void KeyboardShortcutsModel::reload() {
@@ -147,14 +148,14 @@ void KeyboardShortcutsModel::reload() {
     _changedShortcuts.clear();
 
     beginResetModel();
-    const QList<ActionConfig> metaDataList = ActionManager::items();
+    const QList<SMA::ActionConfig> metaDataList = SM::ActionServiceImpl::instance()->actions();
     int i = 0;
-    for(const ActionConfig &shortcut : metaDataList) {
+    for(const SMA::ActionConfig &shortcut : metaDataList) {
         if(!shortcut.canHaveShortcut)
             continue;
 
-        QKeySequence keySequence = ActionManager::keyboardShortcut(shortcut.id());
-        _shortcuts << QPair<ActionConfig, QKeySequence>(shortcut, keySequence);
+        QKeySequence keySequence = SM::ActionServiceImpl::instance()->keyboardShortcut(shortcut.id());
+        _shortcuts << QPair<SMA::ActionConfig, QKeySequence>(shortcut, keySequence);
         _shortcutIndexes.insert(shortcut.id(), i++);
     }
     endResetModel();

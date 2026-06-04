@@ -3,9 +3,8 @@
 
 #include "src/namespace.h"
 #include "src/core/IconServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
-#include "Global/ActionManager.h"
-#include "Global/ActionController.h"
 #include "src/ui/widgets/WdgGlobalSearchItem.h"
 
 #include <QKeyEvent>
@@ -43,11 +42,11 @@ void DlgGlobalSearch::updateResults() {
         return;
 
     ui->listWidget->clear();
-    QStringList actionIDs = ActionController::globalActionIDs();
+    QStringList actionIDs = SM::ActionServiceImpl::instance()->globalActionIDs();
     actionIDs.sort();
 
     for(const QString &actionID : std::as_const(actionIDs)) {
-        ActionConfig action = ActionManager::item(actionID);
+        SMA::ActionConfig action = SM::ActionServiceImpl::instance()->action(actionID);
         if(action.description.contains(ui->leSearch->text(), Qt::CaseInsensitive) ||
             action.id().contains(ui->leSearch->text(), Qt::CaseInsensitive)) {
             QListWidgetItem *item = new QListWidgetItem;
@@ -116,7 +115,7 @@ void DlgGlobalSearch::activateSelectedItem() {
 
 void DlgGlobalSearch::onItemActivated(QListWidgetItem *item) {
     QString id = item->data(Qt::UserRole).toString();
-    ActionController::globalAction(id).execute();
+    SM::ActionServiceImpl::instance()->globalAction(id).execute();
     close();
 }
 

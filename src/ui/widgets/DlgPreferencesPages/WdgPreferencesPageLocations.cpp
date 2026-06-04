@@ -4,8 +4,7 @@
 #include "src/namespace.h"
 #include "src/core/FolderLocationServiceImpl.h"
 #include "src/core/IconServiceImpl.h"
-
-#include "Global/ActionController.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QListWidgetItem>
 #include <QFileDialog>
@@ -26,9 +25,9 @@ WdgPreferencesPageLocations::WdgPreferencesPageLocations(QWidget *parent) :
 
     connect(SM::IconServiceImpl::instance(), &SM::IconServiceImpl::currentIconSetChanged, this, &WdgPreferencesPageLocations::onIconSetChanged);
 
-    ActionController::add(ui->pbBrowseLocationSingleFolder,    "application.preferences.locations.singleLocation.browse", ActionController::AllExceptTextComponent);
-    ActionController::add(ui->pbLocationMultipleFoldersAdd,    "application.preferences.locations.multipleLocation.add");
-    ActionController::add(ui->pbLocationMultipleFoldersRemove, "application.preferences.locations.multipleLocation.remove");
+    SM::ActionServiceImpl::instance()->addButton(ui->pbBrowseLocationSingleFolder,    "application.preferences.locations.singleLocation.browse", SM::ActionServiceImpl::instance()->AllExceptTextComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbLocationMultipleFoldersAdd,    "application.preferences.locations.multipleLocation.add");
+    SM::ActionServiceImpl::instance()->addButton(ui->pbLocationMultipleFoldersRemove, "application.preferences.locations.multipleLocation.remove");
 }
 
 WdgPreferencesPageLocations::~WdgPreferencesPageLocations() {

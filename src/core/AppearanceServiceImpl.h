@@ -36,7 +36,7 @@ public:
     virtual QString currentStyleID() const override;
     virtual QStyle *currentStyle() const override;
     virtual void setCurrentStyle(const QString &styleID) override;
-    virtual bool registerStyle(StyleConfig styleConfig) override;
+    virtual bool registerStyle(const StyleConfig &styleConfig) override;
 
     void previewStyle(const QString &styleID);
     void endStylePreview();

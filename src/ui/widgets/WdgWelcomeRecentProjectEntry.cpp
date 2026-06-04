@@ -3,8 +3,7 @@
 
 #include "src/namespace.h"
 #include "src/core/IconServiceImpl.h"
-
-#include "Global/ActionController.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QDateTime>
 #include <QStyleHints>
@@ -22,8 +21,8 @@ WdgWelcomeRecentProjectEntry::WdgWelcomeRecentProjectEntry(QWidget *parent) :
     connect(ui->pbOpen,   &QPushButton::clicked, this, [this](){emit open(path());});
     connect(ui->pbRemove, &QPushButton::clicked, this, [this](){emit removeFromList(path());});
 
-    ActionController::add(ui->pbOpen, "project.recentFiles.openItem", ActionController::IconComponent);
-    ActionController::add(ui->pbRemove, "project.recentFiles.removeItem", ActionController::IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbOpen, "project.recentFiles.openItem", SM::ActionServiceImpl::instance()->IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbRemove, "project.recentFiles.removeItem", SM::ActionServiceImpl::instance()->IconComponent);
 
     connect(SM::IconServiceImpl::instance(), &SM::IconServiceImpl::currentIconSetChanged, this, &WdgWelcomeRecentProjectEntry::updateIcon);
     updateIcon();

@@ -46,7 +46,7 @@ public:
     virtual QString currentStyleID() const = 0;
     virtual QStyle *currentStyle() const = 0;
     virtual void setCurrentStyle(const QString &styleID) = 0;
-    virtual bool registerStyle(StyleConfig styleConfig) = 0;
+    virtual bool registerStyle(const StyleConfig &styleConfig) = 0;
 
     virtual Qt::ColorScheme currentColorScheme() const = 0;
     virtual void setCurrentColorScheme(const Qt::ColorScheme &colorScheme) = 0;

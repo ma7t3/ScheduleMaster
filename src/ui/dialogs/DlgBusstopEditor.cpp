@@ -1,10 +1,11 @@
 #include "DlgBusstopEditor.h"
 #include "ui_DlgBusstopEditor.h"
 
-#include "Global/ActionController.h"
-#include "Global/ActionController.h"
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QInputDialog>
+#include <QMenu>
 
 DlgBusstopEditor::DlgBusstopEditor(Busstop *busstop, QWidget *parent) :
     QDialog(parent), ui(new Ui::DlgBusstopEditor), _platformMenu(new QMenu(this)),
@@ -25,9 +26,9 @@ DlgBusstopEditor::DlgBusstopEditor(Busstop *busstop, QWidget *parent) :
     connect(_actionDeletePlatform,     &QAction::triggered, this, &DlgBusstopEditor::onPlatformDelete);
     connect(_actionSetDefaultPlatform, &QAction::triggered, this, &DlgBusstopEditor::onPlatformSetDefault);
 
-    ActionController::addSyncedActionAndButton(_actionNewPlatform,        ui->pbPlatformNew, "projectData.item.new",                 ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
-    ActionController::addSyncedActionAndButton(_actionDeletePlatform,     ui->pbPlatformDelete, "projectData.item.delete",           ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
-    ActionController::addSyncedActionAndButton(_actionSetDefaultPlatform, ui->pbPlatformSetDefault, "projectData.item.setAsDefault", ActionController::AllComponents, ActionController::AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionNewPlatform,        ui->pbPlatformNew, "projectData.item.new",                 SM::ActionServiceImpl::instance()->AllComponents, SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionDeletePlatform,     ui->pbPlatformDelete, "projectData.item.delete",           SM::ActionServiceImpl::instance()->AllComponents, SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionSetDefaultPlatform, ui->pbPlatformSetDefault, "projectData.item.setAsDefault", SM::ActionServiceImpl::instance()->AllComponents, SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
 
     _platformMenu->addActions({_actionNewPlatform, _actionDeletePlatform});
     _platformMenu->addSeparator();

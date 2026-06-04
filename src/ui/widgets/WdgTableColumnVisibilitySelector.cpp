@@ -1,13 +1,15 @@
 #include "WdgTableColumnVisibilitySelector.h"
 #include "ui_WdgTableColumnVisibilitySelector.h"
 
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 #include "src/projectdata/model/UnorderedProjectDataRowModel.h"
-#include "Global/ActionController.h"
 
 #include <QTreeView>
 #include <QTableView>
 #include <QHeaderView>
 #include <QMenu>
+#include <QToolButton>
 
 WdgTableColumnVisibilitySelector::WdgTableColumnVisibilitySelector(QTableView *view,
                                                                    QToolButton *triggerButton,
@@ -17,7 +19,7 @@ WdgTableColumnVisibilitySelector::WdgTableColumnVisibilitySelector(QTableView *v
 
     ui->setupUi(this);
 
-    ActionController::add(triggerButton, "projectDataTable.showHideColumns");
+    SM::ActionServiceImpl::instance()->addButton(triggerButton, "projectDataTable.showHideColumns");
     triggerButton->setMenu(menu());
 
     _view->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -29,8 +31,8 @@ WdgTableColumnVisibilitySelector::WdgTableColumnVisibilitySelector(QTableView *v
                 menu()->popup(_view->horizontalHeader()->mapToGlobal(pos));
             });
 
-    ActionController::add(_restoreDefaultsAction, "projectDataTable.restoreDefaults");
-    ActionController::add(_showInWindowAction, "projectDataTable.showInWindowAction");
+    SM::ActionServiceImpl::instance()->addAction(_restoreDefaultsAction, "projectDataTable.restoreDefaults");
+    SM::ActionServiceImpl::instance()->addAction(_showInWindowAction, "projectDataTable.showInWindowAction");
 
     setWindowFlag(Qt::Tool, true);
 

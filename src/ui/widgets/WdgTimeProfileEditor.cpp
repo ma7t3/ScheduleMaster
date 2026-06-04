@@ -1,9 +1,10 @@
 #include "WdgTimeProfileEditor.h"
 #include "ui_WdgTimeProfileEditor.h"
 
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 #include "src/projectdata/TimeProfile.h"
 
-#include "Global/ActionController.h"
 
 WdgTimeProfileEditor::WdgTimeProfileEditor(QWidget *parent) :
     QWidget(parent), ui(new Ui::WdgTimeProfileEditor), _timeProfile(nullptr) {
@@ -35,7 +36,7 @@ WdgTimeProfileEditor::WdgTimeProfileEditor(QWidget *parent) :
         ui->gbOptions->setVisible(checked);
     });
 
-    ActionController::add(ui->pbOptions, "timeProfileEditor.options", ActionController::IconComponent|ActionController::TooltipComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbOptions, "timeProfileEditor.options", SM::ActionServiceImpl::instance()->IconComponent|SM::ActionServiceImpl::instance()->TooltipComponent);
 
     ui->gbOptions->setVisible(false);
 

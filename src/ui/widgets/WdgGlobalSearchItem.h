@@ -1,7 +1,8 @@
 #ifndef WDGGLOBALSEARCHITEM_H
 #define WDGGLOBALSEARCHITEM_H
 
-#include "Global/ActionManager.h"
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QWidget>
 
@@ -13,12 +14,12 @@ class WdgGlobalSearchItem : public QWidget {
     Q_OBJECT
 
 public:
-    explicit WdgGlobalSearchItem(const ActionConfig &actionConfig, QWidget *parent = nullptr);
+    explicit WdgGlobalSearchItem(const SMA::ActionConfig &actionConfig, QWidget *parent = nullptr);
     ~WdgGlobalSearchItem();
 
     void setSelected(const bool &selected);
 
-    void setAction(const ActionConfig &actionConfig);
+    void setAction(const SMA::ActionConfig &actionConfig);
 
 private:
     Ui::WdgGlobalSearchItem *ui;

@@ -13,6 +13,7 @@ class ILanguageService;
 class ILastUsedFilesService;
 class IIconService;
 class IAppearanceService;
+class IActionService;
 
 class SCHEDULEMASTERINTERFACE_EXPORT IApplicationInterface {
 public:
@@ -28,6 +29,7 @@ public:
     virtual ILastUsedFilesService *lastUsedFilesService() const = 0;
     virtual IIconService *iconService() const = 0;
     virtual IAppearanceService *appearanceService() const = 0;
+    virtual IActionService *actionService() const = 0;
 
 protected:
     static inline IApplicationInterface *_self = nullptr;

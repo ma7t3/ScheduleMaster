@@ -1,12 +1,13 @@
 #include "WdgRouteFilterPopup.h"
 #include "ui_WdgRouteFilterPopup.h"
 
-#include <QSortFilterProxyModel>
-
-#include "Global/ActionController.h"
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 #include "src/projectdata/model/LineDirectionTableModel.h"
 #include "src/projectdata/model/BusstopTableModel.h"
 #include "src/projectdata/Line.h"
+
+#include <QSortFilterProxyModel>
 
 RouteFilterPopupBusstopProxyModel::RouteFilterPopupBusstopProxyModel(QObject *parent) : QSortFilterProxyModel(parent), _referenceLine(nullptr) {}
 
@@ -76,9 +77,9 @@ WdgRouteFilterPopup::WdgRouteFilterPopup(QWidget *parent) :
     connect(ui->cbFirstBusstop, &QComboBox::currentIndexChanged, this, &WdgFilterPopupContent::filterChanged);
     connect(ui->cbLastBusstop,  &QComboBox::currentIndexChanged, this, &WdgFilterPopupContent::filterChanged);
 
-    ActionController::add(ui->tbDirectionClear,    "projectDataTable.filter.clear", ActionController::IconComponent);
-    ActionController::add(ui->tbFirstBusstopClear, "projectDataTable.filter.clear", ActionController::IconComponent);
-    ActionController::add(ui->tbLastBusstopClear,  "projectDataTable.filter.clear", ActionController::IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->tbDirectionClear,    "projectDataTable.filter.clear", SM::ActionServiceImpl::instance()->IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->tbFirstBusstopClear, "projectDataTable.filter.clear", SM::ActionServiceImpl::instance()->IconComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->tbLastBusstopClear,  "projectDataTable.filter.clear", SM::ActionServiceImpl::instance()->IconComponent);
 
     connect(ui->tbDirectionClear, &QAbstractButton::clicked, this, [this]() {
         ui->cbDirection->setCurrentIndex(-1);

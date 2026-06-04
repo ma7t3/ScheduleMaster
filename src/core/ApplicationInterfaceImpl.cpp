@@ -8,6 +8,7 @@
 #include "src/core/LastUsedFilesServiceImpl.h"
 #include "src/core/IconServiceImpl.h"
 #include "src/core/AppearanceServiceImpl.h"
+#include "src/core/ActionServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 
@@ -27,6 +28,7 @@ ApplicationInterfaceImpl::ApplicationInterfaceImpl(QObject *parent) : QObject(pa
     _iconService = new IconServiceImpl(this);
     _lastUsedFilesService = new LastUsedFilesServiceImpl(this);
     _appearanceService = new AppearanceServiceImpl(this);
+    _actionService = new ActionServiceImpl(this);
 }
 
 ApplicationInterfaceImpl *ApplicationInterfaceImpl::instance() {
@@ -63,5 +65,9 @@ IIconService *ApplicationInterfaceImpl::iconService() const {
 
 IAppearanceService *ApplicationInterfaceImpl::appearanceService() const {
     return _appearanceService;
+}
+
+IActionService *ApplicationInterfaceImpl::actionService() const {
+    return _actionService;
 }
 }

@@ -3,10 +3,11 @@
 
 #include "src/namespace.h"
 #include "src/core/LastUsedFilesServiceImpl.h"
-
-#include "Global/ActionController.h"
-#include "ApplicationInterface.h"
+#include "src/core/ActionServiceImpl.h"
 #include "src/ui/widgets/WdgWelcomeRecentProjectEntry.h"
+
+
+#include "ApplicationInterface.h"
 
 #include <QDateTime>
 #include <QFileInfo>
@@ -38,16 +39,16 @@ DockWelcome::DockWelcome(QWidget *parent) :
     connect(ui->clbPreferences, &QCommandLinkButton::clicked, this, &DockWelcome::openPreferences);
     connect(ui->clbQuit,        &QCommandLinkButton::clicked, this, &DockWelcome::quitApplication);
 
-    ActionController::add(ui->clbNewProject,       "project.new",                          ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->clbOpenProject,      "project.open",                         ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->clbPlugins,          "application.preferences.plugins.open", ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->clbPreferences,      "application.preferences.open",         ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->clbHelp,             "application.help.open",                ActionController::AllExceptShortcutComponent);
-    ActionController::add(ui->clbQuit,             "application.quit",                     ActionController::AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->clbNewProject,       "project.new",                          SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->clbOpenProject,      "project.open",                         SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->clbPlugins,          "application.preferences.plugins.open", SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->clbPreferences,      "application.preferences.open",         SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->clbHelp,             "application.help.open",                SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->clbQuit,             "application.quit",                     SM::ActionServiceImpl::instance()->AllExceptShortcutComponent);
 
-    ActionController::add(_recentFileOpen,         "project.recentFiles.openItem");
-    ActionController::add(_recentFileOpenLocation, "project.recentFiles.openItemDirectory");
-    ActionController::add(_recentFileRemove,       "project.recentFiles.removeItem");
+    SM::ActionServiceImpl::instance()->addAction(_recentFileOpen,         "project.recentFiles.openItem");
+    SM::ActionServiceImpl::instance()->addAction(_recentFileOpenLocation, "project.recentFiles.openItemDirectory");
+    SM::ActionServiceImpl::instance()->addAction(_recentFileRemove,       "project.recentFiles.removeItem");
 
     connect(SM::LastUsedFilesServiceImpl::instance(), &SM::LastUsedFilesServiceImpl::lastUsedFilesChanged, this, &DockWelcome::updateRecentProjectsList);
 

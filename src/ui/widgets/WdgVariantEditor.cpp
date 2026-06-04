@@ -2,7 +2,9 @@
 #include "ui_WdgVariantEditor.h"
 
 #include "Global/Global.h"
-#include "Global/ActionController.h"
+
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 
 #include <QDialog>
 #include <QMessageBox>
@@ -27,17 +29,17 @@ WdgVariantEditor::WdgVariantEditor(QWidget *parent) :
     _listUpAction     = ui->lwList->addAction(QIcon(":/icons/classic/up.ico"),   tr("Up"));
     _listDownAction   = ui->lwList->addAction(QIcon(":/icons/classic/down.ico"), tr("Down"));
 
-    ActionController::add(_listAddAction,    "variantEditor.listItem.add");
-    ActionController::add(_listEditAction,   "variantEditor.listItem.edit");
-    ActionController::add(_listDeleteAction, "variantEditor.listItem.delete");
-    ActionController::add(_listUpAction,     "variantEditor.listItem.moveUp");
-    ActionController::add(_listDownAction,   "variantEditor.listItem.moveDown");
+    SM::ActionServiceImpl::instance()->addAction(_listAddAction,    "variantEditor.listItem.add");
+    SM::ActionServiceImpl::instance()->addAction(_listEditAction,   "variantEditor.listItem.edit");
+    SM::ActionServiceImpl::instance()->addAction(_listDeleteAction, "variantEditor.listItem.delete");
+    SM::ActionServiceImpl::instance()->addAction(_listUpAction,     "variantEditor.listItem.moveUp");
+    SM::ActionServiceImpl::instance()->addAction(_listDownAction,   "variantEditor.listItem.moveDown");
 
-    ActionController::add(ui->pbListAdd,     "variantEditor.listItem.add",      ActionController::IconComponent | ActionController::TooltipComponent);
-    ActionController::add(ui->pbListEdit,    "variantEditor.listItem.edit",     ActionController::IconComponent | ActionController::TooltipComponent);
-    ActionController::add(ui->pbListDelete,  "variantEditor.listItem.delete",   ActionController::IconComponent | ActionController::TooltipComponent);
-    ActionController::add(ui->pbListUp,      "variantEditor.listItem.moveUp",   ActionController::IconComponent | ActionController::TooltipComponent);
-    ActionController::add(ui->pbListDown,    "variantEditor.listItem.moveDown", ActionController::IconComponent | ActionController::TooltipComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbListAdd,     "variantEditor.listItem.add",      SM::ActionServiceImpl::instance()->IconComponent | SM::ActionServiceImpl::instance()->TooltipComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbListEdit,    "variantEditor.listItem.edit",     SM::ActionServiceImpl::instance()->IconComponent | SM::ActionServiceImpl::instance()->TooltipComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbListDelete,  "variantEditor.listItem.delete",   SM::ActionServiceImpl::instance()->IconComponent | SM::ActionServiceImpl::instance()->TooltipComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbListUp,      "variantEditor.listItem.moveUp",   SM::ActionServiceImpl::instance()->IconComponent | SM::ActionServiceImpl::instance()->TooltipComponent);
+    SM::ActionServiceImpl::instance()->addButton(ui->pbListDown,    "variantEditor.listItem.moveDown", SM::ActionServiceImpl::instance()->IconComponent | SM::ActionServiceImpl::instance()->TooltipComponent);
 
     _listEditAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     _listDeleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);

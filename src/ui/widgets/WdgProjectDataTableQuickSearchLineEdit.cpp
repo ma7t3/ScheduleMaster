@@ -1,6 +1,7 @@
 #include "WdgProjectDataTableQuickSearchLineEdit.h"
 
-#include "Global/ActionController.h"
+#include "namespace.h"
+#include "src/core/ActionServiceImpl.h"
 
 WdgProjectDataTableQuickSearchLineEdit::WdgProjectDataTableQuickSearchLineEdit(QWidget *parent) :
     QLineEdit(parent), _focusAction(nullptr) {
@@ -9,7 +10,7 @@ WdgProjectDataTableQuickSearchLineEdit::WdgProjectDataTableQuickSearchLineEdit(Q
 
     QAction *clearSearchAction = addAction("");
     clearSearchAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    ActionController::add(clearSearchAction, "projectDataTable.search.clear", ActionController::ShortcutComponent);
+    SM::ActionServiceImpl::instance()->addAction(clearSearchAction, "projectDataTable.search.clear", SM::ActionServiceImpl::instance()->ShortcutComponent);
     connect(clearSearchAction, &QAction::triggered, this, &QLineEdit::clear);
 }
 

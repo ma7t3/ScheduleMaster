@@ -5,7 +5,9 @@
 #include <QMessageBox>
 #include <QInputDialog>
 
-#include "Global/ActionController.h"
+#include "src/namespace.h"
+#include "src/core/ActionServiceImpl.h"
+
 #include "src/projectdata/Line.h"
 #include "src/projectdata/model/LineDirectionTableModel.h"
 #include "src/projectdata/model/BusstopTableModel.h"
@@ -57,66 +59,66 @@ DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
     _actionProfileDown = ui->twProfiles->addAction("");
     _actionProfileDown->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-    ActionController::addSyncedActionAndButton(_actionBusstopAdd,
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionBusstopAdd,
                                                ui->pbBusstopAdd,
                                                "projectData.item.add",
-                                               ActionController::AllComponents,
-                                               ActionController::IconComponent
-                                                   | ActionController::TooltipComponent);
+                                               SMA::IActionService::AllComponents,
+                                               SMA::IActionService::IconComponent
+                                                   | SMA::IActionService::TooltipComponent);
 
-    ActionController::addSyncedActionAndButton(_actionBusstopRemove,
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionBusstopRemove,
                                                ui->pbBusstopRemove,
                                                "projectData.item.remove",
-                                               ActionController::AllComponents,
-                                               ActionController::IconComponent
-                                                   | ActionController::TooltipComponent);
+                                               SMA::IActionService::AllComponents,
+                                               SMA::IActionService::IconComponent
+                                                   | SMA::IActionService::TooltipComponent);
 
-    ActionController::addSyncedActionAndButton(_actionBusstopUp,
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionBusstopUp,
                                                ui->pbBusstopUp,
                                                "projectData.item.moveUp",
-                                               ActionController::AllComponents,
-                                               ActionController::IconComponent
-                                                   | ActionController::TooltipComponent);
+                                               SMA::IActionService::AllComponents,
+                                               SMA::IActionService::IconComponent
+                                                   | SMA::IActionService::TooltipComponent);
 
-    ActionController::addSyncedActionAndButton(_actionBusstopDown,
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionBusstopDown,
                                                ui->pbBusstopDown,
                                                "projectData.item.moveDown",
-                                               ActionController::AllComponents,
-                                               ActionController::IconComponent
-                                                   | ActionController::TooltipComponent);
+                                               SMA::IActionService::AllComponents,
+                                               SMA::IActionService::IconComponent
+                                                   | SMA::IActionService::TooltipComponent);
 
-    ActionController::addSyncedActionAndButton(_actionBusstopsReverse,
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionBusstopsReverse,
                                                ui->pbBusstopsReverse,
                                                "projectDataList.reverse",
-                                               ActionController::AllComponents,
-                                               ActionController::IconComponent
-                                                   | ActionController::TooltipComponent);
+                                               SMA::IActionService::AllComponents,
+                                               SMA::IActionService::IconComponent
+                                                   | SMA::IActionService::TooltipComponent);
 
-    ActionController::addSyncedActionAndButton(_actionProfileNew,
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionProfileNew,
                                                ui->pbProfileNew,
                                                "projectData.item.new",
-                                               ActionController::AllComponents,
-                                               ActionController::AllExceptShortcutComponent);
+                                               SMA::IActionService::AllComponents,
+                                               SMA::IActionService::AllExceptShortcutComponent);
 
-    ActionController::addSyncedActionAndButton(_actionProfileDelete,
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionProfileDelete,
                                                ui->pbProfileDelete,
                                                "projectData.item.delete",
-                                               ActionController::AllComponents,
-                                               ActionController::AllExceptShortcutComponent);
+                                               SMA::IActionService::AllComponents,
+                                               SMA::IActionService::AllExceptShortcutComponent);
 
-    ActionController::addSyncedActionAndButton(_actionProfileUp,
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionProfileUp,
                                                ui->pbProfileUp,
                                                "projectData.item.moveUp",
-                                               ActionController::AllComponents,
-                                               ActionController::IconComponent
-                                                   | ActionController::TooltipComponent);
+                                               SMA::IActionService::AllComponents,
+                                               SMA::IActionService::IconComponent
+                                                   | SMA::IActionService::TooltipComponent);
 
-    ActionController::addSyncedActionAndButton(_actionProfileDown,
+    SM::ActionServiceImpl::instance()->addSyncedActionAndButton(_actionProfileDown,
                                                ui->pbProfileDown,
                                                "projectData.item.moveDown",
-                                               ActionController::AllComponents,
-                                               ActionController::IconComponent
-                                                   | ActionController::TooltipComponent);
+                                               SMA::IActionService::AllComponents,
+                                               SMA::IActionService::IconComponent
+                                                   | SMA::IActionService::TooltipComponent);
 
     connect(_actionBusstopAdd,      &QAction::triggered, this, &DlgRouteEditor::onBusstopAdd);
     connect(_actionBusstopRemove,   &QAction::triggered, this, &DlgRouteEditor::onBusstopRemove);
