@@ -5,8 +5,6 @@
 #include "src/core/CrashDetectorImpl.h"
 #include "src/core/SettingsServiceImpl.h"
 
-#include "Global/AppInfo.h"
-
 #include <QDir>
 #include <QFile>
 
@@ -54,7 +52,7 @@ LoggerImpl::LoggerImpl(QObject *parent) : QObject(parent) {
         }
 
         s << "##########################################################################################\n";
-        s << "   ScheduleMaster | " << AppInfo::currentVersionName() << " | " << "Qt " << qVersion() << " | " << logfileModeInfo << "\n";
+        s << "   ScheduleMaster | " << "[APP VERSION NAME]" << " | " << "Qt " << qVersion() << " | " << logfileModeInfo << "\n";
         s << "##########################################################################################\n";
         s << "Time:               " << now.toString("yyyy-MM-dd") << ", " << now.toString("hh:mm:ss") << "\n";
         s << "------------------------------------------------------------------------------------------\n";

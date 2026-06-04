@@ -15,12 +15,10 @@ qt_standard_project_setup()
 add_subdirectory(src/api)
 
 add_executable(ScheduleMaster
-    Global/AppInfo.cpp
     Global/DockController.cpp
     Global/DockManager.cpp
     Global/Global.cpp
     Global/ProjectFileHandler.cpp
-
     Global/Workspace.cpp
     Global/WorkspaceHandler.cpp
     Global/WorkspaceManager.cpp
@@ -103,7 +101,6 @@ add_executable(ScheduleMaster
     src/ui/widgets/WdgVariantEditor.cpp
     src/ui/widgets/WdgWelcomeRecentProjectEntry.cpp
     ApplicationInterface.h
-    Global/AppInfo.h
     Global/DockController.h
     Global/DockManager.h
     Global/Global.h
