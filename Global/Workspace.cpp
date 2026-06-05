@@ -3,11 +3,10 @@
 #include "namespace.h"
 #include "core/IconServiceImpl.h"
 #include "core/ActionServiceImpl.h"
-
+#include "core/DockServiceImpl.h"
 
 #include "src/ui/widgets/Docks/DockAbstract.h"
 
-#include "Global/DockController.h"
 
 #include <QApplication>
 #include <QIcon>
@@ -101,7 +100,7 @@ void Workspace::apply() {
 void Workspace::restore() {
     _lastWindowState.clear();
     hideAllDocks();
-    QMap<QString, QDockWidget *> docks = DockController::docks();
+    const QMap<QString, QDockWidget *> docks = SM::DockServiceImpl::instance()->dockWidgetsMap();
 
     for(const WorkspaceDockConfig &config : std::as_const(_layout.dockConfigs)) {
         QDockWidget *widget = docks.value(config.id());
@@ -215,7 +214,7 @@ QMainWindow *Workspace::mainWindow() {
 }
 
 void Workspace::hideAllDocks() {
-    QMap<QString, QDockWidget *> docks = DockController::docks();
+    QList<QDockWidget *> docks = SM::DockServiceImpl::instance()->dockWidgets();
     for(QDockWidget *dock : std::as_const(docks)) {
         dock->hide();
         dock->setFloating(true);

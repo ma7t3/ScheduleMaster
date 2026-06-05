@@ -15,8 +15,6 @@ qt_standard_project_setup()
 add_subdirectory(src/api)
 
 add_executable(ScheduleMaster
-    Global/DockController.cpp
-    Global/DockManager.cpp
     Global/Global.cpp
     Global/ProjectFileHandler.cpp
     Global/Workspace.cpp
@@ -101,8 +99,6 @@ add_executable(ScheduleMaster
     src/ui/widgets/WdgVariantEditor.cpp
     src/ui/widgets/WdgWelcomeRecentProjectEntry.cpp
     ApplicationInterface.h
-    Global/DockController.h
-    Global/DockManager.h
     Global/Global.h
     Global/GlobalConfigManager.h
     Global/GlobalConfigManagerSignals.h
@@ -226,6 +222,7 @@ add_executable(ScheduleMaster
     src/ui/widgets/Docks/DockNews.ui
     src/ui/widgets/Docks/DockRoutes.ui
     src/ui/widgets/Docks/DockWelcome.ui
+    src/ui/widgets/Docks/DockUndoView.h src/ui/widgets/Docks/DockUndoView.cpp
     src/ui/widgets/FilterPopups/WdgBusstopsFilterPopup.ui
     src/ui/widgets/FilterPopups/WdgFilterPopup.ui
     src/ui/widgets/FilterPopups/WdgLineFilterPopup.ui
@@ -244,7 +241,8 @@ add_executable(ScheduleMaster
     Resources.qrc
     resources.rc
     src/core/ActionServiceImpl.h src/core/ActionServiceImpl.cpp
-    src/core/ActionRepository.h src/core/ActionRepository.cpp)
+    src/core/ActionRepository.h src/core/ActionRepository.cpp
+    src/core/DockServiceImpl.h src/core/DockServiceImpl.cpp)
 
 target_compile_definitions(ScheduleMaster PRIVATE QT_DISABLE_DEPRECATED_BEFORE=0x060000)
 

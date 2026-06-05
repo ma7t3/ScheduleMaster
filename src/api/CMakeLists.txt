@@ -12,6 +12,9 @@ add_library(ScheduleMasterInterface SHARED
     ISettingsService.cpp ISettingsService.h
     ScheduleMaster_global.h
     ScheduleMaster.h
+    IDockService.h
+    IDockService.cpp
+    IMainWindow.h
 )
 
 target_compile_definitions(ScheduleMasterInterface PRIVATE SCHEDULEMASTER_API)

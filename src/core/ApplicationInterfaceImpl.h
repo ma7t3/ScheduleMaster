@@ -6,6 +6,8 @@
 #include "src/api/ScheduleMaster.h"
 #include "src/core/CrashDetectorImpl.h"
 
+#include "src/ui/MainWindow.h"
+
 #define app ApplicationInterfaceImpl::instance()
 
 /*namespace ScheduleMaster {
@@ -30,13 +32,14 @@ class LastUsedFilesServiceImpl;
 class IconServiceImpl;
 class AppearanceServiceImpl;
 class ActionServiceImpl;
+class DockServiceImpl;
 
 class ApplicationInterfaceImpl : public QObject, public IApplicationInterface {
     Q_OBJECT
 
 public:
     explicit ApplicationInterfaceImpl(QObject *parent = nullptr);
-    virtual ~ApplicationInterfaceImpl() { CrashDetectorImpl::instance()->shutdown(); }
+    virtual ~ApplicationInterfaceImpl();
 
     static ApplicationInterfaceImpl *instance();
 
@@ -49,6 +52,9 @@ public:
     virtual IIconService *iconService() const override;
     virtual IAppearanceService *appearanceService() const override;
     virtual IActionService *actionService() const override;
+    virtual IDockService *dockService() const override;
+
+    virtual IMainWindow *mainWindow() const override;
 
 protected:
     static inline ApplicationInterfaceImpl *_self = nullptr;
@@ -63,6 +69,9 @@ private:
     IconServiceImpl *_iconService;
     AppearanceServiceImpl *_appearanceService;
     ActionServiceImpl *_actionService;
+    DockServiceImpl *_dockService;
+
+    MainWindow *_mainWindow;
 };
 
 }

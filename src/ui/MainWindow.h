@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "api/IMainWindow.h"
+
 #include <QMainWindow>
 
 class DlgGlobalSearch;
@@ -16,7 +18,7 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow, public ScheduleMaster::IMainWindow {
     Q_OBJECT
 
 public:
@@ -81,7 +83,6 @@ private:
 
     QProgressDialog *_fileHandlerProgressDialog;
 
-    DockController *_dockController;
     WorkspaceHandler *_workspaceHandler;
 
     ProjectData *_projectData;
@@ -93,4 +94,5 @@ private:
 
     DlgGlobalSearch *_globalSearch;
 };
+
 #endif // MAINWINDOW_H

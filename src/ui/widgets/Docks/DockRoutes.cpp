@@ -8,8 +8,8 @@
 #include "src/namespace.h"
 #include "src/core/SettingsServiceImpl.h"
 #include "src/core/ActionServiceImpl.h"
+#include "src/core/DockServiceImpl.h"
 
-#include "Global/DockController.h"
 #include "DockLines.h"
 #include "src/projectdata/model/RouteTableModel.h"
 
@@ -26,7 +26,8 @@ DockRoutes::DockRoutes(QWidget *parent) :
     _model(new RouteTableModel(this)) {
     ui->setupUi(this);
 
-    DockLines *dockLines = dynamic_cast<DockLines *>(DockController::dock("lines")->widget());
+    auto w = SM::DockServiceImpl::instance();
+    DockLines *dockLines = dynamic_cast<DockLines *>(SM::DockServiceImpl::instance()->dockWidget("lines")->widget());
     if(dockLines)
         connect(dockLines, &DockLines::currentLineChanged, this, &DockRoutes::setLine);
 

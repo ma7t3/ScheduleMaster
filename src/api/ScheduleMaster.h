@@ -14,6 +14,9 @@ class ILastUsedFilesService;
 class IIconService;
 class IAppearanceService;
 class IActionService;
+class IDockService;
+
+class IMainWindow;
 
 class SCHEDULEMASTERINTERFACE_EXPORT IApplicationInterface {
 public:
@@ -30,6 +33,9 @@ public:
     virtual IIconService *iconService() const = 0;
     virtual IAppearanceService *appearanceService() const = 0;
     virtual IActionService *actionService() const = 0;
+    virtual IDockService *dockService() const = 0;
+
+    virtual IMainWindow *mainWindow() const = 0;
 
 protected:
     static inline IApplicationInterface *_self = nullptr;

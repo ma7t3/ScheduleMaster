@@ -1,5 +1,3 @@
-#include "src/ui/MainWindow.h"
-
 #include <QApplication>
 #include <QDir>
 #include <QStyleFactory>
@@ -15,9 +13,7 @@
 #include "src/core/SettingsServiceImpl.h"
 #include "src/core/AppearanceServiceImpl.h"
 #include "src/core/ActionServiceImpl.h"
-
-#include "Global/DockManager.h"
-#include "Global/WorkspaceManager.h"
+#include "src/ui/MainWindow.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/splashscreen/slpashscreen_light.png";
@@ -40,14 +36,6 @@ QPair<QColor, QString> splashScreenConfig() {
     return QPair<QColor, QString>(messageColor, imagePath);
 }
 
-void loadStartupPreferences(QApplication *a) {
-    qInfo() << "Loading preferences...";
-
-    // language
-    qInfo() << "   Loading language...";
-    // TODO: Reimplement ui translations; Work with QLocale instead!
-}
-
 int main(int argc, char *argv[]) {
     QSettings set("ScheduleMaster", "ScheduleMaster");
 
@@ -61,40 +49,16 @@ int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
     a.setOverrideCursor(QCursor(Qt::WaitCursor));
-    SM::ApplicationInterfaceImpl appInterface;
-
-    QPair<QColor, QString> ssConfig = splashScreenConfig();
-    QSplashScreen splashscreen(QPixmap(ssConfig.second));
-    splashscreen.show();
-
-    splashscreen.showMessage(QObject::tr("Loading settings and configuration..."), Qt::AlignBottom, ssConfig.first);
-    DockManager::init();
-    WorkspaceManager::init();
-
-    splashscreen.showMessage(QObject::tr("Loading preferences..."), Qt::AlignBottom, ssConfig.first);
-    loadStartupPreferences(&a);
-
-    splashscreen.showMessage(QObject::tr("Loading main window..."), Qt::AlignBottom, ssConfig.first);
-    MainWindow w;
+    SM::ApplicationInterfaceImpl appInterface(nullptr);
 
 #ifndef QT_DEBUG
     a.thread()->sleep(2);
 #endif
 
-    qInfo() << "Loading main window size and position...";
-    bool ok = w.restoreGeometry(SM::SettingsServiceImpl::instance()->value("general.mainWindowGeometry").toByteArray());
-    if(!ok)
-        w.showMaximized();
-    else
-        w.show();
-
     SM::AppearanceServiceImpl::instance()->applyAppearance();
-
-    splashscreen.finish(&w);
     a.restoreOverrideCursor();
 
     int result = a.exec();
-    SM::SettingsServiceImpl::instance()->setValue("general.mainWindowGeometry", w.saveGeometry());
     qInfo() << "Closing ScheduleMaster...";
     return result;
 }

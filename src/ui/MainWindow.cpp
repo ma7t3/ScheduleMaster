@@ -8,16 +8,17 @@
 #include "src/core/SettingsServiceImpl.h"
 #include "src/core/LastUsedFilesServiceImpl.h"
 #include "src/core/ActionServiceImpl.h"
+#include "src/core/DockServiceImpl.h"
 
 #include "src/ui/dialogs/DlgGlobalSearch.h"
 #include "src/ui/dialogs/DlgPreferences.h"
-#include "Global/DockController.h"
 #include "Global/ProjectFileHandler.h"
 #include "Global/Workspace.h"
 #include "Global/WorkspaceHandler.h"
 #include "ApplicationInterface.h"
 #include "src/projectdata/ProjectData.h"
 #include "src/ui/widgets/Docks/DockAbstract.h"
+#include "src/ui/widgets/Docks/DockUndoView.h"
 
 #include <QTimer>
 #include <QDesktopServices>
@@ -36,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     _windowOnceShown(false),
-    _dockController(nullptr),
     _workspaceHandler(new WorkspaceHandler(this)),
     _projectData(new ProjectData(this)),
     _fileHandler(new ProjectFileHandler(_projectData, this)),
@@ -192,12 +192,9 @@ void MainWindow::connectToInterface() {
 
 void MainWindow::loadDocks() {
     qInfo() << "   Loading docks...";
-    _dockController = new DockController(this);
-    connect(_dockController, &DockController::dockAdded, this, &MainWindow::onDockAdded);
-    _dockController->loadStandardDocks();
-    static_cast<QUndoView *>(_dockController->dock("undoView")->widget()->layout()->itemAt(0)->widget())->setStack(_projectData->undoStack());
+    connect(SM::DockServiceImpl::instance(), &SM::DockServiceImpl::dockAdded, this, &MainWindow::onDockAdded);
 
-    for(QDockWidget *dockWidget : _dockController->dockList()) {
+    for(QDockWidget *dockWidget : SM::DockServiceImpl::instance()->dockWidgets()) {
         DockAbstract *dock = qobject_cast<DockAbstract *>(dockWidget->widget());
         if(!dock)
             continue;

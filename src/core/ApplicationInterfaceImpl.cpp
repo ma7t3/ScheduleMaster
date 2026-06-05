@@ -9,6 +9,9 @@
 #include "src/core/IconServiceImpl.h"
 #include "src/core/AppearanceServiceImpl.h"
 #include "src/core/ActionServiceImpl.h"
+#include "src/core/DockServiceImpl.h"
+
+#include "WorkspaceManager.h"
 
 namespace ScheduleMaster::Core {
 
@@ -24,11 +27,28 @@ ApplicationInterfaceImpl::ApplicationInterfaceImpl(QObject *parent) : QObject(pa
     _settingsService->initRepository();
     _folderLocationService->initRepository();
 
-    _languageService = new LanguageServiceImpl(this);
-    _iconService = new IconServiceImpl(this);
+
+    _languageService      = new LanguageServiceImpl(this);
+    _iconService          = new IconServiceImpl(this);
     _lastUsedFilesService = new LastUsedFilesServiceImpl(this);
-    _appearanceService = new AppearanceServiceImpl(this);
-    _actionService = new ActionServiceImpl(this);
+    _appearanceService    = new AppearanceServiceImpl(this);
+    _actionService        = new ActionServiceImpl(this);
+    _dockService          = new DockServiceImpl(this);
+    WorkspaceManager::init();
+    _mainWindow           = new MainWindow;
+    _dockService->loadStandardDocks();
+
+    bool ok = _mainWindow->restoreGeometry(_settingsService->value("general.mainWindowGeometry").toByteArray());
+    if(!ok)
+        _mainWindow->showMaximized();
+    else
+        _mainWindow->show();
+}
+
+ApplicationInterfaceImpl::~ApplicationInterfaceImpl() {
+    _settingsService->setValue("general.mainWindowGeometry", _mainWindow->saveGeometry());
+    CrashDetectorImpl::instance()->shutdown();
+    delete _mainWindow;
 }
 
 ApplicationInterfaceImpl *ApplicationInterfaceImpl::instance() {
@@ -70,4 +90,13 @@ IAppearanceService *ApplicationInterfaceImpl::appearanceService() const {
 IActionService *ApplicationInterfaceImpl::actionService() const {
     return _actionService;
 }
+
+IDockService *ApplicationInterfaceImpl::dockService() const {
+    return _dockService;
+}
+
+IMainWindow *ApplicationInterfaceImpl::mainWindow() const {
+    return _mainWindow;
+}
+
 }
