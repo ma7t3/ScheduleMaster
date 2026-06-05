@@ -30,7 +30,7 @@ public:
     virtual QStringList dockIDs() const = 0;
     virtual DockConfig dock(const QString &id) const = 0;
     virtual bool dockExists(const QString &id) const = 0;
-    virtual bool registerDock(const DockConfig &dock) const = 0;
+    virtual bool registerDock(const DockConfig &dock) = 0;
 
     virtual QDockWidget *setDockWidget(const QString &dockID, QWidget *widget) = 0;
     virtual QDockWidget *dockWidget(const QString &dockID) const = 0;

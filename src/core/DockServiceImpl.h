@@ -23,7 +23,7 @@ public:
     virtual QStringList dockIDs() const override;
     virtual DockConfig dock(const QString &id) const override;
     virtual bool dockExists(const QString &id) const override;
-    virtual bool registerDock(const DockConfig &dock) const override;
+    virtual bool registerDock(const DockConfig &dock) override;
 
     virtual QDockWidget *setDockWidget(const QString &dockID, QWidget *widget) override;
     virtual QDockWidget *dockWidget(const QString &dockID) const override;

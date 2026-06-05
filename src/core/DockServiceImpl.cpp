@@ -51,7 +51,7 @@ bool DockServiceImpl::dockExists(const QString &id) const {
     return repository()->itemExists(id);
 }
 
-bool DockServiceImpl::registerDock(const DockConfig &dock) const {
+bool DockServiceImpl::registerDock(const DockConfig &dock) {
     return repository()->addItem(dock);
 }
 
