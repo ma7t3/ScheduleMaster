@@ -15,6 +15,7 @@ add_library(ScheduleMasterInterface SHARED
     IDockService.h
     IDockService.cpp
     IMainWindow.h
+    ScheduleMaster.cpp
 )
 
 target_compile_definitions(ScheduleMasterInterface PRIVATE SCHEDULEMASTER_API)

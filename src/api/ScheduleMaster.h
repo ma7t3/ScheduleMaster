@@ -20,9 +20,9 @@ class IMainWindow;
 
 class SCHEDULEMASTERINTERFACE_EXPORT IApplicationInterface {
 public:
-    IApplicationInterface() { _self = this; }
+    IApplicationInterface();
     virtual ~IApplicationInterface() = default;
-    static IApplicationInterface *instance() { return _self; }
+    static IApplicationInterface *instance();
 
     virtual ICrashDetector *crashDetector() const = 0;
     virtual ILogger *logger() const = 0;
@@ -38,7 +38,7 @@ public:
     virtual IMainWindow *mainWindow() const = 0;
 
 protected:
-    static inline IApplicationInterface *_self = nullptr;
+    static IApplicationInterface *_self;
 };
 
 }

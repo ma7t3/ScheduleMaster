@@ -14,7 +14,7 @@ qt_standard_project_setup()
 
 add_subdirectory(src/api)
 
-add_executable(ScheduleMaster
+qt_add_executable(ScheduleMaster
     Global/Global.cpp
     Global/ProjectFileHandler.cpp
     Global/Workspace.cpp
