@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include "Service.h"
-#include "src/api/ILastUsedFilesService.h"
+#include "api/ILastUsedFilesService.h"
 
 namespace ScheduleMaster::Core {
 

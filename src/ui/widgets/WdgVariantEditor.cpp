@@ -3,7 +3,7 @@
 
 #include "namespace.h"
 #include "helpers.h"
-#include "src/core/ActionServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
 #include <QDialog>
 #include <QMessageBox>

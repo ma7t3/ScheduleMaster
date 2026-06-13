@@ -3,8 +3,8 @@
 #include <QFont>
 #include <QIcon>
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
 
 BusstopPlatformTableModel::BusstopPlatformTableModel(QObject *parent) :
     UnorderedProjectDataRowModel(parent), _busstop(nullptr) {

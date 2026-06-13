@@ -1,16 +1,16 @@
 #include "DockLines.h"
 #include "ui_DockLines.h"
 
-#include "src/namespace.h"
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
-#include "ApplicationInterface.h"
-#include "src/projectdata/model/LineTableModel.h"
+#include "../ApplicationInterface.h"
+#include "projectdata/model/LineTableModel.h"
 
-#include "src/ui/dialogs/DlgLineEditor.h"
+#include "ui/dialogs/DlgLineEditor.h"
 
-#include "src/commands/CmdLines.h"
+#include "commands/CmdLines.h"
 
 #include <QAction>
 #include <QSortFilterProxyModel>

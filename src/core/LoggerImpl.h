@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include "Service.h"
-#include "src/api/ILogger.h"
+#include "api/ILogger.h"
 
 namespace ScheduleMaster::Core {
 

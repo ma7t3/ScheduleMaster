@@ -4,7 +4,7 @@
 #include "GlobalConfigRepository.h"
 #include "GlobalConfigService.h"
 
-#include "src/api/IFolderLocationService.h"
+#include "api/IFolderLocationService.h"
 
 namespace ScheduleMaster::Core {
 

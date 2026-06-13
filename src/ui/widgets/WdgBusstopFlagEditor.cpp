@@ -1,8 +1,8 @@
 #include "WdgBusstopFlagEditor.h"
 #include "ui_WdgBusstopFlagEditor.h"
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
 
 #include <QMessageBox>
 

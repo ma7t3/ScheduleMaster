@@ -1,10 +1,10 @@
 #include "BusstopTableModel.h"
 
-#include "ApplicationInterface.h"
+#include "../ApplicationInterface.h"
 
-#include "src/namespace.h"
+#include "namespace.h"
 #include "helpers.h"
-#include "src/core/IconServiceImpl.h"
+#include "core/IconServiceImpl.h"
 
 #include <QSortFilterProxyModel>
 

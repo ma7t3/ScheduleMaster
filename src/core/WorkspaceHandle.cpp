@@ -5,7 +5,7 @@
 #include "core/ActionServiceImpl.h"
 #include "core/DockServiceImpl.h"
 
-#include "src/ui/widgets/Docks/DockAbstract.h"
+#include "ui/widgets/Docks/DockAbstract.h"
 
 
 #include <QApplication>

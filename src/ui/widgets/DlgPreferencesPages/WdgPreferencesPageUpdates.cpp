@@ -1,8 +1,8 @@
 #include "WdgPreferencesPageUpdates.h"
 #include "ui_WdgPreferencesPageUpdates.h"
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
 
 WdgPreferencesPageUpdates::WdgPreferencesPageUpdates(QWidget *parent) :
     WdgPreferencesPage(parent),

@@ -4,7 +4,7 @@
 #include "GlobalConfigRepository.h"
 #include "GlobalConfigService.h"
 
-#include "src/api/IAppearanceService.h"
+#include "api/IAppearanceService.h"
 #include "StyleRepository.h"
 
 namespace ScheduleMaster::Core {

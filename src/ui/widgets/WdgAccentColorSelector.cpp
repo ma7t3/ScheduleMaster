@@ -1,8 +1,8 @@
 #include "WdgAccentColorSelector.h"
 #include "ui_WdgAccentColorSelector.h"
 
-#include "src/namespace.h"
-#include "src/core/AppearanceServiceImpl.h"
+#include "namespace.h"
+#include "core/AppearanceServiceImpl.h"
 
 #include <QToolButton>
 

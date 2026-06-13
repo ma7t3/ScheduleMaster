@@ -4,7 +4,7 @@
 #include <QUndoView>
 #include <QUndoStack>
 
-#include "ApplicationInterface.h"
+#include "../ApplicationInterface.h"
 
 DockUndoView::DockUndoView(QWidget *parent) :
     DockAbstract{parent}, _view{new QUndoView(this)} {

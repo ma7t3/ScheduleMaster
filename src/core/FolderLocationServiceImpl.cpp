@@ -1,8 +1,8 @@
 #include "FolderLocationServiceImpl.h"
 
-#include "src/namespace.h"
-#include "src/core/ApplicationInterfaceImpl.h"
-#include "src/core/SettingsServiceImpl.h"
+#include "namespace.h"
+#include "core/ApplicationInterfaceImpl.h"
+#include "core/SettingsServiceImpl.h"
 
 #include <QCoreApplication>
 #include <QStandardPaths>

@@ -1,8 +1,8 @@
 #include "DlgLineEditor.h"
 #include "ui_DlgLineEditor.h"
 
-#include "src/namespace.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/ActionServiceImpl.h"
 
 #include <QMessageBox>
 #include <QInputDialog>

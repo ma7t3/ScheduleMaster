@@ -1,10 +1,10 @@
 #include "WdgPreferencesPageLocations.h"
 #include "ui_WdgPreferencesPageLocations.h"
 
-#include "src/namespace.h"
-#include "src/core/FolderLocationServiceImpl.h"
-#include "src/core/IconServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/FolderLocationServiceImpl.h"
+#include "core/IconServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
 #include <QListWidgetItem>
 #include <QFileDialog>

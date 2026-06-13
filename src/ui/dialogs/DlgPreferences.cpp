@@ -1,19 +1,19 @@
 #include "DlgPreferences.h"
 #include "ui_DlgPreferences.h"
 
-#include "src/namespace.h"
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/IconServiceImpl.h"
+#include "namespace.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/IconServiceImpl.h"
 
-#include "src/ui/dialogs/DlgConfigEditor.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
+#include "ui/dialogs/DlgConfigEditor.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPageHome.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPageGeneral.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPageAppearance.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPageLocations.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPageUpdates.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPageKeyboardShortcuts.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPagePlugins.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPageDebug.h"
 
 #include <QMessageBox>
 #include <QFileDialog>

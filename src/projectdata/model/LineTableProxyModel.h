@@ -2,8 +2,8 @@
 #define LINETABLEPROXYMODEL_H
 
 #include <QObject>
-#include "src/projectdata/model/SortFilterProxyModel.h"
-#include "src/ui/widgets/FilterPopups/WdgLineFilterPopup.h"
+#include "projectdata/model/SortFilterProxyModel.h"
+#include "ui/widgets/FilterPopups/WdgLineFilterPopup.h"
 
 class LineTableProxyModel : public SortFilterProxyModel<WdgLineFilterPopup> {
     Q_OBJECT

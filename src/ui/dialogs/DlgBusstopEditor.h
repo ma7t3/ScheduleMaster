@@ -4,8 +4,8 @@
 #include <QDialog>
 #include <QSortFilterProxyModel>
 
-#include "src/projectdata/Busstop.h"
-#include "src/projectdata/model/BusstopPlatformTableModel.h"
+#include "projectdata/Busstop.h"
+#include "projectdata/model/BusstopPlatformTableModel.h"
 
 namespace Ui {
 class DlgBusstopEditor;

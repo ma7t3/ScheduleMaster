@@ -1,8 +1,8 @@
 #ifndef ROUTETABLEMODEL_H
 #define ROUTETABLEMODEL_H
 
-#include "src/projectdata/model/UnorderedProjectDataRowModel.h"
-#include "src/projectdata/Line.h"
+#include "projectdata/model/UnorderedProjectDataRowModel.h"
+#include "projectdata/Line.h"
 
 class RouteTableModel : public UnorderedProjectDataRowModel<Route> {
     Q_OBJECT

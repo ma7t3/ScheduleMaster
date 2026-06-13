@@ -200,7 +200,7 @@
   <customwidget>
    <class>WdgColorSelector</class>
    <extends>QWidget</extends>
-   <header>src/ui/widgets/WdgColorSelector.h</header>
+   <header>ui/widgets/WdgColorSelector.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -1,7 +1,7 @@
 #include "CrashDetectorImpl.h"
 
-#include "src/namespace.h"
-#include "src/core/SettingsServiceImpl.h"
+#include "namespace.h"
+#include "core/SettingsServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 

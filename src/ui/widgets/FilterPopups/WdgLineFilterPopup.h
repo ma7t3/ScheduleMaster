@@ -1,7 +1,7 @@
 #ifndef WDGLINEFILTERPOPUP_H
 #define WDGLINEFILTERPOPUP_H
 
-#include "src/ui/widgets/FilterPopups/WdgFilterPopupContent.h"
+#include "ui/widgets/FilterPopups/WdgFilterPopupContent.h"
 
 namespace Ui {
 class WdgLineFilterPopup;

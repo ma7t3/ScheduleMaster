@@ -1,6 +1,6 @@
 #include "ProjectFileHandler.h"
 
-#include "src/projectdata/ProjectData.h"
+#include "projectdata/ProjectData.h"
 
 #include <QApplication>
 #include <QFile>

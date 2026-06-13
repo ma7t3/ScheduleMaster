@@ -7,7 +7,7 @@
 #include "GlobalConfigRepository.h"
 #include "GlobalConfigService.h"
 
-#include "src/api/ISettingsService.h"
+#include "api/ISettingsService.h"
 
 namespace ScheduleMaster::Core {
 

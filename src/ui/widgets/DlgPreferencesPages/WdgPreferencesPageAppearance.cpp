@@ -1,10 +1,10 @@
 #include "WdgPreferencesPageAppearance.h"
 #include "ui_WdgPreferencesPageAppearance.h"
 
-#include "src/namespace.h"
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/IconServiceImpl.h"
-#include "src/core/AppearanceServiceImpl.h"
+#include "namespace.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/IconServiceImpl.h"
+#include "core/AppearanceServiceImpl.h"
 
 #include "ui/models/StylesModel.h"
 #include "ui/models/IconSetsModel.h"

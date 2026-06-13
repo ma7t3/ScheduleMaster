@@ -7,13 +7,13 @@
 #include <QThread>
 #include <QSettings>
 
-#include "src/namespace.h"
-#include "src/core/ApplicationInterfaceImpl.h"
-#include "src/core/CrashDetectorImpl.h"
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/AppearanceServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
-#include "src/ui/MainWindow.h"
+#include "namespace.h"
+#include "core/ApplicationInterfaceImpl.h"
+#include "core/CrashDetectorImpl.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/AppearanceServiceImpl.h"
+#include "core/ActionServiceImpl.h"
+#include "ui/MainWindow.h"
 
 QPair<QColor, QString> splashScreenConfig() {
     QString imagePath = ":/splashscreen/slpashscreen_light.png";

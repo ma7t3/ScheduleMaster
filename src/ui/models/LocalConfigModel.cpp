@@ -1,11 +1,11 @@
 #include "LocalConfigModel.h"
 
-#include "src/api/helpers.h"
+#include "api/helpers.h"
 
-#include "src/namespace.h"
-#include "src/core/ApplicationInterfaceImpl.h"
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/IconServiceImpl.h"
+#include "namespace.h"
+#include "core/ApplicationInterfaceImpl.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/IconServiceImpl.h"
 
 #include <QIcon>
 

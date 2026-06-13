@@ -2,8 +2,8 @@
 #include "ui_WdgTimeProfileEditor.h"
 
 #include "namespace.h"
-#include "src/core/ActionServiceImpl.h"
-#include "src/projectdata/TimeProfile.h"
+#include "core/ActionServiceImpl.h"
+#include "projectdata/TimeProfile.h"
 
 
 WdgTimeProfileEditor::WdgTimeProfileEditor(QWidget *parent) :

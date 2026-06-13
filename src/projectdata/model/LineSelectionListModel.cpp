@@ -1,6 +1,6 @@
 #include "LineSelectionListModel.h"
 
-#include "ApplicationInterface.h"
+#include "../ApplicationInterface.h"
 
 #include "namespace.h"
 #include "helpers.h"

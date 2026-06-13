@@ -6,8 +6,8 @@
 #include <QPoint>
 #include <QMenu>
 
-#include "src/projectdata/ProjectDataItemSet.h"
-#include "src/projectdata/model/UnorderedProjectDataRowModel.h"
+#include "projectdata/ProjectDataItemSet.h"
+#include "projectdata/model/UnorderedProjectDataRowModel.h"
 
 class WdgProjectDataTableViewSignals : public QTableView {
     Q_OBJECT

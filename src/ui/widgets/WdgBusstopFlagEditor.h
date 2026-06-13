@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QCheckBox>
 
-#include "src/projectdata/Busstop.h"
+#include "projectdata/Busstop.h"
 
 namespace Ui {
 class WdgBusstopFlagEditor;

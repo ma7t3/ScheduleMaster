@@ -1,8 +1,8 @@
 #include "DockNews.h"
 #include "ui_DockNews.h"
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
 
 DockNews::DockNews(QWidget *parent) :
     DockAbstract(parent),

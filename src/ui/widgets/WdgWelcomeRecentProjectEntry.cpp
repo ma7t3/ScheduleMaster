@@ -1,9 +1,9 @@
 #include "WdgWelcomeRecentProjectEntry.h"
 #include "ui_WdgWelcomeRecentProjectEntry.h"
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
 #include <QDateTime>
 #include <QStyleHints>

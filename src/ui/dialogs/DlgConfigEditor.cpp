@@ -3,9 +3,9 @@
 
 #include "ui/models/LocalConfigModel.h"
 
-#include "src/namespace.h"
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
 #include <QMessageBox>
 #include <QInputDialog>

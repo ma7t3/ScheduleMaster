@@ -3,10 +3,10 @@
 
 #include <QObject>
 #include <QDebug>
-#include "src/api/ScheduleMaster.h"
-#include "src/core/CrashDetectorImpl.h"
+#include "api/ScheduleMaster.h"
+#include "core/CrashDetectorImpl.h"
 
-#include "src/ui/MainWindow.h"
+#include "ui/MainWindow.h"
 
 #define app ApplicationInterfaceImpl::instance()
 

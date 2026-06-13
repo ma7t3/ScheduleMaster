@@ -1,9 +1,9 @@
 #include "LoggerImpl.h"
 
-#include "src/namespace.h"
-#include "src/core/FolderLocationServiceImpl.h"
-#include "src/core/CrashDetectorImpl.h"
-#include "src/core/SettingsServiceImpl.h"
+#include "namespace.h"
+#include "core/FolderLocationServiceImpl.h"
+#include "core/CrashDetectorImpl.h"
+#include "core/SettingsServiceImpl.h"
 
 #include <QDir>
 #include <QFile>

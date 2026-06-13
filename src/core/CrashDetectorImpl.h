@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include "Service.h"
-#include "src/api/ICrashDetector.h"
+#include "api/ICrashDetector.h"
 
 namespace ScheduleMaster::Core {
 

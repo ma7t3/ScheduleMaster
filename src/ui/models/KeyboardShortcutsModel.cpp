@@ -3,9 +3,9 @@
 #include <QIcon>
 #include <QFont>
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
 namespace ScheduleMaster::UI::Models {
 

@@ -2,7 +2,7 @@
 #define ROUTEBUSSTOPTABLEMODEL_H
 
 #include "OrderedProjectDataRowModel.h"
-#include "src/projectdata/RouteBusstopItem.h"
+#include "projectdata/RouteBusstopItem.h"
 #include <QStyledItemDelegate>
 
 class Route;

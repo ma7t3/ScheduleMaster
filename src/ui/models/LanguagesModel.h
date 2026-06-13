@@ -1,7 +1,7 @@
 #ifndef LANGUAGESMODEL_H
 #define LANGUAGESMODEL_H
 
-#include "src/core/LanguageServiceImpl.h"
+#include "core/LanguageServiceImpl.h"
 
 #include <QAbstractListModel>
 

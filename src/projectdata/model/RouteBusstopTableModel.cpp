@@ -1,6 +1,6 @@
 #include "RouteBusstopTableModel.h"
 
-#include "src/projectdata/Route.h"
+#include "projectdata/Route.h"
 #include <QFont>
 #include <QComboBox>
 

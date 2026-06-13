@@ -2,7 +2,7 @@
 #define WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H
 
 #include "namespace.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 namespace ScheduleMaster::UI::Models {
 class KeyboardShortcutsSortFilterProxyModel;

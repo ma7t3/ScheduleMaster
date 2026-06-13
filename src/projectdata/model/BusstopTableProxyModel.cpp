@@ -1,9 +1,9 @@
 #include "BusstopTableProxyModel.h"
 
-#include "src/projectdata/ProjectData.h"
-#include "src/ui/widgets/FilterPopups/WdgBusstopsFilterPopup.h"
+#include "projectdata/ProjectData.h"
+#include "ui/widgets/FilterPopups/WdgBusstopsFilterPopup.h"
 
-#include "ApplicationInterface.h"
+#include "../ApplicationInterface.h"
 
 BusstopTableProxyModel::BusstopTableProxyModel(QAbstractButton *popupButton, QObject *parent) :
     SortFilterProxyModel<WdgBusstopsFilterPopup>(popupButton, parent), _projectData(ApplicationInterface::projectData()) {}

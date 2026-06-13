@@ -1,16 +1,16 @@
 #include "ApplicationInterfaceImpl.h"
 
-#include "src/core/CrashDetectorImpl.h"
-#include "src/core/LoggerImpl.h"
-#include "src/core/FolderLocationServiceImpl.h"
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/LanguageServiceImpl.h"
-#include "src/core/LastUsedFilesServiceImpl.h"
-#include "src/core/IconServiceImpl.h"
-#include "src/core/AppearanceServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
-#include "src/core/DockServiceImpl.h"
-#include "src/core/WorkspaceServiceImpl.h"
+#include "core/CrashDetectorImpl.h"
+#include "core/LoggerImpl.h"
+#include "core/FolderLocationServiceImpl.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/LanguageServiceImpl.h"
+#include "core/LastUsedFilesServiceImpl.h"
+#include "core/IconServiceImpl.h"
+#include "core/AppearanceServiceImpl.h"
+#include "core/ActionServiceImpl.h"
+#include "core/DockServiceImpl.h"
+#include "core/WorkspaceServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 

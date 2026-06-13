@@ -1,9 +1,9 @@
 #ifndef WDGPREFERENCESPAGELOCATIONS_H
 #define WDGPREFERENCESPAGELOCATIONS_H
 
-#include "src/namespace.h"
-#include "src/api/IFolderLocationService.h"
-#include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
+#include "namespace.h"
+#include "api/IFolderLocationService.h"
+#include "ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
 class QListWidgetItem;
 

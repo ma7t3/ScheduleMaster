@@ -1,7 +1,7 @@
 #include "WdgProjectDataTableQuickSearchLineEdit.h"
 
 #include "namespace.h"
-#include "src/core/ActionServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
 WdgProjectDataTableQuickSearchLineEdit::WdgProjectDataTableQuickSearchLineEdit(QWidget *parent) :
     QLineEdit(parent), _focusAction(nullptr) {

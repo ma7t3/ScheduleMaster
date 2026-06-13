@@ -2,8 +2,8 @@
 #include "ui_WdgTableColumnVisibilitySelector.h"
 
 #include "namespace.h"
-#include "src/core/ActionServiceImpl.h"
-#include "src/projectdata/model/UnorderedProjectDataRowModel.h"
+#include "core/ActionServiceImpl.h"
+#include "projectdata/model/UnorderedProjectDataRowModel.h"
 
 #include <QTreeView>
 #include <QTableView>

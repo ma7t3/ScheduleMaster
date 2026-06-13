@@ -1,8 +1,8 @@
 #ifndef BUSSTOPTABLEPROXYMODEL_H
 #define BUSSTOPTABLEPROXYMODEL_H
 
-#include "src/projectdata/model/SortFilterProxyModel.h"
-#include "src/ui/widgets/FilterPopups/WdgBusstopsFilterPopup.h"
+#include "projectdata/model/SortFilterProxyModel.h"
+#include "ui/widgets/FilterPopups/WdgBusstopsFilterPopup.h"
 
 class BusstopTableProxyModel : public SortFilterProxyModel<WdgBusstopsFilterPopup> {
     Q_OBJECT

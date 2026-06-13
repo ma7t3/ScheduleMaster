@@ -1,7 +1,7 @@
 #include "IconSetsModel.h"
 
 #include "namespace.h"
-#include "src/core/IconServiceImpl.h"
+#include "core/IconServiceImpl.h"
 
 namespace ScheduleMaster::UI::Models {
 

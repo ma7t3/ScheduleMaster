@@ -1,10 +1,10 @@
 #include "WdgPreferencesPageHome.h"
 #include "ui_WdgPreferencesPageHome.h"
 
-#include "src/namespace.h"
-#include "src/core/LanguageServiceImpl.h"
-#include "src/core/IconServiceImpl.h"
-#include "src/core/AppearanceServiceImpl.h"
+#include "namespace.h"
+#include "core/LanguageServiceImpl.h"
+#include "core/IconServiceImpl.h"
+#include "core/AppearanceServiceImpl.h"
 
 #include "ui/models/LanguagesModel.h"
 #include "ui/models/StylesModel.h"

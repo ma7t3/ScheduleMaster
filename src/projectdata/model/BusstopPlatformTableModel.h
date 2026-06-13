@@ -1,8 +1,8 @@
 #ifndef BUSSTOPPLATFORMTABLEMODEL_H
 #define BUSSTOPPLATFORMTABLEMODEL_H
 
-#include "src/projectdata/model/UnorderedProjectDataRowModel.h"
-#include "src/projectdata/Busstop.h"
+#include "projectdata/model/UnorderedProjectDataRowModel.h"
+#include "projectdata/Busstop.h"
 
 class BusstopPlatformTableModel : public UnorderedProjectDataRowModel<BusstopPlatform> {
     Q_OBJECT

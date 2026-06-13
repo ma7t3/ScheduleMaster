@@ -2,7 +2,7 @@
 #include "ui_WdgFilterPopup.h"
 
 #include "namespace.h"
-#include "src/core/ActionServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
 #include <QScreen>
 

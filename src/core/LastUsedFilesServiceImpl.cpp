@@ -1,6 +1,6 @@
 #include "LastUsedFilesServiceImpl.h"
 
-#include "src/core/SettingsServiceImpl.h"
+#include "core/SettingsServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 

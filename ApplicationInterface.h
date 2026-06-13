@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "src/projectdata/ProjectData.h"
+#include "projectdata/ProjectData.h"
 
 class ApplicationInterface : public QObject {
     Q_OBJECT

@@ -4,10 +4,10 @@
 #include <QUuid>
 #include <QTimer>
 
-#include "src/projectdata/model/UnorderedProjectDataRowModelSignals.h"
-#include "src/projectdata/ProjectData.h"
+#include "projectdata/model/UnorderedProjectDataRowModelSignals.h"
+#include "projectdata/ProjectData.h"
 
-#include "src/projectdata/ProjectDataItemSet.h"
+#include "projectdata/ProjectDataItemSet.h"
 
 enum CustomHeaderRoles {
     ColumnVisibleByDefaultRole = Qt::UserRole + 1,

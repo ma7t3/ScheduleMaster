@@ -1,8 +1,8 @@
 #include "WorkspaceServiceImpl.h"
 
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
-#include "src/core/WorkspaceHandle.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/ActionServiceImpl.h"
+#include "core/WorkspaceHandle.h"
 
 #include <QDockWidget>
 #include <QMenu>

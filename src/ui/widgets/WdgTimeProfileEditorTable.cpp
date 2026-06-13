@@ -1,6 +1,6 @@
 #include "WdgTimeProfileEditorTable.h"
 
-#include "src/projectdata/Route.h"
+#include "projectdata/Route.h"
 
 #include <QHeaderView>
 #include <QCheckBox>

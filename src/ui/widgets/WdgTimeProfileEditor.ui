@@ -246,7 +246,7 @@
   <customwidget>
    <class>WdgTimeProfileEditorTable</class>
    <extends>QTableWidget</extends>
-   <header>src/ui/widgets/WdgTimeProfileEditorTable.h</header>
+   <header>ui/widgets/WdgTimeProfileEditorTable.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

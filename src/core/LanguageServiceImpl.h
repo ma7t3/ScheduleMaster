@@ -4,7 +4,7 @@
 #include "GlobalConfigRepository.h"
 #include "GlobalConfigService.h"
 
-#include "src/api/ILanguageService.h"
+#include "api/ILanguageService.h"
 
 namespace ScheduleMaster::Core {
 

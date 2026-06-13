@@ -1,9 +1,9 @@
 #ifndef ORDEREDPROJECTDATAROWMODEL_H
 #define ORDEREDPROJECTDATAROWMODEL_H
 
-#include "src/projectdata/model/UnorderedProjectDataRowModelSignals.h"
+#include "projectdata/model/UnorderedProjectDataRowModelSignals.h"
 
-#include "src/projectdata/ProjectDataItemList.h"
+#include "projectdata/ProjectDataItemList.h"
 
 #include <QTimer>
 

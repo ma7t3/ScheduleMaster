@@ -3,14 +3,14 @@
 
 #include <QMessageBox>
 
-#include "src/namespace.h"
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
-#include "ApplicationInterface.h"
-#include "src/ui/dialogs/DlgBusstopEditor.h"
+#include "../ApplicationInterface.h"
+#include "ui/dialogs/DlgBusstopEditor.h"
 
-#include "src/commands/CmdBusstops.h"
+#include "commands/CmdBusstops.h"
 
 DockBusstops::DockBusstops(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockBusstops),

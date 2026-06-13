@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QAbstractButton>
 
-#include "src/ui/widgets/FilterPopups/WdgFilterPopupContent.h"
+#include "ui/widgets/FilterPopups/WdgFilterPopupContent.h"
 
 class QHBoxLayout;
 

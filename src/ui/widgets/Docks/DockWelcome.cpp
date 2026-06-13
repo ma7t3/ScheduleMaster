@@ -1,13 +1,13 @@
 #include "DockWelcome.h"
 #include "ui_DockWelcome.h"
 
-#include "src/namespace.h"
-#include "src/core/LastUsedFilesServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
-#include "src/ui/widgets/WdgWelcomeRecentProjectEntry.h"
+#include "namespace.h"
+#include "core/LastUsedFilesServiceImpl.h"
+#include "core/ActionServiceImpl.h"
+#include "ui/widgets/WdgWelcomeRecentProjectEntry.h"
 
 
-#include "ApplicationInterface.h"
+#include "../ApplicationInterface.h"
 
 #include <QDateTime>
 #include <QFileInfo>

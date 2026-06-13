@@ -1,11 +1,11 @@
 #include "DlgGlobalSearch.h"
 #include "ui_DlgGlobalSearch.h"
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
-#include "src/ui/widgets/WdgGlobalSearchItem.h"
+#include "ui/widgets/WdgGlobalSearchItem.h"
 
 #include <QKeyEvent>
 

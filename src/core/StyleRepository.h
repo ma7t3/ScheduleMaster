@@ -2,7 +2,7 @@
 #define STYLEREPOSITORY_H
 
 #include "GlobalConfigRepository.h"
-#include "src/api/IAppearanceService.h"
+#include "api/IAppearanceService.h"
 
 namespace ScheduleMaster::Core {
 

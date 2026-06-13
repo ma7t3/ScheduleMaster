@@ -1,11 +1,11 @@
 #ifndef WDGBUSSTOPSFILTERPOPUP_H
 #define WDGBUSSTOPSFILTERPOPUP_H
 
-#include "src/ui/widgets/FilterPopups/WdgFilterPopupContent.h"
-#include "src/projectdata/Busstop.h"
+#include "ui/widgets/FilterPopups/WdgFilterPopupContent.h"
+#include "projectdata/Busstop.h"
 
-#include "src/projectdata/model/LineSelectionListModel.h"
-#include "src/projectdata/model/LineSelectionListProxyModel.h"
+#include "projectdata/model/LineSelectionListModel.h"
+#include "projectdata/model/LineSelectionListProxyModel.h"
 
 namespace Ui {
 class WdgBusstopsFilterPopup;

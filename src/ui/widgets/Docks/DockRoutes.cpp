@@ -5,21 +5,21 @@
 #include <QUndoStack>
 #include <QMessageBox>
 
-#include "src/namespace.h"
-#include "src/core/SettingsServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
-#include "src/core/DockServiceImpl.h"
+#include "namespace.h"
+#include "core/SettingsServiceImpl.h"
+#include "core/ActionServiceImpl.h"
+#include "core/DockServiceImpl.h"
 
 #include "DockLines.h"
-#include "src/projectdata/model/RouteTableModel.h"
+#include "projectdata/model/RouteTableModel.h"
 
-#include "src/commands/CmdRoutes.h"
+#include "commands/CmdRoutes.h"
 
-#include "src/projectdata/model/RouteTableModel.h"
-#include "src/projectdata/model/RouteTableProxyModel.h"
+#include "projectdata/model/RouteTableModel.h"
+#include "projectdata/model/RouteTableProxyModel.h"
 
-#include "ApplicationInterface.h"
-#include "src/ui/dialogs/DlgRouteEditor.h"
+#include "../ApplicationInterface.h"
+#include "ui/dialogs/DlgRouteEditor.h"
 
 DockRoutes::DockRoutes(QWidget *parent) :
     DockAbstract(parent), ui(new Ui::DockRoutes), _projectData(ApplicationInterface::projectData()), _line(nullptr),

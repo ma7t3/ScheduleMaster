@@ -3,12 +3,12 @@
 #include "ApplicationInterfaceImpl.h"
 #include "ActionServiceImpl.h"
 
-#include "src/ui/widgets/Docks/DockWelcome.h"
-#include "src/ui/widgets/Docks/DockNews.h"
-#include "src/ui/widgets/Docks/DockUndoView.h"
-#include "src/ui/widgets/Docks/DockBusstops.h"
-#include "src/ui/widgets/Docks/DockLines.h"
-#include "src/ui/widgets/Docks/DockRoutes.h"
+#include "ui/widgets/Docks/DockWelcome.h"
+#include "ui/widgets/Docks/DockNews.h"
+#include "ui/widgets/Docks/DockUndoView.h"
+#include "ui/widgets/Docks/DockBusstops.h"
+#include "ui/widgets/Docks/DockLines.h"
+#include "ui/widgets/Docks/DockRoutes.h"
 
 #include <QUndoView>
 #include <QVBoxLayout>

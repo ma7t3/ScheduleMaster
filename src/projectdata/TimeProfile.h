@@ -1,7 +1,7 @@
 #ifndef TIMEPROFILE_H
 #define TIMEPROFILE_H
 
-#include "src/projectdata/TimeProfileItem.h"
+#include "projectdata/TimeProfileItem.h"
 
 struct TimeProfileData : ProjectDataItemData<TimeProfileData> {
     TimeProfileData() {initParentOwnsItemMembers();}

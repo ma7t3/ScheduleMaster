@@ -1,12 +1,12 @@
 #include "WdgPreferencesPageGeneral.h"
 #include "ui_WdgPreferencesPageGeneral.h"
 
-#include "src/namespace.h"
-#include "src/core/LoggerImpl.h"
-#include "src/core/LanguageServiceImpl.h"
-#include "src/core/FolderLocationServiceImpl.h"
-#include "src/core/IconServiceImpl.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/LoggerImpl.h"
+#include "core/LanguageServiceImpl.h"
+#include "core/FolderLocationServiceImpl.h"
+#include "core/IconServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
 #include "ui/models/LanguagesModel.h"
 

@@ -1,6 +1,6 @@
 #include "TimeProfileItem.h"
 
-#include "src/projectdata/ProjectData.h"
+#include "projectdata/ProjectData.h"
 
 TimeProfileItem::TimeProfileItem(QObject *parent, RouteBusstopItem *busstop, const QUuid &id,
                                  TimeProfileItem *original) :

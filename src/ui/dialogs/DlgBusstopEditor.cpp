@@ -2,7 +2,7 @@
 #include "ui_DlgBusstopEditor.h"
 
 #include "namespace.h"
-#include "src/core/ActionServiceImpl.h"
+#include "core/ActionServiceImpl.h"
 
 #include <QInputDialog>
 #include <QMenu>

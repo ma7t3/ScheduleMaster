@@ -1,8 +1,8 @@
 #include "WdgPreferencesPagePlugins.h"
 #include "ui_WdgPreferencesPagePlugins.h"
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
 
 WdgPreferencesPagePlugins::WdgPreferencesPagePlugins(QWidget *parent) :
     WdgPreferencesPage(parent),

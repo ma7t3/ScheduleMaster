@@ -5,16 +5,16 @@
 #include <QMessageBox>
 #include <QInputDialog>
 
-#include "src/namespace.h"
-#include "src/core/ActionServiceImpl.h"
+#include "namespace.h"
+#include "core/ActionServiceImpl.h"
 
-#include "src/projectdata/Line.h"
-#include "src/projectdata/model/LineDirectionTableModel.h"
-#include "src/projectdata/model/BusstopTableModel.h"
-#include "src/projectdata/model/RouteBusstopTableModel.h"
-#include "src/projectdata/model/TimeProfileTableModel.h"
+#include "projectdata/Line.h"
+#include "projectdata/model/LineDirectionTableModel.h"
+#include "projectdata/model/BusstopTableModel.h"
+#include "projectdata/model/RouteBusstopTableModel.h"
+#include "projectdata/model/TimeProfileTableModel.h"
 
-#include "ApplicationInterface.h"
+#include "../ApplicationInterface.h"
 
 DlgRouteEditor::DlgRouteEditor(Route *route, QWidget *parent) :
     QDialog(parent), ui(new Ui::DlgRouteEditor), _route(route),

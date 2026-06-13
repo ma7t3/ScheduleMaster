@@ -3,8 +3,8 @@
 
 #include <QDialog>
 
-#include "src/projectdata/Line.h"
-#include "src/projectdata/model/LineDirectionTableModel.h"
+#include "projectdata/Line.h"
+#include "projectdata/model/LineDirectionTableModel.h"
 
 namespace Ui {
 class DlgLineEditor;

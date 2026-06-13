@@ -5,9 +5,9 @@
 #include <QSortFilterProxyModel>
 
 #include "DockAbstract.h"
-#include "src/projectdata/model/BusstopTableModel.h"
-#include "src/projectdata/model/BusstopTableProxyModel.h"
-#include "src/ui/widgets/WdgTableColumnVisibilitySelector.h"
+#include "projectdata/model/BusstopTableModel.h"
+#include "projectdata/model/BusstopTableProxyModel.h"
+#include "ui/widgets/WdgTableColumnVisibilitySelector.h"
 
 namespace Ui {
 class DockBusstops;

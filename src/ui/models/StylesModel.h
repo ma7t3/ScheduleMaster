@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 
-#include "src/core/AppearanceServiceImpl.h"
+#include "core/AppearanceServiceImpl.h"
 
 namespace ScheduleMaster::UI::Models {
 

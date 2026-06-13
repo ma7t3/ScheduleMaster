@@ -2,7 +2,7 @@
 #define CMDLINES_H
 
 #include "CmdGeneral.h"
-#include "src/projectdata/ProjectData.h"
+#include "projectdata/ProjectData.h"
 
 class CmdLineNew : public Command {
 public:

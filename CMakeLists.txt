@@ -246,7 +246,5 @@ target_link_libraries(ScheduleMaster PRIVATE
 )
 
 target_include_directories(ScheduleMaster PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/Global
 )

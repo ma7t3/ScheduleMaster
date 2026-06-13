@@ -3,7 +3,7 @@
 
 #include <QAbstractItemModel>
 
-#include "src/core/SettingsServiceImpl.h"
+#include "core/SettingsServiceImpl.h"
 
 namespace ScheduleMaster::UI::Models {
 

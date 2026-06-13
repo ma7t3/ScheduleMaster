@@ -1,8 +1,8 @@
 #include "WdgPreferencesPageDebug.h"
 #include "ui_WdgPreferencesPageDebug.h"
 
-#include "src/namespace.h"
-#include "src/core/IconServiceImpl.h"
+#include "namespace.h"
+#include "core/IconServiceImpl.h"
 
 WdgPreferencesPageDebug::WdgPreferencesPageDebug(QWidget *parent) :
     WdgPreferencesPage(parent),

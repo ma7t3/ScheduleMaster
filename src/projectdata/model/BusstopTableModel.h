@@ -5,8 +5,8 @@
 #include <QStyledItemDelegate>
 #include <QPainter>
 
-#include "src/projectdata/model/UnorderedProjectDataRowModel.h"
-#include "src/projectdata/ProjectData.h"
+#include "projectdata/model/UnorderedProjectDataRowModel.h"
+#include "projectdata/ProjectData.h"
 
 class BusstopTableModelDelegate : public QStyledItemDelegate {
     Q_OBJECT

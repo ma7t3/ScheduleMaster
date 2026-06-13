@@ -2,10 +2,10 @@
 #include "ui_WdgRouteFilterPopup.h"
 
 #include "namespace.h"
-#include "src/core/ActionServiceImpl.h"
-#include "src/projectdata/model/LineDirectionTableModel.h"
-#include "src/projectdata/model/BusstopTableModel.h"
-#include "src/projectdata/Line.h"
+#include "core/ActionServiceImpl.h"
+#include "projectdata/model/LineDirectionTableModel.h"
+#include "projectdata/model/BusstopTableModel.h"
+#include "projectdata/Line.h"
 
 #include <QSortFilterProxyModel>
 
