@@ -1,10 +1,11 @@
 #ifndef LANGUAGESMODEL_H
 #define LANGUAGESMODEL_H
 
-#include "src/namespace.h"
 #include "src/core/LanguageServiceImpl.h"
 
 #include <QAbstractListModel>
+
+namespace ScheduleMaster::UI::Models {
 
 class LanguagesModel : public QAbstractListModel {
     Q_OBJECT
@@ -15,15 +16,17 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    SMA::LanguageConfig language(const QModelIndex &index);
-    SMA::LanguageConfig language(const int &index);
-    int indexOfLanguage(const SMA::LanguageConfig &language);
+    LanguageConfig language(const QModelIndex &index);
+    LanguageConfig language(const int &index);
+    int indexOfLanguage(const LanguageConfig &language);
     int indexOfLanguage(const QLocale::Language &language);
 
     void reload();
 
 private:
-    QList<SMA::LanguageConfig> _languages;
+    QList<LanguageConfig> _languages;
 };
+
+} // namespace ScheduleMaster::UI::Models
 
 #endif // LANGUAGESMODEL_H

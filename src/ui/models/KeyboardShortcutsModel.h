@@ -1,11 +1,12 @@
 #ifndef KEYBOARDSHORTCUTSMODEL_H
 #define KEYBOARDSHORTCUTSMODEL_H
 
-#include "namespace.h"
 #include "IActionService.h"
 
 #include <QAbstractTableModel>
 #include <QSortFilterProxyModel>
+
+namespace ScheduleMaster::UI::Models {
 
 class KeyboardShortcutsSortFilterProxyModel : public QSortFilterProxyModel {
     Q_OBJECT
@@ -43,7 +44,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    SMA::ActionConfig metaData(const QModelIndex &index) const;
+    ActionConfig metaData(const QModelIndex &index) const;
     QKeySequence shortcut(const QModelIndex &index) const;
 
     void setModifiedShortcut(const QString &id, const QKeySequence &keySequence);
@@ -56,10 +57,12 @@ protected:
     int indexOf(const QString &id) const;
 
 private:
-    QList<QPair<SMA::ActionConfig, QKeySequence>> _shortcuts;
+    QList<QPair<ActionConfig, QKeySequence>> _shortcuts;
     QHash<QString, int> _shortcutIndexes;
 
     QHash<QString, QKeySequence> _changedShortcuts;
 };
+
+} // namespace ScheduleMaster::UI::Models
 
 #endif // KEYBOARDSHORTCUTSMODEL_H

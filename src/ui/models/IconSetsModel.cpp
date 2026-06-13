@@ -1,6 +1,9 @@
 #include "IconSetsModel.h"
 
+#include "namespace.h"
 #include "src/core/IconServiceImpl.h"
+
+namespace ScheduleMaster::UI::Models {
 
 IconSetsModel::IconSetsModel(QObject *parent) : QAbstractListModel(parent) {
     reload();
@@ -46,3 +49,5 @@ void IconSetsModel::reload() {
     _iconSets = SM::IconServiceImpl::instance()->iconSets();
     endResetModel();
 }
+
+} // namespace ScheduleMaster::UI::Models

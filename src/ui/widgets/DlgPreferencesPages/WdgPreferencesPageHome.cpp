@@ -6,14 +6,14 @@
 #include "src/core/IconServiceImpl.h"
 #include "src/core/AppearanceServiceImpl.h"
 
-#include "ItemModels/LanguagesModel.h"
-#include "ItemModels/StylesModel.h"
+#include "ui/models/LanguagesModel.h"
+#include "ui/models/StylesModel.h"
 
 WdgPreferencesPageHome::WdgPreferencesPageHome(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageHome),
-    _languagesModel(new LanguagesModel(this)),
-    _stylesModel(new StylesModel(this)) {
+    _languagesModel(new UIMO::LanguagesModel(this)),
+    _stylesModel(new UIMO::StylesModel(this)) {
     ui->setupUi(this);
 
     ui->cbLanguage->setModel(_languagesModel);

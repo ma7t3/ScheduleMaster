@@ -1,9 +1,13 @@
 #ifndef DLGCONFIGEDITOR_H
 #define DLGCONFIGEDITOR_H
 
+#include "namespace.h"
+
 #include <QDialog>
 
+namespace ScheduleMaster::UI::Models {
 class LocalConfigModel;
+}
 
 namespace Ui {
 class DlgConfigEditor;
@@ -41,7 +45,7 @@ private:
 
     QAction *_restoreDefaultAction, *_deleteAction, *_copyIDAction;
 
-    LocalConfigModel *_model;
+    UIMO::LocalConfigModel *_model;
 };
 
 #endif // DLGCONFIGEDITOR_H

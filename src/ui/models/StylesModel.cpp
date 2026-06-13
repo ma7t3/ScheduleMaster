@@ -1,5 +1,9 @@
 #include "StylesModel.h"
 
+#include "namespace.h"
+
+namespace ScheduleMaster::UI::Models {
+
 StylesModel::StylesModel(QObject *parent) :
     QAbstractListModel(parent) {
     reload();
@@ -16,7 +20,7 @@ QVariant StylesModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid() || role != Qt::DisplayRole)
         return QVariant();
 
-    SMA::StyleConfig style = _styles.at(index.row());
+    StyleConfig style = _styles.at(index.row());
     return style.name;
 }
 
@@ -46,4 +50,6 @@ void StylesModel::reload() {
     beginResetModel();
     _styles = SM::AppearanceServiceImpl::instance()->styles();
     endResetModel();
+}
+
 }

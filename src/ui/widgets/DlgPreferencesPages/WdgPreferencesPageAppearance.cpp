@@ -6,14 +6,14 @@
 #include "src/core/IconServiceImpl.h"
 #include "src/core/AppearanceServiceImpl.h"
 
-#include "ItemModels/StylesModel.h"
-#include "ItemModels/IconSetsModel.h"
+#include "ui/models/StylesModel.h"
+#include "ui/models/IconSetsModel.h"
 
 WdgPreferencesPageAppearance::WdgPreferencesPageAppearance(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageAppearance),
-    _stylesModel(new StylesModel(this)),
-    _iconSetsModel(new IconSetsModel(this)) {
+    _stylesModel(new UIMO::StylesModel(this)),
+    _iconSetsModel(new UIMO::IconSetsModel(this)) {
     ui->setupUi(this);
 
     ui->cbStyle->setModel(_stylesModel);

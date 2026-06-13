@@ -8,14 +8,14 @@
 #include "src/core/IconServiceImpl.h"
 #include "src/core/ActionServiceImpl.h"
 
-#include "ItemModels/LanguagesModel.h"
+#include "ui/models/LanguagesModel.h"
 
 #include <QDesktopServices>
 
 WdgPreferencesPageGeneral::WdgPreferencesPageGeneral(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageGeneral),
-    _languagesModel(new LanguagesModel(this)), _logger(static_cast<SM::LoggerImpl *>(SM::LoggerImpl::instance())) {
+    _languagesModel(new UIMO::LanguagesModel(this)), _logger(static_cast<SM::LoggerImpl *>(SM::LoggerImpl::instance())) {
     ui->setupUi(this);
 
     ui->cbLanguage->setModel(_languagesModel);

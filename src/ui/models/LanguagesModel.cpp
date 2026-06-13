@@ -1,5 +1,9 @@
 #include "LanguagesModel.h"
 
+#include "namespace.h"
+
+namespace ScheduleMaster::UI::Models {
+
 LanguagesModel::LanguagesModel(QObject *parent) :
     QAbstractListModel(parent) {
 
@@ -25,15 +29,15 @@ QVariant LanguagesModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
-SMA::LanguageConfig LanguagesModel::language(const QModelIndex &index) {
-    return index.isValid() ? _languages[index.row()] : SMA::LanguageConfig();
+LanguageConfig LanguagesModel::language(const QModelIndex &index) {
+    return index.isValid() ? _languages[index.row()] : LanguageConfig();
 }
 
-SMA::LanguageConfig LanguagesModel::language(const int &index) {
-    return index < 0 || index >= _languages.count() ? SMA::LanguageConfig() : _languages[index];
+LanguageConfig LanguagesModel::language(const int &index) {
+    return index < 0 || index >= _languages.count() ? LanguageConfig() : _languages[index];
 }
 
-int LanguagesModel::indexOfLanguage(const SMA::LanguageConfig &language) {
+int LanguagesModel::indexOfLanguage(const LanguageConfig &language) {
     return _languages.indexOf(language);
 }
 
@@ -50,3 +54,5 @@ void LanguagesModel::reload() {
     _languages = SM::LanguageServiceImpl::instance()->supportedLanguages();
     endResetModel();
 }
+
+} // namespace ScheduleMaster::UI::Models

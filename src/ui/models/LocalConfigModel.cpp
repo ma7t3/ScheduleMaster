@@ -9,6 +9,8 @@
 
 #include <QIcon>
 
+namespace ScheduleMaster::UI::Models {
+
 LocalConfigModelSetting::LocalConfigModelSetting(const QString &id, LocalConfigModelSetting *parentSetting, QObject *parent) :
     QObject(parent), _deleted(false) {
     _id = id;
@@ -51,7 +53,7 @@ bool LocalConfigModelSetting::isGroup() const {
     return _metaData.isGroup;
 }
 
-SMA::SettingsItem LocalConfigModelSetting::metaData() const {
+SettingsItem LocalConfigModelSetting::metaData() const {
     return _metaData;
 }
 
@@ -211,7 +213,7 @@ QVariant LocalConfigModel::data(const QModelIndex &index, int role) const {
         return QVariant();
 
     bool unknownSetting = setting->isUnknown();
-    SMA::SettingsItem metaData = setting->metaData();
+    SettingsItem metaData = setting->metaData();
     bool isGroup = setting->isGroup();
 
     if(role == Qt::DecorationRole) {
@@ -387,3 +389,5 @@ void LocalConfigModel::onSettingRemoved(LocalConfigModelSetting * setting) {
 
     endRemoveRows();
 }
+
+} // namespace ScheduleMaster::UI::Models

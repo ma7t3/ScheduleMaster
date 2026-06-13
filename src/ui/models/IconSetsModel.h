@@ -3,11 +3,11 @@
 
 #include <QAbstractListModel>
 
-#include "src/namespace.h"
 #include "src/api/IIconService.h"
 
-class IconSetsModel : public QAbstractListModel
-{
+namespace ScheduleMaster::UI::Models {
+
+class IconSetsModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
@@ -23,7 +23,9 @@ public:
     void reload();
 
 private:
-    QList<SMA::IconSetConfig> _iconSets;
+    QList<IconSetConfig> _iconSets;
 };
+
+} // namespace ScheduleMaster::UI::Models
 
 #endif // ICONSETSMODEL_H

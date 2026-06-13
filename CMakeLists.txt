@@ -16,11 +16,11 @@ add_subdirectory(src/api)
 
 qt_add_executable(ScheduleMaster
     Global/ProjectFileHandler.cpp
-    ItemModels/IconSetsModel.cpp
-    ItemModels/KeyboardShortcutsModel.cpp
-    ItemModels/LanguagesModel.cpp
-    ItemModels/LocalConfigModel.cpp
-    ItemModels/StylesModel.cpp
+    src/ui/models/IconSetsModel.cpp
+    src/ui/models/KeyboardShortcutsModel.cpp
+    src/ui/models/LanguagesModel.cpp
+    src/ui/models/LocalConfigModel.cpp
+    src/ui/models/StylesModel.cpp
     main.cpp
     src/core/AppearanceServiceImpl.cpp
     src/core/ApplicationInterfaceImpl.cpp
@@ -96,11 +96,11 @@ qt_add_executable(ScheduleMaster
     src/ui/widgets/WdgWelcomeRecentProjectEntry.cpp
     ApplicationInterface.h
     Global/ProjectFileHandler.h
-    ItemModels/IconSetsModel.h
-    ItemModels/KeyboardShortcutsModel.h
-    ItemModels/LanguagesModel.h
-    ItemModels/LocalConfigModel.h
-    ItemModels/StylesModel.h
+    src/ui/models/IconSetsModel.h
+    src/ui/models/KeyboardShortcutsModel.h
+    src/ui/models/LanguagesModel.h
+    src/ui/models/LocalConfigModel.h
+    src/ui/models/StylesModel.h
     src/commands/CmdBusstops.h
     src/commands/CmdGeneral.h
     src/commands/CmdLines.h

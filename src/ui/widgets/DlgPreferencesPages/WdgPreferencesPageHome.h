@@ -4,10 +4,13 @@
 #include <QWidget>
 #include <QToolButton>
 
+#include "namespace.h"
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
+namespace ScheduleMaster::UI::Models {
 class LanguagesModel;
 class StylesModel;
+}
 
 namespace Ui {
 class WdgPreferencesPageHome;
@@ -55,8 +58,8 @@ private slots:
 private:
     Ui::WdgPreferencesPageHome *ui;
 
-    LanguagesModel *_languagesModel;
-    StylesModel *_stylesModel;
+    UIMO::LanguagesModel *_languagesModel;
+    UIMO::StylesModel *_stylesModel;
 };
 
 #endif // WDGPREFERENCESPAGEHOME_H

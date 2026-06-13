@@ -1,10 +1,13 @@
 #ifndef WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H
 #define WDGPREFERENCESPAGEKEYBOARDSHORTCUTS_H
 
+#include "namespace.h"
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
+namespace ScheduleMaster::UI::Models {
 class KeyboardShortcutsSortFilterProxyModel;
 class KeyboardShortcutsModel;
+}
 
 namespace Ui {
 class WdgPreferencesPageKeyboardShortcuts;
@@ -41,8 +44,8 @@ protected slots:
 private:
     Ui::WdgPreferencesPageKeyboardShortcuts *ui;
 
-    KeyboardShortcutsSortFilterProxyModel *_sortFilterProxyModel;
-    KeyboardShortcutsModel *_model;
+    UIMO::KeyboardShortcutsSortFilterProxyModel *_sortFilterProxyModel;
+    UIMO::KeyboardShortcutsModel *_model;
 
     QAction *_restoreDefaultShortcutAction, *_removeShortcutAction, *_copyIDAction, *_showOnlyModifiedAction, *_importAction, *_exportAction, *_resetAllAction, *_focusSearchAction;
 };

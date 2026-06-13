@@ -13,4 +13,7 @@ namespace PD = ScheduleMaster::ProjectData;
 namespace ScheduleMaster::UI {}
 namespace UI = ScheduleMaster::UI;
 
+namespace ScheduleMaster::UI::Models {}
+namespace UIMO = ScheduleMaster::UI::Models;
+
 #endif // NAMESPACE_H

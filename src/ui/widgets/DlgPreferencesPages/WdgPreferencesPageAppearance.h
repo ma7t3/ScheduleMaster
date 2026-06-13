@@ -1,10 +1,13 @@
 #ifndef WDGPREFERENCESPAGEAPPEARANCE_H
 #define WDGPREFERENCESPAGEAPPEARANCE_H
 
+#include "namespace.h"
 #include "src/ui/widgets/DlgPreferencesPages/WdgPreferencesPage.h"
 
+namespace ScheduleMaster::UI::Models {
 class StylesModel;
 class IconSetsModel;
+}
 
 namespace Ui {
 class WdgPreferencesPageAppearance;
@@ -41,8 +44,8 @@ signals:
 private:
     Ui::WdgPreferencesPageAppearance *ui;
 
-    StylesModel *_stylesModel;
-    IconSetsModel *_iconSetsModel;
+    UIMO::StylesModel *_stylesModel;
+    UIMO::IconSetsModel *_iconSetsModel;
 };
 
 #endif // WDGPREFERENCESPAGEAPPEARANCE_H

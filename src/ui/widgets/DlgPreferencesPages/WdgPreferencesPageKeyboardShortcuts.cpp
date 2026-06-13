@@ -5,7 +5,7 @@
 #include "src/core/IconServiceImpl.h"
 #include "src/core/ActionServiceImpl.h"
 
-#include "ItemModels/KeyboardShortcutsModel.h"
+#include "ui/models/KeyboardShortcutsModel.h"
 
 #include <QStandardPaths>
 #include <QSortFilterProxyModel>
@@ -17,8 +17,8 @@
 WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget *parent) :
     WdgPreferencesPage(parent),
     ui(new Ui::WdgPreferencesPageKeyboardShortcuts),
-    _sortFilterProxyModel(new KeyboardShortcutsSortFilterProxyModel(this)),
-    _model(new KeyboardShortcutsModel(this)) {
+    _sortFilterProxyModel(new UIMO::KeyboardShortcutsSortFilterProxyModel(this)),
+    _model(new UIMO::KeyboardShortcutsModel(this)) {
     ui->setupUi(this);
 
     reloadPreferences();
@@ -74,8 +74,8 @@ WdgPreferencesPageKeyboardShortcuts::WdgPreferencesPageKeyboardShortcuts(QWidget
 
     ui->gbCurrentAction->setVisible(false);
 
-    connect(ui->leSearch,                      &QLineEdit::textChanged,               _sortFilterProxyModel,   &KeyboardShortcutsSortFilterProxyModel::setFilterText);
-    connect(_showOnlyModifiedAction,           &QAction::toggled,                     _sortFilterProxyModel,   &KeyboardShortcutsSortFilterProxyModel::setFilterModifiedOnly);
+    connect(ui->leSearch,                      &QLineEdit::textChanged,               _sortFilterProxyModel,   &UIMO::KeyboardShortcutsSortFilterProxyModel::setFilterText);
+    connect(_showOnlyModifiedAction,           &QAction::toggled,                     _sortFilterProxyModel,   &UIMO::KeyboardShortcutsSortFilterProxyModel::setFilterModifiedOnly);
 
     connect(ui->tbID,                          &QToolButton::clicked,                 this,                    &WdgPreferencesPageKeyboardShortcuts::onCopyID);
     connect(ui->tbRestoreDefault,              &QToolButton::clicked,                 this,                    &WdgPreferencesPageKeyboardShortcuts::onRestoreDefaultShortcut);

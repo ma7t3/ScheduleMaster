@@ -2,11 +2,13 @@
 #define WDGPREFERENCESPAGEGENERAL_H
 
 #include "src/namespace.h"
-
 #include "WdgPreferencesPage.h"
 
 namespace ScheduleMaster::Core { class LoggerImpl; }
+
+namespace ScheduleMaster::UI::Models {
 class LanguagesModel;
+}
 
 namespace Ui {
 class WdgPreferencesPageGeneral;
@@ -42,7 +44,7 @@ private slots:
 private:
     Ui::WdgPreferencesPageGeneral *ui;
 
-    LanguagesModel *_languagesModel;
+    UIMO::LanguagesModel *_languagesModel;
     SM::LoggerImpl *_logger;
 };
 

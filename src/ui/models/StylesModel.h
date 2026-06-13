@@ -3,8 +3,9 @@
 
 #include <QAbstractListModel>
 
-#include "src/namespace.h"
 #include "src/core/AppearanceServiceImpl.h"
+
+namespace ScheduleMaster::UI::Models {
 
 class StylesModel : public QAbstractListModel {
     Q_OBJECT
@@ -22,7 +23,9 @@ public:
     void reload();
 
 private:
-    QList<SMA::StyleConfig> _styles;
+    QList<StyleConfig> _styles;
 };
+
+} // namespace ScheduleMaster::UI::Models
 
 #endif // STYLESMODEL_H

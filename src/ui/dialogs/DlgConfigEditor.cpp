@@ -1,7 +1,7 @@
 #include "DlgConfigEditor.h"
 #include "ui_DlgConfigEditor.h"
 
-#include "ItemModels/LocalConfigModel.h"
+#include "ui/models/LocalConfigModel.h"
 
 #include "src/namespace.h"
 #include "src/core/SettingsServiceImpl.h"
@@ -15,7 +15,7 @@
 DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DlgConfigEditor),
-    _model(new LocalConfigModel(this)) {
+    _model(new UIMO::LocalConfigModel(this)) {
     ui->setupUi(this);
 
     ui->treeView->setModel(_model);
@@ -62,7 +62,7 @@ DlgConfigEditor::DlgConfigEditor(QWidget *parent) :
 
     connect(_model,                         &QAbstractItemModel::modelReset,         this,                 &DlgConfigEditor::onSelectionChanged);
 
-    connect(ui->pbReload,                   &QPushButton::clicked,                   _model,               &LocalConfigModel::reload);
+    connect(ui->pbReload,                   &QPushButton::clicked,                   _model,               &UIMO::LocalConfigModel::reload);
 
     ui->treeView->setCurrentIndex(QModelIndex());
     onSelectionChanged();

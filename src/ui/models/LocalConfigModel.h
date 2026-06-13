@@ -3,8 +3,9 @@
 
 #include <QAbstractItemModel>
 
-#include "src/namespace.h"
 #include "src/core/SettingsServiceImpl.h"
+
+namespace ScheduleMaster::UI::Models {
 
 class LocalConfigModelSetting : public QObject {
     Q_OBJECT
@@ -13,7 +14,7 @@ public:
 
     QString id() const;
     bool isGroup() const;
-    SMA::SettingsItem metaData() const;
+    SettingsItem metaData() const;
     bool isUnknown() const;
     QVariant value();
 
@@ -37,7 +38,7 @@ signals:
 
 private:
     QString _id;
-    SMA::SettingsItem _metaData;
+    SettingsItem _metaData;
     bool _unkown, _deleted;
     QVariant _value;
     LocalConfigModelSetting *_parent;
@@ -97,5 +98,7 @@ private:
     QVariant _previewValue;
     QModelIndex _previewIndex;
 };
+
+} // namespace ScheduleMaster::UI::Models
 
 #endif // LOCALCONFIGMODEL_H
