@@ -15,7 +15,6 @@ qt_standard_project_setup()
 add_subdirectory(src/api)
 
 qt_add_executable(ScheduleMaster
-    Global/Global.cpp
     Global/ProjectFileHandler.cpp
     ItemModels/IconSetsModel.cpp
     ItemModels/KeyboardShortcutsModel.cpp
@@ -96,11 +95,7 @@ qt_add_executable(ScheduleMaster
     src/ui/widgets/WdgVariantEditor.cpp
     src/ui/widgets/WdgWelcomeRecentProjectEntry.cpp
     ApplicationInterface.h
-    Global/Global.h
-    Global/GlobalConfigManager.h
-    Global/GlobalConfigManagerSignals.h
     Global/ProjectFileHandler.h
-    Global/Singleton.h
     ItemModels/IconSetsModel.h
     ItemModels/KeyboardShortcutsModel.h
     ItemModels/LanguagesModel.h

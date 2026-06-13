@@ -3,6 +3,7 @@
 #include "ApplicationInterface.h"
 
 #include "src/namespace.h"
+#include "helpers.h"
 #include "src/core/IconServiceImpl.h"
 
 #include <QSortFilterProxyModel>
@@ -186,7 +187,7 @@ void BusstopTableModelDelegate::paintLines(QPainter *painter, const QStyleOption
             break;
         }
 
-        painter->setPen(Global::contrastColor(line->color()));
+        painter->setPen(SMA::contrastColor(line->color()));
         painter->drawText(itemRect, Qt::AlignCenter, text);
 
         x += itemWidth + ItemGap;

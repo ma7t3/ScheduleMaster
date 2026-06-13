@@ -2,6 +2,9 @@
 
 #include "ApplicationInterface.h"
 
+#include "namespace.h"
+#include "helpers.h"
+
 #include <QFont>
 
 LineTableModel::LineTableModel(QObject *parent) : UnorderedProjectDataRowModel<Line>(parent), _projectData(ApplicationInterface::projectData()) {
@@ -75,7 +78,7 @@ QVariant LineTableModel::data(const QModelIndex &index, int role) const {
 
     case Qt::ForegroundRole:
         if(index.column() == 0) {
-            return Global::contrastColor(l->color());
+            return SMA::contrastColor(l->color());
         }
         break;
 

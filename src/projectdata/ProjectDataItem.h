@@ -2,7 +2,6 @@
 #define PROJECTDATAITEM_H
 
 #include "ProjectDataItemSignals.h"
-#include "Global/Global.h"
 
 #include <QObject>
 #include <QUuid>

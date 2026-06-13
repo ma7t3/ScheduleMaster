@@ -2,6 +2,9 @@
 
 #include "ApplicationInterface.h"
 
+#include "namespace.h"
+#include "helpers.h"
+
 #include <QFont>
 
 LineSelectionListModel::LineSelectionListModel(QObject *parent) :
@@ -79,7 +82,7 @@ QVariant LineSelectionListModel::data(const QModelIndex &index, int role) const 
 
     case Qt::ForegroundRole:
         if(index.column() == 1) {
-            return Global::contrastColor(l->color());
+            return SMA::contrastColor(l->color());
         }
         break;
 

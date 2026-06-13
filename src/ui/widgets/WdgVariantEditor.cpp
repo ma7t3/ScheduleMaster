@@ -1,9 +1,8 @@
 #include "WdgVariantEditor.h"
 #include "ui_WdgVariantEditor.h"
 
-#include "Global/Global.h"
-
 #include "namespace.h"
+#include "helpers.h"
 #include "src/core/ActionServiceImpl.h"
 
 #include <QDialog>
@@ -174,7 +173,7 @@ bool WdgVariantEditor::eventFilter(QObject *obj, QEvent *event) {
 
 void WdgVariantEditor::loadColor() {
     QColor color = _value.value<QColor>();
-    ui->lColor->setStyleSheet("background-color: " + color.name() + "; color: " + Global::contrastColor(color).name());
+    ui->lColor->setStyleSheet("background-color: " + color.name() + "; color: " + SMA::contrastColor(color).name());
     ui->lColor->setText(color.name());
 }
 
