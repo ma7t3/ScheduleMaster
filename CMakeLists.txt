@@ -21,7 +21,7 @@ qt_add_executable(ScheduleMaster
     src/ui/models/LanguagesModel.cpp
     src/ui/models/LocalConfigModel.cpp
     src/ui/models/StylesModel.cpp
-    main.cpp
+    src/main.cpp
     src/core/AppearanceServiceImpl.cpp
     src/core/ApplicationInterfaceImpl.cpp
     src/core/CrashDetectorImpl.cpp
