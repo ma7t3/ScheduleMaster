@@ -17,9 +17,6 @@ add_subdirectory(src/api)
 qt_add_executable(ScheduleMaster
     Global/Global.cpp
     Global/ProjectFileHandler.cpp
-    Global/Workspace.cpp
-    Global/WorkspaceHandler.cpp
-    Global/WorkspaceManager.cpp
     ItemModels/IconSetsModel.cpp
     ItemModels/KeyboardShortcutsModel.cpp
     ItemModels/LanguagesModel.cpp
@@ -104,9 +101,6 @@ qt_add_executable(ScheduleMaster
     Global/GlobalConfigManagerSignals.h
     Global/ProjectFileHandler.h
     Global/Singleton.h
-    Global/Workspace.h
-    Global/WorkspaceHandler.h
-    Global/WorkspaceManager.h
     ItemModels/IconSetsModel.h
     ItemModels/KeyboardShortcutsModel.h
     ItemModels/LanguagesModel.h
@@ -242,7 +236,10 @@ qt_add_executable(ScheduleMaster
     resources.rc
     src/core/ActionServiceImpl.h src/core/ActionServiceImpl.cpp
     src/core/ActionRepository.h src/core/ActionRepository.cpp
-    src/core/DockServiceImpl.h src/core/DockServiceImpl.cpp)
+    src/core/DockServiceImpl.h src/core/DockServiceImpl.cpp
+    src/core/WorkspaceServiceImpl.h src/core/WorkspaceServiceImpl.cpp
+    src/core/WorkspaceHandle.h src/core/WorkspaceHandle.cpp
+)
 
 target_compile_definitions(ScheduleMaster PRIVATE QT_DISABLE_DEPRECATED_BEFORE=0x060000)
 

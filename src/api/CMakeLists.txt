@@ -15,6 +15,7 @@ add_library(ScheduleMasterInterface SHARED
     IDockService.h
     IDockService.cpp
     IMainWindow.h
+    IWorkspaceService.h IWorkspaceService.cpp
     ScheduleMaster.cpp
 )
 

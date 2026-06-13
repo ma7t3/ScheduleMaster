@@ -9,12 +9,11 @@
 #include "src/core/LastUsedFilesServiceImpl.h"
 #include "src/core/ActionServiceImpl.h"
 #include "src/core/DockServiceImpl.h"
+#include "src/core/WorkspaceServiceImpl.h"
 
 #include "src/ui/dialogs/DlgGlobalSearch.h"
 #include "src/ui/dialogs/DlgPreferences.h"
 #include "Global/ProjectFileHandler.h"
-#include "Global/Workspace.h"
-#include "Global/WorkspaceHandler.h"
 #include "ApplicationInterface.h"
 #include "src/projectdata/ProjectData.h"
 #include "src/ui/widgets/Docks/DockAbstract.h"
@@ -37,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     _windowOnceShown(false),
-    _workspaceHandler(new WorkspaceHandler(this)),
     _projectData(new ProjectData(this)),
     _fileHandler(new ProjectFileHandler(_projectData, this)),
     _globalSearch(new DlgGlobalSearch(this)) {
@@ -52,8 +50,6 @@ MainWindow::MainWindow(QWidget *parent) :
 #ifndef QT_DEBUG
     ui->menuDebug->setHidden(true);
 #endif
-
-    _workspaceHandler->setWorkspacesMenu(ui->menuWorkspaces);
 
     qDebug() << "   Loading Undo/redo actions...";
     _undoAction = _projectData->undoStack()->createUndoAction(this, tr("Undo"));
@@ -97,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     SM::ActionServiceImpl::instance()->addMenu(ui->menuDocks,                               "view.docks");
     SM::ActionServiceImpl::instance()->addMenu(ui->menuWorkspaces,                          "view.workspaces");
-    SM::ActionServiceImpl::instance()->addAction(ui->actionViewToolbars,                      "view.toolbars");
+    SM::ActionServiceImpl::instance()->addAction(ui->actionViewToolbars,                    "view.toolbars");
 
     QAction *actionShowDockList      = SM::ActionServiceImpl::instance()->addAction(addAction(""), "view.docks");
     SM::ActionServiceImpl::instance()->setGlobalAction("view.docks", actionShowDockList);
@@ -153,6 +149,14 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+QMenu *MainWindow::workspacesMenu() const {
+    return ui->menuWorkspaces;
+}
+
+QToolBar *MainWindow::workspacesToolbar() const {
+    return _toolbarWorkspaces;
+}
+
 void MainWindow::showEvent(QShowEvent *event) {
     if(_windowOnceShown)
         return;
@@ -161,9 +165,7 @@ void MainWindow::showEvent(QShowEvent *event) {
 
     // This is shit but there is no way to make it a better way....
     QTimer::singleShot(100, this, [this](){
-        Workspace *workspace = _workspaceHandler->onApplicationStartupWorkspace();
-        if(workspace)
-            workspace->activate();
+        SM::WorkspaceServiceImpl::instance()->setCurrentSpecialRoleWorkspace(SM::WorkspaceServiceImpl::OnApplicationStartupWorkspace);
     });
 }
 
@@ -231,7 +233,6 @@ void MainWindow::initToolbars() {
     // docks
 
     _toolbarWorkspaces->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    _workspaceHandler->setWorkspacesToolbar(_toolbarWorkspaces);
 
     addToolBar(_toolbarGeneral);
     addToolBar(_toolbarDocks);
@@ -304,7 +305,7 @@ void MainWindow::updateSaveActionEnabled() {
 void MainWindow::newProject() {
     closeProject();
     qInfo() << "Create new project...";
-    _workspaceHandler->switchToOnProjectOpenWorkspace();
+    SM::WorkspaceServiceImpl::instance()->setCurrentSpecialRoleWorkspace(SM::WorkspaceServiceImpl::OnProjectOpenWorkspace);
 }
 
 void MainWindow::openProject() {
@@ -401,7 +402,7 @@ bool MainWindow::closeProject() {
 
 void MainWindow::closeProjectBackToHome() {
     if(closeProject())
-        _workspaceHandler->switchToOnProjectCloseWorkspace();
+        SM::WorkspaceServiceImpl::instance()->setCurrentSpecialRoleWorkspace(SM::WorkspaceServiceImpl::OnProjectCloseWorkspace);
 }
 
 void MainWindow::quitApplication() {
@@ -523,11 +524,9 @@ void MainWindow::onFileHandlerFinished() {
     updateSaveActionEnabled();
     updateWindowTitle();
 
-    if(!_workspaceHandler->onProjectCloseWorkspace())
-        return;
-
-    if(_workspaceHandler->currentWorkspace()->id() == _workspaceHandler->onProjectCloseWorkspace()->id())
-        _workspaceHandler->switchToOnProjectOpenWorkspace();
+    const QString onProjectCloseWorkspaceID = SM::WorkspaceServiceImpl::instance()->workspaceForSpecialRole(SM::WorkspaceServiceImpl::OnProjectCloseWorkspace);
+    if(SM::WorkspaceServiceImpl::instance()->currentWorkspaceID() == onProjectCloseWorkspaceID)
+        SM::WorkspaceServiceImpl::instance()->setCurrentSpecialRoleWorkspace(SM::WorkspaceServiceImpl::OnProjectOpenWorkspace);
 }
 
 void MainWindow::on_actionDebugGeneralTestAction_triggered() {

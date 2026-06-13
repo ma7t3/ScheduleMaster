@@ -1,4 +1,4 @@
-#include "Workspace.h"
+#include "WorkspaceHandle.h"
 
 #include "namespace.h"
 #include "core/IconServiceImpl.h"
@@ -16,91 +16,49 @@
 #include <QDockWidget>
 #include <QSplitter>
 
-Workspace::Workspace(const QString &id, QObject *parent) : QObject(parent), _id(id) {
-    _action = new QAction(this);
-    setupAction();
-}
+namespace ScheduleMaster::Core {
 
-Workspace::Workspace(const QString &id, const QString &name, const QString &icon, QObject *parent) : Workspace(id, parent) {
-    setName(name);
-    setIcon(icon);
-}
-
-Workspace::Workspace(const QString &id, QAction *action, QObject *parent) : QObject(parent), _id(id) {
-    _action = action;
-    _name = _action->text();
-    setupAction();
-}
-
-Workspace::Workspace(const WorkspaceConfig &config, QObject *parent) : QObject(parent) {
+WorkspaceHandle::WorkspaceHandle(const WorkspaceConfig &config, QMainWindow *mainWindow,
+                                 QObject *parent) : QObject(parent), _mainWindow{mainWindow} {
     _id   = config.id();
     _name = config.name;
-    _icon = config.icon;
+    _index = config.index();
     _layout = config.layout;
-    _action = new QAction(SM::IconServiceImpl::instance()->icon(_icon), _name, this);
     setupAction();
 }
 
-bool Workspace::active() const {
-    return _action->isChecked();
-}
-
-QString Workspace::id() const {
-    return _id;
-}
-
-QString Workspace::name() const {
+QString WorkspaceHandle::name() const {
     return _name;
 }
 
-void Workspace::setName(const QString &newName) {
-    _name = newName;
-    _action->setText(newName);
+int WorkspaceHandle::index() const {
+    return _index;
 }
 
-QString Workspace::icon() const {
-    return _icon;
+QString WorkspaceHandle::id() const {
+    return _id;
 }
 
-void Workspace::setIcon(const QString &newIcon) {
-    _icon = newIcon;
-    _action->setIcon(SM::IconServiceImpl::instance()->icon(_icon));
+bool WorkspaceHandle::isActive() const {
+    return _action->isChecked();
 }
 
-QAction *Workspace::action() const {
+QAction *WorkspaceHandle::action() const {
     return _action;
 }
 
-QByteArray Workspace::lastWindowState() const {
-    return _lastWindowState;
+void WorkspaceHandle::setActive(bool active) {
+    _action->setChecked(active);
 }
 
-void Workspace::activate() {
-    _action->setChecked(true);
-    qDebug().noquote() << "Workspace activated:" << _id;
-
-    emit activated(this);
-}
-
-void Workspace::deactivate() {
-    if(_action->isChecked())
-        _lastWindowState = mainWindow()->saveState();
-
-    _action->setChecked(false);
-}
-
-void Workspace::apply() {
+void WorkspaceHandle::apply() {
     if(!_lastWindowState.isEmpty()) {
-        hideAllDocks();
-        mainWindow()->restoreState(_lastWindowState);
-    } else
-        restore();
-}
+        _mainWindow->restoreState(_lastWindowState);
+        return;
+    }
 
-void Workspace::restore() {
-    _lastWindowState.clear();
-    hideAllDocks();
-    const QMap<QString, QDockWidget *> docks = SM::DockServiceImpl::instance()->dockWidgetsMap();
+    resetWindowLayout();
+    const QMap<QString, QDockWidget *> docks = DockServiceImpl::instance()->dockWidgetsMap();
 
     for(const WorkspaceDockConfig &config : std::as_const(_layout.dockConfigs)) {
         QDockWidget *widget = docks.value(config.id());
@@ -130,7 +88,7 @@ void Workspace::restore() {
         second->setDockLocation(first->dockLocation());
         second->setFloating(false);
 
-        mainWindow()->splitDockWidget(first, second, split.orientation);
+        _mainWindow->splitDockWidget(first, second, split.orientation);
     }
 
     for(const WorkspaceTabifyConfig &tabify : std::as_const(_layout.tabifyConfigs)) {
@@ -150,11 +108,11 @@ void Workspace::restore() {
         second->setDockLocation(first->dockLocation());
         second->setFloating(false);
 
-        mainWindow()->tabifyDockWidget(first, second);
+        _mainWindow->tabifyDockWidget(first, second);
     }
 
     for(const WorkspaceResizeConfig &resize : std::as_const(_layout.resizeConfigs)) {
-        int refSize = resize.orientation == Qt::Horizontal ? mainWindow()->width() : mainWindow()->height();
+        int refSize = resize.orientation == Qt::Horizontal ? _mainWindow->width() : _mainWindow->height();
         QList<QDockWidget *> currentDocks;
         for(const QString &dockID : std::as_const(resize.dockIDs)) {
             QDockWidget *dock = docks.value(dockID);
@@ -168,13 +126,13 @@ void Workspace::restore() {
         for(const float &value : resize.sizes) {
             calculatedSizes << static_cast<int>(value * refSize);
         }
-        mainWindow()->resizeDocks(currentDocks, calculatedSizes, resize.orientation);
+        _mainWindow->resizeDocks(currentDocks, calculatedSizes, resize.orientation);
     }
 
-    mainWindow()->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
-    mainWindow()->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
-    mainWindow()->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
-    mainWindow()->setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
+    _mainWindow->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    _mainWindow->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+    _mainWindow->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    _mainWindow->setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
 
     for(const Qt::Corner &corner : _layout.corners.keys()) {
         Qt::DockWidgetArea area = _layout.corners.value(corner);
@@ -184,39 +142,34 @@ void Workspace::restore() {
         else if((corner == Qt::TopRightCorner || corner == Qt::BottomRightCorner) && area == Qt::NoDockWidgetArea)
             area = Qt::RightDockWidgetArea;
 
-        mainWindow()->setCorner(corner, area);
+        _mainWindow->setCorner(corner, area);
     }
-
-    emit restored(this);
 }
 
-void Workspace::setupAction() {
+void WorkspaceHandle::saveWindowState() {
+    _lastWindowState = _mainWindow->saveState();
+}
+
+void WorkspaceHandle::clearWindowState() {
+    _lastWindowState.clear();
+}
+
+void WorkspaceHandle::setupAction() {
+    _action = new QAction(this);
     _action->setParent(this);
     _action->setCheckable(true);
     const QString actionID = QString("view.workspaces.%1.activate").arg(_id);
     SM::ActionServiceImpl::instance()->addAction(_action, actionID);
     SM::ActionServiceImpl::instance()->setGlobalAction(actionID, _action);
-
     _action->setText(_name);
-
-    connect(_action, &QAction::triggered, this, [this](const bool &checked) {
-        if(checked)
-            activate();
-        else {
-            _action->setChecked(true);
-            restore();
-        }
-    });
 }
 
-QMainWindow *Workspace::mainWindow() {
-    return static_cast<QMainWindow *>(QObject::parent()->parent());
-}
-
-void Workspace::hideAllDocks() {
-    QList<QDockWidget *> docks = SM::DockServiceImpl::instance()->dockWidgets();
+void WorkspaceHandle::resetWindowLayout() {
+    const QList<QDockWidget *> docks = DockServiceImpl::instance()->dockWidgets();
     for(QDockWidget *dock : std::as_const(docks)) {
         dock->hide();
         dock->setFloating(true);
     }
+}
+
 }

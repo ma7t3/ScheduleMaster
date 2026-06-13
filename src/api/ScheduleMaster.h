@@ -15,6 +15,7 @@ class IIconService;
 class IAppearanceService;
 class IActionService;
 class IDockService;
+class IWorkspaceService;
 
 class IMainWindow;
 
@@ -34,6 +35,7 @@ public:
     virtual IAppearanceService *appearanceService() const = 0;
     virtual IActionService *actionService() const = 0;
     virtual IDockService *dockService() const = 0;
+    virtual IWorkspaceService *workspaceService() const = 0;
 
     virtual IMainWindow *mainWindow() const = 0;
 

@@ -10,8 +10,7 @@
 #include "src/core/AppearanceServiceImpl.h"
 #include "src/core/ActionServiceImpl.h"
 #include "src/core/DockServiceImpl.h"
-
-#include "WorkspaceManager.h"
+#include "src/core/WorkspaceServiceImpl.h"
 
 namespace ScheduleMaster::Core {
 
@@ -34,8 +33,12 @@ ApplicationInterfaceImpl::ApplicationInterfaceImpl(QObject *parent) : QObject(pa
     _appearanceService    = new AppearanceServiceImpl(this);
     _actionService        = new ActionServiceImpl(this);
     _dockService          = new DockServiceImpl(this);
-    WorkspaceManager::init();
+
     _mainWindow           = new MainWindow;
+    _workspaceService     = new WorkspaceServiceImpl(_mainWindow, this);
+    _workspaceService->setWorkspacesMenu(_mainWindow->workspacesMenu());
+    _workspaceService->setWorkspacesToolbar(_mainWindow->workspacesToolbar());
+
     _dockService->loadStandardDocks();
 
     bool ok = _mainWindow->restoreGeometry(_settingsService->value("general.mainWindowGeometry").toByteArray());
@@ -93,6 +96,10 @@ IActionService *ApplicationInterfaceImpl::actionService() const {
 
 IDockService *ApplicationInterfaceImpl::dockService() const {
     return _dockService;
+}
+
+IWorkspaceService *ApplicationInterfaceImpl::workspaceService() const {
+    return _workspaceService;
 }
 
 IMainWindow *ApplicationInterfaceImpl::mainWindow() const {

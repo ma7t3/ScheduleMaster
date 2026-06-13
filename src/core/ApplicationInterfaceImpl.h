@@ -33,6 +33,7 @@ class IconServiceImpl;
 class AppearanceServiceImpl;
 class ActionServiceImpl;
 class DockServiceImpl;
+class WorkspaceServiceImpl;
 
 class ApplicationInterfaceImpl : public QObject, public IApplicationInterface {
     Q_OBJECT
@@ -53,6 +54,7 @@ public:
     virtual IAppearanceService *appearanceService() const override;
     virtual IActionService *actionService() const override;
     virtual IDockService *dockService() const override;
+    virtual IWorkspaceService *workspaceService() const override;
 
     virtual IMainWindow *mainWindow() const override;
 
@@ -70,6 +72,7 @@ private:
     AppearanceServiceImpl *_appearanceService;
     ActionServiceImpl *_actionService;
     DockServiceImpl *_dockService;
+    WorkspaceServiceImpl *_workspaceService;
 
     MainWindow *_mainWindow;
 };

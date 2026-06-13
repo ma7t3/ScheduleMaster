@@ -8,7 +8,6 @@
 class DlgGlobalSearch;
 class QProgressDialog;
 class DockController;
-class WorkspaceHandler;
 class ProjectData;
 class ProjectFileHandler;
 
@@ -24,6 +23,9 @@ class MainWindow : public QMainWindow, public ScheduleMaster::IMainWindow {
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    QMenu *workspacesMenu() const;
+    QToolBar *workspacesToolbar() const;
 
 protected:
     void connectToInterface();
@@ -82,8 +84,6 @@ private:
     bool _windowOnceShown;
 
     QProgressDialog *_fileHandlerProgressDialog;
-
-    WorkspaceHandler *_workspaceHandler;
 
     ProjectData *_projectData;
     ProjectFileHandler *_fileHandler;
