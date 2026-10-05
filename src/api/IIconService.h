@@ -20,9 +20,6 @@ public:
     IconSetConfig(const QString &id, const int &index = 0);
 
     QString name, alternative, format;
-
-protected:
-    static QString resolvePathPlaceholders(QString path);
 };
 
 class SCHEDULEMASTERINTERFACE_EXPORT IIconService {
