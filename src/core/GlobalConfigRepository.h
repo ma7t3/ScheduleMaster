@@ -33,13 +33,17 @@ protected:
 signals:
     void itemAdded(const QString &id);
     void itemRemoved(const QString &id);
+    void stateChanged();
 };
 
 template <typename T>
 class GlobalConfigRepositoryCRTP : public GlobalConfigRepository {
 public:
     explicit GlobalConfigRepositoryCRTP(QObject *parent, const QString &resourceName = "") :
-        GlobalConfigRepository(parent), _resourceName(resourceName), _initialized(false) {}
+        GlobalConfigRepository(parent), _resourceName(resourceName), _initialized(false) {
+        connect(this, &GlobalConfigRepositoryCRTP::itemAdded, this, &GlobalConfigRepositoryCRTP::stateChanged);
+        connect(this, &GlobalConfigRepositoryCRTP::itemRemoved, this, &GlobalConfigRepositoryCRTP::stateChanged);
+    }
 
     void init() {
         if(_initialized)
