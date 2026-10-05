@@ -6,6 +6,14 @@
 
 namespace ScheduleMaster {
 
+struct IconXdgMappingConfig : public GlobalConfigItem {
+public:
+    IconXdgMappingConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
+    IconXdgMappingConfig(const QString &id, const int &index = 0);
+
+    QHash<QString, QString> mappings;
+};
+
 struct IconSetConfig : public GlobalConfigItem {
 public:
     IconSetConfig(const QJsonObject &jsonObject = QJsonObject(), const int &index = 0);
@@ -26,6 +34,11 @@ public:
 
     virtual QString currentIconSet() const = 0;
     virtual void setCurrentIconSet(const QString &iconSetID) = 0;
+
+    virtual bool preferSystemIcons() const = 0;
+    virtual void setPreferSystemIcons(bool preferSystemIcons) = 0;
+
+    virtual bool registerXdgMapping(const IconXdgMappingConfig &xdgMappingConfig) = 0;
 
     virtual QIcon icon(const QString &iconID) const = 0;
 };

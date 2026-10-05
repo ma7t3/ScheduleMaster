@@ -2,6 +2,15 @@
 
 namespace ScheduleMaster {
 
+IconXdgMappingConfig::IconXdgMappingConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
+    const QJsonObject jsonMappings = jsonObject.value("mappings").toObject();
+    for(auto it = jsonMappings.begin(); it != jsonMappings.end(); ++it)
+        mappings.insert(it.key(), it.value().toString());
+
+}
+
+IconXdgMappingConfig::IconXdgMappingConfig(const QString &id, const int &index) : GlobalConfigItem(id, index) {}
+
 IconSetConfig::IconSetConfig(const QJsonObject &jsonObject, const int &index) : GlobalConfigItem(jsonObject, index) {
     name = jsonObject.value("name").toString();
     alternative = jsonObject.value("alternative").toString();

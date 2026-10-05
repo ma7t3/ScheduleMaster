@@ -134,6 +134,28 @@
         }
     },
     {
+        "id": "appearance.preferSystemIcons",
+        "type": "bool",
+        "default": false,
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "Prefer the desktop's system icons if possible",
+            "de_DE": "Wenn möglich, Standard-Icons der Desktopumgebung verwenden"
+        }
+    },
+    {
+        "id": "appearance.systemIconTheme",
+        "type": "string",
+        "default": "",
+        "requireRestart": false,
+        "description": {
+            "object": "translated_string",
+            "en_US": "[NOT IMPLEMENTED] The desktop's icon theme name",
+            "de_DE": "[NICHT IMPLEMENTIERT] Name des Desktop-Icon-Themes"
+        }
+    },
+    {
         "id": "appearance.accentColor",
         "type": "QString",
         "default": "system",

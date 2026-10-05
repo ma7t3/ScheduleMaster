@@ -8,7 +8,15 @@
 
 namespace ScheduleMaster::Core {
 
-IconServiceImpl::IconServiceImpl(QObject *parent) : GlobalConfigServiceCRTP(parent, "IconSets") {
+IconServiceImpl::IconServiceImpl(QObject *parent) : GlobalConfigServiceCRTP(parent, "IconSets"),
+    _xdgMappingRepository{new IconXdgMappingRepository(this, "IconXdgMappings")} {
+
+    connect(_xdgMappingRepository, &IconXdgMappingRepository::stateChanged, this, [this]() {
+        _xdgMappingCache.clear();
+    });
+
+    _xdgMappingRepository->init();
+
     initRepository();
     _currentIconSetID = SettingsServiceImpl::instance()->value("appearance.iconSet").toString();
     connect(SettingsServiceImpl::instance(),
@@ -44,6 +52,19 @@ void IconServiceImpl::setCurrentIconSet(const QString &iconSetID) {
     discardIconSetPreview();
 }
 
+bool IconServiceImpl::preferSystemIcons() const {
+    return SettingsServiceImpl::instance()->value("appearance.preferSystemIcons").toBool();
+}
+
+void IconServiceImpl::setPreferSystemIcons(bool preferSystemIcons) {
+    SettingsServiceImpl::instance()->setValue("appearance.preferSystemIcons", preferSystemIcons);
+    emit currentIconSetChanged(currentIconSet());
+}
+
+bool IconServiceImpl::registerXdgMapping(const IconXdgMappingConfig &xdgMappingConfig) {
+    return _xdgMappingRepository->addItem(xdgMappingConfig);
+}
+
 void IconServiceImpl::previewIconSet(const QString &iconSetID) {
     _currentIconSetPreviewID = iconSetID;
     emit currentIconSetChanged(currentIconSet());
@@ -59,6 +80,12 @@ bool IconServiceImpl::isIconSetPreviewEnabled() const {
 }
 
 QIcon IconServiceImpl::icon(const QString &iconID) const {
+    if(SettingsServiceImpl::instance()->value("appearance.preferSystemIcons").toBool()) {
+        QString xdgIconName = xdgMappedIconName(iconID);
+        if(!xdgIconName.isEmpty() && QIcon::hasThemeIcon(xdgIconName))
+            return QIcon::fromTheme(xdgIconName);
+    }
+
     QStringList triedSets;
     QString currentIconSetID = currentIconSet();
 
@@ -76,6 +103,22 @@ QIcon IconServiceImpl::icon(const QString &iconID) const {
     }
 }
 
+QString IconServiceImpl::xdgMappedIconName(const QString &iconID) const {
+    if(_xdgMappingCache.contains(iconID))
+        return _xdgMappingCache.value(iconID);
+
+    QString foundName;
+    const auto mappingConfigs = _xdgMappingRepository->sortedItems();
+    for(const auto &mappingConfig : mappingConfigs) {
+        const QString name = mappingConfig.mappings.value(iconID, "");
+        if(!name.isEmpty())
+            foundName = name;
+    }
+
+    _xdgMappingCache.insert(iconID, foundName);
+    return foundName;
+}
+
 QString IconServiceImpl::createFilePath(const QString &iconID, const IconSetConfig &config) {
     const bool dark = QApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
     QString filePath = ":/icons/" + config.id() + "/" + (dark ? "dark" : "light") + "/" + iconID + "." + config.format;
@@ -88,4 +131,5 @@ QString IconServiceImpl::createFilePath(const QString &iconID, const IconSetConf
 
     return ":/icons/" + config.id() + "/" + iconID + "." + config.format;
 }
+
 }

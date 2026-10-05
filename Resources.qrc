@@ -239,5 +239,6 @@
         <file>icons/fontawesome.6.normal/dark/up.svg</file>
         <file>icons/fontawesome.6.normal/dark/window-restore.svg</file>
         <file>icons/fontawesome.6.normal/dark/xmark.svg</file>
+        <file>config/IconXdgMappings/base.json</file>
     </qresource>
 </RCC>

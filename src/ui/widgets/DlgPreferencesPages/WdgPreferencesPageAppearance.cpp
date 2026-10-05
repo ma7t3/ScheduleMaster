@@ -54,7 +54,11 @@ void WdgPreferencesPageAppearance::reloadPreferences() {
     ui->cbGDIEngine->setChecked(SM::SettingsServiceImpl::instance()->value("appearance.fontEngineGDI").toBool());
 
     ui->cbStyle->setCurrentIndex(_stylesModel->indexOfStyle(appearanceService->currentStyleID()));
+
     ui->cbIconSet->setCurrentIndex(_iconSetsModel->indexOficonSet(SM::IconServiceImpl::instance()->currentIconSet()));
+    ui->cbPreferSystemIcons->setChecked(SM::IconServiceImpl::instance()->preferSystemIcons());
+    ui->leSystemIconTheme->setText(SM::SettingsServiceImpl::instance()->value("appearance.systemIconTheme").toString());
+
     ui->cssColorScheme->setColorScheme(appearanceService->currentColorScheme());
     ui->acsAccentColor->setAccentColor(appearanceService->currentAccentColorID());
     ui->sbUiScale->setValue(SM::SettingsServiceImpl::instance()->value("appearance.uiScale").toFloat() * 100);
@@ -68,6 +72,8 @@ void WdgPreferencesPageAppearance::savePreferences() {
 
     appearanceService->setCurrentStyle(_stylesModel->style(ui->cbStyle->currentIndex()));
     SM::IconServiceImpl::instance()->setCurrentIconSet(_iconSetsModel->iconSet(ui->cbIconSet->currentIndex()));
+    SM::IconServiceImpl::instance()->setPreferSystemIcons(ui->cbPreferSystemIcons->isChecked());
+    SM::SettingsServiceImpl::instance()->setValue("appearance.systemIconTheme", ui->leSystemIconTheme->text());
 
     Qt::ColorScheme colorScheme = ui->cssColorScheme->colorScheme();
 
